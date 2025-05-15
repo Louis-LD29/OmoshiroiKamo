@@ -1,0 +1,17 @@
+package com.louis.test.lib;
+
+public class LibResources {
+    public static final String PREFIX_MOD = LibMisc.MOD_ID + ":";
+
+    public static final String PREFIX_GUI = PREFIX_MOD + "textures/gui/";
+
+    public static final String GUI_MANA_HUD = PREFIX_GUI + "icons.png";
+
+    public static final String KEY_LEVEL_COST = "level_cost";
+
+    public static final String KEY_UNLOC_NAME = "unlocalized_name";
+
+    public static final String KEY_UPGRADE_PREFIX = LibMisc.MOD_ID + ".mana.upgrade.";
+
+    public static final String KEY_UPGRADE_ITEM = "upgradeItem";
+}

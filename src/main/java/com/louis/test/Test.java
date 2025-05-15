@@ -1,57 +1,51 @@
 package com.louis.test;
 
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.louis.test.core.Lang;
+import com.louis.test.lib.LibMisc;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
-@Mod(
-    modid = Test.MODID,
-    version = Test.VERSION,
-    name = Test.MODNAME,
-    acceptedMinecraftVersions = "[1.7.10]"
-)
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
+@Mod(modid = LibMisc.MOD_ID, name = LibMisc.MOD_NAME, version = LibMisc.VERSION, dependencies = LibMisc.DEPENDENCIES)
 public class Test {
+    @Instance(LibMisc.MOD_ID)
+    public static Test instance;
 
-    public static final String MODID = "test";
-    public static final String MODNAME = "Test";
-    public static final String VERSION = "1.0";
-    public static final Logger LOG = LogManager.getLogger(MODID);
-//    public static final IGuiHandler GH = new GuiHandler();
+    public static final Lang lang = new Lang(LibMisc.MOD_ID);
 
-    @SidedProxy(clientSide = "com.louis.test.ClientProxy", serverSide = "com.louis.test.CommonProxy")
+    @SidedProxy(serverSide = LibMisc.PROXY_COMMON, clientSide = LibMisc.PROXY_CLIENT)
     public static CommonProxy proxy;
 
-    @Mod.Instance
-    public static Test INSTANCE;
+    public static final Logger LOG = LogManager.getLogger(LibMisc.MOD_ID);
 
-    @Mod.EventHandler
-    // preInit "Run before anything else. Read your config, create blocks, items, etc, and register them with the
-    // GameRegistry." (Remove if not needed)
+    @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         proxy.preInit(event);
     }
 
-    @Mod.EventHandler
+    @EventHandler
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes." (Remove if not needed)
-    public void init(FMLInitializationEvent event) {
+    public void init(FMLInitializationEvent event) {;
         proxy.init(event);
     }
 
-    @Mod.EventHandler
+    @EventHandler
     // postInit "Handle interaction with other mods, complete your setup based on this." (Remove if not needed)
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
     }
 
-    @Mod.EventHandler
+    @EventHandler
     // register server commands in this event handler (Remove if not needed)
     public void serverStarting(FMLServerStartingEvent event) {
         proxy.serverStarting(event);

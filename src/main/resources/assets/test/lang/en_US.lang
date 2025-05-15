@@ -1,0 +1,24 @@
+
+
+Test.power.rf=RF
+
+Testmisc.shiftinfo=Hold &bSHIFT&7 for more info
+
+# BAUBLE TOOLTIPS
+Test.baubletype.amulet=Equippable in the &aAmulet&7 slot
+Test.baubletype.ring=Equippable in the &aRing&7 slot
+Test.baubletype.belt=Equippable in the &aBelt&7 slot
+Test.baubletooltip=Press &b%key%&7 to open the Baubles menu
+
+Test.item.mana.tooltip.lvs=lvs
+Test.item.operationOrb.tooltip.effPowered=Efficiency when powered
+
+Test.tooltip.oreDictNames=Ore Dictionary Names:
+Test.tooltip.showDetails=<Hold Shift>
+Test.tooltip.durability=Durability:
+Test.tooltip.anvilupgrades=Anvil Upgrades:
+
+Test.mana.upgrade.empowered_one.name=Empowered
+
+item.Test:operationOrb.name=Operation Orb
+item.Test:manaRing.name=Mana Ring
