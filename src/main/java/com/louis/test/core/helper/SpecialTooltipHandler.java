@@ -9,6 +9,7 @@ import com.enderio.core.client.handlers.ClientHandler;
 import com.louis.test.Test;
 import com.louis.test.common.item.ItemBauble;
 import com.louis.test.core.interfaces.IAdvancedTooltipProvider;
+import com.louis.test.lib.LibMisc;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -150,7 +151,7 @@ public enum SpecialTooltipHandler {
         list.add(
             EnumChatFormatting.WHITE + ""
                 + EnumChatFormatting.ITALIC
-                + Test.lang.localize("tooltip.showDetails"));
+                + LibMisc.lang.localize("tooltip.showDetails"));
     }
 
     public static boolean showAdvancedTooltips() {
@@ -174,7 +175,7 @@ public enum SpecialTooltipHandler {
         int line = 1;
         while (!done) {
             String key = keyBase + line;
-            String val = Test.lang.localizeExact(key);
+            String val = LibMisc.lang.localizeExact(key);
             if (val == null || val.trim().length() < 0 || val.equals(key) || line > 12) {
                 done = true;
             } else {

@@ -1,6 +1,5 @@
 package com.louis.test.core.handlers;
 
-import cofh.api.energy.IEnergyContainerItem;
 import com.louis.test.lib.LibObfuscation;
 import com.louis.test.core.interfaces.IManaTooltipDisplay;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -56,16 +55,8 @@ public class TooltipAdditionDisplayHandler {
                     if (fixY < 0) {
                         offy -= fixY;
                     }
-
-                    boolean hasManaBar = false;
-                    if (stack.getItem() instanceof IManaTooltipDisplay) {
-                        drawManaBar(stack, (IManaTooltipDisplay) stack.getItem(), mouseX, mouseY, offx, offy, tooltipHeight);
-                        hasManaBar = true;
-                    }
-
-                    // Vẽ thanh năng lượng nếu item hỗ trợ IEnergyContainerItem
-                    if (stack.getItem() instanceof IEnergyContainerItem)
-                        drawEnergyBar(stack, (IEnergyContainerItem) stack.getItem(), mouseX, mouseY, offx - (hasManaBar ? 2 : 0), offy, tooltipHeight);
+                    if (stack.getItem() instanceof IManaTooltipDisplay display)
+                        drawManaBar(stack, display, mouseX, mouseY, offx, offy, tooltipHeight);
                 }
             }
         }
@@ -74,7 +65,7 @@ public class TooltipAdditionDisplayHandler {
     private static void drawManaBar(ItemStack stack, IManaTooltipDisplay display, int mouseX, int mouseY, int offx, int offy, int tooltipHeight) {
         float fraction = display.getManaFractionForDisplay(stack);
         int manaBarHeight = (int) Math.ceil(tooltipHeight * fraction); // Chiều cao thanh mana tương ứng với tỷ lệ mana
-        int manaBarWidth = 1; // Độ rộng thanh mana
+        int manaBarWidth = 2; // Độ rộng thanh mana
 
         // Vị trí thanh mana (ở bên trái tooltip)
         int barX = mouseX + offx - manaBarWidth - 1;
@@ -91,28 +82,5 @@ public class TooltipAdditionDisplayHandler {
 
         // Phần trống còn lại
         Gui.drawRect(barX, barY, barX + manaBarWidth, barY + tooltipHeight - manaBarHeight, 0xFF555555);
-    }
-
-    private static void drawEnergyBar(ItemStack stack, IEnergyContainerItem energyItem, int mouseX, int mouseY, int offx, int offy, int tooltipHeight) {
-        if (energyItem.getMaxEnergyStored(stack) == 0) return;
-        float energyFraction = energyItem.getEnergyStored(stack) / (float) energyItem.getMaxEnergyStored(stack);
-        int energyBarHeight = (int) Math.ceil(tooltipHeight * energyFraction); // Chiều cao thanh năng lượng
-        int energyBarWidth = 1; // Độ rộng thanh năng lượng
-
-        // Vị trí thanh năng lượng (bên phải thanh mana)
-        int barX = mouseX + offx - energyBarWidth - 1; // Vị trí x sau thanh mana
-        int barY = mouseY - offy + 1; // Đỉnh của thanh năng lượng bắt đầu từ đỉnh tooltip
-
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-
-        // Nền thanh năng lượng (viền đen)
-        Gui.drawRect(barX - 1, barY - 1, barX + energyBarWidth + 1, barY + tooltipHeight + 1, 0xFF000000);
-
-        // Phần đầy năng lượng từ đỉnh tới đáy tooltip
-        Gui.drawRect(barX, barY + tooltipHeight - energyBarHeight, barX + energyBarWidth, barY + tooltipHeight,
-            Color.HSBtoRGB(0.9F, ((float) Math.sin((ClientTickHandler.ticksInGame + ClientTickHandler.partialTicks) * 0.2F) + 1F) * 0.3F + 0.4F, 1F));
-
-        // Phần trống còn lại
-        Gui.drawRect(barX, barY, barX + energyBarWidth, barY + tooltipHeight - energyBarHeight, 0xFF555555);
     }
 }

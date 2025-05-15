@@ -38,7 +38,7 @@ public class TestCreativeTab extends CreativeTabs {
     public void displayAllReleventItems(List list) {
         this.list = list;
 
-        addItem(ModItems.operationOrb);
+        addItem(ModItems.itemOperationOrb);
     }
 
     private void addItem(Item item) {

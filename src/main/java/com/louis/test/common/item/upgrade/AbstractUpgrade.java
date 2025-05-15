@@ -7,6 +7,7 @@ import com.louis.test.core.interfaces.IManaItemUpgrade;
 import com.louis.test.core.interfaces.IRenderUpgrade;
 
 import com.louis.test.Test;
+import com.louis.test.lib.LibMisc;
 import com.louis.test.lib.LibResources;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -77,13 +78,13 @@ public abstract class AbstractUpgrade implements IManaItemUpgrade {
     @Override
     @SideOnly(Side.CLIENT)
     public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        list.add(EnumChatFormatting.DARK_AQUA + Test.lang.localizeExact(getUnlocalizedName() + ".name"));
+        list.add(EnumChatFormatting.DARK_AQUA + LibMisc.lang.localizeExact(getUnlocalizedName() + ".name"));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        list.add(EnumChatFormatting.DARK_AQUA + Test.lang.localizeExact(getUnlocalizedName() + ".name"));
+        list.add(EnumChatFormatting.DARK_AQUA + LibMisc.lang.localizeExact(getUnlocalizedName() + ".name"));
         SpecialTooltipHandler.addDetailedTooltipFromResources(list, getUnlocalizedName());
     }
 

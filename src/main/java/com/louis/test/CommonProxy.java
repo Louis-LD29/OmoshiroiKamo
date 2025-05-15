@@ -14,18 +14,19 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.common.MinecraftForge;
 
-public class CommonProxy {
+public abstract class CommonProxy {
+
     public void preInit(FMLPreInitializationEvent event) {
+        Config.load(event);
         BaubleExpandedSlots.tryAssignSlotsUpToMinimum("ring", 3);
-        FMLCommonHandler.instance().bus().register(FlightHandler.instance);
-        Config.synchronizeConfiguration(event.getSuggestedConfigurationFile());
+        ModItems.init();
+        MinecraftForge.EVENT_BUS.register(ManaAnvilRecipe.instance);
     }
 
     public void init(FMLInitializationEvent event) {
-        ModItems.init();
-        MinecraftForge.EVENT_BUS.register(new ManaAnvilRecipe());
-        FMLCommonHandler.instance().bus().register(new ManaRegenHandler());
-        FMLCommonHandler.instance().bus().register(new ConvertManaRegenHandler());
+        FMLCommonHandler.instance().bus().register(ManaRegenHandler.instance);
+        FMLCommonHandler.instance().bus().register(ConvertManaRegenHandler.instance);
+        FMLCommonHandler.instance().bus().register(FlightHandler.instance);
     }
 
     public void postInit(FMLPostInitializationEvent event) {}

@@ -3,6 +3,7 @@ package com.louis.test.gui;
 import baubles.common.lib.PlayerHandler;
 import cofh.api.energy.IEnergyContainerItem;
 import com.louis.test.core.handlers.ClientTickHandler;
+import com.louis.test.core.handlers.FlightHandler;
 import com.louis.test.core.helper.Helper;
 import com.louis.test.lib.LibResources;
 import com.louis.test.core.interfaces.IManaItem;
@@ -24,6 +25,7 @@ import java.awt.*;
 
 public class ManaHUD {
 
+    public static final ManaHUD instance = new ManaHUD();
     public static final ResourceLocation manaBar = new ResourceLocation(LibResources.GUI_MANA_HUD);
 
     @SubscribeEvent

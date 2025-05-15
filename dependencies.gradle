@@ -34,18 +34,18 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-    implementation(files("libs/Botania-1.12.7-GTNH-pre-dev.jar"))
+    implementation("com.github.GTNewHorizons:Botania:1.12.7-GTNH-pre:dev") {transitive = false}
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.7.43-GTNH:dev")
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:Hodgepodge:2.6.53:dev")
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:WDMla:2.7.2:dev")
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:Angelica:1.0.0-beta42:dev")
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:Backhand:1.6.15:dev")
-    runtimeOnlyNonPublishable("com.github.GTNewHorizons:EnderIO:2.9.12:dev")
+    runtimeOnlyNonPublishable("com.github.GTNewHorizons:EnderIO:2.9.12:dev") {transitive = false}
 
-    api("com.github.GTNewHorizons:ModularUI2:2.2.8-1.7.10:dev")
+    api("com.github.GTNewHorizons:ModularUI2:2.2.8-1.7.10:dev") {transitive = false}
     api("com.github.GTNewHorizons:GTNHLib:0.6.22:dev")
-    api("com.github.GTNewHorizons:Baubles-Expanded:2.1.7-GTNH:dev")
-    api("com.github.GTNewHorizons:EnderCore:0.4.8:dev")
+    api("com.github.GTNewHorizons:Baubles-Expanded:2.1.7-GTNH:dev") {transitive = false}
+    api("com.github.GTNewHorizons:EnderCore:0.4.6:dev") {transitive = false}
     api('curse.maven:cofh-lib-220333:2388748')
 
     compileOnly 'org.jetbrains:annotations:24.0.1'

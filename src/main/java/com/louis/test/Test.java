@@ -1,6 +1,6 @@
 package com.louis.test;
 
-import com.louis.test.core.Lang;
+import com.louis.test.config.Config;
 import com.louis.test.lib.LibMisc;
 
 import cpw.mods.fml.common.Mod;
@@ -12,16 +12,15 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
+import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-@Mod(modid = LibMisc.MOD_ID, name = LibMisc.MOD_NAME, version = LibMisc.VERSION, dependencies = LibMisc.DEPENDENCIES)
+@Mod(modid = LibMisc.MOD_ID, name = LibMisc.MOD_NAME, version = LibMisc.VERSION, dependencies = LibMisc.DEPENDENCIES, guiFactory = LibMisc.GUI_FACTORY)
 public class Test {
     @Instance(LibMisc.MOD_ID)
     public static Test instance;
-
-    public static final Lang lang = new Lang(LibMisc.MOD_ID);
 
     @SidedProxy(serverSide = LibMisc.PROXY_COMMON, clientSide = LibMisc.PROXY_CLIENT)
     public static CommonProxy proxy;
@@ -34,14 +33,16 @@ public class Test {
     }
 
     @EventHandler
-    // load "Do your mod setup. Build whatever data structures you care about. Register recipes." (Remove if not needed)
-    public void init(FMLInitializationEvent event) {;
+    public void init(FMLInitializationEvent event) {
+        Config.init();
         proxy.init(event);
     }
+
 
     @EventHandler
     // postInit "Handle interaction with other mods, complete your setup based on this." (Remove if not needed)
     public void postInit(FMLPostInitializationEvent event) {
+        Config.postInit();
         proxy.postInit(event);
     }
 

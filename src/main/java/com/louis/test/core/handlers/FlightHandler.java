@@ -5,6 +5,7 @@ import com.louis.test.core.interfaces.IFlightEnablerItem;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -31,6 +32,33 @@ public class FlightHandler {
             if (!player.onGround) player.capabilities.isFlying = true;
             player.sendPlayerAbilities();
         }
-        System.out.println("Login Flight-enabling item in slot: " + hasFlightItem);
     }
+
+    @SubscribeEvent
+    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+        EntityPlayer player = event.player;
+
+        IInventory baubles = BaublesApi.getBaubles(player);
+        boolean hasFlightItem = false;
+        if (baubles != null) {
+            for (int i = 0; i < baubles.getSizeInventory(); i++) {
+                ItemStack stack = baubles.getStackInSlot(i);
+                if (stack != null && stack.getItem() instanceof IFlightEnablerItem) {
+                    hasFlightItem = true;
+                    break;
+                }
+            }
+        }
+
+        if (!hasFlightItem) {
+            // Nếu đang bay thì tắt bay
+            if (player.capabilities.allowFlying) {
+                player.capabilities.allowFlying = false;
+                player.capabilities.isFlying = false;
+                player.sendPlayerAbilities();
+            }
+        }
+    }
+
 }

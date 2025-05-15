@@ -1,22 +1,20 @@
 package com.louis.test.common.item;
 
 import baubles.api.BaubleType;
-import baubles.api.BaublesApi;
 import cofh.api.energy.IEnergyContainerItem;
 import com.enderio.core.common.util.ItemUtil;
 
-import com.louis.test.Test;
 import com.louis.test.common.item.upgrade.EnergyUpgrade;
 import com.louis.test.common.recipes.ManaAnvilRecipe;
 import com.louis.test.config.Config;
 import com.louis.test.core.interfaces.*;
 import com.louis.test.core.helper.ItemNBTHelper;
 import com.louis.test.lib.LibItemNames;
+import com.louis.test.lib.LibMisc;
 import cpw.mods.fml.common.Optional;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -51,8 +49,14 @@ public class ItemOperationOrb extends ItemBauble implements
     }
 
     @Override
-    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-        par3List.add(new ItemStack(par1, 1, 10000));
+    public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
+//        list.add(new ItemStack(item, 1, 10000));
+        ItemStack is = new ItemStack(this);
+        list.add(is);
+
+        is = new ItemStack(this);
+        EnergyUpgrade.setPowerFull(is);
+        list.add(is);
     }
 
     @Override
@@ -143,7 +147,8 @@ public class ItemOperationOrb extends ItemBauble implements
 
     @Override
     public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        if (!Config.addDurabilityTootip) {
+
+        if (!Config.addDurabilityTootip && itemstack.getItem() instanceof ItemOperationOrb) {
             list.add(ItemUtil.getDurabilityString(itemstack));
         }
         String str = EnergyUpgrade.getStoredEnergyString(itemstack);
@@ -154,7 +159,7 @@ public class ItemOperationOrb extends ItemBauble implements
             list.add(
                 EnumChatFormatting.WHITE + "+"
                     + " "
-                    + Test.lang.localize("item." + LibItemNames.OPERATIONORB + ".tooltip.effPowered"));
+                    + LibMisc.lang.localize("item." + LibItemNames.OPERATIONORB + ".tooltip.effPowered"));
         }
         ManaAnvilRecipe.instance.addAdvancedTooltipEntries(itemstack, entityplayer, list, flag);
     }
@@ -196,30 +201,6 @@ public class ItemOperationOrb extends ItemBauble implements
             manaItem.addMana(stack, - 625);
 
         if (manaItem.getMana(stack) < 50000) {
-            player.capabilities.allowFlying = false;
-            player.capabilities.isFlying = false;
-            player.sendPlayerAbilities();
-        }
-    }
-
-    @Override
-    public void onUnequipped(ItemStack stack, EntityLivingBase entity) {
-        super.onUnequipped(stack, entity);
-
-        if (!(entity instanceof EntityPlayer)) return;
-        EntityPlayer player = (EntityPlayer) entity;
-
-        IInventory baubles = BaublesApi.getBaubles(player);
-        boolean hasFlightItem = false;
-        for (int i = 0; i < baubles.getSizeInventory(); i++) {
-            ItemStack otherStack = baubles.getStackInSlot(i);
-            if (otherStack != null && otherStack.getItem() instanceof IFlightEnablerItem) {
-                hasFlightItem = true;
-                break;
-            }
-        }
-
-        if (!hasFlightItem) {
             player.capabilities.allowFlying = false;
             player.capabilities.isFlying = false;
             player.sendPlayerAbilities();

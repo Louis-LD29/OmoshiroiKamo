@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.louis.test.Test;
 import com.louis.test.common.item.upgrade.EnergyUpgrade;
 import com.louis.test.core.interfaces.IManaItemUpgrade;
+import com.louis.test.lib.LibMisc;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -79,12 +80,12 @@ public class ManaAnvilRecipe {
             }
         }
         if (!applyableUpgrades.isEmpty()) {
-            list.add(EnumChatFormatting.YELLOW + Test.lang.localize("tooltip.anvilupgrades") + " ");
+            list.add(EnumChatFormatting.YELLOW + LibMisc.lang.localize("tooltip.anvilupgrades") + " ");
             for (IManaItemUpgrade up : applyableUpgrades) {
                 list.add(
                     EnumChatFormatting.DARK_AQUA + ""
                         + ""
-                        + Test.lang.localizeExact(up.getUnlocalizedName() + ".name")
+                        + LibMisc.lang.localizeExact(up.getUnlocalizedName() + ".name")
                         + ": ");
                 list.add(
                     EnumChatFormatting.DARK_AQUA + ""
@@ -94,7 +95,7 @@ public class ManaAnvilRecipe {
                         + " + "
                         + up.getLevelCost()
                         + " "
-                        + Test.lang.localize("item.mana.tooltip.lvs"));
+                        + LibMisc.lang.localize("item.mana.tooltip.lvs"));
             }
         }
     }

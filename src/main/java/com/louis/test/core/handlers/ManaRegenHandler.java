@@ -1,5 +1,6 @@
 package com.louis.test.core.handlers;
 
+import com.louis.test.gui.ManaHUD;
 import com.louis.test.mana.ManaNetworkHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 public class ManaRegenHandler {
 
+    public static final ManaRegenHandler instance = new ManaRegenHandler();
     private int cachedMaxMana = -1;
 
     @SubscribeEvent

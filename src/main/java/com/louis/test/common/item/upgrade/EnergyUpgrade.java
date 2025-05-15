@@ -5,6 +5,7 @@ import com.louis.test.config.Config;
 import com.louis.test.core.helper.SpecialTooltipHandler;
 import com.louis.test.core.interfaces.IManaItem;
 import com.louis.test.core.util.PowerDisplayUtil;
+import com.louis.test.lib.LibMisc;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -177,7 +178,7 @@ public class EnergyUpgrade extends AbstractUpgrade {
     public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
 
         List<String> upgradeStr = new ArrayList<String>();
-        upgradeStr.add(EnumChatFormatting.DARK_AQUA + Test.lang.localizeExact(getUnlocalizedName() + ".name"));
+        upgradeStr.add(EnumChatFormatting.DARK_AQUA + LibMisc.lang.localizeExact(getUnlocalizedName() + ".name"));
         SpecialTooltipHandler.addDetailedTooltipFromResources(upgradeStr, getUnlocalizedName());
 
 //        String percDamage = (int) Math.round(getAbsorptionRatio(itemstack) * 100) + "";

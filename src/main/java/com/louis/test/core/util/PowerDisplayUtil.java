@@ -2,6 +2,7 @@ package com.louis.test.core.util;
 
 
 import com.louis.test.Test;
+import com.louis.test.lib.LibMisc;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiTextField;
@@ -34,11 +35,11 @@ public class PowerDisplayUtil {
     }
 
     public static String perTickStr() {
-        return Test.lang.localize("power.tick");
+        return LibMisc.lang.localize("power.tick");
     }
 
     public static String ofStr() {
-        return Test.lang.localize("gui.powerMonitor.of");
+        return LibMisc.lang.localize("gui.powerMonitor.of");
     }
 
     static {
@@ -55,7 +56,7 @@ public class PowerDisplayUtil {
         }
 
         IEnergyContainerItem ci = (IEnergyContainerItem) item.getItem();
-        return Test.lang.localize("item.tooltip.power") + " "
+        return LibMisc.lang.localize("item.tooltip.power") + " "
             + PowerDisplayUtil.formatPower(ci.getEnergyStored(item))
             + "/"
             + PowerDisplayUtil.formatPower(ci.getMaxEnergyStored(item))
@@ -110,7 +111,7 @@ public class PowerDisplayUtil {
     }
 
     public static String abrevation() {
-        return Test.lang.localize("power.rf");
+        return LibMisc.lang.localize("power.rf");
     }
 
     @SideOnly(Side.CLIENT)

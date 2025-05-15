@@ -4,17 +4,17 @@ import baubles.api.BaublesApi;
 import cofh.api.energy.IEnergyContainerItem;
 import com.louis.test.core.helper.Helper;
 import com.louis.test.core.interfaces.IManaItem;
+import com.louis.test.gui.ManaHUD;
 import com.louis.test.mana.ManaNetworkHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import java.util.*;
 
 public class ConvertManaRegenHandler {
+    public static final ConvertManaRegenHandler instance = new ConvertManaRegenHandler();
     private final Map<String, Integer> tickCounter = new HashMap<>();
 
     @SubscribeEvent

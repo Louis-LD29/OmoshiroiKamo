@@ -2,6 +2,7 @@ package com.louis.test.core.handlers;
 
 import baubles.common.lib.PlayerHandler;
 import com.louis.test.core.interfaces.IManaItem;
+import com.louis.test.gui.ManaHUD;
 import com.louis.test.mana.ManaNetworkHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -14,16 +15,15 @@ import net.minecraft.item.ItemStack;
 import java.util.UUID;
 
 public class ClientTickHandler {
-    public static int ticksWithLexicaOpen = 0;
+
+    public static final ClientTickHandler instance = new ClientTickHandler();
+
     public static int pageFlipTicks = 0;
     public static int ticksInGame = 0;
     public static float partialTicks = 0.0F;
     public static float delta = 0.0F;
     public static float total = 0.0F;
-
-    // MỚI: giá trị mana đang hiển thị, khởi = max mana (hoặc 0)
     public static float displayedMana = 0.0F;
-    public static float displayedCMana = 0.0F;
 
     public ClientTickHandler() {
     }
@@ -40,9 +40,7 @@ public class ClientTickHandler {
             partialTicks = event.renderTickTime;
         } else {
             updateDisplayedMana();
-
             TooltipAdditionDisplayHandler.render();
-
             this.calcDelta();
         }
 
