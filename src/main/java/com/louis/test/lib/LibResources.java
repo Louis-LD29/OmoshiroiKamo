@@ -1,11 +1,14 @@
 package com.louis.test.lib;
 
 public class LibResources {
+
     public static final String PREFIX_MOD = LibMisc.MOD_ID + ":";
 
     public static final String PREFIX_GUI = PREFIX_MOD + "textures/gui/";
 
     public static final String GUI_MANA_HUD = PREFIX_GUI + "icons.png";
+    public static final String OVERLAY_BUTTON_REDSTONE_ON = PREFIX_GUI + "redstone_on.png";
+    public static final String OVERLAY_BUTTON_REDSTONE_OFF = PREFIX_GUI + "redstone_off.png";
 
     public static final String KEY_LEVEL_COST = "level_cost";
 

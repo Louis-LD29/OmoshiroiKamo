@@ -1,7 +1,0 @@
-package com.louis.test.core.interfaces;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-
-public interface IFlightEnablerItem {
-}

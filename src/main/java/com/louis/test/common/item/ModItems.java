@@ -1,10 +1,13 @@
 package com.louis.test.common.item;
 
-import com.louis.test.core.handlers.PoweredItemRenderer;
+import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
+import com.louis.test.core.handlers.PoweredItemRenderer;
+
 public final class ModItems {
-    public static ItemOperationOrb itemOperationOrb;
+
+    public static Item itemOperationOrb;
 
     public static void init() {
         itemOperationOrb = new ItemOperationOrb();

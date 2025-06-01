@@ -1,11 +1,14 @@
 package com.louis.test.core.helper;
 
-import cofh.api.energy.IEnergyContainerItem;
-import com.louis.test.core.interfaces.IManaItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
+import com.louis.test.api.interfaces.mana.IManaItem;
+
+import cofh.api.energy.IEnergyContainerItem;
+
 public class Helper {
+
     public static ItemStack getItemWithHighestMana(IInventory... inventories) {
         ItemStack best = null;
         float bestMaxEnergy = -1, bestMaxMana = -1, bestCurrentMana = -1;
@@ -24,13 +27,8 @@ public class Helper {
                     ? ((IEnergyContainerItem) mana).getMaxEnergyStored(stack)
                     : 0;
 
-                if (
-                    maxEnergy > bestMaxEnergy ||
-                        (maxEnergy == bestMaxEnergy && (
-                            maxMana > bestMaxMana ||
-                                (maxMana == bestMaxMana && currentMana > bestCurrentMana)
-                        ))
-                ) {
+                if (maxEnergy > bestMaxEnergy || (maxEnergy == bestMaxEnergy
+                    && (maxMana > bestMaxMana || (maxMana == bestMaxMana && currentMana > bestCurrentMana)))) {
                     best = stack;
                     bestMaxEnergy = maxEnergy;
                     bestMaxMana = maxMana;
@@ -41,5 +39,4 @@ public class Helper {
 
         return best;
     }
-
 }

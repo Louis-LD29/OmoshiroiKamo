@@ -1,25 +1,24 @@
 package com.louis.test.common.item.upgrade;
 
-import com.enderio.core.common.util.ItemUtil;
-
-import com.louis.test.core.helper.SpecialTooltipHandler;
-import com.louis.test.core.interfaces.IManaItemUpgrade;
-import com.louis.test.core.interfaces.IRenderUpgrade;
-
-import com.louis.test.Test;
-import com.louis.test.lib.LibMisc;
-import com.louis.test.lib.LibResources;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.List;
+import com.louis.test.api.enums.SpecialTooltipHandler;
+import com.louis.test.api.interfaces.IRenderUpgrade;
+import com.louis.test.api.interfaces.mana.IManaItemUpgrade;
+import com.louis.test.core.helper.ItemNBTHelper;
+import com.louis.test.lib.LibMisc;
+import com.louis.test.lib.LibResources;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class AbstractUpgrade implements IManaItemUpgrade {
+
     public static final String KEY_LEVEL_COST = LibResources.KEY_LEVEL_COST;
 
     private static final String KEY_UNLOC_NAME = LibResources.KEY_UNLOC_NAME;
@@ -49,7 +48,6 @@ public abstract class AbstractUpgrade implements IManaItemUpgrade {
             upgradeItem = ItemStack.loadItemStackFromNBT((NBTTagCompound) tag.getTag(KEY_UPGRADE_ITEM));
         }
     }
-
 
     @Override
     public boolean isUpgradeItem(ItemStack stack) {
@@ -132,7 +130,7 @@ public abstract class AbstractUpgrade implements IManaItemUpgrade {
 
         writeUpgradeToNBT(upgradeRoot);
 
-        NBTTagCompound stackRoot = ItemUtil.getOrCreateNBT(stack);
+        NBTTagCompound stackRoot = ItemNBTHelper.getOrCreateNBT(stack);
         stackRoot.setTag(id, upgradeRoot);
         stack.setTagCompound(stackRoot);
     }

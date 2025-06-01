@@ -1,20 +1,27 @@
 package com.louis.test.common.item;
 
-import com.louis.test.core.TestCreativeTab;
-import com.louis.test.core.helper.IconHelper;
-import com.louis.test.lib.LibMisc;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+
+import com.louis.test.common.TestCreativeTab;
+import com.louis.test.core.helper.IconHelper;
+import com.louis.test.lib.LibMisc;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemMod extends Item {
 
     public ItemMod() {
         super();
         setCreativeTab(TestCreativeTab.INSTANCE);
+    }
+
+    public ItemMod(String name) {
+        super();
+        setUnlocalizedName(name);
     }
 
     @Override
@@ -25,7 +32,8 @@ public class ItemMod extends Item {
 
     @Override
     public String getUnlocalizedNameInefficiently(ItemStack par1ItemStack) {
-        return super.getUnlocalizedNameInefficiently(par1ItemStack).replaceAll("item\\.", "item." + LibMisc.MOD_ID + ":");
+        return super.getUnlocalizedNameInefficiently(par1ItemStack)
+            .replaceAll("item\\.", "item." + LibMisc.MOD_ID + ":");
     }
 
     @Override

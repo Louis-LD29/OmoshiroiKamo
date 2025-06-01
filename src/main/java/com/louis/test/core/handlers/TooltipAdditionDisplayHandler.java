@@ -1,8 +1,9 @@
 package com.louis.test.core.handlers;
 
-import com.louis.test.lib.LibObfuscation;
-import com.louis.test.core.interfaces.IManaTooltipDisplay;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -11,24 +12,29 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
+import com.louis.test.api.interfaces.mana.IManaTooltipDisplay;
+import com.louis.test.lib.LibObfuscation;
+
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class TooltipAdditionDisplayHandler {
+
     public static void render() {
         Minecraft mc = Minecraft.getMinecraft();
         GuiScreen gui = mc.currentScreen;
 
-        if(gui != null && gui instanceof GuiContainer && mc.thePlayer != null && mc.thePlayer.inventory.getItemStack() == null) {
+        if (gui != null && gui instanceof GuiContainer
+            && mc.thePlayer != null
+            && mc.thePlayer.inventory.getItemStack() == null) {
             GuiContainer container = (GuiContainer) gui;
             Slot slot = ReflectionHelper.getPrivateValue(GuiContainer.class, container, LibObfuscation.THE_SLOT);
-            if(slot != null && slot.getHasStack()) {
+            if (slot != null && slot.getHasStack()) {
                 ItemStack stack = slot.getStack();
-                if(stack != null) {
+                if (stack != null) {
                     ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
                     FontRenderer font = mc.fontRenderer;
                     int mouseX = Mouse.getX() * res.getScaledWidth() / mc.displayWidth;
@@ -37,10 +43,13 @@ public class TooltipAdditionDisplayHandler {
                     List<String> tooltip;
                     try {
                         tooltip = stack.getTooltip(mc.thePlayer, mc.gameSettings.advancedItemTooltips);
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         tooltip = new ArrayList<>();
                     }
-                    int width = tooltip.stream().mapToInt(font::getStringWidth).max().orElse(0) + 2;
+                    int width = tooltip.stream()
+                        .mapToInt(font::getStringWidth)
+                        .max()
+                        .orElse(0) + 2;
                     int tooltipHeight = (tooltip.size() - 1) * 10 + 5;
 
                     int offx = 11;
@@ -62,7 +71,8 @@ public class TooltipAdditionDisplayHandler {
         }
     }
 
-    private static void drawManaBar(ItemStack stack, IManaTooltipDisplay display, int mouseX, int mouseY, int offx, int offy, int tooltipHeight) {
+    private static void drawManaBar(ItemStack stack, IManaTooltipDisplay display, int mouseX, int mouseY, int offx,
+        int offy, int tooltipHeight) {
         float fraction = display.getManaFractionForDisplay(stack);
         int manaBarHeight = (int) Math.ceil(tooltipHeight * fraction); // Chiều cao thanh mana tương ứng với tỷ lệ mana
         int manaBarWidth = 2; // Độ rộng thanh mana
@@ -77,8 +87,16 @@ public class TooltipAdditionDisplayHandler {
         Gui.drawRect(barX - 1, barY - 1, barX + manaBarWidth + 1, barY + tooltipHeight + 1, 0xFF000000);
 
         // Phần đầy mana từ đỉnh tới đáy tooltip
-        Gui.drawRect(barX, barY + tooltipHeight - manaBarHeight, barX + manaBarWidth, barY + tooltipHeight,
-            Color.HSBtoRGB(0.75F, 0.2F + ((float) Math.sin((ClientTickHandler.ticksInGame + ClientTickHandler.partialTicks) * 0.2F) + 1F) * 0.15F, 1F));
+        Gui.drawRect(
+            barX,
+            barY + tooltipHeight - manaBarHeight,
+            barX + manaBarWidth,
+            barY + tooltipHeight,
+            Color.HSBtoRGB(
+                0.75F,
+                0.2F + ((float) Math.sin((ClientTickHandler.ticksInGame + ClientTickHandler.partialTicks) * 0.2F) + 1F)
+                    * 0.15F,
+                1F));
 
         // Phần trống còn lại
         Gui.drawRect(barX, barY, barX + manaBarWidth, barY + tooltipHeight - manaBarHeight, 0xFF555555);

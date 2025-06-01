@@ -5,27 +5,33 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
 public final class ItemNBTHelper {
+
     /** Checks if an ItemStack has a Tag Compound **/
     public static boolean detectNBT(ItemStack stack) {
         return stack.hasTagCompound();
     }
 
-    /** Tries to initialize an NBT Tag Compound in an ItemStack,
+    /**
+     * Tries to initialize an NBT Tag Compound in an ItemStack,
      * this will not do anything if the stack already has a tag
-     * compound **/
+     * compound
+     **/
     public static void initNBT(ItemStack stack) {
-        if(!detectNBT(stack))
-            injectNBT(stack, new NBTTagCompound());
+        if (!detectNBT(stack)) injectNBT(stack, new NBTTagCompound());
     }
 
-    /** Injects an NBT Tag Compound to an ItemStack, no checks
-     * are made previously **/
+    /**
+     * Injects an NBT Tag Compound to an ItemStack, no checks
+     * are made previously
+     **/
     public static void injectNBT(ItemStack stack, NBTTagCompound nbt) {
         stack.setTagCompound(nbt);
     }
 
-    /** Gets the NBTTagCompound in an ItemStack. Tries to init it
-     * previously in case there isn't one present **/
+    /**
+     * Gets the NBTTagCompound in an ItemStack. Tries to init it
+     * previously in case there isn't one present
+     **/
     public static NBTTagCompound getNBT(ItemStack stack) {
         initNBT(stack);
         return stack.getTagCompound();
@@ -62,7 +68,7 @@ public final class ItemNBTHelper {
     }
 
     public static void setCompound(ItemStack stack, String tag, NBTTagCompound cmp) {
-        if(!tag.equalsIgnoreCase("ench")) // not override the enchantments
+        if (!tag.equalsIgnoreCase("ench")) // not override the enchantments
             getNBT(stack).setTag(tag, cmp);
     }
 
@@ -108,10 +114,13 @@ public final class ItemNBTHelper {
         return verifyExistance(stack, tag) ? getNBT(stack).getDouble(tag) : defaultExpected;
     }
 
-    /** If nullifyOnFail is true it'll return null if it doesn't find any
-     * compounds, otherwise it'll return a new one. **/
+    /**
+     * If nullifyOnFail is true it'll return null if it doesn't find any
+     * compounds, otherwise it'll return a new one.
+     **/
     public static NBTTagCompound getCompound(ItemStack stack, String tag, boolean nullifyOnFail) {
-        return verifyExistance(stack, tag) ? getNBT(stack).getCompoundTag(tag) : nullifyOnFail ? null : new NBTTagCompound();
+        return verifyExistance(stack, tag) ? getNBT(stack).getCompoundTag(tag)
+            : nullifyOnFail ? null : new NBTTagCompound();
     }
 
     public static String getString(ItemStack stack, String tag, String defaultExpected) {
@@ -119,7 +128,14 @@ public final class ItemNBTHelper {
     }
 
     public static NBTTagList getList(ItemStack stack, String tag, int objtype, boolean nullifyOnFail) {
-        return verifyExistance(stack, tag) ? getNBT(stack).getTagList(tag, objtype) : nullifyOnFail ? null : new NBTTagList();
+        return verifyExistance(stack, tag) ? getNBT(stack).getTagList(tag, objtype)
+            : nullifyOnFail ? null : new NBTTagList();
     }
 
+    public static NBTTagCompound getOrCreateNBT(ItemStack stack) {
+        if (stack.stackTagCompound == null) {
+            stack.stackTagCompound = new NBTTagCompound();
+        }
+        return stack.stackTagCompound;
+    }
 }

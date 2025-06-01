@@ -1,16 +1,19 @@
 package com.louis.test.core.handlers;
 
-import baubles.api.BaublesApi;
-import com.louis.test.core.interfaces.IFlightEnablerItem;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
+import com.louis.test.api.interfaces.IFlightEnablerItem;
+
+import baubles.api.BaublesApi;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+
 public class FlightHandler {
+
     public static final FlightHandler instance = new FlightHandler();
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

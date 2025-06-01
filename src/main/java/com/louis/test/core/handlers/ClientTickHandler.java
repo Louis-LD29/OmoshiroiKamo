@@ -1,18 +1,20 @@
 package com.louis.test.core.handlers;
 
-import baubles.common.lib.PlayerHandler;
-import com.louis.test.core.interfaces.IManaItem;
-import com.louis.test.gui.ManaHUD;
-import com.louis.test.mana.ManaNetworkHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
-import java.util.UUID;
+import com.louis.test.api.interfaces.mana.IManaItem;
+import com.louis.test.core.helper.Helper;
+import com.louis.test.core.mana.ManaNetworkHandler;
+
+import baubles.common.lib.PlayerHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 
 public class ClientTickHandler {
 
@@ -24,13 +26,13 @@ public class ClientTickHandler {
     public static float delta = 0.0F;
     public static float total = 0.0F;
     public static float displayedMana = 0.0F;
+    public static float displayedCMana = 0.0F;
 
-    public ClientTickHandler() {
-    }
+    public ClientTickHandler() {}
 
     private void calcDelta() {
         float oldTotal = total;
-        total = (float)ticksInGame + partialTicks;
+        total = (float) ticksInGame + partialTicks;
         delta = total - oldTotal;
     }
 
@@ -40,6 +42,7 @@ public class ClientTickHandler {
             partialTicks = event.renderTickTime;
         } else {
             updateDisplayedMana();
+            updateDisplayedCMana();
             TooltipAdditionDisplayHandler.render();
             this.calcDelta();
         }
@@ -77,12 +80,41 @@ public class ClientTickHandler {
         }
 
         // 2 tham số: tốc độ (rate) và delta (giây)
-        float smoothingRate = 2.0F;                // độ “nhanh” của nội suy
-        float dt = delta / 20.0F;                  // delta được tính theo ticks, mỗi tick = 1/20s
+        float smoothingRate = 2.0F; // độ “nhanh” của nội suy
+        float dt = delta / 20.0F; // delta được tính theo ticks, mỗi tick = 1/20s
         float alpha = 1 - (float) Math.exp(-smoothingRate * dt);
 
         // Nội suy: tiến gần targetMana
         displayedMana += (targetMana - displayedMana) * alpha;
+    }
+
+    private void updateDisplayedCMana() {
+        // Lấy mana thực tế
+        Minecraft mc = Minecraft.getMinecraft();
+        EntityPlayer player = mc.thePlayer;
+        if (player == null) return;
+
+        IInventory mainInv = player.inventory;
+        IInventory baublesInv = PlayerHandler.getPlayerBaubles(player);
+
+        ItemStack selectedItem = Helper.getItemWithHighestMana(mainInv, baublesInv);
+        if (selectedItem == null) return;
+        IManaItem manaItem = (IManaItem) selectedItem.getItem();
+        float targetMana = manaItem.getMana(selectedItem);
+        float maxMana = manaItem.getMaxMana(selectedItem);
+
+        if (maxMana <= 0) {
+            displayedCMana = 0;
+            return;
+        }
+
+        // 2 tham số: tốc độ (rate) và delta (giây)
+        float smoothingRate = 2.0F; // độ “nhanh” của nội suy
+        float dt = delta / 20.0F; // delta được tính theo ticks, mỗi tick = 1/20s
+        float alpha = 1 - (float) Math.exp(-smoothingRate * dt);
+
+        // Nội suy: tiến gần targetMana
+        displayedCMana += (targetMana - displayedCMana) * alpha;
     }
 
 }

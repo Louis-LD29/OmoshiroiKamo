@@ -1,24 +1,26 @@
 package com.louis.test.common.item.upgrade;
 
-import com.louis.test.Test;
-import com.louis.test.config.Config;
-import com.louis.test.core.helper.SpecialTooltipHandler;
-import com.louis.test.core.interfaces.IManaItem;
-import com.louis.test.core.util.PowerDisplayUtil;
-import com.louis.test.lib.LibMisc;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import com.louis.test.api.enums.SpecialTooltipHandler;
+import com.louis.test.api.interfaces.mana.IManaItem;
+import com.louis.test.common.config.Config;
+import com.louis.test.core.util.PowerDisplayUtil;
+import com.louis.test.lib.LibMisc;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EnergyUpgrade extends AbstractUpgrade {
+
     public static final AbstractUpgrade EMPOWERED = new EnergyUpgrade(
         "Test.mana.upgrade.empowered_one",
         Config.manaUpgradeDiamondCost,
@@ -181,12 +183,12 @@ public class EnergyUpgrade extends AbstractUpgrade {
         upgradeStr.add(EnumChatFormatting.DARK_AQUA + LibMisc.lang.localizeExact(getUnlocalizedName() + ".name"));
         SpecialTooltipHandler.addDetailedTooltipFromResources(upgradeStr, getUnlocalizedName());
 
-//        String percDamage = (int) Math.round(getAbsorptionRatio(itemstack) * 100) + "";
+        // String percDamage = (int) Math.round(getAbsorptionRatio(itemstack) * 100) + "";
         String capString = PowerDisplayUtil.formatPower(capacity) + " " + PowerDisplayUtil.abrevation();
         for (int i = 0; i < upgradeStr.size(); i++) {
             String str = upgradeStr.get(i);
             str = str.replaceAll("\\$P", capString);
-//            str = str.replaceAll("\\$D", percDamage);
+            // str = str.replaceAll("\\$D", percDamage);
             upgradeStr.set(i, str);
         }
         list.addAll(upgradeStr);

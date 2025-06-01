@@ -2,8 +2,6 @@ package com.louis.test.core.handlers;
 
 import java.awt.Color;
 
-import com.louis.test.common.item.upgrade.EnergyUpgrade;
-import com.louis.test.config.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -15,6 +13,8 @@ import org.lwjgl.opengl.GL11;
 import com.enderio.core.client.render.ColorUtil;
 import com.enderio.core.client.render.RenderUtil;
 import com.enderio.core.common.vecmath.Vector4f;
+import com.louis.test.common.config.Config;
+import com.louis.test.common.item.upgrade.EnergyUpgrade;
 
 import cofh.api.energy.IEnergyContainerItem;
 
@@ -68,11 +68,12 @@ public class PoweredItemRenderer implements IItemRenderer {
             maxDam = armor.getMaxEnergyStored(item);
             dispDamage = armor.getEnergyStored(item);
             y = Config.renderDurabilityBar ? 12 : 13;
-            Color color = new Color(Color.HSBtoRGB(
-                0.9F,
-                ((float) Math.sin((ClientTickHandler.ticksInGame + ClientTickHandler.partialTicks) * 0.2F) + 1F) * 0.3F + 0.4F,
-                1F
-            )); // emergy
+            Color color = new Color(
+                Color.HSBtoRGB(
+                    0.9F,
+                    ((float) Math.sin((ClientTickHandler.ticksInGame + ClientTickHandler.partialTicks) * 0.2F) + 1F)
+                        * 0.3F + 0.4F,
+                    1F)); // emergy
 
             renderBar2(y, maxDam, maxDam - dispDamage, color, color);
         }

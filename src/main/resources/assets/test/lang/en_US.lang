@@ -1,6 +1,19 @@
 
+Test.config.title=Test Configuration
+
+Test.config.personal=Personal Settings
+Test.config.personal.tooltip=I won't tell anyone, I promise.
+Test.config.mana=Mana
+Test.config.mana.tooltip=
+
+Test.gui.machine.ioMode.none=None
+Test.gui.machine.ioMode.pull=Pull
+Test.gui.machine.ioMode.push=Push
+Test.gui.machine.ioMode.disabled=Disabled
+Test.gui.machine.ioMode.pullPush=Push / Pull
 
 Test.power.rf=RF
+Test.fluid.millibucket.abr=L
 
 Testmisc.shiftinfo=Hold &bSHIFT&7 for more info
 
@@ -14,11 +27,13 @@ Test.item.mana.tooltip.lvs=lvs
 Test.item.operationOrb.tooltip.effPowered=Efficiency when powered
 
 Test.tooltip.oreDictNames=Ore Dictionary Names:
-Test.tooltip.showDetails=<Hold Shift>
 Test.tooltip.durability=Durability:
 Test.tooltip.anvilupgrades=Anvil Upgrades:
 
 Test.mana.upgrade.empowered_one.name=Empowered
 
 item.Test:operationOrb.name=Operation Orb
-item.Test:manaRing.name=Mana Ring
+item.bucketMana.name=Mana Bucket
+tile.blockTest.name=Test Block
+tile.fluid.mana.name=Mana
+fluid.mana=Mana

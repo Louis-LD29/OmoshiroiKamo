@@ -1,19 +1,21 @@
 package com.louis.test.core.handlers;
 
-import baubles.api.BaublesApi;
-import cofh.api.energy.IEnergyContainerItem;
-import com.louis.test.core.helper.Helper;
-import com.louis.test.core.interfaces.IManaItem;
-import com.louis.test.gui.ManaHUD;
-import com.louis.test.mana.ManaNetworkHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import java.util.*;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import java.util.*;
+import com.louis.test.api.interfaces.mana.IManaItem;
+import com.louis.test.core.helper.Helper;
+import com.louis.test.core.mana.ManaNetworkHandler;
+
+import baubles.api.BaublesApi;
+import cofh.api.energy.IEnergyContainerItem;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 
 public class ConvertManaRegenHandler {
+
     public static final ConvertManaRegenHandler instance = new ConvertManaRegenHandler();
     private final Map<String, Integer> tickCounter = new HashMap<>();
 
@@ -48,7 +50,8 @@ public class ConvertManaRegenHandler {
             neededMana = requiredManaFromPlayer * rate;
         }
 
-        IEnergyContainerItem energyItem = (manaItem instanceof IEnergyContainerItem) ? (IEnergyContainerItem) manaItem : null;
+        IEnergyContainerItem energyItem = (manaItem instanceof IEnergyContainerItem) ? (IEnergyContainerItem) manaItem
+            : null;
         if (energyItem != null && energyItem.getEnergyStored(selectedItem) > 0) {
             float energySupportedMana = 0.25f * requiredManaFromPlayer;
             int energyCost = (int) Math.ceil(energySupportedMana * 16);

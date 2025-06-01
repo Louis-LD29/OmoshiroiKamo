@@ -1,6 +1,8 @@
 package com.louis.test.core.helper;
 
-import com.louis.test.lib.LibResources;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -8,12 +10,13 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-import vazkii.botania.client.core.handler.ClientTickHandler;
 
-import java.util.List;
-import java.util.Random;
+import com.louis.test.lib.LibResources;
+
+import vazkii.botania.client.core.handler.ClientTickHandler;
 
 public class RenderHelper {
 
@@ -40,8 +43,7 @@ public class RenderHelper {
 
     public static void renderTooltip(int x, int y, List<String> tooltipData, int color, int color2) {
         boolean lighting = GL11.glGetBoolean(GL11.GL_LIGHTING);
-        if(lighting)
-            net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+        if (lighting) net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
 
         if (!tooltipData.isEmpty()) {
             int var5 = 0;
@@ -50,14 +52,12 @@ public class RenderHelper {
             FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
             for (var6 = 0; var6 < tooltipData.size(); ++var6) {
                 var7 = fontRenderer.getStringWidth(tooltipData.get(var6));
-                if (var7 > var5)
-                    var5 = var7;
+                if (var7 > var5) var5 = var7;
             }
             var6 = x + 12;
             var7 = y - 12;
             int var9 = 8;
-            if (tooltipData.size() > 1)
-                var9 += 2 + (tooltipData.size() - 1) * 10;
+            if (tooltipData.size() > 1) var9 += 2 + (tooltipData.size() - 1) * 10;
             float z = 300F;
             drawGradientRect(var6 - 3, var7 - 4, z, var6 + var5 + 3, var7 - 3, color2, color2);
             drawGradientRect(var6 - 3, var7 + var9 + 3, z, var6 + var5 + 3, var7 + var9 + 4, color2, color2);
@@ -74,14 +74,12 @@ public class RenderHelper {
             for (int var13 = 0; var13 < tooltipData.size(); ++var13) {
                 String var14 = tooltipData.get(var13);
                 fontRenderer.drawStringWithShadow(var14, var6, var7, -1);
-                if (var13 == 0)
-                    var7 += 2;
+                if (var13 == 0) var7 += 2;
                 var7 += 10;
             }
             GL11.glEnable(GL11.GL_DEPTH_TEST);
         }
-        if(!lighting)
-            net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
+        if (!lighting) net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
         GL11.glColor4f(1F, 1F, 1F, 1F);
     }
 
@@ -118,7 +116,8 @@ public class RenderHelper {
         drawTexturedModalRect(par1, par2, z, par3, par4, par5, par6, 0.00390625F, 0.00390625F);
     }
 
-    public static void drawTexturedModalRect(int par1, int par2, float z, int par3, int par4, int par5, int par6, float f, float f1) {
+    public static void drawTexturedModalRect(int par1, int par2, float z, int par3, int par4, int par5, int par6,
+        float f, float f1) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV(par1 + 0, par2 + par6, z, (par3 + 0) * f, (par4 + par6) * f1);
@@ -132,13 +131,11 @@ public class RenderHelper {
         Tessellator tessellator = Tessellator.instance;
 
         int ticks = ClientTickHandler.ticksInGame % 200;
-        if (ticks >= 100)
-            ticks = 200 - ticks - 1;
+        if (ticks >= 100) ticks = 200 - ticks - 1;
 
         float f1 = ticks / 200F;
         float f2 = 0F;
-        if (f1 > 0.7F)
-            f2 = (f1 - 0.7F) / 0.2F;
+        if (f1 > 0.7F) f2 = (f1 - 0.7F) / 0.2F;
         Random random = new Random(seed);
 
         GL11.glPushMatrix();
@@ -183,7 +180,8 @@ public class RenderHelper {
 
     public static void renderProgressPie(int x, int y, float progress, ItemStack stack) {
         Minecraft mc = Minecraft.getMinecraft();
-        RenderItem.getInstance().renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, stack, x, y);
+        RenderItem.getInstance()
+            .renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, stack, x, y);
 
         GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glEnable(GL11.GL_STENCIL_TEST);
@@ -192,14 +190,17 @@ public class RenderHelper {
         GL11.glStencilFunc(GL11.GL_NEVER, 1, 0xFF);
         GL11.glStencilOp(GL11.GL_REPLACE, GL11.GL_KEEP, GL11.GL_KEEP);
         GL11.glStencilMask(0xFF);
-        RenderItem.getInstance().renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, stack, x, y);
+        RenderItem.getInstance()
+            .renderItemAndEffectIntoGUI(mc.fontRenderer, mc.renderEngine, stack, x, y);
 
         mc.renderEngine.bindTexture(new ResourceLocation(LibResources.GUI_MANA_HUD));
         int r = 10;
         int centerX = x + 8;
         int centerY = y + 8;
         int degs = (int) (360 * progress);
-        float a = 0.5F + 0.2F * ((float) Math.cos((double) (ClientTickHandler.ticksInGame + ClientTickHandler.partialTicks) / 10) * 0.5F + 0.5F);
+        float a = 0.5F + 0.2F
+            * ((float) Math.cos((double) (ClientTickHandler.ticksInGame + ClientTickHandler.partialTicks) / 10) * 0.5F
+                + 0.5F);
 
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -214,7 +215,7 @@ public class RenderHelper {
         GL11.glColor4f(0F, 0.5F, 0.5F, a);
         GL11.glVertex2i(centerX, centerY);
         GL11.glColor4f(0F, 1F, 0.5F, a);
-        for(int i = degs; i > 0; i--) {
+        for (int i = degs; i > 0; i--) {
             double rad = (i - 90) / 180F * Math.PI;
             GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
         }
@@ -229,8 +230,8 @@ public class RenderHelper {
     public static String getKeyDisplayString(String keyName) {
         String key = null;
         KeyBinding[] keys = Minecraft.getMinecraft().gameSettings.keyBindings;
-        for(KeyBinding otherKey : keys)
-            if(otherKey.getKeyDescription().equals(keyName)) {
+        for (KeyBinding otherKey : keys) if (otherKey.getKeyDescription()
+            .equals(keyName)) {
                 key = Keyboard.getKeyName(otherKey.getKeyCode());
                 break;
             }

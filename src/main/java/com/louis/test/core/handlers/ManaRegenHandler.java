@@ -1,13 +1,14 @@
 package com.louis.test.core.handlers;
 
-import com.louis.test.gui.ManaHUD;
-import com.louis.test.mana.ManaNetworkHandler;
+import java.util.UUID;
+
+import net.minecraft.entity.player.EntityPlayer;
+
+import com.louis.test.core.mana.ManaNetworkHandler;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.entity.player.EntityPlayer;
-
-import java.util.UUID;
 
 public class ManaRegenHandler {
 
@@ -18,7 +19,7 @@ public class ManaRegenHandler {
     public void onTick(TickEvent.PlayerTickEvent event) {
         if (event.side != Side.SERVER || event.phase != TickEvent.Phase.END) return;
 
-        EntityPlayer  player = event.player;
+        EntityPlayer player = event.player;
         UUID uuid = player.getUniqueID();
 
         float current = ManaNetworkHandler.getCurrentMana(uuid);
@@ -39,7 +40,8 @@ public class ManaRegenHandler {
     }
 
     private float getRegenRate(EntityPlayer player) {
-        int food = player.getFoodStats().getFoodLevel();
+        int food = player.getFoodStats()
+            .getFoodLevel();
         boolean sprinting = player.isSprinting();
 
         if (food == 20) {

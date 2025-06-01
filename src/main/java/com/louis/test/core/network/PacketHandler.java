@@ -1,8 +1,9 @@
 package com.louis.test.core.network;
 
-import com.louis.test.lib.LibMisc;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
+
+import com.louis.test.lib.LibMisc;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
