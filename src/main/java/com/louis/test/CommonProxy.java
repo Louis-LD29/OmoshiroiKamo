@@ -1,27 +1,59 @@
 package com.louis.test;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+
+import com.louis.test.common.block.ModBlocks;
+import com.louis.test.common.block.test.TestRecipeManager;
+import com.louis.test.common.config.Config;
+import com.louis.test.common.fluid.ModFluids;
+import com.louis.test.common.item.ModItems;
+import com.louis.test.common.recipes.ManaAnvilRecipe;
+import com.louis.test.core.handlers.ConvertManaRegenHandler;
+import com.louis.test.core.handlers.FlightHandler;
+import com.louis.test.core.handlers.ManaRegenHandler;
+
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
-public class CommonProxy {
+public abstract class CommonProxy {
 
-    // preInit "Run before anything else. Read your config, create blocks, items, etc, and register them with the
-    // GameRegistry." (Remove if not needed)
     public void preInit(FMLPreInitializationEvent event) {
-        Config.synchronizeConfiguration(event.getSuggestedConfigurationFile());
-
-        Test.LOG.info(Config.greeting);
-        Test.LOG.info("I am MyMod at version " + Tags.VERSION);
+        Config.preInit(event);
+        ModItems.init();
+        ModBlocks.init();
+        ModFluids.init();
+        MinecraftForge.EVENT_BUS.register(ManaAnvilRecipe.instance);
     }
 
-    // load "Do your mod setup. Build whatever data structures you care about. Register recipes." (Remove if not needed)
-    public void init(FMLInitializationEvent event) {}
+    public void init(FMLInitializationEvent event) {
+        Config.init();
+        FMLCommonHandler.instance()
+            .bus()
+            .register(ManaRegenHandler.instance);
+        FMLCommonHandler.instance()
+            .bus()
+            .register(ConvertManaRegenHandler.instance);
+        FMLCommonHandler.instance()
+            .bus()
+            .register(FlightHandler.instance);
+    }
 
-    // postInit "Handle interaction with other mods, complete your setup based on this." (Remove if not needed)
-    public void postInit(FMLPostInitializationEvent event) {}
+    public void postInit(FMLPostInitializationEvent event) {
+        Config.postInit();
+        TestRecipeManager.getInstance()
+            .loadRecipesFromConfig();
+    }
 
-    // register server commands in this event handler (Remove if not needed)
-    public void serverStarting(FMLServerStartingEvent event) {}
+    public EntityPlayer getClientPlayer() {
+        return null;
+    }
+
+    public World getClientWorld() {
+        return null;
+    }
+
 }
