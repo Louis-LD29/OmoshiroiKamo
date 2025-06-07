@@ -1,6 +1,5 @@
 package com.louis.test.common.block.machine;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -12,7 +11,6 @@ import com.louis.test.core.network.PacketHandler;
 import com.louis.test.core.network.PacketPowerStorage;
 
 import cofh.api.energy.EnergyStorage;
-import crazypants.enderio.machine.SlotDefinition;
 
 public abstract class AbstractPoweredMachineEntity extends AbstractMachineEntity implements IInternalPoweredTile {
 
@@ -72,6 +70,10 @@ public abstract class AbstractPoweredMachineEntity extends AbstractMachineEntity
     @Override
     public int getEnergyStored() {
         return storedEnergyRF;
+    }
+
+    public void setEnergyStorage(EnergyStorage energyStorage) {
+        this.energyStorage = energyStorage;
     }
 
     // ----- Common Machine Functions

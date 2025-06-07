@@ -8,7 +8,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
@@ -30,17 +29,16 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.enderio.core.api.common.util.ITankAccess;
 import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.FluidUtil;
-import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.common.block.SmartTank;
-import com.louis.test.common.block.machine.AbstractPowerConsumerEntity;
+import com.louis.test.common.block.machine.AbstractPoweredTaskEntity;
+import com.louis.test.common.block.machine.SlotDefinition;
 import com.louis.test.common.config.Config;
 import com.louis.test.common.fluid.ModFluids;
-import com.louis.test.common.recipes.CustomRecipe;
-import com.louis.test.common.recipes.CustomRecipeManager;
 import com.louis.test.lib.LibResources;
 
-import crazypants.enderio.machine.SlotDefinition;
+import crazypants.enderio.machine.IMachineRecipe.ResultStack;
+import crazypants.enderio.machine.MachineRecipeInput;
 import vazkii.botania.api.internal.VanillaPacketDispatcher;
 import vazkii.botania.api.mana.IManaPool;
 import vazkii.botania.api.mana.IThrottledPacket;
@@ -51,7 +49,7 @@ import vazkii.botania.client.core.handler.HUDHandler;
 import vazkii.botania.common.Botania;
 import vazkii.botania.common.core.handler.ManaNetworkHandler;
 
-public class TileTest extends AbstractPowerConsumerEntity
+public class TileTest extends AbstractPoweredTaskEntity
     implements IFluidHandler, ITankAccess, IManaPool, ISparkAttachable, IThrottledPacket {
 
     public static final int MAX_MANA = 1000;
@@ -70,20 +68,15 @@ public class TileTest extends AbstractPowerConsumerEntity
     public int ticksDoingTransfer = 0;
     int ticks = 0;
 
-    private static int IO_MB_TICK = 100;
     protected SmartTank inputTank = new SmartTank(10000);
     protected SmartTank outputTank = new SmartTank(10000);
+
+    private static int IO_MB_TICK = 100;
+
     private boolean tanksDirty = false;
 
-    public static boolean registeredTestRecipe = false;
-
     public TileTest(int meta) {
-        super(new SlotDefinition(0, 0, 1, 1, -1, -1));
-
-        if (!registeredTestRecipe) {
-            registeredTestRecipe = true;
-            CustomRecipeManager.addRecipe(new ItemStack(Items.iron_ingot), new ItemStack(Items.gold_ingot));
-        }
+        super(new SlotDefinition(0, 1, -1, -1, -1, -1));
     }
 
     public TileTest() {
@@ -107,23 +100,19 @@ public class TileTest extends AbstractPowerConsumerEntity
 
     @Override
     protected boolean isMachineItemValidForSlot(int i, ItemStack itemstack) {
-        // MachineRecipeInput[] inputs = getRecipeInputs();
-        // inputs[i] = new MachineRecipeInput(i, itemstack);
-        // return TestRecipeManager.getInstance()
-        // .isValidInput(inputs);
-        return true;
-    }
-
-    @Override
-    public boolean isActive() {
-        return false;
+        MachineRecipeInput[] inputs = getRecipeInputs();
+        inputs[i] = new MachineRecipeInput(i, itemstack);
+        return TestRecipeManager.getInstance()
+            .isValidInput(inputs);
     }
 
     @Override
     protected boolean doPush(ForgeDirection dir) {
+
         if (isSideDisabled(dir.ordinal())) {
             return false;
         }
+
         boolean res = super.doPush(dir);
         if (outputTank.getFluidAmount() > 0) {
 
@@ -151,6 +140,7 @@ public class TileTest extends AbstractPowerConsumerEntity
 
     @Override
     protected boolean doPull(ForgeDirection dir) {
+
         if (isSideDisabled(dir.ordinal())) {
             return false;
         }
@@ -173,7 +163,7 @@ public class TileTest extends AbstractPowerConsumerEntity
                         return res;
                     }
                 } else {
-
+                    // empty input tank
                     FluidTankInfo[] infos = target.getTankInfo(dir.getOpposite());
                     if (infos != null) {
                         for (FluidTankInfo info : infos) {
@@ -198,60 +188,14 @@ public class TileTest extends AbstractPowerConsumerEntity
     }
 
     @Override
-    protected boolean processTasks(boolean redstoneCheckPassed) {
-        return true;
-    }
-
-    // @Override
-    // protected boolean processTasks(boolean redstoneCheckPassed) {
-    // boolean res = super.processTasks(redstoneCheckPassed);
-    // if (tanksDirty && shouldDoWorkThisTick(10)) {
-    // tanksDirty = false;
-    // }
-    // return res;
-    // }
-    //
-    // @Override
-    // protected void mergeFluidResult(ResultStack result) {
-    // outputTank.fill(result.fluid, true);
-    // tanksDirty = true;
-    // }
-    //
-    // @Override
-    // protected void drainInputFluid(MachineRecipeInput fluid) {
-    // inputTank.drain(fluid.fluid.amount, true);
-    // tanksDirty = true;
-    // }
-    //
-    // @Override
-    // protected boolean canInsertResultFluid(ResultStack fluid) {
-    // int res = outputTank.fill(fluid.fluid, false);
-    // return res >= fluid.fluid.amount;
-    // }
-    //
-    // @Override
-    // protected MachineRecipeInput[] getRecipeInputs() {
-    // MachineRecipeInput[] res = new MachineRecipeInput[slotDefinition.getNumInputSlots() + 1];
-    // int fromSlot = slotDefinition.minInputSlot;
-    //
-    // for (int i = 0; i < res.length - 1; i++) {
-    // res[i] = new MachineRecipeInput(fromSlot, inv.getStackInSlot(fromSlot));
-    // fromSlot++;
-    // }
-    //
-    // res[res.length - 1] = new MachineRecipeInput(0, inputTank.getFluid());
-    // return res;
-    // }
-
-    @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        if (!canFill(from)) {
+        if (isSideDisabled(from.ordinal())) {
             return 0;
         }
-        return fillInternal(resource, doFill);
-    }
 
-    int fillInternal(FluidStack resource, boolean doFill) {
+        if (resource == null || !canFill(from, resource.getFluid())) {
+            return 0;
+        }
         int res = inputTank.fill(resource, doFill);
         if (res > 0 && doFill) {
             tanksDirty = true;
@@ -261,14 +205,13 @@ public class TileTest extends AbstractPowerConsumerEntity
 
     @Override
     public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        if (!canDrain(from)) {
+        if (isSideDisabled(from.ordinal())) {
             return null;
         }
-        return drainInternal(resource, doDrain);
-    }
-
-    FluidStack drainInternal(FluidStack resource, boolean doDrain) {
-        FluidStack res = outputTank.drain(resource, doDrain);
+        if (outputTank.getFluid() == null || resource == null || !resource.isFluidEqual(outputTank.getFluid())) {
+            return null;
+        }
+        FluidStack res = outputTank.drain(resource.amount, doDrain);
         if (res != null && res.amount > 0 && doDrain) {
             tanksDirty = true;
         }
@@ -277,13 +220,9 @@ public class TileTest extends AbstractPowerConsumerEntity
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-        if (!canDrain(from)) {
+        if (isSideDisabled(from.ordinal())) {
             return null;
         }
-        return drainInternal(maxDrain, doDrain);
-    }
-
-    FluidStack drainInternal(int maxDrain, boolean doDrain) {
         FluidStack res = outputTank.drain(maxDrain, doDrain);
         if (res != null && res.amount > 0 && doDrain) {
             tanksDirty = true;
@@ -292,35 +231,79 @@ public class TileTest extends AbstractPowerConsumerEntity
     }
 
     @Override
+    protected boolean processTasks(boolean redstoneChecksPassed) {
+        boolean res = super.processTasks(redstoneChecksPassed);
+        if (tanksDirty && shouldDoWorkThisTick(10)) {
+            tanksDirty = false;
+        }
+        return res;
+    }
+
+    @Override
+    protected void sendTaskProgressPacket() {
+        ticksSinceLastProgressUpdate = 0;
+    }
+
+    @Override
+    protected void mergeFluidResult(ResultStack result) {
+        outputTank.fill(result.fluid, true);
+        tanksDirty = true;
+    }
+
+    @Override
+    protected void drainInputFluid(MachineRecipeInput fluid) {
+        inputTank.drain(fluid.fluid.amount, true);
+        tanksDirty = true;
+    }
+
+    @Override
+    protected boolean canInsertResultFluid(ResultStack fluid) {
+        int res = outputTank.fill(fluid.fluid, false);
+        return res >= fluid.fluid.amount;
+    }
+
+    @Override
+    protected MachineRecipeInput[] getRecipeInputs() {
+        MachineRecipeInput[] res = new MachineRecipeInput[slotDefinition.getNumInputSlots() + 1];
+        int fromSlot = slotDefinition.minInputSlot;
+        for (int i = 0; i < res.length - 1; i++) {
+            res[i] = new MachineRecipeInput(fromSlot, inv.getStackInSlot(fromSlot));
+            fromSlot++;
+        }
+
+        res[res.length - 1] = new MachineRecipeInput(0, inputTank.getFluid());
+
+        return res;
+    }
+
+    @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        if (canFill(from) && fluid == null || (inputTank.getFluid() != null && inputTank.getFluid()
+        if (isSideDisabled(from.ordinal())) {
+            return false;
+        }
+        if (fluid == null || (inputTank.getFluid() != null && inputTank.getFluid()
             .getFluid()
             .getID() != fluid.getID())) {
             return false;
         }
-        return true;
-        // MachineRecipeInput[] inputs = getRecipeInputs();
-        // if (inputTank.getFluidAmount() <= 0) {
-        // inputs[inputs.length - 1] = new MachineRecipeInput(0, new FluidStack(fluid, 1));
-        // }
-        //
-        // return TestRecipeManager.getInstance()
-        // .isValidInput(inputs);
-    }
 
-    private boolean canFill(ForgeDirection from) {
-        IoMode mode = getIoMode(from);
-        return mode != IoMode.PUSH && mode != IoMode.DISABLED;
+        MachineRecipeInput[] inputs = getRecipeInputs();
+        if (inputTank.getFluidAmount() <= 0) {
+            inputs[inputs.length - 1] = new MachineRecipeInput(0, new FluidStack(fluid, 1));
+        }
+
+        return TestRecipeManager.getInstance()
+            .isValidInput(inputs);
     }
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return canDrain(from) && outputTank.canDrainFluidType(fluid);
-    }
-
-    private boolean canDrain(ForgeDirection from) {
-        IoMode mode = getIoMode(from);
-        return mode != IoMode.PULL && mode != IoMode.DISABLED;
+        if (isSideDisabled(from.ordinal())) {
+            return false;
+        }
+        return outputTank.getFluid() != null && outputTank.getFluid()
+            .getFluid()
+            .getID() == fluid.getID();
     }
 
     @Override
@@ -339,18 +322,8 @@ public class TileTest extends AbstractPowerConsumerEntity
         nbtRoot.setBoolean(TAG_OUTPUTTING, outputting);
         nbtRoot.setInteger(TAG_MANA_CAP, manaCap);
 
-        inputTank.writeCommon("inputTankContents", nbtRoot);
-        outputTank.writeCommon("outputTankContents", nbtRoot);
-        if (!worldObj.isRemote) {
-            // System.out.println(nbtRoot);
-            TestRecipeManager.instance.getRecipes();
-            // MachineRecipeInput[] inputs = getRecipeInputs();
-            // System.out.println("Calling findRecipe with:");
-            // for (MachineRecipeInput input : inputs) {
-            // System.out
-            // .println(" - slot: " + input.slotNumber + ", item: " + input.item + ", fluid: " + input.fluid);
-            // }
-        }
+        inputTank.writeCommon("inputTank", nbtRoot);
+        outputTank.writeCommon("outputTank", nbtRoot);
     }
 
     @Override
@@ -362,8 +335,8 @@ public class TileTest extends AbstractPowerConsumerEntity
         outputting = nbtRoot.getBoolean(TAG_OUTPUTTING);
         if (nbtRoot.hasKey(TAG_KNOWN_MANA)) knownMana = nbtRoot.getInteger(TAG_KNOWN_MANA);
 
-        inputTank.readCommon("inputTankContents", nbtRoot);
-        outputTank.readCommon("outputTankContents", nbtRoot);
+        inputTank.readCommon("inputTank", nbtRoot);
+        outputTank.readCommon("outputTank", nbtRoot);
     }
 
     @Override
@@ -390,7 +363,6 @@ public class TileTest extends AbstractPowerConsumerEntity
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
         ModularPanel panel = super.buildUI(data, syncManager, settings);
         syncManager.registerSlotGroup("item_inv", 2);
-        int[] Slots = createSlotRange(slotDefinition.getMinInputSlot(), slotDefinition.getMaxInputSlot());
 
         panel.child(
             new Column().child(
@@ -412,12 +384,12 @@ public class TileTest extends AbstractPowerConsumerEntity
                 .child(
                     SlotGroupWidget.builder()
                         .matrix("I  ", "I  ")
-                        .key(
-                            'I',
-                            index -> {
-                                return new ItemSlot().slot(new ModularSlot(this.inv, index).slotGroup("item_inv"))
-                                    .debugName("Slot " + index);
-                            })
+                        .key('I', index -> {
+                            return new ItemSlot().slot(
+                                new ModularSlot(this.inv, index).slotGroup("item_inv")
+                                    .filter(stack -> isItemValidForSlot(index, stack)))
+                                .debugName("Slot " + index);
+                        })
                         .build()));
         return panel;
     }
@@ -425,14 +397,6 @@ public class TileTest extends AbstractPowerConsumerEntity
     @Override
     public void doUpdate() {
         super.doUpdate();
-
-        ItemStack inputStack = inv.getStackInSlot(0);
-
-        CustomRecipe recipe = CustomRecipeManager.findMatchingRecipe(inputStack);
-        if (recipe != null && this.getStackInSlot(1) == null) {
-            this.decrStackSize(0, recipe.getInput().stackSize); // trừ nguyên liệu
-            this.setInventorySlotContents(1, recipe.getOutput()); // tạo sản phẩm
-        }
 
         boolean wasDoingTransfer = isDoingTransfer;
         isDoingTransfer = false;

@@ -2,7 +2,10 @@ package com.louis.test.api.enums;
 
 public enum ModObject {
 
-    blockTest;
+    blockTest,
+    blockBoiler,
+    blockBoilerTank,
+    blockSolar;
 
     public final String unlocalisedName;
 

@@ -1,6 +1,7 @@
 package com.louis.test;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.louis.test.common.block.ModBlocks;
@@ -13,7 +14,6 @@ import com.louis.test.core.handlers.ConvertManaRegenHandler;
 import com.louis.test.core.handlers.FlightHandler;
 import com.louis.test.core.handlers.ManaRegenHandler;
 
-import baubles.api.expanded.BaubleExpandedSlots;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -23,7 +23,6 @@ public abstract class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         Config.preInit(event);
-        BaubleExpandedSlots.tryAssignSlotsUpToMinimum("ring", 3);
         ModItems.init();
         ModBlocks.init();
         ModFluids.init();
@@ -52,4 +51,9 @@ public abstract class CommonProxy {
     public EntityPlayer getClientPlayer() {
         return null;
     }
+
+    public World getClientWorld() {
+        return null;
+    }
+
 }

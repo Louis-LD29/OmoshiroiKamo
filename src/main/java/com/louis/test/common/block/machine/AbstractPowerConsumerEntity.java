@@ -5,8 +5,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import com.louis.test.api.interfaces.power.IInternalPowerReceiver;
 import com.louis.test.core.handlers.PowerHandlerUtil;
 
-import crazypants.enderio.machine.SlotDefinition;
-
 public abstract class AbstractPowerConsumerEntity extends AbstractPoweredMachineEntity
     implements IInternalPowerReceiver {
 

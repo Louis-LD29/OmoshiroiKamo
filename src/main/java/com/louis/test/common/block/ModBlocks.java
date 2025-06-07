@@ -1,25 +1,24 @@
 package com.louis.test.common.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
 
+import com.louis.test.common.block.boiler.BlockBoiler;
+import com.louis.test.common.block.boiler.BlockBoilerTank;
+import com.louis.test.common.block.solar.BlockSolarPanel;
 import com.louis.test.common.block.test.BlockTest;
-import com.louis.test.lib.LibResources;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModBlocks {
 
     public static Block blockTest;
+    public static Block blockBoiler;
+    public static Block blockBoilerTank;
+    public static Block blockSolar;
 
     public static void init() {
         blockTest = BlockTest.create();
-        initTileEntities();
+        blockBoiler = BlockBoiler.create();
+        blockBoilerTank = BlockBoilerTank.create();
+        blockSolar = BlockSolarPanel.create();
     }
 
-    private static void initTileEntities() {}
-
-    private static void registerTile(Class<? extends TileEntity> clazz, String key) {
-        GameRegistry.registerTileEntity(clazz, LibResources.PREFIX_MOD + key);
-    }
 }

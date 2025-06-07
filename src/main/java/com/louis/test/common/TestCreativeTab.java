@@ -8,7 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import com.louis.test.common.block.ModBlocks;
-import com.louis.test.common.fluid.ModFluids;
 import com.louis.test.common.item.ModItems;
 import com.louis.test.lib.LibMisc;
 
@@ -46,7 +45,8 @@ public class TestCreativeTab extends CreativeTabs {
 
         addItem(ModItems.itemOperationOrb);
         addBlock(ModBlocks.blockTest);
-        addItem(ModFluids.itemBucketMana);
+        addBlock(ModBlocks.blockBoiler);
+        addBlock(ModBlocks.blockSolar);
     }
 
     private void addItem(Item item) {

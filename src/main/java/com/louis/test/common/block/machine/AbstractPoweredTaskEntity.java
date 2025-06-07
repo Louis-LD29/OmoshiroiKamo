@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import crazypants.enderio.machine.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +13,10 @@ import com.enderio.core.api.common.util.IProgressTile;
 import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.interfaces.power.IInternalPowerReceiver;
 
+import crazypants.enderio.machine.IMachineRecipe;
 import crazypants.enderio.machine.IMachineRecipe.ResultStack;
+import crazypants.enderio.machine.MachineRecipeInput;
+import crazypants.enderio.machine.MachineRecipeRegistry;
 
 public abstract class AbstractPoweredTaskEntity extends AbstractPowerConsumerEntity
     implements IInternalPowerReceiver, IProgressTile {
@@ -179,8 +181,7 @@ public abstract class AbstractPoweredTaskEntity extends AbstractPowerConsumerEnt
         List<ItemStack> outputStacks = new ArrayList<ItemStack>(slotDefinition.getNumOutputSlots());
         if (slotDefinition.getNumOutputSlots() > 0) {
             for (int i = slotDefinition.minOutputSlot; i <= slotDefinition.maxOutputSlot; i++) {
-                ItemStack it =
-                    inv.getStackInSlot(i);
+                ItemStack it = inv.getStackInSlot(i);
                 if (it != null) {
                     it = it.copy();
                 }
@@ -206,8 +207,7 @@ public abstract class AbstractPoweredTaskEntity extends AbstractPowerConsumerEnt
                 if (st != null) {
                     st = st.copy();
                 }
-                st =
-                    inv.getStackInSlot(i);
+                st = inv.getStackInSlot(i);
                 listIndex++;
             }
         }

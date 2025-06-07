@@ -30,7 +30,7 @@ public class FlightHandler {
             }
         }
 
-        if (hasFlightItem) {
+        if (hasFlightItem && player.capabilities.isCreativeMode) {
             player.capabilities.allowFlying = true;
             if (!player.onGround) player.capabilities.isFlying = true;
             player.sendPlayerAbilities();
@@ -54,7 +54,7 @@ public class FlightHandler {
             }
         }
 
-        if (!hasFlightItem) {
+        if (!hasFlightItem && !player.capabilities.isCreativeMode) {
             // Nếu đang bay thì tắt bay
             if (player.capabilities.allowFlying) {
                 player.capabilities.allowFlying = false;

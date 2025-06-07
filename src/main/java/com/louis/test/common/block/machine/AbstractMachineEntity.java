@@ -15,26 +15,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import org.lwjgl.input.Keyboard;
-
 import com.cleanroommc.modularui.api.IGuiHolder;
-import com.cleanroommc.modularui.api.IPanelHandler;
-import com.cleanroommc.modularui.api.drawable.IKey;
-import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
-import com.cleanroommc.modularui.utils.Alignment;
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
-import com.cleanroommc.modularui.value.sync.BooleanSyncValue;
-import com.cleanroommc.modularui.value.sync.InteractionSyncHandler;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
-import com.cleanroommc.modularui.widgets.ButtonWidget;
-import com.cleanroommc.modularui.widgets.Dialog;
-import com.cleanroommc.modularui.widgets.SlotGroupWidget;
-import com.cleanroommc.modularui.widgets.ToggleButton;
-import com.cleanroommc.modularui.widgets.layout.Column;
-import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.InventoryWrapper;
 import com.enderio.core.common.util.ItemUtil;
@@ -42,13 +28,12 @@ import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.interfaces.IIoConfigurable;
 import com.louis.test.api.interfaces.redstone.IRedstoneConnectable;
 import com.louis.test.common.block.TileEntityEio;
-import com.louis.test.common.gui.MGuiTextures;
+import com.louis.test.common.gui.modularui2.MGuis;
 import com.louis.test.lib.LibMisc;
 
 import crazypants.enderio.machine.IMachine;
 import crazypants.enderio.machine.IRedstoneModeControlable;
 import crazypants.enderio.machine.RedstoneControlMode;
-import crazypants.enderio.machine.SlotDefinition;
 
 public abstract class AbstractMachineEntity extends TileEntityEio implements IGuiHolder<PosGuiData>, ISidedInventory,
     IMachine, IRedstoneModeControlable, IRedstoneConnectable, IIoConfigurable {
@@ -67,7 +52,7 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
 
     protected boolean redstoneCheckPassed;
 
-    private boolean redstoneStateDirty = true;
+    public boolean redstoneStateDirty = true;
 
     protected Map<ForgeDirection, IoMode> faceModes;
 
@@ -423,6 +408,7 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     @Override
     public void readCustomNBT(NBTTagCompound nbtRoot) {
         setFacing(nbtRoot.getShort("facing"));
+        redstoneCheckPassed = nbtRoot.getBoolean("redstoneCheckPassed");
         forceClientUpdate = nbtRoot.getBoolean("forceClientUpdate");
         readCommon(nbtRoot);
     }
@@ -466,7 +452,6 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     }
 
     public void writeCommon(NBTTagCompound nbtRoot) {
-
         nbtRoot.setTag("item_inv", this.inv.serializeNBT());
 
         nbtRoot.setInteger("redstoneControlMode", redstoneControlMode.ordinal());
@@ -663,92 +648,8 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
 
     @Override
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
-        ModularPanel panel = ModularPanel.defaultPanel("test_tile");
-        BooleanSyncValue invertedSyncer = new BooleanSyncValue(() -> inverted, val -> inverted = val);
-        IPanelHandler panelSyncHandler = syncManager.panel("other_panel", this::configPanel, true);
-
-        panel.flex()
-            .align(Alignment.Center);
-
-        panel.child(
-            new Column().debugName("Settings")
-                .coverChildren()
-                .leftRel(0.96f)
-                .topRel(0.05f)
-                .childPadding(2)
-                .padding(1)
-                .child(
-                    new ToggleButton().size(16, 16)
-                        .value(invertedSyncer)
-                        .overlay(true, MGuiTextures.BUTTON_REDSTONE_ON)
-                        .overlay(false, MGuiTextures.BUTTON_REDSTONE_OFF)
-                        .selectedBackground(GuiTextures.MC_BUTTON)
-                        .selectedHoverBackground(GuiTextures.MC_BUTTON_HOVERED)
-                        .tooltip(richTooltip -> {
-                            richTooltip.showUpTimer(2);
-                            richTooltip.addLine(IKey.str("Redstone Mode"));
-                        }))
-                .child(
-                    new ButtonWidget<>().size(16, 16)
-                        .overlay(GuiTextures.GEAR)
-                        .tooltip(richTooltip -> {
-                            richTooltip.showUpTimer(2);
-                            richTooltip.addLine(IKey.str("Configure"));
-                        })
-                        .syncHandler(new InteractionSyncHandler().setOnMousePressed(mouseData -> {
-                            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-                                this.clearAllIoModes();
-                            }
-                        }))
-                        .onMousePressed(mouseButton -> {
-                            if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && !Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-                                if (panelSyncHandler.isPanelOpen()) {
-                                    panelSyncHandler.closePanel();
-                                } else {
-                                    panelSyncHandler.openPanel();
-                                }
-                                return true;
-                            }
-                            return false;
-                        })));
-
-        panel.bindPlayerInventory();
-
-        return panel;
-    }
-
-    public ModularPanel configPanel(PanelSyncManager syncManager, IPanelHandler syncHandler) {
-        ModularPanel panel = new Dialog<>("second_window", null).setDisablePanelsBelow(false)
-            .setCloseOnOutOfBoundsClick(false)
-            .setDraggable(true)
-            .size(64, 64);
-
-        Flow column = new Column().debugName("Side Configs")
-            .padding(5)
-            .coverChildren();
-
-        SlotGroupWidget.Builder group = SlotGroupWidget.builder()
-            .matrix(" U ", "ENW", " DS");
-
-        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            char key = dir.name()
-                .charAt(0); // U, D, N, S, E, W
-            group.key(
-                key,
-                index -> new ButtonWidget<>().syncHandler(new InteractionSyncHandler().setOnMousePressed(mouseData -> {
-                    if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-                        this.setIoMode(dir, IoMode.NONE);
-                    } else {
-                        this.toggleIoModeForFace(dir);
-                    }
-                }))
-                    .overlay(IKey.dynamic(() -> getIoMode(dir).getUnlocalisedName())));
-        }
-
-        column.child(group.build());
-        panel.child(column);
-        panel.child(ButtonWidget.panelCloseButton());
-        return panel;
+        return MGuis.mteTemplatePanelBuilder(this, data, syncManager, settings)
+            .build();
     }
 
 }

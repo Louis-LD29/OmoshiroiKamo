@@ -36,7 +36,7 @@ public class ModFluids {
         fluidMana = FluidRegistry.getFluid(f.getName());
         blockMana = BlockFluidEio.Mana.create(fluidMana, Material.water);
         FluidFuelRegister.instance.addCoolant(f, 0.0314f);
-        itemBucketMana = ItemBucketEio.create(fluidMana);
+        // itemBucketMana = ItemBucketEio.create(fluidMana);
     }
 
 }

@@ -16,7 +16,7 @@ public class TestMachineRecipe extends AbstractMachineRecipe {
 
     @Override
     public String getUid() {
-        return "StillRecipe";
+        return "TestRecipe";
     }
 
     @Override
