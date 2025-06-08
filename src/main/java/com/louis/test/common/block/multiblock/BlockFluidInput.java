@@ -1,4 +1,4 @@
-package com.louis.test.common.block.boiler;
+package com.louis.test.common.block.multiblock;
 
 import java.util.List;
 
@@ -11,7 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-import com.cleanroommc.modularui.factory.GuiFactories;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.block.machine.AbstractMachineBlock;
@@ -20,32 +19,22 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockBoilerTank extends AbstractMachineBlock<TileBoilerTank> implements IAdvancedTooltipProvider {
+public class BlockFluidInput extends AbstractMachineBlock<TileFluidInput> implements IAdvancedTooltipProvider {
 
-    public static BlockBoilerTank create() {
-        BlockBoilerTank res = new BlockBoilerTank();
+    public static BlockFluidInput create() {
+        BlockFluidInput res = new BlockFluidInput();
         res.init();
         return res;
     }
 
-    protected BlockBoilerTank() {
-        super(ModObject.blockBoilerTank, TileBoilerTank.class);
+    protected BlockFluidInput() {
+        super(ModObject.blockFluidInput, TileFluidInput.class);
     }
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, BlockItemBoilerTank.class, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, BlockItemFluidInput.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
-    }
-
-    @Override
-    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer playerIn, int side, float hitX,
-        float hitY, float hitZ) {
-        if (!worldIn.isRemote) {
-            GuiFactories.tileEntity()
-                .open(playerIn, x, y, z);
-        }
-        return true;
     }
 
     @Override
@@ -61,7 +50,7 @@ public class BlockBoilerTank extends AbstractMachineBlock<TileBoilerTank> implem
 
     @Override
     public TileEntity createTileEntity(World world, int i) {
-        return new TileBoilerTank();
+        return new TileFluidInput();
     }
 
     @Override
@@ -92,19 +81,8 @@ public class BlockBoilerTank extends AbstractMachineBlock<TileBoilerTank> implem
 
     @Override
     public String getUnlocalizedNameForTooltip(ItemStack stack) {
-        System.out.println("BlockBoilerTank.getUnlocalizedNameForTooltip: ");
+        System.out.println("BlockFluidIntput.getUnlocalizedNameForTooltip: ");
         return stack.getUnlocalizedName();
     }
-
-    // @Override
-    // public void renderHUD(Minecraft mc, ScaledResolution res, World world, int x, int y, int z) {
-    // ((TileSolarPanel) world.getTileEntity(x, y, z)).renderHUD(mc, res);
-    // }
-    //
-    // @Override
-    // public boolean onUsedByWand(EntityPlayer player, ItemStack stack, World world, int x, int y, int z, int side) {
-    // ((TileSolarPanel) world.getTileEntity(x, y, z)).onWanded(player, stack);
-    // return true;
-    // }
 
 }

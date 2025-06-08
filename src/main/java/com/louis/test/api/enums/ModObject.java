@@ -4,7 +4,8 @@ public enum ModObject {
 
     blockTest,
     blockBoiler,
-    blockBoilerTank,
+    blockFluidInput,
+    blockFluidOutput,
     blockSolar;
 
     public final String unlocalisedName;

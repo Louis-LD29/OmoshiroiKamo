@@ -45,7 +45,6 @@ public class TestCreativeTab extends CreativeTabs {
 
         addItem(ModItems.itemOperationOrb);
         addBlock(ModBlocks.blockTest);
-        addBlock(ModBlocks.blockBoiler);
         addBlock(ModBlocks.blockSolar);
     }
 

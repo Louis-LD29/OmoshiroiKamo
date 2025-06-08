@@ -1,4 +1,4 @@
-package com.louis.test.common.block.boiler;
+package com.louis.test.common.block.multiblock;
 
 import java.util.List;
 
@@ -11,7 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-import com.cleanroommc.modularui.factory.GuiFactories;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.block.machine.AbstractMachineBlock;
@@ -20,34 +19,22 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockBoiler extends AbstractMachineBlock<TileBoiler> implements IAdvancedTooltipProvider
+public class BlockFluidOutput extends AbstractMachineBlock<TileFluidOutput> implements IAdvancedTooltipProvider {
 
-{
-
-    public static BlockBoiler create() {
-        BlockBoiler res = new BlockBoiler();
+    public static BlockFluidOutput create() {
+        BlockFluidOutput res = new BlockFluidOutput();
         res.init();
         return res;
     }
 
-    protected BlockBoiler() {
-        super(ModObject.blockBoiler, TileBoiler.class);
+    protected BlockFluidOutput() {
+        super(ModObject.blockFluidOutput, TileFluidOutput.class);
     }
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, BlockItemBoiler.class, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, BlockItemFluidOutput.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
-    }
-
-    @Override
-    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer playerIn, int side, float hitX,
-        float hitY, float hitZ) {
-        if (!worldIn.isRemote) {
-            GuiFactories.tileEntity()
-                .open(playerIn, x, y, z);
-        }
-        return true;
     }
 
     @Override
@@ -63,7 +50,7 @@ public class BlockBoiler extends AbstractMachineBlock<TileBoiler> implements IAd
 
     @Override
     public TileEntity createTileEntity(World world, int i) {
-        return new TileBoiler();
+        return new TileFluidOutput();
     }
 
     @Override
@@ -94,7 +81,7 @@ public class BlockBoiler extends AbstractMachineBlock<TileBoiler> implements IAd
 
     @Override
     public String getUnlocalizedNameForTooltip(ItemStack stack) {
-        System.out.println("BlockBoiler.getUnlocalizedNameForTooltip: ");
+        System.out.println("BlockFluidOutput.getUnlocalizedNameForTooltip:  ");
         return stack.getUnlocalizedName();
     }
 
