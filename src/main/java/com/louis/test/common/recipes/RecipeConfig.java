@@ -11,6 +11,9 @@ import com.louis.test.common.config.Config;
 
 import crazypants.enderio.Log;
 import crazypants.enderio.machine.recipe.*;
+import crazypants.enderio.machine.recipe.Recipe;
+import crazypants.enderio.machine.recipe.RecipeInput;
+import crazypants.enderio.machine.recipe.RecipeOutput;
 
 public class RecipeConfig {
 

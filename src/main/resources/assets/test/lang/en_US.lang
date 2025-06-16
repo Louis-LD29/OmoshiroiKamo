@@ -7,10 +7,10 @@ Test.config.mana=Mana
 Test.config.mana.tooltip=
 
 Test.gui.machine.ioMode.none=None
-Test.gui.machine.ioMode.pull=Pull
-Test.gui.machine.ioMode.push=Push
+Test.gui.machine.ioMode.input=Input
+Test.gui.machine.ioMode.output=Output
 Test.gui.machine.ioMode.disabled=Disabled
-Test.gui.machine.ioMode.pullPush=Push / Pull
+Test.gui.machine.ioMode.inputOutput=Output / Input
 
 Test.power.rf=RF
 Test.fluid.millibucket.abr=L
@@ -37,3 +37,5 @@ item.bucketMana.name=Mana Bucket
 tile.blockTest.name=Test Block
 tile.fluid.mana.name=Mana
 fluid.mana=Mana
+
+nei.electrolyzer.name = Electrolyzer

@@ -4,11 +4,29 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.louis.test.api.interfaces.power.IInternalPoweredTile;
+import com.louis.test.api.interfaces.power.*;
+
+import cofh.api.energy.IEnergyConnection;
+import cofh.api.energy.IEnergyHandler;
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
 
 public class PowerHandlerUtil {
 
     public static final String STORED_ENERGY_NBT_KEY = "storedEnergyRF";
+
+    public static IPowerInterface create(Object o) {
+        if (o instanceof IEnergyHandler) {
+            return new EnergyHandlerPI((IEnergyHandler) o);
+        } else if (o instanceof IEnergyProvider) {
+            return new EnergyProviderPI((IEnergyProvider) o);
+        } else if (o instanceof IEnergyReceiver) {
+            return new EnergyReceiverPI((IEnergyReceiver) o);
+        } else if (o instanceof IEnergyConnection) {
+            return new EnergyConnectionPI((IEnergyConnection) o);
+        }
+        return null;
+    }
 
     public static int getStoredEnergyForItem(ItemStack item) {
         NBTTagCompound tag = item.getTagCompound();

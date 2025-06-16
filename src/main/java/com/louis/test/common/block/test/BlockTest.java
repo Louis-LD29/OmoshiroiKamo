@@ -18,6 +18,7 @@ import com.cleanroommc.modularui.factory.GuiFactories;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.block.machine.AbstractMachineBlock;
+import com.louis.test.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -113,5 +114,10 @@ public class BlockTest extends AbstractMachineBlock<TileTest> implements IAdvanc
     public boolean onUsedByWand(EntityPlayer player, ItemStack stack, World world, int x, int y, int z, int side) {
         ((TileTest) world.getTileEntity(x, y, z)).onWanded(player, stack);
         return true;
+    }
+
+    @Override
+    protected String getMachineFrontIconKey(boolean active) {
+        return LibResources.PREFIX_MOD + "testFront";
     }
 }

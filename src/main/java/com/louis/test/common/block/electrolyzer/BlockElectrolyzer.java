@@ -1,4 +1,4 @@
-package com.louis.test.common.block.boiler;
+package com.louis.test.common.block.electrolyzer;
 
 import java.util.List;
 
@@ -15,28 +15,29 @@ import com.cleanroommc.modularui.factory.GuiFactories;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.block.machine.AbstractMachineBlock;
+import com.louis.test.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockBoiler extends AbstractMachineBlock<TileBoiler> implements IAdvancedTooltipProvider
-
+public class BlockElectrolyzer extends AbstractMachineBlock<TileElectrolyzer> implements IAdvancedTooltipProvider
+// , IWandHUD, IWandable
 {
 
-    public static BlockBoiler create() {
-        BlockBoiler res = new BlockBoiler();
+    public static BlockElectrolyzer create() {
+        BlockElectrolyzer res = new BlockElectrolyzer();
         res.init();
         return res;
     }
 
-    protected BlockBoiler() {
-        super(ModObject.blockBoiler, TileBoiler.class);
+    protected BlockElectrolyzer() {
+        super(ModObject.blockElectrolyzer, TileElectrolyzer.class);
     }
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, BlockItemBoiler.class, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, BlockItemElectrolyzer.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
     }
 
@@ -63,7 +64,7 @@ public class BlockBoiler extends AbstractMachineBlock<TileBoiler> implements IAd
 
     @Override
     public TileEntity createTileEntity(World world, int i) {
-        return new TileBoiler();
+        return new TileElectrolyzer();
     }
 
     @Override
@@ -94,8 +95,23 @@ public class BlockBoiler extends AbstractMachineBlock<TileBoiler> implements IAd
 
     @Override
     public String getUnlocalizedNameForTooltip(ItemStack stack) {
-        System.out.println("BlockBoiler.getUnlocalizedNameForTooltip: ");
+        System.out.println("BlockSolarPanel.getUnlocalizedNameForTooltip: ");
         return stack.getUnlocalizedName();
     }
 
+    @Override
+    protected String getMachineFrontIconKey(boolean active) {
+        return LibResources.PREFIX_MOD + "solarPanelFront";
+    }
+
+    // @Override
+    // public void renderHUD(Minecraft mc, ScaledResolution res, World world, int x, int y, int z) {
+    // ((TileSolarPanel) world.getTileEntity(x, y, z)).renderHUD(mc, res);
+    // }
+    //
+    // @Override
+    // public boolean onUsedByWand(EntityPlayer player, ItemStack stack, World world, int x, int y, int z, int side) {
+    // ((TileSolarPanel) world.getTileEntity(x, y, z)).onWanded(player, stack);
+    // return true;
+    // }
 }

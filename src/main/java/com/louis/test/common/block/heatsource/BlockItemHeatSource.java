@@ -1,4 +1,4 @@
-package com.louis.test.common.block.boiler;
+package com.louis.test.common.block.heatsource;
 
 import java.util.List;
 
@@ -16,15 +16,15 @@ import com.louis.test.common.block.ModBlocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockItemBoiler extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
+public class BlockItemHeatSource extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
-    public BlockItemBoiler() {
-        super(ModBlocks.blockBoiler, ModBlocks.blockBoiler);
+    public BlockItemHeatSource() {
+        super(ModBlocks.blockHeatSource, ModBlocks.blockHeatSource);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.INSTANCE);
     }
 
-    public BlockItemBoiler(Block block) {
+    public BlockItemHeatSource(Block block) {
         super(block, block);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.tabBlock);

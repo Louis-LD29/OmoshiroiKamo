@@ -29,6 +29,7 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.enderio.core.api.common.util.ITankAccess;
 import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.FluidUtil;
+import com.louis.test.api.enums.IoType;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.common.block.SmartTank;
 import com.louis.test.common.block.machine.AbstractPoweredTaskEntity;
@@ -109,7 +110,7 @@ public class TileTest extends AbstractPoweredTaskEntity
     @Override
     protected boolean doPush(ForgeDirection dir) {
 
-        if (isSideDisabled(dir.ordinal())) {
+        if (isSideDisabled(dir.ordinal(), IoType.FLUID)) {
             return false;
         }
 
@@ -141,7 +142,7 @@ public class TileTest extends AbstractPoweredTaskEntity
     @Override
     protected boolean doPull(ForgeDirection dir) {
 
-        if (isSideDisabled(dir.ordinal())) {
+        if (isSideDisabled(dir.ordinal(), IoType.FLUID)) {
             return false;
         }
 
@@ -189,7 +190,7 @@ public class TileTest extends AbstractPoweredTaskEntity
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        if (isSideDisabled(from.ordinal())) {
+        if (isSideDisabled(from.ordinal(), IoType.FLUID)) {
             return 0;
         }
 
@@ -205,7 +206,7 @@ public class TileTest extends AbstractPoweredTaskEntity
 
     @Override
     public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        if (isSideDisabled(from.ordinal())) {
+        if (isSideDisabled(from.ordinal(), IoType.FLUID)) {
             return null;
         }
         if (outputTank.getFluid() == null || resource == null || !resource.isFluidEqual(outputTank.getFluid())) {
@@ -220,7 +221,7 @@ public class TileTest extends AbstractPoweredTaskEntity
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-        if (isSideDisabled(from.ordinal())) {
+        if (isSideDisabled(from.ordinal(), IoType.FLUID)) {
             return null;
         }
         FluidStack res = outputTank.drain(maxDrain, doDrain);
@@ -265,7 +266,7 @@ public class TileTest extends AbstractPoweredTaskEntity
     @Override
     protected MachineRecipeInput[] getRecipeInputs() {
         MachineRecipeInput[] res = new MachineRecipeInput[slotDefinition.getNumInputSlots() + 1];
-        int fromSlot = slotDefinition.minInputSlot;
+        int fromSlot = slotDefinition.minItemInputSlot;
         for (int i = 0; i < res.length - 1; i++) {
             res[i] = new MachineRecipeInput(fromSlot, inv.getStackInSlot(fromSlot));
             fromSlot++;
@@ -278,7 +279,7 @@ public class TileTest extends AbstractPoweredTaskEntity
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        if (isSideDisabled(from.ordinal())) {
+        if (isSideDisabled(from.ordinal(), IoType.FLUID)) {
             return false;
         }
         if (fluid == null || (inputTank.getFluid() != null && inputTank.getFluid()
@@ -298,7 +299,7 @@ public class TileTest extends AbstractPoweredTaskEntity
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        if (isSideDisabled(from.ordinal())) {
+        if (isSideDisabled(from.ordinal(), IoType.FLUID)) {
             return false;
         }
         return outputTank.getFluid() != null && outputTank.getFluid()
@@ -308,7 +309,7 @@ public class TileTest extends AbstractPoweredTaskEntity
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        if (isSideDisabled(from.ordinal())) {
+        if (isSideDisabled(from.ordinal(), IoType.FLUID)) {
             return new FluidTankInfo[0];
         }
         return new FluidTankInfo[] { inputTank.getInfo(), outputTank.getInfo() };
@@ -323,6 +324,7 @@ public class TileTest extends AbstractPoweredTaskEntity
         nbtRoot.setInteger(TAG_MANA_CAP, manaCap);
 
         inputTank.writeCommon("inputTank", nbtRoot);
+
         outputTank.writeCommon("outputTank", nbtRoot);
     }
 
@@ -336,7 +338,9 @@ public class TileTest extends AbstractPoweredTaskEntity
         if (nbtRoot.hasKey(TAG_KNOWN_MANA)) knownMana = nbtRoot.getInteger(TAG_KNOWN_MANA);
 
         inputTank.readCommon("inputTank", nbtRoot);
+
         outputTank.readCommon("outputTank", nbtRoot);
+
     }
 
     @Override
@@ -367,27 +371,29 @@ public class TileTest extends AbstractPoweredTaskEntity
         panel.child(
             new Column().child(
                 new FluidSlot().syncHandler(
-                    new FluidSlotSyncHandler(inputTank).canDrainSlot(
-                        inputTank.getFluidAmount() >= 1000 && !inputTank.getFluid()
+                    new FluidSlotSyncHandler(outputTank).canDrainSlot(
+                        outputTank.getFluidAmount() >= 1000 && !outputTank.getFluid()
                             .getFluid()
                             .equals(ModFluids.fluidMana))
 
                 ))
                 .child(
-                    new FluidSlot().syncHandler(
-                        new FluidSlotSyncHandler(outputTank).canDrainSlot(
-                            outputTank.getFluidAmount() >= 1000 && !outputTank.getFluid()
-                                .getFluid()
-                                .equals(ModFluids.fluidMana))
-
-                    ))
-                .child(
                     SlotGroupWidget.builder()
-                        .matrix("I  ", "I  ")
+                        .matrix("IIF")
                         .key('I', index -> {
                             return new ItemSlot().slot(
                                 new ModularSlot(this.inv, index).slotGroup("item_inv")
                                     .filter(stack -> isItemValidForSlot(index, stack)))
+                                .debugName("Slot " + index);
+                        })
+                        .key('F', index -> {
+                            return new FluidSlot().syncHandler(
+                                new FluidSlotSyncHandler(inputTank).canDrainSlot(
+                                    inputTank.getFluidAmount() >= 1000 && !inputTank.getFluid()
+                                        .getFluid()
+                                        .equals(ModFluids.fluidMana))
+
+                        )
                                 .debugName("Slot " + index);
                         })
                         .build()));

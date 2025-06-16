@@ -1,5 +1,15 @@
 package com.louis.test.common.gui.modularui2;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.input.Keyboard;
@@ -8,15 +18,20 @@ import com.cleanroommc.modularui.api.IPanelHandler;
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.api.widget.IWidget;
 import com.cleanroommc.modularui.drawable.GuiTextures;
+import com.cleanroommc.modularui.drawable.ItemDrawable;
 import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
-import com.cleanroommc.modularui.value.sync.InteractionSyncHandler;
+import com.cleanroommc.modularui.value.sync.BooleanSyncValue;
+import com.cleanroommc.modularui.value.sync.IntSyncValue;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
+import com.cleanroommc.modularui.widget.Widget;
 import com.cleanroommc.modularui.widgets.*;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Flow;
+import com.cleanroommc.modularui.widgets.layout.Row;
 import com.louis.test.api.enums.IoMode;
+import com.louis.test.api.enums.IoType;
 import com.louis.test.common.block.machine.AbstractMachineEntity;
 
 public class MGuiBuilder {
@@ -29,7 +44,10 @@ public class MGuiBuilder {
     private int width = 176;
     private int height = 166;
     private boolean doesBindPlayerInventory = true;
-    private boolean doesAddConfig = true;
+    private boolean doesAddConfigIOItem = false;
+    private boolean doesAddConfigIOFluid = false;
+    private boolean doesAddConfigIOHeat = false;
+    private boolean doesAddConfigR = true;
 
     public MGuiBuilder(AbstractMachineEntity te, PosGuiData data, PanelSyncManager syncManager, UISettings uiSettings) {
         this.te = te;
@@ -48,21 +66,28 @@ public class MGuiBuilder {
         return this;
     }
 
-    public int getWidth() {
-        return this.width;
-    }
-
-    public int getHeight() {
-        return this.height;
-    }
-
     public MGuiBuilder doesBindPlayerInventory(boolean doesBindPlayerInventory) {
         this.doesBindPlayerInventory = doesBindPlayerInventory;
         return this;
     }
 
-    public MGuiBuilder doesAddConfig(boolean doesAddConfig) {
-        this.doesAddConfig = doesAddConfig;
+    public MGuiBuilder doesAddConfigIOItem(boolean doesAddConfigIOItem) {
+        this.doesAddConfigIOItem = doesAddConfigIOItem;
+        return this;
+    }
+
+    public MGuiBuilder doesAddConfigIOFluid(boolean doesAddConfigIOFluid) {
+        this.doesAddConfigIOFluid = doesAddConfigIOFluid;
+        return this;
+    }
+
+    public MGuiBuilder doesAddConfigIOHeat(boolean doesAddConfigIOHeat) {
+        this.doesAddConfigIOHeat = doesAddConfigIOHeat;
+        return this;
+    }
+
+    public MGuiBuilder doesAddConfigR(boolean doesAddConfigR) {
+        this.doesAddConfigR = doesAddConfigR;
         return this;
     }
 
@@ -72,7 +97,7 @@ public class MGuiBuilder {
         if (doesBindPlayerInventory) {
             panel.bindPlayerInventory();
         }
-        if (doesAddConfig) {
+        if (doesAddConfigIOItem || doesAddConfigIOFluid || doesAddConfigIOHeat || doesAddConfigR) {
             panel.child(createConfig());
         }
         syncManager.addCloseListener($ -> te.markDirty());
@@ -88,29 +113,33 @@ public class MGuiBuilder {
             .leftRel(0.96f)
             .topRel(0.05f)
             .childPadding(2)
-            .padding(1)
-            .child(
+            .padding(1);
+
+        if (doesAddConfigR) {
+            column.child(
                 new ToggleButton().size(16, 16)
                     .overlay(true, MGuiTextures.BUTTON_REDSTONE_ON)
                     .overlay(false, MGuiTextures.BUTTON_REDSTONE_OFF)
+                    .value(
+                        new BooleanSyncValue(
+                            () -> te.redstoneCheckPassed,
+                            value -> { te.redstoneCheckPassed = value; }))
                     .selectedBackground(GuiTextures.MC_BUTTON)
                     .selectedHoverBackground(GuiTextures.MC_BUTTON_HOVERED)
                     .tooltip(richTooltip -> {
                         richTooltip.showUpTimer(2);
                         richTooltip.addLine(IKey.str("Redstone Mode"));
-                    }))
-            .child(
+                    }));
+        }
+
+        if (doesAddConfigIOItem || doesAddConfigIOFluid || doesAddConfigIOHeat) {
+            column.child(
                 new ButtonWidget<>().size(16, 16)
                     .overlay(GuiTextures.GEAR)
                     .tooltip(richTooltip -> {
                         richTooltip.showUpTimer(2);
                         richTooltip.addLine(IKey.str("Configure"));
                     })
-                    .syncHandler(new InteractionSyncHandler().setOnMousePressed(mouseData -> {
-                        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-                            te.clearAllIoModes();
-                        }
-                    }))
                     .onMousePressed(mouseButton -> {
                         if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && !Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
                             if (panelSyncHandler.isPanelOpen()) {
@@ -122,6 +151,7 @@ public class MGuiBuilder {
                         }
                         return false;
                     }));
+        }
         return column;
     }
 
@@ -129,37 +159,148 @@ public class MGuiBuilder {
         ModularPanel panel = new Dialog<>("second_window", null).setDisablePanelsBelow(false)
             .setCloseOnOutOfBoundsClick(false)
             .setDraggable(true)
-            .size(64, 64);
+            .size(68, 68);
 
-        Flow column = new Column().debugName("Side Configs")
-            .padding(5)
-            .coverChildren();
+        PagedWidget.Controller tabController = new PagedWidget.Controller();
+        Flow tabRow = new Row().debugName("Tab row")
+            .coverChildren()
+            .topRel(0f, 4, 1f);
 
-        SlotGroupWidget.Builder group = SlotGroupWidget.builder()
-            .matrix(" U ", "ENW", " DS");
+        ForgeDirection blockFront = te.getFacingDir();
+        Map<Character, ForgeDirection> faceMap = new HashMap<>();
+        faceMap.put('U', ForgeDirection.UP);
+        faceMap.put('D', ForgeDirection.DOWN);
+        faceMap.put('F', blockFront);
+        faceMap.put('B', blockFront.getOpposite());
+        faceMap.put('L', blockFront.getRotation(ForgeDirection.UP));
+        faceMap.put('R', blockFront.getRotation(ForgeDirection.DOWN));
 
-        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-            char key = dir.name()
-                .charAt(0); // U, D, N, S, E, W
-            group.key(
-                key,
-                index -> new ButtonWidget<>().syncHandler(new InteractionSyncHandler().setOnMousePressed(mouseData -> {
-                    if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-                        te.setIoMode(dir, IoMode.NONE);
-                    } else {
-                        te.toggleIoModeForFace(dir);
-                    }
-                }))
+        char[][] layout = { { ' ', 'U', ' ' }, { 'L', 'F', 'R' }, { ' ', 'D', 'B' } };
+
+        List<TabEntry> tabs = Arrays.asList(
+            new TabEntry(
+                doesAddConfigIOItem,
+                Blocks.chest,
+                -1,
+                () -> createIoConfigColumn(IoType.ITEM, layout, faceMap)),
+            new TabEntry(
+                doesAddConfigIOFluid,
+                Items.bucket,
+                0,
+                () -> createIoConfigColumn(IoType.FLUID, layout, faceMap)),
+            new TabEntry(
+                doesAddConfigIOHeat,
+                Items.blaze_powder,
+                0,
+                () -> createIoConfigColumn(IoType.HEAT, layout, faceMap)));
+
+        PagedWidget<?> paged = new PagedWidget<>().debugName("root parent")
+            .controller(tabController)
+            .sizeRel(1f);
+
+        int pageIndex = 0;
+        for (TabEntry tab : tabs) {
+            if (!tab.enabled) continue;
+
+            // Add tab button
+            tabRow.child(
+                new PageButton(pageIndex, tabController).tab(GuiTextures.TAB_TOP, tab.textureOffset)
+                    .marginLeft(1)
+                    .size(20)
+                    .excludeAreaInNEI()
                     .overlay(
-                        IKey.dynamic(
-                            () -> te.getIoMode(dir)
-                                .getUnlocalisedName())));
+                        tab.getDrawable()
+                            .asIcon()
+                            .size(16)));
+
+            // Add corresponding page
+            paged.addPage(tab.pageSupplier.get());
+
+            pageIndex++;
         }
 
-        column.child(group.build());
-        panel.child(column);
+        panel.child(tabRow);
+        panel.child(paged);
         panel.child(ButtonWidget.panelCloseButton());
+
         return panel;
+    }
+
+    private static class TabEntry {
+
+        final boolean enabled;
+        final Item itemIcon;
+        final Block blockIcon;
+        final int textureOffset;
+        final Supplier<Flow> pageSupplier; // Dùng để tạo page tương ứng
+
+        TabEntry(boolean enabled, Item icon, int textureOffset, Supplier<Flow> pageSupplier) {
+            this.enabled = enabled;
+            this.itemIcon = icon;
+            this.blockIcon = null;
+            this.textureOffset = textureOffset;
+            this.pageSupplier = pageSupplier;
+        }
+
+        TabEntry(boolean enabled, Block icon, int textureOffset, Supplier<Flow> pageSupplier) {
+            this.enabled = enabled;
+            this.itemIcon = null;
+            this.blockIcon = icon;
+            this.textureOffset = textureOffset;
+            this.pageSupplier = pageSupplier;
+        }
+
+        public ItemDrawable getDrawable() {
+            if (blockIcon != null) {
+                return new ItemDrawable(blockIcon);
+            } else if (itemIcon != null) {
+                return new ItemDrawable(itemIcon);
+            } else {
+                return new ItemDrawable(Blocks.air);
+            }
+        }
+    }
+
+    private Flow createIoConfigColumn(IoType type, char[][] layout, Map<Character, ForgeDirection> faceMap) {
+        Flow column = new Column().debugName("Side Configs")
+            .padding(5);
+        for (char[] row : layout) {
+            Flow guiRow = new Row().coverChildren();
+            for (char c : row) {
+                guiRow.child(makeFaceButton(c, faceMap, type));
+            }
+            column.child(guiRow);
+        }
+        return column;
+    }
+
+    private IWidget makeFaceButton(char key, Map<Character, ForgeDirection> faceMap, IoType type) {
+        if (!faceMap.containsKey(key)) {
+            return new Widget<>().size(18);
+        }
+
+        ForgeDirection face = faceMap.get(key);
+        return new CycleButtonWidget().size(18)
+            .stateCount(IoMode.values().length)
+            .stateOverlay(MGuiTextures.CYCLE_IOMODE)
+            .tooltip(
+                richTooltip -> richTooltip.addLine(
+                    IKey.dynamic(
+                        () -> type + " - "
+                            + te.getIoMode(face, type)
+                                .getUnlocalisedName())))
+            .value(
+                new IntSyncValue(
+                    () -> te.getIoMode(face, type)
+                        .ordinal(),
+                    val -> {
+                        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
+                            te.setIoMode(face, IoMode.NONE, type);
+                        } else {
+                            IoMode mode = IoMode.values()[val];
+                            te.setIoMode(face, mode, type);
+                        }
+                    }));
     }
 
 }

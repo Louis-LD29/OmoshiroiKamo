@@ -13,7 +13,7 @@
         <itemStack modID="minecraft" itemName="red_mushroom" slot="1" multiplier="1.5" />
         <itemStack modID="minecraft" itemName="nether_wart" slot="1" multiplier="1.5" />
         <itemStack modID="minecraft" itemName="fermented_spider_eye" slot="1" multiplier="2" />
-        <fluidStack name="water" multiplier="0.25" />
+        <fluidStack name="water" multiplier="0.25" slot="0" />
       </input>
       <output>
         <fluidStack name="nutrient_distillation" />

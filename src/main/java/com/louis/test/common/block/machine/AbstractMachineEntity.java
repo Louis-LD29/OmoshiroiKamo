@@ -1,9 +1,7 @@
 package com.louis.test.common.block.machine;
 
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,8 +23,10 @@ import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.InventoryWrapper;
 import com.enderio.core.common.util.ItemUtil;
 import com.louis.test.api.enums.IoMode;
+import com.louis.test.api.enums.IoType;
 import com.louis.test.api.interfaces.IIoConfigurable;
 import com.louis.test.api.interfaces.redstone.IRedstoneConnectable;
+import com.louis.test.common.block.SmartTank;
 import com.louis.test.common.block.TileEntityEio;
 import com.louis.test.common.gui.modularui2.MGuis;
 import com.louis.test.lib.LibMisc;
@@ -45,16 +45,19 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     protected boolean lastActive;
     protected int ticksSinceActiveChanged = 0;
 
-    public final ItemStackHandler inv;
+    public ItemStackHandler inv;
+    protected SmartTank[] fluidTanks;
     protected final SlotDefinition slotDefinition;
 
     protected RedstoneControlMode redstoneControlMode;
 
-    protected boolean redstoneCheckPassed;
+    public boolean redstoneCheckPassed;
 
     public boolean redstoneStateDirty = true;
 
     protected Map<ForgeDirection, IoMode> faceModes;
+
+    protected Map<IoType, Map<ForgeDirection, IoMode>> ioConfigs;
 
     private final int[] allSlots;
 
@@ -62,19 +65,22 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
 
     public boolean isDirty = false;
 
-    protected boolean inverted = false;
-
     protected AbstractMachineEntity(SlotDefinition slotDefinition) {
         this.slotDefinition = slotDefinition;
         facing = 3;
 
         inv = new ItemStackHandler(slotDefinition.getNumSlots());
+        fluidTanks = new SmartTank[slotDefinition.getNumFluidSlots()];
+        for (int i = 0; i < fluidTanks.length; i++) {
+            fluidTanks[i] = new SmartTank(8000);
+        }
         redstoneControlMode = RedstoneControlMode.IGNORE;
 
         allSlots = new int[slotDefinition.getNumSlots()];
         for (int i = 0; i < allSlots.length; i++) {
             allSlots[i] = i;
         }
+
     }
 
     @Override
@@ -85,6 +91,17 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
             mode = mode.next();
         }
         setIoMode(faceHit, mode);
+        return mode;
+    }
+
+    @Override
+    public IoMode toggleIoModeForFace(ForgeDirection faceHit, IoType type) {
+        IoMode curMode = getIoMode(faceHit, type);
+        IoMode mode = curMode.next();
+        while (!supportsMode(faceHit, mode)) {
+            mode = mode.next();
+        }
+        setIoMode(faceHit, mode, type);
         return mode;
     }
 
@@ -109,9 +126,43 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     }
 
     @Override
+    public void setIoMode(ForgeDirection faceHit, IoMode mode, IoType type) {
+        if (mode == IoMode.NONE && ioConfigs == null) {
+            return;
+        }
+
+        if (ioConfigs == null) {
+            ioConfigs = new EnumMap<IoType, Map<ForgeDirection, IoMode>>(IoType.class);
+        }
+
+        Map<ForgeDirection, IoMode> faceMap = ioConfigs.get(type);
+        if (faceMap == null) {
+            faceMap = new EnumMap<ForgeDirection, IoMode>(ForgeDirection.class);
+            ioConfigs.put(type, faceMap);
+        }
+
+        faceMap.put(faceHit, mode);
+
+        forceClientUpdate = true;
+        notifyNeighbours = true;
+
+        updateBlock();
+    }
+
+    @Override
     public void clearAllIoModes() {
         if (faceModes != null) {
             faceModes = null;
+            forceClientUpdate = true;
+            notifyNeighbours = true;
+            updateBlock();
+        }
+    }
+
+    @Override
+    public void clearAllIoModes(IoType type) {
+        if (ioConfigs != null && ioConfigs.containsKey(type)) {
+            ioConfigs.remove(type);
             forceClientUpdate = true;
             notifyNeighbours = true;
             updateBlock();
@@ -127,6 +178,25 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
         if (res == null) {
             return IoMode.NONE;
         }
+        return res;
+    }
+
+    @Override
+    public IoMode getIoMode(ForgeDirection face, IoType type) {
+        if (ioConfigs == null) {
+            return IoMode.NONE;
+        }
+
+        Map<ForgeDirection, IoMode> faceMap = ioConfigs.get(type);
+        if (faceMap == null) {
+            return IoMode.NONE;
+        }
+
+        IoMode res = faceMap.get(face);
+        if (res == null) {
+            return IoMode.NONE;
+        }
+
         return res;
     }
 
@@ -260,21 +330,32 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     }
 
     protected boolean doSideIo() {
-        if (faceModes == null) {
+        if (ioConfigs == null || ioConfigs.isEmpty()) {
             return false;
         }
 
+        if (faceModes == null) {
+            faceModes = new EnumMap<>(ForgeDirection.class);
+        }
+
         boolean res = false;
-        Set<Entry<ForgeDirection, IoMode>> ents = faceModes.entrySet();
-        for (Entry<ForgeDirection, IoMode> ent : ents) {
-            IoMode mode = ent.getValue();
-            if (mode.pulls()) {
-                res = res | doPull(ent.getKey());
-            }
-            if (mode.pushes()) {
-                res = res | doPush(ent.getKey());
+
+        for (Map<ForgeDirection, IoMode> faceMap : ioConfigs.values()) {
+            if (faceMap == null || faceMap.isEmpty()) continue;
+
+            for (Map.Entry<ForgeDirection, IoMode> entry : faceMap.entrySet()) {
+                ForgeDirection side = entry.getKey();
+                IoMode mode = entry.getValue();
+
+                if (mode.inputs()) {
+                    res |= doPull(side);
+                }
+                if (mode.outputs()) {
+                    res |= doPush(side);
+                }
             }
         }
+
         return res;
     }
 
@@ -290,7 +371,7 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
         BlockCoord loc = getLocation().getLocation(dir);
         TileEntity te = worldObj.getTileEntity(loc.x, loc.y, loc.z);
 
-        return doPush(dir, te, slotDefinition.minOutputSlot, slotDefinition.maxOutputSlot);
+        return doPush(dir, te, slotDefinition.minItemInputSlot, slotDefinition.maxItemInputSlot);
     }
 
     protected boolean doPush(ForgeDirection dir, TileEntity te, int minSlot, int maxSlot) {
@@ -300,8 +381,6 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
 
         for (int i = minSlot; i <= maxSlot; i++) {
             ItemStack item = inv.getStackInSlot(i);
-            System.out.println(item);
-            System.out.println(i);
             if (item != null) {
                 int num = ItemUtil.doInsertItem(te, item, dir.getOpposite());
                 if (num > 0) {
@@ -326,7 +405,7 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
         }
 
         boolean hasSpace = false;
-        for (int slot = slotDefinition.minInputSlot; slot <= slotDefinition.maxInputSlot && !hasSpace; slot++) {
+        for (int slot = slotDefinition.minItemInputSlot; slot <= slotDefinition.maxItemInputSlot && !hasSpace; slot++) {
             ItemStack stack = inv.getStackInSlot(slot);
             hasSpace = (stack == null
                 || stack.stackSize < Math.min(stack.getMaxStackSize(), getInventoryStackLimit(slot)));
@@ -356,7 +435,8 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
             return false;
         }
 
-        for (int inputSlot = slotDefinition.minInputSlot; inputSlot <= slotDefinition.maxInputSlot; inputSlot++) {
+        for (int inputSlot = slotDefinition.minItemInputSlot; inputSlot
+            <= slotDefinition.maxItemInputSlot; inputSlot++) {
             if (doPull(inputSlot, target, targetSlots, dir)) {
                 return true;
             }
@@ -417,17 +497,41 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
 
         this.inv.deserializeNBT(nbtRoot.getCompoundTag("item_inv"));
 
+        NBTTagCompound tanksTag = nbtRoot.getCompoundTag("FluidTanks");
+        for (int i = 0; i < fluidTanks.length; i++) {
+            String key = "Tank" + i;
+            if (tanksTag.hasKey(key)) {
+                fluidTanks[i].readFromNBT(tanksTag.getCompoundTag(key));
+            }
+        }
+
         int rsContr = nbtRoot.getInteger("redstoneControlMode");
         if (rsContr < 0 || rsContr >= RedstoneControlMode.values().length) {
             rsContr = 0;
         }
         redstoneControlMode = RedstoneControlMode.values()[rsContr];
 
-        inverted = nbtRoot.getBoolean("mInverted");
         if (nbtRoot.hasKey("hasFaces")) {
             for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
                 if (nbtRoot.hasKey("face" + dir.ordinal())) {
                     setIoMode(dir, IoMode.values()[nbtRoot.getShort("face" + dir.ordinal())]);
+                }
+            }
+        }
+
+        if (nbtRoot.hasKey("ioConfigs")) {
+            NBTTagCompound ioConfigsTag = nbtRoot.getCompoundTag("ioConfigs");
+            for (IoType type : IoType.values()) {
+                if (ioConfigsTag.hasKey(type.name())) {
+                    NBTTagCompound faceTag = ioConfigsTag.getCompoundTag(type.name());
+                    for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+                        String key = "face" + dir.ordinal();
+                        if (faceTag.hasKey(key)) {
+                            short modeId = faceTag.getShort(key);
+                            IoMode mode = IoMode.values()[modeId];
+                            setIoMode(dir, mode, type);
+                        }
+                    }
                 }
             }
         }
@@ -454,9 +558,16 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     public void writeCommon(NBTTagCompound nbtRoot) {
         nbtRoot.setTag("item_inv", this.inv.serializeNBT());
 
+        NBTTagCompound tanksTag = new NBTTagCompound();
+        for (int i = 0; i < fluidTanks.length; i++) {
+            NBTTagCompound tankTag = new NBTTagCompound();
+            fluidTanks[i].writeToNBT(tankTag);
+            tanksTag.setTag("Tank" + i, tankTag);
+        }
+        nbtRoot.setTag("FluidTanks", tanksTag);
+
         nbtRoot.setInteger("redstoneControlMode", redstoneControlMode.ordinal());
 
-        nbtRoot.setBoolean("mInverted", inverted);
         if (faceModes != null) {
             nbtRoot.setByte("hasFaces", (byte) 1);
             for (Entry<ForgeDirection, IoMode> e : faceModes.entrySet()) {
@@ -466,6 +577,31 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
                     (short) e.getValue()
                         .ordinal());
             }
+        }
+
+        NBTTagCompound ioConfigsTag = new NBTTagCompound();
+        if (ioConfigs != null && !ioConfigs.isEmpty()) {
+
+            for (Map.Entry<IoType, Map<ForgeDirection, IoMode>> entry : ioConfigs.entrySet()) {
+                IoType type = entry.getKey();
+                Map<ForgeDirection, IoMode> faceMap = entry.getValue();
+
+                if (faceMap != null && !faceMap.isEmpty()) {
+                    NBTTagCompound faceTag = new NBTTagCompound();
+
+                    for (Map.Entry<ForgeDirection, IoMode> faceEntry : faceMap.entrySet()) {
+                        faceTag.setShort(
+                            "face" + faceEntry.getKey()
+                                .ordinal(),
+                            (short) faceEntry.getValue()
+                                .ordinal());
+                    }
+
+                    ioConfigsTag.setTag(type.name(), faceTag);
+                }
+            }
+
+            nbtRoot.setTag("ioConfigs", ioConfigsTag);
         }
     }
 
@@ -572,8 +708,8 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     }
 
     @Override
-    public int[] getAccessibleSlotsFromSide(int var1) {
-        if (isSideDisabled(var1)) {
+    public int[] getAccessibleSlotsFromSide(int side) {
+        if (isSideDisabled(side, IoType.ITEM)) {
             return new int[0];
         }
         return allSlots;
@@ -581,7 +717,7 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
 
     @Override
     public boolean canInsertItem(int slot, ItemStack itemstack, int side) {
-        if (isSideDisabled(side) || !slotDefinition.isInputSlot(slot)) {
+        if (isSideDisabled(side, IoType.ITEM) || !slotDefinition.isInputSlot(slot)) {
             return false;
         }
         ItemStack existing = inv.getStackInSlot(slot);
@@ -596,7 +732,7 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
 
     @Override
     public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
-        if (isSideDisabled(side)) {
+        if (isSideDisabled(side, IoType.ITEM)) {
             return false;
         }
         if (!slotDefinition.isOutputSlot(slot)) {
@@ -613,9 +749,18 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
         return itemstack.getItem() == existing.getItem();
     }
 
-    public boolean isSideDisabled(int var1) {
-        ForgeDirection dir = ForgeDirection.getOrientation(var1);
+    public boolean isSideDisabled(int side) {
+        ForgeDirection dir = ForgeDirection.getOrientation(side);
         IoMode mode = getIoMode(dir);
+        if (mode == IoMode.DISABLED) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isSideDisabled(int side, IoType type) {
+        ForgeDirection dir = ForgeDirection.getOrientation(side);
+        IoMode mode = getIoMode(dir, type);
         if (mode == IoMode.DISABLED) {
             return true;
         }

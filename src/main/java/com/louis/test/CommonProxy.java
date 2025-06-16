@@ -2,14 +2,13 @@ package com.louis.test;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 
 import com.louis.test.common.block.ModBlocks;
 import com.louis.test.common.block.test.TestRecipeManager;
 import com.louis.test.common.config.Config;
 import com.louis.test.common.fluid.ModFluids;
 import com.louis.test.common.item.ModItems;
-import com.louis.test.common.recipes.ManaAnvilRecipe;
+import com.louis.test.common.recipes.ModRecipes;
 import com.louis.test.core.handlers.ConvertManaRegenHandler;
 import com.louis.test.core.handlers.FlightHandler;
 import com.louis.test.core.handlers.ManaRegenHandler;
@@ -26,7 +25,7 @@ public abstract class CommonProxy {
         ModItems.init();
         ModBlocks.init();
         ModFluids.init();
-        MinecraftForge.EVENT_BUS.register(ManaAnvilRecipe.instance);
+        ModRecipes.init();
     }
 
     public void init(FMLInitializationEvent event) {

@@ -28,6 +28,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import crazypants.enderio.Log;
 import crazypants.enderio.machine.crusher.CrusherRecipeManager;
 import crazypants.enderio.machine.recipe.*;
+import crazypants.enderio.machine.recipe.RecipeInput;
+import crazypants.enderio.machine.recipe.RecipeOutput;
 import crazypants.enderio.material.OreDictionaryPreferences;
 
 public class RecipeConfigParser extends DefaultHandler {

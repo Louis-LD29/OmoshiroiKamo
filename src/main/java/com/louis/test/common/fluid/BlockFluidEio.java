@@ -2,6 +2,7 @@ package com.louis.test.common.fluid;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -21,7 +22,35 @@ public class BlockFluidEio extends BlockFluidClassic {
         protected Mana(Fluid fluid, Material material) {
             super(fluid, material);
         }
+    }
 
+    public static class Steam extends BlockFluidEio {
+
+        protected Steam(Fluid fluid, Material material) {
+            super(fluid, material);
+        }
+
+        @Override
+        public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+            if (!world.isRemote) {
+                entity.setFire(3);
+                super.onEntityCollidedWithBlock(world, x, y, z, entity);
+            }
+        }
+    }
+
+    public static class Hydrogen extends BlockFluidEio {
+
+        protected Hydrogen(Fluid fluid, Material material) {
+            super(fluid, material);
+        }
+    }
+
+    public static class Oxygen extends BlockFluidEio {
+
+        protected Oxygen(Fluid fluid, Material material) {
+            super(fluid, material);
+        }
     }
 
     public static BlockFluidEio create(Fluid fluid, Material material) {
@@ -55,8 +84,8 @@ public class BlockFluidEio extends BlockFluidClassic {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
-        icons = new IIcon[] { iconRegister.registerIcon("enderio:" + fluidName + "_still"),
-            iconRegister.registerIcon("enderio:" + fluidName + "_flow") };
+        icons = new IIcon[] { iconRegister.registerIcon("test:" + fluidName + "_still"),
+            iconRegister.registerIcon("test:" + fluidName + "_flow") };
 
         fluid.setIcons(icons[0], icons[1]);
     }
@@ -80,5 +109,4 @@ public class BlockFluidEio extends BlockFluidClassic {
         }
         return super.displaceIfPossible(world, x, y, z);
     }
-
 }

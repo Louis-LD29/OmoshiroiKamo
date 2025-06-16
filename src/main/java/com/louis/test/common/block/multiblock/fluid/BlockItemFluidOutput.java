@@ -1,4 +1,4 @@
-package com.louis.test.common.block.multiblock;
+package com.louis.test.common.block.multiblock.fluid;
 
 import java.util.List;
 
@@ -16,15 +16,15 @@ import com.louis.test.common.block.ModBlocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockItemFluidInput extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
+public class BlockItemFluidOutput extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
-    public BlockItemFluidInput() {
-        super(ModBlocks.blockFluidInput, ModBlocks.blockFluidInput);
+    public BlockItemFluidOutput() {
+        super(ModBlocks.blockFluidOutput, ModBlocks.blockFluidOutput);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.INSTANCE);
     }
 
-    public BlockItemFluidInput(Block block) {
+    public BlockItemFluidOutput(Block block) {
         super(block, block);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.tabBlock);

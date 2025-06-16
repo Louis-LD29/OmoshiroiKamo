@@ -14,7 +14,7 @@ import cofh.api.energy.EnergyStorage;
 
 public abstract class AbstractPoweredMachineEntity extends AbstractMachineEntity implements IInternalPoweredTile {
 
-    public EnergyStorage energyStorage = new EnergyStorage(64000, 400, 200);
+    private EnergyStorage energyStorage = new EnergyStorage(64000, 400, 200);
     private int storedEnergyRF;
     protected float lastSyncPowerStored = -1;
 

@@ -64,5 +64,4 @@ public class IconHelper {
             item.getUnlocalizedName()
                 .replaceAll("item\\.", "") + s);
     }
-
 }

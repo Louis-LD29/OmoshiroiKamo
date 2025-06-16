@@ -1,7 +1,5 @@
 package com.louis.test.common.block.test;
 
-import static crazypants.util.EE3Util.registerRecipe;
-
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
@@ -71,13 +69,6 @@ public class TestRecipe implements IRecipe {
                                             .round(im * r2.getMulitplier() * FluidContainerRegistry.BUCKET_VOLUME);
                                         inputFluidStacks.put(r0, r1, inputFluidStack.copy());
                                         outputFluidStacks.put(r0, r1, outputFluidStack.copy());
-                                        registerRecipe(
-                                            outputFluidStack.copy(),
-                                            r0.getInput()
-                                                .copy(),
-                                            r1.getInput()
-                                                .copy(),
-                                            inputFluidStack.copy());
                                     }
                                 }
                             }
@@ -97,11 +88,6 @@ public class TestRecipe implements IRecipe {
                                     .round(im * r2.getMulitplier() * FluidContainerRegistry.BUCKET_VOLUME);
                                 inputFluidStacks.put(r0, r0, inputFluidStack.copy());
                                 outputFluidStacks.put(r0, r0, outputFluidStack.copy());
-                                registerRecipe(
-                                    outputFluidStack.copy(),
-                                    r0.getInput()
-                                        .copy(),
-                                    inputFluidStack.copy());
                             }
                         }
                     }

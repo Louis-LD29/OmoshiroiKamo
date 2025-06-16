@@ -9,7 +9,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.enderio.core.api.common.util.IProgressTile;
 import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.interfaces.power.IInternalPowerReceiver;
 
@@ -180,7 +179,7 @@ public abstract class AbstractPoweredTaskEntity extends AbstractPowerConsumerEnt
     protected void mergeResults(ResultStack[] results) {
         List<ItemStack> outputStacks = new ArrayList<ItemStack>(slotDefinition.getNumOutputSlots());
         if (slotDefinition.getNumOutputSlots() > 0) {
-            for (int i = slotDefinition.minOutputSlot; i <= slotDefinition.maxOutputSlot; i++) {
+            for (int i = slotDefinition.minItemOutputSlot; i <= slotDefinition.maxItemOutputSlot; i++) {
                 ItemStack it = inv.getStackInSlot(i);
                 if (it != null) {
                     it = it.copy();
@@ -202,7 +201,7 @@ public abstract class AbstractPoweredTaskEntity extends AbstractPowerConsumerEnt
 
         if (slotDefinition.getNumOutputSlots() > 0) {
             int listIndex = 0;
-            for (int i = slotDefinition.minOutputSlot; i <= slotDefinition.maxOutputSlot; i++) {
+            for (int i = slotDefinition.minItemOutputSlot; i <= slotDefinition.maxItemOutputSlot; i++) {
                 ItemStack st = outputStacks.get(listIndex);
                 if (st != null) {
                     st = st.copy();
@@ -252,7 +251,7 @@ public abstract class AbstractPoweredTaskEntity extends AbstractPowerConsumerEnt
 
     protected MachineRecipeInput[] getRecipeInputs() {
         MachineRecipeInput[] res = new MachineRecipeInput[slotDefinition.getNumInputSlots()];
-        int fromSlot = slotDefinition.minInputSlot;
+        int fromSlot = slotDefinition.minItemInputSlot;
         for (int i = 0; i < res.length; i++) {
             res[i] = new MachineRecipeInput(fromSlot, inv.getStackInSlot(fromSlot));
             fromSlot++;
@@ -282,7 +281,7 @@ public abstract class AbstractPoweredTaskEntity extends AbstractPowerConsumerEnt
         List<ItemStack> outputStacks = new ArrayList<ItemStack>(slotDefinition.getNumOutputSlots());
         if (slotDefinition.getNumOutputSlots() > 0) {
             boolean allFull = true;
-            for (int i = slotDefinition.minOutputSlot; i <= slotDefinition.maxOutputSlot; i++) {
+            for (int i = slotDefinition.minItemOutputSlot; i <= slotDefinition.maxItemOutputSlot; i++) {
                 ItemStack st = inv.getStackInSlot(i);
                 if (st != null) {
                     st = st.copy();
@@ -315,7 +314,7 @@ public abstract class AbstractPoweredTaskEntity extends AbstractPowerConsumerEnt
     }
 
     protected boolean hasInputStacks() {
-        int fromSlot = slotDefinition.minInputSlot;
+        int fromSlot = slotDefinition.minItemInputSlot;
         for (int i = 0; i < slotDefinition.getNumInputSlots(); i++) {
             if (inv.getStackInSlot(fromSlot) != null) {
                 return true;

@@ -7,9 +7,9 @@ import com.louis.test.lib.LibMisc;
 public enum IoMode {
 
     NONE(LibMisc.lang.localize("gui.machine.ioMode.none")),
-    PULL(LibMisc.lang.localize("gui.machine.ioMode.pull")),
-    PUSH(LibMisc.lang.localize("gui.machine.ioMode.push")),
-    PUSH_PULL(LibMisc.lang.localize("gui.machine.ioMode.pullPush")),
+    INPUT(LibMisc.lang.localize("gui.machine.ioMode.input")),
+    OUTPUT(LibMisc.lang.localize("gui.machine.ioMode.output")),
+    INPUT_OUTPUT(LibMisc.lang.localize("gui.machine.ioMode.inputOutput")),
     DISABLED(LibMisc.lang.localize("gui.machine.ioMode.disabled"));
 
     private final String unlocalisedName;
@@ -39,20 +39,20 @@ public enum IoMode {
         return ConnectionMode.values()[ord];
     }
 
-    public boolean pulls() {
-        return this == PULL || this == PUSH_PULL;
+    public boolean inputs() {
+        return this == INPUT || this == INPUT_OUTPUT;
     }
 
-    public boolean pushes() {
-        return this == PUSH || this == PUSH_PULL;
+    public boolean outputs() {
+        return this == OUTPUT || this == INPUT_OUTPUT;
     }
 
     public boolean canOutput() {
-        return pushes() || this == NONE;
+        return outputs() || this == NONE;
     }
 
     public boolean canRecieveInput() {
-        return pulls() || this == NONE;
+        return inputs() || this == NONE;
     }
 
     public String getLocalisedName() {
@@ -66,11 +66,11 @@ public enum IoMode {
                 return EnumChatFormatting.RED + loc;
             case NONE:
                 return EnumChatFormatting.GRAY + loc;
-            case PULL:
+            case INPUT:
                 return EnumChatFormatting.AQUA + loc;
-            case PUSH:
+            case OUTPUT:
                 return EnumChatFormatting.GOLD + loc;
-            case PUSH_PULL:
+            case INPUT_OUTPUT:
                 return String.format(
                     LibMisc.lang.localize(this.getUnlocalisedName() + ".colored"),
                     EnumChatFormatting.GOLD,

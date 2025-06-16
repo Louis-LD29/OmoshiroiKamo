@@ -1,7 +1,5 @@
 package com.louis.test.common.block.solar;
 
-import java.awt.*;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -10,6 +8,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -25,14 +24,16 @@ import com.cleanroommc.modularui.widget.ParentWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.enderio.core.common.util.BlockCoord;
+import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.ModObject;
+import com.louis.test.api.interfaces.fluid.IFluidCoolant;
+import com.louis.test.api.interfaces.power.PowerDistributor;
 import com.louis.test.common.block.machine.AbstractGeneratorEntity;
 import com.louis.test.common.block.machine.SlotDefinition;
+import com.louis.test.common.fluid.FluidFuelRegister;
+import com.louis.test.common.gui.modularui2.MGuis;
 
 import cofh.api.energy.EnergyStorage;
-import crazypants.enderio.fluid.FluidFuelRegister;
-import crazypants.enderio.fluid.IFluidCoolant;
-import crazypants.enderio.power.PowerDistributor;
 
 public class TileSolarPanel extends AbstractGeneratorEntity {
 
@@ -127,12 +128,17 @@ public class TileSolarPanel extends AbstractGeneratorEntity {
 
     }
 
+    @Override
+    public boolean canConnectEnergy(ForgeDirection from) {
+        IoMode mode = getIoMode(from);
+        return mode != IoMode.INPUT && mode != IoMode.DISABLED;
+    }
+
     private int getEnergyPerTick() {
         return 40;
     }
 
     private boolean transmitEnergy() {
-
         if (powerDis == null) {
             powerDis = new PowerDistributor(new BlockCoord(this));
         }
@@ -221,9 +227,7 @@ public class TileSolarPanel extends AbstractGeneratorEntity {
         if (fluid != null) {
             IFluidCoolant coolant = FluidFuelRegister.instance.getCoolant(fluid);
             if (coolant != null) {
-                // Lấy giá trị cooling per MB dựa trên nhiệt độ hiện tại (ví dụ: 0f hoặc giá trị heat mình truyền)
                 float coolingValue = coolant.getDegreesCoolingPerMB(0f);
-                // Quy đổi thành giá trị nhiệt độ (âm) để trừ vào nhiệt độ
                 int coolingEffect = Math.round(coolingValue * 1000f);
                 return -coolingEffect;
             }
@@ -274,50 +278,49 @@ public class TileSolarPanel extends AbstractGeneratorEntity {
             "temperature",
             new DoubleSyncValue(() -> (double) this.temperatureCelsius, val -> this.temperatureCelsius = (float) val));
         syncManager.syncValue("dustlevel", new IntSyncValue(() -> this.dustLevel, val -> this.dustLevel = val));
-
-        ModularPanel panel = super.buildUI(data, syncManager, settings);
-        panel.child(
-            new ParentWidget<>().debugName("root parent")
-                .sizeRel(1f)
-                .child(
-                    new ParentWidget<>().debugName("page 1 parent")
-                        .sizeRel(1f, 1f)
-                        .padding(7)
-                        .child(
-                            new Row().height(71)
-                                .width(140)
-                                .child(
-                                    new Column().childPadding(2)
-                                        .padding(3)
-                                        .background(GuiTextures.DISPLAY)
-                                        .child(
-                                            IKey.dynamic(
-                                                () -> "Generate: " + String.valueOf(getEnergyRegen()) + " RF/t")
+        return MGuis.mteTemplatePanelBuilder(this, data, syncManager, settings)
+            .build()
+            .child(
+                new ParentWidget<>().debugName("root parent")
+                    .sizeRel(1f)
+                    .child(
+                        new ParentWidget<>().debugName("page 1 parent")
+                            .sizeRel(1f, 1f)
+                            .padding(7)
+                            .child(
+                                new Row().height(71)
+                                    .width(140)
+                                    .child(
+                                        new Column().childPadding(2)
+                                            .padding(3)
+                                            .background(GuiTextures.DISPLAY)
+                                            .child(
+                                                IKey.dynamic(
+                                                    () -> "Generate: " + String.valueOf(getEnergyRegen()) + " RF/t")
+                                                    .color(0xFFFFFFFF)
+                                                    .asWidget()
+                                                    .marginTop(2))
+                                            .child(IKey.dynamic(() -> {
+                                                String effPercent = String
+                                                    .format("%.0f%%", calculateTemperatureEfficiency() * 100f);
+                                                return "Temperature: " + temperatureCelsius + " ~ " + effPercent;
+                                            })
                                                 .color(0xFFFFFFFF)
-                                                .asWidget()
-                                                .marginTop(2))
-                                        .child(IKey.dynamic(() -> {
-                                            String effPercent = String
-                                                .format("%.0f%%", calculateTemperatureEfficiency() * 100f);
-                                            return "Temperature: " + temperatureCelsius + " ~ " + effPercent;
-                                        })
-                                            .color(0xFFFFFFFF)
-                                            .asWidget())
-                                        .child(IKey.dynamic(() -> {
-                                            float dustEff = Math.max(0.5f, 1.0f - (dustLevel * 0.01f));
-                                            String effPercent = String.format("%.0f%%", dustEff * 100f);
-                                            return "Dust Level: " + dustLevel + " ~ " + effPercent;
-                                        })
-                                            .color(0xFFFFFFFF)
-                                            .asWidget())
-                                        .child(
-                                            IKey.dynamic(
-                                                () -> {
-                                                    return "Raining: " + worldObj.isRaining()
-                                                        + (worldObj.isRaining() ? " -40%" : "");
-                                                })
+                                                .asWidget())
+                                            .child(IKey.dynamic(() -> {
+                                                float dustEff = Math.max(0.5f, 1.0f - (dustLevel * 0.01f));
+                                                String effPercent = String.format("%.0f%%", dustEff * 100f);
+                                                return "Dust Level: " + dustLevel + " ~ " + effPercent;
+                                            })
                                                 .color(0xFFFFFFFF)
-                                                .asWidget())))));
-        return panel;
+                                                .asWidget())
+                                            .child(
+                                                IKey.dynamic(
+                                                    () -> {
+                                                        return "Raining: " + worldObj.isRaining()
+                                                            + (worldObj.isRaining() ? " -40%" : "");
+                                                    })
+                                                    .color(0xFFFFFFFF)
+                                                    .asWidget())))));
     }
 }

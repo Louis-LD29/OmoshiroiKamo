@@ -5,36 +5,69 @@ public class SlotDefinition {
     public final int minUpgradeSlot;
     public final int maxUpgradeSlot;
 
-    public final int minInputSlot;
-    public final int maxInputSlot;
+    public final int minItemInputSlot;
+    public final int maxItemInputSlot;
 
-    public final int minOutputSlot;
-    public final int maxOutputSlot;
+    public final int minFluidInputSlot;
+    public final int maxFluidInputSlot;
+
+    public final int minFluidOutputSlot;
+    public final int maxFluidOutputSlot;
+
+    public final int minItemOutputSlot;
+    public final int maxItemOutputSlot;
 
     public SlotDefinition(int numInputs, int numOutputs, int numUpgradeSlots) {
-        this.minInputSlot = 0;
-        this.maxInputSlot = numInputs - 1;
-        this.minOutputSlot = numOutputs > 0 ? numInputs : -10;
-        this.maxOutputSlot = minOutputSlot + (numOutputs - 1);
+        this.minItemInputSlot = 0;
+        this.minFluidInputSlot = 0;
+        this.maxItemInputSlot = numInputs - 1;
+        this.maxFluidInputSlot = numInputs - 1;
+        this.minItemOutputSlot = numOutputs > 0 ? numInputs : -10;
+        this.maxItemOutputSlot = minItemOutputSlot + (numOutputs - 1);
+        this.minFluidOutputSlot = numOutputs > 0 ? numInputs : -10;
+        this.maxFluidOutputSlot = minFluidOutputSlot + (numOutputs - 1);
         this.minUpgradeSlot = numUpgradeSlots > 0 ? numInputs + numOutputs : -1;
         this.maxUpgradeSlot = minUpgradeSlot + (numUpgradeSlots - 1);
     }
 
     public SlotDefinition(int numInputs, int numOutputs) {
-        this.minInputSlot = 0;
-        this.maxInputSlot = numInputs - 1;
-        this.minOutputSlot = numOutputs > 0 ? numInputs : -10;
-        this.maxOutputSlot = minOutputSlot + (numOutputs - 1);
-        this.minUpgradeSlot = Math.max(maxInputSlot, maxOutputSlot) + 1;
+        this.minItemInputSlot = 0;
+        this.minFluidInputSlot = 0;
+        this.maxItemInputSlot = numInputs - 1;
+        this.maxFluidInputSlot = numInputs - 1;
+        this.minItemOutputSlot = numOutputs > 0 ? numInputs : -10;
+        this.maxItemOutputSlot = minItemOutputSlot + (numOutputs - 1);
+        this.minFluidOutputSlot = numOutputs > 0 ? numInputs : -10;
+        this.maxFluidOutputSlot = minFluidOutputSlot + (numOutputs - 1);
+        this.minUpgradeSlot = Math.max(maxItemInputSlot, maxItemOutputSlot) + 1;
         this.maxUpgradeSlot = minUpgradeSlot;
     }
 
-    public SlotDefinition(int minInputSlot, int maxInputSlot, int minOutputSlot, int maxOutputSlot, int minUpgradeSlot,
-        int maxUpgradeSlot) {
-        this.minInputSlot = minInputSlot;
-        this.maxInputSlot = maxInputSlot;
-        this.minOutputSlot = minOutputSlot;
-        this.maxOutputSlot = maxOutputSlot;
+    public SlotDefinition(int minItemInputSlot, int maxItemInputSlot, int minItemOutputSlot, int maxItemOutputSlot,
+        int minUpgradeSlot, int maxUpgradeSlot) {
+        this.minItemInputSlot = minItemInputSlot;
+        this.minFluidInputSlot = minItemInputSlot;
+        this.maxItemInputSlot = maxItemInputSlot;
+        this.maxFluidInputSlot = maxItemInputSlot;
+        this.minItemOutputSlot = minItemOutputSlot;
+        this.maxItemOutputSlot = maxItemOutputSlot;
+        this.minFluidOutputSlot = minItemOutputSlot;
+        this.maxFluidOutputSlot = maxItemOutputSlot;
+        this.minUpgradeSlot = minUpgradeSlot;
+        this.maxUpgradeSlot = maxUpgradeSlot;
+    }
+
+    public SlotDefinition(int minItemInputSlot, int maxItemInputSlot, int minItemOutputSlot, int maxItemOutputSlot,
+        int minFluidInputSlot, int maxFluidInputSlot, int minFluidOutputSlot, int maxFluidOutputSlot,
+        int minUpgradeSlot, int maxUpgradeSlot) {
+        this.minItemInputSlot = minItemInputSlot;
+        this.maxItemInputSlot = maxItemInputSlot;
+        this.minItemOutputSlot = minItemOutputSlot;
+        this.maxItemOutputSlot = maxItemOutputSlot;
+        this.minFluidInputSlot = minFluidInputSlot;
+        this.maxFluidInputSlot = maxFluidInputSlot;
+        this.minFluidOutputSlot = minFluidOutputSlot;
+        this.maxFluidOutputSlot = maxFluidOutputSlot;
         this.minUpgradeSlot = minUpgradeSlot;
         this.maxUpgradeSlot = maxUpgradeSlot;
     }
@@ -44,11 +77,19 @@ public class SlotDefinition {
     }
 
     public boolean isInputSlot(int slot) {
-        return slot >= minInputSlot && slot <= maxInputSlot;
+        return slot >= minItemInputSlot && slot <= maxItemInputSlot;
+    }
+
+    public boolean isFluidInputSlot(int slot) {
+        return slot >= minFluidInputSlot && slot <= minFluidInputSlot;
     }
 
     public boolean isOutputSlot(int slot) {
-        return slot >= minOutputSlot && slot <= maxOutputSlot;
+        return slot >= minItemOutputSlot && slot <= maxItemOutputSlot;
+    }
+
+    public boolean isFluidOutputSlot(int slot) {
+        return slot >= minFluidOutputSlot && slot <= maxFluidOutputSlot;
     }
 
     public int getNumUpgradeSlots() {
@@ -59,21 +100,35 @@ public class SlotDefinition {
     }
 
     public int getNumInputSlots() {
-        if (minInputSlot < 0) {
+        if (minItemInputSlot < 0) {
             return 0;
         }
-        return Math.max(0, maxInputSlot - minInputSlot + 1);
+        return Math.max(0, maxItemInputSlot - minItemInputSlot + 1);
     }
 
     public int getNumOutputSlots() {
-        if (minOutputSlot < 0) {
+        if (minItemOutputSlot < 0) {
             return 0;
         }
-        return Math.max(0, maxOutputSlot - minOutputSlot + 1);
+        return Math.max(0, maxItemOutputSlot - minItemOutputSlot + 1);
     }
 
     public int getNumSlots() {
         return Math.max(Math.max(getMaxInputSlot(), getMaxOutputSlot()), getMaxUpgradeSlot()) + 1;
+    }
+
+    public int getNumFluidSlots() {
+        return Math.max(getMaxFluidInputSlot(), getMaxFluidOutputSlot()) + 1;
+    }
+
+    public int getNumInputFluidSlots() {
+        if (minFluidInputSlot < 0) return 0;
+        return Math.max(0, maxFluidInputSlot - minFluidInputSlot + 1);
+    }
+
+    public int getNumOutputFluidSlots() {
+        if (minFluidOutputSlot < 0) return 0;
+        return Math.max(0, maxFluidOutputSlot - minFluidOutputSlot + 1);
     }
 
     public int getMinUpgradeSlot() {
@@ -85,19 +140,39 @@ public class SlotDefinition {
     }
 
     public int getMinInputSlot() {
-        return minInputSlot;
+        return minItemInputSlot;
     }
 
     public int getMaxInputSlot() {
-        return maxInputSlot;
+        return maxItemInputSlot;
+    }
+
+    public int getMinItemInputSlot() {
+        return minItemInputSlot;
+    }
+
+    public int getMinFluidInputSlot() {
+        return minFluidInputSlot;
+    }
+
+    public int getMaxFluidInputSlot() {
+        return maxFluidInputSlot;
     }
 
     public int getMinOutputSlot() {
-        return minOutputSlot;
+        return minItemOutputSlot;
     }
 
     public int getMaxOutputSlot() {
-        return maxOutputSlot;
+        return maxItemOutputSlot;
+    }
+
+    public int getMinFluidOutputSlot() {
+        return minFluidOutputSlot;
+    }
+
+    public int getMaxFluidOutputSlot() {
+        return maxFluidOutputSlot;
     }
 
     @Override
@@ -105,14 +180,22 @@ public class SlotDefinition {
         return "SlotDefinition [minUpgradeSlot=" + minUpgradeSlot
             + ", maxUpgradeSlot="
             + maxUpgradeSlot
-            + ", minInputSlot="
-            + minInputSlot
-            + ", maxInputSlot="
-            + maxInputSlot
-            + ", minOutputSlot="
-            + minOutputSlot
-            + ", maxOutputSlot="
-            + maxOutputSlot
+            + ", minItemInputSlot="
+            + minItemInputSlot
+            + ", maxItemInputSlot="
+            + maxItemInputSlot
+            + ", minFluidInputSlot="
+            + minFluidInputSlot
+            + ", maxFluidInputSlot="
+            + maxFluidInputSlot
+            + ", minItemOutputSlot="
+            + minItemOutputSlot
+            + ", maxItemOutputSlot="
+            + maxItemOutputSlot
+            + ", minFluidOutputSlot="
+            + minFluidOutputSlot
+            + ", maxFluidOutputSlot="
+            + maxFluidOutputSlot
             + ", nunSlots="
             + getNumSlots()
             + " ]";

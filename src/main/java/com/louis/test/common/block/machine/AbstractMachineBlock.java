@@ -5,10 +5,12 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -17,6 +19,7 @@ import com.enderio.core.common.TileEntityEnder;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IResourceTooltipProvider;
 import com.louis.test.common.block.BlockEio;
+import com.louis.test.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -26,6 +29,9 @@ public abstract class AbstractMachineBlock<T extends AbstractMachineEntity> exte
     implements IResourceTooltipProvider {
 
     public static int renderId;
+
+    @SideOnly(Side.CLIENT)
+    protected IIcon[][] iconBuffer;
 
     protected final Random random;
 
@@ -143,4 +149,53 @@ public abstract class AbstractMachineBlock<T extends AbstractMachineEntity> exte
     public String getUnlocalizedNameForTooltip(ItemStack stack) {
         return getUnlocalizedName();
     }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iIconRegister) {
+
+        iconBuffer = new IIcon[2][12];
+        String side = getSideIconKey(false);
+        // first the 6 sides in OFF state
+        iconBuffer[0][0] = iIconRegister.registerIcon(getBottomIconKey(false));
+        iconBuffer[0][1] = iIconRegister.registerIcon(getTopIconKey(false));
+        iconBuffer[0][2] = iIconRegister.registerIcon(getBackIconKey(false));
+        iconBuffer[0][3] = iIconRegister.registerIcon(getMachineFrontIconKey(false));
+        iconBuffer[0][4] = iIconRegister.registerIcon(side);
+        iconBuffer[0][5] = iIconRegister.registerIcon(side);
+
+        side = getSideIconKey(true);
+        iconBuffer[0][6] = iIconRegister.registerIcon(getBottomIconKey(true));
+        iconBuffer[0][7] = iIconRegister.registerIcon(getTopIconKey(true));
+        iconBuffer[0][8] = iIconRegister.registerIcon(getBackIconKey(true));
+        iconBuffer[0][9] = iIconRegister.registerIcon(getMachineFrontIconKey(true));
+        iconBuffer[0][10] = iIconRegister.registerIcon(side);
+        iconBuffer[0][11] = iIconRegister.registerIcon(side);
+
+        iconBuffer[1][0] = iIconRegister.registerIcon(getModelIconKey(false));
+        iconBuffer[1][1] = iIconRegister.registerIcon(getModelIconKey(true));
+    }
+
+    protected abstract String getMachineFrontIconKey(boolean active);
+
+    protected String getSideIconKey(boolean active) {
+        return LibResources.PREFIX_MOD + "machineSide";
+    }
+
+    protected String getBackIconKey(boolean active) {
+        return LibResources.PREFIX_MOD + "machineBack";
+    }
+
+    protected String getTopIconKey(boolean active) {
+        return LibResources.PREFIX_MOD + "machineTop";
+    }
+
+    protected String getBottomIconKey(boolean active) {
+        return LibResources.PREFIX_MOD + "machineBottom";
+    }
+
+    protected String getModelIconKey(boolean active) {
+        return getSideIconKey(active);
+    }
+
 }
