@@ -6,18 +6,72 @@ import java.util.Queue;
 import java.util.Set;
 
 import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.enderio.core.common.util.BlockCoord;
 import com.louis.test.common.block.machine.AbstractMachineEntity;
 import com.louis.test.common.block.machine.SlotDefinition;
 
 public abstract class TileAddon extends AbstractMachineEntity {
 
+    private BlockCoord controlleCoord = null;
+
     private TileMain controller;
 
     public TileAddon(SlotDefinition slotDefinition) {
         super(slotDefinition);
+    }
+
+    @Override
+    public void writeCommon(NBTTagCompound nbtRoot) {
+        super.writeCommon(nbtRoot);
+        if (controller != null) {
+            NBTTagCompound posTag = new NBTTagCompound();
+            posTag.setInteger("X", controller.xCoord);
+            posTag.setInteger("Y", controller.yCoord);
+            posTag.setInteger("Z", controller.zCoord);
+            nbtRoot.setTag("ControllerCoord", posTag);
+        }
+
+    }
+
+    @Override
+    public void readCommon(NBTTagCompound nbtRoot) {
+        super.readCommon(nbtRoot);
+        if (nbtRoot.hasKey("ControllerPos")) {
+            NBTTagCompound posTag = nbtRoot.getCompoundTag("ControllerPos");
+            int x = posTag.getInteger("X");
+            int y = posTag.getInteger("Y");
+            int z = posTag.getInteger("Z");
+            controlleCoord = new BlockCoord(x, y, z);
+        }
+    }
+
+    @Override
+    public void doUpdate() {
+        super.doUpdate();
+
+        if (controller == null && worldObj != null && controlleCoord != null) {
+            TileEntity te = worldObj.getTileEntity(controlleCoord.x, controlleCoord.y, controlleCoord.z);
+            if (te instanceof TileMain main) {
+                setController(main);
+            }
+            controlleCoord = null;
+        }
+
+        if (!hasValidController()) {
+            findAndSetController();
+        }
+
+        if (worldObj.isRemote) return;
+
+        if (shouldDoWorkThisTick(20, 0)) {
+            if (hasValidController()) {
+                getController().onAddonTick(this);
+            }
+        }
     }
 
     @Override
@@ -150,4 +204,5 @@ public abstract class TileAddon extends AbstractMachineEntity {
             }
         }
     }
+
 }

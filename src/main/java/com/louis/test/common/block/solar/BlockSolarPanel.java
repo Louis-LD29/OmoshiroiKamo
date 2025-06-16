@@ -15,6 +15,7 @@ import com.cleanroommc.modularui.factory.GuiFactories;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.block.machine.AbstractMachineBlock;
+import com.louis.test.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -96,6 +97,11 @@ public class BlockSolarPanel extends AbstractMachineBlock<TileSolarPanel> implem
     public String getUnlocalizedNameForTooltip(ItemStack stack) {
         System.out.println("BlockSolarPanel.getUnlocalizedNameForTooltip: ");
         return stack.getUnlocalizedName();
+    }
+
+    @Override
+    protected String getMachineFrontIconKey(boolean active) {
+        return LibResources.PREFIX_MOD + "solarPanelFront";
     }
 
     // @Override

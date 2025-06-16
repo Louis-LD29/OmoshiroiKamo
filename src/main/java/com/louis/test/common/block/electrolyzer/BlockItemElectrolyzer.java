@@ -1,4 +1,4 @@
-package com.louis.test.common.block.multiblock;
+package com.louis.test.common.block.electrolyzer;
 
 import java.util.List;
 
@@ -16,15 +16,15 @@ import com.louis.test.common.block.ModBlocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockItemFluidOutput extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
+public class BlockItemElectrolyzer extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
-    public BlockItemFluidOutput() {
-        super(ModBlocks.blockFluidOutput, ModBlocks.blockFluidOutput);
+    public BlockItemElectrolyzer() {
+        super(ModBlocks.blockElectrolyzer, ModBlocks.blockElectrolyzer);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.INSTANCE);
     }
 
-    public BlockItemFluidOutput(Block block) {
+    public BlockItemElectrolyzer(Block block) {
         super(block, block);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.tabBlock);

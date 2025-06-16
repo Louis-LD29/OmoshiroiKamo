@@ -6,6 +6,10 @@ public enum ModObject {
     blockBoiler,
     blockFluidInput,
     blockFluidOutput,
+    blockFluidFilter,
+    blockHeatInput,
+    blockHeatSource,
+    blockElectrolyzer,
     blockSolar;
 
     public final String unlocalisedName;
