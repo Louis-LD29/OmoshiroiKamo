@@ -32,7 +32,7 @@ import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class NEIRecipeHandlerElectrolyzer extends TemplateRecipeHandler {
+public class ElectrolyzerRecipeHandler extends TemplateRecipeHandler {
 
     public class CachedElectrolyzerRecipe extends CachedRecipe {
 
@@ -74,8 +74,6 @@ public class NEIRecipeHandlerElectrolyzer extends TemplateRecipeHandler {
         }
     }
 
-    public NEIRecipeHandlerElectrolyzer() {}
-
     @Override
     public String getRecipeName() {
         return "Electrolyzer";
@@ -83,12 +81,21 @@ public class NEIRecipeHandlerElectrolyzer extends TemplateRecipeHandler {
 
     @Override
     public String getOverlayIdentifier() {
-        return "electrolyzer";
+        return "Electrolyzer";
     }
 
     @Override
     public String getGuiTexture() {
         return "test:textures/gui/machine/base.png";
+    }
+
+    @Override
+    public void loadTransferRects() {
+        transferRects.add(
+            new TemplateRecipeHandler.RecipeTransferRect(
+                new Rectangle(70, 23, 22, 17),
+                "Electrolyzer",
+                new Object[0]));
     }
 
     @Override
