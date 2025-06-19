@@ -56,7 +56,7 @@ public class BlockHeatSource extends AbstractMachineBlock<TileHeatSource> implem
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item item, CreativeTabs p_149666_2_, List<ItemStack> list) {
+    public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
         list.add(new ItemStack(this, 1, 0));
     }
 
@@ -93,7 +93,6 @@ public class BlockHeatSource extends AbstractMachineBlock<TileHeatSource> implem
 
     @Override
     public String getUnlocalizedNameForTooltip(ItemStack stack) {
-        System.out.println("BlockSHeatSource.getUnlocalizedNameForTooltip: ");
         return stack.getUnlocalizedName();
     }
 

@@ -63,7 +63,7 @@ public class BlockTest extends AbstractMachineBlock<TileTest> implements IAdvanc
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item item, CreativeTabs p_149666_2_, List<ItemStack> list) {
+    public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
         list.add(new ItemStack(this, 1, 0));
         // list.add(new ItemStack(this, 1, 1));
     }
@@ -101,7 +101,6 @@ public class BlockTest extends AbstractMachineBlock<TileTest> implements IAdvanc
 
     @Override
     public String getUnlocalizedNameForTooltip(ItemStack stack) {
-        System.out.println("BlockTest.getUnlocalizedNameForTooltip: ");
         return stack.getUnlocalizedName();
     }
 

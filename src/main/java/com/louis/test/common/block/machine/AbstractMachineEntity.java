@@ -1,7 +1,6 @@
 package com.louis.test.common.block.machine;
 
 import java.util.*;
-import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,6 +23,7 @@ import com.enderio.core.common.util.InventoryWrapper;
 import com.enderio.core.common.util.ItemUtil;
 import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.IoType;
+import com.louis.test.api.enums.Material;
 import com.louis.test.api.interfaces.IIoConfigurable;
 import com.louis.test.api.interfaces.redstone.IRedstoneConnectable;
 import com.louis.test.common.block.SmartTank;
@@ -48,14 +48,13 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     public ItemStackHandler inv;
     protected SmartTank[] fluidTanks;
     protected final SlotDefinition slotDefinition;
+    public Material material;
 
     protected RedstoneControlMode redstoneControlMode;
 
     public boolean redstoneCheckPassed;
 
     public boolean redstoneStateDirty = true;
-
-    protected Map<ForgeDirection, IoMode> faceModes;
 
     protected Map<IoType, Map<ForgeDirection, IoMode>> ioConfigs;
 
@@ -65,15 +64,17 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
 
     public boolean isDirty = false;
 
-    protected AbstractMachineEntity(SlotDefinition slotDefinition) {
+    protected AbstractMachineEntity(SlotDefinition slotDefinition, Material material) {
         this.slotDefinition = slotDefinition;
+        this.material = material;
         facing = 3;
 
         inv = new ItemStackHandler(slotDefinition.getNumSlots());
         fluidTanks = new SmartTank[slotDefinition.getNumFluidSlots()];
         for (int i = 0; i < fluidTanks.length; i++) {
-            fluidTanks[i] = new SmartTank(8000);
+            fluidTanks[i] = new SmartTank(material);
         }
+
         redstoneControlMode = RedstoneControlMode.IGNORE;
 
         allSlots = new int[slotDefinition.getNumSlots()];
@@ -83,17 +84,9 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
 
     }
 
-    @Override
-    public IoMode toggleIoModeForFace(ForgeDirection faceHit) {
-        IoMode curMode = getIoMode(faceHit);
-        IoMode mode = curMode.next();
-        while (!supportsMode(faceHit, mode)) {
-            mode = mode.next();
-        }
-        setIoMode(faceHit, mode);
-        return mode;
-    }
+    // FluidTank
 
+    // IoType - IoMode
     @Override
     public IoMode toggleIoModeForFace(ForgeDirection faceHit, IoType type) {
         IoMode curMode = getIoMode(faceHit, type);
@@ -108,21 +101,6 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     @Override
     public boolean supportsMode(ForgeDirection faceHit, IoMode mode) {
         return true;
-    }
-
-    @Override
-    public void setIoMode(ForgeDirection faceHit, IoMode mode) {
-        if (mode == IoMode.NONE && faceModes == null) {
-            return;
-        }
-        if (faceModes == null) {
-            faceModes = new EnumMap<ForgeDirection, IoMode>(ForgeDirection.class);
-        }
-        faceModes.put(faceHit, mode);
-        forceClientUpdate = true;
-        notifyNeighbours = true;
-
-        updateBlock();
     }
 
     @Override
@@ -150,16 +128,6 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     }
 
     @Override
-    public void clearAllIoModes() {
-        if (faceModes != null) {
-            faceModes = null;
-            forceClientUpdate = true;
-            notifyNeighbours = true;
-            updateBlock();
-        }
-    }
-
-    @Override
     public void clearAllIoModes(IoType type) {
         if (ioConfigs != null && ioConfigs.containsKey(type)) {
             ioConfigs.remove(type);
@@ -167,18 +135,6 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
             notifyNeighbours = true;
             updateBlock();
         }
-    }
-
-    @Override
-    public IoMode getIoMode(ForgeDirection face) {
-        if (faceModes == null) {
-            return IoMode.NONE;
-        }
-        IoMode res = faceModes.get(face);
-        if (res == null) {
-            return IoMode.NONE;
-        }
-        return res;
     }
 
     @Override
@@ -204,40 +160,8 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
         return slotDefinition;
     }
 
-    public boolean isValidUpgrade(ItemStack itemstack) {
-        for (int i = slotDefinition.getMinUpgradeSlot(); i <= slotDefinition.getMaxUpgradeSlot(); i++) {
-            if (isItemValidForSlot(i, itemstack)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isValidInput(ItemStack itemstack) {
-        for (int i = slotDefinition.getMinInputSlot(); i <= slotDefinition.getMaxInputSlot(); i++) {
-            if (isItemValidForSlot(i, itemstack)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isValidOutput(ItemStack itemstack) {
-        for (int i = slotDefinition.getMinOutputSlot(); i <= slotDefinition.getMaxOutputSlot(); i++) {
-            if (isItemValidForSlot(i, itemstack)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public final boolean isItemValidForSlot(int i, ItemStack itemstack) {
-        // if (slotDefinition.isUpgradeSlot(i)) {
-        // return itemstack != null && itemstack.getItem() == EnderIO.itemBasicCapacitor
-        // && itemstack.getItemDamage() > 0
-        // && itemstack.getItemDamage() != 7;
-        // }
         return isMachineItemValidForSlot(i, itemstack);
     }
 
@@ -332,10 +256,6 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     protected boolean doSideIo() {
         if (ioConfigs == null || ioConfigs.isEmpty()) {
             return false;
-        }
-
-        if (faceModes == null) {
-            faceModes = new EnumMap<>(ForgeDirection.class);
         }
 
         boolean res = false;
@@ -511,14 +431,6 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
         }
         redstoneControlMode = RedstoneControlMode.values()[rsContr];
 
-        if (nbtRoot.hasKey("hasFaces")) {
-            for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-                if (nbtRoot.hasKey("face" + dir.ordinal())) {
-                    setIoMode(dir, IoMode.values()[nbtRoot.getShort("face" + dir.ordinal())]);
-                }
-            }
-        }
-
         if (nbtRoot.hasKey("ioConfigs")) {
             NBTTagCompound ioConfigsTag = nbtRoot.getCompoundTag("ioConfigs");
             for (IoType type : IoType.values()) {
@@ -567,17 +479,6 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
         nbtRoot.setTag("FluidTanks", tanksTag);
 
         nbtRoot.setInteger("redstoneControlMode", redstoneControlMode.ordinal());
-
-        if (faceModes != null) {
-            nbtRoot.setByte("hasFaces", (byte) 1);
-            for (Entry<ForgeDirection, IoMode> e : faceModes.entrySet()) {
-                nbtRoot.setShort(
-                    "face" + e.getKey()
-                        .ordinal(),
-                    (short) e.getValue()
-                        .ordinal());
-            }
-        }
 
         NBTTagCompound ioConfigsTag = new NBTTagCompound();
         if (ioConfigs != null && !ioConfigs.isEmpty()) {
@@ -751,7 +652,7 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
 
     public boolean isSideDisabled(int side) {
         ForgeDirection dir = ForgeDirection.getOrientation(side);
-        IoMode mode = getIoMode(dir);
+        IoMode mode = getIoMode(dir, IoType.ITEM);
         if (mode == IoMode.DISABLED) {
             return true;
         }
@@ -779,17 +680,6 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     }
 
     // ---- ModularUI2
-
-    public static int[] createSlotRange(int minSlot, int maxSlot) {
-        if (minSlot < 0 || maxSlot < minSlot) {
-            return new int[0]; // không có slot hợp lệ
-        }
-        int[] result = new int[maxSlot - minSlot + 1];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = minSlot + i;
-        }
-        return result;
-    }
 
     @Override
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {

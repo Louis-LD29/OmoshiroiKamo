@@ -1,9 +1,8 @@
 package com.louis.test.common.block.multiblock.fluid;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
 
-import com.louis.test.api.enums.IoMode;
+import com.louis.test.api.enums.Material;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.common.block.machine.SlotDefinition;
 import com.louis.test.common.block.multiblock.TileAddon;
@@ -11,10 +10,7 @@ import com.louis.test.common.block.multiblock.TileAddon;
 public class TileFluidFilter extends TileAddon {
 
     public TileFluidFilter() {
-        super(new SlotDefinition(-1, -1, -1, -1, -1, -1));
-        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
-            setIoMode(direction, IoMode.INPUT);
-        }
+        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), Material.IRON);
     }
 
     @Override

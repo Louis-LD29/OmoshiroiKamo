@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.enderio.core.common.util.BlockCoord;
+import com.louis.test.api.enums.Material;
 import com.louis.test.common.block.machine.AbstractMachineEntity;
 import com.louis.test.common.block.machine.SlotDefinition;
 
@@ -20,8 +21,8 @@ public abstract class TileAddon extends AbstractMachineEntity {
 
     private TileMain controller;
 
-    public TileAddon(SlotDefinition slotDefinition) {
-        super(slotDefinition);
+    public TileAddon(SlotDefinition slotDefinition, Material material) {
+        super(slotDefinition, material);
     }
 
     @Override

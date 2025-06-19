@@ -31,9 +31,17 @@ public class RecipeBuilder {
         return this;
     }
 
+    public List<ItemStack> getItemInputs() {
+        return itemInputs;
+    }
+
     public RecipeBuilder addFluidInput(Fluid fluid, int amount) {
         fluidInputs.add(new FluidStack(fluid, amount));
         return this;
+    }
+
+    public List<FluidStack> getFluidInputs() {
+        return fluidInputs;
     }
 
     public RecipeBuilder addItemOutput(Item item, int count) {
@@ -46,9 +54,17 @@ public class RecipeBuilder {
         return this;
     }
 
+    public List<ItemStack> getItemOutputs() {
+        return itemOutputs;
+    }
+
     public RecipeBuilder addFluidOutput(Fluid fluid, int amount) {
         fluidOutputs.add(new FluidStack(fluid, amount));
         return this;
+    }
+
+    public List<FluidStack> getFluidOutputs() {
+        return fluidOutputs;
     }
 
     public RecipeBuilder setTemperature(int kelvin) {
@@ -56,9 +72,17 @@ public class RecipeBuilder {
         return this;
     }
 
+    public int getTemperature() {
+        return requiredTemperature;
+    }
+
     public RecipeBuilder setPressure(int kPa) {
         this.requiredPressure = kPa;
         return this;
+    }
+
+    public int getPressure() {
+        return requiredPressure;
     }
 
     public RecipeBuilder setEnergyCost(int energy) {
@@ -66,9 +90,17 @@ public class RecipeBuilder {
         return this;
     }
 
+    public int getEnergyCost() {
+        return energyCost;
+    }
+
     public RecipeBuilder setUid(String uid) {
         this.uid = uid;
         return this;
+    }
+
+    public String getUid() {
+        return uid;
     }
 
     public MachineRecipe build() {

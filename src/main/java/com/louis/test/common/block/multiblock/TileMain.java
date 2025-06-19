@@ -3,7 +3,6 @@ package com.louis.test.common.block.multiblock;
 import java.util.*;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 
 import com.louis.test.api.enums.BlockMassType;
 import com.louis.test.api.enums.Material;
@@ -19,8 +18,8 @@ public abstract class TileMain extends AbstractMachineEntity {
 
     private final List<TileAddon> addons = new ArrayList<>();
 
-    public TileMain(SlotDefinition slotDefinition) {
-        super(slotDefinition);
+    public TileMain(SlotDefinition slotDefinition, Material material) {
+        super(slotDefinition, material);
     }
 
     public void registerAddon(TileAddon addon) {
@@ -105,10 +104,10 @@ public abstract class TileMain extends AbstractMachineEntity {
     }
 
     public HeatStorage HEATSTORAGE() {
-        return new HeatStorage(Material.IRON, BlockMassType.MACHINE);
+        return new HeatStorage(this.material, BlockMassType.MACHINE);
     }
 
     public int TANK() {
-        return FluidContainerRegistry.BUCKET_VOLUME * 8;
+        return this.material.getVolumeMB();
     }
 }

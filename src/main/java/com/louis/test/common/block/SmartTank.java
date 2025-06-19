@@ -7,9 +7,11 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
 import com.google.common.base.Strings;
+import com.louis.test.api.enums.Material;
 
 public class SmartTank extends FluidTank {
 
+    protected Material material;
     protected Fluid restriction;
 
     public SmartTank(FluidStack liquid, int capacity) {
@@ -28,6 +30,38 @@ public class SmartTank extends FluidTank {
     public SmartTank(Fluid liquid, int capacity) {
         super(capacity);
         restriction = liquid;
+    }
+
+    public SmartTank(Material material) {
+        super(material.getVolumeMB());
+        this.material = material;
+    }
+
+    public double getCurrentPressureMPa() {
+        if (getFluidAmount() <= 0 || fluid == null || material == null) return 0;
+
+        Fluid fluidType = getFluid().getFluid();
+        if (fluidType == null) return 0;
+
+        int density = fluidType.getDensity();
+        if (density <= 0) return 0;
+
+        double volumeM3 = (double) getFluidAmount() / 1_000_000.0;
+        double heightM = volumeM3;
+        double pressurePa = density * 9.81 * heightM;
+        return pressurePa / 1_000_000.0;
+    }
+
+    public double getMaxPressureMPa() {
+        return material != null ? material.getMaxPressureMPa() : 0;
+    }
+
+    public double getCurrentPressureAtm() {
+        return getCurrentPressureMPa() * 9.86923;
+    }
+
+    public double getMaxPressureAtm() {
+        return getMaxPressureMPa() * 9.86923;
     }
 
     public void setRestriction(Fluid restriction) {

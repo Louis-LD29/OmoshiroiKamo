@@ -1,10 +1,13 @@
 package com.louis.test.common.block.machine;
 
-import net.minecraft.nbt.NBTTagCompound;
+import java.util.List;
 
-import crazypants.enderio.machine.IMachineRecipe;
-import crazypants.enderio.machine.MachineRecipeInput;
-import crazypants.enderio.machine.recipe.RecipeBonusType;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.FluidStack;
+
+import com.louis.test.common.recipes.IPoweredTask;
+import com.louis.test.common.recipes.MachineRecipe;
 
 public class PoweredTaskProgress implements IPoweredTask {
 
@@ -32,11 +35,6 @@ public class PoweredTaskProgress implements IPoweredTask {
     }
 
     @Override
-    public IMachineRecipe.ResultStack[] getCompletedResult() {
-        return new IMachineRecipe.ResultStack[0];
-    }
-
-    @Override
     public float getRequiredEnergy() {
         return 0;
     }
@@ -47,20 +45,20 @@ public class PoweredTaskProgress implements IPoweredTask {
     }
 
     @Override
-    public RecipeBonusType getBonusType() {
-        return RecipeBonusType.NONE;
-    }
-
-    @Override
     public void writeToNBT(NBTTagCompound nbtRoot) {}
 
     @Override
-    public IMachineRecipe getRecipe() {
+    public MachineRecipe getRecipe() {
         return null;
     }
 
     @Override
-    public MachineRecipeInput[] getInputs() {
-        return new MachineRecipeInput[0];
+    public List<ItemStack> getItemOutputs() {
+        return null;
+    }
+
+    @Override
+    public List<FluidStack> getFluidOutputs() {
+        return null;
     }
 }

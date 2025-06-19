@@ -1,6 +1,7 @@
 package com.louis.test.common.block.machine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -13,12 +14,11 @@ import net.minecraftforge.fluids.FluidTank;
 
 import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.IoType;
+import com.louis.test.api.enums.Material;
 import com.louis.test.api.interfaces.power.IInternalPowerReceiver;
 import com.louis.test.common.recipes.IPoweredTask;
 import com.louis.test.common.recipes.MachineRecipe;
 import com.louis.test.common.recipes.MachineRecipeRegistry;
-import com.louis.test.common.recipes.PoweredTask;
-import com.louis.test.common.recipes.PoweredTaskProgress;
 
 public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEntity
     implements IInternalPowerReceiver, IProgressTile {
@@ -33,8 +33,11 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
     protected boolean startFailed = false;
     protected float nextChance = Float.NaN;
 
-    public AbstractProcessingEntity(SlotDefinition slotDefinition) {
-        super(slotDefinition);
+    protected boolean confirmedToStart = false;
+    protected MachineRecipe lockedRecipe = null;
+
+    public AbstractProcessingEntity(SlotDefinition slotDefinition, Material material) {
+        super(slotDefinition, material);
     }
 
     @Override
@@ -58,7 +61,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
 
     @Override
     public boolean isActive() {
-        return currentTask == null ? false : currentTask.getProgress() >= 0 && hasPower() && redstoneCheckPassed;
+        return currentTask == null ? false : currentTask.getProgress() >= 0 && redstoneCheckPassed;
     }
 
     @Override
@@ -95,7 +98,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
         // Process any current items
         requiresClientSync |= checkProgress(redstoneChecksPassed);
 
-        if (currentTask != null || !hasPower() || !hasValidInputsForRecipe()) {
+        if (currentTask != null || !hasValidInputsForRecipe()) {
             return requiresClientSync;
         }
 
@@ -116,6 +119,9 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
         // Then see if we need to start a new one
         MachineRecipe nextRecipe = canStartNextTask(nextChance);
         if (nextRecipe != null) {
+            if (!confirmedToStart) {
+                return requiresClientSync;
+            }
             boolean started = startNextTask(nextRecipe, nextChance);
             if (started) {
                 // this chance value has been used up
@@ -131,7 +137,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
     }
 
     protected boolean checkProgress(boolean redstoneChecksPassed) {
-        if (currentTask == null || !hasPower()) {
+        if (currentTask == null) {
             return false;
         }
         if (redstoneChecksPassed && !currentTask.isComplete()) {
@@ -164,24 +170,24 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             lastCompletedRecipe = currentTask.getRecipe();
             List<ItemStack> itemOutputs = currentTask.getItemOutputs();
             List<FluidStack> fluidOutputs = currentTask.getFluidOutputs();
-            // System.out.println("=== Task Complete ===");
-            // System.out.println("Item Outputs:");
-            // for (ItemStack item : itemOutputs) {
-            // if (item != null) {
-            // System.out.println(" - " + item.stackSize + "x " + item.getDisplayName());
-            // }
-            // }
-            //
-            // System.out.println("Fluid Outputs:");
-            // for (FluidStack fluid : fluidOutputs) {
-            // if (fluid != null) {
-            // System.out.println(
-            // " - " + fluid.amount
-            // + " mB of "
-            // + fluid.getFluid()
-            // .getLocalizedName(fluid));
-            // }
-            // }
+            System.out.println("=== Task Complete ===");
+            System.out.println("Item Outputs:");
+            for (ItemStack item : itemOutputs) {
+                if (item != null) {
+                    System.out.println(" - " + item.stackSize + "x " + item.getDisplayName());
+                }
+            }
+
+            System.out.println("Fluid Outputs:");
+            for (FluidStack fluid : fluidOutputs) {
+                if (fluid != null) {
+                    System.out.println(
+                        " - " + fluid.amount
+                            + " mB of "
+                            + fluid.getFluid()
+                                .getLocalizedName(fluid));
+                }
+            }
 
             mergeResults(itemOutputs, fluidOutputs);
         }
@@ -268,6 +274,9 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
     }
 
     protected MachineRecipe getNextRecipe() {
+        if (lockedRecipe != null) {
+            return lockedRecipe; // Prioritize locked recipe
+        }
         if (cachedNextRecipe == null) {
             cachedNextRecipe = MachineRecipeRegistry
                 .findMatchingRecipe(getMachineName(), getItemInputs(), getFluidInputs());
@@ -371,7 +380,11 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
     }
 
     protected boolean startNextTask(MachineRecipe nextRecipe, float chance) {
-        if (hasPower() && nextRecipe
+        if (lockedRecipe != null && !lockedRecipe.equals(nextRecipe)) {
+            return false;
+        }
+
+        if (lockedRecipe != null || nextRecipe
             == MachineRecipeRegistry.findMatchingRecipe(getMachineName(), getItemInputs(), getFluidInputs())) {
             consumeInputs(nextRecipe);
             currentTask = createTask(nextRecipe, chance);
@@ -394,6 +407,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
         currentTask = nbtRoot.hasKey("currentTask") ? createTask(nbtRoot.getCompoundTag("currentTask")) : null;
         String uid = nbtRoot.getString("lastCompletedRecipe");
         lastCompletedRecipe = MachineRecipeRegistry.getRecipeForUid(uid);
+
     }
 
     @Override
@@ -407,12 +421,20 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
         if (lastCompletedRecipe != null) {
             nbtRoot.setString("lastCompletedRecipe", lastCompletedRecipe.getUid());
         }
+        nbtRoot.setBoolean("confirmedToStart", confirmedToStart);
+        if (lockedRecipe != null) {
+            nbtRoot.setString("lockedRecipe", lockedRecipe.getUid());
+        }
     }
 
     @Override
     public void readCommon(NBTTagCompound nbtRoot) {
         super.readCommon(nbtRoot);
         cachedNextRecipe = null;
+        confirmedToStart = nbtRoot.getBoolean("confirmedToStart");
+        if (nbtRoot.hasKey("lockedRecipe")) {
+            lockedRecipe = MachineRecipeRegistry.getRecipeForUid(nbtRoot.getString("lockedRecipe"));
+        }
     }
 
     protected boolean hasValidInputsForRecipe() {
@@ -443,6 +465,61 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             }
         }
         return list;
+    }
+
+    public MachineRecipe getPredictedRecipe() {
+        return MachineRecipeRegistry.findMatchingRecipe(getMachineName(), getItemInputs(), getFluidInputs());
+    }
+
+    public List<ItemStack> getItemOutput() {
+        MachineRecipe recipe = isLocked() ? lockedRecipe : getPredictedRecipe();
+        if (recipe == null) return Collections.emptyList();
+
+        List<ItemStack> result = new ArrayList<>();
+        for (ItemStack stack : recipe.getItemOutputs()) {
+            result.add(stack != null ? stack.copy() : null);
+        }
+        return result;
+    }
+
+    public List<FluidStack> getFluidOutput() {
+        MachineRecipe recipe = isLocked() ? lockedRecipe : getPredictedRecipe();
+        if (recipe == null) return Collections.emptyList();
+
+        List<FluidStack> result = new ArrayList<>();
+        for (FluidStack stack : recipe.getFluidOutputs()) {
+            result.add(stack != null ? stack.copy() : null);
+        }
+        return result;
+    }
+
+    public void confirmRecipe(MachineRecipe recipe) {
+        this.lockedRecipe = recipe;
+        this.confirmedToStart = true;
+    }
+
+    public void unlockRecipe() {
+        this.lockedRecipe = null;
+        this.confirmedToStart = false;
+    }
+
+    public boolean isLocked() {
+        return this.lockedRecipe != null;
+    }
+
+    public boolean isRecipeLocked() {
+        return this.lockedRecipe != null;
+    }
+
+    public void setRecipeLocked(boolean value) {
+        if (value) {
+            MachineRecipe predicted = getPredictedRecipe();
+            if (predicted != null) {
+                confirmRecipe(predicted); // lockedRecipe = predicted + confirmedToStart = true
+            }
+        } else {
+            unlockRecipe(); // lockedRecipe = null, confirmedToStart = false
+        }
     }
 
 }

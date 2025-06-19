@@ -1,4 +1,3 @@
-
 plugins {
     id("com.gtnewhorizons.gtnhconvention")
 }
@@ -6,4 +5,3 @@ plugins {
 tasks.withType<JavaCompile> {
     dependsOn("spotlessApply")
 }
-

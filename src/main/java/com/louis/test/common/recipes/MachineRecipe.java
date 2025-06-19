@@ -14,7 +14,7 @@ public class MachineRecipe {
     public final List<FluidStack> fluidOutputs;
 
     public final int requiredTemperature; // Độ K
-    public final int requiredPressure; // Áp suất kPa hoặc tuỳ định nghĩa
+    public final float requiredPressure; // Áp suất kPa hoặc tuỳ định nghĩa
     public final int energyCost; // EU hoặc RF hoặc tick
     public final String uid; // EU hoặc RF hoặc tick
 
@@ -50,7 +50,7 @@ public class MachineRecipe {
         return requiredTemperature;
     }
 
-    public int getRequiredPressure() {
+    public float getRequiredPressure() {
         return requiredPressure;
     }
 
@@ -75,47 +75,49 @@ public class MachineRecipe {
     }
 
     private boolean containsAllItems(List<ItemStack> available, List<ItemStack> required) {
-        List<ItemStack> temp = copyItemList(available);
-
         for (ItemStack req : required) {
-            boolean matched = false;
-            for (ItemStack candidate : temp) {
+            int remaining = req.stackSize;
+
+            for (ItemStack candidate : available) {
                 if (canMergeItems(candidate, req)) {
-                    if (candidate.stackSize >= req.stackSize) {
-                        candidate.stackSize -= req.stackSize;
-                        matched = true;
-                        break;
-                    }
+                    remaining -= candidate.stackSize;
+                    if (remaining <= 0) break;
                 }
             }
-            if (!matched) return false;
-        }
 
+            if (remaining > 0) return false;
+        }
         return true;
     }
 
     private boolean containsAllFluids(List<FluidStack> available, List<FluidStack> required) {
-        List<FluidStack> temp = copyFluidList(available);
-
         for (FluidStack req : required) {
-            boolean matched = false;
-            for (FluidStack candidate : temp) {
+            int remaining = req.amount;
+
+            for (FluidStack candidate : available) {
                 if (canMergeFluids(candidate, req)) {
-                    if (candidate.amount >= req.amount) {
-                        candidate.amount -= req.amount;
-                        matched = true;
-                        break;
-                    }
+                    remaining -= candidate.amount;
+                    if (remaining <= 0) break;
                 }
             }
-            if (!matched) return false;
-        }
 
+            if (remaining > 0) return false;
+        }
         return true;
     }
 
+    public int getInputComplexityScore() {
+        int itemScore = itemInputs != null ? itemInputs.stream()
+            .mapToInt(stack -> stack != null ? stack.stackSize : 0)
+            .sum() : 0;
+        int fluidScore = fluidInputs != null ? fluidInputs.stream()
+            .mapToInt(fluid -> fluid != null ? fluid.amount : 0)
+            .sum() : 0;
+        return itemScore + fluidScore;
+    }
+
     private boolean canMergeItems(ItemStack a, ItemStack b) {
-        return a.getItem() == b.getItem() && a.getItemDamage() == b.getItemDamage();
+        return a.getItem() == b.getItem();
     }
 
     private boolean canMergeFluids(FluidStack a, FluidStack b) {

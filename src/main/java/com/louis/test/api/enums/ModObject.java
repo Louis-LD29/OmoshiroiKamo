@@ -1,5 +1,7 @@
 package com.louis.test.api.enums;
 
+import com.louis.test.lib.LibMisc;
+
 public enum ModObject {
 
     blockTest,
@@ -16,5 +18,9 @@ public enum ModObject {
 
     private ModObject() {
         unlocalisedName = name();
+    }
+
+    public String getRegistryName() {
+        return LibMisc.MOD_ID + ":" + unlocalisedName;
     }
 }

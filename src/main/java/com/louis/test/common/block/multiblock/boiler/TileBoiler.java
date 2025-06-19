@@ -21,6 +21,7 @@ import com.cleanroommc.modularui.widgets.ProgressWidget.Direction;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.FluidSlot;
+import com.louis.test.api.enums.Material;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.common.block.SmartTank;
 import com.louis.test.common.block.machine.SlotDefinition;
@@ -38,7 +39,7 @@ public class TileBoiler extends TileMain {
     double tBoil = 0f;
 
     public TileBoiler() {
-        super(new SlotDefinition(-1, -1, -1, -1, 0, 0, 1, 1, -1, -1));
+        super(new SlotDefinition(-1, -1, -1, -1, 0, 0, 1, 1, -1, -1), Material.IRON);
         setHeatStorage(HEATSTORAGE());
 
     }
@@ -98,10 +99,6 @@ public class TileBoiler extends TileMain {
             steamC.setN(getFluidFilter() ? 1f : 0.7f);
         }
         if (worldObj.isRemote) return;
-        //
-        // if (shouldDoWorkThisTick(100, 0)) {
-        // getHeat().updateHeatTowardsNormal();
-        // }
 
         if (shouldDoWorkThisTick(20, 0)) {
             simulateWaterUsedMB = steamC.simulateWaterUsedMB();

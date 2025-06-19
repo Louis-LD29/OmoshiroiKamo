@@ -3,15 +3,17 @@ package com.louis.test.common.block.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.fluids.FluidStack;
 
-import crazypants.enderio.machine.IMachineRecipe;
-import crazypants.enderio.machine.IMachineRecipe.ResultStack;
-import crazypants.enderio.machine.MachineRecipeInput;
-import crazypants.enderio.machine.MachineRecipeRegistry;
-import crazypants.enderio.machine.recipe.RecipeBonusType;
+import org.jetbrains.annotations.Nullable;
+
+import com.louis.test.common.recipes.IPoweredTask;
+import com.louis.test.common.recipes.MachineRecipe;
+import com.louis.test.common.recipes.MachineRecipeRegistry;
 
 public class PoweredTask implements IPoweredTask {
 
@@ -21,50 +23,47 @@ public class PoweredTask implements IPoweredTask {
     public static final String KEY_USED_ENERGY = "usedEnergy";
     private static final String KEY_CHANCE = "chance";
 
-    private float usedEnergy = 0;
+    private MachineRecipe recipe;
 
-    private MachineRecipeInput[] inputs;
+    private float usedEnergy = 0;
 
     private float requiredEnergy;
 
-    private RecipeBonusType bonusType;
-
-    private IMachineRecipe recipe;
-
     private float chance;
 
-    public PoweredTask(IMachineRecipe recipe, float chance, MachineRecipeInput... inputs) {
-        this(recipe, 0, chance, inputs);
+    private List<ItemStack> itemStacks;
+
+    private List<FluidStack> fluidStacks;
+
+    public PoweredTask(MachineRecipe recipe, float chance, List<ItemStack> itemStacks, List<FluidStack> fluidStacks) {
+        this(recipe, 0, chance, itemStacks, fluidStacks);
     }
 
-    protected PoweredTask(IMachineRecipe recipe, float usedEnergy, float chance, MachineRecipeInput... inputsIn) {
-        this.inputs = inputsIn;
-        int numInputs = 0;
-        for (int i = 0; i < inputsIn.length; i++) {
-            if (inputsIn[i] != null && (inputsIn[i].item != null || inputsIn[i].fluid != null)) {
-                numInputs++;
-            }
-        }
-
-        inputs = new MachineRecipeInput[numInputs];
-        int index = 0;
-        for (int i = 0; i < inputsIn.length; i++) {
-            if (inputsIn[i] != null) {
-                if (inputsIn[i].item != null) {
-                    inputs[index] = new MachineRecipeInput(inputsIn[i].slotNumber, inputsIn[i].item.copy());
-                    index++;
-                } else if (inputsIn[i].fluid != null) {
-                    inputs[index] = new MachineRecipeInput(inputsIn[i].slotNumber, inputsIn[i].fluid.copy());
-                    index++;
-                }
-            }
-        }
+    public PoweredTask(MachineRecipe recipe, float usedEnergy, float chance, List<ItemStack> itemStacks,
+        List<FluidStack> fluidStacks) {
 
         this.recipe = recipe;
         this.usedEnergy = usedEnergy;
         this.chance = MathHelper.clamp_float(chance, 0, 1);
-        requiredEnergy = recipe.getEnergyRequired(inputsIn);
-        bonusType = recipe.getBonusType(inputsIn);
+
+        this.itemStacks = new ArrayList<ItemStack>();
+        if (itemStacks != null) {
+            for (ItemStack stack : itemStacks) {
+                if (stack != null && stack.stackSize > 0) {
+                    this.itemStacks.add(stack.copy());
+                }
+            }
+        }
+
+        this.fluidStacks = new ArrayList<FluidStack>();
+        if (fluidStacks != null) {
+            for (FluidStack fluid : fluidStacks) {
+                if (fluid != null && fluid.amount > 0) {
+                    this.fluidStacks.add(fluid.copy());
+                }
+            }
+        }
+        this.requiredEnergy = recipe.getEnergyCost();
     }
 
     @Override
@@ -83,24 +82,6 @@ public class PoweredTask implements IPoweredTask {
     }
 
     @Override
-    public ResultStack[] getCompletedResult() {
-        return recipe.getCompletedResult(chance, inputs);
-    }
-
-    @Override
-    public MachineRecipeInput[] getInputs() {
-        return inputs;
-    }
-
-    public void setInputs(MachineRecipeInput[] inputs) {
-        this.inputs = inputs;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see crazypants.enderio.machine.IPoweredTask#getRequiredEnergy()
-     */
-    @Override
     public float getRequiredEnergy() {
         return requiredEnergy;
     }
@@ -109,10 +90,6 @@ public class PoweredTask implements IPoweredTask {
         this.requiredEnergy = requiredEnergy;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see crazypants.enderio.machine.IPoweredTask#getChance()
-     */
     @Override
     public float getChance() {
         return chance;
@@ -123,60 +100,84 @@ public class PoweredTask implements IPoweredTask {
     }
 
     @Override
-    public RecipeBonusType getBonusType() {
-        return bonusType;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see crazypants.enderio.machine.IPoweredTask#writeToNBT(net.minecraft.nbt.NBTTagCompound)
-     */
-    @Override
     public void writeToNBT(NBTTagCompound nbtRoot) {
-        NBTTagCompound stackRoot;
-
-        NBTTagList inputItems = new NBTTagList();
-        for (MachineRecipeInput ri : inputs) {
-            stackRoot = new NBTTagCompound();
-            ri.writeToNbt(stackRoot);
-            inputItems.appendTag(stackRoot);
+        if (recipe != null) {
+            nbtRoot.setString(KEY_RECIPE, recipe.getUid());
         }
-
-        nbtRoot.setTag(KEY_INPUT_STACKS, inputItems);
-
-        nbtRoot.setString(KEY_RECIPE, recipe.getUid());
         nbtRoot.setFloat(KEY_USED_ENERGY, usedEnergy);
-
         nbtRoot.setFloat(KEY_CHANCE, chance);
+
+        // Write itemStacks
+        NBTTagList itemList = new NBTTagList();
+        for (ItemStack stack : itemStacks) {
+            NBTTagCompound tag = new NBTTagCompound();
+            stack.writeToNBT(tag);
+            itemList.appendTag(tag);
+        }
+        nbtRoot.setTag("ItemStacks", itemList);
+
+        // Write fluidStacks
+        NBTTagList fluidList = new NBTTagList();
+        for (FluidStack fluid : fluidStacks) {
+            NBTTagCompound tag = new NBTTagCompound();
+            fluid.writeToNBT(tag);
+            fluidList.appendTag(tag);
+        }
+        nbtRoot.setTag("FluidStacks", fluidList);
     }
 
     public static IPoweredTask readFromNBT(NBTTagCompound nbtRoot) {
-        IMachineRecipe recipe;
-
         float usedEnergy = nbtRoot.getFloat(KEY_USED_ENERGY);
         float chance = nbtRoot.getFloat(KEY_CHANCE);
 
-        NBTTagList inputItems = (NBTTagList) nbtRoot.getTag(KEY_INPUT_STACKS);
-        if (inputItems == null) {
-            return null;
+        // Đọc danh sách item
+        List<ItemStack> itemStacks = new ArrayList<ItemStack>();
+        if (nbtRoot.hasKey("ItemStacks")) {
+            NBTTagList itemList = nbtRoot.getTagList("ItemStacks", 10); // 10 = compound
+            for (int i = 0; i < itemList.tagCount(); i++) {
+                NBTTagCompound tag = itemList.getCompoundTagAt(i);
+                ItemStack stack = ItemStack.loadItemStackFromNBT(tag);
+                if (stack != null) {
+                    itemStacks.add(stack);
+                }
+            }
         }
 
-        List<MachineRecipeInput> ins = new ArrayList<MachineRecipeInput>(3);
-        for (int i = 0; i < inputItems.tagCount(); i++) {
-            NBTTagCompound stackTag = inputItems.getCompoundTagAt(i);
-            MachineRecipeInput mi = MachineRecipeInput.readFromNBT(stackTag);
-            ins.add(mi);
+        // Đọc danh sách fluid
+        List<FluidStack> fluidStacks = new ArrayList<FluidStack>();
+        if (nbtRoot.hasKey("FluidStacks")) {
+            NBTTagList fluidList = nbtRoot.getTagList("FluidStacks", 10);
+            for (int i = 0; i < fluidList.tagCount(); i++) {
+                NBTTagCompound tag = fluidList.getCompoundTagAt(i);
+                FluidStack fluid = FluidStack.loadFluidStackFromNBT(tag);
+                if (fluid != null) {
+                    fluidStacks.add(fluid);
+                }
+            }
         }
 
+        // Lấy recipe từ UID
         String uid = nbtRoot.getString(KEY_RECIPE);
-        recipe = MachineRecipeRegistry.instance.getRecipeForUid(uid);
+        MachineRecipe recipe = MachineRecipeRegistry.getRecipeForUid(uid);
         if (recipe != null) {
-            return new PoweredTask(recipe, usedEnergy, chance, ins.toArray(new MachineRecipeInput[ins.size()]));
+            return new PoweredTask(recipe, usedEnergy, chance, itemStacks, fluidStacks);
         }
+
         return null;
     }
 
-    public IMachineRecipe getRecipe() {
+    @Override
+    public @Nullable MachineRecipe getRecipe() {
         return recipe;
+    }
+
+    @Override
+    public List<ItemStack> getItemOutputs() {
+        return recipe.getItemOutputs();
+    }
+
+    @Override
+    public List<FluidStack> getFluidOutputs() {
+        return recipe.getFluidOutputs();
     }
 }

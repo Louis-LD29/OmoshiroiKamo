@@ -1,5 +1,6 @@
 package com.louis.test.common.nei;
 
+import com.louis.test.common.nei.recipe.ElectrolyzerRecipeHandler;
 import com.louis.test.lib.LibMisc;
 
 import codechicken.nei.api.API;
@@ -9,13 +10,13 @@ public class NEIConfig implements IConfigureNEI {
 
     @Override
     public void loadConfig() {
-        API.registerRecipeHandler(new NEIRecipeHandlerElectrolyzer());
-        API.registerUsageHandler(new NEIRecipeHandlerElectrolyzer());
+        API.registerRecipeHandler(new ElectrolyzerRecipeHandler());
+        API.registerUsageHandler(new ElectrolyzerRecipeHandler());
     }
 
     @Override
     public String getName() {
-        return LibMisc.MOD_NAME + " NEI Plugin";
+        return LibMisc.MOD_NAME;
     }
 
     @Override

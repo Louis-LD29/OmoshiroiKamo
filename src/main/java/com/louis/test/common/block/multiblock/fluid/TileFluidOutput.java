@@ -32,6 +32,7 @@ import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.FluidUtil;
 import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.IoType;
+import com.louis.test.api.enums.Material;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.common.block.SmartTank;
 import com.louis.test.common.block.machine.SlotDefinition;
@@ -47,7 +48,7 @@ public class TileFluidOutput extends TileAddon implements IFluidHandler {
     private boolean didSyncFluid = false;
 
     public TileFluidOutput() {
-        super(new SlotDefinition(-1, -1, -1, -1, -1, -1));
+        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), Material.IRON);
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             setIoMode(direction, IoMode.OUTPUT, IoType.FLUID);
         }
@@ -216,7 +217,7 @@ public class TileFluidOutput extends TileAddon implements IFluidHandler {
     }
 
     private boolean canDrain(ForgeDirection from) {
-        IoMode mode = getIoMode(from);
+        IoMode mode = getIoMode(from, IoType.FLUID);
         return mode != IoMode.INPUT && mode != IoMode.DISABLED;
     }
 

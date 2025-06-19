@@ -5,10 +5,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.enderio.core.common.vecmath.VecmathUtil;
+import com.louis.test.api.enums.Material;
 import com.louis.test.api.interfaces.power.IInternalPoweredTile;
 import com.louis.test.core.handlers.PowerHandlerUtil;
-import com.louis.test.core.network.PacketHandler;
-import com.louis.test.core.network.PacketPowerStorage;
 
 import cofh.api.energy.EnergyStorage;
 
@@ -18,8 +17,8 @@ public abstract class AbstractPoweredMachineEntity extends AbstractMachineEntity
     private int storedEnergyRF;
     protected float lastSyncPowerStored = -1;
 
-    protected AbstractPoweredMachineEntity(SlotDefinition slotDefinition) {
-        super(slotDefinition);
+    protected AbstractPoweredMachineEntity(SlotDefinition slotDefinition, Material material) {
+        super(slotDefinition, material);
     }
 
     @Override
@@ -38,7 +37,7 @@ public abstract class AbstractPoweredMachineEntity extends AbstractMachineEntity
         boolean powerChanged = (lastSyncPowerStored != storedEnergyRF && shouldDoWorkThisTick(5));
         if (powerChanged) {
             lastSyncPowerStored = storedEnergyRF;
-            PacketHandler.sendToAllAround(new PacketPowerStorage(this), this);
+            // PacketHandler.sendToAllAround(new PacketPowerStorage(this), this);
         }
     }
 

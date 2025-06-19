@@ -35,6 +35,7 @@ Test.mana.upgrade.empowered_one.name=Empowered
 item.Test:operationOrb.name=Operation Orb
 item.bucketMana.name=Mana Bucket
 tile.blockTest.name=Test Block
+tile.blockElectrolyzer.name=Electrolyzer
 tile.fluid.mana.name=Mana
 fluid.mana=Mana
 
