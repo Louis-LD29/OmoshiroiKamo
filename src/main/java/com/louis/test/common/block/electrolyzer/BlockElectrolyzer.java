@@ -1,6 +1,7 @@
 package com.louis.test.common.block.electrolyzer;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -21,9 +22,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockElectrolyzer extends AbstractMachineBlock<TileElectrolyzer> implements IAdvancedTooltipProvider
-// , IWandHUD, IWandable
-{
+public class BlockElectrolyzer extends AbstractMachineBlock<TileElectrolyzer> implements IAdvancedTooltipProvider {
 
     public static BlockElectrolyzer create() {
         BlockElectrolyzer res = new BlockElectrolyzer();
@@ -58,7 +57,7 @@ public class BlockElectrolyzer extends AbstractMachineBlock<TileElectrolyzer> im
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item item, CreativeTabs p_149666_2_, List<ItemStack> list) {
+    public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
         list.add(new ItemStack(this, 1, 0));
     }
 
@@ -95,7 +94,6 @@ public class BlockElectrolyzer extends AbstractMachineBlock<TileElectrolyzer> im
 
     @Override
     public String getUnlocalizedNameForTooltip(ItemStack stack) {
-        System.out.println("BlockSolarPanel.getUnlocalizedNameForTooltip: ");
         return stack.getUnlocalizedName();
     }
 
@@ -104,14 +102,8 @@ public class BlockElectrolyzer extends AbstractMachineBlock<TileElectrolyzer> im
         return LibResources.PREFIX_MOD + "solarPanelFront";
     }
 
-    // @Override
-    // public void renderHUD(Minecraft mc, ScaledResolution res, World world, int x, int y, int z) {
-    // ((TileSolarPanel) world.getTileEntity(x, y, z)).renderHUD(mc, res);
-    // }
-    //
-    // @Override
-    // public boolean onUsedByWand(EntityPlayer player, ItemStack stack, World world, int x, int y, int z, int side) {
-    // ((TileSolarPanel) world.getTileEntity(x, y, z)).onWanded(player, stack);
-    // return true;
-    // }
+    @Override
+    public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+
+    }
 }

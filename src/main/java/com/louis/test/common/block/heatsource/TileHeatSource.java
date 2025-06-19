@@ -27,7 +27,7 @@ public class TileHeatSource extends AbstractMachineEntity implements IHeatHandle
     private final HeatStorage heat = new HeatStorage(Material.COPPER, BlockMassType.BLOCK);
 
     public TileHeatSource() {
-        super(new SlotDefinition(-1, -1, -1, -1, -1, -1));
+        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), Material.IRON);
         heat.setMaxTransfer(10000);
     }
 
@@ -123,13 +123,13 @@ public class TileHeatSource extends AbstractMachineEntity implements IHeatHandle
 
     @Override
     public boolean canExtractHeat(ForgeDirection from) {
-        IoMode mode = getIoMode(from);
+        IoMode mode = getIoMode(from, IoType.HEAT);
         return mode != IoMode.OUTPUT && mode != IoMode.DISABLED;
     }
 
     @Override
     public boolean canReceiveHeat(ForgeDirection from) {
-        IoMode mode = getIoMode(from);
+        IoMode mode = getIoMode(from, IoType.HEAT);
         return mode != IoMode.INPUT && mode != IoMode.DISABLED;
     }
 

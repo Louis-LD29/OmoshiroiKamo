@@ -5,6 +5,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.IFluidTank;
 
+import com.louis.test.api.enums.FluidMaterial;
 import com.louis.test.lib.LibMisc;
 
 public class ModFluids {
@@ -44,29 +45,42 @@ public class ModFluids {
         blockMana = BlockFluidEio.Mana.create(fluidMana, Material.water);
         FluidFuelRegister.instance.addCoolant(f, 0.0314f);
 
-        f = new Fluid("steam").setDensity(-1000) // Steam nhẹ hơn không khí, thường dùng giá trị âm
-            .setViscosity(1000) // Thấp hơn nước, vì steam loãng hơn
-            .setTemperature(373); // 100°C = 373K
+        // Steam
+        f = new Fluid(FluidMaterial.STEAM.getName())
+            .setDensity(
+                FluidMaterial.STEAM.isGas() ? -(int) Math.ceil(FluidMaterial.STEAM.getDensity())
+                    : (int) Math.ceil(FluidMaterial.STEAM.getDensity()))
+            .setViscosity((int) FluidMaterial.STEAM.getViscosity())
+            .setTemperature((int) FluidMaterial.STEAM.getTemperatureK());
         FluidRegistry.registerFluid(f);
         fluidSteam = FluidRegistry.getFluid(f.getName());
         blockSteam = BlockFluidEio.Steam.create(fluidSteam, Material.water);
-        itemBucketSteam = ItemBucketEio.create(fluidSteam, false);
+        itemBucketSteam = ItemBucketEio.create(fluidSteam, !FluidMaterial.STEAM.isGas());
 
-        f = new Fluid("hydrogen").setDensity(-1000)
-            .setViscosity(100)
-            .setTemperature(20 + 273);
+        // Hydrogen
+        f = new Fluid(FluidMaterial.HYDROGEN.getName())
+            .setDensity(
+                FluidMaterial.HYDROGEN.isGas() ? -(int) Math.ceil(FluidMaterial.HYDROGEN.getDensity())
+                    : (int) Math.ceil(FluidMaterial.HYDROGEN.getDensity()))
+            .setViscosity((int) FluidMaterial.HYDROGEN.getViscosity())
+            .setTemperature((int) FluidMaterial.HYDROGEN.getTemperatureK());
         FluidRegistry.registerFluid(f);
         fluidHydrogen = FluidRegistry.getFluid(f.getName());
         blockHydrogen = BlockFluidEio.Hydrogen.create(fluidHydrogen, Material.water);
-        itemBucketHydrogen = ItemBucketEio.create(fluidHydrogen, false);
+        itemBucketHydrogen = ItemBucketEio.create(fluidHydrogen, !FluidMaterial.HYDROGEN.isGas());
 
-        f = new Fluid("oxygen").setDensity(-500)
-            .setViscosity(150)
-            .setTemperature(20 + 273);
+        // Oxygen
+        f = new Fluid(FluidMaterial.OXYGEN.getName())
+            .setDensity(
+                FluidMaterial.OXYGEN.isGas() ? -(int) Math.ceil(FluidMaterial.OXYGEN.getDensity())
+                    : (int) Math.ceil(FluidMaterial.OXYGEN.getDensity()))
+            .setViscosity((int) FluidMaterial.OXYGEN.getViscosity())
+            .setTemperature((int) FluidMaterial.OXYGEN.getTemperatureK());
         FluidRegistry.registerFluid(f);
         fluidOxygen = FluidRegistry.getFluid(f.getName());
         blockOxygen = BlockFluidEio.Oxygen.create(fluidOxygen, Material.water);
-        itemBucketOxygen = ItemBucketEio.create(fluidOxygen, false);
+        itemBucketOxygen = ItemBucketEio.create(fluidOxygen, !FluidMaterial.OXYGEN.isGas());
+
     }
 
 }

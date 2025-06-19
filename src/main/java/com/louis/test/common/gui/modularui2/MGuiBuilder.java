@@ -110,14 +110,17 @@ public class MGuiBuilder {
             .debugName("Settings");
 
         column.coverChildren()
-            .leftRel(0.96f)
-            .topRel(0.05f)
+            .leftRelOffset(1f, 1)
+            .background(GuiTextures.MC_BACKGROUND)
+            .excludeAreaInNEI()
+            .coverChildren()
+            .padding(4)
             .childPadding(2)
-            .padding(1);
+            .bottomRel(0.5f);
 
         if (doesAddConfigR) {
             column.child(
-                new ToggleButton().size(16, 16)
+                new ToggleButton().size(18, 18)
                     .overlay(true, MGuiTextures.BUTTON_REDSTONE_ON)
                     .overlay(false, MGuiTextures.BUTTON_REDSTONE_OFF)
                     .value(
@@ -134,7 +137,7 @@ public class MGuiBuilder {
 
         if (doesAddConfigIOItem || doesAddConfigIOFluid || doesAddConfigIOHeat) {
             column.child(
-                new ButtonWidget<>().size(16, 16)
+                new ButtonWidget<>().size(18, 18)
                     .overlay(GuiTextures.GEAR)
                     .tooltip(richTooltip -> {
                         richTooltip.showUpTimer(2);

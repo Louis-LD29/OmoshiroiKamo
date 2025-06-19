@@ -58,7 +58,7 @@ public class BlockFluidInput extends AbstractMachineBlock<TileFluidInput> implem
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item item, CreativeTabs p_149666_2_, List<ItemStack> list) {
+    public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
         list.add(new ItemStack(this, 1, 0));
     }
 

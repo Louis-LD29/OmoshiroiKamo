@@ -9,6 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.enderio.core.common.util.BlockCoord;
+import com.louis.test.api.enums.IoType;
 import com.louis.test.common.block.machine.AbstractMachineEntity;
 import com.louis.test.core.handlers.PowerHandlerUtil;
 
@@ -65,8 +66,9 @@ public class PowerDistributor {
         receptors.clear();
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             TileEntity transmitter = worldObj.getTileEntity(bc.x, bc.y, bc.z);
-            if (!(transmitter instanceof AbstractMachineEntity) || ((AbstractMachineEntity) transmitter).getIoMode(dir)
-                .canOutput()) {
+            if (!(transmitter instanceof AbstractMachineEntity)
+                || ((AbstractMachineEntity) transmitter).getIoMode(dir, IoType.ENERGY)
+                    .canOutput()) {
                 BlockCoord checkLoc = bc.getLocation(dir);
                 TileEntity te = worldObj.getTileEntity(checkLoc.x, checkLoc.y, checkLoc.z);
                 IPowerInterface pi = PowerHandlerUtil.create(te);

@@ -1,12 +1,14 @@
 package com.louis.test.common.block.multiblock.boiler;
 
+import com.louis.test.api.enums.FluidMaterial;
+
 public class SteamCalculator {
 
     // Hằng số vật lý
     private static final double ATM_TO_PA = 101325.0;
     private static final double R = 461.5; // J/(kg·K), hằng số khí cho hơi nước
-    private static final double DENSITY_WATER = 1000.0; // kg/m³
-    private static final double DENSITY_STEAM = 0.6; // kg/m³
+    private static final double DENSITY_WATER = FluidMaterial.WATER.getDensity(); // kg/m³
+    private static final double DENSITY_STEAM = FluidMaterial.STEAM.getDensity();; // kg/m³
     private static final double P_BASE = 1.01325;
 
     private double heatSourceMassKg = 100.0;

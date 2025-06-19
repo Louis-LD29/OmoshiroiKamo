@@ -2,14 +2,15 @@ package com.louis.test.common.block.machine;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.louis.test.api.enums.Material;
 import com.louis.test.api.interfaces.power.IInternalPowerReceiver;
 import com.louis.test.core.handlers.PowerHandlerUtil;
 
 public abstract class AbstractPowerConsumerEntity extends AbstractPoweredMachineEntity
     implements IInternalPowerReceiver {
 
-    public AbstractPowerConsumerEntity(SlotDefinition slotDefinition) {
-        super(slotDefinition);
+    public AbstractPowerConsumerEntity(SlotDefinition slotDefinition, Material material) {
+        super(slotDefinition, material);
     }
 
     @Override

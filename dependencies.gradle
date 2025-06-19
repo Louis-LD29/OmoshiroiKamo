@@ -36,7 +36,7 @@
 dependencies {
     implementation("com.github.GTNewHorizons:Botania:1.12.12-GTNH:dev")
     implementation("com.github.GTNewHorizons:NotEnoughItems:2.7.54-GTNH:dev")
-    runtimeOnlyNonPublishable("com.github.GTNewHorizons:Hodgepodge:2.6.77:dev") {transitive = false}
+    runtimeOnlyNonPublishable("com.github.GTNewHorizons:Hodgepodge:2.6.78:dev") {transitive = false}
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:Angelica:1.0.0-beta46:dev") {transitive = false}
 //    runtimeOnlyNonPublishable("com.github.GTNewHorizons:Backhand:1.6.17:dev") {transitive = false}
 //    runtimeOnlyNonPublishable files("libs/etfuturum-2.6.2.13-GTNH-pre-dev.jar")
@@ -56,5 +56,4 @@ dependencies {
     api('curse.maven:cofh-lib-220333:2388748')
 
     compileOnly 'org.jetbrains:annotations:24.0.1'
-    implementation 'com.google.code.gson:gson:2.8.9'
 }

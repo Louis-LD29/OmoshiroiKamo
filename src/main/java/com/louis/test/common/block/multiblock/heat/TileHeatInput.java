@@ -35,7 +35,7 @@ public class TileHeatInput extends TileAddon implements IHeatHandler {
     private String timeToReachTemperature = "";
 
     public TileHeatInput() {
-        super(new SlotDefinition(-1, -1, -1, -1, -1, -1));
+        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), Material.IRON);
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             setIoMode(direction, IoMode.INPUT, IoType.HEAT);
         }
@@ -207,7 +207,7 @@ public class TileHeatInput extends TileAddon implements IHeatHandler {
 
     @Override
     public boolean canReceiveHeat(ForgeDirection from) {
-        IoMode mode = getIoMode(from);
+        IoMode mode = getIoMode(from, IoType.HEAT);
         return hasValidController() && mode != IoMode.INPUT && mode != IoMode.DISABLED;
     }
 
@@ -218,7 +218,7 @@ public class TileHeatInput extends TileAddon implements IHeatHandler {
 
     @Override
     public boolean canExtractHeat(ForgeDirection from) {
-        IoMode mode = getIoMode(from);
+        IoMode mode = getIoMode(from, IoType.HEAT);
         return mode != IoMode.OUTPUT && mode != IoMode.DISABLED;
     }
 

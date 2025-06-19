@@ -25,6 +25,7 @@ import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.enderio.core.common.util.BlockCoord;
 import com.louis.test.api.enums.IoMode;
+import com.louis.test.api.enums.IoType;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.fluid.IFluidCoolant;
 import com.louis.test.api.interfaces.power.PowerDistributor;
@@ -130,7 +131,7 @@ public class TileSolarPanel extends AbstractGeneratorEntity {
 
     @Override
     public boolean canConnectEnergy(ForgeDirection from) {
-        IoMode mode = getIoMode(from);
+        IoMode mode = getIoMode(from, IoType.ENERGY);
         return mode != IoMode.INPUT && mode != IoMode.DISABLED;
     }
 
