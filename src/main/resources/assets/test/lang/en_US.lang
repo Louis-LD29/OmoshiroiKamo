@@ -1,0 +1,42 @@
+
+Test.config.title=Test Configuration
+
+Test.config.personal=Personal Settings
+Test.config.personal.tooltip=I won't tell anyone, I promise.
+Test.config.mana=Mana
+Test.config.mana.tooltip=
+
+Test.gui.machine.ioMode.none=None
+Test.gui.machine.ioMode.input=Input
+Test.gui.machine.ioMode.output=Output
+Test.gui.machine.ioMode.disabled=Disabled
+Test.gui.machine.ioMode.inputOutput=Output / Input
+
+Test.power.rf=RF
+Test.fluid.millibucket.abr=L
+
+Testmisc.shiftinfo=Hold &bSHIFT&7 for more info
+
+# BAUBLE TOOLTIPS
+Test.baubletype.amulet=Equippable in the &aAmulet&7 slot
+Test.baubletype.ring=Equippable in the &aRing&7 slot
+Test.baubletype.belt=Equippable in the &aBelt&7 slot
+Test.baubletooltip=Press &b%key%&7 to open the Baubles menu
+
+Test.item.mana.tooltip.lvs=lvs
+Test.item.operationOrb.tooltip.effPowered=Efficiency when powered
+
+Test.tooltip.oreDictNames=Ore Dictionary Names:
+Test.tooltip.durability=Durability:
+Test.tooltip.anvilupgrades=Anvil Upgrades:
+
+Test.mana.upgrade.empowered_one.name=Empowered
+
+item.Test:operationOrb.name=Operation Orb
+item.bucketMana.name=Mana Bucket
+tile.blockTest.name=Test Block
+tile.blockElectrolyzer.name=Electrolyzer
+tile.fluid.mana.name=Mana
+fluid.mana=Mana
+
+nei.electrolyzer.name = Electrolyzer
