@@ -26,8 +26,7 @@ public class MaterialConfig {
     }
 
     public static MaterialConfig loadFromConfig(Configuration config, Material mat) {
-        String cat = "material settings." + mat.name()
-            .toLowerCase();
+        String cat = "material settings." + mat.getDisplayName();
 
         double density = config.get(cat, "density", mat.getDefaultDensityKgPerM3(), "Density (kg/m^3)")
             .getDouble();
@@ -49,7 +48,15 @@ public class MaterialConfig {
             .get(cat, "electricalConductivity", mat.getDefaultElectricalConductivity(), "Electrical Conductivity (S/m)")
             .getDouble();
 
-        int color = config.get(cat, "color", mat.getDefaultColor(), "Material Display Color (RGB Integer)")
+        int defaultColor = mat.get().color;
+        String hex = String.format("0x%06X", defaultColor)
+            .toUpperCase();
+        int color = config
+            .get(
+                cat,
+                "color",
+                mat.getDefaultColor(),
+                "Material display color as RGB integer (" + hex + "), format: 0xRRGGBB")
             .getInt();
 
         return new MaterialConfig(density, specificHeat, thermal, melting, pressure, electrical, color);
