@@ -125,6 +125,25 @@ tile.blockEnergyInOut.output.tungsten.name=Energy Output (Tungsten)
 tile.blockEnergyInOut.output.tungsten_carbide.name=Energy Output (Tungsten Carbide)
 tile.blockEnergyInOut.output.niobium.name=Energy Output (Niobium)
 
+#Block of Material
+tile.blockMaterial.iron.name=Block of Iron
+tile.blockMaterial.copper.name=Block of Copper
+tile.blockMaterial.silver.name=Block of Silver
+tile.blockMaterial.gold.name=Block of Gold
+tile.blockMaterial.zinc.name=Block of Zinc
+tile.blockMaterial.aluminum.name=Block of Aluminum
+tile.blockMaterial.lead.name=Block of Lead
+tile.blockMaterial.titanium.name=Block of Titanium
+tile.blockMaterial.chromium.name=Block of Chromium
+tile.blockMaterial.nickel.name=Block of Nickel
+tile.blockMaterial.carbon_steel.name=Block of Carbon Steel
+tile.blockMaterial.stainless_steel.name=Block of Stainless Steel
+tile.blockMaterial.brass.name=Block of Brass
+tile.blockMaterial.inconel.name=Block of Inconel 625
+tile.blockMaterial.tungsten.name=Block of Tungsten
+tile.blockMaterial.tungsten_carbide.name=Block of Tungsten Carbide
+tile.blockMaterial.niobium.name=Block of Niobium
+
 #Item Wire Coil
 item.itemWireCoil.copper.name=Wire Coil (Copper)
 item.itemWireCoil.silver.name=Wire Coil (Silver)
@@ -220,6 +239,24 @@ item.itemMaterial.rod.tungsten.name=Tungsten Rod
 item.itemMaterial.rod.tungsten_carbide.name=Tungsten Carbide Rod
 item.itemMaterial.rod.niobium.name=Niobium Rod
 
+#Item Material Dust
+item.itemMaterial.dust.iron.name=Iron Dust
+item.itemMaterial.dust.copper.name=Copper Dust
+item.itemMaterial.dust.silver.name=Silver Dust
+item.itemMaterial.dust.gold.name=Gold Dust
+item.itemMaterial.dust.zinc.name=Zinc Dust
+item.itemMaterial.dust.aluminum.name=Aluminum Dust
+item.itemMaterial.dust.lead.name=Lead Dust
+item.itemMaterial.dust.titanium.name=Titanium Dust
+item.itemMaterial.dust.chromium.name=Chromium Dust
+item.itemMaterial.dust.nickel.name=Nickel Dust
+item.itemMaterial.dust.carbon_steel.name=Carbon Steel Dust
+item.itemMaterial.dust.stainless_steel.name=Stainless Steel Dust
+item.itemMaterial.dust.brass.name=Brass Dust
+item.itemMaterial.dust.inconel.name=Inconel 625 Dust
+item.itemMaterial.dust.tungsten.name=Tungsten Dust
+item.itemMaterial.dust.tungsten_carbide.name=Tungsten Carbide Dust
+item.itemMaterial.dust.niobium.name=Niobium Dust
 
 #Immersive Engineering
 

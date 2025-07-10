@@ -1,6 +1,7 @@
 package com.louis.test.common.item;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.apache.commons.lang3.StringUtils.uncapitalize;
 
 import java.util.List;
 import java.util.Locale;
@@ -27,6 +28,7 @@ public class ItemMaterial extends Item {
     protected IIcon nuggetIcon;
     protected IIcon plateIcon;
     protected IIcon rodIcon;
+    protected IIcon dustIcon;
 
     public static ItemMaterial create() {
         ItemMaterial mat = new ItemMaterial();
@@ -66,7 +68,9 @@ public class ItemMaterial extends Item {
         OreDictionary.registerOre("nugget" + capitalize(name), new ItemStack(this, 1, 100 + meta));
         OreDictionary.registerOre("plate" + capitalize(name), new ItemStack(this, 1, 200 + meta));
         OreDictionary.registerOre("rod" + capitalize(name), new ItemStack(this, 1, 300 + meta));
+        OreDictionary.registerOre(uncapitalize(name) + "Rod", new ItemStack(this, 1, 300 + meta));
         OreDictionary.registerOre("stick" + capitalize(name), new ItemStack(this, 1, 300 + meta));
+        OreDictionary.registerOre("dust" + capitalize(name), new ItemStack(this, 1, 400 + meta));
     }
 
     @Override
@@ -77,7 +81,9 @@ public class ItemMaterial extends Item {
         String base = super.getUnlocalizedName(stack);
 
         String type;
-        if (meta >= 300) {
+        if (meta >= 400) {
+            type = "dust";
+        } else if (meta >= 300) {
             type = "rod";
         } else if (meta >= 200) {
             type = "plate";
@@ -105,12 +111,15 @@ public class ItemMaterial extends Item {
             list.add(new ItemStack(this, 1, 200 + i));
             // rod
             list.add(new ItemStack(this, 1, 300 + i));
+            // dust
+            list.add(new ItemStack(this, 1, 400 + i));
         }
     }
 
     @SideOnly(Side.CLIENT)
     @Override
     public IIcon getIconFromDamage(int damage) {
+        if (damage >= 400) return dustIcon;
         if (damage >= 300) return rodIcon;
         if (damage >= 200) return plateIcon;
         if (damage >= 100) return nuggetIcon;
@@ -131,5 +140,6 @@ public class ItemMaterial extends Item {
         nuggetIcon = reg.registerIcon(LibResources.PREFIX_MOD + "material_nugget");
         plateIcon = reg.registerIcon(LibResources.PREFIX_MOD + "material_plate");
         rodIcon = reg.registerIcon(LibResources.PREFIX_MOD + "material_rod");
+        dustIcon = reg.registerIcon(LibResources.PREFIX_MOD + "material_dust");
     }
 }

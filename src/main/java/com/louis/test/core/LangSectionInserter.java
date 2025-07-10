@@ -28,17 +28,23 @@ public class LangSectionInserter {
             "#Item Material Nugget",
             material -> "item.itemMaterial.nugget." + material.name()
                 .toLowerCase() + ".name=" + material.getDisplayName() + " Nugget");
-
         SECTIONS.put(
             "#Item Material Plate",
             material -> "item.itemMaterial.plate." + material.name()
                 .toLowerCase() + ".name=" + material.getDisplayName() + " Plate");
-
         SECTIONS.put(
             "#Item Material Rod",
             material -> "item.itemMaterial.rod." + material.name()
                 .toLowerCase() + ".name=" + material.getDisplayName() + " Rod");
+        SECTIONS.put(
+            "#Item Material Dust",
+            material -> "item.itemMaterial.dust." + material.name()
+                .toLowerCase() + ".name=" + material.getDisplayName() + " Dust");
 
+        SECTIONS.put(
+            "#Block of Material",
+            material -> "tile.blockMaterial." + material.name()
+                .toLowerCase() + ".name=Block of " + material.getDisplayName());
         SECTIONS.put(
             "#Energy Input",
             material -> "tile.blockEnergyInOut.input." + material.name()
@@ -47,6 +53,14 @@ public class LangSectionInserter {
             "#Energy Output",
             material -> "tile.blockEnergyInOut.output." + material.name()
                 .toLowerCase() + ".name=Energy Output (" + material.getDisplayName() + ")");
+        SECTIONS.put(
+            "#Fluid Input",
+            material -> "tile.blockFluidInOut.input." + material.name()
+                .toLowerCase() + ".name=Fluid Input (" + material.getDisplayName() + ")");
+        SECTIONS.put(
+            "#Fluid Output",
+            material -> "tile.blockFluidInOut.output." + material.name()
+                .toLowerCase() + ".name=Fluid Output (" + material.getDisplayName() + ")");
 
     }
 
