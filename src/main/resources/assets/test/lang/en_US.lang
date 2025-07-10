@@ -1,0 +1,160 @@
+
+Test.config.title=Test Configuration
+
+Test.config.personal=Personal Settings
+Test.config.personal.tooltip=I won't tell anyone, I promise.
+Test.config.mana=Mana
+Test.config.mana.tooltip=
+mana.config.ie=Immersive Engineering
+mana.config.ie.tooltip=Settings related to wire behavior and render.
+
+
+Test.gui.machine.ioMode.none=None
+Test.gui.machine.ioMode.input=Input
+Test.gui.machine.ioMode.output=Output
+Test.gui.machine.ioMode.disabled=Disabled
+Test.gui.machine.ioMode.inputOutput=Output / Input
+Test.gui.powerMonitor.of=of
+
+Test.power.rf=RF
+Test.fluid.millibucket.abr=L
+Test.fluid.empty=Empty
+
+Testmisc.shiftinfo=Hold &bSHIFT&7 for more info
+
+# BAUBLE TOOLTIPS
+Test.baubletype.amulet=Equippable in the &aAmulet&7 slot
+Test.baubletype.ring=Equippable in the &aRing&7 slot
+Test.baubletype.belt=Equippable in the &aBelt&7 slot
+Test.baubletooltip=Press &b%key%&7 to open the Baubles menu
+
+Test.item.mana.tooltip.lvs=lvs
+Test.item.operationOrb.tooltip.effPowered=Efficiency when powered
+
+Test.tooltip.oreDictNames=Ore Dictionary Names:
+Test.tooltip.durability=Durability:
+Test.tooltip.anvilupgrades=Anvil Upgrades:
+
+Test.mana.upgrade.empowered_one.name=Empowered
+
+item.Test:operationOrb.name=Operation Orb
+item.bucketMana.name=Mana Bucket
+tile.blockTest.name=Test Block
+
+tile.blockElectrolyzer.name=Electrolyzer
+
+tile.fluid.mana.name=Mana
+fluid.mana=Mana
+
+
+#Fluid Input
+tile.blockFluidInOut.input.iron.name=Fluid Input (Iron)
+tile.blockFluidInOut.input.copper.name=Fluid Input (Copper)
+tile.blockFluidInOut.input.silver.name=Fluid Input (Silver)
+tile.blockFluidInOut.input.gold.name=Fluid Input (Gold)
+tile.blockFluidInOut.input.zinc.name=Fluid Input (Zinc)
+tile.blockFluidInOut.input.aluminum.name=Fluid Input (Aluminum)
+tile.blockFluidInOut.input.lead.name=Fluid Input (Lead)
+tile.blockFluidInOut.input.titanium.name=Fluid Input (Titanium)
+tile.blockFluidInOut.input.chromium.name=Fluid Input (Chromium)
+tile.blockFluidInOut.input.nickel.name=Fluid Input (Nickel)
+tile.blockFluidInOut.input.carbon_steel.name=Fluid Input (Carbon Steel)
+tile.blockFluidInOut.input.stainless_steel.name=Fluid Input (Stainless Steel)
+tile.blockFluidInOut.input.brass.name=Fluid Input (Brass)
+tile.blockFluidInOut.input.inconel.name=Fluid Input (Inconel 625)
+tile.blockFluidInOut.input.tungsten.name=Fluid Input (Tungsten)
+tile.blockFluidInOut.input.tungsten_carbide.name=Fluid Input (Tungsten Carbide)
+tile.blockFluidInOut.input.niobium.name=Fluid Input (Niobium)
+
+#Fluid Output
+tile.blockFluidInOut.output.iron.name=Fluid Output (Iron)
+tile.blockFluidInOut.output.copper.name=Fluid Output (Copper)
+tile.blockFluidInOut.output.silver.name=Fluid Output (Silver)
+tile.blockFluidInOut.output.gold.name=Fluid Output (Gold)
+tile.blockFluidInOut.output.zinc.name=Fluid Output (Zinc)
+tile.blockFluidInOut.output.aluminum.name=Fluid Output (Aluminum)
+tile.blockFluidInOut.output.lead.name=Fluid Output (Lead)
+tile.blockFluidInOut.output.titanium.name=Fluid Output (Titanium)
+tile.blockFluidInOut.output.chromium.name=Fluid Output (Chromium)
+tile.blockFluidInOut.output.nickel.name=Fluid Output (Nickel)
+tile.blockFluidInOut.output.carbon_steel.name=Fluid Output (Carbon Steel)
+tile.blockFluidInOut.output.stainless_steel.name=Fluid Output (Stainless Steel)
+tile.blockFluidInOut.output.brass.name=Fluid Output (Brass)
+tile.blockFluidInOut.output.inconel.name=Fluid Output (Inconel 625)
+tile.blockFluidInOut.output.tungsten.name=Fluid Output (Tungsten)
+tile.blockFluidInOut.output.tungsten_carbide.name=Fluid Output (Tungsten Carbide)
+tile.blockFluidInOut.output.niobium.name=Fluid Output (Niobium)
+
+#Energy Input
+tile.blockEnergyInOut.input.iron.name=Energy Input (Iron)
+tile.blockEnergyInOut.input.copper.name=Energy Input (Copper)
+tile.blockEnergyInOut.input.silver.name=Energy Input (Silver)
+tile.blockEnergyInOut.input.gold.name=Energy Input (Gold)
+tile.blockEnergyInOut.input.zinc.name=Energy Input (Zinc)
+tile.blockEnergyInOut.input.aluminum.name=Energy Input (Aluminum)
+tile.blockEnergyInOut.input.lead.name=Energy Input (Lead)
+tile.blockEnergyInOut.input.titanium.name=Energy Input (Titanium)
+tile.blockEnergyInOut.input.chromium.name=Energy Input (Chromium)
+tile.blockEnergyInOut.input.nickel.name=Energy Input (Nickel)
+tile.blockEnergyInOut.input.carbon_steel.name=Energy Input (Carbon Steel)
+tile.blockEnergyInOut.input.stainless_steel.name=Energy Input (Stainless Steel)
+tile.blockEnergyInOut.input.brass.name=Energy Input (Brass)
+tile.blockEnergyInOut.input.inconel.name=Energy Input (Inconel 625)
+tile.blockEnergyInOut.input.tungsten.name=Energy Input (Tungsten)
+tile.blockEnergyInOut.input.tungsten_carbide.name=Energy Input (Tungsten Carbide)
+tile.blockEnergyInOut.input.niobium.name=Energy Input (Niobium)
+
+#Energy Output
+tile.blockEnergyInOut.output.iron.name=Energy Output (Iron)
+tile.blockEnergyInOut.output.copper.name=Energy Output (Copper)
+tile.blockEnergyInOut.output.silver.name=Energy Output (Silver)
+tile.blockEnergyInOut.output.gold.name=Energy Output (Gold)
+tile.blockEnergyInOut.output.zinc.name=Energy Output (Zinc)
+tile.blockEnergyInOut.output.aluminum.name=Energy Output (Aluminum)
+tile.blockEnergyInOut.output.lead.name=Energy Output (Lead)
+tile.blockEnergyInOut.output.titanium.name=Energy Output (Titanium)
+tile.blockEnergyInOut.output.chromium.name=Energy Output (Chromium)
+tile.blockEnergyInOut.output.nickel.name=Energy Output (Nickel)
+tile.blockEnergyInOut.output.carbon_steel.name=Energy Output (Carbon Steel)
+tile.blockEnergyInOut.output.stainless_steel.name=Energy Output (Stainless Steel)
+tile.blockEnergyInOut.output.brass.name=Energy Output (Brass)
+tile.blockEnergyInOut.output.inconel.name=Energy Output (Inconel 625)
+tile.blockEnergyInOut.output.tungsten.name=Energy Output (Tungsten)
+tile.blockEnergyInOut.output.tungsten_carbide.name=Energy Output (Tungsten Carbide)
+tile.blockEnergyInOut.output.niobium.name=Energy Output (Niobium)
+
+#Item Wire Coil
+item.itemWireCoil.copper.name=Wire Coil (Copper)
+item.itemWireCoil.silver.name=Wire Coil (Silver)
+item.itemWireCoil.gold.name=Wire Coil (Gold)
+item.itemWireCoil.zinc.name=Wire Coil (Zinc)
+item.itemWireCoil.aluminum.name=Wire Coil (Aluminum)
+item.itemWireCoil.lead.name=Wire Coil (Lead)
+item.itemWireCoil.titanium.name=Wire Coil (Titanium)
+item.itemWireCoil.chromium.name=Wire Coil (Chromium)
+item.itemWireCoil.nickel.name=Wire Coil (Nickel)
+item.itemWireCoil.carbon_steel.name=Wire Coil (Carbon Steel)
+item.itemWireCoil.stainless_steel.name=Wire Coil (Stainless Steel)
+item.itemWireCoil.brass.name=Wire Coil (Brass)
+item.itemWireCoil.inconel.name=Wire Coil (Inconel 625)
+item.itemWireCoil.tungsten.name=Wire Coil (Tungsten)
+item.itemWireCoil.tungsten_carbide.name=Wire Coil (Tungsten Carbide)
+item.itemWireCoil.niobium.name=Wire Coil (Niobium)
+item.itemWireCoil.iron.name=Wire Coil (Iron)
+
+
+
+#Immersive Engineering
+
+#CHAT
+chat.ImmersiveEngineering.warning.wrongCable=You cannot attach this wire here
+chat.ImmersiveEngineering.warning.wrongDimension=You are in the wrong dimension
+chat.ImmersiveEngineering.warning.sameConnection=You cannot attach a wire to the same point
+chat.ImmersiveEngineering.warning.tooFar=You are too far away from the previous connection
+chat.ImmersiveEngineering.warning.cantSee=The connection is obstructed
+chat.ImmersiveEngineering.warning.connectionExists=The connection exists already
+chat.ImmersiveEngineering.warning.invalidPoint=One of the connection points is invalid
+chat.ImmersiveEngineering.info.averageLoss=Average loss between points: %1$s%%
+
+#DESCRIPTIONS
+desc.ImmersiveEngineering.info.attachedToDim=Linking from %1$s, %2$s, %3$s in Dimension %4$s
