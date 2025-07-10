@@ -26,8 +26,8 @@ public abstract class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         Config.preInit(event);
 
-        ModItems.init();
         ModBlocks.init();
+        ModItems.init();
         ModFluids.init();
         ModRecipes.init();
         MinecraftForge.EVENT_BUS.register(new ModEvent());

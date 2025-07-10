@@ -16,6 +16,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import com.louis.test.api.enums.Material;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.common.TestCreativeTab;
+import com.louis.test.common.block.ModBlocks;
 import com.louis.test.core.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -60,6 +61,8 @@ public class ItemMaterial extends Item {
                 default:
                     break;
             }
+
+            registerMaterialConversionRecipes(index);
         }
     }
 
@@ -71,6 +74,25 @@ public class ItemMaterial extends Item {
         OreDictionary.registerOre(uncapitalize(name) + "Rod", new ItemStack(this, 1, 300 + meta));
         OreDictionary.registerOre("stick" + capitalize(name), new ItemStack(this, 1, 300 + meta));
         OreDictionary.registerOre("dust" + capitalize(name), new ItemStack(this, 1, 400 + meta));
+    }
+
+    private void registerMaterialConversionRecipes(int meta) {
+        ItemStack ingot = new ItemStack(this, 1, meta);
+        ItemStack nugget = new ItemStack(this, 1, 100 + meta);
+        ItemStack block = new ItemStack(Item.getItemFromBlock(ModBlocks.blockMaterial), 1, meta);
+
+        // Ingot → Nugget x9
+        GameRegistry.addShapelessRecipe(new ItemStack(nugget.getItem(), 9, nugget.getItemDamage()), ingot);
+
+        // Nugget x9 → Ingot
+        GameRegistry.addShapedRecipe(ingot, "NNN", "NNN", "NNN", 'N', nugget);
+
+        // Ingot x9 → Block
+        GameRegistry.addShapedRecipe(block, "III", "III", "III", 'I', ingot);
+
+        // Block → Ingot x9
+        GameRegistry.addShapelessRecipe(new ItemStack(ingot.getItem(), 9, ingot.getItemDamage()), block);
+
     }
 
     @Override
