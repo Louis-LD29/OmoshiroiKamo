@@ -93,9 +93,12 @@ public class ItemMaterial extends Item {
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
         int count = Material.values().length;
         for (int i = 0; i < count; i++) {
-            list.add(new ItemStack(this, 1, i));           // ingot
-            list.add(new ItemStack(this, 1, 100 + i));     // nugget
-            list.add(new ItemStack(this, 1, 200 + i));     // plate
+            // ingot
+            list.add(new ItemStack(this, 1, i));
+            // nugget
+            list.add(new ItemStack(this, 1, 100 + i));
+            // plate
+            list.add(new ItemStack(this, 1, 200 + i));
         }
     }
 
@@ -107,7 +110,6 @@ public class ItemMaterial extends Item {
         if (damage >= 100) return nuggetIcon;
         return ingotIcon;
     }
-
 
     @Override
     @SideOnly(Side.CLIENT)
