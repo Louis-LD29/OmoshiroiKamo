@@ -14,15 +14,15 @@ import com.louis.test.common.block.ModBlocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockItemMultiBlock extends ItemBlockWithMetadata {
+public class ItemBlockMultiBlock extends ItemBlockWithMetadata {
 
-    public BlockItemMultiBlock() {
+    public ItemBlockMultiBlock() {
         super(ModBlocks.blockMultiBlock, ModBlocks.blockMultiBlock);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.INSTANCE);
     }
 
-    public BlockItemMultiBlock(Block block) {
+    public ItemBlockMultiBlock(Block block) {
         super(block, block);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.tabBlock);

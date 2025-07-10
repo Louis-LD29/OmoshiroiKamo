@@ -1,4 +1,4 @@
-package com.louis.test.common.block.solar;
+package com.louis.test.common.block.heatsource;
 
 import java.util.List;
 
@@ -16,15 +16,15 @@ import com.louis.test.common.block.ModBlocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockItemSolarPanel extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
+public class ItemBlockHeatSource extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
-    public BlockItemSolarPanel() {
-        super(ModBlocks.blockSolar, ModBlocks.blockSolar);
+    public ItemBlockHeatSource() {
+        super(ModBlocks.blockHeatSource, ModBlocks.blockHeatSource);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.INSTANCE);
     }
 
-    public BlockItemSolarPanel(Block block) {
+    public ItemBlockHeatSource(Block block) {
         super(block, block);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.tabBlock);

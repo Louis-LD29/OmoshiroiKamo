@@ -22,6 +22,8 @@ public enum ModObject {
     blockElectrolyzer,
     blockSolar,
 
+    blockMaterial,
+
     itemMaterial,
     itemWireCoil;
 

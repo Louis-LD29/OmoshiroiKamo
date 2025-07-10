@@ -5,8 +5,10 @@ Test.config.personal=Personal Settings
 Test.config.personal.tooltip=I won't tell anyone, I promise.
 Test.config.mana=Mana
 Test.config.mana.tooltip=
-mana.config.ie=Immersive Engineering
-mana.config.ie.tooltip=Settings related to wire behavior and render.
+Test.config.ie=Immersive Engineering
+Test.config.ie.tooltip=Settings related to wire behavior and render.
+Test.config.material=Material
+Test.config.material.tooltip=Configure properties and rendering of materials such as ingots, blocks, and wires.
 
 
 Test.gui.machine.ioMode.none=None
@@ -179,6 +181,45 @@ item.itemMaterial.nugget.inconel.name=Inconel 625 Nugget
 item.itemMaterial.nugget.tungsten.name=Tungsten Nugget
 item.itemMaterial.nugget.tungsten_carbide.name=Tungsten Carbide Nugget
 item.itemMaterial.nugget.niobium.name=Niobium Nugget
+
+#Item Material Plate
+item.itemMaterial.plate.iron.name=Iron Plate
+item.itemMaterial.plate.copper.name=Copper Plate
+item.itemMaterial.plate.silver.name=Silver Plate
+item.itemMaterial.plate.gold.name=Gold Plate
+item.itemMaterial.plate.zinc.name=Zinc Plate
+item.itemMaterial.plate.aluminum.name=Aluminum Plate
+item.itemMaterial.plate.lead.name=Lead Plate
+item.itemMaterial.plate.titanium.name=Titanium Plate
+item.itemMaterial.plate.chromium.name=Chromium Plate
+item.itemMaterial.plate.nickel.name=Nickel Plate
+item.itemMaterial.plate.carbon_steel.name=Carbon Steel Plate
+item.itemMaterial.plate.stainless_steel.name=Stainless Steel Plate
+item.itemMaterial.plate.brass.name=Brass Plate
+item.itemMaterial.plate.inconel.name=Inconel 625 Plate
+item.itemMaterial.plate.tungsten.name=Tungsten Plate
+item.itemMaterial.plate.tungsten_carbide.name=Tungsten Carbide Plate
+item.itemMaterial.plate.niobium.name=Niobium Plate
+
+#Item Material Rod
+item.itemMaterial.rod.iron.name=Iron Rod
+item.itemMaterial.rod.copper.name=Copper Rod
+item.itemMaterial.rod.silver.name=Silver Rod
+item.itemMaterial.rod.gold.name=Gold Rod
+item.itemMaterial.rod.zinc.name=Zinc Rod
+item.itemMaterial.rod.aluminum.name=Aluminum Rod
+item.itemMaterial.rod.lead.name=Lead Rod
+item.itemMaterial.rod.titanium.name=Titanium Rod
+item.itemMaterial.rod.chromium.name=Chromium Rod
+item.itemMaterial.rod.nickel.name=Nickel Rod
+item.itemMaterial.rod.carbon_steel.name=Carbon Steel Rod
+item.itemMaterial.rod.stainless_steel.name=Stainless Steel Rod
+item.itemMaterial.rod.brass.name=Brass Rod
+item.itemMaterial.rod.inconel.name=Inconel 625 Rod
+item.itemMaterial.rod.tungsten.name=Tungsten Rod
+item.itemMaterial.rod.tungsten_carbide.name=Tungsten Carbide Rod
+item.itemMaterial.rod.niobium.name=Niobium Rod
+
 
 #Immersive Engineering
 

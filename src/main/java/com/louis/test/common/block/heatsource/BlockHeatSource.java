@@ -35,7 +35,7 @@ public class BlockHeatSource extends AbstractMachineBlock<TileHeatSource> implem
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, BlockItemHeatSource.class, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockHeatSource.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
     }
 

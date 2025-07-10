@@ -22,7 +22,7 @@ public class BlockMultiBlock extends AbstractBlock<TileMultiBlock> {
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, BlockItemMultiBlock.class, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockMultiBlock.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
     }
 

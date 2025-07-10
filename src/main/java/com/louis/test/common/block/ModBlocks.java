@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 
 import com.louis.test.common.block.electrolyzer.BlockElectrolyzer;
 import com.louis.test.common.block.heatsource.BlockHeatSource;
+import com.louis.test.common.block.material.BlockMaterial;
 import com.louis.test.common.block.meta.BlockMeta;
 import com.louis.test.common.block.multiblock.BlockMultiBlock;
 import com.louis.test.common.block.multiblock.boiler.BlockBoiler;
@@ -21,6 +22,7 @@ import com.louis.test.common.block.test.BlockTest;
 public class ModBlocks {
 
     public static Block blockMeta;
+    public static Block blockMaterial;
     public static Block blockMultiBlock;
     public static Block blockTest;
     public static Block blockSolar;
@@ -38,6 +40,7 @@ public class ModBlocks {
 
     public static void init() {
         blockMeta = BlockMeta.create();
+        blockMaterial = BlockMaterial.create();
         blockMultiBlock = BlockMultiBlock.create();
         blockTest = BlockTest.create();
         blockSolar = BlockSolarPanel.create();

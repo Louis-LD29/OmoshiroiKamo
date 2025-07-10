@@ -1,4 +1,4 @@
-package com.louis.test.common.block.heatsource;
+package com.louis.test.common.block.meta;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
+import com.louis.test.api.enums.MetaTileEntity;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.TestCreativeTab;
 import com.louis.test.common.block.ModBlocks;
@@ -16,35 +17,35 @@ import com.louis.test.common.block.ModBlocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockItemHeatSource extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
+public class ItemBlockMeta extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
-    public BlockItemHeatSource() {
-        super(ModBlocks.blockHeatSource, ModBlocks.blockHeatSource);
+    public ItemBlockMeta() {
+        super(ModBlocks.blockMeta, ModBlocks.blockMeta);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.INSTANCE);
     }
 
-    public BlockItemHeatSource(Block block) {
+    public ItemBlockMeta(Block block) {
         super(block, block);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.tabBlock);
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack par1ItemStack) {
-        int meta = par1ItemStack.getItemDamage();
-        String result = super.getUnlocalizedName(par1ItemStack);
-        if (meta == 1) {
-            result += ".advanced";
-        }
-        return result;
+    public String getUnlocalizedName(ItemStack stack) {
+        int meta = stack.getItemDamage();
+        MetaTileEntity mte = MetaTileEntity.fromMeta(meta);
+        return super.getUnlocalizedName(stack) + "."
+            + mte.name()
+                .toLowerCase();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List) {
-        ItemStack stack = new ItemStack(this, 1, 0);
-        par3List.add(stack);
+    public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+        for (int meta : MetaTileEntity.getAllBaseMetas()) {
+            list.add(new ItemStack(item, 1, meta));
+        }
     }
 
     @Override
@@ -61,4 +62,5 @@ public class BlockItemHeatSource extends ItemBlockWithMetadata implements IAdvan
     public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
 
     }
+
 }

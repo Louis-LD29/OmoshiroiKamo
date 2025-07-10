@@ -16,15 +16,15 @@ import com.louis.test.common.block.ModBlocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockItemBoiler extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
+public class ItemBlockBoiler extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
-    public BlockItemBoiler() {
+    public ItemBlockBoiler() {
         super(ModBlocks.blockBoiler, ModBlocks.blockBoiler);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.INSTANCE);
     }
 
-    public BlockItemBoiler(Block block) {
+    public ItemBlockBoiler(Block block) {
         super(block, block);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.tabBlock);

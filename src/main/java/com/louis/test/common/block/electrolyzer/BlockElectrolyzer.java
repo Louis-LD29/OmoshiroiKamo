@@ -36,7 +36,7 @@ public class BlockElectrolyzer extends AbstractMachineBlock<TileElectrolyzer> im
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, BlockItemElectrolyzer.class, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockElectrolyzer.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
     }
 

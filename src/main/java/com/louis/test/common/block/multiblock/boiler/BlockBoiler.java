@@ -35,7 +35,7 @@ public class BlockBoiler extends AbstractMachineBlock<TileBoiler> implements IAd
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, BlockItemBoiler.class, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockBoiler.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
     }
 
