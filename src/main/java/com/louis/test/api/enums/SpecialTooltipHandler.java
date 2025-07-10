@@ -21,7 +21,7 @@ import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.api.interfaces.IResourceTooltipProvider;
 import com.louis.test.api.interfaces.mana.IManaItem;
 import com.louis.test.common.item.ItemBauble;
-import com.louis.test.lib.LibMisc;
+import com.louis.test.core.lib.LibMisc;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -30,12 +30,86 @@ public enum SpecialTooltipHandler {
 
     INSTANCE;
 
-    public interface ITooltipCallback extends IAdvancedTooltipProvider {
+    private static final List<String> throwaway = new ArrayList<String>();
+    private final List<ITooltipCallback> callbacks = Lists.newArrayList();
 
-        boolean shouldHandleItem(ItemStack item);
+    private static boolean hasDetailedTooltip(IResourceTooltipProvider tt, ItemStack stack) {
+        throwaway.clear();
+        String name = tt.getUnlocalizedNameForTooltip(stack);
+        addDetailedTooltipFromResources(throwaway, name);
+        return !throwaway.isEmpty();
     }
 
-    private final List<ITooltipCallback> callbacks = Lists.newArrayList();
+    private static boolean hasDetailedTooltip(IAdvancedTooltipProvider tt, ItemStack stack, EntityPlayer player,
+        boolean flag) {
+        throwaway.clear();
+        tt.addDetailedEntries(stack, player, throwaway, flag);
+        return !throwaway.isEmpty();
+    }
+
+    public static void addShowDetailsTooltip(List list) {
+        list.add(
+            EnumChatFormatting.WHITE + "" + EnumChatFormatting.ITALIC + LibMisc.lang.localize("tooltip.showDetails"));
+    }
+
+    public static boolean showAdvancedTooltips() {
+        return ClientHandler.isShiftDown();
+    }
+
+    public static void addDetailedTooltipFromResources(List list, String unlocalizedName) {
+        addTooltipFromResources(list, unlocalizedName.concat(".tooltip.detailed.line"));
+    }
+
+    public static void addBasicTooltipFromResources(List list, String unlocalizedName) {
+        addTooltipFromResources(list, unlocalizedName.concat(".tooltip.basic.line"));
+    }
+
+    public static void addCommonTooltipFromResources(List list, String unlocalizedName) {
+        addTooltipFromResources(list, unlocalizedName.concat(".tooltip.common.line"));
+    }
+
+    public static void addTooltipFromResources(List list, String keyBase) {
+        boolean done = false;
+        int line = 1;
+        while (!done) {
+            String key = keyBase + line;
+            String val = LibMisc.lang.localizeExact(key);
+            if (val == null || val.trim()
+                .length() < 0 || val.equals(key) || line > 12) {
+                done = true;
+            } else {
+                list.add(val);
+                line++;
+            }
+        }
+    }
+
+    private static String getUnlocalizedNameForTooltip(ItemStack itemstack) {
+        String unlocalizedNameForTooltip = null;
+        if (itemstack.getItem() instanceof IResourceTooltipProvider) {
+            unlocalizedNameForTooltip = ((IResourceTooltipProvider) itemstack.getItem())
+                .getUnlocalizedNameForTooltip(itemstack);
+        }
+        if (unlocalizedNameForTooltip == null) {
+            unlocalizedNameForTooltip = itemstack.getItem()
+                .getUnlocalizedName(itemstack);
+        }
+        return unlocalizedNameForTooltip;
+    }
+
+    public static void addCommonTooltipFromResources(List list, ItemStack itemstack) {
+        if (itemstack.getItem() == null) {
+            return;
+        }
+        addCommonTooltipFromResources(list, getUnlocalizedNameForTooltip(itemstack));
+    }
+
+    public static void addDetailedTooltipFromResources(List list, ItemStack itemstack) {
+        if (itemstack.getItem() == null) {
+            return;
+        }
+        addDetailedTooltipFromResources(list, getUnlocalizedNameForTooltip(itemstack));
+    }
 
     public void addCallback(ITooltipCallback callback) {
         callbacks.add(callback);
@@ -125,84 +199,9 @@ public enum SpecialTooltipHandler {
         }
     }
 
-    private static final List<String> throwaway = new ArrayList<String>();
+    public interface ITooltipCallback extends IAdvancedTooltipProvider {
 
-    private static boolean hasDetailedTooltip(IResourceTooltipProvider tt, ItemStack stack) {
-        throwaway.clear();
-        String name = tt.getUnlocalizedNameForTooltip(stack);
-        addDetailedTooltipFromResources(throwaway, name);
-        return !throwaway.isEmpty();
-    }
-
-    private static boolean hasDetailedTooltip(IAdvancedTooltipProvider tt, ItemStack stack, EntityPlayer player,
-        boolean flag) {
-        throwaway.clear();
-        tt.addDetailedEntries(stack, player, throwaway, flag);
-        return !throwaway.isEmpty();
-    }
-
-    public static void addShowDetailsTooltip(List list) {
-        list.add(
-            EnumChatFormatting.WHITE + "" + EnumChatFormatting.ITALIC + LibMisc.lang.localize("tooltip.showDetails"));
-    }
-
-    public static boolean showAdvancedTooltips() {
-        return ClientHandler.isShiftDown();
-    }
-
-    public static void addDetailedTooltipFromResources(List list, String unlocalizedName) {
-        addTooltipFromResources(list, unlocalizedName.concat(".tooltip.detailed.line"));
-    }
-
-    public static void addBasicTooltipFromResources(List list, String unlocalizedName) {
-        addTooltipFromResources(list, unlocalizedName.concat(".tooltip.basic.line"));
-    }
-
-    public static void addCommonTooltipFromResources(List list, String unlocalizedName) {
-        addTooltipFromResources(list, unlocalizedName.concat(".tooltip.common.line"));
-    }
-
-    public static void addTooltipFromResources(List list, String keyBase) {
-        boolean done = false;
-        int line = 1;
-        while (!done) {
-            String key = keyBase + line;
-            String val = LibMisc.lang.localizeExact(key);
-            if (val == null || val.trim()
-                .length() < 0 || val.equals(key) || line > 12) {
-                done = true;
-            } else {
-                list.add(val);
-                line++;
-            }
-        }
-    }
-
-    private static String getUnlocalizedNameForTooltip(ItemStack itemstack) {
-        String unlocalizedNameForTooltip = null;
-        if (itemstack.getItem() instanceof IResourceTooltipProvider) {
-            unlocalizedNameForTooltip = ((IResourceTooltipProvider) itemstack.getItem())
-                .getUnlocalizedNameForTooltip(itemstack);
-        }
-        if (unlocalizedNameForTooltip == null) {
-            unlocalizedNameForTooltip = itemstack.getItem()
-                .getUnlocalizedName(itemstack);
-        }
-        return unlocalizedNameForTooltip;
-    }
-
-    public static void addCommonTooltipFromResources(List list, ItemStack itemstack) {
-        if (itemstack.getItem() == null) {
-            return;
-        }
-        addCommonTooltipFromResources(list, getUnlocalizedNameForTooltip(itemstack));
-    }
-
-    public static void addDetailedTooltipFromResources(List list, ItemStack itemstack) {
-        if (itemstack.getItem() == null) {
-            return;
-        }
-        addDetailedTooltipFromResources(list, getUnlocalizedNameForTooltip(itemstack));
+        boolean shouldHandleItem(ItemStack item);
     }
 
 }

@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.FluidTank;
 import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.IoType;
 import com.louis.test.api.enums.Material;
-import com.louis.test.api.interfaces.power.IInternalPowerReceiver;
+import com.louis.test.api.interfaces.energy.IInternalPowerReceiver;
 import com.louis.test.common.recipes.IPoweredTask;
 import com.louis.test.common.recipes.MachineRecipe;
 import com.louis.test.common.recipes.MachineRecipeRegistry;
@@ -23,12 +23,10 @@ import com.louis.test.common.recipes.MachineRecipeRegistry;
 public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEntity
     implements IInternalPowerReceiver, IProgressTile {
 
+    protected final Random random = new Random();
     protected IPoweredTask currentTask = null;
     protected MachineRecipe lastCompletedRecipe;
     protected MachineRecipe cachedNextRecipe;
-
-    protected final Random random = new Random();
-
     protected int ticksSinceCheckedRecipe = 0;
     protected boolean startFailed = false;
     protected float nextChance = Float.NaN;
@@ -38,6 +36,11 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
 
     public AbstractProcessingEntity(SlotDefinition slotDefinition, Material material) {
         super(slotDefinition, material);
+    }
+
+    @Override
+    public TileEntity getTileEntity() {
+        return this;
     }
 
     @Override
@@ -67,11 +70,6 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
     @Override
     public float getProgress() {
         return currentTask == null ? -1 : currentTask.getProgress();
-    }
-
-    @Override
-    public TileEntity getTileEntity() {
-        return this;
     }
 
     @Override
@@ -170,25 +168,6 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             lastCompletedRecipe = currentTask.getRecipe();
             List<ItemStack> itemOutputs = currentTask.getItemOutputs();
             List<FluidStack> fluidOutputs = currentTask.getFluidOutputs();
-            System.out.println("=== Task Complete ===");
-            System.out.println("Item Outputs:");
-            for (ItemStack item : itemOutputs) {
-                if (item != null) {
-                    System.out.println(" - " + item.stackSize + "x " + item.getDisplayName());
-                }
-            }
-
-            System.out.println("Fluid Outputs:");
-            for (FluidStack fluid : fluidOutputs) {
-                if (fluid != null) {
-                    System.out.println(
-                        " - " + fluid.amount
-                            + " mB of "
-                            + fluid.getFluid()
-                                .getLocalizedName(fluid));
-                }
-            }
-
             mergeResults(itemOutputs, fluidOutputs);
         }
         markDirty();

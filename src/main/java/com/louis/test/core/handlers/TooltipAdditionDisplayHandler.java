@@ -16,10 +16,10 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import com.louis.test.api.interfaces.mana.IManaTooltipDisplay;
-import com.louis.test.lib.LibObfuscation;
+import com.louis.test.core.lib.LibObfuscation;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import vazkii.botania.api.mana.IManaTooltipDisplay;
 
 public class TooltipAdditionDisplayHandler {
 

@@ -14,14 +14,14 @@ import net.minecraftforge.fluids.FluidStack;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.louis.test.lib.LibMisc;
+import com.louis.test.core.lib.LibMisc;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RecipeLoader {
 
-    private static final Gson gson = new Gson();
     public static final File RECIPE_FOLDER = new File("config/" + LibMisc.MOD_ID + "/recipes");
+    private static final Gson gson = new Gson();
 
     public static int loadRecipes(String name) {
         if (!RECIPE_FOLDER.exists()) {
@@ -173,27 +173,6 @@ public class RecipeLoader {
         return loaded;
     }
 
-    static class JsonStack {
-
-        public String modid;
-        public String name;
-        public int amount;
-    }
-
-    static class JsonRecipe {
-
-        public String machine;
-        public Boolean enabled;
-        public List<JsonStack> itemInputs;
-        public List<JsonStack> fluidInputs;
-        public List<JsonStack> itemOutputs;
-        public List<JsonStack> fluidOutputs;
-        public Integer energyCost;
-        public Integer requiredTemperature;
-        public Integer requiredPressure;
-
-    }
-
     public static String hashInputsAndOutputs(RecipeBuilder builder) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -267,6 +246,27 @@ public class RecipeLoader {
             e.printStackTrace();
             return "invalidhash";
         }
+    }
+
+    static class JsonStack {
+
+        public String modid;
+        public String name;
+        public int amount;
+    }
+
+    static class JsonRecipe {
+
+        public String machine;
+        public Boolean enabled;
+        public List<JsonStack> itemInputs;
+        public List<JsonStack> fluidInputs;
+        public List<JsonStack> itemOutputs;
+        public List<JsonStack> fluidOutputs;
+        public Integer energyCost;
+        public Integer requiredTemperature;
+        public Integer requiredPressure;
+
     }
 
 }

@@ -23,7 +23,7 @@ import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.FluidSlot;
 import com.louis.test.api.enums.Material;
 import com.louis.test.api.enums.ModObject;
-import com.louis.test.common.block.SmartTank;
+import com.louis.test.api.interfaces.fluid.SmartTank;
 import com.louis.test.common.block.machine.SlotDefinition;
 import com.louis.test.common.block.multiblock.TileMain;
 import com.louis.test.common.fluid.ModFluids;
@@ -41,7 +41,6 @@ public class TileBoiler extends TileMain {
     public TileBoiler() {
         super(new SlotDefinition(-1, -1, -1, -1, 0, 0, 1, 1, -1, -1), Material.IRON);
         setHeatStorage(HEATSTORAGE());
-
     }
 
     @Override
@@ -91,53 +90,55 @@ public class TileBoiler extends TileMain {
     public void doUpdate() {
         super.doUpdate();
 
-        if (shouldDoWorkThisTick(20, 0)) {
-            steamC.setTankCapacityMB(getTank(1).getCapacity() + getTank(0).getFluidAmount());
-            steamC.setWaterVolumeMB(getTank(0).getFluidAmount());
-            steamC.setSteamVolumeMB(getTank(1).getFluidAmount());
-            steamC.setHeatSourceTempC(getHeat().getHeatStored());
-            steamC.setN(getFluidFilter() ? 1f : 0.7f);
-        }
+        boolean shouldUpdate = shouldDoWorkThisTick(20, 0);
+        if (!shouldUpdate) return;
+
+        SmartTank inputTank = getTank(0);
+        SmartTank outputTank = getTank(1);
+        float currentHeat = getHeat().getHeatStored();
+
+        // Cập nhật trạng thái vào steam calculator
+        steamC.setTankCapacityMB(outputTank.getCapacity() + inputTank.getFluidAmount());
+        steamC.setWaterVolumeMB(inputTank.getFluidAmount());
+        steamC.setSteamVolumeMB(outputTank.getFluidAmount());
+        steamC.setHeatSourceTempK(currentHeat);
+        steamC.setN(getFluidFilter() ? 1f : 0.7f);
+
+        // Client chỉ cần cập nhật mô phỏng
         if (worldObj.isRemote) return;
 
-        if (shouldDoWorkThisTick(20, 0)) {
-            simulateWaterUsedMB = steamC.simulateWaterUsedMB();
-            simulateSteamMB = steamC.simulateSteamMB();
-            pressureAtm = steamC.getPressureAtm();
-            tBoil = steamC.getTboil();
-            SmartTank outputTank = getTank(1);
-            SmartTank inputTank = getTank(0);
+        // Mô phỏng
+        simulateWaterUsedMB = steamC.simulateWaterUsedMB();
+        simulateSteamMB = steamC.simulateSteamMB();
+        pressureAtm = steamC.getPressureAtm();
+        tBoil = steamC.getTboilK();
+        // Kiểm tra điều kiện sinh hơi
+        if (simulateWaterUsedMB <= 0 || simulateSteamMB <= 0) return;
+        if (currentHeat < tBoil + 5) return;
 
-            // Kiểm tra còn chỗ chứa trong tank hơi
-            int outputRoom = outputTank.getCapacity() - outputTank.getFluidAmount();
-            if (outputRoom > 0 && getHeat().getHeatStored() >= tBoil + 5) {
+        FluidStack inputFluid = inputTank.getFluid();
+        if (inputFluid == null || inputFluid.getFluid() != FluidRegistry.WATER) return;
+        if (inputTank.getFluidAmount() < simulateWaterUsedMB) return;
 
-                FluidStack inputFluid = inputTank.getFluid();
+        int outputRoom = outputTank.getCapacity() - outputTank.getFluidAmount();
+        if (outputRoom <= 0) return;
 
-                if (inputFluid != null && inputFluid.getFluid() == FluidRegistry.WATER
-                    && inputTank.getFluidAmount() >= simulateWaterUsedMB
-                    && simulateWaterUsedMB > 0) {
-                    double generatedSteamMB = steamC.calculateSteamStep();
+        // Tính toán hơi thực sự tạo ra
+        double generatedSteamMB = steamC.calculateSteamStep(); // thực sự trừ nước & sinh hơi
+        int steamToInsert = Math.min((int) generatedSteamMB, outputRoom);
 
-                    inputTank.drain((int) simulateWaterUsedMB, true);
+        if (steamToInsert <= 0) return;
 
-                    FluidStack current = outputTank.getFluid();
-                    int availableSpace = outputTank.getCapacity() - outputTank.getFluidAmount();
-                    int steamToInsert = Math.min((int) generatedSteamMB, availableSpace);
+        // Cập nhật nhiệt
+        getHeat().setHeatStored((float) steamC.getHeatSourceTempK());
 
-                    if (steamToInsert <= 0) return;
-                    getHeat().setHeatStored((float) steamC.getHeatSourceTempC());
-
-                    if (current == null || current.getFluid() != ModFluids.fluidSteam) {
-                        outputTank.setFluid(new FluidStack(ModFluids.fluidSteam, steamToInsert));
-                    } else {
-                        current.amount += steamToInsert;
-                    }
-
-                }
-            }
+        // Bơm hơi vào tank
+        FluidStack currentSteam = outputTank.getFluid();
+        if (currentSteam == null || currentSteam.getFluid() != ModFluids.fluidSteam) {
+            outputTank.setFluid(new FluidStack(ModFluids.fluidSteam, steamToInsert));
+        } else {
+            currentSteam.amount += steamToInsert;
         }
-
     }
 
     @Override
@@ -185,11 +186,11 @@ public class TileBoiler extends TileMain {
                                             .child(
                                                 IKey.dynamic(
                                                     () -> "Temp:\n"
-                                                        + Math.round(steamC.getHeatSourceTempC() * 100.0f) / 100.0f
-                                                        + "°C"
+                                                        + Math.round(steamC.getHeatSourceTempK() * 100.0f) / 100.0f
+                                                        + "K"
                                                         + "/"
                                                         + getHeat().getMaxHeatStored()
-                                                        + "°C")
+                                                        + "K")
                                                     .color(0xFFFFFFFF)
                                                     .alignment(Alignment.Center)
                                                     .asWidget())
@@ -213,7 +214,7 @@ public class TileBoiler extends TileMain {
                                                     () -> {
                                                         return "Boiling Temp: "
                                                             + Math.round(this.tBoil * 100.0f) / 100.0f
-                                                            + "°C";
+                                                            + "K";
                                                     })
 
                                                     .color(0xFFFFFFFF)

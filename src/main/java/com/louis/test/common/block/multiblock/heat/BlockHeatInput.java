@@ -16,7 +16,7 @@ import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.block.machine.AbstractMachineBlock;
 import com.louis.test.common.block.multiblock.TileAddon;
-import com.louis.test.lib.LibResources;
+import com.louis.test.core.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -24,14 +24,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockHeatInput extends AbstractMachineBlock<TileHeatInput> implements IAdvancedTooltipProvider {
 
+    protected BlockHeatInput() {
+        super(ModObject.blockHeatInput, TileHeatInput.class);
+    }
+
     public static BlockHeatInput create() {
         BlockHeatInput res = new BlockHeatInput();
         res.init();
         return res;
-    }
-
-    protected BlockHeatInput() {
-        super(ModObject.blockHeatInput, TileHeatInput.class);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.louis.test;
 
-import com.louis.test.lib.LibMisc;
+import com.louis.test.core.lib.LibMisc;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -40,5 +40,10 @@ public class Test {
     @EventHandler
     public void serverLoad(FMLServerStartingEvent event) {
         proxy.serverLoad(event);
+    }
+
+    @EventHandler
+    public void serverStarted(FMLServerStartedEvent event) {
+        proxy.serverStarted(event);
     }
 }

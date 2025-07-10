@@ -11,10 +11,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
 import com.louis.test.api.enums.SpecialTooltipHandler;
+import com.louis.test.api.interfaces.energy.PowerDisplayUtil;
 import com.louis.test.api.interfaces.mana.IManaItem;
 import com.louis.test.common.config.Config;
-import com.louis.test.core.util.PowerDisplayUtil;
-import com.louis.test.lib.LibMisc;
+import com.louis.test.core.lib.LibMisc;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -36,6 +36,26 @@ public class EnergyUpgrade extends AbstractUpgrade {
     private static final String KEY_MAX_OUT = "maxOuput";
 
     private static final Random RANDOM = new Random();
+    protected int capacity;
+    protected int energy;
+    protected int maxInRF;
+    protected int maxOutRF;
+
+    public EnergyUpgrade(String name, int levels, ItemStack upgradeItem, int capcity, int maxReceiveIO) {
+        super(UPGRADE_NAME, name, upgradeItem, levels);
+        capacity = capcity;
+        energy = 0;
+        maxInRF = maxReceiveIO;
+        maxOutRF = maxReceiveIO;
+    }
+
+    public EnergyUpgrade(NBTTagCompound tag) {
+        super(UPGRADE_NAME, tag);
+        capacity = tag.getInteger(KEY_CAPACITY);
+        energy = tag.getInteger(KEY_ENERGY);
+        maxInRF = tag.getInteger(KEY_MAX_IN);
+        maxOutRF = tag.getInteger(KEY_MAX_OUT);
+    }
 
     public static EnergyUpgrade loadFromItem(ItemStack stack) {
         if (stack == null) {
@@ -126,28 +146,6 @@ public class EnergyUpgrade extends AbstractUpgrade {
             return 0;
         }
         return eu.getCapacity();
-    }
-
-    protected int capacity;
-    protected int energy;
-
-    protected int maxInRF;
-    protected int maxOutRF;
-
-    public EnergyUpgrade(String name, int levels, ItemStack upgradeItem, int capcity, int maxReceiveIO) {
-        super(UPGRADE_NAME, name, upgradeItem, levels);
-        capacity = capcity;
-        energy = 0;
-        maxInRF = maxReceiveIO;
-        maxOutRF = maxReceiveIO;
-    }
-
-    public EnergyUpgrade(NBTTagCompound tag) {
-        super(UPGRADE_NAME, tag);
-        capacity = tag.getInteger(KEY_CAPACITY);
-        energy = tag.getInteger(KEY_ENERGY);
-        maxInRF = tag.getInteger(KEY_MAX_IN);
-        maxOutRF = tag.getInteger(KEY_MAX_OUT);
     }
 
     @Override

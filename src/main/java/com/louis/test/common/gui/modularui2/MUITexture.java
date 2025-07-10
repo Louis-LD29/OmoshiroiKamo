@@ -3,7 +3,7 @@ package com.louis.test.common.gui.modularui2;
 import net.minecraft.util.ResourceLocation;
 
 import com.cleanroommc.modularui.drawable.UITexture;
-import com.louis.test.lib.LibResources;
+import com.louis.test.core.lib.LibResources;
 
 public class MUITexture {
 

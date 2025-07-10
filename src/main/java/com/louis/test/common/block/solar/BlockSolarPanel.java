@@ -15,7 +15,7 @@ import com.cleanroommc.modularui.factory.GuiFactories;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.block.machine.AbstractMachineBlock;
-import com.louis.test.lib.LibResources;
+import com.louis.test.core.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -25,14 +25,14 @@ public class BlockSolarPanel extends AbstractMachineBlock<TileSolarPanel> implem
 // , IWandHUD, IWandable
 {
 
+    protected BlockSolarPanel() {
+        super(ModObject.blockSolar, TileSolarPanel.class);
+    }
+
     public static BlockSolarPanel create() {
         BlockSolarPanel res = new BlockSolarPanel();
         res.init();
         return res;
-    }
-
-    protected BlockSolarPanel() {
-        super(ModObject.blockSolar, TileSolarPanel.class);
     }
 
     @Override

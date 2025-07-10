@@ -34,7 +34,7 @@ import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.IoType;
 import com.louis.test.api.enums.Material;
 import com.louis.test.api.enums.ModObject;
-import com.louis.test.common.block.SmartTank;
+import com.louis.test.api.interfaces.fluid.SmartTank;
 import com.louis.test.common.block.machine.SlotDefinition;
 import com.louis.test.common.block.multiblock.TileAddon;
 import com.louis.test.common.block.multiblock.TileMain;
@@ -320,7 +320,6 @@ public class TileFluidOutput extends TileAddon implements IFluidHandler {
                 .setEnabledIf(f -> tankSlot == finalI)
                 .size(18, 18);
             slot.tooltip(richTooltip -> {});
-
             fluidStack.child(slot);
         }
 

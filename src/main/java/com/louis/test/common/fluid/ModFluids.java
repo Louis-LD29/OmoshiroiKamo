@@ -6,7 +6,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.IFluidTank;
 
 import com.louis.test.api.enums.FluidMaterial;
-import com.louis.test.lib.LibMisc;
+import com.louis.test.core.lib.LibMisc;
 
 public class ModFluids {
 
@@ -81,6 +81,20 @@ public class ModFluids {
         blockOxygen = BlockFluidEio.Oxygen.create(fluidOxygen, Material.water);
         itemBucketOxygen = ItemBucketEio.create(fluidOxygen, !FluidMaterial.OXYGEN.isGas());
 
+        // // Steam
+        // fluidSteam = FluidMaterial.registerFluidFromMaterial(FluidMaterial.STEAM);
+        // blockSteam = BlockFluidEio.Steam.create(fluidSteam, Material.water);
+        // itemBucketSteam = ItemBucketEio.create(fluidSteam, !FluidMaterial.STEAM.isGas());
+        //
+        // // Hydrogen
+        // fluidHydrogen = FluidMaterial.registerFluidFromMaterial(FluidMaterial.HYDROGEN);
+        // blockHydrogen = BlockFluidEio.Steam.create(fluidHydrogen, Material.water);
+        // itemBucketHydrogen = ItemBucketEio.create(fluidHydrogen, !FluidMaterial.OXYGEN.isGas());
+        //
+        // // Oxygen
+        // fluidOxygen = FluidMaterial.registerFluidFromMaterial(FluidMaterial.OXYGEN);
+        // blockOxygen = BlockFluidEio.Steam.create(fluidOxygen, Material.water);
+        // itemBucketOxygen = ItemBucketEio.create(fluidOxygen, !FluidMaterial.OXYGEN.isGas());
     }
 
 }

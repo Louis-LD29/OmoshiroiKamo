@@ -3,7 +3,6 @@ package com.louis.test.common.block.electrolyzer;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.cleanroommc.modularui.api.drawable.IKey;
@@ -12,7 +11,10 @@ import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.utils.Alignment;
-import com.cleanroommc.modularui.value.sync.*;
+import com.cleanroommc.modularui.value.sync.BooleanSyncValue;
+import com.cleanroommc.modularui.value.sync.DoubleSyncValue;
+import com.cleanroommc.modularui.value.sync.FluidSlotSyncHandler;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widgets.ProgressWidget;
 import com.cleanroommc.modularui.widgets.SlotGroupWidget;
 import com.cleanroommc.modularui.widgets.ToggleButton;
@@ -124,10 +126,5 @@ public class TileElectrolyzer extends AbstractProcessingEntity {
                             .selectedHoverBackground(GuiTextures.MC_BUTTON_HOVERED)
                             .topRel(0.21f)
                             .leftRel(0.5f)));
-    }
-
-    @Override
-    public void writeCustomNBT(NBTTagCompound nbtRoot) {
-        super.writeCustomNBT(nbtRoot);
     }
 }

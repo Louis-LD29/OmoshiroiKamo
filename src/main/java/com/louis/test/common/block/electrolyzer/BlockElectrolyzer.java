@@ -16,7 +16,7 @@ import com.cleanroommc.modularui.factory.GuiFactories;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.block.machine.AbstractMachineBlock;
-import com.louis.test.lib.LibResources;
+import com.louis.test.core.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -24,14 +24,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockElectrolyzer extends AbstractMachineBlock<TileElectrolyzer> implements IAdvancedTooltipProvider {
 
+    protected BlockElectrolyzer() {
+        super(ModObject.blockElectrolyzer, TileElectrolyzer.class);
+    }
+
     public static BlockElectrolyzer create() {
         BlockElectrolyzer res = new BlockElectrolyzer();
         res.init();
         return res;
-    }
-
-    protected BlockElectrolyzer() {
-        super(ModObject.blockElectrolyzer, TileElectrolyzer.class);
     }
 
     @Override

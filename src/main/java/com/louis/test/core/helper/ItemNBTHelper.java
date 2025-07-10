@@ -6,7 +6,9 @@ import net.minecraft.nbt.NBTTagList;
 
 public final class ItemNBTHelper {
 
-    /** Checks if an ItemStack has a Tag Compound **/
+    /**
+     * Checks if an ItemStack has a Tag Compound
+     **/
     public static boolean detectNBT(ItemStack stack) {
         return stack.hasTagCompound();
     }
@@ -55,6 +57,10 @@ public final class ItemNBTHelper {
         getNBT(stack).setInteger(tag, i);
     }
 
+    public static void setIntArray(ItemStack stack, String tag, int[] i) {
+        getNBT(stack).setIntArray(tag, i);
+    }
+
     public static void setLong(ItemStack stack, String tag, long l) {
         getNBT(stack).setLong(tag, l);
     }
@@ -86,6 +92,13 @@ public final class ItemNBTHelper {
         return stack != null && getNBT(stack).hasKey(tag);
     }
 
+    public static void remove(ItemStack stack, String key) {
+        if (verifyExistance(stack, key)) {
+            getNBT(stack).removeTag(key);
+            if (getNBT(stack).hasNoTags()) stack.setTagCompound(null);
+        }
+    }
+
     public static boolean getBoolean(ItemStack stack, String tag, boolean defaultExpected) {
         return verifyExistance(stack, tag) ? getNBT(stack).getBoolean(tag) : defaultExpected;
     }
@@ -100,6 +113,10 @@ public final class ItemNBTHelper {
 
     public static int getInt(ItemStack stack, String tag, int defaultExpected) {
         return verifyExistance(stack, tag) ? getNBT(stack).getInteger(tag) : defaultExpected;
+    }
+
+    public static int[] getIntArray(ItemStack stack, String tag, int defaultExpected) {
+        return verifyExistance(stack, tag) ? getNBT(stack).getIntArray(tag) : new int[defaultExpected];
     }
 
     public static long getLong(ItemStack stack, String tag, long defaultExpected) {
@@ -138,4 +155,5 @@ public final class ItemNBTHelper {
         }
         return stack.stackTagCompound;
     }
+
 }

@@ -33,12 +33,12 @@ import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.IoType;
 import com.louis.test.api.enums.Material;
 import com.louis.test.api.enums.ModObject;
-import com.louis.test.common.block.SmartTank;
+import com.louis.test.api.interfaces.fluid.SmartTank;
 import com.louis.test.common.block.machine.AbstractPowerConsumerEntity;
 import com.louis.test.common.block.machine.SlotDefinition;
 import com.louis.test.common.config.Config;
 import com.louis.test.common.fluid.ModFluids;
-import com.louis.test.lib.LibResources;
+import com.louis.test.core.lib.LibResources;
 
 import vazkii.botania.api.internal.VanillaPacketDispatcher;
 import vazkii.botania.api.mana.IManaPool;
@@ -59,21 +59,17 @@ public class TileTest extends AbstractPowerConsumerEntity
     private static final String TAG_KNOWN_MANA = "knownMana";
     private static final String TAG_MANA_CAP = "manaCap";
     private static final String TAG_OUTPUTTING = "outputting";
-    boolean outputting = false;
-
-    int mana;
-    int knownMana = -1;
+    private static int IO_MB_TICK = 100;
     public int manaCap = -1;
     public boolean isDoingTransfer = false;
-    boolean sendPacket = false;
     public int ticksDoingTransfer = 0;
-    int ticks = 0;
-
     protected SmartTank inputTank = new SmartTank(10000);
     protected SmartTank outputTank = new SmartTank(10000);
-
-    private static int IO_MB_TICK = 100;
-
+    boolean outputting = false;
+    int mana;
+    int knownMana = -1;
+    boolean sendPacket = false;
+    int ticks = 0;
     private boolean tanksDirty = false;
 
     public TileTest(int meta) {
@@ -328,12 +324,12 @@ public class TileTest extends AbstractPowerConsumerEntity
                 .child(
                     SlotGroupWidget.builder()
                         .matrix("IIF")
-                        .key('I', index -> {
-                            return new ItemSlot().slot(
-                                new ModularSlot(this.inv, index).slotGroup("item_inv")
-                                    .filter(stack -> isItemValidForSlot(index, stack)))
-                                .debugName("Slot " + index);
-                        })
+                        .key(
+                            'I',
+                            index -> {
+                                return new ItemSlot().slot(new ModularSlot(this.inv, index).slotGroup("item_inv"))
+                                    .debugName("Slot " + index);
+                            })
                         .key('F', index -> {
                             return new FluidSlot().syncHandler(
                                 new FluidSlotSyncHandler(inputTank).canDrainSlot(

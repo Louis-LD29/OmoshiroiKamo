@@ -16,8 +16,8 @@ import org.lwjgl.opengl.GL11;
 import com.louis.test.api.interfaces.mana.IManaItem;
 import com.louis.test.core.handlers.ClientTickHandler;
 import com.louis.test.core.helper.Helper;
+import com.louis.test.core.lib.LibResources;
 import com.louis.test.core.mana.ManaNetworkHandler;
-import com.louis.test.lib.LibResources;
 
 import baubles.common.lib.PlayerHandler;
 import cofh.api.energy.IEnergyContainerItem;

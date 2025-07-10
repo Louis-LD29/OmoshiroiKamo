@@ -3,7 +3,7 @@ package com.louis.test.common.block.machine;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.louis.test.api.enums.Material;
-import com.louis.test.api.interfaces.power.IInternalPowerProvider;
+import com.louis.test.api.interfaces.energy.IInternalPowerProvider;
 
 public abstract class AbstractGeneratorEntity extends AbstractPoweredMachineEntity implements IInternalPowerProvider {
 

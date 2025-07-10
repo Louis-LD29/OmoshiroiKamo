@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.block.machine.AbstractMachineBlock;
-import com.louis.test.lib.LibResources;
+import com.louis.test.core.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -22,14 +22,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockFluidFilter extends AbstractMachineBlock<TileFluidFilter> implements IAdvancedTooltipProvider {
 
+    protected BlockFluidFilter() {
+        super(ModObject.blockFluidFilter, TileFluidFilter.class);
+    }
+
     public static BlockFluidFilter create() {
         BlockFluidFilter res = new BlockFluidFilter();
         res.init();
         return res;
-    }
-
-    protected BlockFluidFilter() {
-        super(ModObject.blockFluidFilter, TileFluidFilter.class);
     }
 
     @Override

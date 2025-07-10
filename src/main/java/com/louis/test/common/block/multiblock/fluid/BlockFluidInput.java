@@ -16,7 +16,7 @@ import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.block.machine.AbstractMachineBlock;
 import com.louis.test.common.block.multiblock.TileAddon;
-import com.louis.test.lib.LibResources;
+import com.louis.test.core.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -24,14 +24,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockFluidInput extends AbstractMachineBlock<TileFluidInput> implements IAdvancedTooltipProvider {
 
+    protected BlockFluidInput() {
+        super(ModObject.blockFluidInput, TileFluidInput.class);
+    }
+
     public static BlockFluidInput create() {
         BlockFluidInput res = new BlockFluidInput();
         res.init();
         return res;
-    }
-
-    protected BlockFluidInput() {
-        super(ModObject.blockFluidInput, TileFluidInput.class);
     }
 
     @Override

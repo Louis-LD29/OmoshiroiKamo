@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.louis.test.lib.LibResources;
+import com.louis.test.core.lib.LibResources;
 
 import vazkii.botania.client.core.handler.ClientTickHandler;
 

@@ -2,7 +2,7 @@ package com.louis.test.api.enums;
 
 import net.minecraft.util.EnumChatFormatting;
 
-import com.louis.test.lib.LibMisc;
+import com.louis.test.core.lib.LibMisc;
 
 public enum IoMode {
 
@@ -20,23 +20,6 @@ public enum IoMode {
 
     public String getUnlocalisedName() {
         return unlocalisedName;
-    }
-
-    public static ConnectionMode getNext(ConnectionMode mode) {
-        int ord = mode.ordinal() + 1;
-        if (ord >= ConnectionMode.values().length) {
-            ord = 0;
-        }
-        return ConnectionMode.values()[ord];
-    }
-
-    public static ConnectionMode getPrevious(ConnectionMode mode) {
-
-        int ord = mode.ordinal() - 1;
-        if (ord < 0) {
-            ord = ConnectionMode.values().length - 1;
-        }
-        return ConnectionMode.values()[ord];
     }
 
     public boolean inputs() {

@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 
-import com.louis.test.lib.LibMisc;
+import com.louis.test.core.lib.LibMisc;
 
 public class IconHelper {
 

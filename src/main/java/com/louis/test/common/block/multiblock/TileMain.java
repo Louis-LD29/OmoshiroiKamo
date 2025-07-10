@@ -6,8 +6,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import com.louis.test.api.enums.BlockMassType;
 import com.louis.test.api.enums.Material;
+import com.louis.test.api.interfaces.fluid.SmartTank;
 import com.louis.test.api.interfaces.heat.HeatStorage;
-import com.louis.test.common.block.SmartTank;
 import com.louis.test.common.block.machine.AbstractMachineEntity;
 import com.louis.test.common.block.machine.SlotDefinition;
 

@@ -6,8 +6,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.enderio.core.common.vecmath.VecmathUtil;
 import com.louis.test.api.enums.Material;
-import com.louis.test.api.interfaces.power.IInternalPoweredTile;
-import com.louis.test.core.handlers.PowerHandlerUtil;
+import com.louis.test.api.enums.VoltageTier;
+import com.louis.test.api.interfaces.energy.IInternalPoweredTile;
+import com.louis.test.api.interfaces.energy.PowerHandlerUtil;
 
 import cofh.api.energy.EnergyStorage;
 
@@ -19,11 +20,6 @@ public abstract class AbstractPoweredMachineEntity extends AbstractMachineEntity
 
     protected AbstractPoweredMachineEntity(SlotDefinition slotDefinition, Material material) {
         super(slotDefinition, material);
-    }
-
-    @Override
-    public void init() {
-        super.init();
     }
 
     @Override
@@ -93,6 +89,11 @@ public abstract class AbstractPoweredMachineEntity extends AbstractMachineEntity
 
     public int getPowerUsePerTick() {
         return energyStorage.getMaxExtract();
+    }
+
+    @Override
+    public VoltageTier getVoltageTier() {
+        return VoltageTier.ULV;
     }
 
     // --------- NBT

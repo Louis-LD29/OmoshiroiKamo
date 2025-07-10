@@ -1,6 +1,7 @@
 package com.louis.test.common.block.machine;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,49 +26,35 @@ import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.IoType;
 import com.louis.test.api.enums.Material;
 import com.louis.test.api.interfaces.IIoConfigurable;
+import com.louis.test.api.interfaces.fluid.SmartTank;
 import com.louis.test.api.interfaces.redstone.IRedstoneConnectable;
-import com.louis.test.common.block.SmartTank;
-import com.louis.test.common.block.TileEntityEio;
+import com.louis.test.common.block.AbstractTE;
 import com.louis.test.common.gui.modularui2.MGuis;
-import com.louis.test.lib.LibMisc;
 
-import crazypants.enderio.machine.IMachine;
 import crazypants.enderio.machine.IRedstoneModeControlable;
 import crazypants.enderio.machine.RedstoneControlMode;
 
-public abstract class AbstractMachineEntity extends TileEntityEio implements IGuiHolder<PosGuiData>, ISidedInventory,
-    IMachine, IRedstoneModeControlable, IRedstoneConnectable, IIoConfigurable {
+public abstract class AbstractMachineEntity extends AbstractTE implements IGuiHolder<PosGuiData>, ISidedInventory,
+    IRedstoneModeControlable, IRedstoneConnectable, IIoConfigurable {
 
-    public short facing;
-
+    protected final SlotDefinition slotDefinition;
+    private final int[] allSlots;
+    public ItemStackHandler inv;
+    public Material material;
+    public boolean redstoneStateDirty = true;
+    public boolean isDirty = false;
     protected int ticksSinceSync = -1;
     protected boolean forceClientUpdate = true;
     protected boolean lastActive;
     protected int ticksSinceActiveChanged = 0;
-
-    public ItemStackHandler inv;
-    protected SmartTank[] fluidTanks;
-    protected final SlotDefinition slotDefinition;
-    public Material material;
-
-    protected RedstoneControlMode redstoneControlMode;
-
-    public boolean redstoneCheckPassed;
-
-    public boolean redstoneStateDirty = true;
-
-    protected Map<IoType, Map<ForgeDirection, IoMode>> ioConfigs;
-
-    private final int[] allSlots;
-
     protected boolean notifyNeighbours = false;
-
-    public boolean isDirty = false;
+    protected SmartTank[] fluidTanks;
+    protected RedstoneControlMode redstoneControlMode;
+    protected Map<IoType, Map<ForgeDirection, IoMode>> ioConfigs;
 
     protected AbstractMachineEntity(SlotDefinition slotDefinition, Material material) {
         this.slotDefinition = slotDefinition;
         this.material = material;
-        facing = 3;
 
         inv = new ItemStackHandler(slotDefinition.getNumSlots());
         fluidTanks = new SmartTank[slotDefinition.getNumFluidSlots()];
@@ -77,14 +64,12 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
 
         redstoneControlMode = RedstoneControlMode.IGNORE;
 
-        allSlots = new int[slotDefinition.getNumSlots()];
+        allSlots = new int[inv.getSlots()];
         for (int i = 0; i < allSlots.length; i++) {
             allSlots[i] = i;
         }
 
     }
-
-    // FluidTank
 
     // IoType - IoMode
     @Override
@@ -179,26 +164,12 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
         updateBlock();
     }
 
-    public short getFacing() {
-        return facing;
-    }
-
-    public ForgeDirection getFacingDir() {
-        return ForgeDirection.getOrientation(facing);
-    }
-
-    public void setFacing(short facing) {
-        this.facing = facing;
-    }
-
-    public abstract boolean isActive();
-
     // --- Process Loop
     // --------------------------------------------------------------------------
 
     @Override
     public void doUpdate() {
-        if (worldObj.isRemote) {
+        if (!isServerSide()) {
             updateEntityClient();
             return;
         } // else is server, do all logic only on the server
@@ -406,13 +377,6 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     }
 
     @Override
-    public void readCustomNBT(NBTTagCompound nbtRoot) {
-        setFacing(nbtRoot.getShort("facing"));
-        redstoneCheckPassed = nbtRoot.getBoolean("redstoneCheckPassed");
-        forceClientUpdate = nbtRoot.getBoolean("forceClientUpdate");
-        readCommon(nbtRoot);
-    }
-
     public void readCommon(NBTTagCompound nbtRoot) {
 
         this.inv.deserializeNBT(nbtRoot.getCompoundTag("item_inv"));
@@ -449,24 +413,7 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
         }
     }
 
-    public void readFromItemStack(ItemStack stack) {
-        if (stack == null || stack.stackTagCompound == null) {
-            return;
-        }
-        readCommon(stack.stackTagCompound);
-    }
-
     @Override
-    public void writeCustomNBT(NBTTagCompound nbtRoot) {
-
-        nbtRoot.setShort("facing", facing);
-        nbtRoot.setBoolean("redstoneCheckPassed", redstoneCheckPassed);
-        nbtRoot.setBoolean("forceClientUpdate", forceClientUpdate);
-        forceClientUpdate = false;
-
-        writeCommon(nbtRoot);
-    }
-
     public void writeCommon(NBTTagCompound nbtRoot) {
         nbtRoot.setTag("item_inv", this.inv.serializeNBT());
 
@@ -506,29 +453,8 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
         }
     }
 
-    public void writeToItemStack(ItemStack stack) {
-        if (stack == null) {
-            return;
-        }
-        if (stack.stackTagCompound == null) {
-            stack.stackTagCompound = new NBTTagCompound();
-        }
-
-        NBTTagCompound root = stack.stackTagCompound;
-        root.setBoolean("eio.abstractMachine", true);
-        writeCommon(root);
-
-        String name;
-        if (stack.hasDisplayName()) {
-            name = stack.getDisplayName();
-        } else {
-            name = LibMisc.lang.localizeExact(stack.getUnlocalizedName() + ".name");
-        }
-        name += " " + LibMisc.lang.localize("machine.tooltip.configured");
-        stack.setStackDisplayName(name);
-    }
-
     // ---- Inventory
+    // ------------------------------------------------------------------------------
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
@@ -672,7 +598,8 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
         redstoneStateDirty = true;
     }
 
-    /* IRedstoneConnectable */
+    // ---- IRedstoneConnectable
+    // ------------------------------------------------------------------------------
 
     @Override
     public boolean shouldRedstoneConduitConnect(World world, int x, int y, int z, ForgeDirection from) {
@@ -680,6 +607,7 @@ public abstract class AbstractMachineEntity extends TileEntityEio implements IGu
     }
 
     // ---- ModularUI2
+    // ------------------------------------------------------------------------------
 
     @Override
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {

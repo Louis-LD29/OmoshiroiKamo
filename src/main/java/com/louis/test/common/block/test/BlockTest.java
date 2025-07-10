@@ -18,7 +18,7 @@ import com.cleanroommc.modularui.factory.GuiFactories;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.block.machine.AbstractMachineBlock;
-import com.louis.test.lib.LibResources;
+import com.louis.test.core.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -28,16 +28,16 @@ import vazkii.botania.api.wand.IWandable;
 
 public class BlockTest extends AbstractMachineBlock<TileTest> implements IAdvancedTooltipProvider, IWandHUD, IWandable {
 
-    public static BlockTest create() {
-        BlockTest res = new BlockTest();
-        res.init();
-        return res;
-    }
-
     protected BlockTest() {
         super(ModObject.blockTest, TileTest.class);
         setStepSound(Block.soundTypeGlass);
         setLightOpacity(0);
+    }
+
+    public static BlockTest create() {
+        BlockTest res = new BlockTest();
+        res.init();
+        return res;
     }
 
     @Override

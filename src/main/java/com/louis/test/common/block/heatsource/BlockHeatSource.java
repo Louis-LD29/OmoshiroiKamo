@@ -15,7 +15,7 @@ import com.cleanroommc.modularui.factory.GuiFactories;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.block.machine.AbstractMachineBlock;
-import com.louis.test.lib.LibResources;
+import com.louis.test.core.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -23,14 +23,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockHeatSource extends AbstractMachineBlock<TileHeatSource> implements IAdvancedTooltipProvider {
 
+    protected BlockHeatSource() {
+        super(ModObject.blockHeatSource, TileHeatSource.class);
+    }
+
     public static BlockHeatSource create() {
         BlockHeatSource res = new BlockHeatSource();
         res.init();
         return res;
-    }
-
-    protected BlockHeatSource() {
-        super(ModObject.blockHeatSource, TileHeatSource.class);
     }
 
     @Override

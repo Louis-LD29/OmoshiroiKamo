@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.ConfigElement;
 
-import com.louis.test.lib.LibMisc;
+import com.louis.test.core.lib.LibMisc;
 
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;

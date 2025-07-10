@@ -3,7 +3,7 @@ package com.louis.test.common.gui.modularui2;
 import static com.louis.test.common.gui.modularui2.MUITexture.icon;
 
 import com.cleanroommc.modularui.drawable.UITexture;
-import com.louis.test.lib.LibResources;
+import com.louis.test.core.lib.LibResources;
 
 public interface MGuiTextures {
 

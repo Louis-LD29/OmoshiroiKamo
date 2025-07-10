@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 
 import com.louis.test.common.block.ModBlocks;
 import com.louis.test.common.item.ModItems;
-import com.louis.test.lib.LibMisc;
+import com.louis.test.core.lib.LibMisc;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

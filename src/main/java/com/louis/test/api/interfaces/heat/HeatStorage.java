@@ -11,8 +11,12 @@ public class HeatStorage {
     protected float heatCapacity;
     protected float maxTemperature;
     protected float maxTransfer;
-    protected static final float ABSOLUTE_ZERO = -273.15f;
-    protected float normalTemperature = 20.0f;
+
+    // 0K - Không thể thấp hơn
+    protected static final float ABSOLUTE_ZERO = 0f;
+
+    // Nhiệt độ môi trường: 20°C = 293K
+    protected float normalTemperature = 293f;
 
     public HeatStorage(float heatCapacity, float maxTemperature, float maxTransfer) {
         this.heatCapacity = heatCapacity;
@@ -22,13 +26,13 @@ public class HeatStorage {
     }
 
     public HeatStorage(float heatCapacity, float maxTemperature) {
-        this(heatCapacity, maxTemperature, heatCapacity); // default maxReceive = heatCapacity
+        this(heatCapacity, maxTemperature, heatCapacity);
     }
 
     public HeatStorage(Material material, BlockMassType type) {
         this(
             calculateHeatCapacity(material, type),
-            (float) material.getMeltingPointC(),
+            (float) material.getMeltingPointK(),
             getMaxTransfer(material, type));
     }
 
@@ -37,8 +41,7 @@ public class HeatStorage {
     }
 
     private static float getMaxTransfer(Material material, BlockMassType type) {
-        // Lấy độ dẫn nhiệt (W/m·K)
-        double k = material.getThermalConductivity(); // W/m·K (tức J/s·m·K)
+        double k = material.getThermalConductivity(); // W/m·K
         double m = material.getMassKg(type); // kg
         double scaleFactor = 0.05;
 
@@ -98,17 +101,14 @@ public class HeatStorage {
         float deltaT = energy / heatCapacity;
         float newTemp = this.heat + deltaT;
 
-        // Clamp theo maxTemperature và ABSOLUTE_ZERO
         float clampedTemp = Math.max(ABSOLUTE_ZERO, Math.min(newTemp, maxTemperature));
-
-        // Nhiệt độ thực sự thay đổi
         float actualDeltaT = clampedTemp - this.heat;
 
         if (doTransfer && actualDeltaT > 0) {
             this.heat = clampedTemp;
         }
 
-        return actualDeltaT * heatCapacity; // Năng lượng thực sự hấp thụ
+        return actualDeltaT * heatCapacity;
     }
 
     public float extractHeat(float energy, boolean doTransfer) {
@@ -117,16 +117,14 @@ public class HeatStorage {
         float deltaT = energy / heatCapacity;
         float newTemp = this.heat - deltaT;
 
-        // Clamp theo ABSOLUTE_ZERO
         float clampedTemp = Math.max(ABSOLUTE_ZERO, newTemp);
-
         float actualDeltaT = this.heat - clampedTemp;
 
         if (doTransfer && actualDeltaT > 0) {
             this.heat = clampedTemp;
         }
 
-        return actualDeltaT * heatCapacity; // Năng lượng thực sự rút ra
+        return actualDeltaT * heatCapacity;
     }
 
     public void updateHeatTowardsNormal() {
@@ -137,7 +135,6 @@ public class HeatStorage {
             return;
         }
 
-        // Tính hệ số mất nhiệt từ maxReceive (dẫn nhiệt)
         float lossFactor = Math.min(maxTransfer, 10f) / 100f;
         float change = Math.signum(delta) * Math.abs(delta) * lossFactor;
 
@@ -177,8 +174,8 @@ public class HeatStorage {
     }
 
     public int calculateTicksToReachTemperature(float maxReceivePerTick, float currentTemp, float targetTemp) {
-        if (targetTemp <= currentTemp) return 0; // Đã đủ nóng
-        if (maxReceivePerTick <= 0 || heatCapacity <= 0) return Integer.MAX_VALUE; // Không thể nóng lên
+        if (targetTemp <= currentTemp) return 0;
+        if (maxReceivePerTick <= 0 || heatCapacity <= 0) return Integer.MAX_VALUE;
 
         float deltaT = targetTemp - currentTemp;
         float totalEnergyRequired = heatCapacity * deltaT;
