@@ -25,7 +25,3 @@ This mod includes **textures and code inspired by Immersive Engineering** by **B
 This mod is released under the **MIT License**, except for any assets (e.g. textures, models) used from other mods such
 as Immersive Engineering, which retain their **original licenses** and ownership.
 
-## 💖 Donations
-
-If you enjoy the mod and want to support its development, **donations are welcome** –
-but totally **optional and voluntary**. This mod is free, open-source, and non-commercial.
