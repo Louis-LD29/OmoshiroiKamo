@@ -1,4 +1,4 @@
-package com.louis.test.core.lang;
+package com.louis.test.core;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,11 +24,21 @@ public class LangSectionInserter {
             "#Item Material Ingot",
             material -> "item.itemMaterial.ingot." + material.name()
                 .toLowerCase() + ".name=" + material.getDisplayName() + " Ingot");
-
         SECTIONS.put(
             "#Item Material Nugget",
             material -> "item.itemMaterial.nugget." + material.name()
                 .toLowerCase() + ".name=" + material.getDisplayName() + " Nugget");
+
+        SECTIONS.put(
+            "#Item Material Plate",
+            material -> "item.itemMaterial.plate." + material.name()
+                .toLowerCase() + ".name=" + material.getDisplayName() + " Plate");
+
+        SECTIONS.put(
+            "#Item Material Rod",
+            material -> "item.itemMaterial.rod." + material.name()
+                .toLowerCase() + ".name=" + material.getDisplayName() + " Rod");
+
         SECTIONS.put(
             "#Energy Input",
             material -> "tile.blockEnergyInOut.input." + material.name()
@@ -37,6 +47,7 @@ public class LangSectionInserter {
             "#Energy Output",
             material -> "tile.blockEnergyInOut.output." + material.name()
                 .toLowerCase() + ".name=Energy Output (" + material.getDisplayName() + ")");
+
     }
 
     public static void main(String[] args) throws IOException {

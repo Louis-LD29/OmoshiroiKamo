@@ -43,9 +43,9 @@ public class TestCreativeTab extends CreativeTabs {
     public void displayAllReleventItems(List list) {
         this.list = list;
 
-        addItem(ModItems.itemOperationOrb);
-        addBlock(ModBlocks.blockTest);
-        addBlock(ModBlocks.blockSolar);
+        addItem(ModItems.itemMaterial);
+        addBlock(ModBlocks.blockMaterial);
+        addItem(ModItems.itemWireCoil);
     }
 
     private void addItem(Item item) {

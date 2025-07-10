@@ -37,7 +37,7 @@ public class BlockSolarPanel extends AbstractMachineBlock<TileSolarPanel> implem
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, BlockItemSolarPanel.class, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockSolarPanel.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
     }
 

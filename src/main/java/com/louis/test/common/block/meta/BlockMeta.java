@@ -34,7 +34,7 @@ public class BlockMeta extends AbstractBlock<AbstractTE> {
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, BlockItemMeta.class, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockMeta.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(TEMeta.class, modObject.unlocalisedName + "_meta_te");
     }
 

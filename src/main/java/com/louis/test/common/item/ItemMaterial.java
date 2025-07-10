@@ -1,12 +1,10 @@
 package com.louis.test.common.item;
 
-import com.louis.test.api.enums.Material;
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.common.TestCreativeTab;
-import com.louis.test.core.lib.LibResources;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import static org.apache.commons.lang3.StringUtils.capitalize;
+
+import java.util.List;
+import java.util.Locale;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -14,16 +12,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.List;
-import java.util.Locale;
+import com.louis.test.api.enums.Material;
+import com.louis.test.api.enums.ModObject;
+import com.louis.test.common.TestCreativeTab;
+import com.louis.test.core.lib.LibResources;
 
-import static org.apache.commons.lang3.StringUtils.capitalize;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemMaterial extends Item {
 
     protected IIcon ingotIcon;
     protected IIcon nuggetIcon;
     protected IIcon plateIcon;
+    protected IIcon rodIcon;
 
     public static ItemMaterial create() {
         ItemMaterial mat = new ItemMaterial();
@@ -42,19 +45,15 @@ public class ItemMaterial extends Item {
         GameRegistry.registerItem(this, ModObject.itemMaterial.unlocalisedName);
 
         for (Material mat : Material.values()) {
-            String matName = mat.name().toLowerCase(Locale.ROOT);
+            String matName = mat.name()
+                .toLowerCase(Locale.ROOT);
             int index = mat.ordinal();
 
-            registerMaterialOreDict("ingot", matName, index);
-            registerMaterialOreDict("nugget", matName, 100 + index);
-            registerMaterialOreDict("plate", matName, 200 + index);
+            registerMaterialOreDict(matName, index);
 
-            // Special aliases
             switch (mat) {
                 case CARBON_STEEL:
-                    registerMaterialOreDict("ingot", "steel", index);
-                    registerMaterialOreDict("nugget", "steel", 100 + index);
-                    registerMaterialOreDict("plate", "steel", 200 + index);
+                    registerMaterialOreDict("Steel", index);
                     break;
                 default:
                     break;
@@ -62,9 +61,12 @@ public class ItemMaterial extends Item {
         }
     }
 
-
-    private void registerMaterialOreDict(String type, String name, int meta) {
-        OreDictionary.registerOre(type + capitalize(name), new ItemStack(this, 1, meta));
+    private void registerMaterialOreDict(String name, int meta) {
+        OreDictionary.registerOre("ingot" + capitalize(name), new ItemStack(this, 1, meta));
+        OreDictionary.registerOre("nugget" + capitalize(name), new ItemStack(this, 1, 100 + meta));
+        OreDictionary.registerOre("plate" + capitalize(name), new ItemStack(this, 1, 200 + meta));
+        OreDictionary.registerOre("rod" + capitalize(name), new ItemStack(this, 1, 300 + meta));
+        OreDictionary.registerOre("stick" + capitalize(name), new ItemStack(this, 1, 300 + meta));
     }
 
     @Override
@@ -75,7 +77,9 @@ public class ItemMaterial extends Item {
         String base = super.getUnlocalizedName(stack);
 
         String type;
-        if (meta >= 200) {
+        if (meta >= 300) {
+            type = "rod";
+        } else if (meta >= 200) {
             type = "plate";
         } else if (meta >= 100) {
             type = "nugget";
@@ -83,10 +87,10 @@ public class ItemMaterial extends Item {
             type = "ingot";
         }
 
-        String mat = material.name().toLowerCase(Locale.ROOT);
+        String mat = material.name()
+            .toLowerCase(Locale.ROOT);
         return base + "." + type + "." + mat;
     }
-
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -99,13 +103,15 @@ public class ItemMaterial extends Item {
             list.add(new ItemStack(this, 1, 100 + i));
             // plate
             list.add(new ItemStack(this, 1, 200 + i));
+            // rod
+            list.add(new ItemStack(this, 1, 300 + i));
         }
     }
-
 
     @SideOnly(Side.CLIENT)
     @Override
     public IIcon getIconFromDamage(int damage) {
+        if (damage >= 300) return rodIcon;
         if (damage >= 200) return plateIcon;
         if (damage >= 100) return nuggetIcon;
         return ingotIcon;
@@ -124,5 +130,6 @@ public class ItemMaterial extends Item {
         ingotIcon = reg.registerIcon(LibResources.PREFIX_MOD + "material_ingot");
         nuggetIcon = reg.registerIcon(LibResources.PREFIX_MOD + "material_nugget");
         plateIcon = reg.registerIcon(LibResources.PREFIX_MOD + "material_plate");
+        rodIcon = reg.registerIcon(LibResources.PREFIX_MOD + "material_rod");
     }
 }

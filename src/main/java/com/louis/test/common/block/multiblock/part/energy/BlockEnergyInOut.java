@@ -33,7 +33,7 @@ public class BlockEnergyInOut extends AbstractBlock<TEEnergyInOut> implements IR
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, BlockItemEnergyInOut.class, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockEnergyInOut.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(TEFluidInput.class, modObject.unlocalisedName + "TileEntityInput");
         GameRegistry.registerTileEntity(TEFluidOutput.class, modObject.unlocalisedName + "TileEntityOutput");
     }

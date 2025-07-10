@@ -1,4 +1,4 @@
-package com.louis.test.common.block.multiblock.part.fluid;
+package com.louis.test.common.block.multiblock.part.energy;
 
 import java.util.List;
 import java.util.Locale;
@@ -9,27 +9,24 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidStack;
 
 import com.louis.test.api.enums.Material;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.TestCreativeTab;
 import com.louis.test.common.block.ModBlocks;
-import com.louis.test.core.lib.LibMisc;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockItemFluidInOut extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
+public class ItemBlockEnergyInOut extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
-    public BlockItemFluidInOut() {
-        super(ModBlocks.blockFluidInOut, ModBlocks.blockFluidInOut);
+    public ItemBlockEnergyInOut() {
+        super(ModBlocks.blockEnergyInOut, ModBlocks.blockEnergyInOut);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.INSTANCE);
     }
 
-    public BlockItemFluidInOut(Block block) {
+    public ItemBlockEnergyInOut(Block block) {
         super(block, block);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.tabBlock);
@@ -53,12 +50,8 @@ public class BlockItemFluidInOut extends ItemBlockWithMetadata implements IAdvan
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
         int count = Material.values().length;
-
         for (int i = 0; i < count; i++) {
             list.add(new ItemStack(this, 1, i));
-        }
-
-        for (int i = 0; i < count; i++) {
             list.add(new ItemStack(this, 1, 100 + i));
         }
     }
@@ -67,28 +60,20 @@ public class BlockItemFluidInOut extends ItemBlockWithMetadata implements IAdvan
     public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
 
     @Override
-    public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean advanced) {
+    public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean flag) {
         int meta = itemstack.getItemDamage();
         Material material = Material.fromMeta(meta);
 
         list.add(String.format("§7Material:§f %s", material.getDisplayName()));
-        list.add(String.format("§7Volume:§f %,d mB", material.getVolumeMB()));
-        list.add(String.format("§7Melting Point:§f %d K", (int) material.getMeltingPointK()));
-
-        NBTTagCompound tag = itemstack.getTagCompound();
-        if (tag != null && tag.hasKey("tank")) {
-            FluidStack fl = FluidStack.loadFluidStackFromNBT(tag.getCompoundTag("tank"));
-            if (fl != null && fl.getFluid() != null) {
-                list.add(
-                    String.format(
-                        "§7Stored:§f %,d mB %s",
-                        fl.amount,
-                        fl.getFluid()
-                            .getLocalizedName()));
-            }
-        } else {
-            list.add("§7Stored:§f " + LibMisc.lang.localize("fluid.empty"));
-        }
+        list.add(
+            String.format(
+                "§7Voltage Tier:§f %s",
+                material.getVoltageTier()
+                    .getDisplayName()));
+        list.add(String.format("§7Voltage:§f %d V", material.getMaxVoltage()));
+        list.add(String.format("§7Capacity:§f %,d RF", material.getEnergyStorageCapacity()));
+        list.add(String.format("§7Max Transfer:§f %,d RF/t", material.getMaxPowerTransfer()));
+        list.add(String.format("§7Max Usage:§f %,d RF/t", material.getMaxPowerUsage()));
     }
 
     @Override
