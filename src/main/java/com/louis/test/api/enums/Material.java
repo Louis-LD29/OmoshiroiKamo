@@ -2,26 +2,26 @@ package com.louis.test.api.enums;
 
 public enum Material {
 
-    IRON("Iron", 7870, 449, 80.2, 1811, 25, 1.0e7, 0xC0C0C0),
-    COPPER("Copper", 8960, 385, 401, 1358, 21, 5.96e7, 0xD47C4A),
-    SILVER("Silver", 10490, 235, 429, 1234, 15, 6.30e7, 0xE0E0E0),
-    GOLD("Gold", 19300, 129, 318, 1337, 15, 4.52e7, 0xFFD700),
-    ZINC("Zinc", 7135, 388, 116, 692, 10, 1.69e7, 0xA9A9A9),
+    IRON("Iron", 7870, 449, 80.2, 1811, 25, 1.0e7, 0xD8D8D8),
+    COPPER("Copper", 8960, 385, 401, 1358, 21, 5.96e7, 0xF08048),
+    SILVER("Silver", 10490, 235, 429, 1234, 15, 6.30e7, 0xF0F0F0),
+    GOLD("Gold", 19300, 129, 318, 1337, 15, 4.52e7, 0xFFE14A),
+    ZINC("Zinc", 7135, 388, 116, 692, 10, 1.69e7, 0xBBBBBB),
 
-    ALUMINUM("Aluminum", 2700, 900, 237, 933, 20, 3.77e7, 0xD3D3D3),
-    LEAD("Lead", 11340, 128, 35, 600, 5, 4.80e6, 0x4B4B4B),
-    TITANIUM("Titanium", 4507, 522, 21.9, 1941, 50, 2.38e6, 0xB0C4DE),
-    CHROMIUM("Chromium", 7190, 449, 93.9, 2180, 40, 7.90e6, 0x9ACD32),
-    NICKEL("Nickel", 8908, 440, 90.9, 1728, 35, 1.43e7, 0xAAAAAA),
+    ALUMINUM("Aluminum", 2700, 900, 237, 933, 20, 3.77e7, 0xE5E5E5),
+    LEAD("Lead", 11340, 128, 35, 600, 5, 4.80e6, 0x5C5C5C),
+    TITANIUM("Titanium", 4507, 522, 21.9, 1941, 50, 2.38e6, 0xC8D8EF),
+    CHROMIUM("Chromium", 7190, 449, 93.9, 2180, 40, 7.90e6, 0xB0FF5A),
+    NICKEL("Nickel", 8908, 440, 90.9, 1728, 35, 1.43e7, 0xCCCCCC),
 
-    CARBON_STEEL("Carbon Steel", 7850, 486, 50, 1698, 35, 6.00e6, 0x505050),
-    STAINLESS_STEEL("Stainless Steel", 8000, 500, 16, 1783, 40, 1.35e6, 0x8A8A8A),
-    BRASS("Brass", 8500, 380, 109, 1203, 20, 1.60e7, 0xE1C16E),
-    INCONEL("Inconel 625", 8440, 435, 15, 1623, 55, 2.00e6, 0x666666),
-    TUNGSTEN("Tungsten", 19250, 134, 173, 3695, 60, 1.82e7, 0x2E2E2E),
-    TUNGSTEN_CARBIDE("Tungsten Carbide", 15000, 180, 84, 3143, 80, 5.00e6, 0x3D3D3D),
+    CARBON_STEEL("Carbon Steel", 7850, 486, 50, 1698, 35, 6.00e6, 0x707070),
+    STAINLESS_STEEL("Stainless Steel", 8000, 500, 16, 1783, 40, 1.35e6, 0xA0A0A0),
+    BRASS("Brass", 8500, 380, 109, 1203, 20, 1.60e7, 0xF2D56B),
+    INCONEL("Inconel 625", 8440, 435, 15, 1623, 55, 2.00e6, 0x8A8A8A),
+    TUNGSTEN("Tungsten", 19250, 134, 173, 3695, 60, 1.82e7, 0x3A3A3A),
+    TUNGSTEN_CARBIDE("Tungsten Carbide", 15000, 180, 84, 3143, 80, 5.00e6, 0x555555),
 
-    NIOBIUM("Niobium", 8570, 265, 54, 2741, 45, 6.70e6, 0x7F7FFF);
+    NIOBIUM("Niobium", 8570, 265, 54, 2741, 45, 6.70e6, 0xAFAFFF);
 
     private final String displayName;
     private final double densityKgPerM3;
@@ -86,7 +86,17 @@ public enum Material {
     }
 
     public int getColor() {
-        return color;
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+
+        float brightness = 1.2f;
+
+        r = Math.min(255, (int) (r * brightness));
+        g = Math.min(255, (int) (g * brightness));
+        b = Math.min(255, (int) (b * brightness));
+
+        return (r << 16) | (g << 8) | b;
     }
 
     public static Material fromMeta(int meta) {

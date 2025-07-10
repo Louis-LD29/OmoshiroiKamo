@@ -117,8 +117,11 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     @SideOnly(Side.CLIENT)
     @Override
     public int getColorFromItemStack(ItemStack stack, int renderPass) {
-        Material mat = Material.fromMeta(stack.getItemDamage());
-        return mat.getColor();
+        if (renderPass == 1) {
+            Material mat = Material.fromMeta(stack.getItemDamage() % 100);
+            return mat.getColor();
+        }
+        return 0xFFFFFF;
     }
 
     @SideOnly(Side.CLIENT)
@@ -146,8 +149,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
 
     @Override
     public WireType getWireType(ItemStack stack) {
-        int meta = MathHelper.clamp_int(stack.getItemDamage(), 0, Material.values().length - 1);
-        Material material = Material.fromMeta(meta);
+        Material material = Material.fromMeta(stack.getItemDamage() % 100);
         return MaterialWireType.materialWireTypes.get(material);
     }
 
