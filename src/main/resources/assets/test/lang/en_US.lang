@@ -142,7 +142,43 @@ item.itemWireCoil.tungsten_carbide.name=Wire Coil (Tungsten Carbide)
 item.itemWireCoil.niobium.name=Wire Coil (Niobium)
 item.itemWireCoil.iron.name=Wire Coil (Iron)
 
+#Item Material Ingot
+item.itemMaterial.ingot.iron.name=Iron Ingot
+item.itemMaterial.ingot.copper.name=Copper Ingot
+item.itemMaterial.ingot.silver.name=Silver Ingot
+item.itemMaterial.ingot.gold.name=Gold Ingot
+item.itemMaterial.ingot.zinc.name=Zinc Ingot
+item.itemMaterial.ingot.aluminum.name=Aluminum Ingot
+item.itemMaterial.ingot.lead.name=Lead Ingot
+item.itemMaterial.ingot.titanium.name=Titanium Ingot
+item.itemMaterial.ingot.chromium.name=Chromium Ingot
+item.itemMaterial.ingot.nickel.name=Nickel Ingot
+item.itemMaterial.ingot.carbon_steel.name=Carbon Steel Ingot
+item.itemMaterial.ingot.stainless_steel.name=Stainless Steel Ingot
+item.itemMaterial.ingot.brass.name=Brass Ingot
+item.itemMaterial.ingot.inconel.name=Inconel 625 Ingot
+item.itemMaterial.ingot.tungsten.name=Tungsten Ingot
+item.itemMaterial.ingot.tungsten_carbide.name=Tungsten Carbide Ingot
+item.itemMaterial.ingot.niobium.name=Niobium Ingot
 
+#Item Material Nugget
+item.itemMaterial.nugget.iron.name=Iron Nugget
+item.itemMaterial.nugget.copper.name=Copper Nugget
+item.itemMaterial.nugget.silver.name=Silver Nugget
+item.itemMaterial.nugget.gold.name=Gold Nugget
+item.itemMaterial.nugget.zinc.name=Zinc Nugget
+item.itemMaterial.nugget.aluminum.name=Aluminum Nugget
+item.itemMaterial.nugget.lead.name=Lead Nugget
+item.itemMaterial.nugget.titanium.name=Titanium Nugget
+item.itemMaterial.nugget.chromium.name=Chromium Nugget
+item.itemMaterial.nugget.nickel.name=Nickel Nugget
+item.itemMaterial.nugget.carbon_steel.name=Carbon Steel Nugget
+item.itemMaterial.nugget.stainless_steel.name=Stainless Steel Nugget
+item.itemMaterial.nugget.brass.name=Brass Nugget
+item.itemMaterial.nugget.inconel.name=Inconel 625 Nugget
+item.itemMaterial.nugget.tungsten.name=Tungsten Nugget
+item.itemMaterial.nugget.tungsten_carbide.name=Tungsten Carbide Nugget
+item.itemMaterial.nugget.niobium.name=Niobium Nugget
 
 #Immersive Engineering
 

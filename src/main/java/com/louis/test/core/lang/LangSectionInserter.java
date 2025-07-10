@@ -21,6 +21,15 @@ public class LangSectionInserter {
             material -> "item.itemWireCoil." + material.name()
                 .toLowerCase() + ".name=Wire Coil (" + material.getDisplayName() + ")");
         SECTIONS.put(
+            "#Item Material Ingot",
+            material -> "item.itemMaterial.ingot." + material.name()
+                .toLowerCase() + ".name=" + material.getDisplayName() + " Ingot");
+
+        SECTIONS.put(
+            "#Item Material Nugget",
+            material -> "item.itemMaterial.nugget." + material.name()
+                .toLowerCase() + ".name=" + material.getDisplayName() + " Nugget");
+        SECTIONS.put(
             "#Energy Input",
             material -> "tile.blockEnergyInOut.input." + material.name()
                 .toLowerCase() + ".name=Energy Input (" + material.getDisplayName() + ")");
