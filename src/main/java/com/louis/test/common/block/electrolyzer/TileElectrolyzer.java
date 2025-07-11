@@ -22,7 +22,7 @@ import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.slot.FluidSlot;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.common.block.machine.AbstractProcessingEntity;
 import com.louis.test.common.block.machine.SlotDefinition;
@@ -32,7 +32,7 @@ import com.louis.test.common.gui.modularui2.MGuis;
 public class TileElectrolyzer extends AbstractProcessingEntity {
 
     public TileElectrolyzer() {
-        super(new SlotDefinition(0, 2, 3, 5, 0, 2, 3, 5, -1, -1), Material.IRON);
+        super(new SlotDefinition(0, 2, 3, 5, 0, 2, 3, 5, -1, -1), MaterialRegistry.get("Iron"));
     }
 
     @Override

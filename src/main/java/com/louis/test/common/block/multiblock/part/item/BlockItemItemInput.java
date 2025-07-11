@@ -10,7 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialEntry;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.TestCreativeTab;
 import com.louis.test.common.block.ModBlocks;
@@ -35,16 +36,17 @@ public class BlockItemItemInput extends ItemBlockWithMetadata implements IAdvanc
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         int meta = stack.getItemDamage();
-        Material material = Material.fromMeta(meta);
+        MaterialEntry material = MaterialRegistry.fromMeta(meta);
         return super.getUnlocalizedName(stack) + "."
-            + material.name()
-                .toLowerCase(Locale.ROOT);
+            + material.name.toLowerCase(Locale.ROOT)
+                .replace(" ", "_");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> list) {
-        for (int i = 0; i < Material.values().length; i++) {
+        for (int i = 0; i < MaterialRegistry.all()
+            .size(); i++) {
             list.add(new ItemStack(this, 1, i));
         }
     }
@@ -55,8 +57,8 @@ public class BlockItemItemInput extends ItemBlockWithMetadata implements IAdvanc
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
         int meta = itemstack.getItemDamage();
-        Material material = Material.fromMeta(meta);
-        list.add("§7Material:§f " + material.getDisplayName());
+        MaterialEntry material = MaterialRegistry.fromMeta(meta);
+        list.add("§7Material:§f " + material.name);
         list.add("§7Slot:§f " + material.getItemSlotCount());
     }
 

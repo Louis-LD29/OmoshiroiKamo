@@ -30,9 +30,9 @@ import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.FluidSlot;
 import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.FluidUtil;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.IoType;
-import com.louis.test.api.enums.Material;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.fluid.SmartTank;
 import com.louis.test.common.block.machine.SlotDefinition;
@@ -48,7 +48,7 @@ public class TileFluidOutput extends TileAddon implements IFluidHandler {
     private boolean didSyncFluid = false;
 
     public TileFluidOutput() {
-        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), Material.IRON);
+        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), MaterialRegistry.get("Iron"));
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             setIoMode(direction, IoMode.OUTPUT, IoType.FLUID);
         }

@@ -2,7 +2,7 @@ package com.louis.test.common.block.multiblock.fluid;
 
 import net.minecraft.item.ItemStack;
 
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.common.block.machine.SlotDefinition;
 import com.louis.test.common.block.multiblock.TileAddon;
@@ -10,7 +10,7 @@ import com.louis.test.common.block.multiblock.TileAddon;
 public class TileFluidFilter extends TileAddon {
 
     public TileFluidFilter() {
-        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), Material.IRON);
+        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), MaterialRegistry.get("Iron"));
     }
 
     @Override

@@ -21,7 +21,6 @@ public class TestCreativeTab extends CreativeTabs {
 
     public TestCreativeTab() {
         super(LibMisc.MOD_ID);
-        setNoTitle();
     }
 
     @Override

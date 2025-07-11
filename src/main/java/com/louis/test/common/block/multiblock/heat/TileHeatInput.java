@@ -20,7 +20,11 @@ import com.cleanroommc.modularui.widgets.ButtonWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.enderio.core.common.util.BlockCoord;
-import com.louis.test.api.enums.*;
+import com.louis.test.api.MaterialRegistry;
+import com.louis.test.api.enums.BlockMassType;
+import com.louis.test.api.enums.IoMode;
+import com.louis.test.api.enums.IoType;
+import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.heat.HeatStorage;
 import com.louis.test.api.interfaces.heat.HeatUtil;
 import com.louis.test.api.interfaces.heat.IHeatHandler;
@@ -35,8 +39,8 @@ public class TileHeatInput extends TileAddon implements IHeatHandler {
     private HeatStorage tileHeat;
 
     public TileHeatInput() {
-        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), Material.IRON);
-        tileHeat = new HeatStorage(Material.COPPER, BlockMassType.HEAT_INOUT);
+        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), MaterialRegistry.get("Iron"));
+        tileHeat = new HeatStorage(MaterialRegistry.get("Copper"), BlockMassType.HEAT_INOUT);
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             setIoMode(direction, IoMode.INPUT, IoType.HEAT);
         }

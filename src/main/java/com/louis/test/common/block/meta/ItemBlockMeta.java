@@ -10,14 +10,13 @@ import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
 import com.louis.test.api.enums.MetaTileEntity;
-import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.TestCreativeTab;
 import com.louis.test.common.block.ModBlocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemBlockMeta extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
+public class ItemBlockMeta extends ItemBlockWithMetadata {
 
     public ItemBlockMeta() {
         super(ModBlocks.blockMeta, ModBlocks.blockMeta);
@@ -49,18 +48,7 @@ public class ItemBlockMeta extends ItemBlockWithMetadata implements IAdvancedToo
     }
 
     @Override
-    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> list, boolean flag) {
+        super.addInformation(itemStack, player, list, flag);
     }
-
-    @Override
-    public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-
-    }
-
-    @Override
-    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-
-    }
-
 }

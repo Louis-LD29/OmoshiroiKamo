@@ -14,7 +14,7 @@ import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widget.ParentWidget;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.common.block.AbstractTE;
 
@@ -23,7 +23,7 @@ public class TEItemOutput extends AbstractTE {
     protected ItemStackHandler inv;
 
     protected TEItemOutput(int meta) {
-        material = Material.fromMeta(meta);
+        material = MaterialRegistry.fromMeta(meta);
         inv = new ItemStackHandler(material.getItemSlotCount());
     }
 

@@ -21,7 +21,7 @@ import com.cleanroommc.modularui.widgets.ProgressWidget.Direction;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.FluidSlot;
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.fluid.SmartTank;
 import com.louis.test.common.block.machine.SlotDefinition;
@@ -39,7 +39,7 @@ public class TileBoiler extends TileMain {
     double tBoil = 0f;
 
     public TileBoiler() {
-        super(new SlotDefinition(-1, -1, -1, -1, 0, 0, 1, 1, -1, -1), Material.IRON);
+        super(new SlotDefinition(-1, -1, -1, -1, 0, 0, 1, 1, -1, -1), MaterialRegistry.get("Iron"));
         setHeatStorage(HEATSTORAGE());
     }
 

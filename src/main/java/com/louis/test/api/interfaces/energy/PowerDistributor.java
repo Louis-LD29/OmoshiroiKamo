@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.enderio.core.common.util.BlockCoord;
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialEntry;
 import com.louis.test.api.enums.VoltageTier;
 import com.louis.test.common.block.AbstractTE;
 
@@ -42,7 +42,8 @@ public class PowerDistributor {
         }
 
         TileEntity senderTile = worldObj.getTileEntity(bc.x, bc.y, bc.z);
-        Material senderMaterial = (senderTile instanceof AbstractTE) ? ((AbstractTE) senderTile).getMaterial() : null;
+        MaterialEntry senderMaterial = (senderTile instanceof AbstractTE) ? ((AbstractTE) senderTile).getMaterial()
+            : null;
         VoltageTier senderTier = (senderMaterial != null) ? senderMaterial.getVoltageTier() : null;
 
         int appliedCount = 0;
@@ -52,7 +53,7 @@ public class PowerDistributor {
             Receptor receptor = receptorIterator.next();
             IPowerInterface pp = receptor.receptor;
 
-            Material receiverMaterial = receptor.material;
+            MaterialEntry receiverMaterial = receptor.material;
             VoltageTier receiverTier = (receiverMaterial != null) ? receiverMaterial.getVoltageTier() : null;
 
             if (pp != null && pp.getMinEnergyReceived(receptor.fromDir.getOpposite()) <= available) {
@@ -106,7 +107,7 @@ public class PowerDistributor {
             if (tile == null) {
                 continue;
             }
-            Material mat = null;
+            MaterialEntry mat = null;
             if (tile instanceof AbstractTE) {
                 mat = ((AbstractTE) tile).getMaterial();
             }
@@ -124,10 +125,10 @@ public class PowerDistributor {
     static class Receptor {
 
         IPowerInterface receptor;
-        Material material;
+        MaterialEntry material;
         ForgeDirection fromDir;
 
-        private Receptor(IPowerInterface rec, Material material, ForgeDirection fromDir) {
+        private Receptor(IPowerInterface rec, MaterialEntry material, ForgeDirection fromDir) {
             this.receptor = rec;
             this.material = material;
             this.fromDir = fromDir;

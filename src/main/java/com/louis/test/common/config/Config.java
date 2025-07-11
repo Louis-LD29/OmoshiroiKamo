@@ -7,7 +7,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialEntry;
+import com.louis.test.api.MaterialRegistry;
+import com.louis.test.core.LangSectionInserter;
 import com.louis.test.core.lib.LibMisc;
 import com.louis.test.core.network.PacketHandler;
 
@@ -43,8 +45,9 @@ public class Config {
     public static double[] cableLossRatio = new double[] { 0.05, 0.025, 0.025, 1.0, 1.0 };
     public static int[] cableTransferRate = new int[] { 2048, 4096, 8192, 0, 0 };
     public static int[] cableColouration = new int[] { 13926474, 15576418, 7303023, 9862765, 7303023 };
+    public static String[] materialCustom = new String[] {};
 
-    public static final Map<Material, MaterialConfig> materialConfigs = new EnumMap<>(Material.class);
+    public static final Map<String, MaterialConfig> materialConfigs = new HashMap<>();
 
     private Config() {}
 
@@ -183,10 +186,37 @@ public class Config {
                 "Cable color RGB (int). Format: " + Arrays.toString(WireType.uniqueNames))
             .getIntList();
 
-        materialConfigs.clear();
-        for (Material mat : Material.values()) {
-            materialConfigs.put(mat, MaterialConfig.loadFromConfig(config, mat));
+        materialCustom = config.get(
+            sectionMaterial.name,
+            "materialCustom",
+            materialCustom,
+            "List of custom material names to register on next game load. "
+                + "Each material will be initialized with predefined or config-based properties. Requires game restart.")
+            .getStringList();
+
+        LangSectionInserter.insertCustomMaterialsLang(materialCustom);
+        // Xoá các material config không còn trong materialCustom[]
+        Set<String> defined = new HashSet<>(Arrays.asList(materialCustom));
+
+        // Duyệt toàn bộ category con trong "material settings"
+        Set<String> categoriesToRemove = new HashSet<>();
+        for (String category : config.getCategoryNames()) {
+            if (category.startsWith("material settings") && !category.equals("material settings")) {
+                String name = category.substring("material settings".length() + 1); // Trích tên material
+                if (!defined.contains(name)) {
+                    categoriesToRemove.add(category);
+                }
+            }
         }
+
+        for (String cat : categoriesToRemove) {
+            config.removeCategory(config.getCategory(cat));
+        }
+        materialConfigs.clear();
+        for (MaterialEntry entry : MaterialRegistry.all()) {
+            materialConfigs.put(entry.name, MaterialConfig.loadFromConfig(config, entry));
+        }
+
     }
 
     public static void init() {}

@@ -15,7 +15,11 @@ import com.cleanroommc.modularui.widget.ParentWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.enderio.core.common.util.BlockCoord;
-import com.louis.test.api.enums.*;
+import com.louis.test.api.MaterialRegistry;
+import com.louis.test.api.enums.BlockMassType;
+import com.louis.test.api.enums.IoMode;
+import com.louis.test.api.enums.IoType;
+import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.heat.HeatStorage;
 import com.louis.test.api.interfaces.heat.HeatUtil;
 import com.louis.test.api.interfaces.heat.IHeatHandler;
@@ -24,10 +28,10 @@ import com.louis.test.common.block.machine.SlotDefinition;
 
 public class TileHeatSource extends AbstractMachineEntity implements IHeatHandler {
 
-    private final HeatStorage heat = new HeatStorage(Material.COPPER, BlockMassType.BLOCK);
+    private final HeatStorage heat = new HeatStorage(MaterialRegistry.get("Copper"), BlockMassType.BLOCK);
 
     public TileHeatSource() {
-        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), Material.IRON);
+        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), MaterialRegistry.get("Iron"));
         heat.setMaxTransfer(10000);
     }
 

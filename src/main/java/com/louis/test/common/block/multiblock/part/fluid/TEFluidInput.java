@@ -17,7 +17,7 @@ import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.FluidSlotSyncHandler;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widgets.slot.FluidSlot;
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.fluid.SmartTank;
 
@@ -28,7 +28,7 @@ public class TEFluidInput extends TEFluidInOut {
 
     protected TEFluidInput(int meta) {
         this.meta = meta;
-        material = Material.fromMeta(meta % 100);
+        material = MaterialRegistry.fromMeta(meta % 100);
         tank = new SmartTank(material);
     }
 
@@ -104,8 +104,8 @@ public class TEFluidInput extends TEFluidInOut {
             .child(
                 IKey.lang(
                     getBlockType().getUnlocalizedName() + "."
-                        + material.name()
-                            .toLowerCase(Locale.ROOT)
+                        + material.name.toLowerCase(Locale.ROOT)
+                            .replace(" ", "_")
                         + ".name")
                     .asWidget()
                     .margin(7))
