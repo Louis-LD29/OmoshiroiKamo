@@ -4,7 +4,7 @@ import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.energy.EnergyStorageAdv;
 
@@ -12,7 +12,7 @@ public class TEEnergyInput extends TEEnergyInOut {
 
     protected TEEnergyInput(int meta) {
         this.meta = meta;
-        material = Material.fromMeta(meta % 100);
+        material = MaterialRegistry.fromMeta(meta % 100);
         energyStorage = new EnergyStorageAdv(material);
     }
 

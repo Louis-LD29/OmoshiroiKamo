@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.IResourceTooltipProvider;
 import com.louis.test.common.block.AbstractBlock;
@@ -44,7 +44,8 @@ public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> implements IRes
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
-        int count = Material.values().length;
+        int count = MaterialRegistry.all()
+            .size();
         for (int i = 0; i < count; i++) {
             list.add(new ItemStack(this, 1, i));
         }

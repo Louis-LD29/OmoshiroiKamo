@@ -2,10 +2,11 @@ package com.louis.test.common.config;
 
 import net.minecraftforge.common.config.Configuration;
 
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialEntry;
 
 public class MaterialConfig {
 
+    public final String displayName;
     public final double densityKgPerM3;
     public final double specificHeatJPerKgK;
     public final double thermalConductivityWPerMK;
@@ -14,8 +15,10 @@ public class MaterialConfig {
     public final double electricalConductivity;
     public final int color;
 
-    public MaterialConfig(double densityKgPerM3, double specificHeatJPerKgK, double thermalConductivityWPerMK,
-        double meltingPointK, double maxPressureMPa, double electricalConductivity, int color) {
+    public MaterialConfig(String displayName, double densityKgPerM3, double specificHeatJPerKgK,
+        double thermalConductivityWPerMK, double meltingPointK, double maxPressureMPa, double electricalConductivity,
+        int color) {
+        this.displayName = displayName;
         this.densityKgPerM3 = densityKgPerM3;
         this.specificHeatJPerKgK = specificHeatJPerKgK;
         this.thermalConductivityWPerMK = thermalConductivityWPerMK;
@@ -25,40 +28,33 @@ public class MaterialConfig {
         this.color = color;
     }
 
-    public static MaterialConfig loadFromConfig(Configuration config, Material mat) {
-        String cat = "material settings." + mat.getDisplayName();
+    public static MaterialConfig loadFromConfig(Configuration config, MaterialEntry entry) {
+        String cat = Config.sectionMaterial.name + "." + entry.name;
 
-        double density = config.get(cat, "density", mat.getDefaultDensityKgPerM3(), "Density (kg/m^3)")
+        double density = config.get(cat, "density", entry.defaults.densityKgPerM3, "Density (kg/m^3)")
             .getDouble();
-
-        double specificHeat = config.get(cat, "specificHeat", mat.getDefaultSpecificHeat(), "Specific Heat (J/kg.K)")
+        double specificHeat = config
+            .get(cat, "specificHeat", entry.defaults.specificHeatJPerKgK, "Specific Heat (J/kg.K)")
             .getDouble();
-
         double thermal = config
-            .get(cat, "thermalConductivity", mat.getDefaultThermalConductivity(), "Thermal Conductivity (W/m.K)")
+            .get(cat, "thermalConductivity", entry.defaults.thermalConductivityWPerMK, "Thermal Conductivity (W/m.K)")
             .getDouble();
-
-        double melting = config.get(cat, "meltingPoint", mat.getDefaultMeltingPointK(), "Melting Point (Kelvin)")
+        double melting = config.get(cat, "meltingPoint", entry.defaults.meltingPointK, "Melting Point (Kelvin)")
             .getDouble();
-
-        double pressure = config.get(cat, "maxPressure", mat.getDefaultMaxPressureMPa(), "Max Pressure (MPa)")
+        double pressure = config.get(cat, "maxPressure", entry.defaults.maxPressureMPa, "Max Pressure (MPa)")
             .getDouble();
-
         double electrical = config
-            .get(cat, "electricalConductivity", mat.getDefaultElectricalConductivity(), "Electrical Conductivity (S/m)")
+            .get(cat, "electricalConductivity", entry.defaults.electricalConductivity, "Electrical Conductivity (S/m)")
             .getDouble();
 
-        int defaultColor = mat.get().color;
+        int defaultColor = entry.defaults.color;
         String hex = String.format("0x%06X", defaultColor)
             .toUpperCase();
         int color = config
-            .get(
-                cat,
-                "color",
-                mat.getDefaultColor(),
-                "Material display color as RGB integer (" + hex + "), format: 0xRRGGBB")
+            .get(cat, "color", defaultColor, "Material display color as RGB integer (" + hex + "), format: 0xRRGGBB")
             .getInt();
 
-        return new MaterialConfig(density, specificHeat, thermal, melting, pressure, electrical, color);
+        return new MaterialConfig(entry.name, density, specificHeat, thermal, melting, pressure, electrical, color);
     }
+
 }

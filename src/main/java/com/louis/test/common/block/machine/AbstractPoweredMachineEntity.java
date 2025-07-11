@@ -5,7 +5,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.enderio.core.common.vecmath.VecmathUtil;
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialEntry;
 import com.louis.test.api.enums.VoltageTier;
 import com.louis.test.api.interfaces.energy.IInternalPoweredTile;
 import com.louis.test.api.interfaces.energy.PowerHandlerUtil;
@@ -18,7 +18,7 @@ public abstract class AbstractPoweredMachineEntity extends AbstractMachineEntity
     private int storedEnergyRF;
     protected float lastSyncPowerStored = -1;
 
-    protected AbstractPoweredMachineEntity(SlotDefinition slotDefinition, Material material) {
+    protected AbstractPoweredMachineEntity(SlotDefinition slotDefinition, MaterialEntry material) {
         super(slotDefinition, material);
     }
 

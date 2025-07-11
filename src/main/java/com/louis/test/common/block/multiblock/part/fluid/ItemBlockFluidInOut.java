@@ -12,7 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialEntry;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
 import com.louis.test.common.TestCreativeTab;
 import com.louis.test.common.block.ModBlocks;
@@ -39,12 +40,12 @@ public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvan
     public String getUnlocalizedName(ItemStack stack) {
         int meta = stack.getItemDamage();
         boolean isOutput = meta >= 100;
-        Material material = Material.fromMeta(meta % 100);
+        MaterialEntry material = MaterialRegistry.fromMeta(meta % 100);
 
         String base = super.getUnlocalizedName(stack);
         String type = isOutput ? "output" : "input";
-        String mat = material.name()
-            .toLowerCase(Locale.ROOT);
+        String mat = material.name.toLowerCase(Locale.ROOT)
+            .replace(" ", "_");
 
         return base + "." + type + "." + mat;
     }
@@ -52,7 +53,8 @@ public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvan
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-        int count = Material.values().length;
+        int count = MaterialRegistry.all()
+            .size();
 
         for (int i = 0; i < count; i++) {
             list.add(new ItemStack(this, 1, i));
@@ -69,9 +71,9 @@ public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvan
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean advanced) {
         int meta = itemstack.getItemDamage();
-        Material material = Material.fromMeta(meta);
+        MaterialEntry material = MaterialRegistry.fromMeta(meta);
 
-        list.add(String.format("§7Material:§f %s", material.getDisplayName()));
+        list.add(String.format("§7Material:§f %s", material.name));
         list.add(String.format("§7Volume:§f %,d mB", material.getVolumeMB()));
         list.add(String.format("§7Melting Point:§f %d K", (int) material.getMeltingPointK()));
 

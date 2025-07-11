@@ -22,9 +22,9 @@ import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.InventoryWrapper;
 import com.enderio.core.common.util.ItemUtil;
+import com.louis.test.api.MaterialEntry;
 import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.IoType;
-import com.louis.test.api.enums.Material;
 import com.louis.test.api.interfaces.IIoConfigurable;
 import com.louis.test.api.interfaces.fluid.SmartTank;
 import com.louis.test.api.interfaces.redstone.IRedstoneConnectable;
@@ -40,7 +40,7 @@ public abstract class AbstractMachineEntity extends AbstractTE implements IGuiHo
     protected final SlotDefinition slotDefinition;
     private final int[] allSlots;
     public ItemStackHandler inv;
-    public Material material;
+    public MaterialEntry material;
     public boolean redstoneStateDirty = true;
     public boolean isDirty = false;
     protected int ticksSinceSync = -1;
@@ -52,7 +52,7 @@ public abstract class AbstractMachineEntity extends AbstractTE implements IGuiHo
     protected RedstoneControlMode redstoneControlMode;
     protected Map<IoType, Map<ForgeDirection, IoMode>> ioConfigs;
 
-    protected AbstractMachineEntity(SlotDefinition slotDefinition, Material material) {
+    protected AbstractMachineEntity(SlotDefinition slotDefinition, MaterialEntry material) {
         this.slotDefinition = slotDefinition;
         this.material = material;
 

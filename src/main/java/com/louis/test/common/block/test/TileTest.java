@@ -29,9 +29,9 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.enderio.core.api.common.util.ITankAccess;
 import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.FluidUtil;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.IoType;
-import com.louis.test.api.enums.Material;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.fluid.SmartTank;
 import com.louis.test.common.block.machine.AbstractPowerConsumerEntity;
@@ -73,7 +73,7 @@ public class TileTest extends AbstractPowerConsumerEntity
     private boolean tanksDirty = false;
 
     public TileTest(int meta) {
-        super(new SlotDefinition(0, 1, -1, -1, -1, -1), Material.IRON);
+        super(new SlotDefinition(0, 1, -1, -1, -1, -1), MaterialRegistry.get("Iron"));
     }
 
     public TileTest() {

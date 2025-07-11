@@ -12,9 +12,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
+import com.louis.test.api.MaterialEntry;
 import com.louis.test.api.enums.IoMode;
 import com.louis.test.api.enums.IoType;
-import com.louis.test.api.enums.Material;
 import com.louis.test.api.interfaces.energy.IInternalPowerReceiver;
 import com.louis.test.common.recipes.IPoweredTask;
 import com.louis.test.common.recipes.MachineRecipe;
@@ -34,7 +34,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
     protected boolean confirmedToStart = false;
     protected MachineRecipe lockedRecipe = null;
 
-    public AbstractProcessingEntity(SlotDefinition slotDefinition, Material material) {
+    public AbstractProcessingEntity(SlotDefinition slotDefinition, MaterialEntry material) {
         super(slotDefinition, material);
     }
 

@@ -7,12 +7,15 @@ import java.util.Locale;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialEntry;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.common.block.BlockEio;
 import com.louis.test.core.lib.LibResources;
@@ -33,28 +36,24 @@ public class BlockMaterial extends BlockEio {
 
     private BlockMaterial() {
         super(ModObject.blockMaterial.unlocalisedName, null, net.minecraft.block.material.Material.iron);
-        setHardness(3.0F);
-        setResistance(5.0F);
-        setStepSound(soundTypeMetal);
     }
 
     @Override
     protected void init() {
         GameRegistry.registerBlock(this, ItemBlockMaterial.class, ModObject.blockMaterial.unlocalisedName);
 
-        for (Material mat : Material.values()) {
-            String matName = mat.name()
-                .toLowerCase(Locale.ROOT);
-            int meta = mat.ordinal();
+        int meta = 0;
+        for (MaterialEntry entry : MaterialRegistry.all()) {
+            String matName = entry.name.toLowerCase(Locale.ROOT)
+                .replace(' ', '_');
 
             registerMaterialOreDict(matName, meta);
-            switch (mat) {
-                case CARBON_STEEL:
-                    registerMaterialOreDict("Steel", meta);
-                    break;
-                default:
-                    break;
+
+            if ("Carbon Steel".equalsIgnoreCase(entry.name)) {
+                registerMaterialOreDict("Steel", meta);
             }
+
+            meta++;
         }
     }
 
@@ -65,6 +64,21 @@ public class BlockMaterial extends BlockEio {
     @Override
     public int damageDropped(int meta) {
         return meta;
+    }
+
+    @Override
+    public float getBlockHardness(World world, int x, int y, int z) {
+        int meta = world.getBlockMetadata(x, y, z);
+        return MaterialRegistry.fromMeta(meta)
+            .getHardness();
+    }
+
+    @Override
+    public float getExplosionResistance(Entity exploder, World world, int x, int y, int z, double explosionX,
+        double explosionY, double explosionZ) {
+        int meta = world.getBlockMetadata(x, y, z);
+        return MaterialRegistry.fromMeta(meta)
+            .getResistance();
     }
 
     @Override
@@ -82,7 +96,8 @@ public class BlockMaterial extends BlockEio {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
-        int count = Material.values().length;
+        int count = MaterialRegistry.all()
+            .size();
         for (int i = 0; i < count; i++) {
             list.add(new ItemStack(this, 1, i));
         }
@@ -91,7 +106,7 @@ public class BlockMaterial extends BlockEio {
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderColor(int meta) {
-        Material mat = Material.fromMeta(meta);
+        MaterialEntry mat = MaterialRegistry.fromMeta(meta);
         return mat.getColor();
     }
 
@@ -99,7 +114,7 @@ public class BlockMaterial extends BlockEio {
     @SideOnly(Side.CLIENT)
     public int colorMultiplier(net.minecraft.world.IBlockAccess world, int x, int y, int z) {
         int meta = world.getBlockMetadata(x, y, z);
-        Material mat = Material.fromMeta(meta);
+        MaterialEntry mat = MaterialRegistry.fromMeta(meta);
         return mat.getColor();
     }
 }

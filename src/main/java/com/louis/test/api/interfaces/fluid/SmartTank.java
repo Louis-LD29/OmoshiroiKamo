@@ -7,11 +7,11 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
 import com.google.common.base.Strings;
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialEntry;
 
 public class SmartTank extends FluidTank {
 
-    protected Material material;
+    protected MaterialEntry material;
     protected Fluid restriction;
 
     public SmartTank(FluidStack liquid, int capacity) {
@@ -32,12 +32,12 @@ public class SmartTank extends FluidTank {
         restriction = liquid;
     }
 
-    public SmartTank(Material material) {
+    public SmartTank(MaterialEntry material) {
         super(material.getVolumeMB());
         this.material = material;
     }
 
-    public Material getMaterial() {
+    public MaterialEntry getMaterial() {
         return material;
     }
 

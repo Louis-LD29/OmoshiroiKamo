@@ -1,12 +1,14 @@
 package com.louis.test.api.interfaces.energy;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialEntry;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.common.item.ModItems;
 
 import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
@@ -23,23 +25,24 @@ import blusunrize.immersiveengineering.api.energy.WireType;
 
 public class MaterialWireType extends WireType {
 
-    private final Material material;
-    public static final Map<Material, MaterialWireType> materialWireTypes = new HashMap<>();
+    private final MaterialEntry material;
+    public static final Map<String, MaterialWireType> materialWireTypes = new HashMap<>();
 
     static {
-        for (Material mat : Material.values()) {
-            materialWireTypes.put(mat, new MaterialWireType(mat));
+        for (MaterialEntry mat : MaterialRegistry.all()) {
+            materialWireTypes.put(mat.name, new MaterialWireType(mat));
         }
     }
 
-    public MaterialWireType(Material material) {
+    public MaterialWireType(MaterialEntry material) {
         super();
         this.material = material;
     }
 
     @Override
     public String getUniqueName() {
-        return material.name();
+        return material.name.toLowerCase(Locale.ROOT)
+            .replace(' ', '_');
     }
 
     @Override
@@ -76,7 +79,8 @@ public class MaterialWireType extends WireType {
 
     @Override
     public ItemStack getWireCoil() {
-        return new ItemStack(ModItems.itemWireCoil, 1, material.ordinal());
+        int meta = MaterialRegistry.indexOf(material); // bạn cần thêm method này trong MaterialRegistry
+        return new ItemStack(ModItems.itemWireCoil, 1, meta);
     }
 
     @Override
@@ -90,7 +94,7 @@ public class MaterialWireType extends WireType {
         return material.getElectricalConductivity() > 1e6;
     }
 
-    public Material getMaterial() {
+    public MaterialEntry getMaterial() {
         return material;
     }
 }

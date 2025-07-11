@@ -12,8 +12,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialEntry;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.common.TestCreativeTab;
 import com.louis.test.common.block.ModBlocks;
@@ -47,22 +50,20 @@ public class ItemMaterial extends Item {
     private void init() {
         GameRegistry.registerItem(this, ModObject.itemMaterial.unlocalisedName);
 
-        for (Material mat : Material.values()) {
-            String matName = mat.name()
-                .toLowerCase(Locale.ROOT);
-            int index = mat.ordinal();
+        int meta = 0;
+        for (MaterialEntry entry : MaterialRegistry.all()) {
+            String matName = entry.name.toLowerCase(Locale.ROOT)
+                .replace(' ', '_');
 
-            registerMaterialOreDict(matName, index);
+            registerMaterialOreDict(matName, meta);
+            registerMaterialConversionRecipes(matName, meta);
 
-            switch (mat) {
-                case CARBON_STEEL:
-                    registerMaterialOreDict("Steel", index);
-                    break;
-                default:
-                    break;
+            if ("Carbon Steel".equalsIgnoreCase(entry.name)) {
+                registerMaterialOreDict("Steel", meta);
+                registerMaterialConversionRecipes("Steel", meta);
             }
 
-            registerMaterialConversionRecipes(index);
+            meta++;
         }
     }
 
@@ -76,30 +77,27 @@ public class ItemMaterial extends Item {
         OreDictionary.registerOre("dust" + capitalize(name), new ItemStack(this, 1, 400 + meta));
     }
 
-    private void registerMaterialConversionRecipes(int meta) {
-        ItemStack ingot = new ItemStack(this, 1, meta);
-        ItemStack nugget = new ItemStack(this, 1, 100 + meta);
-        ItemStack block = new ItemStack(Item.getItemFromBlock(ModBlocks.blockMaterial), 1, meta);
+    private void registerMaterialConversionRecipes(String oreBaseName, int meta) {
+        ItemStack ingotResult = new ItemStack(this, 1, meta);
+        ItemStack ingot9 = new ItemStack(this, 9, meta);
+        ItemStack nuggetResult = new ItemStack(this, 9, 100 + meta);
+        ItemStack blockResult = new ItemStack(ModBlocks.blockMaterial, 1, meta);
 
-        // Ingot → Nugget x9
-        GameRegistry.addShapelessRecipe(new ItemStack(nugget.getItem(), 9, nugget.getItemDamage()), ingot);
+        String ingotOre = "ingot" + capitalize(oreBaseName);
+        String nuggetOre = "nugget" + capitalize(oreBaseName);
+        String blockOre = "block" + capitalize(oreBaseName);
 
-        // Nugget x9 → Ingot
-        GameRegistry.addShapedRecipe(ingot, "NNN", "NNN", "NNN", 'N', nugget);
-
-        // Ingot x9 → Block
-        GameRegistry.addShapedRecipe(block, "III", "III", "III", 'I', ingot);
-
-        // Block → Ingot x9
-        GameRegistry.addShapelessRecipe(new ItemStack(ingot.getItem(), 9, ingot.getItemDamage()), block);
-
+        GameRegistry.addRecipe(new ShapelessOreRecipe(nuggetResult, ingotOre));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ingotResult, "NNN", "NNN", "NNN", 'N', nuggetOre));
+        GameRegistry.addRecipe(new ShapedOreRecipe(blockResult, "III", "III", "III", 'I', ingotOre));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(ingot9, blockOre));
     }
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         int meta = stack.getItemDamage();
         int baseMeta = meta % 100;
-        Material material = Material.fromMeta(baseMeta);
+        MaterialEntry material = MaterialRegistry.fromMeta(baseMeta);
         String base = super.getUnlocalizedName(stack);
 
         String type;
@@ -115,15 +113,16 @@ public class ItemMaterial extends Item {
             type = "ingot";
         }
 
-        String mat = material.name()
-            .toLowerCase(Locale.ROOT);
+        String mat = material.name.toLowerCase(Locale.ROOT)
+            .replace(" ", "_");
         return base + "." + type + "." + mat;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-        int count = Material.values().length;
+        int count = MaterialRegistry.all()
+            .size();
         for (int i = 0; i < count; i++) {
             // ingot
             list.add(new ItemStack(this, 1, i));
@@ -151,7 +150,8 @@ public class ItemMaterial extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack stack, int renderPass) {
-        Material mat = Material.fromMeta(stack.getItemDamage() % 100);
+        int meta = stack.getItemDamage() % 100;
+        MaterialEntry mat = MaterialRegistry.fromMeta(meta);
         return mat.getColor();
     }
 
@@ -164,4 +164,5 @@ public class ItemMaterial extends Item {
         rodIcon = reg.registerIcon(LibResources.PREFIX_MOD + "material_rod");
         dustIcon = reg.registerIcon(LibResources.PREFIX_MOD + "material_dust");
     }
+
 }

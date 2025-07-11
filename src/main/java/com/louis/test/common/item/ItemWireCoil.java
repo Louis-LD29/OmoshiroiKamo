@@ -1,6 +1,7 @@
 package com.louis.test.common.item;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -12,7 +13,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialEntry;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.enums.VoltageTier;
 import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
@@ -76,16 +78,17 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         int meta = stack.getItemDamage();
-        Material material = Material.fromMeta(meta);
+        MaterialEntry material = MaterialRegistry.fromMeta(meta);
         return super.getUnlocalizedName(stack) + "."
-            + material.name()
-                .toLowerCase();
+            + material.name.toLowerCase(Locale.ROOT)
+                .replace(' ', '_');
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tabs, List<ItemStack> list) {
-        for (int i = 0; i < Material.values().length; i++) {
+        for (int i = 0; i < MaterialRegistry.all()
+            .size(); i++) {
             list.add(new ItemStack(this, 1, i));
         }
     }
@@ -118,7 +121,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     @Override
     public int getColorFromItemStack(ItemStack stack, int renderPass) {
         if (renderPass == 1) {
-            Material mat = Material.fromMeta(stack.getItemDamage() % 100);
+            MaterialEntry mat = MaterialRegistry.fromMeta(stack.getItemDamage() % 100);
             return mat.getColor();
         }
         return 0xFFFFFF;
@@ -149,8 +152,8 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
 
     @Override
     public WireType getWireType(ItemStack stack) {
-        Material material = Material.fromMeta(stack.getItemDamage() % 100);
-        return MaterialWireType.materialWireTypes.get(material);
+        MaterialEntry material = MaterialRegistry.fromMeta(stack.getItemDamage() % 100);
+        return MaterialWireType.materialWireTypes.get(material.name);
     }
 
     @Override
@@ -266,9 +269,9 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
         int meta = itemstack.getItemDamage();
-        Material material = Material.fromMeta(meta);
-        MaterialWireType materialWireType = MaterialWireType.materialWireTypes.get(material);
-        list.add(String.format("§7Material:§f %s", material.getDisplayName()));
+        MaterialEntry material = MaterialRegistry.fromMeta(meta);
+        MaterialWireType materialWireType = MaterialWireType.materialWireTypes.get(material.name);
+        list.add(String.format("§7Material:§f %s", material.name));
         list.add(
             String.format(
                 "§7Voltage Tier:§f %s",

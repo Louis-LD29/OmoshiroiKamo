@@ -2,8 +2,8 @@ package com.louis.test.api.interfaces.heat;
 
 import net.minecraft.nbt.NBTTagCompound;
 
+import com.louis.test.api.MaterialEntry;
 import com.louis.test.api.enums.BlockMassType;
-import com.louis.test.api.enums.Material;
 
 public class HeatStorage {
 
@@ -29,18 +29,18 @@ public class HeatStorage {
         this(heatCapacity, maxTemperature, heatCapacity);
     }
 
-    public HeatStorage(Material material, BlockMassType type) {
+    public HeatStorage(MaterialEntry material, BlockMassType type) {
         this(
             calculateHeatCapacity(material, type),
             (float) material.getMeltingPointK(),
             getMaxTransfer(material, type));
     }
 
-    private static float calculateHeatCapacity(Material material, BlockMassType type) {
+    private static float calculateHeatCapacity(MaterialEntry material, BlockMassType type) {
         return (float) (material.getSpecificHeat() * material.getMassKg(type));
     }
 
-    private static float getMaxTransfer(Material material, BlockMassType type) {
+    private static float getMaxTransfer(MaterialEntry material, BlockMassType type) {
         double k = material.getThermalConductivity(); // W/m·K
         double m = material.getMassKg(type); // kg
         double scaleFactor = 0.05;

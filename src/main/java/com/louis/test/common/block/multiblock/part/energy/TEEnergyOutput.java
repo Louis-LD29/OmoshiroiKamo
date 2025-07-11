@@ -8,7 +8,7 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.enderio.core.common.util.BlockCoord;
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialRegistry;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.interfaces.energy.EnergyStorageAdv;
 import com.louis.test.api.interfaces.energy.PowerDistributor;
@@ -19,7 +19,7 @@ public class TEEnergyOutput extends TEEnergyInOut {
 
     protected TEEnergyOutput(int meta) {
         this.meta = meta;
-        material = Material.fromMeta(meta % 100);
+        material = MaterialRegistry.fromMeta(meta % 100);
         energyStorage = new EnergyStorageAdv(material);
     }
 

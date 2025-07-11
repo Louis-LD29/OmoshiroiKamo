@@ -1,27 +1,27 @@
 package com.louis.test.api.interfaces.energy;
 
-import com.louis.test.api.enums.Material;
+import com.louis.test.api.MaterialEntry;
 import com.louis.test.api.enums.VoltageTier;
 
 import cofh.api.energy.EnergyStorage;
 
 public class EnergyStorageAdv extends EnergyStorage {
 
-    private final Material material;
+    private final MaterialEntry material;
 
-    public EnergyStorageAdv(Material material) {
+    public EnergyStorageAdv(MaterialEntry material) {
         super(material.getEnergyStorageCapacity(), material.getMaxPowerTransfer());
         this.material = material;
     }
 
-    public EnergyStorageAdv(Material material, boolean onlyMaxTransfer) {
+    public EnergyStorageAdv(MaterialEntry material, boolean onlyMaxTransfer) {
         super(
             onlyMaxTransfer ? material.getMaxPowerTransfer() : material.getEnergyStorageCapacity(),
             material.getMaxPowerTransfer());
         this.material = material;
     }
 
-    public Material getMaterial() {
+    public MaterialEntry getMaterial() {
         return material;
     }
 

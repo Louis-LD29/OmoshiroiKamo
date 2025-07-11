@@ -15,8 +15,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.factory.PosGuiData;
 import com.enderio.core.common.TileEntityEnder;
+import com.louis.test.api.MaterialEntry;
 import com.louis.test.api.SideReference;
-import com.louis.test.api.enums.Material;
 import com.louis.test.common.gui.modularui2.MGuis;
 
 public abstract class AbstractTE extends TileEntityEio implements IGuiHolder<PosGuiData> {
@@ -29,7 +29,7 @@ public abstract class AbstractTE extends TileEntityEio implements IGuiHolder<Pos
     protected int ticksSinceActiveChanged = 0;
     public boolean isDirty = false;
     protected boolean notifyNeighbours = false;
-    protected Material material;
+    protected MaterialEntry material;
     protected int meta;
 
     public short getFacing() {
@@ -202,7 +202,7 @@ public abstract class AbstractTE extends TileEntityEio implements IGuiHolder<Pos
         writeCommon(root);
     }
 
-    public Material getMaterial() {
+    public MaterialEntry getMaterial() {
         return material;
     }
 
