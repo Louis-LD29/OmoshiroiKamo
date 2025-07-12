@@ -1,18 +1,20 @@
 package com.louis.test.client.handler;
 
-import baubles.common.lib.PlayerHandler;
-import com.louis.test.api.mana.IManaItem;
-import com.louis.test.common.core.helper.Helper;
-import com.louis.test.common.mana.ManaNetworkHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
-import java.util.UUID;
+import com.louis.test.api.mana.IManaItem;
+import com.louis.test.common.core.helper.Helper;
+import com.louis.test.common.mana.ManaNetworkHandler;
+
+import baubles.common.lib.PlayerHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 
 public class ClientTickHandler {
 
@@ -26,8 +28,7 @@ public class ClientTickHandler {
     public static float displayedMana = 0.0F;
     public static float displayedCMana = 0.0F;
 
-    public ClientTickHandler() {
-    }
+    public ClientTickHandler() {}
 
     private void calcDelta() {
         float oldTotal = total;

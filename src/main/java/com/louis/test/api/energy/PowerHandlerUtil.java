@@ -1,13 +1,15 @@
 package com.louis.test.api.energy;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import com.louis.test.common.block.AbstractPoweredTE;
+
 import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-import com.louis.test.common.block.AbstractPoweredTE;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class PowerHandlerUtil {
 
@@ -66,7 +68,7 @@ public class PowerHandlerUtil {
     }
 
     public static int recieveInternal(IInternalPoweredTile target, int maxReceive, ForgeDirection from,
-                                      boolean simulate) {
+        boolean simulate) {
 
         int result = Math.min(target.getMaxEnergyRecieved(from), maxReceive);
         result = Math.min(target.getMaxEnergyStored() - target.getEnergyStored(), result);

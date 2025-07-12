@@ -1,22 +1,5 @@
 package com.louis.test.common.block.meta;
 
-import blusunrize.immersiveengineering.api.TargetingInfo;
-import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.WireType;
-import com.cleanroommc.modularui.factory.PosGuiData;
-import com.cleanroommc.modularui.screen.ModularPanel;
-import com.cleanroommc.modularui.screen.UISettings;
-import com.cleanroommc.modularui.value.sync.PanelSyncManager;
-import com.enderio.core.common.TileEntityEnder;
-import com.louis.test.api.fluid.SmartTank;
-import com.louis.test.api.heat.HeatStorage;
-import com.louis.test.api.mte.IMTE;
-import com.louis.test.api.mte.MetaTileEntity;
-import com.louis.test.common.block.AbstractTE;
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,8 +18,27 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-    @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2")})
+import com.cleanroommc.modularui.factory.PosGuiData;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
+import com.enderio.core.common.TileEntityEnder;
+import com.louis.test.api.fluid.SmartTank;
+import com.louis.test.api.heat.HeatStorage;
+import com.louis.test.api.mte.IMTE;
+import com.louis.test.api.mte.MetaTileEntity;
+import com.louis.test.common.block.AbstractTE;
+
+import blusunrize.immersiveengineering.api.TargetingInfo;
+import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
+import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
+import blusunrize.immersiveengineering.api.energy.WireType;
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+@Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
+    @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2") })
 public class TEMeta extends AbstractTE implements IMTE {
 
     private final MTEBase mte;
@@ -76,7 +78,7 @@ public class TEMeta extends AbstractTE implements IMTE {
 
     @Override
     public boolean onBlockActivated(World world, EntityPlayer player, ForgeDirection side, float hitX, float hitY,
-                                    float hitZ) {
+        float hitZ) {
         if (mte != null) return mte.onBlockActivated(world, player, side, hitX, hitY, hitZ);
         return super.onBlockActivated(world, player, side, hitX, hitY, hitZ);
     }

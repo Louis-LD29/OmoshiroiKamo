@@ -1,15 +1,17 @@
 package com.louis.test.api.energy;
 
-import cofh.api.energy.IEnergyContainerItem;
-import com.louis.test.common.core.lib.LibMisc;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.item.ItemStack;
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.item.ItemStack;
+
+import com.louis.test.common.core.lib.LibMisc;
+
+import cofh.api.energy.IEnergyContainerItem;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class PowerDisplayUtil {
 

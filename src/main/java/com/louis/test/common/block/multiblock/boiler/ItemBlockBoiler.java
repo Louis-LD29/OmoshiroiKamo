@@ -1,10 +1,7 @@
 package com.louis.test.common.block.multiblock.boiler;
 
-import com.louis.test.api.client.IAdvancedTooltipProvider;
-import com.louis.test.common.TestCreativeTab;
-import com.louis.test.common.block.ModBlocks;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +9,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
-import java.util.List;
+import com.louis.test.api.client.IAdvancedTooltipProvider;
+import com.louis.test.common.TestCreativeTab;
+import com.louis.test.common.block.ModBlocks;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBlockBoiler extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 

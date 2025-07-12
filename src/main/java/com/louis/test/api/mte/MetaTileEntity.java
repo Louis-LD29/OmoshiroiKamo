@@ -1,11 +1,11 @@
 package com.louis.test.api.mte;
 
-import com.louis.test.common.block.meta.MTEBase;
-import com.louis.test.common.block.meta.energyConnector.MTEInsulator;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
+
+import com.louis.test.common.block.meta.MTEBase;
+import com.louis.test.common.block.meta.energyConnector.MTEInsulator;
 
 public enum MetaTileEntity {
 

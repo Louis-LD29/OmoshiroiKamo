@@ -1,14 +1,15 @@
 package com.louis.test.common.core.lang;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.util.*;
+
 import com.google.common.base.Charsets;
 import com.louis.test.api.material.MaterialEntry;
 import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.config.Config;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.util.*;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class LangSectionInserter {
 

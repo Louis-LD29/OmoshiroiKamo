@@ -1,13 +1,10 @@
 package com.louis.test.api.client;
 
-import com.enderio.core.client.handlers.ClientHandler;
-import com.enderio.core.common.Handlers.Handler;
-import com.enderio.core.common.util.ItemUtil;
-import com.google.common.collect.Lists;
-import com.louis.test.api.mana.IManaItem;
-import com.louis.test.common.core.lib.LibMisc;
-import com.louis.test.common.item.ItemBauble;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import static com.enderio.core.common.config.ConfigHandler.showDurabilityTooltips;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,10 +13,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.enderio.core.client.handlers.ClientHandler;
+import com.enderio.core.common.Handlers.Handler;
+import com.enderio.core.common.util.ItemUtil;
+import com.google.common.collect.Lists;
+import com.louis.test.api.mana.IManaItem;
+import com.louis.test.common.core.lib.LibMisc;
+import com.louis.test.common.item.ItemBauble;
 
-import static com.enderio.core.common.config.ConfigHandler.showDurabilityTooltips;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 @Handler
 public enum SpecialTooltipHandler {
@@ -37,7 +39,7 @@ public enum SpecialTooltipHandler {
     }
 
     private static boolean hasDetailedTooltip(IAdvancedTooltipProvider tt, ItemStack stack, EntityPlayer player,
-                                              boolean flag) {
+        boolean flag) {
         throwaway.clear();
         tt.addDetailedEntries(stack, player, throwaway, flag);
         return !throwaway.isEmpty();
@@ -182,7 +184,7 @@ public enum SpecialTooltipHandler {
     }
 
     public void addInformation(IAdvancedTooltipProvider tt, ItemStack itemstack, EntityPlayer entityplayer, List list,
-                               boolean flag) {
+        boolean flag) {
         tt.addCommonEntries(itemstack, entityplayer, list, flag);
         if (showAdvancedTooltips()) {
             tt.addDetailedEntries(itemstack, entityplayer, list, flag);

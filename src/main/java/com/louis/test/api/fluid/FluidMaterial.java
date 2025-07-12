@@ -1,12 +1,12 @@
 package com.louis.test.api.fluid;
 
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 
 public enum FluidMaterial {
 
@@ -30,7 +30,7 @@ public enum FluidMaterial {
     private static final Map<String, FluidMaterial> NAME_LOOKUP = new HashMap<>();
 
     FluidMaterial(String name, double densityKgPerM3, double viscosityPaS, double temperatureK, boolean isGas,
-                  double gasConstantR, double bulkModulusPa) {
+        double gasConstantR, double bulkModulusPa) {
         this.name = name;
         this.densityKgPerM3 = densityKgPerM3;
         this.viscosityPaS = viscosityPaS;

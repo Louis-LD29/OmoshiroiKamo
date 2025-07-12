@@ -1,10 +1,7 @@
 package com.louis.test.common.block.meta;
 
-import com.louis.test.api.mte.MetaTileEntity;
-import com.louis.test.common.TestCreativeTab;
-import com.louis.test.common.block.ModBlocks;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +9,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
-import java.util.List;
+import com.louis.test.api.mte.MetaTileEntity;
+import com.louis.test.common.TestCreativeTab;
+import com.louis.test.common.block.ModBlocks;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBlockMeta extends ItemBlockWithMetadata {
 
@@ -34,7 +36,7 @@ public class ItemBlockMeta extends ItemBlockWithMetadata {
         MetaTileEntity mte = MetaTileEntity.fromMeta(meta);
         return super.getUnlocalizedName(stack) + "."
             + mte.name()
-            .toLowerCase();
+                .toLowerCase();
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.louis.test.client.handler;
 
-import com.louis.test.common.core.lib.LibObfuscation;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -10,13 +12,14 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import vazkii.botania.api.mana.IManaTooltipDisplay;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
+import com.louis.test.common.core.lib.LibObfuscation;
+
+import cpw.mods.fml.relauncher.ReflectionHelper;
+import vazkii.botania.api.mana.IManaTooltipDisplay;
 
 public class TooltipAdditionDisplayHandler {
 
@@ -69,7 +72,7 @@ public class TooltipAdditionDisplayHandler {
     }
 
     private static void drawManaBar(ItemStack stack, IManaTooltipDisplay display, int mouseX, int mouseY, int offx,
-                                    int offy, int tooltipHeight) {
+        int offy, int tooltipHeight) {
         float fraction = display.getManaFractionForDisplay(stack);
         int manaBarHeight = (int) Math.ceil(tooltipHeight * fraction); // Chiều cao thanh mana tương ứng với tỷ lệ mana
         int manaBarWidth = 2; // Độ rộng thanh mana

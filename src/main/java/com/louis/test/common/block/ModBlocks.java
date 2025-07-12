@@ -2,8 +2,10 @@ package com.louis.test.common.block;
 
 import net.minecraft.block.Block;
 
-import com.louis.test.common.block.electrolyzer.BlockElectrolyzer;
-import com.louis.test.common.block.heatsource.BlockHeatSource;
+import com.louis.test.common.block.basicblock.electrolyzer.BlockElectrolyzer;
+import com.louis.test.common.block.basicblock.heatsource.BlockHeatSource;
+import com.louis.test.common.block.basicblock.solar.BlockSolarPanel;
+import com.louis.test.common.block.basicblock.test.BlockTest;
 import com.louis.test.common.block.material.BlockMaterial;
 import com.louis.test.common.block.meta.BlockMeta;
 import com.louis.test.common.block.multiblock.BlockMultiBlock;
@@ -16,8 +18,6 @@ import com.louis.test.common.block.multiblock.part.energy.BlockEnergyInOut;
 import com.louis.test.common.block.multiblock.part.fluid.BlockFluidInOut;
 import com.louis.test.common.block.multiblock.part.item.BlockItemInput;
 import com.louis.test.common.block.multiblock.part.item.BlockItemOutput;
-import com.louis.test.common.block.solar.BlockSolarPanel;
-import com.louis.test.common.block.test.BlockTest;
 
 public class ModBlocks {
 

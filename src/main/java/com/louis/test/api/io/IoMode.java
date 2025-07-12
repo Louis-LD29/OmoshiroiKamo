@@ -1,7 +1,8 @@
 package com.louis.test.api.io;
 
-import com.louis.test.common.core.lib.LibMisc;
 import net.minecraft.util.EnumChatFormatting;
+
+import com.louis.test.common.core.lib.LibMisc;
 
 public enum IoMode {
 

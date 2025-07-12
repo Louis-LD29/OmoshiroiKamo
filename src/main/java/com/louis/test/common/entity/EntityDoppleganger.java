@@ -1,5 +1,7 @@
 package com.louis.test.common.entity;
 
+import java.util.regex.Pattern;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -7,8 +9,6 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
-
-import java.util.regex.Pattern;
 
 public class EntityDoppleganger extends EntityCreature {
 

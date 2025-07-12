@@ -49,8 +49,8 @@ public class MaterialRegistry {
                 .collect(Collectors.toList()));
     }
 
-    static {
-        // Chuẩn
+    public static void init() {
+
         register(new MaterialEntry("Iron", 0, 7870, 449, 80.2, 1811, 25, 1.0e7, 0xD8D8D8));
         register(new MaterialEntry("Copper", 1, 8960, 385, 401, 1358, 21, 5.96e7, 0xF08048));
         register(new MaterialEntry("Silver", 2, 10490, 235, 429, 1234, 15, 6.30e7, 0xF0F0F0));
@@ -77,4 +77,5 @@ public class MaterialRegistry {
             register(new MaterialEntry(matName, meta++, config));
         }
     }
+
 }

@@ -1,7 +1,8 @@
 package com.louis.test.api.energy;
 
-import cofh.api.energy.IEnergyProvider;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import cofh.api.energy.IEnergyProvider;
 
 public class EnergyProviderPI implements IPowerInterface {
 

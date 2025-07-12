@@ -1,12 +1,13 @@
 package com.louis.test.api.fluid;
 
-import com.google.common.base.Strings;
-import com.louis.test.api.material.MaterialEntry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+
+import com.google.common.base.Strings;
+import com.louis.test.api.material.MaterialEntry;
 
 public class SmartTank extends FluidTank {
 

@@ -1,5 +1,19 @@
 package com.louis.test.client.gui.modularui2;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import org.lwjgl.input.Keyboard;
+
 import com.cleanroommc.modularui.api.IPanelHandler;
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.api.widget.IWidget;
@@ -18,19 +32,7 @@ import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.louis.test.api.io.IoMode;
 import com.louis.test.api.io.IoType;
-import com.louis.test.common.block.machine.AbstractMachineEntity;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.lwjgl.input.Keyboard;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
+import com.louis.test.common.block.basicblock.machine.AbstractMachineEntity;
 
 public class MGuiBuilder {
 
@@ -124,9 +126,7 @@ public class MGuiBuilder {
                     .value(
                         new BooleanSyncValue(
                             () -> te.redstoneCheckPassed,
-                            value -> {
-                                te.redstoneCheckPassed = value;
-                            }))
+                            value -> { te.redstoneCheckPassed = value; }))
                     .selectedBackground(GuiTextures.MC_BUTTON)
                     .selectedHoverBackground(GuiTextures.MC_BUTTON_HOVERED)
                     .tooltip(richTooltip -> {
@@ -178,7 +178,7 @@ public class MGuiBuilder {
         faceMap.put('L', blockFront.getRotation(ForgeDirection.UP));
         faceMap.put('R', blockFront.getRotation(ForgeDirection.DOWN));
 
-        char[][] layout = {{' ', 'U', ' '}, {'L', 'F', 'R'}, {' ', 'D', 'B'}};
+        char[][] layout = { { ' ', 'U', ' ' }, { 'L', 'F', 'R' }, { ' ', 'D', 'B' } };
 
         List<TabEntry> tabs = Arrays.asList(
             new TabEntry(
@@ -291,7 +291,7 @@ public class MGuiBuilder {
                     IKey.dynamic(
                         () -> type + " - "
                             + te.getIoMode(face, type)
-                            .getUnlocalisedName())))
+                                .getUnlocalisedName())))
             .value(
                 new IntSyncValue(
                     () -> te.getIoMode(face, type)

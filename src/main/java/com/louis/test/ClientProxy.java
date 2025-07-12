@@ -1,7 +1,14 @@
 package com.louis.test;
 
+import java.io.File;
+
+import net.minecraft.item.Item;
+import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.MinecraftForge;
+
 import com.louis.test.client.gui.ManaHUD;
 import com.louis.test.client.handler.ClientTickHandler;
+import com.louis.test.client.handler.DameEvents;
 import com.louis.test.common.block.AbstractBlock;
 import com.louis.test.common.block.ModBlocks;
 import com.louis.test.common.block.meta.MTEISBRH;
@@ -10,6 +17,7 @@ import com.louis.test.common.block.meta.TEMeta;
 import com.louis.test.common.config.Config;
 import com.louis.test.common.core.lang.LangSectionInserter;
 import com.louis.test.common.item.ModItems;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -18,11 +26,6 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.item.Item;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.common.MinecraftForge;
-
-import java.io.File;
 
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -55,6 +58,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
+        MinecraftForge.EVENT_BUS.register(new DameEvents());
     }
 
 }

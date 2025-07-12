@@ -1,19 +1,21 @@
 package com.louis.test.common.recipes;
 
-import com.google.common.collect.ImmutableList;
-import com.louis.test.api.mana.IManaItemUpgrade;
-import com.louis.test.common.core.lib.LibMisc;
-import com.louis.test.common.item.upgrade.EnergyUpgrade;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.AnvilUpdateEvent;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import com.google.common.collect.ImmutableList;
+import com.louis.test.api.mana.IManaItemUpgrade;
+import com.louis.test.common.core.lib.LibMisc;
+import com.louis.test.common.item.upgrade.EnergyUpgrade;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ManaAnvilRecipe {
 

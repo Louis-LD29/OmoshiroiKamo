@@ -1,10 +1,11 @@
 package com.louis.test.common.core.helper;
 
-import com.louis.test.common.core.lib.LibMisc;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
+
+import com.louis.test.common.core.lib.LibMisc;
 
 public class IconHelper {
 

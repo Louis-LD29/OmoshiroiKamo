@@ -1,11 +1,19 @@
 package com.louis.test.common.config;
 
-import blusunrize.immersiveengineering.api.energy.WireType;
+import java.io.File;
+import java.util.*;
+
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
+
 import com.louis.test.api.material.MaterialEntry;
 import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.core.lang.LangSectionInserter;
 import com.louis.test.common.core.lib.LibMisc;
 import com.louis.test.common.core.network.PacketHandler;
+
+import blusunrize.immersiveengineering.api.energy.WireType;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -13,12 +21,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Configuration;
-
-import java.io.File;
-import java.util.*;
 
 public class Config {
 
@@ -39,16 +41,17 @@ public class Config {
     public static boolean renderChargeBar = true;
     public static boolean increasedRenderboxes = true;
     public static boolean validateConnections = true;
-    public static int[] cableLength = new int[]{16, 16, 32, 32, 32};
-    public static double[] cableLossRatio = new double[]{0.05, 0.025, 0.025, 1.0, 1.0};
-    public static int[] cableTransferRate = new int[]{2048, 4096, 8192, 0, 0};
-    public static int[] cableColouration = new int[]{13926474, 15576418, 7303023, 9862765, 7303023};
-    public static String[] materialCustom = new String[]{};
+    public static int[] cableLength = new int[] { 16, 16, 32, 32, 32 };
+    public static double[] cableLossRatio = new double[] { 0.05, 0.025, 0.025, 1.0, 1.0 };
+    public static int[] cableTransferRate = new int[] { 2048, 4096, 8192, 0, 0 };
+    public static int[] cableColouration = new int[] { 13926474, 15576418, 7303023, 9862765, 7303023 };
+    public static String[] materialCustom = new String[] {};
+    public static int damageColor = 0xFF3333; // Màu đỏ
+    public static int healColor = 0x33FF33; // Màu xanh lá
 
     public static final Map<String, MaterialConfig> materialConfigs = new HashMap<>();
 
-    private Config() {
-    }
+    private Config() {}
 
     public static void preInit(FMLPreInitializationEvent event) {
         PacketHandler.INSTANCE
@@ -142,7 +145,7 @@ public class Config {
         int wireCount = WireType.uniqueNames.length;
 
         if (cableLength == null || cableLength.length < wireCount) {
-            cableLength = new int[]{16, 16, 32, 32, 32};
+            cableLength = new int[] { 16, 16, 32, 32, 32 };
         }
         cableLength = config
             .get(
@@ -153,7 +156,7 @@ public class Config {
             .getIntList();
 
         if (cableTransferRate == null || cableTransferRate.length < wireCount) {
-            cableTransferRate = new int[]{2048, 8192, 32768, 0, 0};
+            cableTransferRate = new int[] { 2048, 8192, 32768, 0, 0 };
         }
         cableTransferRate = config
             .get(
@@ -164,7 +167,7 @@ public class Config {
             .getIntList();
 
         if (cableLossRatio == null || cableLossRatio.length < wireCount) {
-            cableLossRatio = new double[]{0.05, 0.025, 0.025, 1.0, 1.0};
+            cableLossRatio = new double[] { 0.05, 0.025, 0.025, 1.0, 1.0 };
         }
         cableLossRatio = config
             .get(
@@ -175,7 +178,7 @@ public class Config {
             .getDoubleList();
 
         if (cableColouration == null || cableColouration.length < wireCount) {
-            cableColouration = new int[]{0xD48040, 0xEDC36C, 0x6C6C6C, 0x969696, 0x6F6F6F};
+            cableColouration = new int[] { 0xD48040, 0xEDC36C, 0x6C6C6C, 0x969696, 0x6F6F6F };
         }
         cableColouration = config
             .get(
@@ -186,11 +189,11 @@ public class Config {
             .getIntList();
 
         materialCustom = config.get(
-                sectionMaterial.name,
-                "materialCustom",
-                materialCustom,
-                "List of custom material names to register on next game load. "
-                    + "Each material will be initialized with predefined or config-based properties. Requires game restart.")
+            sectionMaterial.name,
+            "materialCustom",
+            materialCustom,
+            "List of custom material names to register on next game load. "
+                + "Each material will be initialized with predefined or config-based properties. Requires game restart.")
             .getStringList();
 
         LangSectionInserter.insertCustomMaterialsLang(materialCustom);
@@ -216,11 +219,9 @@ public class Config {
 
     }
 
-    public static void init() {
-    }
+    public static void init() {}
 
-    public static void postInit() {
-    }
+    public static void postInit() {}
 
     public static ItemStack getStackForString(String s) {
         String[] nameAndMeta = s.split(";");

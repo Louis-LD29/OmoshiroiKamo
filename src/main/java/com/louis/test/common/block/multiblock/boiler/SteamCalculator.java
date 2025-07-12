@@ -121,9 +121,9 @@ public class SteamCalculator {
     }
 
     private double[] simulateSteamMassAndMB() {
-        if (waterVolumeMB <= 0) return new double[]{0, 0};
+        if (waterVolumeMB <= 0) return new double[] { 0, 0 };
         double deltaT = heatSourceTempK - getTboilK();
-        if (deltaT <= 0) return new double[]{0, 0};
+        if (deltaT <= 0) return new double[] { 0, 0 };
 
         double steamMass = (U * n * A * deltaT) / getLVFromTable();
         double waterMass = getWaterVolumeM3() * DENSITY_WATER;
@@ -135,7 +135,7 @@ public class SteamCalculator {
         double maxSteamMB = tankCapacityMB - waterVolumeMB;
         steamMB = Math.min(steamMB, maxSteamMB - steamVolumeMB);
 
-        return new double[]{steamMass, steamMB};
+        return new double[] { steamMass, steamMB };
     }
 
     public double simulateWaterUsedMB() {
@@ -180,9 +180,9 @@ public class SteamCalculator {
 
     // ====== TABLE ======
     // Áp suất (atm), nhiệt độ (°C), ẩn nhiệt hóa hơi (J/kg)
-    private static final double[][] LV_TABLE = {{1, 100, 2257000}, {2, 120, 2201000}, {3, 133, 2163000},
-        {5, 152, 2108000}, {10, 179, 2014000}, {20, 212, 1906000}, {40, 251, 1785000}, {60, 274, 1710000},
-        {100, 311, 1606000}};
+    private static final double[][] LV_TABLE = { { 1, 100, 2257000 }, { 2, 120, 2201000 }, { 3, 133, 2163000 },
+        { 5, 152, 2108000 }, { 10, 179, 2014000 }, { 20, 212, 1906000 }, { 40, 251, 1785000 }, { 60, 274, 1710000 },
+        { 100, 311, 1606000 } };
 
     // ====== Debug ======
     public void printState(int step, double generatedSteamMB, double deltaTempDrop) {

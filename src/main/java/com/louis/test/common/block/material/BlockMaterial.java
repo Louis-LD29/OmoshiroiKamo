@@ -1,13 +1,9 @@
 package com.louis.test.common.block.material;
 
-import com.louis.test.api.ModObject;
-import com.louis.test.api.material.MaterialEntry;
-import com.louis.test.api.material.MaterialRegistry;
-import com.louis.test.common.block.BlockEio;
-import com.louis.test.common.core.lib.LibResources;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import static org.apache.commons.lang3.StringUtils.capitalize;
+
+import java.util.List;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -17,9 +13,15 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.List;
+import com.louis.test.api.enums.ModObject;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.common.block.BlockEio;
+import com.louis.test.common.core.lib.LibResources;
 
-import static org.apache.commons.lang3.StringUtils.capitalize;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockMaterial extends BlockEio {
 
@@ -71,7 +73,7 @@ public class BlockMaterial extends BlockEio {
 
     @Override
     public float getExplosionResistance(Entity exploder, World world, int x, int y, int z, double explosionX,
-                                        double explosionY, double explosionZ) {
+        double explosionY, double explosionZ) {
         int meta = world.getBlockMetadata(x, y, z);
         return MaterialRegistry.fromMeta(meta)
             .getResistance();

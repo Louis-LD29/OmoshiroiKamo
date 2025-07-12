@@ -1,11 +1,11 @@
 package com.louis.test.common.mana;
 
+import java.lang.reflect.Field;
+import java.util.*;
+
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.WorldSavedData;
-
-import java.lang.reflect.Field;
-import java.util.*;
 
 public class ManaNetwork extends WorldSavedData {
 

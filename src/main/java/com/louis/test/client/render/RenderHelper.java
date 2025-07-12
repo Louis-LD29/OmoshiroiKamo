@@ -1,6 +1,8 @@
 package com.louis.test.client.render;
 
-import com.louis.test.common.core.lib.LibResources;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -8,12 +10,13 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-import vazkii.botania.client.core.handler.ClientTickHandler;
 
-import java.util.List;
-import java.util.Random;
+import com.louis.test.common.core.lib.LibResources;
+
+import vazkii.botania.client.core.handler.ClientTickHandler;
 
 public class RenderHelper {
 
@@ -114,7 +117,7 @@ public class RenderHelper {
     }
 
     public static void drawTexturedModalRect(int par1, int par2, float z, int par3, int par4, int par5, int par6,
-                                             float f, float f1) {
+        float f, float f1) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV(par1 + 0, par2 + par6, z, (par3 + 0) * f, (par4 + par6) * f1);
@@ -197,7 +200,7 @@ public class RenderHelper {
         int degs = (int) (360 * progress);
         float a = 0.5F + 0.2F
             * ((float) Math.cos((double) (ClientTickHandler.ticksInGame + ClientTickHandler.partialTicks) / 10) * 0.5F
-            + 0.5F);
+                + 0.5F);
 
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -227,9 +230,8 @@ public class RenderHelper {
     public static String getKeyDisplayString(String keyName) {
         String key = null;
         KeyBinding[] keys = Minecraft.getMinecraft().gameSettings.keyBindings;
-        for (KeyBinding otherKey : keys)
-            if (otherKey.getKeyDescription()
-                .equals(keyName)) {
+        for (KeyBinding otherKey : keys) if (otherKey.getKeyDescription()
+            .equals(keyName)) {
                 key = Keyboard.getKeyName(otherKey.getKeyCode());
                 break;
             }

@@ -1,11 +1,7 @@
 package com.louis.test.common.block;
 
-import com.cleanroommc.modularui.api.IGuiHolder;
-import com.cleanroommc.modularui.factory.PosGuiData;
-import com.enderio.core.common.TileEntityEnder;
-import com.louis.test.api.SideReference;
-import com.louis.test.api.material.MaterialEntry;
-import com.louis.test.client.gui.modularui2.MGuis;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +12,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.List;
+import com.cleanroommc.modularui.api.IGuiHolder;
+import com.cleanroommc.modularui.factory.PosGuiData;
+import com.enderio.core.common.TileEntityEnder;
+import com.louis.test.api.SideReference;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.client.gui.modularui2.MGuis;
 
 public abstract class AbstractTE extends TileEntityEio implements IGuiHolder<PosGuiData> {
 
@@ -48,7 +49,7 @@ public abstract class AbstractTE extends TileEntityEio implements IGuiHolder<Pos
     }
 
     public boolean onBlockActivated(World world, EntityPlayer player, ForgeDirection side, float hitX, float hitY,
-                                    float hitZ) {
+        float hitZ) {
         return false;
     }
 

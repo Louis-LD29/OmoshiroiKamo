@@ -1,18 +1,20 @@
 package com.louis.test.common.core.handlers;
 
-import baubles.api.BaublesApi;
-import cofh.api.energy.IEnergyContainerItem;
-import com.louis.test.api.mana.IManaItem;
-import com.louis.test.common.core.helper.Helper;
-import com.louis.test.common.mana.ManaNetworkHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+
+import com.louis.test.api.mana.IManaItem;
+import com.louis.test.common.core.helper.Helper;
+import com.louis.test.common.mana.ManaNetworkHandler;
+
+import baubles.api.BaublesApi;
+import cofh.api.energy.IEnergyContainerItem;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 
 public class ConvertManaRegenHandler {
 

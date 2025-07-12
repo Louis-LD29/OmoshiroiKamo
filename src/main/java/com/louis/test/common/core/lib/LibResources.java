@@ -24,7 +24,7 @@ public class LibResources {
 
     public static final String KEY_UPGRADE_ITEM = "upgradeItem";
 
-    //    Meta
+    // Meta
     public static final int BASE = 0;
     public static final int META1 = 100;
     public static final int META2 = 200;

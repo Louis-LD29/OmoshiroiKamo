@@ -1,7 +1,8 @@
 package com.louis.test.api.io;
 
-import com.enderio.core.common.util.BlockCoord;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.enderio.core.common.util.BlockCoord;
 
 public interface IIoConfigurable {
 

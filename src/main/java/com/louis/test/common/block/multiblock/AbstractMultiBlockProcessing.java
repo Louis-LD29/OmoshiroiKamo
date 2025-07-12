@@ -1,10 +1,19 @@
 package com.louis.test.common.block.multiblock;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.FluidStack;
+
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
 import com.louis.test.api.fluid.SmartTank;
-import com.louis.test.common.block.machine.IProgressTile;
-import com.louis.test.common.block.machine.PoweredTask;
-import com.louis.test.common.block.machine.PoweredTaskProgress;
+import com.louis.test.common.block.basicblock.machine.IProgressTile;
+import com.louis.test.common.block.basicblock.machine.PoweredTask;
+import com.louis.test.common.block.basicblock.machine.PoweredTaskProgress;
 import com.louis.test.common.block.multiblock.part.fluid.TEFluidInput;
 import com.louis.test.common.block.multiblock.part.fluid.TEFluidOutput;
 import com.louis.test.common.block.multiblock.part.item.TEItemInput;
@@ -12,14 +21,6 @@ import com.louis.test.common.block.multiblock.part.item.TEItemOutput;
 import com.louis.test.common.recipes.IPoweredTask;
 import com.louis.test.common.recipes.MachineRecipe;
 import com.louis.test.common.recipes.MachineRecipeRegistry;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidStack;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 
 public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockProcessing<T>>
     extends AbstractMultiBlockEntity<T> implements IProgressTile {
@@ -151,8 +152,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
             ItemStack remaining = output.copy();
 
             // Vòng 1: merge vào slot có sẵn
-            outer:
-            for (TEItemOutput io : mItemOutput) {
+            outer: for (TEItemOutput io : mItemOutput) {
                 ItemStackHandler handler = io.getInv();
                 if (handler == null) continue;
 
@@ -174,8 +174,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
             }
 
             // Vòng 2: tìm slot trống
-            outer:
-            for (TEItemOutput io : mItemOutput) {
+            outer: for (TEItemOutput io : mItemOutput) {
                 ItemStackHandler handler = io.getInv();
                 if (handler == null) continue;
 
@@ -200,8 +199,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
             int remaining = output.amount;
 
             // Vòng 1: đổ vào tank có cùng loại
-            outer:
-            for (TEFluidOutput fo : mFluidOutput) {
+            outer: for (TEFluidOutput fo : mFluidOutput) {
                 SmartTank[] tanks = fo.getTanks();
                 if (tanks == null) continue;
 
@@ -219,8 +217,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
             }
 
             // Vòng 2: đổ vào tank rỗng
-            outer:
-            for (TEFluidOutput fo : mFluidOutput) {
+            outer: for (TEFluidOutput fo : mFluidOutput) {
                 SmartTank[] tanks = fo.getTanks();
                 if (tanks == null) continue;
 
@@ -371,7 +368,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                     "[consumeInputs] Không đủ fluid để tiêu thụ: " + input.amount
                         + " mB of "
                         + input.getFluid()
-                        .getName());
+                            .getName());
             }
         }
     }

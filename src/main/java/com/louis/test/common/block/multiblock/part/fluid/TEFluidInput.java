@@ -1,15 +1,5 @@
 package com.louis.test.common.block.multiblock.part.fluid;
 
-import com.cleanroommc.modularui.api.drawable.IKey;
-import com.cleanroommc.modularui.factory.PosGuiData;
-import com.cleanroommc.modularui.screen.ModularPanel;
-import com.cleanroommc.modularui.screen.UISettings;
-import com.cleanroommc.modularui.value.sync.FluidSlotSyncHandler;
-import com.cleanroommc.modularui.value.sync.PanelSyncManager;
-import com.cleanroommc.modularui.widgets.slot.FluidSlot;
-import com.louis.test.api.ModObject;
-import com.louis.test.api.fluid.SmartTank;
-import com.louis.test.api.material.MaterialRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -17,6 +7,17 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
+
+import com.cleanroommc.modularui.api.drawable.IKey;
+import com.cleanroommc.modularui.factory.PosGuiData;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.value.sync.FluidSlotSyncHandler;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
+import com.cleanroommc.modularui.widgets.slot.FluidSlot;
+import com.louis.test.api.enums.ModObject;
+import com.louis.test.api.fluid.SmartTank;
+import com.louis.test.api.material.MaterialRegistry;
 
 public class TEFluidInput extends TEFluidInOut {
 
@@ -62,7 +63,7 @@ public class TEFluidInput extends TEFluidInOut {
 
     @Override
     public SmartTank[] getTanks() {
-        return new SmartTank[]{tank};
+        return new SmartTank[] { tank };
     }
 
     @Override
@@ -85,12 +86,12 @@ public class TEFluidInput extends TEFluidInOut {
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        return new FluidTankInfo[]{tank.getInfo()};
+        return new FluidTankInfo[] { tank.getInfo() };
     }
 
     @Override
     public boolean onBlockActivated(World world, EntityPlayer player, ForgeDirection side, float hitX, float hitY,
-                                    float hitZ) {
+        float hitZ) {
         openGui(player);
         return true;
     }

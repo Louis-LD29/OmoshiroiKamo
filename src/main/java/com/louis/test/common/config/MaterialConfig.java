@@ -17,8 +17,8 @@ public class MaterialConfig {
     public final int color;
 
     public MaterialConfig(String displayName, int meta, double densityKgPerM3, double specificHeatJPerKgK,
-                          double thermalConductivityWPerMK, double meltingPointK, double maxPressureMPa, double electricalConductivity,
-                          int color) {
+        double thermalConductivityWPerMK, double meltingPointK, double maxPressureMPa, double electricalConductivity,
+        int color) {
         this.displayName = displayName;
         this.meta = meta;
         this.densityKgPerM3 = densityKgPerM3;
