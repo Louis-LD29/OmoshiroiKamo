@@ -1,11 +1,14 @@
 package com.louis.test.common.item;
 
-import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.apache.commons.lang3.StringUtils.uncapitalize;
-
-import java.util.List;
-import java.util.Locale;
-
+import com.louis.test.api.ModObject;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.common.TestCreativeTab;
+import com.louis.test.common.block.ModBlocks;
+import com.louis.test.common.core.lib.LibResources;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -15,16 +18,10 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-import com.louis.test.api.MaterialEntry;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.common.TestCreativeTab;
-import com.louis.test.common.block.ModBlocks;
-import com.louis.test.core.lib.LibResources;
+import java.util.List;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.apache.commons.lang3.StringUtils.uncapitalize;
 
 public class ItemMaterial extends Item {
 
@@ -52,13 +49,12 @@ public class ItemMaterial extends Item {
 
         int meta = 0;
         for (MaterialEntry entry : MaterialRegistry.all()) {
-            String matName = entry.name.toLowerCase(Locale.ROOT)
-                .replace(' ', '_');
+            String matName = entry.getUnlocalizedName();
 
             registerMaterialOreDict(matName, meta);
             registerMaterialConversionRecipes(matName, meta);
 
-            if ("Carbon Steel".equalsIgnoreCase(entry.name)) {
+            if ("Carbon Steel".equalsIgnoreCase(entry.getName())) {
                 registerMaterialOreDict("Steel", meta);
                 registerMaterialConversionRecipes("Steel", meta);
             }
@@ -68,19 +64,19 @@ public class ItemMaterial extends Item {
     }
 
     private void registerMaterialOreDict(String name, int meta) {
-        OreDictionary.registerOre("ingot" + capitalize(name), new ItemStack(this, 1, meta));
-        OreDictionary.registerOre("nugget" + capitalize(name), new ItemStack(this, 1, 100 + meta));
-        OreDictionary.registerOre("plate" + capitalize(name), new ItemStack(this, 1, 200 + meta));
-        OreDictionary.registerOre("rod" + capitalize(name), new ItemStack(this, 1, 300 + meta));
-        OreDictionary.registerOre(uncapitalize(name) + "Rod", new ItemStack(this, 1, 300 + meta));
-        OreDictionary.registerOre("stick" + capitalize(name), new ItemStack(this, 1, 300 + meta));
-        OreDictionary.registerOre("dust" + capitalize(name), new ItemStack(this, 1, 400 + meta));
+        OreDictionary.registerOre("ingot" + capitalize(name), new ItemStack(this, LibResources.BASE + 1, meta));
+        OreDictionary.registerOre("nugget" + capitalize(name), new ItemStack(this, 1, LibResources.META1 + meta));
+        OreDictionary.registerOre("plate" + capitalize(name), new ItemStack(this, 1, LibResources.META2 + meta));
+        OreDictionary.registerOre("rod" + capitalize(name), new ItemStack(this, 1, LibResources.META3 + meta));
+        OreDictionary.registerOre(uncapitalize(name) + "Rod", new ItemStack(this, 1, LibResources.META3 + meta));
+        OreDictionary.registerOre("stick" + capitalize(name), new ItemStack(this, 1, LibResources.META3 + meta));
+        OreDictionary.registerOre("dust" + capitalize(name), new ItemStack(this, 1, LibResources.META4 + meta));
     }
 
     private void registerMaterialConversionRecipes(String oreBaseName, int meta) {
         ItemStack ingotResult = new ItemStack(this, 1, meta);
         ItemStack ingot9 = new ItemStack(this, 9, meta);
-        ItemStack nuggetResult = new ItemStack(this, 9, 100 + meta);
+        ItemStack nuggetResult = new ItemStack(this, 9, LibResources.META1 + meta);
         ItemStack blockResult = new ItemStack(ModBlocks.blockMaterial, 1, meta);
 
         String ingotOre = "ingot" + capitalize(oreBaseName);
@@ -96,25 +92,24 @@ public class ItemMaterial extends Item {
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         int meta = stack.getItemDamage();
-        int baseMeta = meta % 100;
+        int baseMeta = meta % LibResources.META1;
         MaterialEntry material = MaterialRegistry.fromMeta(baseMeta);
         String base = super.getUnlocalizedName(stack);
 
         String type;
-        if (meta >= 400) {
+        if (meta >= LibResources.META4) {
             type = "dust";
-        } else if (meta >= 300) {
+        } else if (meta >= LibResources.META3) {
             type = "rod";
-        } else if (meta >= 200) {
+        } else if (meta >= LibResources.META2) {
             type = "plate";
-        } else if (meta >= 100) {
+        } else if (meta >= LibResources.META1) {
             type = "nugget";
         } else {
             type = "ingot";
         }
 
-        String mat = material.name.toLowerCase(Locale.ROOT)
-            .replace(" ", "_");
+        String mat = material.getUnlocalizedName();
         return base + "." + type + "." + mat;
     }
 
@@ -127,30 +122,30 @@ public class ItemMaterial extends Item {
             // ingot
             list.add(new ItemStack(this, 1, i));
             // nugget
-            list.add(new ItemStack(this, 1, 100 + i));
+            list.add(new ItemStack(this, 1, LibResources.META1 + i));
             // plate
-            list.add(new ItemStack(this, 1, 200 + i));
+            list.add(new ItemStack(this, 1, LibResources.META2 + i));
             // rod
-            list.add(new ItemStack(this, 1, 300 + i));
+            list.add(new ItemStack(this, 1, LibResources.META3 + i));
             // dust
-            list.add(new ItemStack(this, 1, 400 + i));
+            list.add(new ItemStack(this, 1, LibResources.META4 + i));
         }
     }
 
     @SideOnly(Side.CLIENT)
     @Override
     public IIcon getIconFromDamage(int damage) {
-        if (damage >= 400) return dustIcon;
-        if (damage >= 300) return rodIcon;
-        if (damage >= 200) return plateIcon;
-        if (damage >= 100) return nuggetIcon;
+        if (damage >= LibResources.META4) return dustIcon;
+        if (damage >= LibResources.META3) return rodIcon;
+        if (damage >= LibResources.META2) return plateIcon;
+        if (damage >= LibResources.META1) return nuggetIcon;
         return ingotIcon;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack stack, int renderPass) {
-        int meta = stack.getItemDamage() % 100;
+        int meta = stack.getItemDamage() % LibResources.META1;
         MaterialEntry mat = MaterialRegistry.fromMeta(meta);
         return mat.getColor();
     }

@@ -1,10 +1,5 @@
 package com.louis.test.common.block.electrolyzer;
 
-import java.util.List;
-
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.factory.PosGuiData;
@@ -22,12 +17,16 @@ import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.slot.FluidSlot;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.enums.ModObject;
+import com.louis.test.api.ModObject;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.client.gui.modularui2.MGuis;
 import com.louis.test.common.block.machine.AbstractProcessingEntity;
 import com.louis.test.common.block.machine.SlotDefinition;
 import com.louis.test.common.config.Config;
-import com.louis.test.common.gui.modularui2.MGuis;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
 
 public class TileElectrolyzer extends AbstractProcessingEntity {
 
@@ -64,24 +63,24 @@ public class TileElectrolyzer extends AbstractProcessingEntity {
             .build()
             .child(
                 new Column().child(
-                    SlotGroupWidget.builder()
-                        .matrix("IIISSIII", "FFFSSFFF")
-                        .key('I', index -> {
-                            return new ItemSlot().slot(
-                                new ModularSlot(this.inv, index).slotGroup("item_inv")
-                                    .filter(stack -> isItemValidForSlot(index, stack)))
-                                .debugName("Slot " + index);
-                        })
-                        .key('F', index -> {
-                            return new FluidSlot()
-                                .syncHandler(
-                                    new FluidSlotSyncHandler(fluidTanks[index])
-                                        .canFillSlot(index <= slotDefinition.maxFluidInputSlot))
-                                .debugName("Slot " + index);
-                        })
-                        .build()
-                        .topRel(0.1f)
-                        .alignX(Alignment.CENTER))
+                        SlotGroupWidget.builder()
+                            .matrix("IIISSIII", "FFFSSFFF")
+                            .key('I', index -> {
+                                return new ItemSlot().slot(
+                                        new ModularSlot(this.inv, index).slotGroup("item_inv")
+                                            .filter(stack -> isItemValidForSlot(index, stack)))
+                                    .debugName("Slot " + index);
+                            })
+                            .key('F', index -> {
+                                return new FluidSlot()
+                                    .syncHandler(
+                                        new FluidSlotSyncHandler(fluidTanks[index])
+                                            .canFillSlot(index <= slotDefinition.maxFluidInputSlot))
+                                    .debugName("Slot " + index);
+                            })
+                            .build()
+                            .topRel(0.1f)
+                            .alignX(Alignment.CENTER))
                     .child(
                         new ProgressWidget().progress(this::getProgress)
                             .topRel(0.1f)

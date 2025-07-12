@@ -1,23 +1,21 @@
 package com.louis.test.common.block;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
-
-import com.louis.test.api.interfaces.energy.EnergyStorageAdv;
-import com.louis.test.api.interfaces.energy.PowerHandlerUtil;
-
 import cofh.api.energy.IEnergyHandler;
+import com.louis.test.api.energy.EnergyStorageAdv;
+import com.louis.test.api.energy.PowerHandlerUtil;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergyTile;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.ForgeDirection;
 
-@Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-    @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "IC2") })
+@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
+    @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "IC2")})
 public abstract class AbstractPoweredTE extends AbstractTE implements IEnergyHandler, IEnergySink {
 
     private int storedEnergyRF = 0;

@@ -1,8 +1,12 @@
 package com.louis.test.common.block.multiblock.part.item;
 
-import java.util.List;
-import java.util.Locale;
-
+import com.louis.test.api.client.IAdvancedTooltipProvider;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.common.TestCreativeTab;
+import com.louis.test.common.block.ModBlocks;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,14 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
-import com.louis.test.api.MaterialEntry;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
-import com.louis.test.common.TestCreativeTab;
-import com.louis.test.common.block.ModBlocks;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 
 public class BlockItemItemOutput extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
@@ -37,9 +34,7 @@ public class BlockItemItemOutput extends ItemBlockWithMetadata implements IAdvan
     public String getUnlocalizedName(ItemStack stack) {
         int meta = stack.getItemDamage();
         MaterialEntry material = MaterialRegistry.fromMeta(meta);
-        return super.getUnlocalizedName(stack) + "."
-            + material.name.toLowerCase(Locale.ROOT)
-                .replace(" ", "_");
+        return super.getUnlocalizedName(stack) + "." + material.getUnlocalizedName();
     }
 
     @Override
@@ -52,17 +47,19 @@ public class BlockItemItemOutput extends ItemBlockWithMetadata implements IAdvan
     }
 
     @Override
-    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+    }
 
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
         int meta = itemstack.getItemDamage();
         MaterialEntry material = MaterialRegistry.fromMeta(meta);
-        list.add("§7Material:§f " + material.name);
+        list.add("§7Material:§f " + material.getMeta());
         list.add("§7Slot:§f " + material.getItemSlotCount());
     }
 
     @Override
-    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+    }
 
 }

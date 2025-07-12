@@ -1,17 +1,6 @@
 package com.louis.test.common.block.solar;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-
+import cofh.api.energy.EnergyStorage;
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.factory.PosGuiData;
@@ -24,17 +13,26 @@ import com.cleanroommc.modularui.widget.ParentWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.enderio.core.common.util.BlockCoord;
-import com.louis.test.api.enums.IoMode;
-import com.louis.test.api.enums.IoType;
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.api.interfaces.energy.PowerDistributor;
-import com.louis.test.api.interfaces.fluid.IFluidCoolant;
+import com.louis.test.api.ModObject;
+import com.louis.test.api.energy.PowerDistributor;
+import com.louis.test.api.fluid.IFluidCoolant;
+import com.louis.test.api.io.IoMode;
+import com.louis.test.api.io.IoType;
+import com.louis.test.client.gui.modularui2.MGuis;
 import com.louis.test.common.block.machine.AbstractGeneratorEntity;
 import com.louis.test.common.block.machine.SlotDefinition;
 import com.louis.test.common.fluid.FluidFuelRegister;
-import com.louis.test.common.gui.modularui2.MGuis;
-
-import cofh.api.energy.EnergyStorage;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class TileSolarPanel extends AbstractGeneratorEntity {
 
@@ -242,10 +240,10 @@ public class TileSolarPanel extends AbstractGeneratorEntity {
         } else if (block == Blocks.ice || block == Blocks.packed_ice
             || block == Blocks.snow
             || block == Blocks.snow_layer) {
-                return -5;
-            } else if (block == Blocks.water || block == Blocks.flowing_water) {
-                return -2;
-            }
+            return -5;
+        } else if (block == Blocks.water || block == Blocks.flowing_water) {
+            return -2;
+        }
         return 0;
     }
 
@@ -297,30 +295,30 @@ public class TileSolarPanel extends AbstractGeneratorEntity {
                                             .background(GuiTextures.DISPLAY)
                                             .child(
                                                 IKey.dynamic(
-                                                    () -> "Generate: " + String.valueOf(getEnergyRegen()) + " RF/t")
+                                                        () -> "Generate: " + String.valueOf(getEnergyRegen()) + " RF/t")
                                                     .color(0xFFFFFFFF)
                                                     .asWidget()
                                                     .marginTop(2))
                                             .child(IKey.dynamic(() -> {
-                                                String effPercent = String
-                                                    .format("%.0f%%", calculateTemperatureEfficiency() * 100f);
-                                                return "Temperature: " + temperatureCelsius + " ~ " + effPercent;
-                                            })
+                                                    String effPercent = String
+                                                        .format("%.0f%%", calculateTemperatureEfficiency() * 100f);
+                                                    return "Temperature: " + temperatureCelsius + " ~ " + effPercent;
+                                                })
                                                 .color(0xFFFFFFFF)
                                                 .asWidget())
                                             .child(IKey.dynamic(() -> {
-                                                float dustEff = Math.max(0.5f, 1.0f - (dustLevel * 0.01f));
-                                                String effPercent = String.format("%.0f%%", dustEff * 100f);
-                                                return "Dust Level: " + dustLevel + " ~ " + effPercent;
-                                            })
+                                                    float dustEff = Math.max(0.5f, 1.0f - (dustLevel * 0.01f));
+                                                    String effPercent = String.format("%.0f%%", dustEff * 100f);
+                                                    return "Dust Level: " + dustLevel + " ~ " + effPercent;
+                                                })
                                                 .color(0xFFFFFFFF)
                                                 .asWidget())
                                             .child(
                                                 IKey.dynamic(
-                                                    () -> {
-                                                        return "Raining: " + worldObj.isRaining()
-                                                            + (worldObj.isRaining() ? " -40%" : "");
-                                                    })
+                                                        () -> {
+                                                            return "Raining: " + worldObj.isRaining()
+                                                                + (worldObj.isRaining() ? " -40%" : "");
+                                                        })
                                                     .color(0xFFFFFFFF)
                                                     .asWidget())))));
     }

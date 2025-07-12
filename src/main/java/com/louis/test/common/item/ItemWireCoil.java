@@ -1,29 +1,5 @@
 package com.louis.test.common.item;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
-import net.minecraft.world.World;
-
-import com.louis.test.api.MaterialEntry;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.api.enums.VoltageTier;
-import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
-import com.louis.test.api.interfaces.energy.MaterialWireType;
-import com.louis.test.common.TestCreativeTab;
-import com.louis.test.common.plugin.compat.IE.IECompat;
-import com.louis.test.core.helper.ItemNBTHelper;
-import com.louis.test.core.lib.LibResources;
-
 import blusunrize.immersiveengineering.api.TargetingInfo;
 import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
 import blusunrize.immersiveengineering.api.energy.IWireCoil;
@@ -33,11 +9,32 @@ import blusunrize.immersiveengineering.api.energy.WireType;
 import blusunrize.immersiveengineering.common.IESaveData;
 import blusunrize.immersiveengineering.common.util.IEAchievements;
 import blusunrize.immersiveengineering.common.util.Utils;
+import com.louis.test.api.ModObject;
+import com.louis.test.api.client.IAdvancedTooltipProvider;
+import com.louis.test.api.energy.MaterialWireType;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.api.material.VoltageTier;
+import com.louis.test.common.TestCreativeTab;
+import com.louis.test.common.core.helper.ItemNBTHelper;
+import com.louis.test.common.core.lib.LibResources;
+import com.louis.test.plugin.compat.IE.IECompat;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.*;
+import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Set;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -48,9 +45,9 @@ import cpw.mods.fml.relauncher.SideOnly;
  * It is intended for use in a standalone mod inspired by Immersive Engineering.
  */
 
-@Optional.InterfaceList({ @Optional.Interface(
+@Optional.InterfaceList({@Optional.Interface(
     iface = "blusunrize.immersiveengineering.common.util.IEAchievements",
-    modid = "ImmersiveEngineering") })
+    modid = "ImmersiveEngineering")})
 public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipProvider {
 
     @SideOnly(Side.CLIENT)
@@ -79,9 +76,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     public String getUnlocalizedName(ItemStack stack) {
         int meta = stack.getItemDamage();
         MaterialEntry material = MaterialRegistry.fromMeta(meta);
-        return super.getUnlocalizedName(stack) + "."
-            + material.name.toLowerCase(Locale.ROOT)
-                .replace(' ', '_');
+        return super.getUnlocalizedName(stack) + "." + material.getUnlocalizedName();
     }
 
     @Override
@@ -153,12 +148,12 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     @Override
     public WireType getWireType(ItemStack stack) {
         MaterialEntry material = MaterialRegistry.fromMeta(stack.getItemDamage() % 100);
-        return MaterialWireType.materialWireTypes.get(material.name);
+        return MaterialWireType.materialWireTypes.get(material.getName());
     }
 
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
-        float hitX, float hitY, float hitZ) {
+                                  float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(x, y, z);
             if (tileEntity instanceof IImmersiveConnectable && ((IImmersiveConnectable) tileEntity).canConnect()) {
@@ -181,7 +176,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                 }
 
                 if (!ItemNBTHelper.verifyExistance(stack, "linkingPos")) {
-                    ItemNBTHelper.setIntArray(stack, "linkingPos", new int[] { world.provider.dimensionId, x, y, z });
+                    ItemNBTHelper.setIntArray(stack, "linkingPos", new int[]{world.provider.dimensionId, x, y, z});
                     target.writeToNBT(stack.getTagCompound());
                 } else {
                     WireType type = getWireType(stack);
@@ -270,8 +265,8 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
         int meta = itemstack.getItemDamage();
         MaterialEntry material = MaterialRegistry.fromMeta(meta);
-        MaterialWireType materialWireType = MaterialWireType.materialWireTypes.get(material.name);
-        list.add(String.format("§7Material:§f %s", material.name));
+        MaterialWireType materialWireType = MaterialWireType.materialWireTypes.get(material.getName());
+        list.add(String.format("§7Material:§f %s", material.getName()));
         list.add(
             String.format(
                 "§7Voltage Tier:§f %s",

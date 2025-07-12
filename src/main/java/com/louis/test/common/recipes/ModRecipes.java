@@ -1,8 +1,7 @@
 package com.louis.test.common.recipes;
 
+import com.louis.test.api.ModObject;
 import net.minecraftforge.common.MinecraftForge;
-
-import com.louis.test.api.enums.ModObject;
 
 public class ModRecipes {
 

@@ -1,21 +1,5 @@
 package com.louis.test.common.block.test;
 
-import java.awt.*;
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.*;
-
 import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
@@ -29,17 +13,28 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.enderio.core.api.common.util.ITankAccess;
 import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.FluidUtil;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.enums.IoMode;
-import com.louis.test.api.enums.IoType;
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.api.interfaces.fluid.SmartTank;
+import com.louis.test.api.ModObject;
+import com.louis.test.api.fluid.SmartTank;
+import com.louis.test.api.io.IoMode;
+import com.louis.test.api.io.IoType;
+import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.block.machine.AbstractPowerConsumerEntity;
 import com.louis.test.common.block.machine.SlotDefinition;
 import com.louis.test.common.config.Config;
+import com.louis.test.common.core.lib.LibResources;
 import com.louis.test.common.fluid.ModFluids;
-import com.louis.test.core.lib.LibResources;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.*;
 import vazkii.botania.api.internal.VanillaPacketDispatcher;
 import vazkii.botania.api.mana.IManaPool;
 import vazkii.botania.api.mana.IThrottledPacket;
@@ -49,6 +44,9 @@ import vazkii.botania.api.mana.spark.ISparkEntity;
 import vazkii.botania.client.core.handler.HUDHandler;
 import vazkii.botania.common.Botania;
 import vazkii.botania.common.core.handler.ManaNetworkHandler;
+
+import java.awt.*;
+import java.util.List;
 
 public class TileTest extends AbstractPowerConsumerEntity
     implements IFluidHandler, ITankAccess, IManaPool, ISparkAttachable, IThrottledPacket {
@@ -233,7 +231,7 @@ public class TileTest extends AbstractPowerConsumerEntity
     public boolean canFill(ForgeDirection from, Fluid fluid) {
         return canFill(from) && fluid != null
             && (inputTank.getFluidAmount() > 0 && inputTank.getFluid()
-                .getFluidID() == fluid.getID() || inputTank.getFluidAmount() == 0);
+            .getFluidID() == fluid.getID() || inputTank.getFluidAmount() == 0);
     }
 
     private boolean canFill(ForgeDirection from) {
@@ -256,7 +254,7 @@ public class TileTest extends AbstractPowerConsumerEntity
         if (isSideDisabled(from.ordinal(), IoType.FLUID)) {
             return new FluidTankInfo[0];
         }
-        return new FluidTankInfo[] { inputTank.getInfo(), outputTank.getInfo() };
+        return new FluidTankInfo[]{inputTank.getInfo(), outputTank.getInfo()};
     }
 
     @Override
@@ -299,7 +297,7 @@ public class TileTest extends AbstractPowerConsumerEntity
 
     @Override
     public FluidTank[] getOutputTanks() {
-        return new FluidTank[] { outputTank /* , inputTank */ };
+        return new FluidTank[]{outputTank /* , inputTank */};
     }
 
     @Override
@@ -314,13 +312,13 @@ public class TileTest extends AbstractPowerConsumerEntity
 
         panel.child(
             new Column().child(
-                new FluidSlot().syncHandler(
-                    new FluidSlotSyncHandler(outputTank).canDrainSlot(
-                        outputTank.getFluidAmount() >= 1000 && !outputTank.getFluid()
-                            .getFluid()
-                            .equals(ModFluids.fluidMana))
+                    new FluidSlot().syncHandler(
+                        new FluidSlotSyncHandler(outputTank).canDrainSlot(
+                            outputTank.getFluidAmount() >= 1000 && !outputTank.getFluid()
+                                .getFluid()
+                                .equals(ModFluids.fluidMana))
 
-                ))
+                    ))
                 .child(
                     SlotGroupWidget.builder()
                         .matrix("IIF")
@@ -332,12 +330,12 @@ public class TileTest extends AbstractPowerConsumerEntity
                             })
                         .key('F', index -> {
                             return new FluidSlot().syncHandler(
-                                new FluidSlotSyncHandler(inputTank).canDrainSlot(
-                                    inputTank.getFluidAmount() >= 1000 && !inputTank.getFluid()
-                                        .getFluid()
-                                        .equals(ModFluids.fluidMana))
+                                    new FluidSlotSyncHandler(inputTank).canDrainSlot(
+                                        inputTank.getFluidAmount() >= 1000 && !inputTank.getFluid()
+                                            .getFluid()
+                                            .equals(ModFluids.fluidMana))
 
-                        )
+                                )
                                 .debugName("Slot " + index);
                         })
                         .build()));

@@ -1,21 +1,19 @@
 package com.louis.test.common.fluid;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.louis.test.api.fluid.IFluidCoolant;
+import com.louis.test.api.fluid.IFluidFuel;
+import com.louis.test.api.fluid.IFluidRegister;
+import cpw.mods.fml.common.Loader;
+import crazypants.enderio.Log;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.louis.test.api.interfaces.fluid.IFluidCoolant;
-import com.louis.test.api.interfaces.fluid.IFluidFuel;
-import com.louis.test.api.interfaces.fluid.IFluidRegister;
-
-import cpw.mods.fml.common.Loader;
-import crazypants.enderio.Log;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FluidFuelRegister implements IFluidRegister {
 

@@ -1,21 +1,19 @@
 package com.louis.test.common.item.upgrade;
 
-import java.util.List;
-
+import com.louis.test.api.client.IRenderUpgrade;
+import com.louis.test.api.client.SpecialTooltipHandler;
+import com.louis.test.api.mana.IManaItemUpgrade;
+import com.louis.test.common.core.helper.ItemNBTHelper;
+import com.louis.test.common.core.lib.LibMisc;
+import com.louis.test.common.core.lib.LibResources;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
-import com.louis.test.api.enums.SpecialTooltipHandler;
-import com.louis.test.api.interfaces.IRenderUpgrade;
-import com.louis.test.api.interfaces.mana.IManaItemUpgrade;
-import com.louis.test.core.helper.ItemNBTHelper;
-import com.louis.test.core.lib.LibMisc;
-import com.louis.test.core.lib.LibResources;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 
 public abstract class AbstractUpgrade implements IManaItemUpgrade {
 

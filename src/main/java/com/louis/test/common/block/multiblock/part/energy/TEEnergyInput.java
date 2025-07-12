@@ -4,9 +4,9 @@ import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.api.interfaces.energy.EnergyStorageAdv;
+import com.louis.test.api.ModObject;
+import com.louis.test.api.energy.EnergyStorageAdv;
+import com.louis.test.api.material.MaterialRegistry;
 
 public class TEEnergyInput extends TEEnergyInOut {
 

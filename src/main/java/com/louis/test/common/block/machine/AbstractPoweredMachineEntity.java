@@ -1,16 +1,14 @@
 package com.louis.test.common.block.machine;
 
+import cofh.api.energy.EnergyStorage;
+import com.enderio.core.common.vecmath.VecmathUtil;
+import com.louis.test.api.energy.IInternalPoweredTile;
+import com.louis.test.api.energy.PowerHandlerUtil;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.material.VoltageTier;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import com.enderio.core.common.vecmath.VecmathUtil;
-import com.louis.test.api.MaterialEntry;
-import com.louis.test.api.enums.VoltageTier;
-import com.louis.test.api.interfaces.energy.IInternalPoweredTile;
-import com.louis.test.api.interfaces.energy.PowerHandlerUtil;
-
-import cofh.api.energy.EnergyStorage;
 
 public abstract class AbstractPoweredMachineEntity extends AbstractMachineEntity implements IInternalPoweredTile {
 

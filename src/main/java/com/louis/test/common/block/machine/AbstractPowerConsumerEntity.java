@@ -1,10 +1,9 @@
 package com.louis.test.common.block.machine;
 
+import com.louis.test.api.energy.IInternalPowerReceiver;
+import com.louis.test.api.energy.PowerHandlerUtil;
+import com.louis.test.api.material.MaterialEntry;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import com.louis.test.api.MaterialEntry;
-import com.louis.test.api.interfaces.energy.IInternalPowerReceiver;
-import com.louis.test.api.interfaces.energy.PowerHandlerUtil;
 
 public abstract class AbstractPowerConsumerEntity extends AbstractPoweredMachineEntity
     implements IInternalPowerReceiver {

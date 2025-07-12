@@ -1,12 +1,10 @@
 package com.louis.test.common.block.multiblock;
 
+import com.louis.test.api.ModObject;
+import com.louis.test.common.block.AbstractBlock;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.common.block.AbstractBlock;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BlockMultiBlock extends AbstractBlock<TileMultiBlock> {
 

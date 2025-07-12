@@ -1,17 +1,16 @@
 package com.louis.test.common.block.multiblock.part.energy;
 
-import net.minecraft.block.Block;
-import net.minecraft.world.World;
-
 import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.enderio.core.common.util.BlockCoord;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.api.interfaces.energy.EnergyStorageAdv;
-import com.louis.test.api.interfaces.energy.PowerDistributor;
+import com.louis.test.api.ModObject;
+import com.louis.test.api.energy.EnergyStorageAdv;
+import com.louis.test.api.energy.PowerDistributor;
+import com.louis.test.api.material.MaterialRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.world.World;
 
 public class TEEnergyOutput extends TEEnergyInOut {
 

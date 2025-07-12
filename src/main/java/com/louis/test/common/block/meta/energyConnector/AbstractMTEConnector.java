@@ -1,7 +1,17 @@
 package com.louis.test.common.block.meta.energyConnector;
 
-import java.util.Set;
-
+import blusunrize.immersiveengineering.api.ApiUtils;
+import blusunrize.immersiveengineering.api.DimensionBlockPos;
+import blusunrize.immersiveengineering.api.TargetingInfo;
+import blusunrize.immersiveengineering.api.energy.IICProxy;
+import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
+import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
+import blusunrize.immersiveengineering.api.energy.WireType;
+import blusunrize.immersiveengineering.common.util.Utils;
+import com.louis.test.api.energy.MaterialWireType;
+import com.louis.test.api.material.VoltageTier;
+import com.louis.test.common.block.meta.MTEBase;
+import com.louis.test.common.core.helper.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,19 +22,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.louis.test.api.enums.VoltageTier;
-import com.louis.test.api.interfaces.energy.MaterialWireType;
-import com.louis.test.common.block.meta.MTEBase;
-import com.louis.test.core.helper.Logger;
-
-import blusunrize.immersiveengineering.api.ApiUtils;
-import blusunrize.immersiveengineering.api.DimensionBlockPos;
-import blusunrize.immersiveengineering.api.TargetingInfo;
-import blusunrize.immersiveengineering.api.energy.IICProxy;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
-import blusunrize.immersiveengineering.api.energy.WireType;
-import blusunrize.immersiveengineering.common.util.Utils;
+import java.util.Set;
 
 public abstract class AbstractMTEConnector extends MTEBase {
 
@@ -68,7 +66,8 @@ public abstract class AbstractMTEConnector extends MTEBase {
     }
 
     @Override
-    public void onEnergyPassthrough(int amount) {}
+    public void onEnergyPassthrough(int amount) {
+    }
 
     @Override
     public boolean allowEnergyToPass(Connection con) {
@@ -177,7 +176,7 @@ public abstract class AbstractMTEConnector extends MTEBase {
         needsVisualUpdate = true;
         if (worldObj != null && worldObj.isRemote
             && !Minecraft.getMinecraft()
-                .isSingleplayer()) {
+            .isSingleplayer()) {
             NBTTagList connectionList = nbt.getTagList("connectionList", 10);
             ImmersiveNetHandler.INSTANCE.clearConnectionsOriginatingFrom(Utils.toCC(this.host), worldObj);
             for (int i = 0; i < connectionList.tagCount(); i++) {
@@ -218,7 +217,7 @@ public abstract class AbstractMTEConnector extends MTEBase {
             if (limitType != null) root.setString("limitType", limitType.getUniqueName());
 
             if (this.worldObj != null) {
-                root.setIntArray("prevPos", new int[] { this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord });
+                root.setIntArray("prevPos", new int[]{this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord});
             }
         } catch (Exception e) {
             Logger.error("MTEConnector encountered MASSIVE error writing NBT. You shoudl probably report this.");

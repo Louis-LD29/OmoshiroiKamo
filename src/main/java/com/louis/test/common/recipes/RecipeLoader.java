@@ -1,10 +1,9 @@
 package com.louis.test.common.recipes;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.util.List;
-
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.louis.test.common.core.lib.LibMisc;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,11 +11,10 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-import com.louis.test.core.lib.LibMisc;
-
-import cpw.mods.fml.common.registry.GameRegistry;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.List;
 
 public class RecipeLoader {
 
@@ -63,7 +61,8 @@ public class RecipeLoader {
         int loaded = 0;
 
         try (FileReader reader = new FileReader(file)) {
-            List<JsonRecipe> recipes = gson.fromJson(reader, new TypeToken<List<JsonRecipe>>() {}.getType());
+            List<JsonRecipe> recipes = gson.fromJson(reader, new TypeToken<List<JsonRecipe>>() {
+            }.getType());
 
             if (recipes == null) {
                 System.out.println("No recipes found in file: " + file.getName());
@@ -183,8 +182,8 @@ public class RecipeLoader {
             if (builder.getItemInputs() != null) {
                 for (ItemStack stack : builder.getItemInputs()) {
                     data.append(
-                        stack.getItem()
-                            .getUnlocalizedName())
+                            stack.getItem()
+                                .getUnlocalizedName())
                         .append(":")
                         .append(stack.stackSize)
                         .append(";");
@@ -194,8 +193,8 @@ public class RecipeLoader {
             if (builder.getFluidInputs() != null) {
                 for (FluidStack fluid : builder.getFluidInputs()) {
                     data.append(
-                        fluid.getFluid()
-                            .getName())
+                            fluid.getFluid()
+                                .getName())
                         .append(":")
                         .append(fluid.amount)
                         .append(";");
@@ -205,8 +204,8 @@ public class RecipeLoader {
             if (builder.getItemOutputs() != null) {
                 for (ItemStack stack : builder.getItemOutputs()) {
                     data.append(
-                        stack.getItem()
-                            .getUnlocalizedName())
+                            stack.getItem()
+                                .getUnlocalizedName())
                         .append(":")
                         .append(stack.stackSize)
                         .append(";");
@@ -216,8 +215,8 @@ public class RecipeLoader {
             if (builder.getFluidOutputs() != null) {
                 for (FluidStack fluid : builder.getFluidOutputs()) {
                     data.append(
-                        fluid.getFluid()
-                            .getName())
+                            fluid.getFluid()
+                                .getName())
                         .append(":")
                         .append(fluid.amount)
                         .append(";");

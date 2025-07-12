@@ -1,10 +1,5 @@
 package com.louis.test.common.block.multiblock.boiler;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.factory.PosGuiData;
@@ -21,14 +16,18 @@ import com.cleanroommc.modularui.widgets.ProgressWidget.Direction;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.FluidSlot;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.api.interfaces.fluid.SmartTank;
+import com.louis.test.api.ModObject;
+import com.louis.test.api.fluid.SmartTank;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.client.gui.modularui2.MGuiTextures;
+import com.louis.test.client.gui.modularui2.MGuis;
 import com.louis.test.common.block.machine.SlotDefinition;
 import com.louis.test.common.block.multiblock.TileMain;
 import com.louis.test.common.fluid.ModFluids;
-import com.louis.test.common.gui.modularui2.MGuiTextures;
-import com.louis.test.common.gui.modularui2.MGuis;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 
 public class TileBoiler extends TileMain {
 
@@ -185,61 +184,63 @@ public class TileBoiler extends TileMain {
                                             .background(GuiTextures.DISPLAY)
                                             .child(
                                                 IKey.dynamic(
-                                                    () -> "Temp:\n"
-                                                        + Math.round(steamC.getHeatSourceTempK() * 100.0f) / 100.0f
-                                                        + "K"
-                                                        + "/"
-                                                        + getHeat().getMaxHeatStored()
-                                                        + "K")
+                                                        () -> "Temp:\n"
+                                                            + Math.round(steamC.getHeatSourceTempK() * 100.0f) / 100.0f
+                                                            + "K"
+                                                            + "/"
+                                                            + getHeat().getMaxHeatStored()
+                                                            + "K")
                                                     .color(0xFFFFFFFF)
                                                     .alignment(Alignment.Center)
                                                     .asWidget())
                                             .child(
-                                                IKey.dynamic(() -> { return "Has Filter: " + getFluidFilter(); })
-
-                                                    .color(0xFFFFFFFF)
-                                                    .asWidget())
-                                            .child(
-                                                IKey.dynamic(
-                                                    () -> {
-                                                        return "Pressure: "
-                                                            + Math.round(this.pressureAtm * 100.0f) / 100.0f
-                                                            + " atm";
+                                                IKey.dynamic(() -> {
+                                                        return "Has Filter: " + getFluidFilter();
                                                     })
 
                                                     .color(0xFFFFFFFF)
                                                     .asWidget())
                                             .child(
                                                 IKey.dynamic(
-                                                    () -> {
-                                                        return "Boiling Temp: "
-                                                            + Math.round(this.tBoil * 100.0f) / 100.0f
-                                                            + "K";
-                                                    })
+                                                        () -> {
+                                                            return "Pressure: "
+                                                                + Math.round(this.pressureAtm * 100.0f) / 100.0f
+                                                                + " atm";
+                                                        })
 
                                                     .color(0xFFFFFFFF)
                                                     .asWidget())
                                             .child(
                                                 IKey.dynamic(
-                                                    () -> {
-                                                        return "Steam Generate:\n "
-                                                            + Math.round(this.simulateSteamMB * 100.0f) / 100.0f
-                                                            + "mb/s";
-                                                    })
+                                                        () -> {
+                                                            return "Boiling Temp: "
+                                                                + Math.round(this.tBoil * 100.0f) / 100.0f
+                                                                + "K";
+                                                        })
 
                                                     .color(0xFFFFFFFF)
                                                     .asWidget())
                                             .child(
                                                 IKey.dynamic(
-                                                    () -> {
-                                                        return "Water Consume:\n "
-                                                            + Math.round(this.simulateWaterUsedMB * 100.0f) / 100.0f
-                                                            + "mb/s";
-                                                    })
+                                                        () -> {
+                                                            return "Steam Generate:\n "
+                                                                + Math.round(this.simulateSteamMB * 100.0f) / 100.0f
+                                                                + "mb/s";
+                                                        })
 
                                                     .color(0xFFFFFFFF)
                                                     .asWidget())
-                                    //
+                                            .child(
+                                                IKey.dynamic(
+                                                        () -> {
+                                                            return "Water Consume:\n "
+                                                                + Math.round(this.simulateWaterUsedMB * 100.0f) / 100.0f
+                                                                + "mb/s";
+                                                        })
+
+                                                    .color(0xFFFFFFFF)
+                                                    .asWidget())
+                                        //
                                     ))))
             .child(
                 new Column().debugName("Slot Row")
@@ -255,16 +256,16 @@ public class TileBoiler extends TileMain {
                             new FluidSlotSyncHandler(getTank(1)).canDrainSlot(
                                 getTank(1).getFluidAmount() >= 1000 && getTank(1).getFluid() != null
                                     && !getTank(1).getFluid()
-                                        .getFluid()
-                                        .equals(ModFluids.fluidMana))))
+                                    .getFluid()
+                                    .equals(ModFluids.fluidMana))))
                     .child(
                         new FluidSlot()
                             .syncHandler(
                                 new FluidSlotSyncHandler(getTank(0)).canDrainSlot(
                                     getTank(0).getFluidAmount() >= 1000 && getTank(0).getFluid() != null
                                         && !getTank(0).getFluid()
-                                            .getFluid()
-                                            .equals(ModFluids.fluidMana)))
+                                        .getFluid()
+                                        .equals(ModFluids.fluidMana)))
                             .marginTop(4))
                     .child(
                         new ProgressWidget().progress(() -> getHeat().getHeatStored() / (double) 100f)

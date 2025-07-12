@@ -1,8 +1,24 @@
 package com.louis.test.common.block.machine;
 
-import java.util.EnumMap;
-import java.util.Map;
-
+import com.cleanroommc.modularui.api.IGuiHolder;
+import com.cleanroommc.modularui.factory.PosGuiData;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.utils.item.ItemStackHandler;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
+import com.enderio.core.common.util.BlockCoord;
+import com.enderio.core.common.util.InventoryWrapper;
+import com.enderio.core.common.util.ItemUtil;
+import com.louis.test.api.fluid.SmartTank;
+import com.louis.test.api.io.IIoConfigurable;
+import com.louis.test.api.io.IoMode;
+import com.louis.test.api.io.IoType;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.redstone.IRedstoneConnectable;
+import com.louis.test.client.gui.modularui2.MGuis;
+import com.louis.test.common.block.AbstractTE;
+import crazypants.enderio.machine.IRedstoneModeControlable;
+import crazypants.enderio.machine.RedstoneControlMode;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -13,26 +29,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.cleanroommc.modularui.api.IGuiHolder;
-import com.cleanroommc.modularui.factory.PosGuiData;
-import com.cleanroommc.modularui.screen.ModularPanel;
-import com.cleanroommc.modularui.screen.UISettings;
-import com.cleanroommc.modularui.utils.item.ItemStackHandler;
-import com.cleanroommc.modularui.value.sync.PanelSyncManager;
-import com.enderio.core.common.util.BlockCoord;
-import com.enderio.core.common.util.InventoryWrapper;
-import com.enderio.core.common.util.ItemUtil;
-import com.louis.test.api.MaterialEntry;
-import com.louis.test.api.enums.IoMode;
-import com.louis.test.api.enums.IoType;
-import com.louis.test.api.interfaces.IIoConfigurable;
-import com.louis.test.api.interfaces.fluid.SmartTank;
-import com.louis.test.api.interfaces.redstone.IRedstoneConnectable;
-import com.louis.test.common.block.AbstractTE;
-import com.louis.test.common.gui.modularui2.MGuis;
-
-import crazypants.enderio.machine.IRedstoneModeControlable;
-import crazypants.enderio.machine.RedstoneControlMode;
+import java.util.EnumMap;
+import java.util.Map;
 
 public abstract class AbstractMachineEntity extends AbstractTE implements IGuiHolder<PosGuiData>, ISidedInventory,
     IRedstoneModeControlable, IRedstoneConnectable, IIoConfigurable {
@@ -519,10 +517,12 @@ public abstract class AbstractMachineEntity extends AbstractTE implements IGuiHo
     }
 
     @Override
-    public void openInventory() {}
+    public void openInventory() {
+    }
 
     @Override
-    public void closeInventory() {}
+    public void closeInventory() {
+    }
 
     @Override
     public String getInventoryName() {

@@ -1,8 +1,13 @@
 package com.louis.test.common.block.multiblock.part.energy;
 
-import java.util.List;
-import java.util.Locale;
-
+import com.louis.test.api.client.IAdvancedTooltipProvider;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.common.TestCreativeTab;
+import com.louis.test.common.block.ModBlocks;
+import com.louis.test.common.core.lib.LibResources;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,14 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
-import com.louis.test.api.MaterialEntry;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
-import com.louis.test.common.TestCreativeTab;
-import com.louis.test.common.block.ModBlocks;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 
 public class ItemBlockEnergyInOut extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
@@ -36,13 +34,12 @@ public class ItemBlockEnergyInOut extends ItemBlockWithMetadata implements IAdva
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         int meta = stack.getItemDamage();
-        boolean isOutput = meta >= 100;
-        MaterialEntry material = MaterialRegistry.fromMeta(meta % 100);
+        boolean isOutput = meta >= LibResources.META1;
+        MaterialEntry material = MaterialRegistry.fromMeta(meta % LibResources.META1);
 
         String base = super.getUnlocalizedName(stack);
         String type = isOutput ? "output" : "input";
-        String mat = material.name.toLowerCase(Locale.ROOT)
-            .replace(" ", "_");
+        String mat = material.getUnlocalizedName();
 
         return base + "." + type + "." + mat;
     }
@@ -54,19 +51,20 @@ public class ItemBlockEnergyInOut extends ItemBlockWithMetadata implements IAdva
             .size();
         for (int i = 0; i < count; i++) {
             list.add(new ItemStack(this, 1, i));
-            list.add(new ItemStack(this, 1, 100 + i));
+            list.add(new ItemStack(this, 1, LibResources.META1 + i));
         }
     }
 
     @Override
-    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+    }
 
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean flag) {
         int meta = itemstack.getItemDamage();
         MaterialEntry material = MaterialRegistry.fromMeta(meta);
 
-        list.add(String.format("§7Material:§f %s", material.name));
+        list.add(String.format("§7Material:§f %s", material.getName()));
         list.add(
             String.format(
                 "§7Voltage Tier:§f %s",
@@ -79,5 +77,6 @@ public class ItemBlockEnergyInOut extends ItemBlockWithMetadata implements IAdva
     }
 
     @Override
-    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+    }
 }
