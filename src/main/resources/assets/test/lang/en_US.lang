@@ -9,8 +9,10 @@ Test.config.ie=Immersive Engineering
 Test.config.ie.tooltip=Settings related to wire behavior and render.
 Test.config.material=Material
 Test.config.material.tooltip=Configure properties and rendering of materials such as ingots, blocks, and wires.
+Test.config.damage_indicator=Damage Indicator
+Test.config.damage_indicator.tooltip=Configure properties and rendering of Damage Indicator.
 
-
+# IO
 Test.gui.machine.ioMode.none=None
 Test.gui.machine.ioMode.input=Input
 Test.gui.machine.ioMode.output=Output
@@ -18,11 +20,21 @@ Test.gui.machine.ioMode.disabled=Disabled
 Test.gui.machine.ioMode.inputOutput=Output / Input
 Test.gui.powerMonitor.of=of
 
+# Display
 Test.power.rf=RF
 Test.fluid.millibucket.abr=L
 Test.fluid.empty=Empty
-
 Testmisc.shiftinfo=Hold &bSHIFT&7 for more info
+
+# Elemental
+
+element.pyro.name=Pyro
+element.cryo.name=Cryo
+element.electro.name=Electro
+element.hydro.name=Hydro
+element.anemo.name=Anemo
+element.geo.name=Geo
+element.dendro.name=Dendro
 
 # BAUBLE TOOLTIPS
 Test.baubletype.amulet=Equippable in the &aAmulet&7 slot

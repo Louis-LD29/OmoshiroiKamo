@@ -1,29 +1,8 @@
 package com.louis.test.common.item;
 
-import blusunrize.immersiveengineering.api.TargetingInfo;
-import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
-import blusunrize.immersiveengineering.api.energy.IWireCoil;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
-import blusunrize.immersiveengineering.api.energy.WireType;
-import blusunrize.immersiveengineering.common.IESaveData;
-import blusunrize.immersiveengineering.common.util.IEAchievements;
-import blusunrize.immersiveengineering.common.util.Utils;
-import com.louis.test.api.client.IAdvancedTooltipProvider;
-import com.louis.test.api.energy.MaterialWireType;
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.api.enums.VoltageTier;
-import com.louis.test.api.material.MaterialEntry;
-import com.louis.test.api.material.MaterialRegistry;
-import com.louis.test.common.TestCreativeTab;
-import com.louis.test.common.core.helper.ItemNBTHelper;
-import com.louis.test.common.core.lib.LibResources;
-import com.louis.test.common.plugin.compat.IECompat;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+import java.util.Set;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,8 +13,31 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
-import java.util.List;
-import java.util.Set;
+import com.louis.test.api.client.IAdvancedTooltipProvider;
+import com.louis.test.api.energy.MaterialWireType;
+import com.louis.test.api.enums.ModObject;
+import com.louis.test.api.enums.VoltageTier;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.common.TestCreativeTab;
+import com.louis.test.common.core.helper.ItemNBTHelper;
+import com.louis.test.common.core.lib.LibResources;
+import com.louis.test.common.plugin.compat.IECompat;
+
+import blusunrize.immersiveengineering.api.TargetingInfo;
+import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
+import blusunrize.immersiveengineering.api.energy.IWireCoil;
+import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
+import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
+import blusunrize.immersiveengineering.api.energy.WireType;
+import blusunrize.immersiveengineering.common.IESaveData;
+import blusunrize.immersiveengineering.common.util.IEAchievements;
+import blusunrize.immersiveengineering.common.util.Utils;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -46,9 +48,9 @@ import java.util.Set;
  * It is intended for use in a standalone mod inspired by Immersive Engineering.
  */
 
-@Optional.InterfaceList({@Optional.Interface(
+@Optional.InterfaceList({ @Optional.Interface(
     iface = "blusunrize.immersiveengineering.common.util.IEAchievements",
-    modid = "ImmersiveEngineering")})
+    modid = "ImmersiveEngineering") })
 public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipProvider {
 
     @SideOnly(Side.CLIENT)
@@ -153,7 +155,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
 
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
-                                  float hitX, float hitY, float hitZ) {
+        float hitX, float hitY, float hitZ) {
         if (world.isRemote) return false;
 
         TileEntity tileEntity = world.getTileEntity(x, y, z);
@@ -179,7 +181,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
 
         if (!ItemNBTHelper.verifyExistance(stack, "linkingPos")) {
             // Lưu điểm kết nối đầu tiên
-            ItemNBTHelper.setIntArray(stack, "linkingPos", new int[]{world.provider.dimensionId, x, y, z});
+            ItemNBTHelper.setIntArray(stack, "linkingPos", new int[] { world.provider.dimensionId, x, y, z });
             if (stack.getTagCompound() == null) stack.setTagCompound(new NBTTagCompound());
             target.writeToNBT(stack.getTagCompound());
         } else {

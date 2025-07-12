@@ -33,6 +33,14 @@ public class MaterialEntry {
         this.defaults = config;
     }
 
+    public MaterialEntry(String name) {
+        this(
+            name,
+            MaterialRegistry.all()
+                .size(),
+            MaterialConfig.defaultFor(name));
+    }
+
     public int getMeta() {
         return meta;
     }

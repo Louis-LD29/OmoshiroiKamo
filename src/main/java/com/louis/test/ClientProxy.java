@@ -49,7 +49,6 @@ public class ClientProxy extends CommonProxy {
         MTEISBRH connectionRenderer = new MTEISBRH();
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockMeta), connectionRenderer);
         RenderingRegistry.registerBlockHandler(connectionRenderer);
-
         ClientRegistry.bindTileEntitySpecialRenderer(TEMeta.class, new MTETESR());
 
         LangSectionInserter.loadExternalLangFile(new File(Config.configDirectory, "en_US.lang"));

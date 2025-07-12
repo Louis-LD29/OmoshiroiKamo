@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
 import com.louis.test.client.render.DamageParticleRenderer;
+import com.louis.test.common.config.Config;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -30,6 +31,9 @@ public class DameEvents {
     public void displayDamageDealt(EntityLivingBase entity) {
         if (!entity.worldObj.isRemote) return;
 
+        if (!Config.showDamageParticles) {
+            return;
+        }
         int currentHealth = (int) Math.ceil(entity.getHealth());
         NBTTagCompound data = entity.getEntityData();
 
