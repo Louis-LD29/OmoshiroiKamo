@@ -1,9 +1,8 @@
 package com.louis.test.common.block.machine;
 
+import com.louis.test.api.energy.IInternalPowerProvider;
+import com.louis.test.api.material.MaterialRegistry;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.interfaces.energy.IInternalPowerProvider;
 
 public abstract class AbstractGeneratorEntity extends AbstractPoweredMachineEntity implements IInternalPowerProvider {
 

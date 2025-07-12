@@ -1,8 +1,14 @@
 package com.louis.test.common.block.multiblock.part.fluid;
 
-import java.util.List;
-import java.util.Locale;
-
+import com.louis.test.api.client.IAdvancedTooltipProvider;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.common.TestCreativeTab;
+import com.louis.test.common.block.ModBlocks;
+import com.louis.test.common.core.lib.LibMisc;
+import com.louis.test.common.core.lib.LibResources;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,15 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.louis.test.api.MaterialEntry;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
-import com.louis.test.common.TestCreativeTab;
-import com.louis.test.common.block.ModBlocks;
-import com.louis.test.core.lib.LibMisc;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 
 public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
@@ -39,13 +37,12 @@ public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvan
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         int meta = stack.getItemDamage();
-        boolean isOutput = meta >= 100;
-        MaterialEntry material = MaterialRegistry.fromMeta(meta % 100);
+        boolean isOutput = meta >= LibResources.META1;
+        MaterialEntry material = MaterialRegistry.fromMeta(meta % LibResources.META1);
 
         String base = super.getUnlocalizedName(stack);
         String type = isOutput ? "output" : "input";
-        String mat = material.name.toLowerCase(Locale.ROOT)
-            .replace(" ", "_");
+        String mat = material.getUnlocalizedName();
 
         return base + "." + type + "." + mat;
     }
@@ -58,22 +55,20 @@ public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvan
 
         for (int i = 0; i < count; i++) {
             list.add(new ItemStack(this, 1, i));
-        }
-
-        for (int i = 0; i < count; i++) {
-            list.add(new ItemStack(this, 1, 100 + i));
+            list.add(new ItemStack(this, 1, LibResources.META1 + i));
         }
     }
 
     @Override
-    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+    }
 
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean advanced) {
         int meta = itemstack.getItemDamage();
         MaterialEntry material = MaterialRegistry.fromMeta(meta);
 
-        list.add(String.format("§7Material:§f %s", material.name));
+        list.add(String.format("§7Material:§f %s", material.getName()));
         list.add(String.format("§7Volume:§f %,d mB", material.getVolumeMB()));
         list.add(String.format("§7Melting Point:§f %d K", (int) material.getMeltingPointK()));
 
@@ -94,5 +89,6 @@ public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvan
     }
 
     @Override
-    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+    }
 }

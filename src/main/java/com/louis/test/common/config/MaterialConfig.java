@@ -2,11 +2,12 @@ package com.louis.test.common.config;
 
 import net.minecraftforge.common.config.Configuration;
 
-import com.louis.test.api.MaterialEntry;
+import com.louis.test.api.material.MaterialEntry;
 
 public class MaterialConfig {
 
     public final String displayName;
+    public final int meta;
     public final double densityKgPerM3;
     public final double specificHeatJPerKgK;
     public final double thermalConductivityWPerMK;
@@ -15,10 +16,11 @@ public class MaterialConfig {
     public final double electricalConductivity;
     public final int color;
 
-    public MaterialConfig(String displayName, double densityKgPerM3, double specificHeatJPerKgK,
-        double thermalConductivityWPerMK, double meltingPointK, double maxPressureMPa, double electricalConductivity,
-        int color) {
+    public MaterialConfig(String displayName, int meta, double densityKgPerM3, double specificHeatJPerKgK,
+                          double thermalConductivityWPerMK, double meltingPointK, double maxPressureMPa, double electricalConductivity,
+                          int color) {
         this.displayName = displayName;
+        this.meta = meta;
         this.densityKgPerM3 = densityKgPerM3;
         this.specificHeatJPerKgK = specificHeatJPerKgK;
         this.thermalConductivityWPerMK = thermalConductivityWPerMK;
@@ -29,7 +31,15 @@ public class MaterialConfig {
     }
 
     public static MaterialConfig loadFromConfig(Configuration config, MaterialEntry entry) {
-        String cat = Config.sectionMaterial.name + "." + entry.name;
+        String cat = Config.sectionMaterial.name + "." + entry.getName();
+
+        int meta;
+        if (entry.defaults.meta < 50) {
+            meta = entry.defaults.meta;
+        } else {
+            meta = config.get(cat, "meta", entry.defaults.meta, "Material Meta")
+                .getInt();
+        }
 
         double density = config.get(cat, "density", entry.defaults.densityKgPerM3, "Density (kg/m^3)")
             .getDouble();
@@ -54,7 +64,16 @@ public class MaterialConfig {
             .get(cat, "color", defaultColor, "Material display color as RGB integer (" + hex + "), format: 0xRRGGBB")
             .getInt();
 
-        return new MaterialConfig(entry.name, density, specificHeat, thermal, melting, pressure, electrical, color);
+        return new MaterialConfig(
+            entry.getName(),
+            meta,
+            density,
+            specificHeat,
+            thermal,
+            melting,
+            pressure,
+            electrical,
+            color);
     }
 
 }

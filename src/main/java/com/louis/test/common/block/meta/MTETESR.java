@@ -1,17 +1,14 @@
 package com.louis.test.common.block.meta;
 
+import blusunrize.immersiveengineering.common.util.chickenbones.Matrix4;
+import com.louis.test.api.mte.MetaTileEntity;
+import com.louis.test.common.block.ModBlocks;
+import com.louis.test.common.core.lib.LibResources;
+import com.louis.test.plugin.compat.IE.ModelIEObj;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-
 import org.lwjgl.opengl.GL11;
-
-import com.louis.test.api.enums.MetaTileEntity;
-import com.louis.test.common.block.ModBlocks;
-import com.louis.test.common.plugin.compat.IE.ModelIEObj;
-import com.louis.test.core.lib.LibResources;
-
-import blusunrize.immersiveengineering.common.util.chickenbones.Matrix4;
 
 public class MTETESR extends AbstractMTESR {
 

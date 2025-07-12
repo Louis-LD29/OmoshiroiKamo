@@ -1,8 +1,15 @@
 package com.louis.test.common.item;
 
-import java.util.List;
-import java.util.UUID;
-
+import baubles.api.BaubleType;
+import baubles.api.IBauble;
+import baubles.common.container.InventoryBaubles;
+import baubles.common.lib.PlayerHandler;
+import com.louis.test.client.render.RenderHelper;
+import com.louis.test.common.core.helper.ItemNBTHelper;
+import com.louis.test.common.core.lib.LibMisc;
+import com.louis.test.common.entity.EntityDoppleganger;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,17 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-import com.louis.test.core.helper.EntityDoppleganger;
-import com.louis.test.core.helper.ItemNBTHelper;
-import com.louis.test.core.helper.RenderHelper;
-import com.louis.test.core.lib.LibMisc;
-
-import baubles.api.BaubleType;
-import baubles.api.IBauble;
-import baubles.common.container.InventoryBaubles;
-import baubles.common.lib.PlayerHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+import java.util.UUID;
 
 public abstract class ItemBauble extends ItemMod implements IBauble {
 
@@ -114,7 +112,7 @@ public abstract class ItemBauble extends ItemMod implements IBauble {
             StatCollector.translateToLocal(
                 LibMisc.MOD_ID + ".baubletype."
                     + type.name()
-                        .toLowerCase()),
+                    .toLowerCase()),
             par3List);
 
         String key = RenderHelper.getKeyDisplayString("Baubles Inventory");

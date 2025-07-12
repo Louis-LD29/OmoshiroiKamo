@@ -1,10 +1,13 @@
 package com.louis.test.common.block.material;
 
-import static org.apache.commons.lang3.StringUtils.capitalize;
-
-import java.util.List;
-import java.util.Locale;
-
+import com.louis.test.api.ModObject;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.common.block.BlockEio;
+import com.louis.test.common.core.lib.LibResources;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -14,15 +17,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-import com.louis.test.api.MaterialEntry;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.common.block.BlockEio;
-import com.louis.test.core.lib.LibResources;
+import java.util.List;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import static org.apache.commons.lang3.StringUtils.capitalize;
 
 public class BlockMaterial extends BlockEio {
 
@@ -44,12 +41,11 @@ public class BlockMaterial extends BlockEio {
 
         int meta = 0;
         for (MaterialEntry entry : MaterialRegistry.all()) {
-            String matName = entry.name.toLowerCase(Locale.ROOT)
-                .replace(' ', '_');
+            String matName = entry.getUnlocalizedName();
 
             registerMaterialOreDict(matName, meta);
 
-            if ("Carbon Steel".equalsIgnoreCase(entry.name)) {
+            if ("Carbon Steel".equalsIgnoreCase(entry.getName())) {
                 registerMaterialOreDict("Steel", meta);
             }
 
@@ -75,7 +71,7 @@ public class BlockMaterial extends BlockEio {
 
     @Override
     public float getExplosionResistance(Entity exploder, World world, int x, int y, int z, double explosionX,
-        double explosionY, double explosionZ) {
+                                        double explosionY, double explosionZ) {
         int meta = world.getBlockMetadata(x, y, z);
         return MaterialRegistry.fromMeta(meta)
             .getResistance();

@@ -1,11 +1,5 @@
 package com.louis.test.common.block.multiblock.heat;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
-
-import org.lwjgl.input.Keyboard;
-
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.factory.PosGuiData;
@@ -20,17 +14,21 @@ import com.cleanroommc.modularui.widgets.ButtonWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.enderio.core.common.util.BlockCoord;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.enums.BlockMassType;
-import com.louis.test.api.enums.IoMode;
-import com.louis.test.api.enums.IoType;
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.api.interfaces.heat.HeatStorage;
-import com.louis.test.api.interfaces.heat.HeatUtil;
-import com.louis.test.api.interfaces.heat.IHeatHandler;
+import com.louis.test.api.ModObject;
+import com.louis.test.api.heat.HeatStorage;
+import com.louis.test.api.heat.HeatUtil;
+import com.louis.test.api.heat.IHeatHandler;
+import com.louis.test.api.io.IoMode;
+import com.louis.test.api.io.IoType;
+import com.louis.test.api.material.BlockMassType;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.client.gui.modularui2.MGuis;
 import com.louis.test.common.block.machine.SlotDefinition;
 import com.louis.test.common.block.multiblock.TileAddon;
-import com.louis.test.common.gui.modularui2.MGuis;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
+import org.lwjgl.input.Keyboard;
 
 public class TileHeatInput extends TileAddon implements IHeatHandler {
 
@@ -287,17 +285,17 @@ public class TileHeatInput extends TileAddon implements IHeatHandler {
                                         decrement = 0.1f;
                                     } else if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
                                         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-                                            decrement = 10f;
-                                        }
+                                        decrement = 10f;
+                                    }
                                     this.temperatureLimit = Math.max(0, this.temperatureLimit - decrement);
                                 }))
                                 .margin(4))
                         .child(
                             IKey.dynamic(
-                                () -> "Temperature Limit\n" + this.temperatureLimit
-                                    + "/"
-                                    + getHeat().getMaxHeatStored()
-                                    + " K")
+                                    () -> "Temperature Limit\n" + this.temperatureLimit
+                                        + "/"
+                                        + getHeat().getMaxHeatStored()
+                                        + " K")
                                 .alignment(Alignment.Center)
                                 .asWidget())
 
@@ -311,8 +309,8 @@ public class TileHeatInput extends TileAddon implements IHeatHandler {
                                         increment = 0.1f;
                                     } else if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
                                         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-                                            increment = 10f;
-                                        }
+                                        increment = 10f;
+                                    }
                                     this.temperatureLimit = Math
                                         .min(this.temperatureLimit + increment, getHeat().getMaxHeatStored());
                                 }))

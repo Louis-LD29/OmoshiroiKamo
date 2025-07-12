@@ -1,16 +1,14 @@
 package com.louis.test.common.item;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
 import com.louis.test.common.TestCreativeTab;
-import com.louis.test.core.helper.IconHelper;
-import com.louis.test.core.lib.LibMisc;
-
+import com.louis.test.common.core.helper.IconHelper;
+import com.louis.test.common.core.lib.LibMisc;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class ItemMod extends Item {
 

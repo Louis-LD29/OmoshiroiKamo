@@ -1,9 +1,5 @@
 package com.louis.test.common.block.heatsource;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
-
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.factory.PosGuiData;
@@ -15,16 +11,19 @@ import com.cleanroommc.modularui.widget.ParentWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.enderio.core.common.util.BlockCoord;
-import com.louis.test.api.MaterialRegistry;
-import com.louis.test.api.enums.BlockMassType;
-import com.louis.test.api.enums.IoMode;
-import com.louis.test.api.enums.IoType;
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.api.interfaces.heat.HeatStorage;
-import com.louis.test.api.interfaces.heat.HeatUtil;
-import com.louis.test.api.interfaces.heat.IHeatHandler;
+import com.louis.test.api.ModObject;
+import com.louis.test.api.heat.HeatStorage;
+import com.louis.test.api.heat.HeatUtil;
+import com.louis.test.api.heat.IHeatHandler;
+import com.louis.test.api.io.IoMode;
+import com.louis.test.api.io.IoType;
+import com.louis.test.api.material.BlockMassType;
+import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.block.machine.AbstractMachineEntity;
 import com.louis.test.common.block.machine.SlotDefinition;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileHeatSource extends AbstractMachineEntity implements IHeatHandler {
 
@@ -159,7 +158,7 @@ public class TileHeatSource extends AbstractMachineEntity implements IHeatHandle
                                         .background(GuiTextures.DISPLAY)
                                         .child(
                                             IKey.dynamic(
-                                                () -> "Heat: " + heat.getHeatStored() + "/" + heat.getMaxHeatStored())
+                                                    () -> "Heat: " + heat.getHeatStored() + "/" + heat.getMaxHeatStored())
                                                 .color(0xFFFFFFFF)
                                                 .asWidget()
                                                 .marginTop(2))))));

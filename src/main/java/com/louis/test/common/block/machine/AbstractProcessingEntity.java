@@ -1,10 +1,12 @@
 package com.louis.test.common.block.machine;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
+import com.louis.test.api.energy.IInternalPowerReceiver;
+import com.louis.test.api.io.IoMode;
+import com.louis.test.api.io.IoType;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.common.recipes.IPoweredTask;
+import com.louis.test.common.recipes.MachineRecipe;
+import com.louis.test.common.recipes.MachineRecipeRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -12,13 +14,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
-import com.louis.test.api.MaterialEntry;
-import com.louis.test.api.enums.IoMode;
-import com.louis.test.api.enums.IoType;
-import com.louis.test.api.interfaces.energy.IInternalPowerReceiver;
-import com.louis.test.common.recipes.IPoweredTask;
-import com.louis.test.common.recipes.MachineRecipe;
-import com.louis.test.common.recipes.MachineRecipeRegistry;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEntity
     implements IInternalPowerReceiver, IProgressTile {
@@ -246,7 +245,8 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
                 }
             }
 
-            if (remaining > 0) {}
+            if (remaining > 0) {
+            }
         }
 
         cachedNextRecipe = null;
@@ -353,7 +353,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
                     "[consumeInputs] Không đủ fluid để tiêu thụ: " + input.amount
                         + " mB of "
                         + input.getFluid()
-                            .getName());
+                        .getName());
             }
         }
     }

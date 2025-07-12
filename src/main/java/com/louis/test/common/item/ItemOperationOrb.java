@@ -1,16 +1,8 @@
 package com.louis.test.common.item;
 
-import java.util.List;
-
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.World;
-
+import baubles.api.BaubleType;
+import baubles.api.expanded.BaubleExpandedSlots;
+import cofh.api.energy.IEnergyContainerItem;
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.factory.GuiFactories;
 import com.cleanroommc.modularui.factory.PlayerInventoryGuiData;
@@ -27,20 +19,26 @@ import com.cleanroommc.modularui.widgets.SlotGroupWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.enderio.core.common.util.ItemUtil;
-import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
-import com.louis.test.api.interfaces.IFlightEnablerItem;
-import com.louis.test.api.interfaces.mana.IManaItem;
+import com.louis.test.api.ModObject;
+import com.louis.test.api.client.IAdvancedTooltipProvider;
+import com.louis.test.api.client.IFlightEnablerItem;
+import com.louis.test.api.mana.IManaItem;
 import com.louis.test.common.config.Config;
+import com.louis.test.common.core.helper.ItemNBTHelper;
+import com.louis.test.common.core.lib.LibMisc;
 import com.louis.test.common.item.upgrade.EnergyUpgrade;
 import com.louis.test.common.recipes.ManaAnvilRecipe;
-import com.louis.test.core.helper.ItemNBTHelper;
-import com.louis.test.core.lib.LibItemNames;
-import com.louis.test.core.lib.LibMisc;
-
-import baubles.api.BaubleType;
-import baubles.api.expanded.BaubleExpandedSlots;
-import cofh.api.energy.IEnergyContainerItem;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
 import vazkii.botania.api.mana.IManaTooltipDisplay;
+
+import java.util.List;
 
 public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTooltipDisplay, IAdvancedTooltipProvider,
     IEnergyContainerItem, IFlightEnablerItem, IGuiHolder<PlayerInventoryGuiData>, ISimpleBauble {
@@ -50,7 +48,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
     private static final String TAG_MANA = "mana";
 
     public ItemOperationOrb() {
-        this(LibItemNames.OPERATIONORB);
+        this(ModObject.itemOperationOrb.unlocalisedName);
         setMaxDamage(1000);
         this.disableRightClickEquip();
         setNoRepair();
@@ -172,7 +170,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
             list.add(
                 EnumChatFormatting.WHITE + "+"
                     + " "
-                    + LibMisc.lang.localize("item." + LibItemNames.OPERATIONORB + ".tooltip.effPowered"));
+                    + LibMisc.lang.localize("item." + ModObject.itemOperationOrb.unlocalisedName + ".tooltip.effPowered"));
         }
         ManaAnvilRecipe.instance.addAdvancedTooltipEntries(itemstack, entityplayer, list, flag);
     }
@@ -230,7 +228,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
     @Override
     public String[] getBaubleTypes(ItemStack itemstack) {
-        return new String[] { BaubleExpandedSlots.ringType };
+        return new String[]{BaubleExpandedSlots.ringType};
     }
 
     @Override

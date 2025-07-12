@@ -1,23 +1,22 @@
 package com.louis.test.common.block.multiblock;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidStack;
-
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
 import com.gtnewhorizon.structurelib.alignment.enumerable.ExtendedFacing;
 import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
-import com.louis.test.api.interfaces.fluid.SmartTank;
+import com.louis.test.api.fluid.SmartTank;
 import com.louis.test.common.block.AbstractTE;
 import com.louis.test.common.block.TileEntityEio;
 import com.louis.test.common.block.multiblock.part.fluid.TEFluidInput;
 import com.louis.test.common.block.multiblock.part.fluid.TEFluidOutput;
 import com.louis.test.common.block.multiblock.part.item.TEItemInput;
 import com.louis.test.common.block.multiblock.part.item.TEItemOutput;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntity<T>> extends AbstractTE {
 

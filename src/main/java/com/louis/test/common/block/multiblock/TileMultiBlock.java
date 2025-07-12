@@ -1,16 +1,15 @@
 package com.louis.test.common.block.multiblock;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-
 import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
-import com.louis.test.api.enums.ModObject;
+import com.louis.test.api.ModObject;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileMultiBlock extends AbstractMultiBlockEntity<TileMultiBlock> {
 
@@ -37,7 +36,7 @@ public class TileMultiBlock extends AbstractMultiBlockEntity<TileMultiBlock> {
 
     @Override
     public boolean onBlockActivated(World world, EntityPlayer player, ForgeDirection side, float hitX, float hitY,
-        float hitZ) {
+                                    float hitZ) {
         if (mMachine) {
             openGui(player);
             return true;

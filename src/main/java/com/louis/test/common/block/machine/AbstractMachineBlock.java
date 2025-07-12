@@ -1,7 +1,11 @@
 package com.louis.test.common.block.machine;
 
-import java.util.Random;
-
+import com.louis.test.api.ModObject;
+import com.louis.test.api.client.IResourceTooltipProvider;
+import com.louis.test.common.block.AbstractBlock;
+import com.louis.test.common.core.lib.LibResources;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -11,13 +15,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import com.louis.test.api.enums.ModObject;
-import com.louis.test.api.interfaces.IResourceTooltipProvider;
-import com.louis.test.common.block.AbstractBlock;
-import com.louis.test.core.lib.LibResources;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.Random;
 
 public abstract class AbstractMachineBlock<T extends AbstractMachineEntity> extends AbstractBlock<T>
     implements IResourceTooltipProvider {
