@@ -49,6 +49,10 @@ public class MaterialRegistry {
                 .collect(Collectors.toList()));
     }
 
+    public static boolean contains(String name) {
+        return REGISTRY.containsKey(name);
+    }
+
     public static void init() {
 
         register(new MaterialEntry("Iron", 0, 7870, 449, 80.2, 1811, 25, 1.0e7, 0xD8D8D8));

@@ -30,6 +30,11 @@ public class MaterialConfig {
         this.color = color;
     }
 
+    public static MaterialConfig defaultFor(String name) {
+        int defaultMeta = Config.materialConfigs.size();
+        return new MaterialConfig(name, defaultMeta, 7800, 500, 50, 1800, 200, 1e7, 0x888888);
+    }
+
     public static MaterialConfig loadFromConfig(Configuration config, MaterialEntry entry) {
         String cat = Config.sectionMaterial.name + "." + entry.getName();
 

@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.*;
 
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
 import com.louis.test.api.material.MaterialEntry;
@@ -19,7 +18,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 public class Config {
@@ -29,6 +27,7 @@ public class Config {
     public static final Section sectionPersonal = new Section("Personal Settings", "personal");
     public static final Section sectionIE = new Section("Immersive Engineering Settings", "ie");
     public static final Section sectionMaterial = new Section("Material Settings", "material");
+    public static final Section sectionDamageIndicators = new Section("Damage Indicators Settings", "damage_indicator");
 
     public static Configuration config;
     public static File configDirectory;
@@ -46,8 +45,9 @@ public class Config {
     public static int[] cableTransferRate = new int[] { 2048, 4096, 8192, 0, 0 };
     public static int[] cableColouration = new int[] { 13926474, 15576418, 7303023, 9862765, 7303023 };
     public static String[] materialCustom = new String[] {};
-    public static int damageColor = 0xFF3333; // Màu đỏ
-    public static int healColor = 0x33FF33; // Màu xanh lá
+    public static boolean showDamageParticles = true;
+    public static int damageColor = 0xFFFFFF;
+    public static int healColor = 0x33FF33;
 
     public static final Map<String, MaterialConfig> materialConfigs = new HashMap<>();
 
@@ -126,6 +126,18 @@ public class Config {
                 "If true, render the bar when an item has RF")
             .getBoolean(renderChargeBar);
 
+        // Damage Indicator
+
+        showDamageParticles = config
+            .get(
+                sectionDamageIndicators.name,
+                "showDamageParticles",
+                showDamageParticles,
+                "If true, render damage particles")
+            .getBoolean(showDamageParticles);
+
+        // IE
+
         increasedRenderboxes = config
             .get(
                 sectionIE.name,
@@ -188,6 +200,8 @@ public class Config {
                 "Cable color RGB (int). Format: " + Arrays.toString(WireType.uniqueNames))
             .getIntList();
 
+        // Material
+
         materialCustom = config.get(
             sectionMaterial.name,
             "materialCustom",
@@ -197,8 +211,15 @@ public class Config {
             .getStringList();
 
         LangSectionInserter.insertCustomMaterialsLang(materialCustom);
-        Set<String> defined = new HashSet<>(Arrays.asList(materialCustom));
 
+        for (String name : materialCustom) {
+            if (!MaterialRegistry.contains(name)) {
+                MaterialEntry entry = new MaterialEntry(name);
+                MaterialRegistry.register(entry);
+            }
+        }
+
+        Set<String> defined = new HashSet<>(Arrays.asList(materialCustom));
         Set<String> categoriesToRemove = new HashSet<>();
         for (String category : config.getCategoryNames()) {
             if (category.startsWith("material settings") && !category.equals("material settings")) {
@@ -212,6 +233,7 @@ public class Config {
         for (String cat : categoriesToRemove) {
             config.removeCategory(config.getCategory(cat));
         }
+
         materialConfigs.clear();
         for (MaterialEntry entry : MaterialRegistry.all()) {
             materialConfigs.put(entry.getName(), MaterialConfig.loadFromConfig(config, entry));
@@ -222,18 +244,6 @@ public class Config {
     public static void init() {}
 
     public static void postInit() {}
-
-    public static ItemStack getStackForString(String s) {
-        String[] nameAndMeta = s.split(";");
-        int meta = nameAndMeta.length == 1 ? 0 : Integer.parseInt(nameAndMeta[1]);
-        String[] data = nameAndMeta[0].split(":");
-        ItemStack stack = GameRegistry.findItemStack(data[0], data[1], 1);
-        if (stack == null) {
-            return null;
-        }
-        stack.setItemDamage(meta);
-        return stack;
-    }
 
     @SubscribeEvent
     public void onConfigChanged(OnConfigChangedEvent event) {
