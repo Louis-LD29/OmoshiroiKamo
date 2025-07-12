@@ -3,5 +3,5 @@ package com.louis.test.common.core.lib;
 public final class LibObfuscation {
 
     // GuiContainer
-    public static final String[] THE_SLOT = new String[]{"theSlot", "field_147006_u", "u"};
+    public static final String[] THE_SLOT = new String[] { "theSlot", "field_147006_u", "u" };
 }

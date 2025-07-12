@@ -1,8 +1,10 @@
 package com.louis.test.api.energy;
 
-import cofh.api.energy.IEnergyConnection;
-import com.louis.test.api.material.VoltageTier;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.louis.test.api.enums.VoltageTier;
+
+import cofh.api.energy.IEnergyConnection;
 
 public interface IInternalPoweredTile extends IPowerContainer, IEnergyConnection {
 

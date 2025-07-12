@@ -1,9 +1,11 @@
 package com.louis.test.common.core.helper;
 
-import cofh.api.energy.IEnergyContainerItem;
-import com.louis.test.api.mana.IManaItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+
+import com.louis.test.api.mana.IManaItem;
+
+import cofh.api.energy.IEnergyContainerItem;
 
 public class Helper {
 

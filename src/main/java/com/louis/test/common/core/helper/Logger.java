@@ -1,15 +1,16 @@
 package com.louis.test.common.core.helper;
 
-import com.louis.test.common.core.lib.LibMisc;
-import cpw.mods.fml.common.FMLLog;
 import org.apache.logging.log4j.Level;
+
+import com.louis.test.common.core.lib.LibMisc;
+
+import cpw.mods.fml.common.FMLLog;
 
 public class Logger {
 
     public static boolean debug = false;
 
-    public Logger() {
-    }
+    public Logger() {}
 
     public static void log(Level logLevel, Object object) {
         FMLLog.log(LibMisc.MOD_NAME, logLevel, String.valueOf(object), new Object[0]);
@@ -27,6 +28,5 @@ public class Logger {
         log(Level.WARN, object);
     }
 
-    public static void debug(Object object) {
-    }
+    public static void debug(Object object) {}
 }

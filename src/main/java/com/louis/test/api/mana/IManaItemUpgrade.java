@@ -1,12 +1,14 @@
 package com.louis.test.api.mana;
 
-import com.louis.test.api.client.IAdvancedTooltipProvider;
-import com.louis.test.api.client.IRenderUpgrade;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import javax.annotation.Nullable;
+
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nullable;
+import com.louis.test.api.client.IAdvancedTooltipProvider;
+import com.louis.test.api.client.IRenderUpgrade;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public interface IManaItemUpgrade extends IAdvancedTooltipProvider {
 

@@ -1,16 +1,17 @@
 package com.louis.test.api.energy;
 
-import com.enderio.core.common.util.BlockCoord;
-import com.louis.test.api.material.MaterialEntry;
-import com.louis.test.api.material.VoltageTier;
-import com.louis.test.common.block.AbstractTE;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
+import com.enderio.core.common.util.BlockCoord;
+import com.louis.test.api.enums.VoltageTier;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.common.block.AbstractTE;
 
 public class PowerDistributor {
 

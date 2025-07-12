@@ -1,5 +1,16 @@
 package com.louis.test.common.block.multiblock.fluid;
 
+import java.util.List;
+
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.*;
+
+import org.lwjgl.input.Keyboard;
+
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.drawable.ItemDrawable;
@@ -19,25 +30,16 @@ import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.FluidSlot;
 import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.FluidUtil;
-import com.louis.test.api.ModObject;
+import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.fluid.SmartTank;
 import com.louis.test.api.io.IoMode;
 import com.louis.test.api.io.IoType;
 import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.client.gui.modularui2.MGuis;
-import com.louis.test.common.block.machine.SlotDefinition;
+import com.louis.test.common.block.basicblock.machine.SlotDefinition;
 import com.louis.test.common.block.multiblock.TileAddon;
 import com.louis.test.common.block.multiblock.TileMain;
 import com.louis.test.common.block.multiblock.boiler.TileBoiler;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.*;
-import org.lwjgl.input.Keyboard;
-
-import java.util.List;
 
 public class TileFluidOutput extends TileAddon implements IFluidHandler {
 
@@ -221,7 +223,7 @@ public class TileFluidOutput extends TileAddon implements IFluidHandler {
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        return hasValidController() ? new FluidTankInfo[]{getTargetTank().getInfo()} : new FluidTankInfo[0];
+        return hasValidController() ? new FluidTankInfo[] { getTargetTank().getInfo() } : new FluidTankInfo[0];
     }
 
     @Override
@@ -317,8 +319,7 @@ public class TileFluidOutput extends TileAddon implements IFluidHandler {
             FluidSlot slot = new FluidSlot().syncHandler(new FluidSlotSyncHandler(tank).canDrainSlot(true))
                 .setEnabledIf(f -> tankSlot == finalI)
                 .size(18, 18);
-            slot.tooltip(richTooltip -> {
-            });
+            slot.tooltip(richTooltip -> {});
             fluidStack.child(slot);
         }
 
@@ -344,9 +345,7 @@ public class TileFluidOutput extends TileAddon implements IFluidHandler {
                     richTooltip.addLine(IKey.str("Dump Fluid"));
                 })
                 .syncHandler(
-                    new InteractionSyncHandler().setOnMousePressed(mouseData -> {
-                        getTargetTank().setFluid(null);
-                    })));
+                    new InteractionSyncHandler().setOnMousePressed(mouseData -> { getTargetTank().setFluid(null); })));
 
         panel.child(column);
 

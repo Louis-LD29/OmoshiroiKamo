@@ -1,19 +1,22 @@
 package com.louis.test.client.handler;
 
-import cofh.api.energy.IEnergyContainerItem;
-import com.enderio.core.client.render.ColorUtil;
-import com.enderio.core.client.render.RenderUtil;
-import com.enderio.core.common.vecmath.Vector4f;
-import com.louis.test.common.config.Config;
-import com.louis.test.common.item.upgrade.EnergyUpgrade;
+import java.awt.*;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
+import com.enderio.core.client.render.ColorUtil;
+import com.enderio.core.client.render.RenderUtil;
+import com.enderio.core.common.vecmath.Vector4f;
+import com.louis.test.common.config.Config;
+import com.louis.test.common.item.upgrade.EnergyUpgrade;
+
+import cofh.api.energy.IEnergyContainerItem;
 
 public class PoweredItemRenderer implements IItemRenderer {
 

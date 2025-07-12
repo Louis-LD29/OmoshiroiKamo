@@ -1,19 +1,21 @@
 package com.louis.test.common.block.multiblock.part.fluid;
 
-import com.louis.test.api.ModObject;
-import com.louis.test.api.client.IResourceTooltipProvider;
-import com.louis.test.api.material.MaterialRegistry;
-import com.louis.test.common.block.AbstractBlock;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-import java.util.List;
+import com.louis.test.api.client.IResourceTooltipProvider;
+import com.louis.test.api.enums.ModObject;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.common.block.AbstractBlock;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> implements IResourceTooltipProvider {
 

@@ -1,10 +1,11 @@
 package com.louis.test.common.mana;
 
-import cpw.mods.fml.common.FMLCommonHandler;
+import java.util.UUID;
+
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 
-import java.util.UUID;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ManaNetworkHandler {
 

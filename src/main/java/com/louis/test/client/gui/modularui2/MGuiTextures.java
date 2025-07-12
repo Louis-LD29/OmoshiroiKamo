@@ -1,9 +1,9 @@
 package com.louis.test.client.gui.modularui2;
 
+import static com.louis.test.client.gui.modularui2.MUITexture.icon;
+
 import com.cleanroommc.modularui.drawable.UITexture;
 import com.louis.test.common.core.lib.LibResources;
-
-import static com.louis.test.client.gui.modularui2.MUITexture.icon;
 
 public interface MGuiTextures {
 

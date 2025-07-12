@@ -1,12 +1,14 @@
 package com.louis.test.common.core.handlers;
 
+import java.util.UUID;
+
+import net.minecraft.entity.player.EntityPlayer;
+
 import com.louis.test.common.mana.ManaNetworkHandler;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.entity.player.EntityPlayer;
-
-import java.util.UUID;
 
 public class ManaRegenHandler {
 

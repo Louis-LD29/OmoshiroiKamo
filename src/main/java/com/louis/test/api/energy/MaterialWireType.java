@@ -1,15 +1,17 @@
 package com.louis.test.api.energy;
 
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.WireType;
-import com.louis.test.api.material.MaterialEntry;
-import com.louis.test.api.material.MaterialRegistry;
-import com.louis.test.common.item.ModItems;
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.common.item.ModItems;
+
+import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
+import blusunrize.immersiveengineering.api.energy.WireType;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -23,17 +25,24 @@ import java.util.Map;
 public class MaterialWireType extends WireType {
 
     private final MaterialEntry material;
-    public static final Map<String, MaterialWireType> materialWireTypes = new HashMap<>();
 
-    static {
-        for (MaterialEntry mat : MaterialRegistry.all()) {
-            materialWireTypes.put(mat.getName(), new MaterialWireType(mat));
+    public static final Map<Integer, MaterialWireType> MATERIAL_WIRE_TYPES = new HashMap<>();
+
+    public static void init() {
+        for (MaterialEntry material : MaterialRegistry.all()) {
+            if (material != null) {
+                MATERIAL_WIRE_TYPES.put(material.getMeta(), new MaterialWireType(material.meta));
+            }
         }
     }
 
-    public MaterialWireType(MaterialEntry material) {
+    public MaterialWireType(int meta) {
         super();
-        this.material = material;
+        this.material = MaterialRegistry.fromMeta(meta);
+    }
+
+    public static MaterialWireType get(int meta) {
+        return MATERIAL_WIRE_TYPES.get(meta);
     }
 
     @Override
@@ -43,7 +52,8 @@ public class MaterialWireType extends WireType {
 
     @Override
     public double getLossRatio() {
-        return 1.0 / Math.max(1.0, material.getElectricalConductivity() / 1e6);
+        double conductivity = material.getElectricalConductivity();
+        return 1.0 / Math.max(1.0, conductivity / 1e6);
     }
 
     @Override
@@ -69,13 +79,13 @@ public class MaterialWireType extends WireType {
 
     @Override
     public int getMaxLength() {
-        return material.getVoltageTier()
-            .ordinal() * 8 + 16;
+        return 16 + 8 * material.getVoltageTier()
+            .ordinal();
     }
 
     @Override
     public ItemStack getWireCoil() {
-        int meta = MaterialRegistry.indexOf(material); // bạn cần thêm method này trong MaterialRegistry
+        int meta = MaterialRegistry.indexOf(material);
         return new ItemStack(ModItems.itemWireCoil, 1, meta);
     }
 

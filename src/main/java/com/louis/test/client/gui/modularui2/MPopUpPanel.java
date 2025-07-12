@@ -1,8 +1,9 @@
 package com.louis.test.client.gui.modularui2;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.widgets.ButtonWidget;
-import org.jetbrains.annotations.NotNull;
 
 public class MPopUpPanel extends ModularPanel {
 

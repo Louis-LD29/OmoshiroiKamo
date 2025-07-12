@@ -1,13 +1,7 @@
 package com.louis.test.common.block.multiblock.boiler;
 
-import com.cleanroommc.modularui.factory.GuiFactories;
-import com.louis.test.api.ModObject;
-import com.louis.test.api.client.IAdvancedTooltipProvider;
-import com.louis.test.common.block.machine.AbstractMachineBlock;
-import com.louis.test.common.core.lib.LibResources;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +11,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-import java.util.List;
+import com.cleanroommc.modularui.factory.GuiFactories;
+import com.louis.test.api.client.IAdvancedTooltipProvider;
+import com.louis.test.api.enums.ModObject;
+import com.louis.test.common.block.basicblock.machine.AbstractMachineBlock;
+import com.louis.test.common.core.lib.LibResources;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBoiler extends AbstractMachineBlock<TileBoiler> implements IAdvancedTooltipProvider {
 
@@ -39,7 +41,7 @@ public class BlockBoiler extends AbstractMachineBlock<TileBoiler> implements IAd
 
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer playerIn, int side, float hitX,
-                                    float hitY, float hitZ) {
+        float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             GuiFactories.tileEntity()
                 .open(playerIn, x, y, z);
@@ -69,20 +71,17 @@ public class BlockBoiler extends AbstractMachineBlock<TileBoiler> implements IAd
     }
 
     @Override
-    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-    }
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
 
     @Override
-    public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-    }
+    public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
 
     @Override
-    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-    }
+    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
 
     @Override
     public float getExplosionResistance(Entity par1Entity, World world, int x, int y, int z, double explosionX,
-                                        double explosionY, double explosionZ) {
+        double explosionY, double explosionZ) {
         int meta = world.getBlockMetadata(x, y, z);
         meta = MathHelper.clamp_int(meta, 0, 1);
         if (meta == 1) {

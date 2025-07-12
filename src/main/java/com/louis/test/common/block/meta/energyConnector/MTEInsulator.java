@@ -41,12 +41,12 @@ public class MTEInsulator extends AbstractMTEConnector {
 
     @Override
     protected boolean canTakeHV() {
-        return super.canTakeHV();
+        return true;
     }
 
     @Override
     protected boolean canTakeMV() {
-        return super.canTakeMV();
+        return true;
     }
 
     @Override

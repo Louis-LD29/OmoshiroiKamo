@@ -1,10 +1,11 @@
 package com.louis.test.common.block.multiblock.part.fluid;
 
-import com.louis.test.api.fluid.IFluidHandlerAdv;
-import com.louis.test.common.block.AbstractTE;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+
+import com.louis.test.api.fluid.IFluidHandlerAdv;
+import com.louis.test.common.block.AbstractTE;
 
 public abstract class TEFluidInOut extends AbstractTE implements IFluidHandlerAdv {
 

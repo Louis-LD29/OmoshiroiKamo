@@ -1,13 +1,7 @@
 package com.louis.test.client.gui;
 
-import baubles.common.lib.PlayerHandler;
-import cofh.api.energy.IEnergyContainerItem;
-import com.louis.test.api.mana.IManaItem;
-import com.louis.test.client.handler.ClientTickHandler;
-import com.louis.test.common.core.helper.Helper;
-import com.louis.test.common.core.lib.LibResources;
-import com.louis.test.common.mana.ManaNetworkHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import java.awt.*;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -16,9 +10,18 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
+import com.louis.test.api.mana.IManaItem;
+import com.louis.test.client.handler.ClientTickHandler;
+import com.louis.test.common.core.helper.Helper;
+import com.louis.test.common.core.lib.LibResources;
+import com.louis.test.common.mana.ManaNetworkHandler;
+
+import baubles.common.lib.PlayerHandler;
+import cofh.api.energy.IEnergyContainerItem;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ManaHUD {
 

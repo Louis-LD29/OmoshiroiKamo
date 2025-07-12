@@ -1,6 +1,7 @@
 package com.louis.test;
 
 import com.louis.test.common.core.lib.LibMisc;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;

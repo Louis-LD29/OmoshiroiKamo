@@ -1,5 +1,7 @@
 package com.louis.test.api.material;
 
+import com.louis.test.api.enums.BlockMassType;
+import com.louis.test.api.enums.VoltageTier;
 import com.louis.test.common.config.Config;
 import com.louis.test.common.config.MaterialConfig;
 
@@ -10,7 +12,7 @@ public class MaterialEntry {
     public final MaterialConfig defaults;
 
     public MaterialEntry(String name, int meta, double density, double specificHeat, double thermalConductivity,
-                         double meltingPoint, double maxPressure, double electricalConductivity, int color) {
+        double meltingPoint, double maxPressure, double electricalConductivity, int color) {
         this.name = name;
         this.meta = meta;
         this.defaults = new MaterialConfig(

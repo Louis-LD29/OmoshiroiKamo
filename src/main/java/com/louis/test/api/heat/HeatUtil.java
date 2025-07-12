@@ -1,11 +1,12 @@
 package com.louis.test.api.heat;
 
-import com.enderio.core.common.util.BlockCoord;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.enderio.core.common.util.BlockCoord;
 
 public class HeatUtil {
 

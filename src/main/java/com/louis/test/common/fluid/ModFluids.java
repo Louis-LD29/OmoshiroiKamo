@@ -1,11 +1,12 @@
 package com.louis.test.common.fluid;
 
-import com.louis.test.api.fluid.FluidMaterial;
-import com.louis.test.common.core.lib.LibMisc;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.IFluidTank;
+
+import com.louis.test.api.fluid.FluidMaterial;
+import com.louis.test.common.core.lib.LibMisc;
 
 public class ModFluids {
 

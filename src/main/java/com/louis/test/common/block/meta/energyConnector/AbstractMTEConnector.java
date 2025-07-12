@@ -9,7 +9,7 @@ import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection
 import blusunrize.immersiveengineering.api.energy.WireType;
 import blusunrize.immersiveengineering.common.util.Utils;
 import com.louis.test.api.energy.MaterialWireType;
-import com.louis.test.api.material.VoltageTier;
+import com.louis.test.api.enums.VoltageTier;
 import com.louis.test.common.block.meta.MTEBase;
 import com.louis.test.common.core.helper.Logger;
 import net.minecraft.block.Block;

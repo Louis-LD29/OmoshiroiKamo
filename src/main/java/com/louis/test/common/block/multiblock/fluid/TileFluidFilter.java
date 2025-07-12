@@ -1,10 +1,11 @@
 package com.louis.test.common.block.multiblock.fluid;
 
-import com.louis.test.api.ModObject;
-import com.louis.test.api.material.MaterialRegistry;
-import com.louis.test.common.block.machine.SlotDefinition;
-import com.louis.test.common.block.multiblock.TileAddon;
 import net.minecraft.item.ItemStack;
+
+import com.louis.test.api.enums.ModObject;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.common.block.basicblock.machine.SlotDefinition;
+import com.louis.test.common.block.multiblock.TileAddon;
 
 public class TileFluidFilter extends TileAddon {
 

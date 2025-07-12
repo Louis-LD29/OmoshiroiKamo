@@ -1,8 +1,9 @@
 package com.louis.test.api.heat;
 
-import com.louis.test.api.material.BlockMassType;
-import com.louis.test.api.material.MaterialEntry;
 import net.minecraft.nbt.NBTTagCompound;
+
+import com.louis.test.api.enums.BlockMassType;
+import com.louis.test.api.material.MaterialEntry;
 
 public class HeatStorage {
 

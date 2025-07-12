@@ -1,13 +1,7 @@
 package com.louis.test.common.block.multiblock.part.energy;
 
-import com.louis.test.api.client.IAdvancedTooltipProvider;
-import com.louis.test.api.material.MaterialEntry;
-import com.louis.test.api.material.MaterialRegistry;
-import com.louis.test.common.TestCreativeTab;
-import com.louis.test.common.block.ModBlocks;
-import com.louis.test.common.core.lib.LibResources;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +9,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
-import java.util.List;
+import com.louis.test.api.client.IAdvancedTooltipProvider;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.common.TestCreativeTab;
+import com.louis.test.common.block.ModBlocks;
+import com.louis.test.common.core.lib.LibResources;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBlockEnergyInOut extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
@@ -56,8 +58,7 @@ public class ItemBlockEnergyInOut extends ItemBlockWithMetadata implements IAdva
     }
 
     @Override
-    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-    }
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
 
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean flag) {
@@ -77,6 +78,5 @@ public class ItemBlockEnergyInOut extends ItemBlockWithMetadata implements IAdva
     }
 
     @Override
-    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-    }
+    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
 }

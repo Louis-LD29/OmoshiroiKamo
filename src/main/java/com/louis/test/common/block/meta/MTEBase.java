@@ -1,22 +1,5 @@
 package com.louis.test.common.block.meta;
 
-import blusunrize.immersiveengineering.api.TargetingInfo;
-import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.WireType;
-import com.cleanroommc.modularui.factory.PosGuiData;
-import com.cleanroommc.modularui.screen.ModularPanel;
-import com.cleanroommc.modularui.screen.UISettings;
-import com.cleanroommc.modularui.value.sync.PanelSyncManager;
-import com.enderio.core.common.TileEntityEnder;
-import com.louis.test.api.ModObject;
-import com.louis.test.api.fluid.SmartTank;
-import com.louis.test.api.heat.HeatStorage;
-import com.louis.test.api.mte.IMTE;
-import com.louis.test.api.mte.MetaTileEntity;
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,8 +19,27 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 
-@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-    @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2")})
+import com.cleanroommc.modularui.factory.PosGuiData;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
+import com.enderio.core.common.TileEntityEnder;
+import com.louis.test.api.enums.ModObject;
+import com.louis.test.api.fluid.SmartTank;
+import com.louis.test.api.heat.HeatStorage;
+import com.louis.test.api.mte.IMTE;
+import com.louis.test.api.mte.MetaTileEntity;
+
+import blusunrize.immersiveengineering.api.TargetingInfo;
+import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
+import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
+import blusunrize.immersiveengineering.api.energy.WireType;
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+@Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
+    @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "IC2") })
 public class MTEBase implements IMTE {
 
     protected TEMeta host;
@@ -97,7 +99,7 @@ public class MTEBase implements IMTE {
     // Interact
 
     public boolean onBlockActivated(World world, EntityPlayer player, ForgeDirection side, float hitX, float hitY,
-                                    float hitZ) {
+        float hitZ) {
         return false;
     }
 
@@ -143,8 +145,8 @@ public class MTEBase implements IMTE {
         String base = ModObject.blockMeta.unlocalisedName;
         return base + "."
             + MetaTileEntity.fromMeta(meta)
-            .name()
-            .toLowerCase();
+                .name()
+                .toLowerCase();
     }
 
     public boolean isActive() {
@@ -165,21 +167,17 @@ public class MTEBase implements IMTE {
 
     // TE
 
-    public void onChunkUnload() {
-    }
+    public void onChunkUnload() {}
 
     public void validate() {
 
     }
 
-    public void invalidate() {
-    }
+    public void invalidate() {}
 
-    public void writeCommon(NBTTagCompound root) {
-    }
+    public void writeCommon(NBTTagCompound root) {}
 
-    public void readCommon(NBTTagCompound root) {
-    }
+    public void readCommon(NBTTagCompound root) {}
 
     public Packet getDescriptionPacket() {
         NBTTagCompound tag = new NBTTagCompound();
@@ -298,8 +296,7 @@ public class MTEBase implements IMTE {
     }
 
     @Override
-    public void connectCable(WireType cableType, TargetingInfo target) {
-    }
+    public void connectCable(WireType cableType, TargetingInfo target) {}
 
     @Override
     public WireType getCableLimiter(TargetingInfo target) {
@@ -312,12 +309,10 @@ public class MTEBase implements IMTE {
     }
 
     @Override
-    public void onEnergyPassthrough(int amount) {
-    }
+    public void onEnergyPassthrough(int amount) {}
 
     @Override
-    public void removeCable(ImmersiveNetHandler.Connection connection) {
-    }
+    public void removeCable(ImmersiveNetHandler.Connection connection) {}
 
     @Override
     public Vec3 getRaytraceOffset(IImmersiveConnectable link) {

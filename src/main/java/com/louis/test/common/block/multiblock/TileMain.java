@@ -1,17 +1,18 @@
 package com.louis.test.common.block.multiblock;
 
-import com.louis.test.api.fluid.SmartTank;
-import com.louis.test.api.heat.HeatStorage;
-import com.louis.test.api.material.BlockMassType;
-import com.louis.test.api.material.MaterialEntry;
-import com.louis.test.common.block.machine.AbstractMachineEntity;
-import com.louis.test.common.block.machine.SlotDefinition;
-import net.minecraft.nbt.NBTTagCompound;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.minecraft.nbt.NBTTagCompound;
+
+import com.louis.test.api.enums.BlockMassType;
+import com.louis.test.api.fluid.SmartTank;
+import com.louis.test.api.heat.HeatStorage;
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.common.block.basicblock.machine.AbstractMachineEntity;
+import com.louis.test.common.block.basicblock.machine.SlotDefinition;
 
 public abstract class TileMain extends AbstractMachineEntity {
 
@@ -78,8 +79,7 @@ public abstract class TileMain extends AbstractMachineEntity {
         return outputs;
     }
 
-    public void onAddonTick(TileAddon addon) {
-    }
+    public void onAddonTick(TileAddon addon) {}
 
     @Override
     public void invalidate() {

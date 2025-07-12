@@ -1,8 +1,9 @@
 package com.louis.test.api.energy;
 
-import cofh.api.energy.EnergyStorage;
+import com.louis.test.api.enums.VoltageTier;
 import com.louis.test.api.material.MaterialEntry;
-import com.louis.test.api.material.VoltageTier;
+
+import cofh.api.energy.EnergyStorage;
 
 public class EnergyStorageAdv extends EnergyStorage {
 

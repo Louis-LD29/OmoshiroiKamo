@@ -1,8 +1,9 @@
 package com.louis.test.client.gui.modularui2;
 
+import net.minecraft.util.ResourceLocation;
+
 import com.cleanroommc.modularui.drawable.UITexture;
 import com.louis.test.common.core.lib.LibResources;
-import net.minecraft.util.ResourceLocation;
 
 public class MUITexture {
 

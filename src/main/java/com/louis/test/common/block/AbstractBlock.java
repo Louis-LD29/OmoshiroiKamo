@@ -1,11 +1,7 @@
 package com.louis.test.common.block;
 
-import com.enderio.core.common.TileEntityEnder;
-import com.louis.test.api.ModObject;
-import com.louis.test.api.client.IResourceTooltipProvider;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -19,7 +15,13 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.Random;
+import com.enderio.core.common.TileEntityEnder;
+import com.louis.test.api.client.IResourceTooltipProvider;
+import com.louis.test.api.enums.ModObject;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class AbstractBlock<T extends AbstractTE> extends BlockEio implements IResourceTooltipProvider {
 
@@ -99,7 +101,7 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockEio imple
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
-                                    float hitY, float hitZ) {
+        float hitY, float hitZ) {
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile instanceof AbstractTE) {
             return ((AbstractTE) tile)

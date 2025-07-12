@@ -9,16 +9,16 @@ import blusunrize.immersiveengineering.api.energy.WireType;
 import blusunrize.immersiveengineering.common.IESaveData;
 import blusunrize.immersiveengineering.common.util.IEAchievements;
 import blusunrize.immersiveengineering.common.util.Utils;
-import com.louis.test.api.ModObject;
 import com.louis.test.api.client.IAdvancedTooltipProvider;
 import com.louis.test.api.energy.MaterialWireType;
+import com.louis.test.api.enums.ModObject;
+import com.louis.test.api.enums.VoltageTier;
 import com.louis.test.api.material.MaterialEntry;
 import com.louis.test.api.material.MaterialRegistry;
-import com.louis.test.api.material.VoltageTier;
 import com.louis.test.common.TestCreativeTab;
 import com.louis.test.common.core.helper.ItemNBTHelper;
 import com.louis.test.common.core.lib.LibResources;
-import com.louis.test.plugin.compat.IE.IECompat;
+import com.louis.test.common.plugin.compat.IECompat;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -29,6 +29,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -116,7 +117,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     @Override
     public int getColorFromItemStack(ItemStack stack, int renderPass) {
         if (renderPass == 1) {
-            MaterialEntry mat = MaterialRegistry.fromMeta(stack.getItemDamage() % 100);
+            MaterialEntry mat = MaterialRegistry.fromMeta(stack.getItemDamage() % LibResources.META1);
             return mat.getColor();
         }
         return 0xFFFFFF;
@@ -147,113 +148,136 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
 
     @Override
     public WireType getWireType(ItemStack stack) {
-        MaterialEntry material = MaterialRegistry.fromMeta(stack.getItemDamage() % 100);
-        return MaterialWireType.materialWireTypes.get(material.getName());
+        return MaterialWireType.get(stack.getItemDamage() % LibResources.META1);
     }
 
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
                                   float hitX, float hitY, float hitZ) {
-        if (!world.isRemote) {
-            TileEntity tileEntity = world.getTileEntity(x, y, z);
-            if (tileEntity instanceof IImmersiveConnectable && ((IImmersiveConnectable) tileEntity).canConnect()) {
-                TargetingInfo target = new TargetingInfo(side, hitX, hitY, hitZ);
+        if (world.isRemote) return false;
 
-                if (Loader.isModLoaded("ImmersiveEngineering")) {
-                    if (getWireType(stack) instanceof MaterialWireType materialType) {
-                        VoltageTier tier = materialType.getMaterial()
-                            .getVoltageTier();
-                        if (!IECompat.isCableTierCompatible(tileEntity, tier)) {
-                            player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "wrongCable"));
-                            return false;
-                        }
-                    }
-                }
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (!(tileEntity instanceof IImmersiveConnectable) || !((IImmersiveConnectable) tileEntity).canConnect())
+            return false;
 
-                if (!((IImmersiveConnectable) tileEntity).canConnectCable(getWireType(stack), target)) {
-                    player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "wrongCable"));
-                    return false;
-                }
+        TargetingInfo target = new TargetingInfo(side, hitX, hitY, hitZ);
+        WireType type = getWireType(stack);
 
-                if (!ItemNBTHelper.verifyExistance(stack, "linkingPos")) {
-                    ItemNBTHelper.setIntArray(stack, "linkingPos", new int[]{world.provider.dimensionId, x, y, z});
-                    target.writeToNBT(stack.getTagCompound());
-                } else {
-                    WireType type = getWireType(stack);
-                    int[] pos = ItemNBTHelper.getIntArray(stack, "linkingPos", 0);
-                    TileEntity tileEntityLinkingPos = world.getTileEntity(pos[1], pos[2], pos[3]);
-                    int distance = (int) Math.ceil(
-                        Math.sqrt(
-                            (pos[1] - x) * (pos[1] - x) + (pos[2] - y) * (pos[2] - y) + (pos[3] - z) * (pos[3] - z)));
-                    if (pos[0] != world.provider.dimensionId)
-                        player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "wrongDimension"));
-                    else if (pos[1] == x && pos[2] == y && pos[3] == z)
-                        player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "sameConnection"));
-                    else if (distance > type.getMaxLength())
-                        player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "tooFar"));
-                    else if (!(tileEntityLinkingPos instanceof IImmersiveConnectable)
-                        || !((IImmersiveConnectable) tileEntityLinkingPos).canConnectCable(getWireType(stack), target))
-                        player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "invalidPoint"));
-                    else {
-                        IImmersiveConnectable nodeHere = (IImmersiveConnectable) tileEntity;
-                        IImmersiveConnectable nodeLink = (IImmersiveConnectable) tileEntityLinkingPos;
-                        boolean connectionExists = false;
-                        Set<Connection> outputs = ImmersiveNetHandler.INSTANCE
-                            .getConnections(world, Utils.toCC(nodeHere));
-                        if (outputs != null) for (Connection con : outputs) {
-                            if (con.end.equals(Utils.toCC(nodeLink))) connectionExists = true;
-                        }
-                        if (connectionExists) player
-                            .addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "connectionExists"));
-                        else {
-                            Vec3 rtOff0 = nodeHere.getRaytraceOffset(nodeLink)
-                                .addVector(x, y, z);
-                            Vec3 rtOff1 = nodeLink.getRaytraceOffset(nodeHere)
-                                .addVector(pos[1], pos[2], pos[3]);
-                            boolean canSee = Utils.canBlocksSeeOther(
-                                world,
-                                new ChunkCoordinates(x, y, z),
-                                new ChunkCoordinates(pos[1], pos[2], pos[3]),
-                                rtOff0,
-                                rtOff1);
-                            if (canSee) {
-                                TargetingInfo targetLink = TargetingInfo.readFromNBT(stack.getTagCompound());
-                                ImmersiveNetHandler.INSTANCE
-                                    .addConnection(world, Utils.toCC(nodeHere), Utils.toCC(nodeLink), distance, type);
-                                nodeHere.connectCable(type, target);
-                                nodeLink.connectCable(type, targetLink);
-                                IESaveData.setDirty(world.provider.dimensionId);
-                                if (Loader.isModLoaded("ImmersiveEngineering")) {
-                                    player.triggerAchievement(IEAchievements.connectWire);
-                                }
-
-                                if (!player.capabilities.isCreativeMode) stack.stackSize--;
-                                ((TileEntity) nodeHere).markDirty();
-                                world.addBlockEvent(x, y, z, ((TileEntity) nodeHere).getBlockType(), -1, 0);
-                                world.markBlockForUpdate(x, y, z);
-                                ((TileEntity) nodeLink).markDirty();
-                                world.addBlockEvent(
-                                    pos[1],
-                                    pos[2],
-                                    pos[3],
-                                    ((TileEntity) nodeLink).getBlockType(),
-                                    -1,
-                                    0);
-                                world.markBlockForUpdate(pos[1], pos[2], pos[3]);
-                            } else
-                                player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "cantSee"));
-                        }
-                    }
-                    ItemNBTHelper.remove(stack, "linkingPos");
-                    ItemNBTHelper.remove(stack, "side");
-                    ItemNBTHelper.remove(stack, "hitX");
-                    ItemNBTHelper.remove(stack, "hitY");
-                    ItemNBTHelper.remove(stack, "hitZ");
-                }
-                return true;
+        if (type instanceof MaterialWireType materialType && Loader.isModLoaded("ImmersiveEngineering")) {
+            VoltageTier tier = materialType.getMaterial()
+                .getVoltageTier();
+            if (!IECompat.isCableTierCompatible(tileEntity, tier)) {
+                player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "wrongCable"));
+                return false;
             }
         }
-        return false;
+
+        if (!((IImmersiveConnectable) tileEntity).canConnectCable(type, target)) {
+            player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "wrongCable"));
+            return false;
+        }
+
+        if (!ItemNBTHelper.verifyExistance(stack, "linkingPos")) {
+            // Lưu điểm kết nối đầu tiên
+            ItemNBTHelper.setIntArray(stack, "linkingPos", new int[]{world.provider.dimensionId, x, y, z});
+            if (stack.getTagCompound() == null) stack.setTagCompound(new NBTTagCompound());
+            target.writeToNBT(stack.getTagCompound());
+        } else {
+            int[] pos = ItemNBTHelper.getIntArray(stack, "linkingPos", 0);
+            if (pos.length != 4) return false;
+
+            if (pos[0] != world.provider.dimensionId) {
+                player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "wrongDimension"));
+            } else if (pos[1] == x && pos[2] == y && pos[3] == z) {
+                player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "sameConnection"));
+            } else {
+                TileEntity tileEntityLink = world.getTileEntity(pos[1], pos[2], pos[3]);
+                if (!(tileEntityLink instanceof IImmersiveConnectable)) {
+                    player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "invalidPoint"));
+                } else {
+                    int distance = (int) Math
+                        .ceil(Math.sqrt(Math.pow(pos[1] - x, 2) + Math.pow(pos[2] - y, 2) + Math.pow(pos[3] - z, 2)));
+
+                    if (distance > type.getMaxLength()) {
+                        player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "tooFar"));
+                    } else {
+                        IImmersiveConnectable nodeHere = (IImmersiveConnectable) tileEntity;
+                        IImmersiveConnectable nodeLink = (IImmersiveConnectable) tileEntityLink;
+
+                        if (!nodeLink.canConnectCable(type, target)) {
+                            player
+                                .addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "invalidPoint"));
+                        } else {
+                            // Kiểm tra kết nối đã tồn tại chưa
+                            boolean exists = false;
+                            Set<Connection> conns = ImmersiveNetHandler.INSTANCE
+                                .getConnections(world, Utils.toCC(nodeHere));
+                            if (conns != null) {
+                                for (Connection con : conns) {
+                                    if (con.end.equals(Utils.toCC(nodeLink))) {
+                                        exists = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (exists) {
+                                player.addChatMessage(
+                                    new ChatComponentTranslation(LibResources.CHAT_WARN + "connectionExists"));
+                            } else {
+                                Vec3 vecHere = nodeHere.getRaytraceOffset(nodeLink)
+                                    .addVector(x, y, z);
+                                Vec3 vecLink = nodeLink.getRaytraceOffset(nodeHere)
+                                    .addVector(pos[1], pos[2], pos[3]);
+
+                                if (Utils.canBlocksSeeOther(
+                                    world,
+                                    new ChunkCoordinates(x, y, z),
+                                    new ChunkCoordinates(pos[1], pos[2], pos[3]),
+                                    vecHere,
+                                    vecLink)) {
+                                    TargetingInfo targetLink = TargetingInfo.readFromNBT(stack.getTagCompound());
+
+                                    ImmersiveNetHandler.INSTANCE.addConnection(
+                                        world,
+                                        Utils.toCC(nodeHere),
+                                        Utils.toCC(nodeLink),
+                                        distance,
+                                        type);
+                                    nodeHere.connectCable(type, target);
+                                    nodeLink.connectCable(type, targetLink);
+                                    IESaveData.setDirty(world.provider.dimensionId);
+
+                                    if (Loader.isModLoaded("ImmersiveEngineering")) {
+                                        player.triggerAchievement(IEAchievements.connectWire);
+                                    }
+
+                                    if (!player.capabilities.isCreativeMode) stack.stackSize--;
+
+                                    ((TileEntity) nodeHere).markDirty();
+                                    world.addBlockEvent(x, y, z, tileEntity.getBlockType(), -1, 0);
+                                    world.markBlockForUpdate(x, y, z);
+
+                                    ((TileEntity) nodeLink).markDirty();
+                                    world.addBlockEvent(pos[1], pos[2], pos[3], tileEntityLink.getBlockType(), -1, 0);
+                                    world.markBlockForUpdate(pos[1], pos[2], pos[3]);
+                                } else {
+                                    player.addChatMessage(
+                                        new ChatComponentTranslation(LibResources.CHAT_WARN + "cantSee"));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            ItemNBTHelper.remove(stack, "linkingPos");
+            ItemNBTHelper.remove(stack, "side");
+            ItemNBTHelper.remove(stack, "hitX");
+            ItemNBTHelper.remove(stack, "hitY");
+            ItemNBTHelper.remove(stack, "hitZ");
+        }
+
+        return true;
     }
 
     @Override
@@ -265,7 +289,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
         int meta = itemstack.getItemDamage();
         MaterialEntry material = MaterialRegistry.fromMeta(meta);
-        MaterialWireType materialWireType = MaterialWireType.materialWireTypes.get(material.getName());
+        MaterialWireType materialWireType = MaterialWireType.get(meta);
         list.add(String.format("§7Material:§f %s", material.getName()));
         list.add(
             String.format(
@@ -275,7 +299,6 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
         list.add(String.format("§7Max Transfer:§f %,d RF/t", materialWireType.getTransferRate()));
         list.add(String.format("§7Max Length:§f %,d", materialWireType.getMaxLength()));
         list.add(String.format("§7Loss Ratio:§f %.3f", materialWireType.getLossRatio()));
-
     }
 
     @Override

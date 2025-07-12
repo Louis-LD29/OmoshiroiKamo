@@ -1,9 +1,10 @@
 package com.louis.test.common.core.lang;
 
-import com.google.common.collect.Lists;
+import java.util.List;
+
 import net.minecraft.util.StatCollector;
 
-import java.util.List;
+import com.google.common.collect.Lists;
 
 public class Lang {
 
