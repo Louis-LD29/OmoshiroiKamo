@@ -7,12 +7,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
-import com.louis.test.api.enums.SpecialTooltipHandler;
-import com.louis.test.api.interfaces.IRenderUpgrade;
-import com.louis.test.api.interfaces.mana.IManaItemUpgrade;
-import com.louis.test.core.helper.ItemNBTHelper;
-import com.louis.test.lib.LibMisc;
-import com.louis.test.lib.LibResources;
+import com.louis.test.api.client.IRenderUpgrade;
+import com.louis.test.api.client.SpecialTooltipHandler;
+import com.louis.test.api.mana.IManaItemUpgrade;
+import com.louis.test.common.core.helper.ItemNBTHelper;
+import com.louis.test.common.core.lib.LibMisc;
+import com.louis.test.common.core.lib.LibResources;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,11 +20,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class AbstractUpgrade implements IManaItemUpgrade {
 
     public static final String KEY_LEVEL_COST = LibResources.KEY_LEVEL_COST;
-
-    private static final String KEY_UNLOC_NAME = LibResources.KEY_UNLOC_NAME;
-
     public static final String KEY_UPGRADE_PREFIX = LibResources.KEY_UPGRADE_PREFIX;
-
+    private static final String KEY_UNLOC_NAME = LibResources.KEY_UNLOC_NAME;
     private static final String KEY_UPGRADE_ITEM = LibResources.KEY_UPGRADE_ITEM;
 
     protected final int levelCost;

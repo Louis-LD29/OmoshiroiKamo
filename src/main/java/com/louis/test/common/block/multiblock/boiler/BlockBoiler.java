@@ -12,10 +12,10 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.cleanroommc.modularui.factory.GuiFactories;
+import com.louis.test.api.client.IAdvancedTooltipProvider;
 import com.louis.test.api.enums.ModObject;
-import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
-import com.louis.test.common.block.machine.AbstractMachineBlock;
-import com.louis.test.lib.LibResources;
+import com.louis.test.common.block.basicblock.machine.AbstractMachineBlock;
+import com.louis.test.common.core.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -23,19 +23,19 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBoiler extends AbstractMachineBlock<TileBoiler> implements IAdvancedTooltipProvider {
 
+    protected BlockBoiler() {
+        super(ModObject.blockBoiler, TileBoiler.class);
+    }
+
     public static BlockBoiler create() {
         BlockBoiler res = new BlockBoiler();
         res.init();
         return res;
     }
 
-    protected BlockBoiler() {
-        super(ModObject.blockBoiler, TileBoiler.class);
-    }
-
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, BlockItemBoiler.class, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockBoiler.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
     }
 

@@ -8,13 +8,13 @@ public class SteamTest {
         boiler.setSteamVolumeMB(0);
         boiler.setWaterVolumeMB(4000); // 1000 mB = 1L nước
         boiler.setTankCapacityMB(8000); // Tổng dung tích bình
-        boiler.setHeatSourceTempC(300); // Nhiệt độ ban đầu
+        boiler.setHeatSourceTempK(573); // Nhiệt độ ban đầu
 
         int step = 0;
-        while (boiler.getWaterVolumeMB() > 0 && boiler.getHeatSourceTempC() > boiler.getTboil()) {
-            double beforeTemp = boiler.getHeatSourceTempC();
+        while (boiler.getWaterVolumeMB() > 0 && boiler.getHeatSourceTempK() > boiler.getTboilK()) {
+            double beforeTemp = boiler.getHeatSourceTempK();
             double generated = boiler.calculateSteamStep();
-            double afterTemp = boiler.getHeatSourceTempC();
+            double afterTemp = boiler.getHeatSourceTempK();
             double deltaTempDrop = beforeTemp - afterTemp;
 
             boiler.printState(++step, generated, deltaTempDrop);

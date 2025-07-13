@@ -11,9 +11,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.AnvilUpdateEvent;
 
 import com.google.common.collect.ImmutableList;
-import com.louis.test.api.interfaces.mana.IManaItemUpgrade;
+import com.louis.test.api.mana.IManaItemUpgrade;
+import com.louis.test.common.core.lib.LibMisc;
 import com.louis.test.common.item.upgrade.EnergyUpgrade;
-import com.louis.test.lib.LibMisc;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 

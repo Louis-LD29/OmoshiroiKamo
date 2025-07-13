@@ -27,27 +27,22 @@ import com.cleanroommc.modularui.widgets.SlotGroupWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.enderio.core.common.util.ItemUtil;
-import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
-import com.louis.test.api.interfaces.IFlightEnablerItem;
-import com.louis.test.api.interfaces.mana.IManaItem;
-import com.louis.test.api.interfaces.mana.IManaTooltipDisplay;
+import com.louis.test.api.client.IAdvancedTooltipProvider;
+import com.louis.test.api.client.IFlightEnablerItem;
+import com.louis.test.api.enums.ModObject;
+import com.louis.test.api.mana.IManaItem;
 import com.louis.test.common.config.Config;
+import com.louis.test.common.core.helper.ItemNBTHelper;
+import com.louis.test.common.core.lib.LibMisc;
 import com.louis.test.common.item.upgrade.EnergyUpgrade;
 import com.louis.test.common.recipes.ManaAnvilRecipe;
-import com.louis.test.core.helper.ItemNBTHelper;
-import com.louis.test.lib.LibItemNames;
-import com.louis.test.lib.LibMisc;
 
 import baubles.api.BaubleType;
 import baubles.api.expanded.BaubleExpandedSlots;
 import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.common.Optional;
+import vazkii.botania.api.mana.IManaTooltipDisplay;
 
-@Optional.InterfaceList({ @Optional.Interface(iface = "vazkii.botania.api.mana.IManaItem", modid = "Botania"),
-
-})
-public class ItemOperationOrb extends ItemBauble
-    implements IManaItem, vazkii.botania.api.mana.IManaItem, IManaTooltipDisplay, IAdvancedTooltipProvider,
+public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTooltipDisplay, IAdvancedTooltipProvider,
     IEnergyContainerItem, IFlightEnablerItem, IGuiHolder<PlayerInventoryGuiData>, ISimpleBauble {
 
     protected static final int MAX_MANA = 500000;
@@ -55,7 +50,7 @@ public class ItemOperationOrb extends ItemBauble
     private static final String TAG_MANA = "mana";
 
     public ItemOperationOrb() {
-        this(LibItemNames.OPERATIONORB);
+        this(ModObject.itemOperationOrb.unlocalisedName);
         setMaxDamage(1000);
         this.disableRightClickEquip();
         setNoRepair();
@@ -63,6 +58,10 @@ public class ItemOperationOrb extends ItemBauble
 
     public ItemOperationOrb(String name) {
         super(name);
+    }
+
+    public static void setMana(ItemStack stack, int mana) {
+        ItemNBTHelper.setInt(stack, TAG_MANA, mana);
     }
 
     @Override
@@ -92,10 +91,6 @@ public class ItemOperationOrb extends ItemBauble
         return Integer.MAX_VALUE;
     }
 
-    public static void setMana(ItemStack stack, int mana) {
-        ItemNBTHelper.setInt(stack, TAG_MANA, mana);
-    }
-
     @Override
     public int getMana(ItemStack stack) {
         return ItemNBTHelper.getInt(stack, TAG_MANA, 0);
@@ -119,42 +114,25 @@ public class ItemOperationOrb extends ItemBauble
     }
 
     @Override
-    public void useMana(ItemStack stack, int mana, EntityPlayer player) {
-        setMana(stack, Math.min(getMana(stack) + mana, getMaxMana(stack)));
-        stack.setItemDamage(getDamage(stack));
-    }
-
-    @Override
-    public void useMana(ItemStack stack, int mana) {
-        setMana(stack, Math.min(getMana(stack) + mana, getMaxMana(stack)));
-        stack.setItemDamage(getDamage(stack));
-    }
-
-    @Optional.Method(modid = "Botania")
-    @Override
     public boolean canReceiveManaFromPool(ItemStack stack, TileEntity pool) {
         return true;
     }
 
-    @Optional.Method(modid = "Botania")
     @Override
     public boolean canReceiveManaFromItem(ItemStack stack, ItemStack otherStack) {
         return this.getMana(stack) < MAX_MANA * 0.75f;
     }
 
-    @Optional.Method(modid = "Botania")
     @Override
     public boolean canExportManaToPool(ItemStack stack, TileEntity pool) {
         return false;
     }
 
-    @Optional.Method(modid = "Botania")
     @Override
     public boolean canExportManaToItem(ItemStack stack, ItemStack otherStack) {
         return true;
     }
 
-    @Optional.Method(modid = "Botania")
     @Override
     public boolean isNoExport(ItemStack stack) {
         return false;
@@ -194,7 +172,8 @@ public class ItemOperationOrb extends ItemBauble
             list.add(
                 EnumChatFormatting.WHITE + "+"
                     + " "
-                    + LibMisc.lang.localize("item." + LibItemNames.OPERATIONORB + ".tooltip.effPowered"));
+                    + LibMisc.lang
+                        .localize("item." + ModObject.itemOperationOrb.unlocalisedName + ".tooltip.effPowered"));
         }
         ManaAnvilRecipe.instance.addAdvancedTooltipEntries(itemstack, entityplayer, list, flag);
     }
@@ -232,7 +211,7 @@ public class ItemOperationOrb extends ItemBauble
             player.sendPlayerAbilities();
         }
 
-        if (player.capabilities.isFlying) manaItem.useMana(stack, -625, player);
+        if (player.capabilities.isFlying) manaItem.addMana(stack, -625, player);
 
         if (manaItem.getMana(stack) < 50000) {
             player.capabilities.allowFlying = false;

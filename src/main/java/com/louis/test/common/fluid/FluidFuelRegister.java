@@ -10,9 +10,9 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.louis.test.api.interfaces.fluid.IFluidCoolant;
-import com.louis.test.api.interfaces.fluid.IFluidFuel;
-import com.louis.test.api.interfaces.fluid.IFluidRegister;
+import com.louis.test.api.fluid.IFluidCoolant;
+import com.louis.test.api.fluid.IFluidFuel;
+import com.louis.test.api.fluid.IFluidRegister;
 
 import cpw.mods.fml.common.Loader;
 import crazypants.enderio.Log;

@@ -10,10 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-import com.louis.test.core.helper.EntityDoppleganger;
-import com.louis.test.core.helper.ItemNBTHelper;
-import com.louis.test.core.helper.RenderHelper;
-import com.louis.test.lib.LibMisc;
+import com.louis.test.client.render.RenderHelper;
+import com.louis.test.common.core.helper.ItemNBTHelper;
+import com.louis.test.common.core.lib.LibMisc;
+import com.louis.test.common.entity.EntityDoppleganger;
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
@@ -39,6 +39,27 @@ public abstract class ItemBauble extends ItemMod implements IBauble {
 
     public ItemBauble(String name) {
         this(name, false); // mặc định bật chức năng auto-equip
+    }
+
+    public static UUID getBaubleUUID(ItemStack stack) {
+        long most = ItemNBTHelper.getLong(stack, TAG_BAUBLE_UUID_MOST, 0);
+        if (most == 0) {
+            UUID uuid = UUID.randomUUID();
+            ItemNBTHelper.setLong(stack, TAG_BAUBLE_UUID_MOST, uuid.getMostSignificantBits());
+            ItemNBTHelper.setLong(stack, TAG_BAUBLE_UUID_LEAST, uuid.getLeastSignificantBits());
+            return getBaubleUUID(stack);
+        }
+
+        long least = ItemNBTHelper.getLong(stack, TAG_BAUBLE_UUID_LEAST, 0);
+        return new UUID(most, least);
+    }
+
+    public static void setLastPlayerHashcode(ItemStack stack, int hash) {
+        ItemNBTHelper.setInt(stack, TAG_HASHCODE, hash);
+    }
+
+    public static int getLastPlayerHashcode(ItemStack stack) {
+        return ItemNBTHelper.getInt(stack, TAG_HASHCODE, 0);
     }
 
     public ItemBauble disableRightClickEquip() {
@@ -137,34 +158,15 @@ public abstract class ItemBauble extends ItemMod implements IBauble {
             // if(!player.worldObj.isRemote)
             // player.worldObj.playSoundAtEntity(player, "botania:equipBauble", 0.1F, 1.3F);
             onEquippedOrLoadedIntoWorld(stack, player);
+
             setLastPlayerHashcode(stack, player.hashCode());
+
         }
     }
 
     @Override
     public void onUnequipped(ItemStack stack, EntityLivingBase player) {
         // NO-OP
-    }
-
-    public static UUID getBaubleUUID(ItemStack stack) {
-        long most = ItemNBTHelper.getLong(stack, TAG_BAUBLE_UUID_MOST, 0);
-        if (most == 0) {
-            UUID uuid = UUID.randomUUID();
-            ItemNBTHelper.setLong(stack, TAG_BAUBLE_UUID_MOST, uuid.getMostSignificantBits());
-            ItemNBTHelper.setLong(stack, TAG_BAUBLE_UUID_LEAST, uuid.getLeastSignificantBits());
-            return getBaubleUUID(stack);
-        }
-
-        long least = ItemNBTHelper.getLong(stack, TAG_BAUBLE_UUID_LEAST, 0);
-        return new UUID(most, least);
-    }
-
-    public static void setLastPlayerHashcode(ItemStack stack, int hash) {
-        ItemNBTHelper.setInt(stack, TAG_HASHCODE, hash);
-    }
-
-    public static int getLastPlayerHashcode(ItemStack stack) {
-        return ItemNBTHelper.getInt(stack, TAG_HASHCODE, 0);
     }
 
     @Override

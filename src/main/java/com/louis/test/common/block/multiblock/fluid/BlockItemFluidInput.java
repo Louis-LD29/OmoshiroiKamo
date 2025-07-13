@@ -9,7 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
-import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
+import com.louis.test.api.client.IAdvancedTooltipProvider;
 import com.louis.test.common.TestCreativeTab;
 import com.louis.test.common.block.ModBlocks;
 

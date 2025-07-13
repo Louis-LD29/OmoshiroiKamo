@@ -2,33 +2,42 @@ package com.louis.test;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 
+import com.louis.test.api.energy.MaterialWireType;
+import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.block.ModBlocks;
 import com.louis.test.common.command.ModCommands;
 import com.louis.test.common.config.Config;
+import com.louis.test.common.core.handlers.ConvertManaRegenHandler;
+import com.louis.test.common.core.handlers.ElementalHandler;
+import com.louis.test.common.core.handlers.FlightHandler;
+import com.louis.test.common.core.handlers.ManaRegenHandler;
 import com.louis.test.common.fluid.ModFluids;
 import com.louis.test.common.item.ModItems;
-import com.louis.test.common.nei.IMCForNEI;
+import com.louis.test.common.plugin.compat.IECompat;
+import com.louis.test.common.plugin.nei.IMCForNEI;
+import com.louis.test.common.plugin.waila.WailaRegistrar;
 import com.louis.test.common.recipes.ModRecipes;
-import com.louis.test.core.handlers.ConvertManaRegenHandler;
-import com.louis.test.core.handlers.FlightHandler;
-import com.louis.test.core.handlers.ManaRegenHandler;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.*;
 
 public abstract class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         Config.preInit(event);
-        ModItems.init();
+
+        MaterialRegistry.init();
+        MaterialWireType.init();
+
         ModBlocks.init();
+        ModItems.init();
         ModFluids.init();
         ModRecipes.init();
+
+        IECompat.preInit();
     }
 
     public void init(FMLInitializationEvent event) {
@@ -43,13 +52,21 @@ public abstract class CommonProxy {
             .bus()
             .register(FlightHandler.instance);
 
+        IECompat.init();
+
+        if (Loader.isModLoaded("Waila")) {
+            WailaRegistrar.init();
+        }
+
         if (Loader.isModLoaded("NotEnoughItems")) {
             IMCForNEI.IMCSender();
         }
+
     }
 
     public void postInit(FMLPostInitializationEvent event) {
         Config.postInit();
+        MinecraftForge.EVENT_BUS.register(new ElementalHandler());
     }
 
     public EntityPlayer getClientPlayer() {
@@ -62,6 +79,10 @@ public abstract class CommonProxy {
 
     public void serverLoad(FMLServerStartingEvent event) {
         ModCommands.init(event);
+    }
+
+    public void serverStarted(FMLServerStartedEvent event) {
+        IECompat.serverLoad();
     }
 
 }

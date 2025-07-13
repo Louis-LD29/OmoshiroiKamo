@@ -8,8 +8,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import com.louis.test.common.block.ModBlocks;
+import com.louis.test.common.core.lib.LibMisc;
 import com.louis.test.common.item.ModItems;
-import com.louis.test.lib.LibMisc;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,7 +21,6 @@ public class TestCreativeTab extends CreativeTabs {
 
     public TestCreativeTab() {
         super(LibMisc.MOD_ID);
-        setNoTitle();
     }
 
     @Override
@@ -43,9 +42,9 @@ public class TestCreativeTab extends CreativeTabs {
     public void displayAllReleventItems(List list) {
         this.list = list;
 
-        addItem(ModItems.itemOperationOrb);
-        addBlock(ModBlocks.blockTest);
-        addBlock(ModBlocks.blockSolar);
+        addItem(ModItems.itemMaterial);
+        addBlock(ModBlocks.blockMaterial);
+        addItem(ModItems.itemWireCoil);
     }
 
     private void addItem(Item item) {

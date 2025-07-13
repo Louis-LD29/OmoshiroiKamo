@@ -20,22 +20,27 @@ import com.cleanroommc.modularui.widgets.ButtonWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.enderio.core.common.util.BlockCoord;
-import com.louis.test.api.enums.*;
-import com.louis.test.api.interfaces.heat.HeatStorage;
-import com.louis.test.api.interfaces.heat.HeatUtil;
-import com.louis.test.api.interfaces.heat.IHeatHandler;
-import com.louis.test.common.block.machine.SlotDefinition;
+import com.louis.test.api.enums.BlockMassType;
+import com.louis.test.api.enums.ModObject;
+import com.louis.test.api.heat.HeatStorage;
+import com.louis.test.api.heat.HeatUtil;
+import com.louis.test.api.heat.IHeatHandler;
+import com.louis.test.api.io.IoMode;
+import com.louis.test.api.io.IoType;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.client.gui.modularui2.MGuis;
+import com.louis.test.common.block.basicblock.machine.SlotDefinition;
 import com.louis.test.common.block.multiblock.TileAddon;
-import com.louis.test.common.gui.modularui2.MGuis;
 
 public class TileHeatInput extends TileAddon implements IHeatHandler {
 
-    private boolean didSyncHeat = false;
     private float temperatureLimit = 0f;
     private String timeToReachTemperature = "";
+    private HeatStorage tileHeat;
 
     public TileHeatInput() {
-        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), Material.IRON);
+        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), MaterialRegistry.get("Iron"));
+        tileHeat = new HeatStorage(MaterialRegistry.get("Copper"), BlockMassType.HEAT_INOUT);
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             setIoMode(direction, IoMode.INPUT, IoType.HEAT);
         }
@@ -72,71 +77,47 @@ public class TileHeatInput extends TileAddon implements IHeatHandler {
     }
 
     @Override
-    public void verifyConnectionToController() {
-        super.verifyConnectionToController();
-
-        didSyncHeat = false;
-    }
-
-    @Override
     public void doUpdate() {
         super.doUpdate();
         if (worldObj.isRemote) return;
 
-        if (!didSyncHeat && hasValidController() && getController().getHeat() != null) {
+        if (hasValidController() && getController().getHeat() != null) {
+            HeatStorage controllerHeat = getController().getHeat();
 
-            HeatStorage current = getHeat();
-            HeatStorage expected = new HeatStorage(Material.COPPER, BlockMassType.HEAT_INOUT);
+            float controllerTemp = controllerHeat.getHeatStored();
+            float tileTemp = getHeat().getHeatStored();
 
-            // So sánh maxHeat để biết có cần thay không
-            if (current.getMaxHeatStored() != expected.getMaxHeatStored()) {
-                float heat = current.getHeatStored();
-                getController().setHeatStorage(expected);
-                getController().getHeat()
-                    .setHeatStored(heat);
-
-                if (temperatureLimit > getHeat().getMaxHeatStored() || temperatureLimit < 1) {
-                    temperatureLimit = getHeat().getMaxHeatStored();
-                }
-
+            if (controllerTemp < tileTemp) {
+                controllerHeat.setHeatStored(tileTemp);
+            } else if (controllerTemp > tileTemp) {
+                getHeat().setHeatStored(controllerTemp);
             }
 
-            didSyncHeat = true;
+            if (temperatureLimit > controllerHeat.getMaxHeatStored() || temperatureLimit < 1) {
+                temperatureLimit = controllerHeat.getMaxHeatStored();
+            }
         }
     }
 
     @Override
     public void invalidate() {
         super.invalidate();
-        if (hasValidController() && getHeat() != null) {
-            float heat = getHeat().getHeatStored();
-            getController().setHeatStorage(getController().HEATSTORAGE());
-            getHeat().setHeatStored(heat);
-            didSyncHeat = false;
-            temperatureLimit = 0f;
-        }
-    }
-
-    @Override
-    public void validate() {
-        super.validate();
-        didSyncHeat = false;
     }
 
     @Override
     public void writeCommon(NBTTagCompound nbtRoot) {
         super.writeCommon(nbtRoot);
-        nbtRoot.setBoolean("didSyncHeat", didSyncHeat);
         nbtRoot.setFloat("temperatureLimit", temperatureLimit);
         nbtRoot.setString("timeToReachTemperature", timeToReachTemperature);
+        tileHeat.writeCommon(nbtRoot);
     }
 
     @Override
     public void readCommon(NBTTagCompound nbtRoot) {
         super.readCommon(nbtRoot);
-        didSyncHeat = nbtRoot.getBoolean("didSyncHeat");
         temperatureLimit = nbtRoot.getFloat("temperatureLimit");
         timeToReachTemperature = nbtRoot.getString("timeToReachTemperature");
+        tileHeat.readCommon(nbtRoot);
     }
 
     @Override
@@ -194,7 +175,7 @@ public class TileHeatInput extends TileAddon implements IHeatHandler {
 
     @Override
     public HeatStorage getHeat() {
-        return getController().getHeat();
+        return tileHeat;
     }
 
     @Override
@@ -269,14 +250,14 @@ public class TileHeatInput extends TileAddon implements IHeatHandler {
                         .alignX(Alignment.Center)
                         .coverChildren()
                         .child(
-                            IKey.dynamic(() -> "Current Temperature\n" + getHeat().getHeatStored() + " °C")
+                            IKey.dynamic(() -> "Current Temperature\n" + getHeat().getHeatStored() + " K")
                                 .alignment(Alignment.Center)
                                 .asWidget()))
                 .child(
                     new Row().alignX(Alignment.Center)
                         .coverChildren()
                         .child(
-                            IKey.dynamic(() -> "Heat Capacity\n" + getHeat().getHeatCapacity() + " J/°C")
+                            IKey.dynamic(() -> "Heat Capacity\n" + getHeat().getHeatCapacity() + " J/K")
                                 .alignment(Alignment.Center)
                                 .asWidget()))
                 .child(
@@ -316,7 +297,7 @@ public class TileHeatInput extends TileAddon implements IHeatHandler {
                                 () -> "Temperature Limit\n" + this.temperatureLimit
                                     + "/"
                                     + getHeat().getMaxHeatStored()
-                                    + " °C")
+                                    + " K")
                                 .alignment(Alignment.Center)
                                 .asWidget())
 
