@@ -30,16 +30,16 @@ import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.FluidSlot;
 import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.FluidUtil;
-import com.louis.test.api.enums.IoMode;
-import com.louis.test.api.enums.IoType;
-import com.louis.test.api.enums.Material;
 import com.louis.test.api.enums.ModObject;
-import com.louis.test.common.block.SmartTank;
-import com.louis.test.common.block.machine.SlotDefinition;
+import com.louis.test.api.fluid.SmartTank;
+import com.louis.test.api.io.IoMode;
+import com.louis.test.api.io.IoType;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.client.gui.modularui2.MGuis;
+import com.louis.test.common.block.basicblock.machine.SlotDefinition;
 import com.louis.test.common.block.multiblock.TileAddon;
 import com.louis.test.common.block.multiblock.TileMain;
 import com.louis.test.common.block.multiblock.boiler.TileBoiler;
-import com.louis.test.common.gui.modularui2.MGuis;
 
 public class TileFluidOutput extends TileAddon implements IFluidHandler {
 
@@ -48,7 +48,7 @@ public class TileFluidOutput extends TileAddon implements IFluidHandler {
     private boolean didSyncFluid = false;
 
     public TileFluidOutput() {
-        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), Material.IRON);
+        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), MaterialRegistry.get("Iron"));
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             setIoMode(direction, IoMode.OUTPUT, IoType.FLUID);
         }
@@ -320,7 +320,6 @@ public class TileFluidOutput extends TileAddon implements IFluidHandler {
                 .setEnabledIf(f -> tankSlot == finalI)
                 .size(18, 18);
             slot.tooltip(richTooltip -> {});
-
             fluidStack.child(slot);
         }
 

@@ -3,41 +3,22 @@
     "machine": "blockElectrolyzer",
     "enabled": true,
     "fluidInputs": [
-      { "name": "water", "amount": 200 }
+      {
+        "name": "water",
+        "amount": 1000
+      }
     ],
     "fluidOutputs": [
-      { "name": "hydrogen", "amount": 200 },
-      { "name": "oxygen", "amount": 100 }
+      {
+        "name": "hydrogen",
+        "amount": 2000
+      },
+      {
+        "name": "oxygen",
+        "amount": 1000
+      }
     ],
-    "energyCost": 5000
-  },
-  {
-    "machine": "blockElectrolyzer",
-    "enabled": true,
-    "itemInputs": [
-      { "modid": "minecraft", "name": "cactus", "amount": 1 }
-    ],
-    "fluidInputs": [
-      { "modid": "minecraft", "name": "lava", "amount": 200 }
-    ],
-    "fluidOutputs": [
-      { "name": "hydrogen", "amount": 200 }
-    ],
-    "itemOutputs": [
-      { "modid": "minecraft", "name": "sand", "amount": 1 }
-    ],
-    "energyCost": 5000
-  },
-  {
-    "machine": "blockElectrolyzer",
-    "enabled": true,
-    "fluidInputs": [
-      { "name": "hydrogen", "amount": 200 },
-      { "name": "oxygen", "amount": 100 }
-    ],
-    "fluidOutputs": [
-      { "modid": "minecraft", "name": "water", "amount": 200 }
-    ],
-    "energyCost": 5000
+    "energyCost": 5268,
+    "requiredTemperature": 0
   }
 ]

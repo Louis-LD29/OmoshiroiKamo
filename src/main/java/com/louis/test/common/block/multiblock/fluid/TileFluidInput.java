@@ -19,7 +19,10 @@ import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.utils.Alignment;
-import com.cleanroommc.modularui.value.sync.*;
+import com.cleanroommc.modularui.value.sync.FluidSlotSyncHandler;
+import com.cleanroommc.modularui.value.sync.IntSyncValue;
+import com.cleanroommc.modularui.value.sync.InteractionSyncHandler;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widget.ParentWidget;
 import com.cleanroommc.modularui.widgets.ButtonWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
@@ -28,14 +31,14 @@ import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.FluidSlot;
 import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.FluidUtil;
-import com.louis.test.api.enums.IoMode;
-import com.louis.test.api.enums.IoType;
-import com.louis.test.api.enums.Material;
 import com.louis.test.api.enums.ModObject;
-import com.louis.test.common.block.SmartTank;
-import com.louis.test.common.block.machine.SlotDefinition;
+import com.louis.test.api.fluid.SmartTank;
+import com.louis.test.api.io.IoMode;
+import com.louis.test.api.io.IoType;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.client.gui.modularui2.MGuis;
+import com.louis.test.common.block.basicblock.machine.SlotDefinition;
 import com.louis.test.common.block.multiblock.TileAddon;
-import com.louis.test.common.gui.modularui2.MGuis;
 
 public class TileFluidInput extends TileAddon implements IFluidHandler {
 
@@ -44,7 +47,7 @@ public class TileFluidInput extends TileAddon implements IFluidHandler {
     private boolean didSyncFluid = false;
 
     public TileFluidInput() {
-        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), Material.IRON);
+        super(new SlotDefinition(-1, -1, -1, -1, -1, -1), MaterialRegistry.get("Iron"));
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
             setIoMode(direction, IoMode.INPUT, IoType.FLUID);
         }

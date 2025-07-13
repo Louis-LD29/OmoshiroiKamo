@@ -12,11 +12,11 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.cleanroommc.modularui.factory.GuiFactories;
+import com.louis.test.api.client.IAdvancedTooltipProvider;
 import com.louis.test.api.enums.ModObject;
-import com.louis.test.api.interfaces.IAdvancedTooltipProvider;
-import com.louis.test.common.block.machine.AbstractMachineBlock;
+import com.louis.test.common.block.basicblock.machine.AbstractMachineBlock;
 import com.louis.test.common.block.multiblock.TileAddon;
-import com.louis.test.lib.LibResources;
+import com.louis.test.common.core.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -24,14 +24,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockFluidOutput extends AbstractMachineBlock<TileFluidOutput> implements IAdvancedTooltipProvider {
 
+    protected BlockFluidOutput() {
+        super(ModObject.blockFluidOutput, TileFluidOutput.class);
+    }
+
     public static BlockFluidOutput create() {
         BlockFluidOutput res = new BlockFluidOutput();
         res.init();
         return res;
-    }
-
-    protected BlockFluidOutput() {
-        super(ModObject.blockFluidOutput, TileFluidOutput.class);
     }
 
     @Override
