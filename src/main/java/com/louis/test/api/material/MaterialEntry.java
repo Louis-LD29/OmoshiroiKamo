@@ -1,5 +1,7 @@
 package com.louis.test.api.material;
 
+import java.awt.*;
+
 import com.louis.test.api.enums.BlockMassType;
 import com.louis.test.api.enums.VoltageTier;
 import com.louis.test.common.config.Config;
@@ -12,7 +14,7 @@ public class MaterialEntry {
     public final MaterialConfig defaults;
 
     public MaterialEntry(String name, int meta, double density, double specificHeat, double thermalConductivity,
-        double meltingPoint, double maxPressure, double electricalConductivity, int color) {
+        double meltingPoint, double maxPressure, double electricalConductivity, int color, int moltenColor) {
         this.name = name;
         this.meta = meta;
         this.defaults = new MaterialConfig(
@@ -24,7 +26,8 @@ public class MaterialEntry {
             meltingPoint,
             maxPressure,
             electricalConductivity,
-            color);
+            color,
+            moltenColor);
     }
 
     public MaterialEntry(String name, int meta, MaterialConfig config) {
@@ -94,6 +97,21 @@ public class MaterialEntry {
         return (r << 16) | (g << 8) | b;
     }
 
+    public int getMoltenColor() {
+        int color = getConfig().moltenColor;
+
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+
+        float[] hsb = Color.RGBtoHSB(r, g, b, null);
+
+        float saturation = Math.min(1.0f, hsb[1] * 1.2f + 0.1f);
+        float brightness = Math.min(1.0f, hsb[2] * 1.3f + 0.1f);
+
+        return Color.HSBtoRGB(hsb[0], saturation, brightness);
+    }
+
     // Item
     public int getItemSlotCount() {
         double volume = getVolume();
@@ -159,4 +177,16 @@ public class MaterialEntry {
     public double getMassKg(BlockMassType type) {
         return getDensityKgPerM3() * type.getVolumeM3();
     }
+
+    // TiC
+    public int getCooldownTicks() {
+        double heatCapacity = getSpecificHeat() * STANDARD_BLOCK_MASS_KG; // J/K
+        double deltaT = getMeltingPointK() - 300.0; // Nhiệt độ cần để nóng chảy
+        double energyRequired = heatCapacity * deltaT; // J
+
+        double normalized = energyRequired / 200_000.0; // chuẩn hoá để không quá lớn
+        int base = 20; // 1 giây
+        return (int) Math.max(10, Math.min(200, base + normalized)); // Clamp từ 10 đến 200 ticks
+    }
+
 }

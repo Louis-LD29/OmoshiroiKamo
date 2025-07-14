@@ -1,7 +1,5 @@
 package com.louis.test;
 
-import java.io.File;
-
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,8 +12,6 @@ import com.louis.test.common.block.ModBlocks;
 import com.louis.test.common.block.meta.MTEISBRH;
 import com.louis.test.common.block.meta.MTETESR;
 import com.louis.test.common.block.meta.TEMeta;
-import com.louis.test.common.config.Config;
-import com.louis.test.common.core.lang.LangSectionInserter;
 import com.louis.test.common.item.ModItems;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -51,13 +47,13 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerBlockHandler(connectionRenderer);
         ClientRegistry.bindTileEntitySpecialRenderer(TEMeta.class, new MTETESR());
 
-        LangSectionInserter.loadExternalLangFile(new File(Config.configDirectory, "en_US.lang"));
     }
 
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
         MinecraftForge.EVENT_BUS.register(new DameEvents());
+
     }
 
 }

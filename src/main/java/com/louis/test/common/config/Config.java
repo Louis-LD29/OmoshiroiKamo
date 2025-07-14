@@ -6,6 +6,7 @@ import java.util.*;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.config.Configuration;
 
+import com.enderio.core.common.util.ResourcePackAssembler;
 import com.louis.test.api.material.MaterialEntry;
 import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.core.lang.LangSectionInserter;
@@ -15,10 +16,12 @@ import com.louis.test.common.core.network.PacketHandler;
 import blusunrize.immersiveengineering.api.energy.WireType;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.relauncher.Side;
+import lombok.SneakyThrows;
 
 public class Config {
 
@@ -51,6 +54,8 @@ public class Config {
 
     public static final Map<String, MaterialConfig> materialConfigs = new HashMap<>();
 
+    private static ResourcePackAssembler assembler;
+
     private Config() {}
 
     public static void preInit(FMLPreInitializationEvent event) {
@@ -68,6 +73,55 @@ public class Config {
         File configFile = new File(configDirectory, LibMisc.MOD_ID + ".cfg");
         config = new Configuration(configFile);
         syncConfig(false);
+    }
+
+    @SneakyThrows
+    public static void assembleResourcePack() {
+        assembler = new ResourcePackAssembler(
+            new File(configDirectory, LibMisc.MOD_NAME + " Resourcepack"),
+            LibMisc.MOD_NAME + " Resourcepack",
+            LibMisc.MOD_ID);
+
+        addIcons(assembler);
+        addLangs(assembler);
+
+        assembler.assemble()
+            .inject();
+    }
+
+    private static void addIcons(ResourcePackAssembler assembler) {
+        File iconDir = new File(configDirectory, "icons");
+        if (!iconDir.exists()) iconDir.mkdirs();
+
+        File[] iconFiles = iconDir.listFiles((dir, name) -> name.endsWith(".png") || name.endsWith(".mcmeta"));
+
+        if (iconFiles != null) {
+            for (File f : iconFiles) {
+                assembler.addIcon(f);
+
+                if (Loader.isModLoaded("TConstruct")) {
+                    String name = f.getName()
+                        .toLowerCase();
+
+                    if (name.startsWith("liquid_") && (name.endsWith(".png") || name.endsWith(".png.mcmeta"))) {
+
+                        assembler.addCustomFile("assets/tinker/textures/blocks", f);
+                    }
+                }
+            }
+        }
+    }
+
+    private static void addLangs(ResourcePackAssembler assembler) {
+        File langDir = new File(configDirectory, "lang");
+        if (!langDir.exists()) langDir.mkdirs();
+
+        File[] langFiles = langDir.listFiles((dir, name) -> name.endsWith(".lang"));
+        if (langFiles != null) {
+            for (File f : langFiles) {
+                assembler.addLang(f);
+            }
+        }
     }
 
     public static void syncConfig(boolean load) {

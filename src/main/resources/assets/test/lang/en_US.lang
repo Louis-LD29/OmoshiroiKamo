@@ -190,6 +190,25 @@ item.itemMaterial.dust.Tungsten.name=Tungsten Dust
 item.itemMaterial.dust.TungstenCarbide.name=Tungsten Carbide Dust
 item.itemMaterial.dust.Niobium.name=Niobium Dust
 
+#Item Bucket Material
+item.itemBucketMaterial.Iron.name=Molten Iron Bucket
+item.itemBucketMaterial.Copper.name=Molten Copper Bucket
+item.itemBucketMaterial.Silver.name=Molten Silver Bucket
+item.itemBucketMaterial.Gold.name=Molten Gold Bucket
+item.itemBucketMaterial.Zinc.name=Molten Zinc Bucket
+item.itemBucketMaterial.Aluminum.name=Molten Aluminum Bucket
+item.itemBucketMaterial.Lead.name=Molten Lead Bucket
+item.itemBucketMaterial.Titanium.name=Molten Titanium Bucket
+item.itemBucketMaterial.Chromium.name=Molten Chromium Bucket
+item.itemBucketMaterial.Nickel.name=Molten Nickel Bucket
+item.itemBucketMaterial.CarbonSteel.name=Molten Carbon Steel Bucket
+item.itemBucketMaterial.StainlessSteel.name=Molten Stainless Steel Bucket
+item.itemBucketMaterial.Brass.name=Molten Brass Bucket
+item.itemBucketMaterial.Inconel625.name=Molten Inconel 625 Bucket
+item.itemBucketMaterial.Tungsten.name=Molten Tungsten Bucket
+item.itemBucketMaterial.TungstenCarbide.name=Molten Tungsten Carbide Bucket
+item.itemBucketMaterial.Niobium.name=Molten Niobium Bucket
+
 #Block of Material
 tile.blockMaterial.Iron.name=Block of Iron
 tile.blockMaterial.Copper.name=Block of Copper
@@ -284,5 +303,62 @@ tile.blockFluidInOut.output.Inconel625.name=Fluid Output (Inconel 625)
 tile.blockFluidInOut.output.Tungsten.name=Fluid Output (Tungsten)
 tile.blockFluidInOut.output.TungstenCarbide.name=Fluid Output (Tungsten Carbide)
 tile.blockFluidInOut.output.Niobium.name=Fluid Output (Niobium)
+
+#Block Fluid Material
+tile.fluid.iron.molten.name=Molten Iron
+tile.fluid.copper.molten.name=Molten Copper
+tile.fluid.silver.molten.name=Molten Silver
+tile.fluid.gold.molten.name=Molten Gold
+tile.fluid.zinc.molten.name=Molten Zinc
+tile.fluid.aluminum.molten.name=Molten Aluminum
+tile.fluid.lead.molten.name=Molten Lead
+tile.fluid.titanium.molten.name=Molten Titanium
+tile.fluid.chromium.molten.name=Molten Chromium
+tile.fluid.nickel.molten.name=Molten Nickel
+tile.fluid.carbonSteel.molten.name=Molten Carbon Steel
+tile.fluid.stainlessSteel.molten.name=Molten Stainless Steel
+tile.fluid.brass.molten.name=Molten Brass
+tile.fluid.inconel625.molten.name=Molten Inconel 625
+tile.fluid.tungsten.molten.name=Molten Tungsten
+tile.fluid.tungstenCarbide.molten.name=Molten Tungsten Carbide
+tile.fluid.niobium.molten.name=Molten Niobium
+
+#Fluid Material
+liquid_iron=Molten Iron
+liquid_copper=Molten Copper
+liquid_silver=Molten Silver
+liquid_gold=Molten Gold
+liquid_zinc=Molten Zinc
+liquid_aluminum=Molten Aluminum
+liquid_lead=Molten Lead
+liquid_titanium=Molten Titanium
+liquid_chromium=Molten Chromium
+liquid_nickel=Molten Nickel
+liquid_carbonSteel=Molten Carbon Steel
+liquid_stainlessSteel=Molten Stainless Steel
+liquid_brass=Molten Brass
+liquid_inconel625=Molten Inconel 625
+liquid_tungsten=Molten Tungsten
+liquid_tungstenCarbide=Molten Tungsten Carbide
+liquid_niobium=Molten Niobium
+
+#Tic Material
+material.iron=Iron
+material.copper=Copper
+material.silver=Silver
+material.gold=Gold
+material.zinc=Zinc
+material.aluminum=Aluminum
+material.lead=Lead
+material.titanium=Titanium
+material.chromium=Chromium
+material.nickel=Nickel
+material.carbonSteel=Carbon Steel
+material.stainlessSteel=Stainless Steel
+material.brass=Brass
+material.inconel625=Inconel 625
+material.tungsten=Tungsten
+material.tungstenCarbide=Tungsten Carbide
+material.niobium=Niobium
 
 # END AUTOGEN

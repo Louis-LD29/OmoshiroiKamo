@@ -10,12 +10,13 @@ public final class ModItems {
     public static Item itemOperationOrb;
     public static Item itemWireCoil;
     public static Item itemMaterial;
+    public static Item itemBucketMaterial;
 
     public static void init() {
         itemOperationOrb = new ItemOperationOrb();
         itemWireCoil = ItemWireCoil.create();
         itemMaterial = ItemMaterial.create();
-        // MaterialWire.mWireCoil = ModItems.itemWireCoil;
+        itemBucketMaterial = ItemBucketMaterial.create();
     }
 
     public static void registerItemRenderer() {
