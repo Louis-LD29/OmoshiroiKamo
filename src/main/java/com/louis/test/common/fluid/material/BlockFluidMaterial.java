@@ -5,47 +5,64 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.Fluid;
 
-import org.apache.commons.lang3.StringUtils;
-
+import com.louis.test.common.TestCreativeTab;
 import com.louis.test.common.core.lib.LibResources;
 import com.louis.test.common.fluid.BlockFluidEio;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockFluidMaterial extends BlockFluidEio {
 
-    protected BlockFluidMaterial(Fluid fluid, Material material) {
+    String texture;
+    boolean alpha;
+    public IIcon stillIcon;
+    public IIcon flowIcon;
+    boolean overwriteFluidIcons = true;
+    private Fluid fluid = null;
+
+    public BlockFluidMaterial(Fluid fluid, Material material, String texture) {
         super(fluid, material);
+        this.texture = texture;
+        this.setCreativeTab(TestCreativeTab.INSTANCE);
+        this.setCreativeTab(TestCreativeTab.tabBlock);
+
     }
 
-    public static BlockFluidMaterial create(Fluid fluid, Material material) {
-        BlockFluidMaterial res = new BlockFluidMaterial(fluid, material);
-        res.init();
-        fluid.setBlock(res);
-        return res;
+    public BlockFluidMaterial(Fluid fluid, Material material, String texture, boolean alpha) {
+        this(fluid, material, texture);
+        this.alpha = alpha;
     }
 
     @Override
-    protected void init() {
-        String baseName = StringUtils.uncapitalize(fluidName.replace(".molten", ""));
-        GameRegistry.registerBlock(this, "liquid_" + baseName);
+    public int getRenderBlockPass() {
+        return alpha ? 1 : 0;
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        stillIcon = iconRegister.registerIcon(LibResources.PREFIX_MOD + texture.toLowerCase());
+        flowIcon = iconRegister.registerIcon(LibResources.PREFIX_MOD + texture.toLowerCase() + "_flow");
+
+        if (overwriteFluidIcons) this.getFluid()
+            .setIcons(stillIcon, flowIcon);
+
+        if (this.getFluid()
+            .getBlock() != this && fluid != null) fluid.setIcons(stillIcon, flowIcon);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        String baseName = fluidName.replace(".molten", "");
-        icons = new IIcon[] { iconRegister.registerIcon(LibResources.PREFIX_MOD + "liquid_" + baseName),
-            iconRegister.registerIcon(LibResources.PREFIX_MOD + "liquid_" + baseName + "_flow") };
-        fluid.setStillIcon(icons[0]);
-        fluid.setFlowingIcon(icons[1]);
-    }
-
-    @Override
     public IIcon getIcon(int side, int meta) {
-        return (side == 0 || side == 1) ? fluid.getStillIcon() : fluid.getFlowingIcon();
+        if (side == 0 || side == 1) return stillIcon;
+        return flowIcon;
     }
 
+    public void suppressOverwritingFluidIcons() {
+        overwriteFluidIcons = false;
+    }
+
+    public void setFluid(Fluid fluid) {
+        this.fluid = fluid;
+    }
 }

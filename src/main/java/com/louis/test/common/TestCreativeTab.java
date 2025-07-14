@@ -43,8 +43,9 @@ public class TestCreativeTab extends CreativeTabs {
         this.list = list;
 
         addItem(ModItems.itemMaterial);
-        addBlock(ModBlocks.blockMaterial);
         addItem(ModItems.itemWireCoil);
+        addItem(ModItems.itemBucketMaterial);
+        addBlock(ModBlocks.blockMaterial);
     }
 
     private void addItem(Item item) {
@@ -70,5 +71,9 @@ public class TestCreativeTab extends CreativeTabs {
     @SideOnly(Side.CLIENT)
     public String getTranslatedTabLabel() {
         return LibMisc.MOD_ID;
+    }
+
+    public List getList() {
+        return list;
     }
 }

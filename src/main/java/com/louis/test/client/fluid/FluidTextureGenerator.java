@@ -18,17 +18,17 @@ import com.louis.test.api.material.MaterialEntry;
 import com.louis.test.common.config.Config;
 import com.louis.test.common.core.helper.Logger;
 import com.louis.test.common.core.lib.LibResources;
-import com.louis.test.common.fluid.material.BlockFluidMaterial;
 import com.louis.test.common.fluid.material.FluidMaterialRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class FluidTextureApplier {
+public class FluidTextureGenerator {
 
     private static BufferedImage baseStill, baseFlow;
-    public static final File CONFIG_FLUID_DIR = new File(Config.configDirectory.getAbsolutePath() + "/icons");
+    public static final File CONFIG_FLUID_DIR = new File(
+        Config.configDirectory.getAbsolutePath() + LibResources.PREFIX_MATERIAL_FLUID_ICONS);
 
     public static void applyAll() {
         initBaseTextures();
@@ -42,8 +42,6 @@ public class FluidTextureApplier {
         String name = fluid.getName()
             .replace(".molten", ""); // Safer
         int color = entry.getColor();
-
-        if (!(fluid.getBlock() instanceof BlockFluidMaterial)) return;
 
         try {
             String tinkerBaseName = "liquid_" + name;

@@ -99,7 +99,7 @@ public class LangSectionInserter {
                 + material.getName());
         SECTIONS.put(
             "#Fluid Material",
-            material -> "liquid_" + StringUtils.uncapitalize(material.getUnlocalizedName())
+            material -> "fluid.molten." + StringUtils.uncapitalize(material.getUnlocalizedName())
                 + "=Molten "
                 + material.getName());
 
