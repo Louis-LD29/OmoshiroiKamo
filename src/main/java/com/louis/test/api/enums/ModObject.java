@@ -21,10 +21,12 @@ public enum ModObject {
     blockHeatSource,
     blockElectrolyzer,
     blockSolar,
-
     blockMaterial,
+    blockFluidMaterial,
+
     itemOperationOrb,
     itemMaterial,
+    itemBucketMaterial,
     itemWireCoil;
 
     public final String unlocalisedName;

@@ -7,6 +7,7 @@ import net.minecraftforge.fluids.IFluidTank;
 
 import com.louis.test.api.fluid.FluidMaterial;
 import com.louis.test.common.core.lib.LibMisc;
+import com.louis.test.common.fluid.material.FluidMaterialRegistry;
 
 public class ModFluids {
 
@@ -37,6 +38,8 @@ public class ModFluids {
     }
 
     public static void init() {
+        FluidMaterialRegistry.create();
+
         Fluid f = new Fluid(MANA).setDensity(500)
             .setViscosity(500)
             .setTemperature(5);
@@ -81,20 +84,6 @@ public class ModFluids {
         blockOxygen = BlockFluidEio.Oxygen.create(fluidOxygen, Material.water);
         itemBucketOxygen = ItemBucketEio.create(fluidOxygen, !FluidMaterial.OXYGEN.isGas());
 
-        // // Steam
-        // fluidSteam = FluidMaterial.registerFluidFromMaterial(FluidMaterial.STEAM);
-        // blockSteam = BlockFluidEio.Steam.create(fluidSteam, Material.water);
-        // itemBucketSteam = ItemBucketEio.create(fluidSteam, !FluidMaterial.STEAM.isGas());
-        //
-        // // Hydrogen
-        // fluidHydrogen = FluidMaterial.registerFluidFromMaterial(FluidMaterial.HYDROGEN);
-        // blockHydrogen = BlockFluidEio.Steam.create(fluidHydrogen, Material.water);
-        // itemBucketHydrogen = ItemBucketEio.create(fluidHydrogen, !FluidMaterial.OXYGEN.isGas());
-        //
-        // // Oxygen
-        // fluidOxygen = FluidMaterial.registerFluidFromMaterial(FluidMaterial.OXYGEN);
-        // blockOxygen = BlockFluidEio.Steam.create(fluidOxygen, Material.water);
-        // itemBucketOxygen = ItemBucketEio.create(fluidOxygen, !FluidMaterial.OXYGEN.isGas());
     }
 
 }

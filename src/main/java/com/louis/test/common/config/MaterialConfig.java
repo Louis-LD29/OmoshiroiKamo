@@ -15,10 +15,11 @@ public class MaterialConfig {
     public final double maxPressureMPa;
     public final double electricalConductivity;
     public final int color;
+    public final int moltenColor;
 
     public MaterialConfig(String displayName, int meta, double densityKgPerM3, double specificHeatJPerKgK,
         double thermalConductivityWPerMK, double meltingPointK, double maxPressureMPa, double electricalConductivity,
-        int color) {
+        int color, int moltenColor) {
         this.displayName = displayName;
         this.meta = meta;
         this.densityKgPerM3 = densityKgPerM3;
@@ -28,11 +29,12 @@ public class MaterialConfig {
         this.maxPressureMPa = maxPressureMPa;
         this.electricalConductivity = electricalConductivity;
         this.color = color;
+        this.moltenColor = moltenColor;
     }
 
     public static MaterialConfig defaultFor(String name) {
         int defaultMeta = Config.materialConfigs.size();
-        return new MaterialConfig(name, defaultMeta, 7800, 500, 50, 1800, 200, 1e7, 0x888888);
+        return new MaterialConfig(name, defaultMeta, 7800, 500, 50, 1800, 200, 1e7, 0x888888, 0xFF5500);
     }
 
     public static MaterialConfig loadFromConfig(Configuration config, MaterialEntry entry) {
@@ -69,6 +71,17 @@ public class MaterialConfig {
             .get(cat, "color", defaultColor, "Material display color as RGB integer (" + hex + "), format: 0xRRGGBB")
             .getInt();
 
+        int defaultMoltenColor = entry.defaults.moltenColor;
+        String defaultMoltenColorHex = String.format("0x%06X", defaultMoltenColor)
+            .toUpperCase();
+        int moltenColor = config
+            .get(
+                cat,
+                "moltenColor",
+                defaultMoltenColor,
+                "Material display molten color as RGB integer (" + defaultMoltenColorHex + "), format: 0xRRGGBB")
+            .getInt();
+
         return new MaterialConfig(
             entry.getName(),
             meta,
@@ -78,7 +91,8 @@ public class MaterialConfig {
             melting,
             pressure,
             electrical,
-            color);
+            color,
+            moltenColor);
     }
 
 }

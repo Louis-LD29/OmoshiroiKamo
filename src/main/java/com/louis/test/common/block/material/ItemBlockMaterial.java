@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemBlockMaterial extends ItemBlockWithMetadata {
 
     public ItemBlockMaterial() {
-        super(ModBlocks.blockMeta, ModBlocks.blockMeta);
+        super(ModBlocks.blockMaterial, ModBlocks.blockMaterial);
         setHasSubtypes(true);
         setCreativeTab(TestCreativeTab.INSTANCE);
     }
