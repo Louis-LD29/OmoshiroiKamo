@@ -45,7 +45,6 @@ public class ItemBucketMaterial extends Item {
     public ItemBucketMaterial() {
         setHasSubtypes(true);
         setMaxDamage(0);
-        setCreativeTab(CreativeTabs.tabMisc);
         setCreativeTab(TestCreativeTab.INSTANCE);
         setUnlocalizedName(ModObject.itemBucketMaterial.unlocalisedName);
     }
@@ -71,13 +70,12 @@ public class ItemBucketMaterial extends Item {
         ENTRY_TO_META.put(entry, meta);
 
         Fluid fluid = FluidMaterialRegistry.getFluid(entry);
-        if (fluid != null && ModItems.itemBucketMaterial != null) {
+        if (FluidContainerRegistry.fillFluidContainer(new FluidStack(fluid, 1000), new ItemStack(Items.bucket))
+            == null) {
             ItemStack filled = new ItemStack(ModItems.itemBucketMaterial, 1, meta);
             ItemStack empty = new ItemStack(Items.bucket);
-
-            if (filled.getItem() != null && empty.getItem() != null) {
-                FluidContainerRegistry.registerFluidContainer(new FluidStack(fluid, 1000), filled, empty);
-            }
+            FluidContainerRegistry.registerFluidContainer(
+                new FluidContainerRegistry.FluidContainerData(new FluidStack(fluid, 1000), filled, empty));
         }
     }
 

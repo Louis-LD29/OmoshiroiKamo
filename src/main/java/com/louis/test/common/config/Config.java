@@ -11,12 +11,12 @@ import com.louis.test.api.material.MaterialEntry;
 import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.core.lang.LangSectionInserter;
 import com.louis.test.common.core.lib.LibMisc;
+import com.louis.test.common.core.lib.LibResources;
 import com.louis.test.common.core.network.PacketHandler;
 
 import blusunrize.immersiveengineering.api.energy.WireType;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -91,23 +91,22 @@ public class Config {
 
     private static void addIcons(ResourcePackAssembler assembler) {
         File iconDir = new File(configDirectory, "icons");
+        File materialFluidDir = new File(configDirectory, LibResources.PREFIX_MATERIAL_FLUID_ICONS);
         if (!iconDir.exists()) iconDir.mkdirs();
 
         File[] iconFiles = iconDir.listFiles((dir, name) -> name.endsWith(".png") || name.endsWith(".mcmeta"));
+        File[] materialFluidFiles = materialFluidDir
+            .listFiles((dir, name) -> name.endsWith(".png") || name.endsWith(".mcmeta"));
 
         if (iconFiles != null) {
             for (File f : iconFiles) {
                 assembler.addIcon(f);
+            }
+        }
+        if (materialFluidFiles != null) {
+            for (File f : materialFluidFiles) {
+                assembler.addCustomFile("assets/" + LibMisc.MOD_ID.toLowerCase(Locale.ROOT) + "/textures/blocks", f);
 
-                if (Loader.isModLoaded("TConstruct")) {
-                    String name = f.getName()
-                        .toLowerCase();
-
-                    if (name.startsWith("liquid_") && (name.endsWith(".png") || name.endsWith(".png.mcmeta"))) {
-
-                        assembler.addCustomFile("assets/tinker/textures/blocks", f);
-                    }
-                }
             }
         }
     }

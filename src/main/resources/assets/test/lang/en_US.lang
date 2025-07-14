@@ -324,23 +324,23 @@ tile.fluid.tungstenCarbide.molten.name=Molten Tungsten Carbide
 tile.fluid.niobium.molten.name=Molten Niobium
 
 #Fluid Material
-liquid_iron=Molten Iron
-liquid_copper=Molten Copper
-liquid_silver=Molten Silver
-liquid_gold=Molten Gold
-liquid_zinc=Molten Zinc
-liquid_aluminum=Molten Aluminum
-liquid_lead=Molten Lead
-liquid_titanium=Molten Titanium
-liquid_chromium=Molten Chromium
-liquid_nickel=Molten Nickel
-liquid_carbonSteel=Molten Carbon Steel
-liquid_stainlessSteel=Molten Stainless Steel
-liquid_brass=Molten Brass
-liquid_inconel625=Molten Inconel 625
-liquid_tungsten=Molten Tungsten
-liquid_tungstenCarbide=Molten Tungsten Carbide
-liquid_niobium=Molten Niobium
+fluid.molten.iron=Molten Iron
+fluid.molten.copper=Molten Copper
+fluid.molten.silver=Molten Silver
+fluid.molten.gold=Molten Gold
+fluid.molten.zinc=Molten Zinc
+fluid.molten.aluminum=Molten Aluminum
+fluid.molten.lead=Molten Lead
+fluid.molten.titanium=Molten Titanium
+fluid.molten.chromium=Molten Chromium
+fluid.molten.nickel=Molten Nickel
+fluid.molten.carbonSteel=Molten Carbon Steel
+fluid.molten.stainlessSteel=Molten Stainless Steel
+fluid.molten.brass=Molten Brass
+fluid.molten.inconel625=Molten Inconel 625
+fluid.molten.tungsten=Molten Tungsten
+fluid.molten.tungstenCarbide=Molten Tungsten Carbide
+fluid.molten.niobium=Molten Niobium
 
 #Tic Material
 material.iron=Iron

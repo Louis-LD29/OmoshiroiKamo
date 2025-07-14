@@ -6,7 +6,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 import com.louis.test.api.energy.MaterialWireType;
 import com.louis.test.api.material.MaterialRegistry;
-import com.louis.test.client.fluid.FluidTextureApplier;
+import com.louis.test.client.fluid.FluidTextureGenerator;
 import com.louis.test.common.block.ModBlocks;
 import com.louis.test.common.command.ModCommands;
 import com.louis.test.common.config.Config;
@@ -39,7 +39,7 @@ public abstract class CommonProxy {
         ModItems.init();
         ModRecipes.init();
 
-        FluidTextureApplier.applyAll();
+        FluidTextureGenerator.applyAll();
 
         Config.assembleResourcePack();
 

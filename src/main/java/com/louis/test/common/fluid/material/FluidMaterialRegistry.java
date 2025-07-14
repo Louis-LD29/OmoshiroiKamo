@@ -13,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.louis.test.api.material.MaterialEntry;
 import com.louis.test.api.material.MaterialRegistry;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+
 public class FluidMaterialRegistry {
 
     public static final Map<MaterialEntry, Block> BLOCKS = new HashMap<>();
@@ -25,34 +27,18 @@ public class FluidMaterialRegistry {
     }
 
     protected void init() {
+
         for (MaterialEntry entry : MaterialRegistry.all()) {
-            String fluidName = StringUtils.uncapitalize(entry.getUnlocalizedName() + ".molten");
+            String fluidName = StringUtils.uncapitalize(entry.getUnlocalizedName());
 
-            // --- Step 1: Try to get or create Fluid ---
-            Fluid fluid = FluidRegistry.getFluid(fluidName);
-            if (fluid == null) {
+            Fluid fluid = registerFluid(
+                fluidName,
+                (int) Math.round(entry.getDensityKgPerM3()),
+                estimateViscosity(entry),
+                (int) Math.round(entry.getMeltingPointK()));
 
-                fluid = new Fluid(fluidName).setDensity((int) Math.round(entry.getDensityKgPerM3()))
-                    .setViscosity(estimateViscosity(entry))
-                    .setTemperature((int) Math.round(entry.getMeltingPointK()))
-                    .setLuminosity(estimateLuminosity(entry));
-
-                if (!FluidRegistry.registerFluid(fluid)) {
-                    fluid = FluidRegistry.getFluid(fluidName);
-                    if (fluid == null) {
-                        System.err.println("[FluidRegistry] Failed to register or retrieve fluid: " + fluidName);
-                        continue;
-                    }
-                }
-            }
-
-            // --- Step 2: Get or create fluid block ---
             Block block = fluid.getBlock();
-            if (block == null) {
-                block = BlockFluidMaterial.create(fluid, Material.lava);
-            }
 
-            // --- Step 4: Store all mappings ---
             BLOCKS.put(entry, block);
             FLUIDS.put(entry, fluid);
         }
@@ -68,7 +54,6 @@ public class FluidMaterialRegistry {
         double melt = entry.getMeltingPointK();
         return (int) Math.min(15, (melt - 600) / 150);
     }
-
     // --- Helper Methods ---
 
     public static Fluid getFluid(MaterialEntry entry) {
@@ -97,5 +82,50 @@ public class FluidMaterialRegistry {
             }
         }
         return null;
+    }
+
+    public static Fluid registerFluid(String name, int density, int viscosity, int temperature) {
+        return registerFluid(
+            name,
+            name + ".molten",
+            "fluid.molten." + name,
+            "liquid_" + name,
+            density,
+            viscosity,
+            temperature,
+            Material.lava);
+    }
+
+    public static Fluid registerFluid(String name, String fluidName, String blockName, String texture, int density,
+        int viscosity, int temperature, Material material) {
+        // create the new fluid
+        Fluid fluid = new Fluid(fluidName).setDensity(density)
+            .setViscosity(viscosity)
+            .setTemperature(temperature);
+
+        if (material == Material.lava) fluid.setLuminosity(12);
+
+        // register it if it's not already existing
+        boolean isFluidPreRegistered = !FluidRegistry.registerFluid(fluid);
+
+        // register our fluid block for the fluid
+        // this constructor implicitly does fluid.setBlock to it, that's why it's not called separately
+        BlockFluidMaterial block = new BlockFluidMaterial(fluid, material, texture);
+        block.setBlockName(blockName);
+        GameRegistry.registerBlock(block, blockName);
+
+        fluid.setBlock(block);
+        block.setFluid(fluid);
+
+        // if the fluid was already registered we use that one instead
+        if (isFluidPreRegistered) {
+            fluid = FluidRegistry.getFluid(fluidName);
+            // don't change the fluid icons of already existing fluids
+            if (fluid.getBlock() != null) block.suppressOverwritingFluidIcons();
+            // if no block is registered with an existing liquid, we set our own
+            else fluid.setBlock(block);
+        }
+
+        return fluid;
     }
 }
