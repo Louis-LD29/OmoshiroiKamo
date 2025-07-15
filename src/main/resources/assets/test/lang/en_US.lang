@@ -190,6 +190,25 @@ item.itemMaterial.dust.Tungsten.name=Tungsten Dust
 item.itemMaterial.dust.TungstenCarbide.name=Tungsten Carbide Dust
 item.itemMaterial.dust.Niobium.name=Niobium Dust
 
+#Item Material Gear
+item.itemMaterial.gear.Iron.name=Iron Gear
+item.itemMaterial.gear.Copper.name=Copper Gear
+item.itemMaterial.gear.Silver.name=Silver Gear
+item.itemMaterial.gear.Gold.name=Gold Gear
+item.itemMaterial.gear.Zinc.name=Zinc Gear
+item.itemMaterial.gear.Aluminum.name=Aluminum Gear
+item.itemMaterial.gear.Lead.name=Lead Gear
+item.itemMaterial.gear.Titanium.name=Titanium Gear
+item.itemMaterial.gear.Chromium.name=Chromium Gear
+item.itemMaterial.gear.Nickel.name=Nickel Gear
+item.itemMaterial.gear.CarbonSteel.name=Carbon Steel Gear
+item.itemMaterial.gear.StainlessSteel.name=Stainless Steel Gear
+item.itemMaterial.gear.Brass.name=Brass Gear
+item.itemMaterial.gear.Inconel625.name=Inconel 625 Gear
+item.itemMaterial.gear.Tungsten.name=Tungsten Gear
+item.itemMaterial.gear.TungstenCarbide.name=Tungsten Carbide Gear
+item.itemMaterial.gear.Niobium.name=Niobium Gear
+
 #Item Bucket Material
 item.itemBucketMaterial.Iron.name=Molten Iron Bucket
 item.itemBucketMaterial.Copper.name=Molten Copper Bucket
@@ -324,23 +343,23 @@ tile.fluid.tungstenCarbide.molten.name=Molten Tungsten Carbide
 tile.fluid.niobium.molten.name=Molten Niobium
 
 #Fluid Material
-fluid.molten.iron=Molten Iron
-fluid.molten.copper=Molten Copper
-fluid.molten.silver=Molten Silver
-fluid.molten.gold=Molten Gold
-fluid.molten.zinc=Molten Zinc
-fluid.molten.aluminum=Molten Aluminum
-fluid.molten.lead=Molten Lead
-fluid.molten.titanium=Molten Titanium
-fluid.molten.chromium=Molten Chromium
-fluid.molten.nickel=Molten Nickel
-fluid.molten.carbonSteel=Molten Carbon Steel
-fluid.molten.stainlessSteel=Molten Stainless Steel
-fluid.molten.brass=Molten Brass
-fluid.molten.inconel625=Molten Inconel 625
-fluid.molten.tungsten=Molten Tungsten
-fluid.molten.tungstenCarbide=Molten Tungsten Carbide
-fluid.molten.niobium=Molten Niobium
+fluid.iron.molten=Molten Iron
+fluid.copper.molten=Molten Copper
+fluid.silver.molten=Molten Silver
+fluid.gold.molten=Molten Gold
+fluid.zinc.molten=Molten Zinc
+fluid.aluminum.molten=Molten Aluminum
+fluid.lead.molten=Molten Lead
+fluid.titanium.molten=Molten Titanium
+fluid.chromium.molten=Molten Chromium
+fluid.nickel.molten=Molten Nickel
+fluid.carbonSteel.molten=Molten Carbon Steel
+fluid.stainlessSteel.molten=Molten Stainless Steel
+fluid.brass.molten=Molten Brass
+fluid.inconel625.molten=Molten Inconel 625
+fluid.tungsten.molten=Molten Tungsten
+fluid.tungstenCarbide.molten=Molten Tungsten Carbide
+fluid.niobium.molten=Molten Niobium
 
 #Tic Material
 material.iron=Iron

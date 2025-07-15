@@ -11,9 +11,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.louis.test.common.core.helper.Logger;
 import com.louis.test.common.core.lib.LibMisc;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -44,14 +46,14 @@ public class RecipeLoader {
                         while ((len = in.read(buffer)) > 0) {
                             out.write(buffer, 0, len);
                         }
-                        System.out.println("Copied recipe file from resource: " + name);
+                        Logger.warn("Copied recipe file from resource: " + name);
                     }
                 } else {
-                    System.out.println("Recipe resource not found: " + resourcePath);
+                    Logger.warn("Recipe resource not found: " + resourcePath);
                     return 0;
                 }
             } catch (IOException e) {
-                System.out.println("Failed to copy recipe: " + e);
+                Logger.warn("Failed to copy recipe: " + e);
                 return 0;
             }
         }
@@ -66,7 +68,7 @@ public class RecipeLoader {
             List<JsonRecipe> recipes = gson.fromJson(reader, new TypeToken<List<JsonRecipe>>() {}.getType());
 
             if (recipes == null) {
-                System.out.println("No recipes found in file: " + file.getName());
+                Logger.warn("No recipes found in file: " + file.getName());
                 return 0;
             }
 
@@ -81,19 +83,31 @@ public class RecipeLoader {
                 // --- Item Inputs ---
                 if (r.itemInputs != null) {
                     for (JsonStack i : r.itemInputs) {
+                        if (i.oredict != null && !i.oredict.isEmpty()) {
+                            List<ItemStack> oreStacks = OreDictionary.getOres(i.oredict);
+                            if (!oreStacks.isEmpty()) {
+                                builder.addItemInput(i.oredict, i.amount);
+                            } else {
+                                Logger.warn("[WARN] oreDict NOT FOUND: " + i.oredict);
+                            }
+                            continue;
+                        }
+
+                        int meta = (i.meta >= 0) ? i.meta : OreDictionary.WILDCARD_VALUE;
+
                         Item item = GameRegistry.findItem(i.modid, i.name);
                         if (item != null) {
-                            builder.addItemInput(item, i.amount);
+                            builder.addItemInput(new ItemStack(item, i.amount, meta));
                             continue;
                         }
 
                         Block block = GameRegistry.findBlock(i.modid, i.name);
                         if (block != null) {
-                            builder.addItemInput(block, i.amount);
+                            builder.addItemInput(new ItemStack(block, i.amount, meta));
                             continue;
                         }
 
-                        System.out.println("[WARN] Item/Block input NOT FOUND: " + i.modid + ":" + i.name);
+                        Logger.warn("[WARN] Item/Block input NOT FOUND: " + i.modid + ":" + i.name);
                     }
                 }
 
@@ -104,7 +118,7 @@ public class RecipeLoader {
                         if (fluid != null) {
                             builder.addFluidInput(fluid, f.amount);
                         } else {
-                            System.out.println("[WARN] Fluid input NOT FOUND: " + f.modid + ":" + f.name);
+                            Logger.warn("[WARN] Fluid input NOT FOUND: " + f.modid + ":" + f.name);
                         }
                     }
                 }
@@ -112,19 +126,31 @@ public class RecipeLoader {
                 // --- Item Outputs ---
                 if (r.itemOutputs != null) {
                     for (JsonStack i : r.itemOutputs) {
+                        if (i.oredict != null && !i.oredict.isEmpty()) {
+                            List<ItemStack> oreStacks = OreDictionary.getOres(i.oredict);
+                            if (!oreStacks.isEmpty()) {
+                                builder.addItemOutput(i.oredict, i.amount);
+                            } else {
+                                Logger.warn("[WARN] oreDict output NOT FOUND: " + i.oredict);
+                            }
+                            continue;
+                        }
+
+                        int meta = (i.meta >= 0) ? i.meta : OreDictionary.WILDCARD_VALUE;
+
                         Item item = GameRegistry.findItem(i.modid, i.name);
                         if (item != null) {
-                            builder.addItemOutput(item, i.amount);
+                            builder.addItemOutput(new ItemStack(item, i.amount, meta));
                             continue;
                         }
 
                         Block block = GameRegistry.findBlock(i.modid, i.name);
                         if (block != null) {
-                            builder.addItemOutput(block, i.amount);
+                            builder.addItemOutput(new ItemStack(block, i.amount, meta));
                             continue;
                         }
 
-                        System.out.println("[WARN] Item/Block output NOT FOUND: " + i.modid + ":" + i.name);
+                        Logger.warn("[WARN] Item/Block output NOT FOUND: " + i.modid + ":" + i.name);
                     }
                 }
 
@@ -135,7 +161,7 @@ public class RecipeLoader {
                         if (fluid != null) {
                             builder.addFluidOutput(fluid, f.amount);
                         } else {
-                            System.out.println("[WARN] Fluid output NOT FOUND: " + f.modid + ":" + f.name);
+                            Logger.warn("[WARN] Fluid output NOT FOUND: " + f.modid + ":" + f.name);
                         }
                     }
                 }
@@ -163,10 +189,10 @@ public class RecipeLoader {
 
             }
 
-            System.out.println("[INFO] Loaded " + loaded + " recipes from: " + file.getName());
+            Logger.warn("[INFO] Loaded " + loaded + " recipes from: " + file.getName());
 
         } catch (Exception e) {
-            System.out.println("[ERROR] Failed to load recipes from " + file.getName());
+            Logger.warn("[ERROR] Failed to load recipes from " + file.getName());
             e.printStackTrace();
         }
 
@@ -251,7 +277,9 @@ public class RecipeLoader {
     static class JsonStack {
 
         public String modid;
+        public String oredict;
         public String name;
+        public int meta;
         public int amount;
     }
 

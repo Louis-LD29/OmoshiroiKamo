@@ -31,7 +31,6 @@ public class ElementUtil {
         markData.setLong(lastKey, worldTime); // last apply time
 
         data.setTag(ELEMENT_MAP_KEY, markData);
-        System.out.println("Applied " + type + " to " + entity.getCommandSenderName());
     }
 
     public static boolean isElementActive(EntityLivingBase entity, ElementType type, long worldTime) {
@@ -55,7 +54,6 @@ public class ElementUtil {
         markData.removeTag(lastKey);
 
         data.setTag(ELEMENT_MAP_KEY, markData);
-        System.out.println("Cleared " + type + " from " + entity.getCommandSenderName());
     }
 
     public static void tickElements(EntityLivingBase entity, long worldTime) {

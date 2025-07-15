@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.louis.test.api.enums.VoltageTier;
-import com.louis.test.common.block.meta.AbstractMTESR;
+import com.louis.test.client.render.AbstractMTESR;
 import com.louis.test.common.config.Config;
 import com.louis.test.common.core.helper.Logger;
 
@@ -50,7 +50,6 @@ public class IECompat {
         FMLCommonHandler.instance()
             .bus()
             .register(new EventHandler());
-
     }
 
     public static void serverLoad() {

@@ -31,6 +31,7 @@ public class LibResources {
     public static final int META2 = 200;
     public static final int META3 = 300;
     public static final int META4 = 400;
+    public static final int META5 = 500;
 
     // ImmersiveEngineering
     public static final String CHAT = "chat.ImmersiveEngineering.";

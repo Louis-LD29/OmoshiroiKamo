@@ -1,28 +1,27 @@
 package com.louis.test.common.plugin.tic;
 
-import java.util.Locale;
-
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-
 import com.louis.test.api.material.MaterialEntry;
 import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.block.ModBlocks;
 import com.louis.test.common.core.lib.LibResources;
 import com.louis.test.common.item.ModItems;
-
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import tconstruct.TConstruct;
 import tconstruct.library.TConstructRegistry;
 import tconstruct.library.crafting.FluidType;
 import tconstruct.library.crafting.LiquidCasting;
 import tconstruct.library.crafting.Smeltery;
 import tconstruct.smeltery.TinkerSmeltery;
+
+import java.util.Locale;
 
 public class TICCompat {
 
@@ -33,6 +32,7 @@ public class TICCompat {
 
         Block block = ModBlocks.blockMaterial;
         Item item = ModItems.itemMaterial;
+        Item moltenBucket = ModItems.itemBucketMaterial;
 
         for (MaterialEntry entry : MaterialRegistry.all()) {
             String name = entry.getUnlocalizedName();
@@ -83,6 +83,7 @@ public class TICCompat {
             ItemStack ingotCastClay = hasClay ? new ItemStack(TinkerSmeltery.clayPattern, 1, 0) : null;
             ItemStack rodCast = new ItemStack(TinkerSmeltery.metalPattern, 1, 1);
             ItemStack rodCastClay = hasClay ? new ItemStack(TinkerSmeltery.clayPattern, 1, 1) : null;
+            ItemStack gearCast = new ItemStack(GameRegistry.findItem("TConstruct", "gearCast"), 1);
 
             basinCasting.addCastingRecipe(
                 new ItemStack(block, 1, meta),
@@ -90,6 +91,13 @@ public class TICCompat {
                 null,
                 false,
                 cooldown * 2);
+
+            tableCasting.addCastingRecipe(
+                new ItemStack(moltenBucket, 1, meta),
+                new FluidStack(fluid, 1000),
+                new ItemStack(Items.bucket),
+                true,
+                cooldown);
 
             tableCasting.addCastingRecipe(
                 new ItemStack(item, 1, meta),
@@ -128,7 +136,6 @@ public class TICCompat {
                 rodCast,
                 false,
                 rodCooldown);
-
             if (rodCastClay != null) {
                 tableCasting.addCastingRecipe(
                     new ItemStack(item, 1, LibResources.META3 + meta),
@@ -138,6 +145,13 @@ public class TICCompat {
                     rodCooldown);
             }
 
+            int gearCooldown = Math.max(20, cooldown + cooldown / 2);
+            tableCasting.addCastingRecipe(
+                new ItemStack(item, 1, LibResources.META5 + meta),
+                new FluidStack(fluid, TConstruct.ingotLiquidValue * 4),
+                gearCast,
+                false,
+                gearCooldown);
         }
     }
 

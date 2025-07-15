@@ -11,6 +11,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.common.block.basicblock.electrolyzer.TileElectrolyzer;
+import com.louis.test.common.core.helper.OreDictUtils;
 import com.louis.test.common.core.lib.LibResources;
 import com.louis.test.common.plugin.nei.PositionedFluidTank;
 import com.louis.test.common.plugin.nei.RecipeHandlerBase;
@@ -56,7 +57,7 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
         super.loadCraftingRecipes(item);
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockElectrolyzer.unlocalisedName)) {
             for (ItemStack out : recipe.getItemOutputs()) {
-                if (out != null && NEIServerUtils.areStacksSameTypeCrafting(out, item)) {
+                if (NEIServerUtils.areStacksSameTypeCrafting(out, item)) {
                     arecipes.add(new CachedElectrolyzerRecipe(recipe));
                 }
             }
@@ -80,7 +81,8 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
         super.loadUsageRecipes(ingredient);
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockElectrolyzer.unlocalisedName)) {
             for (ItemStack in : recipe.getItemInputs()) {
-                if (in != null && NEIServerUtils.areStacksSameTypeCrafting(in, ingredient)) {
+                if (OreDictUtils.isOreDictMatch(in, ingredient)
+                    || NEIServerUtils.areStacksSameTypeCrafting(in, ingredient)) {
                     arecipes.add(new CachedElectrolyzerRecipe(recipe));
                 }
             }
@@ -142,9 +144,8 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
         // Vẽ progress bar
         Minecraft.getMinecraft()
             .getTextureManager()
-            .bindTexture(new ResourceLocation("test:textures/gui/nei/slot.png"));
+            .bindTexture(new ResourceLocation(LibResources.PREFIX_GUI + "nei/slot.png"));
         GuiDraw.drawTexturedModalRect(71, 21, 0, 18, 20, 20);
-        drawProgressBar(71, 21, 0, 38, 20, 20, (int) recipe.getDuration(), 0);
     }
 
     @Override
@@ -335,7 +336,7 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
         }
 
         public float getDuration() {
-            return (getEnergyCost() / getUsagePerTick()) / 20;
+            return usagePerTick > 0 ? (energyCost / (float) usagePerTick) / 20f : 0;
         }
 
         public float getRequiredPressure() {

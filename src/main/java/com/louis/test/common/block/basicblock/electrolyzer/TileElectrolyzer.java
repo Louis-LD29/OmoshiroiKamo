@@ -67,9 +67,9 @@ public class TileElectrolyzer extends AbstractProcessingEntity {
                     SlotGroupWidget.builder()
                         .matrix("IIISSIII", "FFFSSFFF")
                         .key('I', index -> {
-                            return new ItemSlot().slot(
-                                new ModularSlot(this.inv, index).slotGroup("item_inv")
-                                    .filter(stack -> isItemValidForSlot(index, stack)))
+                            return new ItemSlot().slot(new ModularSlot(this.inv, index).slotGroup("item_inv")
+                            // .filter(stack -> isItemValidForSlot(index, stack))
+                            )
                                 .debugName("Slot " + index);
                         })
                         .key('F', index -> {

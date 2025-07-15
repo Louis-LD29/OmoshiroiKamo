@@ -74,15 +74,6 @@ public class PowerDistributor {
                 // Ghi nhận mất đúng lượng nguồn cung cấp (dù block chỉ nhận ít hơn)
                 transmitted += toSend;
                 available -= toSend;
-
-                System.out.printf(
-                    "Send: %d RF, Delivered: %d RF, Accepted: %d RF, Efficiency: %.2f, Loss: %d RF\n",
-                    toSend,
-                    energyDelivered,
-                    used,
-                    efficiency,
-                    toSend - used);
-
             }
 
             appliedCount++;

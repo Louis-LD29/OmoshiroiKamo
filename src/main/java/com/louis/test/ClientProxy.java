@@ -7,10 +7,9 @@ import net.minecraftforge.common.MinecraftForge;
 import com.louis.test.client.gui.ManaHUD;
 import com.louis.test.client.handler.ClientTickHandler;
 import com.louis.test.client.handler.DameEvents;
-import com.louis.test.common.block.AbstractBlock;
+import com.louis.test.client.render.MTEISBRH;
+import com.louis.test.client.render.MTETESR;
 import com.louis.test.common.block.ModBlocks;
-import com.louis.test.common.block.meta.MTEISBRH;
-import com.louis.test.common.block.meta.MTETESR;
 import com.louis.test.common.block.meta.TEMeta;
 import com.louis.test.common.item.ModItems;
 
@@ -40,7 +39,7 @@ public class ClientProxy extends CommonProxy {
             .bus()
             .register(ClientTickHandler.instance);
 
-        AbstractBlock.renderId = RenderingRegistry.getNextAvailableRenderId();
+        // AbstractBlock.renderId = RenderingRegistry.getNextAvailableRenderId();
 
         MTEISBRH connectionRenderer = new MTEISBRH();
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockMeta), connectionRenderer);
