@@ -56,7 +56,12 @@ public class LangSectionInserter {
                 + ".name="
                 + material.getName()
                 + " Dust");
-
+        SECTIONS.put(
+            "#Item Material Gear",
+            material -> "item.itemMaterial.gear." + material.getUnlocalizedName()
+                + ".name="
+                + material.getName()
+                + " Gear");
         SECTIONS.put(
             "#Item Bucket Material",
             material -> "item.itemBucketMaterial." + material.getUnlocalizedName()
@@ -99,8 +104,8 @@ public class LangSectionInserter {
                 + material.getName());
         SECTIONS.put(
             "#Fluid Material",
-            material -> "fluid.molten." + StringUtils.uncapitalize(material.getUnlocalizedName())
-                + "=Molten "
+            material -> "fluid." + StringUtils.uncapitalize(material.getUnlocalizedName())
+                + ".molten=Molten "
                 + material.getName());
 
         SECTIONS.put(

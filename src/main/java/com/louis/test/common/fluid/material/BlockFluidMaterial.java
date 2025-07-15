@@ -25,8 +25,6 @@ public class BlockFluidMaterial extends BlockFluidEio {
         super(fluid, material);
         this.texture = texture;
         this.setCreativeTab(TestCreativeTab.INSTANCE);
-        this.setCreativeTab(TestCreativeTab.tabBlock);
-
     }
 
     public BlockFluidMaterial(Fluid fluid, Material material, String texture, boolean alpha) {

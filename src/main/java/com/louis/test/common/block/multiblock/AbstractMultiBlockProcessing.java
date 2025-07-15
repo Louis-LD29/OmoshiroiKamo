@@ -18,6 +18,8 @@ import com.louis.test.common.block.multiblock.part.fluid.TEFluidInput;
 import com.louis.test.common.block.multiblock.part.fluid.TEFluidOutput;
 import com.louis.test.common.block.multiblock.part.item.TEItemInput;
 import com.louis.test.common.block.multiblock.part.item.TEItemOutput;
+import com.louis.test.common.core.helper.Logger;
+import com.louis.test.common.core.helper.OreDictUtils;
 import com.louis.test.common.recipes.IPoweredTask;
 import com.louis.test.common.recipes.MachineRecipe;
 import com.louis.test.common.recipes.MachineRecipeRegistry;
@@ -151,7 +153,6 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
 
             ItemStack remaining = output.copy();
 
-            // Vòng 1: merge vào slot có sẵn
             outer: for (TEItemOutput io : mItemOutput) {
                 ItemStackHandler handler = io.getInv();
                 if (handler == null) continue;
@@ -188,17 +189,15 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
             }
 
             if (remaining != null && remaining.stackSize > 0) {
-                System.out.println("[mergeResults] Không đủ chỗ chứa ItemStack: " + remaining);
+                Logger.info("[mergeResults] Không đủ chỗ chứa ItemStack: " + remaining);
             }
         }
 
-        // Merge FluidStack vào các SmartTank
         for (FluidStack output : fluidStacks) {
             if (output == null) continue;
 
             int remaining = output.amount;
 
-            // Vòng 1: đổ vào tank có cùng loại
             outer: for (TEFluidOutput fo : mFluidOutput) {
                 SmartTank[] tanks = fo.getTanks();
                 if (tanks == null) continue;
@@ -210,13 +209,11 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                         .isFluidEqual(output)) {
                         int filled = tank.fill(new FluidStack(output.getFluid(), remaining), true);
                         remaining -= filled;
-
                         if (remaining <= 0) break outer;
                     }
                 }
             }
 
-            // Vòng 2: đổ vào tank rỗng
             outer: for (TEFluidOutput fo : mFluidOutput) {
                 SmartTank[] tanks = fo.getTanks();
                 if (tanks == null) continue;
@@ -226,13 +223,12 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
 
                     int filled = tank.fill(new FluidStack(output.getFluid(), remaining), true);
                     remaining -= filled;
-
                     if (remaining <= 0) break outer;
                 }
             }
 
             if (remaining > 0) {
-                System.out.println("[mergeResults] Không đủ chỗ chứa FluidStack: " + output.getLocalizedName());
+                Logger.info("[mergeResults] Không đủ chỗ chứa FluidStack: " + output.getLocalizedName());
             }
         }
 
@@ -261,6 +257,8 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
     private boolean canOutput(MachineRecipe recipe) {
         // Kiểm tra item outputs
         for (ItemStack out : recipe.getItemOutputs()) {
+            if (out == null || out.stackSize <= 0) continue;
+
             boolean canInsert = false;
 
             for (TEItemOutput output : mItemOutput) {
@@ -282,8 +280,8 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
             if (!canInsert) return false;
         }
 
-        // Kiểm tra fluid outputs
         for (FluidStack out : recipe.getFluidOutputs()) {
+            if (out == null || out.amount <= 0) continue;
             boolean canInsert = false;
 
             for (TEFluidOutput output : mFluidOutput) {
@@ -309,6 +307,8 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
     private void consumeInputs(MachineRecipe recipe) {
         // Tiêu thụ item inputs
         for (ItemStack input : recipe.getItemInputs()) {
+            if (input == null || input.stackSize <= 0) continue;
+
             int remaining = input.stackSize;
 
             for (TEItemInput inputTile : mItemInput) {
@@ -318,8 +318,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                 for (int i = 0; i < inv.getSlots() && remaining > 0; i++) {
                     ItemStack stackInSlot = inv.getStackInSlot(i);
                     if (stackInSlot != null && stackInSlot.stackSize > 0
-                        && stackInSlot.isItemEqual(input)
-                        && ItemStack.areItemStackTagsEqual(stackInSlot, input)) {
+                        && OreDictUtils.isOreDictMatch(stackInSlot, input)) {
 
                         int consumed = Math.min(remaining, stackInSlot.stackSize);
                         stackInSlot.stackSize -= consumed;
@@ -337,12 +336,14 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
             }
 
             if (remaining > 0) {
-                System.out.println("[consumeInputs] Không đủ item để tiêu thụ: " + input.getDisplayName());
+                Logger.info("[consumeInputs] Không đủ item để tiêu thụ: " + input.getDisplayName());
             }
         }
 
-        // Tiêu thụ fluid inputs dùng SmartTank từ mFluidInput
+        // Tiêu thụ fluid inputs
         for (FluidStack input : recipe.getFluidInputs()) {
+            if (input == null || input.amount <= 0) continue;
+
             int remaining = input.amount;
 
             for (TEFluidInput inputTile : mFluidInput) {
@@ -364,7 +365,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
             }
 
             if (remaining > 0) {
-                System.out.println(
+                Logger.info(
                     "[consumeInputs] Không đủ fluid để tiêu thụ: " + input.amount
                         + " mB of "
                         + input.getFluid()
@@ -447,7 +448,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
 
         List<ItemStack> result = new ArrayList<>();
         for (ItemStack stack : recipe.getItemOutputs()) {
-            result.add(stack != null ? stack.copy() : null);
+            result.add(stack != null ? OreDictUtils.getOreDictRepresentative(stack) : null);
         }
         return result;
     }

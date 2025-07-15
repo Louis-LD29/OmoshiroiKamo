@@ -6,6 +6,8 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.louis.test.common.core.helper.OreDictUtils;
+
 public class MachineRecipe {
 
     public final List<ItemStack> itemInputs;
@@ -79,7 +81,7 @@ public class MachineRecipe {
             int remaining = req.stackSize;
 
             for (ItemStack candidate : available) {
-                if (canMergeItems(candidate, req)) {
+                if (OreDictUtils.isOreDictMatch(candidate, req)) {
                     remaining -= candidate.stackSize;
                     if (remaining <= 0) break;
                 }

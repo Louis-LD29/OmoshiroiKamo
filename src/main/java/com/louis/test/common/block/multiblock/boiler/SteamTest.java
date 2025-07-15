@@ -17,8 +17,6 @@ public class SteamTest {
             double afterTemp = boiler.getHeatSourceTempK();
             double deltaTempDrop = beforeTemp - afterTemp;
 
-            boiler.printState(++step, generated, deltaTempDrop);
-
             // Dừng sớm nếu không còn sinh hơi
             if (generated <= 0.01) break;
         }
