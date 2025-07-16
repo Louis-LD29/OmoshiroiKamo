@@ -1,4 +1,4 @@
-package com.louis.test.client.render;
+package com.louis.test.client.render.meta;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;

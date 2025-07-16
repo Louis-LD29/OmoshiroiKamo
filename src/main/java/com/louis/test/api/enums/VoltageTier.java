@@ -2,12 +2,12 @@ package com.louis.test.api.enums;
 
 public enum VoltageTier {
 
-    ULV(0, 59, "Ultra Low Voltage (ULV)"),
-    LV(60, 119, "Low Voltage (LV)"),
-    MV(120, 239, "Medium Voltage (MV)"),
-    HV(240, 479, "High Voltage (HV)"),
-    EV(480, 959, "Extreme Voltage (EV)"),
-    IV(960, 2000, "Insane Voltage (IV)");
+    ULV(0, 59, "ULV"),
+    LV(60, 119, "LV"),
+    MV(120, 239, "MV"),
+    HV(240, 479, "HV"),
+    EV(480, 959, "EV"),
+    IV(960, 2000, "IV");
 
     public final int minVoltage;
     public final int maxVoltage;

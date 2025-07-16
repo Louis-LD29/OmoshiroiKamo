@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.mte.MetaTileEntity;
-import com.louis.test.client.render.MTEISBRH;
+import com.louis.test.client.render.meta.MTEISBRH;
 import com.louis.test.common.block.AbstractBlock;
 import com.louis.test.common.block.AbstractTE;
 import com.louis.test.common.core.lib.LibResources;

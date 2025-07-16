@@ -1,12 +1,7 @@
 package com.louis.test.common.plugin.tic;
 
-import com.louis.test.api.material.MaterialEntry;
-import com.louis.test.api.material.MaterialRegistry;
-import com.louis.test.common.block.ModBlocks;
-import com.louis.test.common.core.lib.LibResources;
-import com.louis.test.common.item.ModItems;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
+import java.util.Locale;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -14,14 +9,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+
+import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.api.material.MaterialRegistry;
+import com.louis.test.common.block.ModBlocks;
+import com.louis.test.common.core.lib.LibResources;
+import com.louis.test.common.item.ModItems;
+
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 import tconstruct.TConstruct;
 import tconstruct.library.TConstructRegistry;
 import tconstruct.library.crafting.FluidType;
 import tconstruct.library.crafting.LiquidCasting;
 import tconstruct.library.crafting.Smeltery;
 import tconstruct.smeltery.TinkerSmeltery;
-
-import java.util.Locale;
 
 public class TICCompat {
 
