@@ -1,7 +1,6 @@
 package com.louis.test;
 
-import java.io.File;
-
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
@@ -9,13 +8,12 @@ import net.minecraftforge.common.MinecraftForge;
 import com.louis.test.client.gui.ManaHUD;
 import com.louis.test.client.handler.ClientTickHandler;
 import com.louis.test.client.handler.DameEvents;
-import com.louis.test.common.block.AbstractBlock;
+import com.louis.test.client.render.item.pufferfish.PufferFishRenderer;
+import com.louis.test.client.render.meta.MTEISBRH;
+import com.louis.test.client.render.meta.MTETESR;
 import com.louis.test.common.block.ModBlocks;
-import com.louis.test.common.block.meta.MTEISBRH;
-import com.louis.test.common.block.meta.MTETESR;
 import com.louis.test.common.block.meta.TEMeta;
 import com.louis.test.common.config.Config;
-import com.louis.test.common.core.lang.LangSectionInserter;
 import com.louis.test.common.item.ModItems;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -44,20 +42,24 @@ public class ClientProxy extends CommonProxy {
             .bus()
             .register(ClientTickHandler.instance);
 
-        AbstractBlock.renderId = RenderingRegistry.getNextAvailableRenderId();
+        // AbstractBlock.renderId = RenderingRegistry.getNextAvailableRenderId();
 
         MTEISBRH connectionRenderer = new MTEISBRH();
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockMeta), connectionRenderer);
         RenderingRegistry.registerBlockHandler(connectionRenderer);
         ClientRegistry.bindTileEntitySpecialRenderer(TEMeta.class, new MTETESR());
 
-        LangSectionInserter.loadExternalLangFile(new File(Config.configDirectory, "en_US.lang"));
+        if (Config.renderPufferFish) {
+            MinecraftForgeClient.registerItemRenderer(Items.fish, new PufferFishRenderer());
+        }
+
     }
 
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
         MinecraftForge.EVENT_BUS.register(new DameEvents());
+
     }
 
 }

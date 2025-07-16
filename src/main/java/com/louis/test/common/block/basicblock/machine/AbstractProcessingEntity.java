@@ -16,6 +16,8 @@ import com.louis.test.api.energy.IInternalPowerReceiver;
 import com.louis.test.api.io.IoMode;
 import com.louis.test.api.io.IoType;
 import com.louis.test.api.material.MaterialEntry;
+import com.louis.test.common.core.helper.Logger;
+import com.louis.test.common.core.helper.OreDictUtils;
 import com.louis.test.common.recipes.IPoweredTask;
 import com.louis.test.common.recipes.MachineRecipe;
 import com.louis.test.common.recipes.MachineRecipeRegistry;
@@ -182,14 +184,13 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             outputStacks.add(stack != null ? stack.copy() : null);
         }
 
-        // Merge từng output item
         for (ItemStack output : itemStacks) {
             if (output == null) continue;
 
             ItemStack copy = output.copy();
             int remaining = copy.stackSize;
 
-            // Merge vào stack đã có
+            // Merge vào stack đã có (ưu tiên oredict)
             for (int i = 0; i < outputStacks.size() && remaining > 0; i++) {
                 ItemStack current = outputStacks.get(i);
                 if (current != null && current.isItemEqual(copy) && ItemStack.areItemStackTagsEqual(current, copy)) {
@@ -213,7 +214,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             }
 
             if (remaining > 0) {
-                System.out.println("[mergeResults] Không đủ chỗ chứa ItemStack: " + copy);
+                Logger.info("[mergeResults] Không đủ chỗ chứa ItemStack: " + copy);
             }
         }
 
@@ -272,8 +273,11 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
     }
 
     private boolean canOutput(MachineRecipe recipe) {
+        // Kiểm tra item outputs
         for (ItemStack out : recipe.getItemOutputs()) {
+            if (out == null) continue;
             boolean canInsert = false;
+
             for (int i = slotDefinition.minItemOutputSlot; i <= slotDefinition.maxItemOutputSlot; i++) {
                 ItemStack target = inv.getStackInSlot(i);
                 if (target == null || (ItemStack.areItemStacksEqual(target, out)
@@ -285,8 +289,11 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             if (!canInsert) return false;
         }
 
+        // Kiểm tra fluid outputs
         for (FluidStack out : recipe.getFluidOutputs()) {
+            if (out == null) continue;
             boolean canInsert = false;
+
             for (int i = slotDefinition.minFluidOutputSlot; i <= slotDefinition.maxFluidOutputSlot; i++) {
                 FluidTank tank = fluidTanks[i];
                 if (tank.fill(out, false) == out.amount) {
@@ -294,6 +301,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
                     break;
                 }
             }
+
             if (!canInsert) return false;
         }
 
@@ -301,14 +309,16 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
     }
 
     private void consumeInputs(MachineRecipe recipe) {
-        // Tiêu thụ item inputs
         for (ItemStack input : recipe.getItemInputs()) {
             int remaining = input.stackSize;
 
             for (int i = slotDefinition.minItemInputSlot; i <= slotDefinition.maxItemInputSlot && remaining > 0; i++) {
                 ItemStack target = inv.getStackInSlot(i);
-                if (target != null && target.isItemEqual(input) && ItemStack.areItemStackTagsEqual(target, input)) {
+                if (target == null) continue;
 
+                boolean matches = OreDictUtils.isOreDictMatch(input, target);
+
+                if (matches) {
                     int consumed = Math.min(remaining, target.stackSize);
                     target.stackSize -= consumed;
                     remaining -= consumed;
@@ -328,7 +338,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             }
 
             if (remaining > 0) {
-                System.out.println("[consumeInputs] Không đủ item để tiêu thụ: " + input.getDisplayName());
+                Logger.info("[consumeInputs] Không đủ item để tiêu thụ: " + input.getDisplayName());
             }
         }
 
@@ -349,7 +359,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             }
 
             if (remaining > 0) {
-                System.out.println(
+                Logger.info(
                     "[consumeInputs] Không đủ fluid để tiêu thụ: " + input.amount
                         + " mB of "
                         + input.getFluid()
@@ -456,7 +466,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
 
         List<ItemStack> result = new ArrayList<>();
         for (ItemStack stack : recipe.getItemOutputs()) {
-            result.add(stack != null ? stack.copy() : null);
+            result.add(stack != null ? OreDictUtils.getOreDictRepresentative(stack) : null);
         }
         return result;
     }

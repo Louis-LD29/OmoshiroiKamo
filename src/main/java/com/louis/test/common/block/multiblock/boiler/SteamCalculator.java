@@ -184,18 +184,4 @@ public class SteamCalculator {
         { 5, 152, 2108000 }, { 10, 179, 2014000 }, { 20, 212, 1906000 }, { 40, 251, 1785000 }, { 60, 274, 1710000 },
         { 100, 311, 1606000 } };
 
-    // ====== Debug ======
-    public void printState(int step, double generatedSteamMB, double deltaTempDrop) {
-        System.out.printf(
-            "Step %2d - +%.1f mB steam | Water: %.0f mB | Steam: %.0f mB | P: %.5f atm | Tboil: %.2f K | Tsrc: %.2f K (-%.2f K) | Free: %.0f mB%n",
-            step,
-            generatedSteamMB,
-            waterVolumeMB,
-            steamVolumeMB,
-            getPressureAtm(),
-            getTboilK(),
-            heatSourceTempK,
-            deltaTempDrop,
-            getFreeVolumeM3() * 1_000_000.0);
-    }
 }

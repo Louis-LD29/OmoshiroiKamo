@@ -12,7 +12,8 @@ public final class LibMisc {
         + "required-after:structurelib;"
         + "required-after:modularui2;"
         + "required-after:neid;"
-        + "after:ImmersiveEngineering";
+        + "after:ImmersiveEngineering;"
+        + "after:TConstruct;";
 
     // Network Contants
     public static final String NETWORK_CHANNEL = MOD_ID;

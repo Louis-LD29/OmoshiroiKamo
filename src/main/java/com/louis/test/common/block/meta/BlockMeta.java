@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.mte.MetaTileEntity;
+import com.louis.test.client.render.meta.MTEISBRH;
 import com.louis.test.common.block.AbstractBlock;
 import com.louis.test.common.block.AbstractTE;
 import com.louis.test.common.core.lib.LibResources;
@@ -49,6 +50,11 @@ public class BlockMeta extends AbstractBlock<AbstractTE> {
         for (int meta : MetaTileEntity.getAllBaseMetas()) {
             list.add(new ItemStack(this, 1, meta));
         }
+    }
+
+    @Override
+    public int getRenderType() {
+        return MTEISBRH.renderMetaId;
     }
 
     private IIcon[] icons;

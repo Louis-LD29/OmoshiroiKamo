@@ -9,14 +9,20 @@ import com.louis.test.common.block.meta.energyConnector.MTEInsulator;
 
 public enum MetaTileEntity {
 
-    INSULATOR(0, MTEInsulator.class);
+    INSULATOR(0, MTEInsulator.class, -1);
 
     private final int baseMeta;
     private final Class<? extends MTEBase> mteClass;
+    private final int renderType;
 
-    MetaTileEntity(int baseMeta, Class<? extends MTEBase> mteClass) {
+    MetaTileEntity(int baseMeta, Class<? extends MTEBase> mteClass, int renderType) {
         this.baseMeta = baseMeta;
         this.mteClass = mteClass;
+        this.renderType = renderType;
+    }
+
+    public int getRenderType() {
+        return renderType;
     }
 
     public MTEBase createInstance(int meta) {

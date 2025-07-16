@@ -95,7 +95,6 @@ public class BlockFluidInput extends AbstractMachineBlock<TileFluidInput> implem
 
     @Override
     public String getUnlocalizedNameForTooltip(ItemStack stack) {
-        System.out.println("BlockFluidIntput.getUnlocalizedNameForTooltip: ");
         return stack.getUnlocalizedName();
     }
 

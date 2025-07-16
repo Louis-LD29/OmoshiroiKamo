@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipeBuilder {
 
@@ -21,14 +22,31 @@ public class RecipeBuilder {
     private int energyCost = 0;
     private String uid = "";
 
+    public RecipeBuilder addItemInput(ItemStack stack) {
+        itemInputs.add(stack.copy());
+        return this;
+    }
+
     public RecipeBuilder addItemInput(Item item, int count) {
-        itemInputs.add(new ItemStack(item, count));
+        itemInputs.add(new ItemStack(item, count).copy());
         return this;
     }
 
     public RecipeBuilder addItemInput(Block block, int count) {
-        itemInputs.add(new ItemStack(block, count));
+        itemInputs.add(new ItemStack(block, count).copy());
         return this;
+    }
+
+    public RecipeBuilder addItemInput(String oreDict, int amount) {
+        List<ItemStack> oreStacks = OreDictionary.getOres(oreDict);
+        if (!oreStacks.isEmpty()) {
+            ItemStack stack = oreStacks.get(0)
+                .copy();
+            stack.stackSize = amount;
+            return addItemInput(stack);
+        } else {
+            throw new IllegalArgumentException("OreDict not found: " + oreDict);
+        }
     }
 
     public List<ItemStack> getItemInputs() {
@@ -44,14 +62,31 @@ public class RecipeBuilder {
         return fluidInputs;
     }
 
+    public RecipeBuilder addItemOutput(ItemStack stack) {
+        itemOutputs.add(stack.copy());
+        return this;
+    }
+
     public RecipeBuilder addItemOutput(Item item, int count) {
-        itemOutputs.add(new ItemStack(item, count));
+        itemOutputs.add(new ItemStack(item, count).copy());
         return this;
     }
 
     public RecipeBuilder addItemOutput(Block block, int count) {
-        itemOutputs.add(new ItemStack(block, count));
+        itemOutputs.add(new ItemStack(block, count).copy());
         return this;
+    }
+
+    public RecipeBuilder addItemOutput(String oreDict, int amount) {
+        List<ItemStack> oreStacks = OreDictionary.getOres(oreDict);
+        if (!oreStacks.isEmpty()) {
+            ItemStack stack = oreStacks.get(0)
+                .copy();
+            stack.stackSize = amount;
+            return addItemOutput(stack);
+        } else {
+            throw new IllegalArgumentException("OreDict not found: " + oreDict);
+        }
     }
 
     public List<ItemStack> getItemOutputs() {

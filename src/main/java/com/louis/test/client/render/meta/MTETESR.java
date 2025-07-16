@@ -1,4 +1,4 @@
-package com.louis.test.common.block.meta;
+package com.louis.test.client.render.meta;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import com.louis.test.api.mte.MetaTileEntity;
 import com.louis.test.client.model.ModelIEObj;
 import com.louis.test.common.block.ModBlocks;
+import com.louis.test.common.block.meta.TEMeta;
 import com.louis.test.common.core.lib.LibResources;
 
 import blusunrize.immersiveengineering.common.util.chickenbones.Matrix4;

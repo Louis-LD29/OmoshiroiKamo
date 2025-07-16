@@ -1,4 +1,4 @@
-package com.louis.test.common.block.meta;
+package com.louis.test.client.render.meta;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -9,20 +9,28 @@ import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 import com.louis.test.api.mte.MetaTileEntity;
-import com.louis.test.common.block.AbstractBlock;
+import com.louis.test.common.block.meta.TEMeta;
 import com.louis.test.common.block.meta.energyConnector.AbstractMTEConnector;
 import com.louis.test.common.plugin.compat.IECompat;
 
 import blusunrize.immersiveengineering.client.ClientUtils;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
+@ThreadSafeISBRH(perThread = true)
 public class MTEISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
 
+    public static int renderMetaId;
     private static final TEMeta te = new TEMeta();
+
+    public MTEISBRH() {
+        renderMetaId = RenderingRegistry.getNextAvailableRenderId();
+    }
 
     // ------- Block
 
@@ -35,16 +43,27 @@ public class MTEISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         int metadata = world.getBlockMetadata(x, y, z);
+        MetaTileEntity mteType = MetaTileEntity.fromMeta(metadata);
+        if (mteType == null || mteType.getRenderType() == 0) {
+            return renderer.renderStandardBlock(block, x, y, z);
+        }
+
+        if (mteType.getRenderType() != -1) {
+            return false;
+        }
+
         TileEntity te = world.getTileEntity(x, y, z);
         if (!(te instanceof TEMeta tile)) return false;
+
         if (tile.getMte() instanceof AbstractMTEConnector) {
             ClientUtils.renderAttachedConnections(tile);
             if (metadata == MetaTileEntity.INSULATOR.getBaseMeta()) {
                 IECompat.handleStaticTileRenderer(tile);
-                return true;
             }
+
             return true;
         }
+
         return false;
     }
 
@@ -55,7 +74,7 @@ public class MTEISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
 
     @Override
     public int getRenderId() {
-        return AbstractBlock.renderId;
+        return renderMetaId;
     }
 
     // ------- Item
