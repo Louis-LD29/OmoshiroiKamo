@@ -10,18 +10,29 @@ package com.louis.test.client.model;
  */
 
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.util.ResourceLocation;
 
 import com.enderio.core.client.render.RenderUtil;
 
 public abstract class ModelIEObj extends blusunrize.immersiveengineering.client.models.ModelIEObj {
 
+    private static ResourceLocation texture;
+
     public ModelIEObj(String path) {
         super(path);
     }
 
-    public void renderItem() {
-        RenderUtil.bindTexture(TextureMap.locationBlocksTexture);
-        model.renderAll();
-
+    public void setTexture(ResourceLocation tex) {
+        this.texture = tex;
     }
+
+    public void renderItem() {
+        if (texture != null) {
+            RenderUtil.bindTexture(texture);
+        } else {
+            RenderUtil.bindTexture(TextureMap.locationBlocksTexture);
+        }
+        model.renderAll();
+    }
+
 }

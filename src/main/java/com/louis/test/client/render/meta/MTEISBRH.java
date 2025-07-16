@@ -1,4 +1,4 @@
-package com.louis.test.client.render;
+package com.louis.test.client.render.meta;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -9,6 +9,7 @@ import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
 import com.louis.test.api.mte.MetaTileEntity;
 import com.louis.test.common.block.meta.TEMeta;
 import com.louis.test.common.block.meta.energyConnector.AbstractMTEConnector;
@@ -21,6 +22,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
+@ThreadSafeISBRH(perThread = true)
 public class MTEISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
 
     public static int renderMetaId;

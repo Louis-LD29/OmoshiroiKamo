@@ -41,6 +41,7 @@ public class Config {
     public static boolean addFuelTooltipsToAllFluidContainers = true;
     public static boolean renderDurabilityBar = true;
     public static boolean renderChargeBar = true;
+    public static boolean renderPufferFish = true;
     public static boolean increasedRenderboxes = true;
     public static boolean validateConnections = true;
     public static int[] cableLength = new int[] { 16, 16, 32, 32, 32 };
@@ -178,6 +179,14 @@ public class Config {
                 renderChargeBar,
                 "If true, render the bar when an item has RF")
             .getBoolean(renderChargeBar);
+
+        renderPufferFish = config
+            .get(
+                sectionPersonal.name,
+                "renderPufferFish",
+                renderPufferFish,
+                "If true, render Pufferfish with 3d model with some things. Requires game restart.")
+            .getBoolean(renderPufferFish);
 
         // Damage Indicator
 
