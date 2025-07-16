@@ -12,6 +12,7 @@ public class IMCForNEI {
     public static void IMCSender() {
         sendHandler(ModObject.blockElectrolyzer.getRegistryName(), 85, 6);
         sendCatalyst(ModObject.blockElectrolyzer.getRegistryName());
+        sendHandler("materialProperties", ModObject.itemMaterial.getRegistryName(), 85, 1);
     }
 
     private static void sendHandler(String handler, String itemName, int height, int recipesPerPage) {

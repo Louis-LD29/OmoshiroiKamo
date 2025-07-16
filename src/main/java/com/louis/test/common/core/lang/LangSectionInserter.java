@@ -1,15 +1,17 @@
 package com.louis.test.common.core.lang;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.*;
 
-import com.google.common.base.Charsets;
+import org.apache.commons.lang3.StringUtils;
+
 import com.louis.test.api.material.MaterialEntry;
 import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.config.Config;
-
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import com.louis.test.common.core.helper.Logger;
 
 public class LangSectionInserter {
 
@@ -54,6 +56,18 @@ public class LangSectionInserter {
                 + ".name="
                 + material.getName()
                 + " Dust");
+        SECTIONS.put(
+            "#Item Material Gear",
+            material -> "item.itemMaterial.gear." + material.getUnlocalizedName()
+                + ".name="
+                + material.getName()
+                + " Gear");
+        SECTIONS.put(
+            "#Item Bucket Material",
+            material -> "item.itemBucketMaterial." + material.getUnlocalizedName()
+                + ".name=Molten "
+                + material.getName()
+                + " Bucket");
 
         SECTIONS.put(
             "#Block of Material",
@@ -82,6 +96,23 @@ public class LangSectionInserter {
                 + ".name=Fluid Output ("
                 + material.getName()
                 + ")");
+
+        SECTIONS.put(
+            "#Block Fluid Material",
+            material -> "tile.fluid." + StringUtils.uncapitalize(material.getUnlocalizedName())
+                + ".molten.name=Molten "
+                + material.getName());
+        SECTIONS.put(
+            "#Fluid Material",
+            material -> "fluid." + StringUtils.uncapitalize(material.getUnlocalizedName())
+                + ".molten=Molten "
+                + material.getName());
+
+        SECTIONS.put(
+            "#Tic Material",
+            material -> "material." + StringUtils.uncapitalize(material.getUnlocalizedName())
+                + "="
+                + material.getName());
 
     }
 
@@ -114,9 +145,9 @@ public class LangSectionInserter {
 
         Set<String> addedKeys = new HashSet<>();
 
+        MaterialRegistry.init();
         for (Map.Entry<String, SectionGenerator> section : SECTIONS.entrySet()) {
             autogenBlock.add(section.getKey());
-
             for (MaterialEntry material : MaterialRegistry.all()) {
                 String line = section.getValue()
                     .generate(material);
@@ -143,12 +174,13 @@ public class LangSectionInserter {
             }
         }
 
-        System.out.println("✅ Synced lang file with updated sections. Missing ones added, obsolete ones removed.");
+        Logger.info(
+            "[LangSectionInserter] Synced lang file with updated sections. Missing ones added, obsolete ones removed.");
     }
 
     public static void insertCustomMaterialsLang(String[] materialNames) {
         try {
-            File file = new File(Config.configDirectory, "en_US.lang");
+            File file = new File(Config.configDirectory.getAbsolutePath() + "/lang", "en_US.lang");
 
             List<String> existingLines = file.exists() ? Files.readAllLines(file.toPath()) : new ArrayList<>();
 
@@ -203,28 +235,7 @@ public class LangSectionInserter {
                 }
             }
 
-            System.out.println("✅ Synced config lang with custom materials: " + file.getAbsolutePath());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void loadExternalLangFile(File file) {
-        if (!file.exists()) return;
-
-        try (InputStreamReader reader = new InputStreamReader(new FileInputStream(file), Charsets.UTF_8)) {
-            Properties props = new Properties();
-            props.load(reader);
-
-            HashMap<String, String> langMap = new HashMap<>();
-            for (String key : props.stringPropertyNames()) {
-                langMap.put(key, props.getProperty(key));
-            }
-
-            LanguageRegistry.instance()
-                .injectLanguage("en_US", langMap);
-            System.out.println("✅ Injected " + langMap.size() + " entries from " + file.getName());
+            Logger.info("[LangSectionInserter] Synced config lang with custom materials: " + file.getAbsolutePath());
 
         } catch (IOException e) {
             e.printStackTrace();

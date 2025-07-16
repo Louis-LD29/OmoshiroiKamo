@@ -6,10 +6,12 @@ import java.util.*;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.config.Configuration;
 
+import com.enderio.core.common.util.ResourcePackAssembler;
 import com.louis.test.api.material.MaterialEntry;
 import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.core.lang.LangSectionInserter;
 import com.louis.test.common.core.lib.LibMisc;
+import com.louis.test.common.core.lib.LibResources;
 import com.louis.test.common.core.network.PacketHandler;
 
 import blusunrize.immersiveengineering.api.energy.WireType;
@@ -19,6 +21,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.relauncher.Side;
+import lombok.SneakyThrows;
 
 public class Config {
 
@@ -38,6 +41,7 @@ public class Config {
     public static boolean addFuelTooltipsToAllFluidContainers = true;
     public static boolean renderDurabilityBar = true;
     public static boolean renderChargeBar = true;
+    public static boolean renderPufferFish = true;
     public static boolean increasedRenderboxes = true;
     public static boolean validateConnections = true;
     public static int[] cableLength = new int[] { 16, 16, 32, 32, 32 };
@@ -50,6 +54,8 @@ public class Config {
     public static int healColor = 0x33FF33;
 
     public static final Map<String, MaterialConfig> materialConfigs = new HashMap<>();
+
+    private static ResourcePackAssembler assembler;
 
     private Config() {}
 
@@ -68,6 +74,54 @@ public class Config {
         File configFile = new File(configDirectory, LibMisc.MOD_ID + ".cfg");
         config = new Configuration(configFile);
         syncConfig(false);
+    }
+
+    @SneakyThrows
+    public static void assembleResourcePack() {
+        assembler = new ResourcePackAssembler(
+            new File(configDirectory, LibMisc.MOD_NAME + " Resourcepack"),
+            LibMisc.MOD_NAME + " Resourcepack",
+            LibMisc.MOD_ID);
+
+        addIcons(assembler);
+        addLangs(assembler);
+
+        assembler.assemble()
+            .inject();
+    }
+
+    private static void addIcons(ResourcePackAssembler assembler) {
+        File iconDir = new File(configDirectory, "icons");
+        File materialFluidDir = new File(configDirectory, LibResources.PREFIX_MATERIAL_FLUID_ICONS);
+        if (!iconDir.exists()) iconDir.mkdirs();
+
+        File[] iconFiles = iconDir.listFiles((dir, name) -> name.endsWith(".png") || name.endsWith(".mcmeta"));
+        File[] materialFluidFiles = materialFluidDir
+            .listFiles((dir, name) -> name.endsWith(".png") || name.endsWith(".mcmeta"));
+
+        if (iconFiles != null) {
+            for (File f : iconFiles) {
+                assembler.addIcon(f);
+            }
+        }
+        if (materialFluidFiles != null) {
+            for (File f : materialFluidFiles) {
+                assembler.addCustomFile("assets/" + LibMisc.MOD_ID.toLowerCase(Locale.ROOT) + "/textures/blocks", f);
+
+            }
+        }
+    }
+
+    private static void addLangs(ResourcePackAssembler assembler) {
+        File langDir = new File(configDirectory, "lang");
+        if (!langDir.exists()) langDir.mkdirs();
+
+        File[] langFiles = langDir.listFiles((dir, name) -> name.endsWith(".lang"));
+        if (langFiles != null) {
+            for (File f : langFiles) {
+                assembler.addLang(f);
+            }
+        }
     }
 
     public static void syncConfig(boolean load) {
@@ -125,6 +179,14 @@ public class Config {
                 renderChargeBar,
                 "If true, render the bar when an item has RF")
             .getBoolean(renderChargeBar);
+
+        renderPufferFish = config
+            .get(
+                sectionPersonal.name,
+                "renderPufferFish",
+                renderPufferFish,
+                "If true, render Pufferfish with 3d model with some things. Requires game restart.")
+            .getBoolean(renderPufferFish);
 
         // Damage Indicator
 

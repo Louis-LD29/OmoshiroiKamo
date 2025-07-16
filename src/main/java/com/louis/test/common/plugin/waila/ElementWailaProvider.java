@@ -1,9 +1,7 @@
 package com.louis.test.common.plugin.waila;
 
-import com.louis.test.api.enums.ElementType;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaEntityAccessor;
-import mcp.mobius.waila.api.IWailaEntityProvider;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -11,7 +9,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-import java.util.List;
+import com.louis.test.api.enums.ElementType;
+
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaEntityAccessor;
+import mcp.mobius.waila.api.IWailaEntityProvider;
 
 public class ElementWailaProvider implements IWailaEntityProvider {
 
@@ -22,7 +24,7 @@ public class ElementWailaProvider implements IWailaEntityProvider {
 
     @Override
     public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor,
-                                     IWailaConfigHandler config) {
+        IWailaConfigHandler config) {
         NBTTagCompound tag = accessor.getNBTData();
         if (!(entity instanceof EntityLivingBase)) return currenttip;
 
@@ -62,13 +64,13 @@ public class ElementWailaProvider implements IWailaEntityProvider {
 
     @Override
     public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor,
-                                     IWailaConfigHandler config) {
+        IWailaConfigHandler config) {
         return currenttip;
     }
 
     @Override
     public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor,
-                                     IWailaConfigHandler config) {
+        IWailaConfigHandler config) {
         return currenttip;
     }
 

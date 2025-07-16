@@ -19,7 +19,7 @@ import crazypants.enderio.fluid.BucketHandler;
 public class ItemBucketEio extends ItemBucket {
 
     private final boolean canPlace;
-    private String fluidName;
+    protected String fluidName;
 
     public static ItemBucketEio create(Fluid fluid) {
         return create(fluid, true);

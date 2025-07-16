@@ -18,6 +18,7 @@ import com.louis.test.common.block.multiblock.part.fluid.TEFluidInput;
 import com.louis.test.common.block.multiblock.part.fluid.TEFluidOutput;
 import com.louis.test.common.block.multiblock.part.item.TEItemInput;
 import com.louis.test.common.block.multiblock.part.item.TEItemOutput;
+import com.louis.test.common.core.helper.Logger;
 
 public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntity<T>> extends AbstractTE {
 
@@ -80,10 +81,10 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
 
         if (valid && !mMachine) {
             mMachine = true;
-            System.out.println("Multiblock formed!");
+            Logger.info("Multiblock formed!");
         } else if (!valid && mMachine) {
             mMachine = false;
-            System.out.println("Multiblock broken!");
+            Logger.info("Multiblock broken!");
             clearStructureParts();
         }
 

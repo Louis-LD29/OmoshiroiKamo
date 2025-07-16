@@ -44,6 +44,7 @@ public class BlockMaterial extends BlockEio {
         int meta = 0;
         for (MaterialEntry entry : MaterialRegistry.all()) {
             String matName = entry.getUnlocalizedName();
+            String oreName = "block" + capitalize(matName);
 
             registerMaterialOreDict(matName, meta);
 

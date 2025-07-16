@@ -190,6 +190,44 @@ item.itemMaterial.dust.Tungsten.name=Tungsten Dust
 item.itemMaterial.dust.TungstenCarbide.name=Tungsten Carbide Dust
 item.itemMaterial.dust.Niobium.name=Niobium Dust
 
+#Item Material Gear
+item.itemMaterial.gear.Iron.name=Iron Gear
+item.itemMaterial.gear.Copper.name=Copper Gear
+item.itemMaterial.gear.Silver.name=Silver Gear
+item.itemMaterial.gear.Gold.name=Gold Gear
+item.itemMaterial.gear.Zinc.name=Zinc Gear
+item.itemMaterial.gear.Aluminum.name=Aluminum Gear
+item.itemMaterial.gear.Lead.name=Lead Gear
+item.itemMaterial.gear.Titanium.name=Titanium Gear
+item.itemMaterial.gear.Chromium.name=Chromium Gear
+item.itemMaterial.gear.Nickel.name=Nickel Gear
+item.itemMaterial.gear.CarbonSteel.name=Carbon Steel Gear
+item.itemMaterial.gear.StainlessSteel.name=Stainless Steel Gear
+item.itemMaterial.gear.Brass.name=Brass Gear
+item.itemMaterial.gear.Inconel625.name=Inconel 625 Gear
+item.itemMaterial.gear.Tungsten.name=Tungsten Gear
+item.itemMaterial.gear.TungstenCarbide.name=Tungsten Carbide Gear
+item.itemMaterial.gear.Niobium.name=Niobium Gear
+
+#Item Bucket Material
+item.itemBucketMaterial.Iron.name=Molten Iron Bucket
+item.itemBucketMaterial.Copper.name=Molten Copper Bucket
+item.itemBucketMaterial.Silver.name=Molten Silver Bucket
+item.itemBucketMaterial.Gold.name=Molten Gold Bucket
+item.itemBucketMaterial.Zinc.name=Molten Zinc Bucket
+item.itemBucketMaterial.Aluminum.name=Molten Aluminum Bucket
+item.itemBucketMaterial.Lead.name=Molten Lead Bucket
+item.itemBucketMaterial.Titanium.name=Molten Titanium Bucket
+item.itemBucketMaterial.Chromium.name=Molten Chromium Bucket
+item.itemBucketMaterial.Nickel.name=Molten Nickel Bucket
+item.itemBucketMaterial.CarbonSteel.name=Molten Carbon Steel Bucket
+item.itemBucketMaterial.StainlessSteel.name=Molten Stainless Steel Bucket
+item.itemBucketMaterial.Brass.name=Molten Brass Bucket
+item.itemBucketMaterial.Inconel625.name=Molten Inconel 625 Bucket
+item.itemBucketMaterial.Tungsten.name=Molten Tungsten Bucket
+item.itemBucketMaterial.TungstenCarbide.name=Molten Tungsten Carbide Bucket
+item.itemBucketMaterial.Niobium.name=Molten Niobium Bucket
+
 #Block of Material
 tile.blockMaterial.Iron.name=Block of Iron
 tile.blockMaterial.Copper.name=Block of Copper
@@ -284,5 +322,62 @@ tile.blockFluidInOut.output.Inconel625.name=Fluid Output (Inconel 625)
 tile.blockFluidInOut.output.Tungsten.name=Fluid Output (Tungsten)
 tile.blockFluidInOut.output.TungstenCarbide.name=Fluid Output (Tungsten Carbide)
 tile.blockFluidInOut.output.Niobium.name=Fluid Output (Niobium)
+
+#Block Fluid Material
+tile.fluid.iron.molten.name=Molten Iron
+tile.fluid.copper.molten.name=Molten Copper
+tile.fluid.silver.molten.name=Molten Silver
+tile.fluid.gold.molten.name=Molten Gold
+tile.fluid.zinc.molten.name=Molten Zinc
+tile.fluid.aluminum.molten.name=Molten Aluminum
+tile.fluid.lead.molten.name=Molten Lead
+tile.fluid.titanium.molten.name=Molten Titanium
+tile.fluid.chromium.molten.name=Molten Chromium
+tile.fluid.nickel.molten.name=Molten Nickel
+tile.fluid.carbonSteel.molten.name=Molten Carbon Steel
+tile.fluid.stainlessSteel.molten.name=Molten Stainless Steel
+tile.fluid.brass.molten.name=Molten Brass
+tile.fluid.inconel625.molten.name=Molten Inconel 625
+tile.fluid.tungsten.molten.name=Molten Tungsten
+tile.fluid.tungstenCarbide.molten.name=Molten Tungsten Carbide
+tile.fluid.niobium.molten.name=Molten Niobium
+
+#Fluid Material
+fluid.iron.molten=Molten Iron
+fluid.copper.molten=Molten Copper
+fluid.silver.molten=Molten Silver
+fluid.gold.molten=Molten Gold
+fluid.zinc.molten=Molten Zinc
+fluid.aluminum.molten=Molten Aluminum
+fluid.lead.molten=Molten Lead
+fluid.titanium.molten=Molten Titanium
+fluid.chromium.molten=Molten Chromium
+fluid.nickel.molten=Molten Nickel
+fluid.carbonSteel.molten=Molten Carbon Steel
+fluid.stainlessSteel.molten=Molten Stainless Steel
+fluid.brass.molten=Molten Brass
+fluid.inconel625.molten=Molten Inconel 625
+fluid.tungsten.molten=Molten Tungsten
+fluid.tungstenCarbide.molten=Molten Tungsten Carbide
+fluid.niobium.molten=Molten Niobium
+
+#Tic Material
+material.iron=Iron
+material.copper=Copper
+material.silver=Silver
+material.gold=Gold
+material.zinc=Zinc
+material.aluminum=Aluminum
+material.lead=Lead
+material.titanium=Titanium
+material.chromium=Chromium
+material.nickel=Nickel
+material.carbonSteel=Carbon Steel
+material.stainlessSteel=Stainless Steel
+material.brass=Brass
+material.inconel625=Inconel 625
+material.tungsten=Tungsten
+material.tungstenCarbide=Tungsten Carbide
+material.niobium=Niobium
 
 # END AUTOGEN

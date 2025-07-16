@@ -2,6 +2,8 @@ package com.louis.test.api.energy;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.louis.test.common.core.helper.Logger;
+
 import cofh.api.energy.IEnergyReceiver;
 
 public class EnergyReceiverPI implements IPowerInterface {
@@ -63,7 +65,7 @@ public class EnergyReceiverPI implements IPowerInterface {
 
     @Override
     public int recieveEnergy(ForgeDirection opposite, int canOffer) {
-        System.out.println(canOffer);
+        Logger.info(canOffer);
         if (rfPower != null && opposite != null) {
             return rfPower.receiveEnergy(opposite, canOffer, false);
         }

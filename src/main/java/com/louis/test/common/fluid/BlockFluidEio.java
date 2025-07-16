@@ -69,7 +69,8 @@ public class BlockFluidEio extends BlockFluidClassic {
     }
 
     protected void init() {
-        GameRegistry.registerBlock(this, "block" + StringUtils.capitalize(fluidName));
+        GameRegistry.registerBlock(this, "fluid" + StringUtils.capitalize(fluidName));
+
     }
 
     @SideOnly(Side.CLIENT)
