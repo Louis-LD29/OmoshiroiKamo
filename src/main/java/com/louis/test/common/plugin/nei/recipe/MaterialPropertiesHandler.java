@@ -164,7 +164,7 @@ public class MaterialPropertiesHandler extends RecipeHandlerBase {
     public class CachedMaterialPropertise extends CachedBaseRecipe {
 
         private final List<ItemStack> materialItems = new ArrayList<>();
-        private MaterialEntry materialEntry;
+        private final MaterialEntry materialEntry;
 
         public CachedMaterialPropertise(MaterialEntry entry) {
             materialEntry = entry;

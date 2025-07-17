@@ -23,6 +23,8 @@ public enum ModObject {
     blockSolar,
     blockMaterial,
     blockFluidMaterial,
+    blockConnectable,
+    blockInsulator,
 
     itemOperationOrb,
     itemMaterial,

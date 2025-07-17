@@ -1,39 +1,51 @@
-package com.louis.test.common.block.meta.energyConnector;
+package com.louis.test.common.block.energyConnector;
 
 import java.util.Set;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
+import com.cleanroommc.modularui.factory.PosGuiData;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.louis.test.api.energy.MaterialWireType;
 import com.louis.test.api.enums.VoltageTier;
-import com.louis.test.common.block.meta.MTEBase;
+import com.louis.test.common.block.AbstractTE;
 import com.louis.test.common.core.helper.Logger;
 
 import blusunrize.immersiveengineering.api.ApiUtils;
 import blusunrize.immersiveengineering.api.DimensionBlockPos;
 import blusunrize.immersiveengineering.api.TargetingInfo;
 import blusunrize.immersiveengineering.api.energy.IICProxy;
+import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
 import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
 import blusunrize.immersiveengineering.api.energy.WireType;
 import blusunrize.immersiveengineering.common.util.Utils;
 
-public abstract class AbstractMTEConnector extends MTEBase {
-
-    public AbstractMTEConnector(int meta) {
-        super(meta);
-    }
+public abstract class TEConnectable extends AbstractTE implements IImmersiveConnectable {
 
     protected WireType limitType = null;
     private boolean needsVisualUpdate = true;
+
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
+    @Override
+    protected boolean processTasks(boolean redstoneCheckPassed) {
+        return false;
+    }
+
+    @Override
+    public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
+        return null;
+    }
 
     protected boolean canTakeULV() {
         return false;
@@ -64,14 +76,14 @@ public abstract class AbstractMTEConnector extends MTEBase {
         super.invalidate();
         if (worldObj != null && (!worldObj.isRemote || !Minecraft.getMinecraft()
             .isSingleplayer()))
-            ImmersiveNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(this.host), worldObj, !worldObj.isRemote);
+            ImmersiveNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(this), worldObj, !worldObj.isRemote);
     }
 
     @Override
     public void onEnergyPassthrough(int amount) {}
 
     @Override
-    public boolean allowEnergyToPass(Connection con) {
+    public boolean allowEnergyToPass(ImmersiveNetHandler.Connection con) {
         return true;
     }
 
@@ -113,8 +125,8 @@ public abstract class AbstractMTEConnector extends MTEBase {
     @Override
     public void connectCable(WireType cableType, TargetingInfo target) {
         this.limitType = cableType;
-        this.markDirty();
-        host.redstoneStateDirty = true;
+        markDirty();
+        this.redstoneStateDirty = true;
     }
 
     @Override
@@ -123,19 +135,20 @@ public abstract class AbstractMTEConnector extends MTEBase {
     }
 
     @Override
-    public void removeCable(Connection connection) {
+    public void removeCable(ImmersiveNetHandler.Connection connection) {
         WireType type = connection != null ? connection.cableType : null;
-        Set<Connection> outputs = ImmersiveNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this.host));
+        Set<ImmersiveNetHandler.Connection> outputs = ImmersiveNetHandler.INSTANCE
+            .getConnections(worldObj, Utils.toCC(this));
         if (outputs == null || outputs.size() == 0) {
             if (type == limitType || type == null) this.limitType = null;
         }
         this.markDirty();
-        host.redstoneStateDirty = true;
+        this.redstoneStateDirty = true;
     }
 
     @Override
     public void onChunkUnload() {
-        ImmersiveNetHandler.INSTANCE.setProxy(new DimensionBlockPos(this.host), new IICProxy(this.host));
+        ImmersiveNetHandler.INSTANCE.setProxy(new DimensionBlockPos(this), new IICProxy(this));
         super.onChunkUnload();
     }
 
@@ -160,11 +173,13 @@ public abstract class AbstractMTEConnector extends MTEBase {
     @Override
     public Packet getDescriptionPacket() {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
-        this.writeCommon(nbttagcompound);
+        this.writeToNBT(nbttagcompound);
         if (worldObj != null && !worldObj.isRemote) {
             NBTTagList connectionList = new NBTTagList();
-            Set<Connection> conL = ImmersiveNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this.host));
-            if (conL != null) for (Connection con : conL) connectionList.appendTag(con.writeToNBT());
+            Set<ImmersiveNetHandler.Connection> conL = ImmersiveNetHandler.INSTANCE
+                .getConnections(worldObj, Utils.toCC(this));
+            if (conL != null)
+                for (ImmersiveNetHandler.Connection con : conL) connectionList.appendTag(con.writeToNBT());
             nbttagcompound.setTag("connectionList", connectionList);
         }
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, nbttagcompound);
@@ -173,18 +188,18 @@ public abstract class AbstractMTEConnector extends MTEBase {
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
         NBTTagCompound nbt = pkt.func_148857_g();
-        this.readCommon(nbt);
+        this.readFromNBT(nbt);
         needsVisualUpdate = true;
         if (worldObj != null && worldObj.isRemote
             && !Minecraft.getMinecraft()
                 .isSingleplayer()) {
             NBTTagList connectionList = nbt.getTagList("connectionList", 10);
-            ImmersiveNetHandler.INSTANCE.clearConnectionsOriginatingFrom(Utils.toCC(this.host), worldObj);
+            ImmersiveNetHandler.INSTANCE.clearConnectionsOriginatingFrom(Utils.toCC(this), worldObj);
             for (int i = 0; i < connectionList.tagCount(); i++) {
                 NBTTagCompound conTag = connectionList.getCompoundTagAt(i);
-                Connection con = Connection.readFromNBT(conTag);
+                ImmersiveNetHandler.Connection con = ImmersiveNetHandler.Connection.readFromNBT(conTag);
                 if (con != null) {
-                    ImmersiveNetHandler.INSTANCE.addConnection(worldObj, Utils.toCC(this.host), con);
+                    ImmersiveNetHandler.INSTANCE.addConnection(worldObj, Utils.toCC(this), con);
                 } else Logger.error("CLIENT read connection as null");
             }
         }
@@ -222,26 +237,6 @@ public abstract class AbstractMTEConnector extends MTEBase {
             }
         } catch (Exception e) {
             Logger.error("MTEConnector encountered MASSIVE error writing NBT. You shoudl probably report this.");
-        }
-    }
-
-    @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block neighborBlock) {
-        super.onNeighborBlockChange(world, x, y, z, neighborBlock);
-        if (world.isRemote) return; // Chỉ xử lý trên server
-
-        ForgeDirection fd = ForgeDirection.getOrientation(host.getFacing())
-            .getOpposite();
-        int nx = x + fd.offsetX;
-        int ny = y + fd.offsetY;
-        int nz = z + fd.offsetZ;
-
-        if (world.isAirBlock(nx, ny, nz)) {
-            world.removeTileEntity(x, y, z);
-            Block self = world.getBlock(x, y, z);
-            int meta = world.getBlockMetadata(x, y, z);
-            self.dropBlockAsItem(world, x, y, z, meta, 0);
-            world.setBlockToAir(x, y, z);
         }
     }
 

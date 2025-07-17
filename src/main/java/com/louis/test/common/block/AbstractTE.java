@@ -1,14 +1,10 @@
 package com.louis.test.common.block;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -53,44 +49,12 @@ public abstract class AbstractTE extends TileEntityEio implements IGuiHolder<Pos
         return false;
     }
 
-    public void breakBlock(World world, int x, int y, int z, Block blockBroken, int meta) {
-
-    }
-
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
-        readFromItemStack(stack);
-        if (!world.isRemote) {
-            world.markBlockForUpdate(x, y, z);
-        }
-    }
-
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z, Block block) {
-
-    }
-
     public void onNeighborBlockChange(World world, int x, int y, int z, Block nbid) {
         redstoneStateDirty = true;
-
-    }
-
-    public void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemIn) {
-
-    }
-
-    public void dropBlockAsItemWithChance(World worldIn, int x, int y, int z, int meta, float chance, int fortune) {
-
     }
 
     protected void processDrop(World world, int x, int y, int z, TileEntityEnder te, ItemStack stack) {
         writeToItemStack(stack);
-    }
-
-    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side) {
-        return false;
-    }
-
-    public boolean onBlockEventReceived(World world, int x, int y, int z, int eventId, int eventData) {
-        return false;
     }
 
     // Special
@@ -212,33 +176,7 @@ public abstract class AbstractTE extends TileEntityEio implements IGuiHolder<Pos
         }
     }
 
-    public short getFacingForHeading(int heading) {
-        switch (heading) {
-            case 0:
-                return 2;
-            case 1:
-                return 5;
-            case 2:
-                return 3;
-            case 3:
-            default:
-                return 4;
-        }
-    }
-
     public ChunkCoordinates getChunkCoord() {
         return new ChunkCoordinates(xCoord, yCoord, zCoord);
-    }
-
-    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-
-    }
-
-    public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-
-    }
-
-    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-
     }
 }
