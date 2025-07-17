@@ -6,8 +6,8 @@ import com.louis.test.common.block.basicblock.electrolyzer.BlockElectrolyzer;
 import com.louis.test.common.block.basicblock.heatsource.BlockHeatSource;
 import com.louis.test.common.block.basicblock.solar.BlockSolarPanel;
 import com.louis.test.common.block.basicblock.test.BlockTest;
+import com.louis.test.common.block.energyConnector.BlockConnectable;
 import com.louis.test.common.block.material.BlockMaterial;
-import com.louis.test.common.block.meta.BlockMeta;
 import com.louis.test.common.block.multiblock.BlockMultiBlock;
 import com.louis.test.common.block.multiblock.boiler.BlockBoiler;
 import com.louis.test.common.block.multiblock.fluid.BlockFluidFilter;
@@ -21,7 +21,7 @@ import com.louis.test.common.block.multiblock.part.item.BlockItemOutput;
 
 public class ModBlocks {
 
-    public static Block blockMeta;
+    public static Block blockConnectable;
     public static Block blockMaterial;
     public static Block blockMultiBlock;
     public static Block blockTest;
@@ -39,7 +39,7 @@ public class ModBlocks {
     public static Block blockElectrolyzer;
 
     public static void init() {
-        blockMeta = BlockMeta.create();
+        blockConnectable = BlockConnectable.create();
         blockMaterial = BlockMaterial.create();
         blockMultiBlock = BlockMultiBlock.create();
         blockTest = BlockTest.create();

@@ -56,6 +56,13 @@ item.bucketMana.name=Mana Bucket
 tile.blockTest.name=Test Block
 
 tile.blockElectrolyzer.name=Electrolyzer
+tile.blockConnectable.insulator.name=Insulator
+tile.blockConnectable.connectorULV.name=ULV Wire Connector
+tile.blockConnectable.connectorLV.name=LV Wire Connector
+tile.blockConnectable.connectorMV.name=MV Wire Connector
+tile.blockConnectable.connectorHV.name=HV Wire Connector
+tile.blockConnectable.connectorEV.name=EV Wire Connector
+tile.blockConnectable.connectorIV.name=IV Wire Connector
 
 tile.fluid.mana.name=Mana
 fluid.mana=Mana

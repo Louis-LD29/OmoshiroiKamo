@@ -8,11 +8,10 @@ import net.minecraftforge.common.MinecraftForge;
 import com.louis.test.client.gui.ManaHUD;
 import com.louis.test.client.handler.ClientTickHandler;
 import com.louis.test.client.handler.DameEvents;
+import com.louis.test.client.render.block.connectable.*;
 import com.louis.test.client.render.item.pufferfish.PufferFishRenderer;
-import com.louis.test.client.render.meta.MTEISBRH;
-import com.louis.test.client.render.meta.MTETESR;
 import com.louis.test.common.block.ModBlocks;
-import com.louis.test.common.block.meta.TEMeta;
+import com.louis.test.common.block.energyConnector.*;
 import com.louis.test.common.config.Config;
 import com.louis.test.common.item.ModItems;
 
@@ -42,12 +41,16 @@ public class ClientProxy extends CommonProxy {
             .bus()
             .register(ClientTickHandler.instance);
 
-        // AbstractBlock.renderId = RenderingRegistry.getNextAvailableRenderId();
-
-        MTEISBRH connectionRenderer = new MTEISBRH();
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockMeta), connectionRenderer);
-        RenderingRegistry.registerBlockHandler(connectionRenderer);
-        ClientRegistry.bindTileEntitySpecialRenderer(TEMeta.class, new MTETESR());
+        ConnectableISBRH connectableISBRH = new ConnectableISBRH();
+        RenderingRegistry.registerBlockHandler(connectableISBRH);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockConnectable), connectableISBRH);
+        ClientRegistry.bindTileEntitySpecialRenderer(TEInsulator.class, new InsulatorTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(TEConnectorULV.class, new ConnectorULVTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(TEConnectorLV.class, new ConnectorLVTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(TEConnectorMV.class, new ConnectorMVTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(TEConnectorHV.class, new ConnectorHVTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(TEConnectorEV.class, new ConnectorEVTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(TEConnectorIV.class, new ConnectorIVTESR());
 
         if (Config.renderPufferFish) {
             MinecraftForgeClient.registerItemRenderer(Items.fish, new PufferFishRenderer());

@@ -10,7 +10,7 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -20,8 +20,6 @@ import com.louis.test.api.client.IResourceTooltipProvider;
 import com.louis.test.api.enums.ModObject;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class AbstractBlock<T extends AbstractTE> extends BlockEio implements IResourceTooltipProvider {
 
@@ -76,13 +74,41 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockEio imple
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block blockBroken, int meta) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
+        float hitY, float hitZ) {
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile instanceof AbstractTE) {
-            ((AbstractTE) tile).breakBlock(world, x, y, z, blockBroken, meta);
+            return ((AbstractTE) tile)
+                .onBlockActivated(world, player, ForgeDirection.getOrientation(side), hitX, hitY, hitZ);
+        }
+        return false;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
+        super.onBlockPlacedBy(world, x, y, z, player, stack);
+        int heading = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+        AbstractTE te = (AbstractTE) world.getTileEntity(x, y, z);
+        te.setFacing(getFacingForHeading(heading));
+        te.readFromItemStack(stack);
+        if (world.isRemote) {
+            return;
         }
         world.markBlockForUpdate(x, y, z);
-        super.breakBlock(world, x, y, z, blockBroken, meta);
+    }
+
+    protected short getFacingForHeading(int heading) {
+        switch (heading) {
+            case 0:
+                return 2;
+            case 1:
+                return 5;
+            case 2:
+                return 3;
+            case 3:
+            default:
+                return 4;
+        }
     }
 
     @Override
@@ -100,66 +126,10 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockEio imple
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
-        float hitY, float hitZ) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile instanceof AbstractTE) {
-            return ((AbstractTE) tile)
-                .onBlockActivated(world, player, ForgeDirection.getOrientation(side), hitX, hitY, hitZ);
-        }
-        return false;
-    }
-
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
-        super.onBlockPlacedBy(world, x, y, z, player, stack);
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof AbstractTE tile) {
-            tile.onBlockPlacedBy(world, x, y, z, player, stack);
-        }
-    }
-
-    @Override
-    protected void dropBlockAsItem(World world, int x, int y, int z, ItemStack itemIn) {
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof AbstractTE tile) {
-            tile.dropBlockAsItem(world, x, y, z, itemIn);
-        }
-        super.dropBlockAsItem(world, x, y, z, itemIn);
-    }
-
-    @Override
-    public void dropBlockAsItemWithChance(World worldIn, int x, int y, int z, int meta, float chance, int fortune) {
-        TileEntity te = worldIn.getTileEntity(x, y, z);
-        if (te instanceof AbstractTE tile) {
-            tile.dropBlockAsItemWithChance(worldIn, x, y, z, meta, chance, fortune);
-        }
-        super.dropBlockAsItemWithChance(worldIn, x, y, z, meta, chance, fortune);
-    }
-
-    @Override
     protected void processDrop(World world, int x, int y, int z, TileEntityEnder te, ItemStack stack) {
         if (te != null) {
             ((AbstractTE) te).processDrop(world, x, y, z, te, stack);
         }
-    }
-
-    @Override
-    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile instanceof AbstractTE) {
-            return ((AbstractTE) tile).canConnectRedstone(world, x, y, z, side);
-        }
-        return super.canConnectRedstone(world, x, y, z, side);
-    }
-
-    @Override
-    public boolean onBlockEventReceived(World world, int x, int y, int z, int eventId, int eventData) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile instanceof AbstractTE) {
-            return ((AbstractTE) tile).onBlockEventReceived(world, x, y, z, eventId, eventData);
-        }
-        return super.onBlockEventReceived(world, x, y, z, eventId, eventData);
     }
 
     @Override
@@ -168,27 +138,6 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockEio imple
     }
 
     // Renderer
-
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile instanceof AbstractTE) {
-            ((AbstractTE) tile).setBlockBoundsBasedOnState(world, x, y, z, this);
-        }
-    }
-
-    @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
-        setBlockBoundsBasedOnState(world, x, y, z);
-        return super.getCollisionBoundingBoxFromPool(world, x, y, z);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
-        setBlockBoundsBasedOnState(world, x, y, z);
-        return super.getSelectedBoundingBoxFromPool(world, x, y, z);
-    }
 
     @Override
     public boolean isOpaqueCube() {
