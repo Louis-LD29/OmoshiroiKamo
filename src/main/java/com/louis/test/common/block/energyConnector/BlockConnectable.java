@@ -218,11 +218,10 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
         TileEntity ent = world.getTileEntity(x, y, z);
         if (!(ent instanceof AbstractTE te)) return;
         ForgeDirection dir = ForgeDirection.getOrientation(te.getFacing());
-
-        float length = te instanceof TEConnectorULV ? .25f
-            : te instanceof TEConnectorLV ? 0.34375f
+        float length = te instanceof TEConnectorEV ? 0.4375f
+            : te instanceof TEConnectorHV ? 0.4375f
                 : te instanceof TEConnectorMV ? 0.34375f
-                    : te instanceof TEConnectorHV ? 0.4375f : te instanceof TEConnectorEV ? 0.4375f : .5f;
+                    : te instanceof TEConnectorLV ? 0.34375f : te instanceof TEConnectorULV ? 0.25f : 0.5f;
         switch (dir) {
             case UP:
                 setBlockBounds(0.375F, 0F, 0.375F, 0.625F, length, 0.625F);

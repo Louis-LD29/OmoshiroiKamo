@@ -32,8 +32,8 @@ public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> implements IRes
     @Override
     protected void init() {
         GameRegistry.registerBlock(this, ItemBlockFluidInOut.class, modObject.unlocalisedName);
-        GameRegistry.registerTileEntity(TEFluidInput.class, modObject.unlocalisedName + "TileEntityInput");
-        GameRegistry.registerTileEntity(TEFluidOutput.class, modObject.unlocalisedName + "TileEntityOutput");
+        GameRegistry.registerTileEntity(TEFluidInput.class, modObject.unlocalisedName + "TEFluidInput");
+        GameRegistry.registerTileEntity(TEFluidOutput.class, modObject.unlocalisedName + "TEFluidOutput");
     }
 
     @Override

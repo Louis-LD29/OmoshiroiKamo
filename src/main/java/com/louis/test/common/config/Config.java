@@ -46,7 +46,7 @@ public class Config {
     public static boolean validateConnections = true;
     public static int[] cableLength = new int[] { 16, 16, 32, 32, 32 };
     public static double[] cableLossRatio = new double[] { 0.05, 0.025, 0.025, 1.0, 1.0 };
-    public static int[] cableTransferRate = new int[] { 2048, 4096, 8192, 0, 0 };
+    public static int[] cableTransferRate = new int[] { 2048, 8192, 32768, 0, 0 };
     public static int[] cableColouration = new int[] { 13926474, 15576418, 7303023, 9862765, 7303023 };
     public static String[] materialCustom = new String[] {};
     public static boolean showDamageParticles = true;

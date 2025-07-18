@@ -58,7 +58,7 @@ public class MaterialWireType extends WireType {
 
     @Override
     public int getTransferRate() {
-        return material.getMaxPowerTransfer();
+        return material.getMaxPowerTransfer() * 10;
     }
 
     @Override
@@ -103,4 +103,5 @@ public class MaterialWireType extends WireType {
     public MaterialEntry getMaterial() {
         return material;
     }
+
 }

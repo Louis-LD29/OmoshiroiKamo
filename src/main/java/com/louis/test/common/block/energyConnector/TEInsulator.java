@@ -43,7 +43,7 @@ public class TEInsulator extends TEConnectable {
     public Vec3 getRaytraceOffset(IImmersiveConnectable link) {
         ForgeDirection fd = ForgeDirection.getOrientation(getFacing())
             .getOpposite();
-        return Vec3.createVectorHelper(.5 + fd.offsetX * .5, .5 + fd.offsetY * .5, .5 + fd.offsetZ * .5);
+        return Vec3.createVectorHelper(.5 + fd.offsetX * .0625, .5 + fd.offsetY * .0625, .5 + fd.offsetZ * .0625);
     }
 
     @Override
