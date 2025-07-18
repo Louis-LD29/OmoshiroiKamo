@@ -13,7 +13,6 @@ import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import louis.omoshiroikamo.api.energy.MaterialWireType;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.client.fluid.FluidTextureGenerator;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.command.ModCommands;
 import louis.omoshiroikamo.common.config.Config;
@@ -44,10 +43,7 @@ public class CommonProxy {
         ModFluids.init();
         ModRecipes.init();
 
-        FluidTextureGenerator.applyAll();
-
-        Config.assembleResourcePack();
-
+        callAssembleResourcePack();
         IECompat.preInit();
     }
 
@@ -100,4 +96,7 @@ public class CommonProxy {
         IECompat.serverLoad();
     }
 
+    public void callAssembleResourcePack() {
+        Config.assembleResourcePack();
+    }
 }
