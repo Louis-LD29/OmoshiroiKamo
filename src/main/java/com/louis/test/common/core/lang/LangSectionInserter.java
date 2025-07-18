@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.louis.test.api.material.MaterialEntry;
 import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.config.Config;
-import com.louis.test.common.core.helper.Logger;
 
 public class LangSectionInserter {
 
@@ -173,9 +172,6 @@ public class LangSectionInserter {
                 out.println(l);
             }
         }
-
-        Logger.info(
-            "[LangSectionInserter] Synced lang file with updated sections. Missing ones added, obsolete ones removed.");
     }
 
     public static void insertCustomMaterialsLang(String[] materialNames) {
@@ -234,9 +230,6 @@ public class LangSectionInserter {
                     out.println(l);
                 }
             }
-
-            Logger.info("[LangSectionInserter] Synced config lang with custom materials: " + file.getAbsolutePath());
-
         } catch (IOException e) {
             e.printStackTrace();
         }

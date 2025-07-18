@@ -210,7 +210,6 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                             player
                                 .addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "invalidPoint"));
                         } else {
-                            // Kiểm tra kết nối đã tồn tại chưa
                             boolean exists = false;
                             Set<Connection> conns = ImmersiveNetHandler.INSTANCE
                                 .getConnections(world, Utils.toCC(nodeHere));
