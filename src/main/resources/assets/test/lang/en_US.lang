@@ -331,23 +331,23 @@ tile.blockFluidInOut.output.TungstenCarbide.name=Fluid Output (Tungsten Carbide)
 tile.blockFluidInOut.output.Niobium.name=Fluid Output (Niobium)
 
 #Block Fluid Material
-tile.fluid.iron.molten.name=Molten Iron
-tile.fluid.copper.molten.name=Molten Copper
-tile.fluid.silver.molten.name=Molten Silver
-tile.fluid.gold.molten.name=Molten Gold
-tile.fluid.zinc.molten.name=Molten Zinc
-tile.fluid.aluminum.molten.name=Molten Aluminum
-tile.fluid.lead.molten.name=Molten Lead
-tile.fluid.titanium.molten.name=Molten Titanium
-tile.fluid.chromium.molten.name=Molten Chromium
-tile.fluid.nickel.molten.name=Molten Nickel
-tile.fluid.carbonSteel.molten.name=Molten Carbon Steel
-tile.fluid.stainlessSteel.molten.name=Molten Stainless Steel
-tile.fluid.brass.molten.name=Molten Brass
-tile.fluid.inconel625.molten.name=Molten Inconel 625
-tile.fluid.tungsten.molten.name=Molten Tungsten
-tile.fluid.tungstenCarbide.molten.name=Molten Tungsten Carbide
-tile.fluid.niobium.molten.name=Molten Niobium
+tile.fluid.molten.iron.name=Molten Iron
+tile.fluid.molten.copper.name=Molten Copper
+tile.fluid.molten.silver.name=Molten Silver
+tile.fluid.molten.gold.name=Molten Gold
+tile.fluid.molten.zinc.name=Molten Zinc
+tile.fluid.molten.aluminum.name=Molten Aluminum
+tile.fluid.molten.lead.name=Molten Lead
+tile.fluid.molten.titanium.name=Molten Titanium
+tile.fluid.molten.chromium.name=Molten Chromium
+tile.fluid.molten.nickel.name=Molten Nickel
+tile.fluid.molten.carbonSteel.name=Molten Carbon Steel
+tile.fluid.molten.stainlessSteel.name=Molten Stainless Steel
+tile.fluid.molten.brass.name=Molten Brass
+tile.fluid.molten.inconel625.name=Molten Inconel 625
+tile.fluid.molten.tungsten.name=Molten Tungsten
+tile.fluid.molten.tungstenCarbide.name=Molten Tungsten Carbide
+tile.fluid.molten.niobium.name=Molten Niobium
 
 #Fluid Material
 fluid.iron.molten=Molten Iron
