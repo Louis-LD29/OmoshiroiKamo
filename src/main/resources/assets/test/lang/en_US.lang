@@ -63,6 +63,7 @@ tile.blockConnectable.connectorMV.name=MV Wire Connector
 tile.blockConnectable.connectorHV.name=HV Wire Connector
 tile.blockConnectable.connectorEV.name=EV Wire Connector
 tile.blockConnectable.connectorIV.name=IV Wire Connector
+tile.blockConnectable.transformer.name=Transformer
 
 tile.fluid.mana.name=Mana
 fluid.mana=Mana

@@ -22,7 +22,6 @@ import com.louis.test.api.enums.ModObject;
 import com.louis.test.client.render.block.connectable.ConnectableISBRH;
 import com.louis.test.common.block.AbstractBlock;
 import com.louis.test.common.block.AbstractTE;
-import com.louis.test.common.core.helper.Logger;
 import com.louis.test.common.core.lib.LibResources;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -32,7 +31,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockConnectable extends AbstractBlock<TEConnectable> {
 
     public static String[] blocks = new String[] { "insulator", "connectorULV", "connectorLV", "connectorMV",
-        "connectorHV", "connectorEV", "connectorIV" };
+        "connectorHV", "connectorEV", "connectorIV", "transformer" };
 
     public static final int META_insulator = 0;
     public static final int META_connectorULV = 1;
@@ -41,6 +40,7 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
     public static final int META_connectorHV = 4;
     public static final int META_connectorEV = 5;
     public static final int META_connectorIV = 6;
+    public static final int META_transformer = 7;
 
     protected BlockConnectable() {
         super(ModObject.blockConnectable, TEConnectable.class);
@@ -62,6 +62,7 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
         GameRegistry.registerTileEntity(TEConnectorHV.class, modObject.unlocalisedName + "_connectorHV");
         GameRegistry.registerTileEntity(TEConnectorEV.class, modObject.unlocalisedName + "_connectorEV");
         GameRegistry.registerTileEntity(TEConnectorIV.class, modObject.unlocalisedName + "_connectorIV");
+        GameRegistry.registerTileEntity(TETransformer.class, modObject.unlocalisedName + "_transformer");
 
     }
 
@@ -90,6 +91,8 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
                 return new TEConnectorEV();
             case META_connectorIV:
                 return new TEConnectorIV();
+            case META_transformer:
+                return new TETransformer();
         }
         return null;
     }
@@ -108,7 +111,6 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
         for (int i = 0; i < blocks.length; i++) {
             String iconName = LibResources.PREFIX_MOD + blocks[i];
             icons[i] = iIconRegister.registerIcon(iconName);
-            Logger.info("[IconRegister] Registered icon: " + iconName);
         }
     }
 
@@ -129,6 +131,7 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
         if (world.isRemote) return;
         TileEntity ent = world.getTileEntity(x, y, z);
         if (!(ent instanceof AbstractTE te)) return;
+        if (te instanceof TETransformer) return;
         ForgeDirection fd = ForgeDirection.getOrientation(te.getFacing())
             .getOpposite();
         int nx = x + fd.offsetX;
@@ -146,6 +149,30 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
 
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TETransformer transformer) {
+            int yaw = MathHelper.floor_double((player.rotationYaw * 4F) / 360F + 0.5D) & 3;
+            ForgeDirection dir;
+            switch (yaw) {
+                case 0:
+                    dir = ForgeDirection.NORTH;
+                    break;
+                case 1:
+                    dir = ForgeDirection.EAST;
+                    break;
+                case 2:
+                    dir = ForgeDirection.SOUTH;
+                    break;
+                case 3:
+                default:
+                    dir = ForgeDirection.WEST;
+                    break;
+            }
+            transformer.setFacing((short) dir.ordinal());
+
+            if (!world.isRemote) world.markBlockForUpdate(x, y, z);
+            return;
+        }
 
         ForgeDirection direction = null;
         float pitch = player.rotationPitch;
@@ -205,18 +232,25 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
             }
         }
 
-        AbstractTE te = (AbstractTE) world.getTileEntity(x, y, z);
-        te.setFacing((short) direction.ordinal());
+        if (te instanceof AbstractTE abstractTE) {
+            abstractTE.setFacing((short) direction.ordinal());
+        }
+
         if (!world.isRemote) {
             world.markBlockForUpdate(x, y, z);
         }
-        world.markBlockForUpdate(x, y, z);
     }
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
         TileEntity ent = world.getTileEntity(x, y, z);
         if (!(ent instanceof AbstractTE te)) return;
+
+        if (te instanceof TETransformer) {
+            setBlockBounds(0.125f, 0F, 0.125f, 0.875, 0.75f, 0.875);
+            return;
+        }
+
         ForgeDirection dir = ForgeDirection.getOrientation(te.getFacing());
         float length = te instanceof TEConnectorEV ? 0.4375f
             : te instanceof TEConnectorHV ? 0.4375f

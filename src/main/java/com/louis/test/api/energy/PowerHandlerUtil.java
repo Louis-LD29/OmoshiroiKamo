@@ -5,7 +5,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.louis.test.common.block.AbstractPoweredTE;
-import com.louis.test.common.core.helper.Logger;
 
 import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
@@ -18,30 +17,14 @@ public class PowerHandlerUtil {
 
     public static IPowerInterface create(Object o) {
         if (o instanceof IEnergyHandler) {
-            Logger.info(
-                "[PowerHandlerUtil] Wrapping as IEnergyHandler: " + o.getClass()
-                    .getSimpleName());
             return new EnergyHandlerPI((IEnergyHandler) o);
         } else if (o instanceof IEnergyProvider) {
-            Logger.info(
-                "[PowerHandlerUtil] Wrapping as IEnergyProvider: " + o.getClass()
-                    .getSimpleName());
             return new EnergyProviderPI((IEnergyProvider) o);
         } else if (o instanceof IEnergyReceiver) {
-            Logger.info(
-                "[PowerHandlerUtil] Wrapping as IEnergyReceiver: " + o.getClass()
-                    .getSimpleName());
             return new EnergyReceiverPI((IEnergyReceiver) o);
         } else if (o instanceof IEnergyConnection) {
-            Logger.info(
-                "[PowerHandlerUtil] Wrapping as IEnergyConnection: " + o.getClass()
-                    .getSimpleName());
             return new EnergyConnectionPI((IEnergyConnection) o);
         }
-
-        Logger.info(
-            "[PowerHandlerUtil] Not power-compatible: " + o.getClass()
-                .getSimpleName());
         return null;
     }
 

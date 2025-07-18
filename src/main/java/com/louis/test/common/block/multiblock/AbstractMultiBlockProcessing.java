@@ -188,9 +188,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                 }
             }
 
-            if (remaining != null && remaining.stackSize > 0) {
-                Logger.info("[mergeResults] Không đủ chỗ chứa ItemStack: " + remaining);
-            }
+            if (remaining != null && remaining.stackSize > 0) {}
         }
 
         for (FluidStack output : fluidStacks) {
@@ -227,9 +225,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                 }
             }
 
-            if (remaining > 0) {
-                Logger.info("[mergeResults] Không đủ chỗ chứa FluidStack: " + output.getLocalizedName());
-            }
+            if (remaining > 0) {}
         }
 
         cachedNextRecipe = null;
@@ -335,9 +331,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                 if (remaining <= 0) break;
             }
 
-            if (remaining > 0) {
-                Logger.info("[consumeInputs] Không đủ item để tiêu thụ: " + input.getDisplayName());
-            }
+            if (remaining > 0) {}
         }
 
         // Tiêu thụ fluid inputs

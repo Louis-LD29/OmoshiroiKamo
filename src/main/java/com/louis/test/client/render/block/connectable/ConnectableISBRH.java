@@ -27,6 +27,7 @@ public class ConnectableISBRH implements ISimpleBlockRenderingHandler, IItemRend
     private static final TEConnectorHV connectorHV = new TEConnectorHV();
     private static final TEConnectorEV connectorEV = new TEConnectorEV();
     private static final TEConnectorIV connectorIV = new TEConnectorIV();
+    private static final TETransformer transformer = new TETransformer();
 
     public ConnectableISBRH() {
         renderConnectableId = RenderingRegistry.getNextAvailableRenderId();
@@ -71,6 +72,10 @@ public class ConnectableISBRH implements ISimpleBlockRenderingHandler, IItemRend
             case BlockConnectable.META_connectorIV:
                 TEConnectorIV tileConnectorIV = (TEConnectorIV) te;
                 IECompat.handleStaticTileRenderer(tileConnectorIV);
+                return true;
+            case BlockConnectable.META_transformer:
+                TETransformer tileTransformer = (TETransformer) te;
+                IECompat.handleStaticTileRenderer(tileTransformer);
                 return true;
         }
         return false;
@@ -123,6 +128,9 @@ public class ConnectableISBRH implements ISimpleBlockRenderingHandler, IItemRend
                     break;
                 case BlockConnectable.META_connectorIV:
                     IECompat.handleStaticTileItemRenderer(connectorIV);
+                    break;
+                case BlockConnectable.META_transformer:
+                    IECompat.handleStaticTileItemRenderer(transformer);
                     break;
             }
         } catch (Exception e) {

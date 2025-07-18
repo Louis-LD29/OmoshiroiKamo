@@ -15,7 +15,6 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.louis.test.common.core.helper.Logger;
 import com.louis.test.common.core.lib.LibMisc;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -46,14 +45,11 @@ public class RecipeLoader {
                         while ((len = in.read(buffer)) > 0) {
                             out.write(buffer, 0, len);
                         }
-                        Logger.warn("Copied recipe file from resource: " + name);
                     }
                 } else {
-                    Logger.warn("Recipe resource not found: " + resourcePath);
                     return 0;
                 }
             } catch (IOException e) {
-                Logger.warn("Failed to copy recipe: " + e);
                 return 0;
             }
         }
@@ -68,7 +64,6 @@ public class RecipeLoader {
             List<JsonRecipe> recipes = gson.fromJson(reader, new TypeToken<List<JsonRecipe>>() {}.getType());
 
             if (recipes == null) {
-                Logger.warn("No recipes found in file: " + file.getName());
                 return 0;
             }
 
@@ -87,8 +82,6 @@ public class RecipeLoader {
                             List<ItemStack> oreStacks = OreDictionary.getOres(i.oredict);
                             if (!oreStacks.isEmpty()) {
                                 builder.addItemInput(i.oredict, i.amount);
-                            } else {
-                                Logger.warn("[WARN] oreDict NOT FOUND: " + i.oredict);
                             }
                             continue;
                         }
@@ -107,7 +100,6 @@ public class RecipeLoader {
                             continue;
                         }
 
-                        Logger.warn("[WARN] Item/Block input NOT FOUND: " + i.modid + ":" + i.name);
                     }
                 }
 
@@ -117,8 +109,6 @@ public class RecipeLoader {
                         Fluid fluid = FluidRegistry.getFluid(f.name);
                         if (fluid != null) {
                             builder.addFluidInput(fluid, f.amount);
-                        } else {
-                            Logger.warn("[WARN] Fluid input NOT FOUND: " + f.modid + ":" + f.name);
                         }
                     }
                 }
@@ -130,8 +120,6 @@ public class RecipeLoader {
                             List<ItemStack> oreStacks = OreDictionary.getOres(i.oredict);
                             if (!oreStacks.isEmpty()) {
                                 builder.addItemOutput(i.oredict, i.amount);
-                            } else {
-                                Logger.warn("[WARN] oreDict output NOT FOUND: " + i.oredict);
                             }
                             continue;
                         }
@@ -149,8 +137,6 @@ public class RecipeLoader {
                             builder.addItemOutput(new ItemStack(block, i.amount, meta));
                             continue;
                         }
-
-                        Logger.warn("[WARN] Item/Block output NOT FOUND: " + i.modid + ":" + i.name);
                     }
                 }
 
@@ -160,8 +146,6 @@ public class RecipeLoader {
                         Fluid fluid = FluidRegistry.getFluid(f.name);
                         if (fluid != null) {
                             builder.addFluidOutput(fluid, f.amount);
-                        } else {
-                            Logger.warn("[WARN] Fluid output NOT FOUND: " + f.modid + ":" + f.name);
                         }
                     }
                 }
@@ -189,10 +173,7 @@ public class RecipeLoader {
 
             }
 
-            Logger.warn("[INFO] Loaded " + loaded + " recipes from: " + file.getName());
-
         } catch (Exception e) {
-            Logger.warn("[ERROR] Failed to load recipes from " + file.getName());
             e.printStackTrace();
         }
 

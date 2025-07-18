@@ -16,7 +16,6 @@ import net.minecraftforge.fluids.Fluid;
 
 import com.louis.test.api.material.MaterialEntry;
 import com.louis.test.common.config.Config;
-import com.louis.test.common.core.helper.Logger;
 import com.louis.test.common.core.lib.LibResources;
 import com.louis.test.common.fluid.material.FluidMaterialRegistry;
 
@@ -52,18 +51,15 @@ public class FluidTextureGenerator {
                 BufferedImage still = tint(baseStill, color);
                 ImageIO.write(still, "png", stillFile);
                 writeMcmetaFile(stillFile, still.getHeight() / 16, true, 2);
-                Logger.info("[FluidTextureApplier] Created still texture for: " + name);
             }
 
             if (!flowFile.exists()) {
                 BufferedImage flow = tint(baseFlow, color);
                 ImageIO.write(flow, "png", flowFile);
                 writeMcmetaFile(flowFile, flow.getHeight() / 16, false, 3);
-                Logger.info("[FluidTextureApplier] Created flow texture for: " + name);
             }
 
         } catch (IOException e) {
-            Logger.error("[FluidTextureApplier] Failed to generate texture for fluid " + name + ": " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -77,14 +73,12 @@ public class FluidTextureGenerator {
             ResourceLocation flowLoc = new ResourceLocation(
                 LibResources.PREFIX_MOD + "textures/blocks/liquid_base_flow.png");
 
-            Logger.info("[FluidTextureApplier] Loading liquid_base from: " + stillLoc);
             baseStill = ImageIO.read(
                 Minecraft.getMinecraft()
                     .getResourceManager()
                     .getResource(stillLoc)
                     .getInputStream());
 
-            Logger.info("[FluidTextureApplier] Loading liquid_base_flow from: " + flowLoc);
             baseFlow = ImageIO.read(
                 Minecraft.getMinecraft()
                     .getResourceManager()
@@ -93,16 +87,9 @@ public class FluidTextureGenerator {
 
             if (!CONFIG_FLUID_DIR.exists()) {
                 boolean created = CONFIG_FLUID_DIR.mkdirs();
-                Logger.info(
-                    "[FluidTextureApplier] Created icon folder: " + CONFIG_FLUID_DIR.getAbsolutePath()
-                        + " -> "
-                        + created);
-            } else {
-                Logger.info("[FluidTextureApplier] Using existing icon folder: " + CONFIG_FLUID_DIR.getAbsolutePath());
-            }
+            } else {}
 
         } catch (IOException e) {
-            Logger.error("[FluidTextureApplier] Failed to load base textures: " + e.getMessage());
             throw new RuntimeException("Failed to load base textures", e);
         }
     }
@@ -148,7 +135,6 @@ public class FluidTextureGenerator {
 
         try (FileWriter writer = new FileWriter(mcmeta)) {
             writer.write(json.toString());
-            Logger.info("[FluidTextureApplier] Wrote .mcmeta for: " + pngFile.getName());
         }
     }
 
@@ -175,7 +161,6 @@ public class FluidTextureGenerator {
             if (!file.isFile()) continue;
             if (!validNames.contains(file.getName())) {
                 boolean deleted = file.delete();
-                Logger.info("[FluidTextureApplier] Removed unused texture: " + file.getName() + " -> " + deleted);
             }
         }
     }

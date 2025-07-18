@@ -11,7 +11,6 @@ import net.minecraftforge.common.MinecraftForge;
 import com.louis.test.api.enums.VoltageTier;
 import com.louis.test.client.render.AbstractMTESR;
 import com.louis.test.common.config.Config;
-import com.louis.test.common.core.helper.Logger;
 
 import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
 import blusunrize.immersiveengineering.api.energy.WireType;
@@ -103,19 +102,12 @@ public class IECompat {
     public static boolean isCableTierCompatible(TileEntity tile, VoltageTier tier) {
         if (!(tile instanceof TileEntityConnectorLV || tile instanceof TileEntityConnectorMV
             || tile instanceof TileEntityConnectorHV)) {
-            Logger.info("[IECompat] Tile is not a known IE connector, defaulting to compatible.");
             return true;
         }
 
-        boolean result = (tile.getClass() == TileEntityConnectorLV.class && tier.equals(VoltageTier.LV))
+        return (tile.getClass() == TileEntityConnectorLV.class && tier.equals(VoltageTier.LV))
             || (tile.getClass() == TileEntityConnectorMV.class && tier.equals(VoltageTier.MV))
             || (tile.getClass() == TileEntityConnectorHV.class && tier.equals(VoltageTier.HV));
-
-        Logger.info(
-            "[IECompat] Checking cable-tier compatibility: Tile=" + tile.getClass()
-                .getSimpleName() + ", Tier=" + tier.name() + ", Result=" + result);
-
-        return result;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.louis.test.common.core.helper;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,7 +49,6 @@ public class OreDictUtils {
         List<ItemStack> oreDictStacks = OreDictionary.getOres(oreDictName);
 
         if (oreDictStacks.isEmpty()) {
-            Logger.warn("[WARN] OreDict not found: " + oreDictName);
             return;
         }
 
@@ -63,7 +61,6 @@ public class OreDictUtils {
         }
 
         if (!fromBelongs) {
-            Logger.info("[SKIP] " + from + " ∉ " + oreDictName);
             return;
         }
 
@@ -71,23 +68,11 @@ public class OreDictUtils {
             .copy();
 
         if (ItemStack.areItemStacksEqual(from, to) && ItemStack.areItemStackTagsEqual(from, to)) {
-            Logger.info("[SKIP] Identity conversion: " + from + " == " + to);
             return;
         }
 
-        Set<String> fromDicts = getOreDictNames(from);
-        Set<String> toDicts = getOreDictNames(to);
-        boolean sharedDicts = !Collections.disjoint(fromDicts, toDicts);
-
-        if (sharedDicts) {
-            Logger.info("[WARN] Shared oreDicts between from & to: " + from + " ↔ " + to + " (" + oreDictName + ")");
-        }
-
         GameRegistry.addShapedRecipe(from, "   ", " N ", "   ", 'N', to);
-        Logger.info("[INFO] Added conversion: " + to + " → " + from);
-
         GameRegistry.addShapedRecipe(to, "   ", " N ", "   ", 'N', from);
-        Logger.info("[INFO] Added reverse conversion: " + from + " → " + to);
     }
 
     private static Set<String> getOreDictNames(ItemStack stack) {
