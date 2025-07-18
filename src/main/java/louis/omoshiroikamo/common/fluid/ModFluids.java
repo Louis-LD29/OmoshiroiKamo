@@ -1,12 +1,12 @@
 package louis.omoshiroikamo.common.fluid;
 
+import louis.omoshiroikamo.api.fluid.FluidMaterial;
+import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.IFluidTank;
-
-import louis.omoshiroikamo.api.fluid.FluidMaterial;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
 
 public class ModFluids {
 
@@ -37,6 +37,8 @@ public class ModFluids {
     }
 
     public static void init() {
+
+        FluidMaterialRegistry.init();
 
         Fluid f = new Fluid(MANA).setDensity(500)
             .setViscosity(500)
