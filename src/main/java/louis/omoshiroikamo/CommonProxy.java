@@ -1,5 +1,9 @@
 package louis.omoshiroikamo;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.*;
@@ -20,9 +24,6 @@ import louis.omoshiroikamo.common.plugin.nei.IMCForNEI;
 import louis.omoshiroikamo.common.plugin.tic.TICCompat;
 import louis.omoshiroikamo.common.plugin.waila.WailaRegistrar;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 
 public abstract class CommonProxy {
 
