@@ -11,8 +11,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.client.gui.ManaHUD;
 import louis.omoshiroikamo.client.handler.ClientTickHandler;
 import louis.omoshiroikamo.client.handler.DameEvents;
@@ -38,7 +36,6 @@ import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
 import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.item.ModItems;
 
-@SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
 
     @Override
