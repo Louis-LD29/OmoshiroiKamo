@@ -1,9 +1,5 @@
 package louis.omoshiroikamo;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.*;
@@ -18,13 +14,15 @@ import louis.omoshiroikamo.common.core.handlers.ElementalHandler;
 import louis.omoshiroikamo.common.core.handlers.FlightHandler;
 import louis.omoshiroikamo.common.core.handlers.ManaRegenHandler;
 import louis.omoshiroikamo.common.fluid.ModFluids;
-import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegistry;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.plugin.compat.IECompat;
 import louis.omoshiroikamo.common.plugin.nei.IMCForNEI;
 import louis.omoshiroikamo.common.plugin.tic.TICCompat;
 import louis.omoshiroikamo.common.plugin.waila.WailaRegistrar;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 
 public abstract class CommonProxy {
 
@@ -39,7 +37,6 @@ public abstract class CommonProxy {
         ModFluids.init();
         ModRecipes.init();
 
-        FluidMaterialRegistry.init();
         FluidTextureGenerator.applyAll();
 
         Config.assembleResourcePack();
