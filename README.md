@@ -1,4 +1,4 @@
-# ⚙️ TEST (Temporary Name) [Minecraft 1.7.10]
+# ⚙️ Omoshiroi Kamo [Minecraft 1.7.10]
 
 A Minecraft mod for 1.7.10 that adds scientifically-grounded materials, physical properties, and technology
 integration — with a focus on real-world physics and chemistry.
