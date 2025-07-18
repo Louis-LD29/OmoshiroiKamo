@@ -17,7 +17,6 @@ public final class LibMisc {
 
     // Network Contants
     public static final String NETWORK_CHANNEL = MOD_ID;
-
     // Proxy Constants
     public static final String PROXY_COMMON = "louis.omoshiroikamo.CommonProxy";
     public static final String PROXY_CLIENT = "louis.omoshiroikamo.ClientProxy";

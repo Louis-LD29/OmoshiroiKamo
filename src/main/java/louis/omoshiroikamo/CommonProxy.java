@@ -29,7 +29,7 @@ import louis.omoshiroikamo.common.plugin.tic.TICCompat;
 import louis.omoshiroikamo.common.plugin.waila.WailaRegistrar;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
 
-public abstract class CommonProxy {
+public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         MaterialRegistry.init();
