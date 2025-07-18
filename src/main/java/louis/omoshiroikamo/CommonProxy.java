@@ -31,6 +31,8 @@ import louis.omoshiroikamo.common.recipes.ModRecipes;
 
 public class CommonProxy {
 
+    public CommonProxy() {}
+
     public void preInit(FMLPreInitializationEvent event) {
         MaterialRegistry.init();
         MaterialWireType.init();
