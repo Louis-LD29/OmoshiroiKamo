@@ -3,7 +3,6 @@ package louis.omoshiroikamo.common.fluid.material;
 import java.util.HashMap;
 import java.util.Map;
 
-import louis.omoshiroikamo.client.fluid.FluidTextureGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
