@@ -1,6 +1,6 @@
 package louis.omoshiroikamo.api.material;
 
-import java.awt.*;
+import java.awt.Color;
 
 import louis.omoshiroikamo.api.enums.BlockMassType;
 import louis.omoshiroikamo.api.enums.VoltageTier;

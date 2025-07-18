@@ -5,7 +5,12 @@
 
 package blusunrize.immersiveengineering.client;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -24,12 +29,21 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import net.minecraft.util.Timer;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.obj.*;
+import net.minecraftforge.client.model.obj.Face;
+import net.minecraftforge.client.model.obj.GroupObject;
+import net.minecraftforge.client.model.obj.TextureCoordinate;
+import net.minecraftforge.client.model.obj.Vertex;
+import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidTank;
 
@@ -59,12 +73,30 @@ public class ClientUtils {
     public static final AxisAlignedBB standardBlockAABB = AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1);
     public static final Vec3 up = Vec3.createVectorHelper(0, 1, 0);
 
+    static int[] chatColours = { 0x000000, // BLACK
+        0x0000AA, // DARK_BLUE
+        0x00AA00, // DARK_GREEN
+        0x00AAAA, // DARK_AQUA
+        0xAA0000, // DARK_RED
+        0xAA00AA, // DARK_PURPLE
+        0xFFAA00, // GOLD
+        0xAAAAAA, // GRAY
+        0x555555, // DARK_GRAY
+        0x5555FF, // BLUE
+        0x55FF55, // GREEN
+        0x55FFFF, // AQUA
+        0xFF5555, // RED
+        0xFF55FF, // LIGHT_PURPLE
+        0xFFFF55, // YELLOW
+        0xFFFFFF// WHITE
+    };
+
     // MOD SPECIFIC METHODS
     public static void renderAttachedConnections(TileEntity tile) {
         if (tile.getWorldObj() != null && tile instanceof IImmersiveConnectable) {
             Set<Connection> outputs = ImmersiveNetHandler.INSTANCE.getConnections(tile.getWorldObj(), Utils.toCC(tile));
             if (outputs != null) {
-                Iterator<ImmersiveNetHandler.Connection> itCon = outputs.iterator();
+                Iterator<Connection> itCon = outputs.iterator();
                 while (itCon.hasNext()) {
                     ImmersiveNetHandler.Connection con = itCon.next();
                     TileEntity tileEnd = tile.getWorldObj()
@@ -112,6 +144,10 @@ public class ClientUtils {
         int col = connection.cableType.getColour(connection);
         double r = connection.cableType.getRenderDiameter() / 2;
         drawConnection(connection, start, end, col, 255, r, icon);
+    }
+
+    public static int calcBrightness(IBlockAccess world, double x, double y, double z) {
+        return world.getLightBrightnessForSkyBlocks((int) Math.floor(x), (int) Math.floor(y), (int) Math.floor(z), 0);
     }
 
     public static void drawConnection(ImmersiveNetHandler.Connection connection, IImmersiveConnectable start,
@@ -474,43 +510,6 @@ public class ClientUtils {
         tes.setColorRGBA_I(0xffffff, 0xff);
     }
 
-    public static int calcBrightness(IBlockAccess world, double x, double y, double z) {
-        return world.getLightBrightnessForSkyBlocks((int) Math.floor(x), (int) Math.floor(y), (int) Math.floor(z), 0);
-    }
-
-    public static void tessellateBox(double xMin, double yMin, double zMin, double xMax, double yMax, double zMax,
-        IIcon icon) {
-        tes().addVertexWithUV(xMin, yMin, zMax, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(zMax * 16));
-        tes().addVertexWithUV(xMin, yMin, zMin, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(zMin * 16));
-        tes().addVertexWithUV(xMax, yMin, zMin, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(zMin * 16));
-        tes().addVertexWithUV(xMax, yMin, zMax, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(zMax * 16));
-
-        tes().addVertexWithUV(xMin, yMax, zMin, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(zMin * 16));
-        tes().addVertexWithUV(xMin, yMax, zMax, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(zMax * 16));
-        tes().addVertexWithUV(xMax, yMax, zMax, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(zMax * 16));
-        tes().addVertexWithUV(xMax, yMax, zMin, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(zMin * 16));
-
-        tes().addVertexWithUV(xMax, yMin, zMin, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(yMax * 16));
-        tes().addVertexWithUV(xMin, yMin, zMin, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(yMax * 16));
-        tes().addVertexWithUV(xMin, yMax, zMin, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(yMin * 16));
-        tes().addVertexWithUV(xMax, yMax, zMin, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(yMin * 16));
-
-        tes().addVertexWithUV(xMin, yMin, zMax, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(yMax * 16));
-        tes().addVertexWithUV(xMax, yMin, zMax, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(yMax * 16));
-        tes().addVertexWithUV(xMax, yMax, zMax, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(yMin * 16));
-        tes().addVertexWithUV(xMin, yMax, zMax, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(yMin * 16));
-
-        tes().addVertexWithUV(xMin, yMin, zMin, icon.getInterpolatedU(zMin * 16), icon.getInterpolatedV(yMax * 16));
-        tes().addVertexWithUV(xMin, yMin, zMax, icon.getInterpolatedU(zMax * 16), icon.getInterpolatedV(yMax * 16));
-        tes().addVertexWithUV(xMin, yMax, zMax, icon.getInterpolatedU(zMax * 16), icon.getInterpolatedV(yMin * 16));
-        tes().addVertexWithUV(xMin, yMax, zMin, icon.getInterpolatedU(zMin * 16), icon.getInterpolatedV(yMin * 16));
-
-        tes().addVertexWithUV(xMax, yMin, zMax, icon.getInterpolatedU(zMax * 16), icon.getInterpolatedV(yMax * 16));
-        tes().addVertexWithUV(xMax, yMin, zMin, icon.getInterpolatedU(zMin * 16), icon.getInterpolatedV(yMax * 16));
-        tes().addVertexWithUV(xMax, yMax, zMin, icon.getInterpolatedU(zMin * 16), icon.getInterpolatedV(yMin * 16));
-        tes().addVertexWithUV(xMax, yMax, zMax, icon.getInterpolatedU(zMax * 16), icon.getInterpolatedV(yMin * 16));
-    }
-
     // GENERAL METHODS
     static HashMap<String, ResourceLocation> resourceMap = new HashMap<String, ResourceLocation>();
 
@@ -577,23 +576,38 @@ public class ClientUtils {
         return "";
     }
 
-    static int[] chatColours = { 0x000000, // BLACK
-        0x0000AA, // DARK_BLUE
-        0x00AA00, // DARK_GREEN
-        0x00AAAA, // DARK_AQUA
-        0xAA0000, // DARK_RED
-        0xAA00AA, // DARK_PURPLE
-        0xFFAA00, // GOLD
-        0xAAAAAA, // GRAY
-        0x555555, // DARK_GRAY
-        0x5555FF, // BLUE
-        0x55FF55, // GREEN
-        0x55FFFF, // AQUA
-        0xFF5555, // RED
-        0xFF55FF, // LIGHT_PURPLE
-        0xFFFF55, // YELLOW
-        0xFFFFFF// WHITE
-    };
+    public static void tessellateBox(double xMin, double yMin, double zMin, double xMax, double yMax, double zMax,
+        IIcon icon) {
+        tes().addVertexWithUV(xMin, yMin, zMax, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(zMax * 16));
+        tes().addVertexWithUV(xMin, yMin, zMin, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(zMin * 16));
+        tes().addVertexWithUV(xMax, yMin, zMin, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(zMin * 16));
+        tes().addVertexWithUV(xMax, yMin, zMax, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(zMax * 16));
+
+        tes().addVertexWithUV(xMin, yMax, zMin, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(zMin * 16));
+        tes().addVertexWithUV(xMin, yMax, zMax, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(zMax * 16));
+        tes().addVertexWithUV(xMax, yMax, zMax, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(zMax * 16));
+        tes().addVertexWithUV(xMax, yMax, zMin, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(zMin * 16));
+
+        tes().addVertexWithUV(xMax, yMin, zMin, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(yMax * 16));
+        tes().addVertexWithUV(xMin, yMin, zMin, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(yMax * 16));
+        tes().addVertexWithUV(xMin, yMax, zMin, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(yMin * 16));
+        tes().addVertexWithUV(xMax, yMax, zMin, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(yMin * 16));
+
+        tes().addVertexWithUV(xMin, yMin, zMax, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(yMax * 16));
+        tes().addVertexWithUV(xMax, yMin, zMax, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(yMax * 16));
+        tes().addVertexWithUV(xMax, yMax, zMax, icon.getInterpolatedU(xMin * 16), icon.getInterpolatedV(yMin * 16));
+        tes().addVertexWithUV(xMin, yMax, zMax, icon.getInterpolatedU(xMax * 16), icon.getInterpolatedV(yMin * 16));
+
+        tes().addVertexWithUV(xMin, yMin, zMin, icon.getInterpolatedU(zMin * 16), icon.getInterpolatedV(yMax * 16));
+        tes().addVertexWithUV(xMin, yMin, zMax, icon.getInterpolatedU(zMax * 16), icon.getInterpolatedV(yMax * 16));
+        tes().addVertexWithUV(xMin, yMax, zMax, icon.getInterpolatedU(zMax * 16), icon.getInterpolatedV(yMin * 16));
+        tes().addVertexWithUV(xMin, yMax, zMin, icon.getInterpolatedU(zMin * 16), icon.getInterpolatedV(yMin * 16));
+
+        tes().addVertexWithUV(xMax, yMin, zMax, icon.getInterpolatedU(zMax * 16), icon.getInterpolatedV(yMax * 16));
+        tes().addVertexWithUV(xMax, yMin, zMin, icon.getInterpolatedU(zMin * 16), icon.getInterpolatedV(yMax * 16));
+        tes().addVertexWithUV(xMax, yMax, zMin, icon.getInterpolatedU(zMin * 16), icon.getInterpolatedV(yMin * 16));
+        tes().addVertexWithUV(xMax, yMax, zMax, icon.getInterpolatedU(zMax * 16), icon.getInterpolatedV(yMin * 16));
+    }
 
     public static int getFormattingColour(EnumChatFormatting rarityColor) {
         return rarityColor.ordinal() < 16 ? chatColours[rarityColor.ordinal()] : 0;
@@ -627,7 +641,7 @@ public class ClientUtils {
             newRenderers[i].setTextureOffset(toX, toY);
             newRenderers[i].mirror = oldRenderers[i].mirror;
             ArrayList<ModelBox> newCubes = new ArrayList<ModelBox>();
-            for (ModelBox cube : (List<ModelBox>) oldRenderers[i].cubeList) newCubes.add(
+            for (ModelBox cube : oldRenderers[i].cubeList) newCubes.add(
                 new ModelBox(
                     newRenderers[i],
                     toX,
@@ -1506,87 +1520,6 @@ public class ClientUtils {
                 else tooltip.add(StatCollector.translateToLocal("gui.ImmersiveEngineering.empty"));
                 tooltip.add(tank.getFluidAmount() + "/" + tank.getCapacity() + "mB");
             }
-        }
-    }
-
-    public static class BlockLightingInfo {
-
-        public int aoBrightnessXYNN;
-        public int aoBrightnessYZNN;
-        public int aoBrightnessYZNP;
-        public int aoBrightnessXYPN;
-        public float aoLightValueScratchXYNN;
-        public float aoLightValueScratchYZNN;
-        public float aoLightValueScratchYZNP;
-        public float aoLightValueScratchXYPN;
-        public float aoLightValueScratchXYZNNN;
-        public int aoBrightnessXYZNNN;
-        public float aoLightValueScratchXYZNNP;
-        public int aoBrightnessXYZNNP;
-        public float aoLightValueScratchXYZPNN;
-        public int aoBrightnessXYZPNN;
-        public float aoLightValueScratchXYZPNP;
-        public int aoBrightnessXYZPNP;
-        public int brightnessTopLeft;
-        public int brightnessTopRight;
-        public int brightnessBottomRight;
-        public int brightnessBottomLeft;
-        public float colorRedTopLeft;
-        public float colorGreenTopLeft;
-        public float colorBlueTopLeft;
-        public float colorRedBottomLeft;
-        public float colorRedBottomRight;
-        public float colorRedTopRight;
-        public float colorGreenTopRight;
-        public float colorBlueTopRight;
-        public float colorGreenBottomRight;
-        public float colorBlueBottomRight;
-        public float colorGreenBottomLeft;
-        public float colorBlueBottomLeft;
-
-        public int aoBrightnessXYNP;
-        public int aoBrightnessXYPP;
-        public int aoBrightnessYZPN;
-        public int aoBrightnessYZPP;
-        public float aoLightValueScratchXYNP;
-        public float aoLightValueScratchXYPP;
-        public float aoLightValueScratchYZPN;
-        public float aoLightValueScratchYZPP;
-        public float aoLightValueScratchXYZNPN;
-        public int aoBrightnessXYZNPN;
-        public float aoLightValueScratchXYZPPN;
-        public int aoBrightnessXYZPPN;
-        public float aoLightValueScratchXYZNPP;
-        public int aoBrightnessXYZNPP;
-        public float aoLightValueScratchXYZPPP;
-        public int aoBrightnessXYZPPP;
-
-        public float aoLightValueScratchXZNN;
-        public float aoLightValueScratchXZPN;
-        public int aoBrightnessXZNN;
-        public int aoBrightnessXZPN;
-
-        public float aoLightValueScratchXZNP;
-        public float aoLightValueScratchXZPP;
-        public int aoBrightnessXZNP;
-        public int aoBrightnessXZPP;
-
-        public int getAoBrightness(int par0, int par1, int par2, int par3) {
-            if (par0 == 0) par0 = par3;
-            if (par1 == 0) par1 = par3;
-            if (par2 == 0) par2 = par3;
-            return par0 + par1 + par2 + par3 >> 2 & 16711935;
-        }
-
-        public int mixAoBrightness(int par0, int par1, int par2, int par3, double par4, double par5, double par6,
-            double par7) {
-            int i1 = (int) ((double) (par0 >> 16 & 255) * par4 + (double) (par1 >> 16 & 255) * par5
-                + (double) (par2 >> 16 & 255) * par6
-                + (double) (par3 >> 16 & 255) * par7) & 255;
-            int j1 = (int) ((double) (par0 & 255) * par4 + (double) (par1 & 255) * par5
-                + (double) (par2 & 255) * par6
-                + (double) (par3 & 255) * par7) & 255;
-            return i1 << 16 | j1;
         }
     }
 
@@ -2598,18 +2531,6 @@ public class ClientUtils {
         return lightingInfo;
     }
 
-    public static boolean drawWorldBlock(IBlockAccess world, Block block, int x, int y, int z, int meta) {
-        return drawWorldBlock(
-            world,
-            block,
-            x,
-            y,
-            z,
-            meta,
-            AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1)
-                .getOffsetBoundingBox(x, y, z));
-    }
-
     public static boolean drawWorldBlock(IBlockAccess world, Block block, int x, int y, int z, int meta,
         AxisAlignedBB aabb) {
         IIcon iBot = block.getIcon(0, meta);
@@ -2627,14 +2548,14 @@ public class ClientUtils {
         return drawWorldBlock(world, block, x, y, z, uv, aabb);
     }
 
-    public static boolean drawWorldBlock(IBlockAccess world, Block block, int x, int y, int z, double[][] uv) {
+    public static boolean drawWorldBlock(IBlockAccess world, Block block, int x, int y, int z, int meta) {
         return drawWorldBlock(
             world,
             block,
             x,
             y,
             z,
-            uv,
+            meta,
             AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1)
                 .getOffsetBoundingBox(x, y, z));
     }
@@ -2748,6 +2669,18 @@ public class ClientUtils {
             flag = true;
         }
         return flag;
+    }
+
+    public static boolean drawWorldBlock(IBlockAccess world, Block block, int x, int y, int z, double[][] uv) {
+        return drawWorldBlock(
+            world,
+            block,
+            x,
+            y,
+            z,
+            uv,
+            AxisAlignedBB.getBoundingBox(0, 0, 0, 1, 1, 1)
+                .getOffsetBoundingBox(x, y, z));
     }
 
     /**
@@ -3194,5 +3127,86 @@ public class ClientUtils {
             flag = true;
         }
         return flag;
+    }
+
+    public static class BlockLightingInfo {
+
+        public int aoBrightnessXYNN;
+        public int aoBrightnessYZNN;
+        public int aoBrightnessYZNP;
+        public int aoBrightnessXYPN;
+        public float aoLightValueScratchXYNN;
+        public float aoLightValueScratchYZNN;
+        public float aoLightValueScratchYZNP;
+        public float aoLightValueScratchXYPN;
+        public float aoLightValueScratchXYZNNN;
+        public int aoBrightnessXYZNNN;
+        public float aoLightValueScratchXYZNNP;
+        public int aoBrightnessXYZNNP;
+        public float aoLightValueScratchXYZPNN;
+        public int aoBrightnessXYZPNN;
+        public float aoLightValueScratchXYZPNP;
+        public int aoBrightnessXYZPNP;
+        public int brightnessTopLeft;
+        public int brightnessTopRight;
+        public int brightnessBottomRight;
+        public int brightnessBottomLeft;
+        public float colorRedTopLeft;
+        public float colorGreenTopLeft;
+        public float colorBlueTopLeft;
+        public float colorRedBottomLeft;
+        public float colorRedBottomRight;
+        public float colorRedTopRight;
+        public float colorGreenTopRight;
+        public float colorBlueTopRight;
+        public float colorGreenBottomRight;
+        public float colorBlueBottomRight;
+        public float colorGreenBottomLeft;
+        public float colorBlueBottomLeft;
+
+        public int aoBrightnessXYNP;
+        public int aoBrightnessXYPP;
+        public int aoBrightnessYZPN;
+        public int aoBrightnessYZPP;
+        public float aoLightValueScratchXYNP;
+        public float aoLightValueScratchXYPP;
+        public float aoLightValueScratchYZPN;
+        public float aoLightValueScratchYZPP;
+        public float aoLightValueScratchXYZNPN;
+        public int aoBrightnessXYZNPN;
+        public float aoLightValueScratchXYZPPN;
+        public int aoBrightnessXYZPPN;
+        public float aoLightValueScratchXYZNPP;
+        public int aoBrightnessXYZNPP;
+        public float aoLightValueScratchXYZPPP;
+        public int aoBrightnessXYZPPP;
+
+        public float aoLightValueScratchXZNN;
+        public float aoLightValueScratchXZPN;
+        public int aoBrightnessXZNN;
+        public int aoBrightnessXZPN;
+
+        public float aoLightValueScratchXZNP;
+        public float aoLightValueScratchXZPP;
+        public int aoBrightnessXZNP;
+        public int aoBrightnessXZPP;
+
+        public int getAoBrightness(int par0, int par1, int par2, int par3) {
+            if (par0 == 0) par0 = par3;
+            if (par1 == 0) par1 = par3;
+            if (par2 == 0) par2 = par3;
+            return par0 + par1 + par2 + par3 >> 2 & 16711935;
+        }
+
+        public int mixAoBrightness(int par0, int par1, int par2, int par3, double par4, double par5, double par6,
+            double par7) {
+            int i1 = (int) ((double) (par0 >> 16 & 255) * par4 + (double) (par1 >> 16 & 255) * par5
+                + (double) (par2 >> 16 & 255) * par6
+                + (double) (par3 >> 16 & 255) * par7) & 255;
+            int j1 = (int) ((double) (par0 & 255) * par4 + (double) (par1 & 255) * par5
+                + (double) (par2 & 255) * par6
+                + (double) (par3 & 255) * par7) & 255;
+            return i1 << 16 | j1;
+        }
     }
 }

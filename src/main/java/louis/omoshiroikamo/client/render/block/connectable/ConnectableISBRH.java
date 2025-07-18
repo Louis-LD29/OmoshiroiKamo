@@ -12,7 +12,15 @@ import org.lwjgl.opengl.GL11;
 import blusunrize.immersiveengineering.client.ClientUtils;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import louis.omoshiroikamo.common.block.energyConnector.*;
+import louis.omoshiroikamo.common.block.energyConnector.BlockConnectable;
+import louis.omoshiroikamo.common.block.energyConnector.TEConnectorEV;
+import louis.omoshiroikamo.common.block.energyConnector.TEConnectorHV;
+import louis.omoshiroikamo.common.block.energyConnector.TEConnectorIV;
+import louis.omoshiroikamo.common.block.energyConnector.TEConnectorLV;
+import louis.omoshiroikamo.common.block.energyConnector.TEConnectorMV;
+import louis.omoshiroikamo.common.block.energyConnector.TEConnectorULV;
+import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
+import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
 import louis.omoshiroikamo.common.plugin.compat.IECompat;
 
 public class ConnectableISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {

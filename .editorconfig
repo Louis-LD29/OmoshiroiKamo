@@ -20,6 +20,3 @@ indent_size = 2
 
 [*.lang]
 trim_trailing_whitespace = false
-
-[*.java]
-max_line_length = 120

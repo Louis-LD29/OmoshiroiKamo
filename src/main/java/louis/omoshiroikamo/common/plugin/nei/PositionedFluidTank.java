@@ -8,7 +8,8 @@
  ******************************************************************************/
 package louis.omoshiroikamo.common.plugin.nei;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

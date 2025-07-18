@@ -8,7 +8,7 @@
  ******************************************************************************/
 package louis.omoshiroikamo.common.plugin.nei;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
