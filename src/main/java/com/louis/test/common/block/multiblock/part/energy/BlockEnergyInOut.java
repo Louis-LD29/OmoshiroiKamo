@@ -12,8 +12,6 @@ import com.louis.test.api.client.IResourceTooltipProvider;
 import com.louis.test.api.enums.ModObject;
 import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.block.AbstractBlock;
-import com.louis.test.common.block.multiblock.part.fluid.TEFluidInput;
-import com.louis.test.common.block.multiblock.part.fluid.TEFluidOutput;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -34,8 +32,8 @@ public class BlockEnergyInOut extends AbstractBlock<TEEnergyInOut> implements IR
     @Override
     protected void init() {
         GameRegistry.registerBlock(this, ItemBlockEnergyInOut.class, modObject.unlocalisedName);
-        GameRegistry.registerTileEntity(TEFluidInput.class, modObject.unlocalisedName + "TileEntityInput");
-        GameRegistry.registerTileEntity(TEFluidOutput.class, modObject.unlocalisedName + "TileEntityOutput");
+        GameRegistry.registerTileEntity(TEEnergyInput.class, modObject.unlocalisedName + "TEEnergyInput");
+        GameRegistry.registerTileEntity(TEEnergyOutput.class, modObject.unlocalisedName + "TEEnergyOutput");
     }
 
     @Override

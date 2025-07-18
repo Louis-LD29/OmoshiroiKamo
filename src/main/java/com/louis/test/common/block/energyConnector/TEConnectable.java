@@ -125,8 +125,6 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
     @Override
     public void connectCable(WireType cableType, TargetingInfo target) {
         this.limitType = cableType;
-        markDirty();
-        this.redstoneStateDirty = true;
     }
 
     @Override
@@ -142,8 +140,7 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
         if (outputs == null || outputs.size() == 0) {
             if (type == limitType || type == null) this.limitType = null;
         }
-        this.markDirty();
-        this.redstoneStateDirty = true;
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     @Override
@@ -154,9 +151,7 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
 
     @Override
     public void validate() {
-        if (ImmersiveNetHandler.INSTANCE != null) {
-            ImmersiveNetHandler.INSTANCE.resetCachedIndirectConnections();
-        }
+        ImmersiveNetHandler.INSTANCE.resetCachedIndirectConnections();
         super.validate();
     }
 
@@ -167,7 +162,6 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             needsVisualUpdate = false;
         }
-
     }
 
     @Override

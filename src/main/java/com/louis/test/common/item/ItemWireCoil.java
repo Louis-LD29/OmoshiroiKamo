@@ -298,7 +298,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                 "§7Voltage Tier:§f %s",
                 material.getVoltageTier()
                     .getDisplayName()));
-        list.add(String.format("§7Max Transfer:§f %,d RF/t", materialWireType.getTransferRate()));
+        list.add(String.format("§7Max Transfer:§f %,d RF/t", materialWireType.getTransferRate() / 10));
         list.add(String.format("§7Max Length:§f %,d", materialWireType.getMaxLength()));
         list.add(String.format("§7Loss Ratio:§f %.3f", materialWireType.getLossRatio()));
     }

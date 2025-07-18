@@ -1,6 +1,5 @@
 package com.louis.test.common;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -9,8 +8,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import com.louis.test.api.material.MaterialEntry;
-import com.louis.test.api.material.MaterialRegistry;
 import com.louis.test.common.block.ModBlocks;
 import com.louis.test.common.core.lib.LibMisc;
 import com.louis.test.common.item.ModItems;
@@ -30,11 +27,6 @@ public class TestCreativeTab extends CreativeTabs {
 
     @Override
     public ItemStack getIconItemStack() {
-        List<MaterialEntry> all = new ArrayList<>(MaterialRegistry.all());
-        if (!all.isEmpty()) {
-            MaterialEntry entry = all.get(rand.nextInt(all.size()));
-            return new ItemStack(ModItems.itemMaterial, 1, entry.getMeta());
-        }
         return new ItemStack(ModItems.itemMaterial);
     }
 

@@ -1,5 +1,7 @@
 package com.louis.test.common.block.multiblock.part.energy;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
 import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
@@ -33,6 +35,11 @@ public class TEEnergyInput extends TEEnergyInOut {
     @Override
     protected boolean processTasks(boolean redstoneCheckPassed) {
         return false;
+    }
+
+    @Override
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        return super.receiveEnergy(from, maxReceive, simulate);
     }
 
     @Override

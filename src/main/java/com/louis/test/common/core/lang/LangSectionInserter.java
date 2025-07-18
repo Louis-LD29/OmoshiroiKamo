@@ -99,8 +99,8 @@ public class LangSectionInserter {
 
         SECTIONS.put(
             "#Block Fluid Material",
-            material -> "tile.fluid." + StringUtils.uncapitalize(material.getUnlocalizedName())
-                + ".molten.name=Molten "
+            material -> "tile.fluid.molten." + StringUtils.uncapitalize(material.getUnlocalizedName())
+                + ".name=Molten "
                 + material.getName());
         SECTIONS.put(
             "#Fluid Material",

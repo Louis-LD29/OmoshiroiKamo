@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import com.louis.test.common.block.AbstractTE;
 import com.louis.test.common.core.lib.LibMisc;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import mcp.mobius.waila.api.IWailaRegistrar;
 
@@ -28,6 +29,9 @@ public class WailaRegistrar {
     }
 
     public static void init() {
+        if (Loader.isModLoaded("wdmla")) {
+            return;
+        }
         FMLInterModComms
             .sendMessage("Waila", "register", "com.louis.test.common.plugin.waila.WailaRegistrar.wailaCallback");
     }
