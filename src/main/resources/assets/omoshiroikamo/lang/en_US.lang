@@ -1,0 +1,404 @@
+
+#Config
+config.title=Test Configuration
+config.personal=Personal Settings
+config.personal.tooltip=I won't tell anyone, I promise.
+config.mana=Mana
+config.mana.tooltip=Configure Mana
+config.ie=Immersive Engineering
+config.ie.tooltip=Settings related to wire behavior and render.
+config.material=Material
+config.material.tooltip=Configure properties and rendering of materials such as ingots, blocks, and wires.
+config.damage_indicator=Damage Indicator
+config.damage_indicator.tooltip=Configure properties and rendering of Damage Indicator.
+
+#IO
+
+gui.machine.ioMode.none=None
+gui.machine.ioMode.input=Input
+gui.machine.ioMode.output=Output
+gui.machine.ioMode.disabled=Disabled
+gui.machine.ioMode.inputOutput=Output / Input
+gui.powerMonitor.of=of
+
+#Display
+
+power.rf=RF
+fluid.millibucket.abr=L
+fluid.empty=Empty
+Testmisc.shiftinfo=Hold &bSHIFT&7 for more info
+
+#BAUBLE TOOLTIPS
+
+baubletype.amulet=Equippable in the &aAmulet&7 slot
+baubletype.ring=Equippable in the &aRing&7 slot
+baubletype.belt=Equippable in the &aBelt&7 slot
+baubletooltip=Press &b%key%&7 to open the Baubles menu
+
+item.mana.tooltip.lvs=lvs
+item.operationOrb.tooltip.effPowered=Efficiency when powered
+
+tooltip.oreDictNames=Ore Dictionary Names:
+tooltip.durability=Durability:
+tooltip.anvilupgrades=Anvil Upgrades:
+
+mana.upgrade.empowered_one.name=Empowered
+
+
+#Elemental
+
+element.pyro.name=Pyro
+element.cryo.name=Cryo
+element.electro.name=Electro
+element.hydro.name=Hydro
+element.anemo.name=Anemo
+element.geo.name=Geo
+element.dendro.name=Dendro
+
+#Item
+
+item.Test:operationOrb.name=Operation Orb
+tile.blockTest.name=Test Block
+
+#Block
+
+tile.blockElectrolyzer.name=Electrolyzer
+tile.blockConnectable.insulator.name=Insulator
+tile.blockConnectable.connectorULV.name=ULV Wire Connector
+tile.blockConnectable.connectorLV.name=LV Wire Connector
+tile.blockConnectable.connectorMV.name=MV Wire Connector
+tile.blockConnectable.connectorHV.name=HV Wire Connector
+tile.blockConnectable.connectorEV.name=EV Wire Connector
+tile.blockConnectable.connectorIV.name=IV Wire Connector
+tile.blockConnectable.transformer.name=Transformer
+
+#Fluid
+
+tile.fluid.Steam.name=Steam
+fluid.Steam=Steam
+item.bucketSteam.name=Mana Bucket
+tile.fluid.mana.name=Mana
+fluid.mana=Mana
+item.bucketMana.name=Mana Bucket
+
+#Immersive Engineering
+
+#CHAT
+chat.ImmersiveEngineering.warning.wrongCable=You cannot attach this wire here
+chat.ImmersiveEngineering.warning.wrongDimension=You are in the wrong dimension
+chat.ImmersiveEngineering.warning.sameConnection=You cannot attach a wire to the same point
+chat.ImmersiveEngineering.warning.tooFar=You are too far away from the previous connection
+chat.ImmersiveEngineering.warning.cantSee=The connection is obstructed
+chat.ImmersiveEngineering.warning.connectionExists=The connection exists already
+chat.ImmersiveEngineering.warning.invalidPoint=One of the connection points is invalid
+chat.ImmersiveEngineering.info.averageLoss=Average loss between points: %1$s%%
+
+#DESCRIPTIONS
+desc.ImmersiveEngineering.info.attachedToDim=Linking from %1$s, %2$s, %3$s in Dimension %4$s
+
+# BEGIN AUTOGEN
+#Item Wire Coil
+item.itemWireCoil.Iron.name=Wire Coil (Iron)
+item.itemWireCoil.Copper.name=Wire Coil (Copper)
+item.itemWireCoil.Silver.name=Wire Coil (Silver)
+item.itemWireCoil.Gold.name=Wire Coil (Gold)
+item.itemWireCoil.Zinc.name=Wire Coil (Zinc)
+item.itemWireCoil.Aluminum.name=Wire Coil (Aluminum)
+item.itemWireCoil.Lead.name=Wire Coil (Lead)
+item.itemWireCoil.Titanium.name=Wire Coil (Titanium)
+item.itemWireCoil.Chromium.name=Wire Coil (Chromium)
+item.itemWireCoil.Nickel.name=Wire Coil (Nickel)
+item.itemWireCoil.CarbonSteel.name=Wire Coil (Carbon Steel)
+item.itemWireCoil.StainlessSteel.name=Wire Coil (Stainless Steel)
+item.itemWireCoil.Brass.name=Wire Coil (Brass)
+item.itemWireCoil.Inconel625.name=Wire Coil (Inconel 625)
+item.itemWireCoil.Tungsten.name=Wire Coil (Tungsten)
+item.itemWireCoil.TungstenCarbide.name=Wire Coil (Tungsten Carbide)
+item.itemWireCoil.Niobium.name=Wire Coil (Niobium)
+
+#Item Material Ingot
+item.itemMaterial.ingot.Iron.name=Iron Ingot
+item.itemMaterial.ingot.Copper.name=Copper Ingot
+item.itemMaterial.ingot.Silver.name=Silver Ingot
+item.itemMaterial.ingot.Gold.name=Gold Ingot
+item.itemMaterial.ingot.Zinc.name=Zinc Ingot
+item.itemMaterial.ingot.Aluminum.name=Aluminum Ingot
+item.itemMaterial.ingot.Lead.name=Lead Ingot
+item.itemMaterial.ingot.Titanium.name=Titanium Ingot
+item.itemMaterial.ingot.Chromium.name=Chromium Ingot
+item.itemMaterial.ingot.Nickel.name=Nickel Ingot
+item.itemMaterial.ingot.CarbonSteel.name=Carbon Steel Ingot
+item.itemMaterial.ingot.StainlessSteel.name=Stainless Steel Ingot
+item.itemMaterial.ingot.Brass.name=Brass Ingot
+item.itemMaterial.ingot.Inconel625.name=Inconel 625 Ingot
+item.itemMaterial.ingot.Tungsten.name=Tungsten Ingot
+item.itemMaterial.ingot.TungstenCarbide.name=Tungsten Carbide Ingot
+item.itemMaterial.ingot.Niobium.name=Niobium Ingot
+
+#Item Material Nugget
+item.itemMaterial.nugget.Iron.name=Iron Nugget
+item.itemMaterial.nugget.Copper.name=Copper Nugget
+item.itemMaterial.nugget.Silver.name=Silver Nugget
+item.itemMaterial.nugget.Gold.name=Gold Nugget
+item.itemMaterial.nugget.Zinc.name=Zinc Nugget
+item.itemMaterial.nugget.Aluminum.name=Aluminum Nugget
+item.itemMaterial.nugget.Lead.name=Lead Nugget
+item.itemMaterial.nugget.Titanium.name=Titanium Nugget
+item.itemMaterial.nugget.Chromium.name=Chromium Nugget
+item.itemMaterial.nugget.Nickel.name=Nickel Nugget
+item.itemMaterial.nugget.CarbonSteel.name=Carbon Steel Nugget
+item.itemMaterial.nugget.StainlessSteel.name=Stainless Steel Nugget
+item.itemMaterial.nugget.Brass.name=Brass Nugget
+item.itemMaterial.nugget.Inconel625.name=Inconel 625 Nugget
+item.itemMaterial.nugget.Tungsten.name=Tungsten Nugget
+item.itemMaterial.nugget.TungstenCarbide.name=Tungsten Carbide Nugget
+item.itemMaterial.nugget.Niobium.name=Niobium Nugget
+
+#Item Material Plate
+item.itemMaterial.plate.Iron.name=Iron Plate
+item.itemMaterial.plate.Copper.name=Copper Plate
+item.itemMaterial.plate.Silver.name=Silver Plate
+item.itemMaterial.plate.Gold.name=Gold Plate
+item.itemMaterial.plate.Zinc.name=Zinc Plate
+item.itemMaterial.plate.Aluminum.name=Aluminum Plate
+item.itemMaterial.plate.Lead.name=Lead Plate
+item.itemMaterial.plate.Titanium.name=Titanium Plate
+item.itemMaterial.plate.Chromium.name=Chromium Plate
+item.itemMaterial.plate.Nickel.name=Nickel Plate
+item.itemMaterial.plate.CarbonSteel.name=Carbon Steel Plate
+item.itemMaterial.plate.StainlessSteel.name=Stainless Steel Plate
+item.itemMaterial.plate.Brass.name=Brass Plate
+item.itemMaterial.plate.Inconel625.name=Inconel 625 Plate
+item.itemMaterial.plate.Tungsten.name=Tungsten Plate
+item.itemMaterial.plate.TungstenCarbide.name=Tungsten Carbide Plate
+item.itemMaterial.plate.Niobium.name=Niobium Plate
+
+#Item Material Rod
+item.itemMaterial.rod.Iron.name=Iron Rod
+item.itemMaterial.rod.Copper.name=Copper Rod
+item.itemMaterial.rod.Silver.name=Silver Rod
+item.itemMaterial.rod.Gold.name=Gold Rod
+item.itemMaterial.rod.Zinc.name=Zinc Rod
+item.itemMaterial.rod.Aluminum.name=Aluminum Rod
+item.itemMaterial.rod.Lead.name=Lead Rod
+item.itemMaterial.rod.Titanium.name=Titanium Rod
+item.itemMaterial.rod.Chromium.name=Chromium Rod
+item.itemMaterial.rod.Nickel.name=Nickel Rod
+item.itemMaterial.rod.CarbonSteel.name=Carbon Steel Rod
+item.itemMaterial.rod.StainlessSteel.name=Stainless Steel Rod
+item.itemMaterial.rod.Brass.name=Brass Rod
+item.itemMaterial.rod.Inconel625.name=Inconel 625 Rod
+item.itemMaterial.rod.Tungsten.name=Tungsten Rod
+item.itemMaterial.rod.TungstenCarbide.name=Tungsten Carbide Rod
+item.itemMaterial.rod.Niobium.name=Niobium Rod
+
+#Item Material Dust
+item.itemMaterial.dust.Iron.name=Iron Dust
+item.itemMaterial.dust.Copper.name=Copper Dust
+item.itemMaterial.dust.Silver.name=Silver Dust
+item.itemMaterial.dust.Gold.name=Gold Dust
+item.itemMaterial.dust.Zinc.name=Zinc Dust
+item.itemMaterial.dust.Aluminum.name=Aluminum Dust
+item.itemMaterial.dust.Lead.name=Lead Dust
+item.itemMaterial.dust.Titanium.name=Titanium Dust
+item.itemMaterial.dust.Chromium.name=Chromium Dust
+item.itemMaterial.dust.Nickel.name=Nickel Dust
+item.itemMaterial.dust.CarbonSteel.name=Carbon Steel Dust
+item.itemMaterial.dust.StainlessSteel.name=Stainless Steel Dust
+item.itemMaterial.dust.Brass.name=Brass Dust
+item.itemMaterial.dust.Inconel625.name=Inconel 625 Dust
+item.itemMaterial.dust.Tungsten.name=Tungsten Dust
+item.itemMaterial.dust.TungstenCarbide.name=Tungsten Carbide Dust
+item.itemMaterial.dust.Niobium.name=Niobium Dust
+
+#Item Material Gear
+item.itemMaterial.gear.Iron.name=Iron Gear
+item.itemMaterial.gear.Copper.name=Copper Gear
+item.itemMaterial.gear.Silver.name=Silver Gear
+item.itemMaterial.gear.Gold.name=Gold Gear
+item.itemMaterial.gear.Zinc.name=Zinc Gear
+item.itemMaterial.gear.Aluminum.name=Aluminum Gear
+item.itemMaterial.gear.Lead.name=Lead Gear
+item.itemMaterial.gear.Titanium.name=Titanium Gear
+item.itemMaterial.gear.Chromium.name=Chromium Gear
+item.itemMaterial.gear.Nickel.name=Nickel Gear
+item.itemMaterial.gear.CarbonSteel.name=Carbon Steel Gear
+item.itemMaterial.gear.StainlessSteel.name=Stainless Steel Gear
+item.itemMaterial.gear.Brass.name=Brass Gear
+item.itemMaterial.gear.Inconel625.name=Inconel 625 Gear
+item.itemMaterial.gear.Tungsten.name=Tungsten Gear
+item.itemMaterial.gear.TungstenCarbide.name=Tungsten Carbide Gear
+item.itemMaterial.gear.Niobium.name=Niobium Gear
+
+#Item Bucket Material
+item.itemBucketMaterial.Iron.name=Molten Iron Bucket
+item.itemBucketMaterial.Copper.name=Molten Copper Bucket
+item.itemBucketMaterial.Silver.name=Molten Silver Bucket
+item.itemBucketMaterial.Gold.name=Molten Gold Bucket
+item.itemBucketMaterial.Zinc.name=Molten Zinc Bucket
+item.itemBucketMaterial.Aluminum.name=Molten Aluminum Bucket
+item.itemBucketMaterial.Lead.name=Molten Lead Bucket
+item.itemBucketMaterial.Titanium.name=Molten Titanium Bucket
+item.itemBucketMaterial.Chromium.name=Molten Chromium Bucket
+item.itemBucketMaterial.Nickel.name=Molten Nickel Bucket
+item.itemBucketMaterial.CarbonSteel.name=Molten Carbon Steel Bucket
+item.itemBucketMaterial.StainlessSteel.name=Molten Stainless Steel Bucket
+item.itemBucketMaterial.Brass.name=Molten Brass Bucket
+item.itemBucketMaterial.Inconel625.name=Molten Inconel 625 Bucket
+item.itemBucketMaterial.Tungsten.name=Molten Tungsten Bucket
+item.itemBucketMaterial.TungstenCarbide.name=Molten Tungsten Carbide Bucket
+item.itemBucketMaterial.Niobium.name=Molten Niobium Bucket
+
+#Block of Material
+tile.blockMaterial.Iron.name=Block of Iron
+tile.blockMaterial.Copper.name=Block of Copper
+tile.blockMaterial.Silver.name=Block of Silver
+tile.blockMaterial.Gold.name=Block of Gold
+tile.blockMaterial.Zinc.name=Block of Zinc
+tile.blockMaterial.Aluminum.name=Block of Aluminum
+tile.blockMaterial.Lead.name=Block of Lead
+tile.blockMaterial.Titanium.name=Block of Titanium
+tile.blockMaterial.Chromium.name=Block of Chromium
+tile.blockMaterial.Nickel.name=Block of Nickel
+tile.blockMaterial.CarbonSteel.name=Block of Carbon Steel
+tile.blockMaterial.StainlessSteel.name=Block of Stainless Steel
+tile.blockMaterial.Brass.name=Block of Brass
+tile.blockMaterial.Inconel625.name=Block of Inconel 625
+tile.blockMaterial.Tungsten.name=Block of Tungsten
+tile.blockMaterial.TungstenCarbide.name=Block of Tungsten Carbide
+tile.blockMaterial.Niobium.name=Block of Niobium
+
+#Energy Input
+tile.blockEnergyInOut.input.Iron.name=Energy Input (Iron)
+tile.blockEnergyInOut.input.Copper.name=Energy Input (Copper)
+tile.blockEnergyInOut.input.Silver.name=Energy Input (Silver)
+tile.blockEnergyInOut.input.Gold.name=Energy Input (Gold)
+tile.blockEnergyInOut.input.Zinc.name=Energy Input (Zinc)
+tile.blockEnergyInOut.input.Aluminum.name=Energy Input (Aluminum)
+tile.blockEnergyInOut.input.Lead.name=Energy Input (Lead)
+tile.blockEnergyInOut.input.Titanium.name=Energy Input (Titanium)
+tile.blockEnergyInOut.input.Chromium.name=Energy Input (Chromium)
+tile.blockEnergyInOut.input.Nickel.name=Energy Input (Nickel)
+tile.blockEnergyInOut.input.CarbonSteel.name=Energy Input (Carbon Steel)
+tile.blockEnergyInOut.input.StainlessSteel.name=Energy Input (Stainless Steel)
+tile.blockEnergyInOut.input.Brass.name=Energy Input (Brass)
+tile.blockEnergyInOut.input.Inconel625.name=Energy Input (Inconel 625)
+tile.blockEnergyInOut.input.Tungsten.name=Energy Input (Tungsten)
+tile.blockEnergyInOut.input.TungstenCarbide.name=Energy Input (Tungsten Carbide)
+tile.blockEnergyInOut.input.Niobium.name=Energy Input (Niobium)
+
+#Energy Output
+tile.blockEnergyInOut.output.Iron.name=Energy Output (Iron)
+tile.blockEnergyInOut.output.Copper.name=Energy Output (Copper)
+tile.blockEnergyInOut.output.Silver.name=Energy Output (Silver)
+tile.blockEnergyInOut.output.Gold.name=Energy Output (Gold)
+tile.blockEnergyInOut.output.Zinc.name=Energy Output (Zinc)
+tile.blockEnergyInOut.output.Aluminum.name=Energy Output (Aluminum)
+tile.blockEnergyInOut.output.Lead.name=Energy Output (Lead)
+tile.blockEnergyInOut.output.Titanium.name=Energy Output (Titanium)
+tile.blockEnergyInOut.output.Chromium.name=Energy Output (Chromium)
+tile.blockEnergyInOut.output.Nickel.name=Energy Output (Nickel)
+tile.blockEnergyInOut.output.CarbonSteel.name=Energy Output (Carbon Steel)
+tile.blockEnergyInOut.output.StainlessSteel.name=Energy Output (Stainless Steel)
+tile.blockEnergyInOut.output.Brass.name=Energy Output (Brass)
+tile.blockEnergyInOut.output.Inconel625.name=Energy Output (Inconel 625)
+tile.blockEnergyInOut.output.Tungsten.name=Energy Output (Tungsten)
+tile.blockEnergyInOut.output.TungstenCarbide.name=Energy Output (Tungsten Carbide)
+tile.blockEnergyInOut.output.Niobium.name=Energy Output (Niobium)
+
+#Fluid Input
+tile.blockFluidInOut.input.Iron.name=Fluid Input (Iron)
+tile.blockFluidInOut.input.Copper.name=Fluid Input (Copper)
+tile.blockFluidInOut.input.Silver.name=Fluid Input (Silver)
+tile.blockFluidInOut.input.Gold.name=Fluid Input (Gold)
+tile.blockFluidInOut.input.Zinc.name=Fluid Input (Zinc)
+tile.blockFluidInOut.input.Aluminum.name=Fluid Input (Aluminum)
+tile.blockFluidInOut.input.Lead.name=Fluid Input (Lead)
+tile.blockFluidInOut.input.Titanium.name=Fluid Input (Titanium)
+tile.blockFluidInOut.input.Chromium.name=Fluid Input (Chromium)
+tile.blockFluidInOut.input.Nickel.name=Fluid Input (Nickel)
+tile.blockFluidInOut.input.CarbonSteel.name=Fluid Input (Carbon Steel)
+tile.blockFluidInOut.input.StainlessSteel.name=Fluid Input (Stainless Steel)
+tile.blockFluidInOut.input.Brass.name=Fluid Input (Brass)
+tile.blockFluidInOut.input.Inconel625.name=Fluid Input (Inconel 625)
+tile.blockFluidInOut.input.Tungsten.name=Fluid Input (Tungsten)
+tile.blockFluidInOut.input.TungstenCarbide.name=Fluid Input (Tungsten Carbide)
+tile.blockFluidInOut.input.Niobium.name=Fluid Input (Niobium)
+
+#Fluid Output
+tile.blockFluidInOut.output.Iron.name=Fluid Output (Iron)
+tile.blockFluidInOut.output.Copper.name=Fluid Output (Copper)
+tile.blockFluidInOut.output.Silver.name=Fluid Output (Silver)
+tile.blockFluidInOut.output.Gold.name=Fluid Output (Gold)
+tile.blockFluidInOut.output.Zinc.name=Fluid Output (Zinc)
+tile.blockFluidInOut.output.Aluminum.name=Fluid Output (Aluminum)
+tile.blockFluidInOut.output.Lead.name=Fluid Output (Lead)
+tile.blockFluidInOut.output.Titanium.name=Fluid Output (Titanium)
+tile.blockFluidInOut.output.Chromium.name=Fluid Output (Chromium)
+tile.blockFluidInOut.output.Nickel.name=Fluid Output (Nickel)
+tile.blockFluidInOut.output.CarbonSteel.name=Fluid Output (Carbon Steel)
+tile.blockFluidInOut.output.StainlessSteel.name=Fluid Output (Stainless Steel)
+tile.blockFluidInOut.output.Brass.name=Fluid Output (Brass)
+tile.blockFluidInOut.output.Inconel625.name=Fluid Output (Inconel 625)
+tile.blockFluidInOut.output.Tungsten.name=Fluid Output (Tungsten)
+tile.blockFluidInOut.output.TungstenCarbide.name=Fluid Output (Tungsten Carbide)
+tile.blockFluidInOut.output.Niobium.name=Fluid Output (Niobium)
+
+#Block Fluid Material
+tile.fluid.molten.iron.name=Molten Iron
+tile.fluid.molten.copper.name=Molten Copper
+tile.fluid.molten.silver.name=Molten Silver
+tile.fluid.molten.gold.name=Molten Gold
+tile.fluid.molten.zinc.name=Molten Zinc
+tile.fluid.molten.aluminum.name=Molten Aluminum
+tile.fluid.molten.lead.name=Molten Lead
+tile.fluid.molten.titanium.name=Molten Titanium
+tile.fluid.molten.chromium.name=Molten Chromium
+tile.fluid.molten.nickel.name=Molten Nickel
+tile.fluid.molten.carbonSteel.name=Molten Carbon Steel
+tile.fluid.molten.stainlessSteel.name=Molten Stainless Steel
+tile.fluid.molten.brass.name=Molten Brass
+tile.fluid.molten.inconel625.name=Molten Inconel 625
+tile.fluid.molten.tungsten.name=Molten Tungsten
+tile.fluid.molten.tungstenCarbide.name=Molten Tungsten Carbide
+tile.fluid.molten.niobium.name=Molten Niobium
+
+#Fluid Material
+fluid.iron.molten=Molten Iron
+fluid.copper.molten=Molten Copper
+fluid.silver.molten=Molten Silver
+fluid.gold.molten=Molten Gold
+fluid.zinc.molten=Molten Zinc
+fluid.aluminum.molten=Molten Aluminum
+fluid.lead.molten=Molten Lead
+fluid.titanium.molten=Molten Titanium
+fluid.chromium.molten=Molten Chromium
+fluid.nickel.molten=Molten Nickel
+fluid.carbonSteel.molten=Molten Carbon Steel
+fluid.stainlessSteel.molten=Molten Stainless Steel
+fluid.brass.molten=Molten Brass
+fluid.inconel625.molten=Molten Inconel 625
+fluid.tungsten.molten=Molten Tungsten
+fluid.tungstenCarbide.molten=Molten Tungsten Carbide
+fluid.niobium.molten=Molten Niobium
+
+#Tic Material
+material.iron=Iron
+material.copper=Copper
+material.silver=Silver
+material.gold=Gold
+material.zinc=Zinc
+material.aluminum=Aluminum
+material.lead=Lead
+material.titanium=Titanium
+material.chromium=Chromium
+material.nickel=Nickel
+material.carbonSteel=Carbon Steel
+material.stainlessSteel=Stainless Steel
+material.brass=Brass
+material.inconel625=Inconel 625
+material.tungsten=Tungsten
+material.tungstenCarbide=Tungsten Carbide
+material.niobium=Niobium
+
+# END AUTOGEN
