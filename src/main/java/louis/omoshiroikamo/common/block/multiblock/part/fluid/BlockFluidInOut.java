@@ -2,8 +2,6 @@ package louis.omoshiroikamo.common.block.multiblock.part.fluid;
 
 import java.util.List;
 
-import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.common.core.lib.LibResources;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,8 +13,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.IResourceTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.AbstractBlock;
+import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> implements IResourceTooltipProvider {
 

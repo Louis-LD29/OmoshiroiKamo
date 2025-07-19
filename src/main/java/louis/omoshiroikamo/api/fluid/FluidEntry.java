@@ -13,19 +13,21 @@ public class FluidEntry {
         boolean isGas) {
         this.name = name;
         this.meta = meta;
-        this.defaults = new FluidConfig(name,meta, densityKgPerM3, viscosityPaS, temperatureK, color, isGas);
+        this.defaults = new FluidConfig(name, meta, densityKgPerM3, viscosityPaS, temperatureK, color, isGas);
     }
 
-    public FluidEntry(String name,int meta, FluidConfig config) {
+    public FluidEntry(String name, int meta, FluidConfig config) {
         this.name = name;
         this.meta = meta;
         this.defaults = config;
     }
 
     public FluidEntry(String name) {
-        this(name,
+        this(
+            name,
             FluidRegistry.all()
-                .size(), FluidConfig.defaultFor(name));
+                .size(),
+            FluidConfig.defaultFor(name));
     }
 
     public String getName() {
@@ -47,7 +49,6 @@ public class FluidEntry {
     public double getDensityKgPerM3() {
         return getConfig().densityKgPerM3;
     }
-
 
     public double getTemperature() {
         return getConfig().temperatureK;
