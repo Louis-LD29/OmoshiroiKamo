@@ -8,6 +8,7 @@ public class LibResources {
     public static final String PREFIX_BLOCK = PREFIX_MOD + "textures/blocks/";
     public static final String PREFIX_MODEL = PREFIX_MOD + "models/";
     public static final String PREFIX_MATERIAL_FLUID_ICONS = "icons/materialFluids";
+    public static final String PREFIX_FLUID_ICONS = "icons/fluids";
 
     public static final String GUI_MANA_HUD = PREFIX_GUI + "mana.png";
     public static final String GUI_NEI_BLANK = PREFIX_GUI + "nei/neiBlank.png";

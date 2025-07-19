@@ -362,7 +362,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
             if (remaining > 0) {
                 Logger.info(
                     "[consumeInputs] Không đủ fluid để tiêu thụ: " + input.amount
-                        + " mB of "
+                        + "L of "
                         + input.getFluid()
                             .getName());
             }

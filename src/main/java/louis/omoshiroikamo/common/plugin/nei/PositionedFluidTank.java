@@ -81,8 +81,8 @@ public class PositionedFluidTank {
             this.tank.getFluid()
                 .getLocalizedName());
         if (this.showAmount) {
-            currenttip.add(
-                EnumChatFormatting.GRAY.toString() + this.tank.getFluid().amount + (this.perTick ? " mB/t" : " mB"));
+            currenttip
+                .add(EnumChatFormatting.GRAY.toString() + this.tank.getFluid().amount + (this.perTick ? "L/t" : "L"));
         }
         return currenttip;
     }
@@ -155,6 +155,23 @@ public class PositionedFluidTank {
                 this.position.width,
                 this.position.height);
         }
+        if (this.showAmount && this.tank.getFluid() != null) {
+            String amountStr = this.tank.getFluid().amount + "L";
+
+            float scale = 0.5f;
+            int realX = this.position.x + this.position.width / 2;
+            int realY = this.position.y + this.position.height - 5;
+
+            GL11.glPushMatrix();
+            GL11.glTranslatef(realX, realY, 0.0f); // dịch tới đúng vị trí
+            GL11.glScalef(scale, scale, 1.0f); // scale nhỏ
+
+            // Sau khi scale, vẽ tại (0,0) vì đã translate trước đó
+            GuiDraw.drawStringC(amountStr, 0, 0, 0xFFFFFF, true);
+
+            GL11.glPopMatrix();
+        }
+
     }
 
     public void setPermutationToRender(int index) {

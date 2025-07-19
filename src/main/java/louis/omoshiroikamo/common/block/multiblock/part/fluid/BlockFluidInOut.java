@@ -13,8 +13,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.IResourceTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.AbstractBlock;
+import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> implements IResourceTooltipProvider {
 
@@ -43,13 +45,10 @@ public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> implements IRes
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
-        int count = MaterialRegistry.all()
-            .size();
-        for (int i = 0; i < count; i++) {
-            list.add(new ItemStack(this, 1, i));
-        }
-        for (int i = 0; i < count; i++) {
-            list.add(new ItemStack(this, 1, 100 + i));
+        for (MaterialEntry materialEntry : MaterialRegistry.all()) {
+            int meta = materialEntry.meta;
+            list.add(new ItemStack(this, 1, meta));;
+            list.add(new ItemStack(this, 1, LibResources.META1 + meta));
         }
     }
 

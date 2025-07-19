@@ -48,11 +48,10 @@ public class ItemBlockEnergyInOut extends ItemBlockWithMetadata implements IAdva
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-        int count = MaterialRegistry.all()
-            .size();
-        for (int i = 0; i < count; i++) {
-            list.add(new ItemStack(this, 1, i));
-            list.add(new ItemStack(this, 1, LibResources.META1 + i));
+        for (MaterialEntry materialEntry : MaterialRegistry.all()) {
+            int meta = materialEntry.meta;
+            list.add(new ItemStack(this, 1, meta));;
+            list.add(new ItemStack(this, 1, LibResources.META1 + meta));
         }
     }
 

@@ -29,7 +29,6 @@ import louis.omoshiroikamo.client.gui.modularui2.MGuiTextures;
 import louis.omoshiroikamo.client.gui.modularui2.MGuis;
 import louis.omoshiroikamo.common.block.basicblock.machine.SlotDefinition;
 import louis.omoshiroikamo.common.block.multiblock.TileMain;
-import louis.omoshiroikamo.common.fluid.ModFluids;
 
 public class TileBoiler extends TileMain {
 
@@ -135,11 +134,11 @@ public class TileBoiler extends TileMain {
 
         // Bơm hơi vào tank
         FluidStack currentSteam = outputTank.getFluid();
-        if (currentSteam == null || currentSteam.getFluid() != ModFluids.fluidSteam) {
-            outputTank.setFluid(new FluidStack(ModFluids.fluidSteam, steamToInsert));
-        } else {
-            currentSteam.amount += steamToInsert;
-        }
+        // if (currentSteam == null || currentSteam.getFluid() != ModFluids.fluidSteam) {
+        // outputTank.setFluid(new FluidStack(ModFluids.fluidSteam, steamToInsert));
+        // } else {
+        // currentSteam.amount += steamToInsert;
+        // }
     }
 
     @Override
@@ -225,7 +224,7 @@ public class TileBoiler extends TileMain {
                                                     () -> {
                                                         return "Steam Generate:\n "
                                                             + Math.round(this.simulateSteamMB * 100.0f) / 100.0f
-                                                            + "mb/s";
+                                                            + "L/s";
                                                     })
 
                                                     .color(0xFFFFFFFF)
@@ -235,7 +234,7 @@ public class TileBoiler extends TileMain {
                                                     () -> {
                                                         return "Water Consume:\n "
                                                             + Math.round(this.simulateWaterUsedMB * 100.0f) / 100.0f
-                                                            + "mb/s";
+                                                            + "L/s";
                                                     })
 
                                                     .color(0xFFFFFFFF)
@@ -253,19 +252,13 @@ public class TileBoiler extends TileMain {
                     .childPadding(2)
                     .child(
                         new FluidSlot().syncHandler(
-                            new FluidSlotSyncHandler(getTank(1)).canDrainSlot(
-                                getTank(1).getFluidAmount() >= 1000 && getTank(1).getFluid() != null
-                                    && !getTank(1).getFluid()
-                                        .getFluid()
-                                        .equals(ModFluids.fluidMana))))
+                            new FluidSlotSyncHandler(getTank(1))
+                                .canDrainSlot(getTank(1).getFluidAmount() >= 1000 && getTank(1).getFluid() != null)))
                     .child(
                         new FluidSlot()
                             .syncHandler(
-                                new FluidSlotSyncHandler(getTank(0)).canDrainSlot(
-                                    getTank(0).getFluidAmount() >= 1000 && getTank(0).getFluid() != null
-                                        && !getTank(0).getFluid()
-                                            .getFluid()
-                                            .equals(ModFluids.fluidMana)))
+                                new FluidSlotSyncHandler(getTank(0))
+                                    .canDrainSlot(getTank(0).getFluidAmount() >= 1000 && getTank(0).getFluid() != null))
                             .marginTop(4))
                     .child(
                         new ProgressWidget().progress(() -> getHeat().getHeatStored() / (double) 100f)

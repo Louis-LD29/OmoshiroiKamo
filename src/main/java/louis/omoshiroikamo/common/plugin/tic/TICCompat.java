@@ -16,7 +16,7 @@ import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegistry;
+import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegister;
 import louis.omoshiroikamo.common.item.ModItems;
 import tconstruct.TConstruct;
 import tconstruct.library.TConstructRegistry;
@@ -34,7 +34,7 @@ public class TICCompat {
 
         Block block = ModBlocks.blockMaterial;
         Item item = ModItems.itemMaterial;
-        Item moltenBucket = FluidMaterialRegistry.itemBucketMaterial;
+        Item moltenBucket = FluidMaterialRegister.itemBucketMaterial;
 
         for (MaterialEntry entry : MaterialRegistry.all()) {
             String name = entry.getUnlocalizedName();

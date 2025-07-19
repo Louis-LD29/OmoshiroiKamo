@@ -43,7 +43,6 @@ import louis.omoshiroikamo.common.block.basicblock.machine.AbstractPowerConsumer
 import louis.omoshiroikamo.common.block.basicblock.machine.SlotDefinition;
 import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.common.fluid.ModFluids;
 import vazkii.botania.api.internal.VanillaPacketDispatcher;
 import vazkii.botania.api.mana.IManaPool;
 import vazkii.botania.api.mana.IThrottledPacket;
@@ -318,13 +317,10 @@ public class TileTest extends AbstractPowerConsumerEntity
 
         panel.child(
             new Column().child(
-                new FluidSlot().syncHandler(
-                    new FluidSlotSyncHandler(outputTank).canDrainSlot(
-                        outputTank.getFluidAmount() >= 1000 && !outputTank.getFluid()
-                            .getFluid()
-                            .equals(ModFluids.fluidMana))
+                new FluidSlot()
+                    .syncHandler(new FluidSlotSyncHandler(outputTank).canDrainSlot(outputTank.getFluidAmount() >= 1000)
 
-                ))
+                    ))
                 .child(
                     SlotGroupWidget.builder()
                         .matrix("IIF")
@@ -336,10 +332,7 @@ public class TileTest extends AbstractPowerConsumerEntity
                             })
                         .key('F', index -> {
                             return new FluidSlot().syncHandler(
-                                new FluidSlotSyncHandler(inputTank).canDrainSlot(
-                                    inputTank.getFluidAmount() >= 1000 && !inputTank.getFluid()
-                                        .getFluid()
-                                        .equals(ModFluids.fluidMana))
+                                new FluidSlotSyncHandler(inputTank).canDrainSlot(inputTank.getFluidAmount() >= 1000)
 
                         )
                                 .debugName("Slot " + index);

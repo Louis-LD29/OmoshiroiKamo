@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.item;
+package louis.omoshiroikamo.common.fluid;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +31,7 @@ import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegistry;
+import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegister;
 
 public class ItemBucketMaterial extends Item {
 
@@ -50,7 +50,7 @@ public class ItemBucketMaterial extends Item {
 
     public static ItemBucketMaterial create() {
         ItemBucketMaterial bucket = new ItemBucketMaterial();
-        FluidMaterialRegistry.itemBucketMaterial = bucket;
+        FluidMaterialRegister.itemBucketMaterial = bucket;
         bucket.init();
         return bucket;
     }
@@ -58,9 +58,9 @@ public class ItemBucketMaterial extends Item {
     private void init() {
         GameRegistry.registerItem(this, ModObject.itemBucketMaterial.unlocalisedName);
 
-        int meta = 0;
-        for (MaterialEntry entry : MaterialRegistry.all()) {
-            register(entry, meta++);
+        for (MaterialEntry materialEntry : MaterialRegistry.all()) {
+            int meta = materialEntry.meta;
+            register(materialEntry, meta);
         }
     }
 
@@ -68,10 +68,10 @@ public class ItemBucketMaterial extends Item {
         META_TO_ENTRY.put(meta, entry);
         ENTRY_TO_META.put(entry, meta);
 
-        Fluid fluid = FluidMaterialRegistry.getFluid(entry);
+        Fluid fluid = FluidMaterialRegister.getFluid(entry);
         if (FluidContainerRegistry.fillFluidContainer(new FluidStack(fluid, 1000), new ItemStack(Items.bucket))
             == null) {
-            ItemStack filled = new ItemStack(FluidMaterialRegistry.itemBucketMaterial, 1, meta);
+            ItemStack filled = new ItemStack(FluidMaterialRegister.itemBucketMaterial, 1, meta);
             ItemStack empty = new ItemStack(Items.bucket);
             FluidContainerRegistry.registerFluidContainer(
                 new FluidContainerRegistry.FluidContainerData(new FluidStack(fluid, 1000), filled, empty));
@@ -97,9 +97,9 @@ public class ItemBucketMaterial extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-        for (int i = 0; i < MaterialRegistry.all()
-            .size(); i++) {
-            list.add(new ItemStack(this, 1, i));
+        for (MaterialEntry materialEntry : MaterialRegistry.all()) {
+            int meta = materialEntry.meta;
+            list.add(new ItemStack(this, 1, meta));
         }
     }
 
@@ -123,7 +123,7 @@ public class ItemBucketMaterial extends Item {
     @Override
     public void registerIcons(IIconRegister reg) {
         baseIcon = reg.registerIcon("bucket_empty");
-        overlayIcon = reg.registerIcon(LibResources.PREFIX_MOD + "material_bucket_color");
+        overlayIcon = reg.registerIcon(LibResources.PREFIX_MOD + "material_bucket_overlay");
     }
 
     @SideOnly(Side.CLIENT)
@@ -138,7 +138,7 @@ public class ItemBucketMaterial extends Item {
 
     public Fluid getFluid(ItemStack stack) {
         MaterialEntry entry = getMaterial(stack.getItemDamage());
-        return entry != null ? FluidMaterialRegistry.getFluid(entry) : null;
+        return entry != null ? FluidMaterialRegister.getFluid(entry) : null;
     }
 
     @Override

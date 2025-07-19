@@ -14,9 +14,9 @@ import org.apache.commons.lang3.StringUtils;
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.item.ItemBucketMaterial;
+import louis.omoshiroikamo.common.fluid.ItemBucketMaterial;
 
-public class FluidMaterialRegistry {
+public class FluidMaterialRegister {
 
     public static Item itemBucketMaterial;
     public static final Map<MaterialEntry, Block> BLOCKS = new HashMap<>();
@@ -31,7 +31,6 @@ public class FluidMaterialRegistry {
                 (int) Math.round(entry.getDensityKgPerM3()),
                 estimateViscosity(entry),
                 (int) Math.round(entry.getMeltingPointK()));
-
             Block block = fluid.getBlock();
 
             BLOCKS.put(entry, block);
@@ -46,10 +45,6 @@ public class FluidMaterialRegistry {
         return (int) Math.max(500, base);
     }
 
-    private int estimateLuminosity(MaterialEntry entry) {
-        double melt = entry.getMeltingPointK();
-        return (int) Math.min(15, (melt - 600) / 150);
-    }
     // --- Helper Methods ---
 
     public static Fluid getFluid(MaterialEntry entry) {

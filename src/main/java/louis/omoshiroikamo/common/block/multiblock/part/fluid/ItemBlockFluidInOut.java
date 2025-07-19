@@ -51,12 +51,10 @@ public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvan
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-        int count = MaterialRegistry.all()
-            .size();
-
-        for (int i = 0; i < count; i++) {
-            list.add(new ItemStack(this, 1, i));
-            list.add(new ItemStack(this, 1, LibResources.META1 + i));
+        for (MaterialEntry materialEntry : MaterialRegistry.all()) {
+            int meta = materialEntry.meta;
+            list.add(new ItemStack(this, 1, meta));;
+            list.add(new ItemStack(this, 1, LibResources.META1 + meta));
         }
     }
 
@@ -69,7 +67,7 @@ public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvan
         MaterialEntry material = MaterialRegistry.fromMeta(meta);
 
         list.add(String.format("§7Material:§f %s", material.getName()));
-        list.add(String.format("§7Volume:§f %,d mB", material.getVolumeMB()));
+        list.add(String.format("§7Volume:§f %,dL", material.getVolumeMB()));
         list.add(String.format("§7Melting Point:§f %d K", (int) material.getMeltingPointK()));
 
         NBTTagCompound tag = itemstack.getTagCompound();
@@ -78,7 +76,7 @@ public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvan
             if (fl != null && fl.getFluid() != null) {
                 list.add(
                     String.format(
-                        "§7Stored:§f %,d mB %s",
+                        "§7Stored:§f %,dL %s",
                         fl.amount,
                         fl.getFluid()
                             .getName()));
