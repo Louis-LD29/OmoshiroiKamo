@@ -50,9 +50,9 @@ public class ItemMaterial extends Item {
     private void init() {
         GameRegistry.registerItem(this, ModObject.itemMaterial.unlocalisedName);
 
-        int meta = 0;
         for (MaterialEntry entry : MaterialRegistry.all()) {
             String matName = entry.getUnlocalizedName();
+            int meta = entry.meta;
 
             registerMaterialOreDict(matName, meta);
             registerMaterialConversionRecipes(matName, meta);
@@ -62,7 +62,6 @@ public class ItemMaterial extends Item {
                 registerMaterialConversionRecipes("Steel", meta);
             }
 
-            meta++;
         }
     }
 
@@ -142,21 +141,20 @@ public class ItemMaterial extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-        int count = MaterialRegistry.all()
-            .size();
-        for (int i = 0; i < count; i++) {
+        for (MaterialEntry materialEntry : MaterialRegistry.all()) {
+            int meta = materialEntry.meta;
             // ingot
-            list.add(new ItemStack(this, 1, i));
+            list.add(new ItemStack(this, 1, meta));
             // nugget
-            list.add(new ItemStack(this, 1, LibResources.META1 + i));
+            list.add(new ItemStack(this, 1, LibResources.META1 + meta));
             // plate
-            list.add(new ItemStack(this, 1, LibResources.META2 + i));
+            list.add(new ItemStack(this, 1, LibResources.META2 + meta));
             // rod
-            list.add(new ItemStack(this, 1, LibResources.META3 + i));
+            list.add(new ItemStack(this, 1, LibResources.META3 + meta));
             // dust
-            list.add(new ItemStack(this, 1, LibResources.META4 + i));
+            list.add(new ItemStack(this, 1, LibResources.META4 + meta));
             // gear
-            list.add(new ItemStack(this, 1, LibResources.META5 + i));
+            list.add(new ItemStack(this, 1, LibResources.META5 + meta));
         }
     }
 

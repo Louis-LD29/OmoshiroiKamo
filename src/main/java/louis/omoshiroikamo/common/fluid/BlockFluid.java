@@ -2,7 +2,6 @@ package louis.omoshiroikamo.common.fluid;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -15,46 +14,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockFluidEio extends BlockFluidClassic {
+public class BlockFluid extends BlockFluidClassic {
 
-    public static class Mana extends BlockFluidEio {
-
-        protected Mana(Fluid fluid, Material material) {
-            super(fluid, material);
-        }
-    }
-
-    public static class Steam extends BlockFluidEio {
-
-        protected Steam(Fluid fluid, Material material) {
-            super(fluid, material);
-        }
-
-        @Override
-        public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
-            if (!world.isRemote) {
-                entity.setFire(3);
-                super.onEntityCollidedWithBlock(world, x, y, z, entity);
-            }
-        }
-    }
-
-    public static class Hydrogen extends BlockFluidEio {
-
-        protected Hydrogen(Fluid fluid, Material material) {
-            super(fluid, material);
-        }
-    }
-
-    public static class Oxygen extends BlockFluidEio {
-
-        protected Oxygen(Fluid fluid, Material material) {
-            super(fluid, material);
-        }
-    }
-
-    public static BlockFluidEio create(Fluid fluid, Material material) {
-        BlockFluidEio res = new BlockFluidEio(fluid, material);
+    public static BlockFluid create(Fluid fluid, Material material) {
+        BlockFluid res = new BlockFluid(fluid, material);
         res.init();
         fluid.setBlock(res);
         return res;
@@ -62,7 +25,7 @@ public class BlockFluidEio extends BlockFluidClassic {
 
     protected Fluid fluid;
 
-    protected BlockFluidEio(Fluid fluid, Material material) {
+    protected BlockFluid(Fluid fluid, Material material) {
         super(fluid, material);
         this.fluid = fluid;
         setBlockName(fluid.getUnlocalizedName());

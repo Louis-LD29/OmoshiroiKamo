@@ -56,13 +56,13 @@ public class FluidTEDataProvider implements IWailaDataProvider {
 
                 currenttip.add(
                     String.format(
-                        "§b%s§r: §a%,d§7 / §a%,d§7 mB §8| §e%d§7 K",
+                        "§b%s§r: §a%,d§7 / §a%,d§7L §8| §e%d§7 K",
                         fluidName,
                         fluidAmount,
                         capacity,
                         fluidTemp));
             } else {
-                currenttip.add(String.format("§7Empty§r: §a0§7 / §a%,d§7 mB", tank.getCapacity()));
+                currenttip.add(String.format("§7Empty§r: §a0§7 / §a%,d§7L", tank.getCapacity()));
             }
         }
 

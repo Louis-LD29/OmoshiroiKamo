@@ -12,6 +12,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import louis.omoshiroikamo.api.energy.MaterialWireType;
+import louis.omoshiroikamo.api.fluid.FluidRegistry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.command.ModCommands;
@@ -34,6 +35,7 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         MaterialRegistry.init();
+        FluidRegistry.init();
         MaterialWireType.init();
 
         Config.preInit(event);

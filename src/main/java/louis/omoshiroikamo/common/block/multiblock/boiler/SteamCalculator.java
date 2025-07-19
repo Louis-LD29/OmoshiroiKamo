@@ -1,14 +1,16 @@
 package louis.omoshiroikamo.common.block.multiblock.boiler;
 
-import louis.omoshiroikamo.api.fluid.FluidMaterial;
+import louis.omoshiroikamo.api.fluid.FluidRegistry;
 
 public class SteamCalculator {
 
     // Hằng số vật lý
     private static final double ATM_TO_PA = 101325.0;
-    private static final double R = FluidMaterial.STEAM.getGasConstant(); // J/(kg·K)
-    private static double DENSITY_WATER = FluidMaterial.WATER.getDensity(); // kg/m³
-    private static double DENSITY_STEAM = FluidMaterial.STEAM.getDensity(); // kg/m³
+    private static final double R = 8.314; // J/(kg·K)
+    private static double DENSITY_WATER = FluidRegistry.get("Water")
+        .getDensityKgPerM3(); // kg/m³
+    private static double DENSITY_STEAM = FluidRegistry.get("Steam")
+        .getDensityKgPerM3(); // kg/m³
     private static final double P_BASE = 1.01325;
 
     private double heatSourceMassKg = 100.0;

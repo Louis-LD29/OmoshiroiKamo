@@ -2,18 +2,14 @@ package louis.omoshiroikamo.common.block;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import cofh.api.energy.IEnergyHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
-import ic2.api.energy.tile.IEnergyTile;
 import louis.omoshiroikamo.api.energy.EnergyStorageAdv;
 import louis.omoshiroikamo.api.energy.PowerHandlerUtil;
+import louis.omoshiroikamo.common.plugin.compat.IC2Compat;
 
 @Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
     @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "IC2") })
@@ -34,7 +30,10 @@ public abstract class AbstractPoweredTE extends AbstractTE implements IEnergyHan
             return;
         }
 
-        loadIC2();
+        if (IC2Compat.isIC2Loaded() && !this.inICNet) {
+            IC2Compat.loadIC2Tile(this);
+            this.inICNet = true;
+        }
 
         boolean powerChanged = (lastSyncPowerStored != storedEnergyRF && shouldDoWorkThisTick(5));
         if (powerChanged) {
@@ -46,27 +45,19 @@ public abstract class AbstractPoweredTE extends AbstractTE implements IEnergyHan
     @Override
     public void invalidate() {
         super.invalidate();
-        unloadIC2();
+        unload();
     }
 
     @Override
     public void onChunkUnload() {
         super.onChunkUnload();
-        unloadIC2();
+        unload();
     }
 
     @Optional.Method(modid = "IC2")
-    void loadIC2() {
-        if (Loader.isModLoaded("IC2") && !this.inICNet) {
-            MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent((IEnergyTile) this));
-            this.inICNet = true;
-        }
-    }
-
-    @Optional.Method(modid = "IC2")
-    void unloadIC2() {
-        if (Loader.isModLoaded("IC2") && this.inICNet) {
-            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent((IEnergyTile) this));
+    void unload() {
+        if (IC2Compat.isIC2Loaded() && this.inICNet) {
+            IC2Compat.unloadIC2Tile(this);
             this.inICNet = false;
         }
     }

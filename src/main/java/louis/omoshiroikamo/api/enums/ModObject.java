@@ -29,6 +29,7 @@ public enum ModObject {
     itemOperationOrb,
     itemMaterial,
     itemBucketMaterial,
+    itemBucketFluid,
     itemWireCoil;
 
     public final String unlocalisedName;

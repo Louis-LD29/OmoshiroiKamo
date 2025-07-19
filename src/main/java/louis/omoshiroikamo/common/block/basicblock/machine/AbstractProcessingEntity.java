@@ -361,7 +361,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             if (remaining > 0) {
                 Logger.info(
                     "[consumeInputs] Không đủ fluid để tiêu thụ: " + input.amount
-                        + " mB of "
+                        + "L of "
                         + input.getFluid()
                             .getName());
             }

@@ -23,6 +23,8 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.relauncher.Side;
 import lombok.SneakyThrows;
+import louis.omoshiroikamo.api.fluid.FluidEntry;
+import louis.omoshiroikamo.api.fluid.FluidRegistry;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.core.lang.LangSectionInserter;
@@ -37,6 +39,7 @@ public class Config {
     public static final Section sectionPersonal = new Section("Personal Settings", "personal");
     public static final Section sectionIE = new Section("Immersive Engineering Settings", "ie");
     public static final Section sectionMaterial = new Section("Material Settings", "material");
+    public static final Section sectionFluid = new Section("Fluid Settings", "fluid");
     public static final Section sectionDamageIndicators = new Section("Damage Indicators Settings", "damage_indicator");
 
     public static Configuration config;
@@ -61,6 +64,7 @@ public class Config {
     public static int healColor = 0x33FF33;
 
     public static final Map<String, MaterialConfig> materialConfigs = new HashMap<>();
+    public static final Map<String, FluidConfig> fluidConigs = new HashMap<>();
 
     private static ResourcePackAssembler assembler;
 
@@ -100,11 +104,13 @@ public class Config {
     private static void addIcons(ResourcePackAssembler assembler) {
         File iconDir = new File(configDirectory, "icons");
         File materialFluidDir = new File(configDirectory, LibResources.PREFIX_MATERIAL_FLUID_ICONS);
+        File fluidDir = new File(configDirectory, LibResources.PREFIX_FLUID_ICONS);
         if (!iconDir.exists()) iconDir.mkdirs();
 
         File[] iconFiles = iconDir.listFiles((dir, name) -> name.endsWith(".png") || name.endsWith(".mcmeta"));
         File[] materialFluidFiles = materialFluidDir
             .listFiles((dir, name) -> name.endsWith(".png") || name.endsWith(".mcmeta"));
+        File[] fluidFiles = fluidDir.listFiles((dir, name) -> name.endsWith(".png") || name.endsWith(".mcmeta"));
 
         if (iconFiles != null) {
             for (File f : iconFiles) {
@@ -113,6 +119,13 @@ public class Config {
         }
         if (materialFluidFiles != null) {
             for (File f : materialFluidFiles) {
+                assembler.addCustomFile("assets/" + LibMisc.MOD_ID.toLowerCase(Locale.ROOT) + "/textures/blocks", f);
+
+            }
+        }
+
+        if (fluidFiles != null) {
+            for (File f : fluidFiles) {
                 assembler.addCustomFile("assets/" + LibMisc.MOD_ID.toLowerCase(Locale.ROOT) + "/textures/blocks", f);
 
             }
@@ -279,8 +292,6 @@ public class Config {
                 + "Each material will be initialized with predefined or config-based properties. Requires game restart.")
             .getStringList();
 
-        LangSectionInserter.insertCustomMaterialsLang(materialCustom);
-
         for (String name : materialCustom) {
             if (!MaterialRegistry.contains(name)) {
                 MaterialEntry entry = new MaterialEntry(name);
@@ -308,6 +319,12 @@ public class Config {
             materialConfigs.put(entry.getName(), MaterialConfig.loadFromConfig(config, entry));
         }
 
+        fluidConigs.clear();
+        for (FluidEntry entry : FluidRegistry.all()) {
+            fluidConigs.put(entry.getName(), FluidConfig.loadFromConfig(config, entry));
+        }
+
+        LangSectionInserter.insertCustomMaterialsLang(materialCustom);
     }
 
     public static void init() {}
