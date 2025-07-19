@@ -9,9 +9,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.common.fluid.BlockFluidEio;
+import louis.omoshiroikamo.common.fluid.BlockFluid;
 
-public class BlockFluidMaterial extends BlockFluidEio {
+public class BlockFluidMaterial extends BlockFluid {
 
     String texture;
     boolean alpha;

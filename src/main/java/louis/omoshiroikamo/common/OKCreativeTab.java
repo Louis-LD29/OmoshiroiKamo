@@ -3,6 +3,7 @@ package louis.omoshiroikamo.common;
 import java.util.List;
 import java.util.Random;
 
+import louis.omoshiroikamo.common.fluid.FluidRegister;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -12,7 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
-import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegistry;
+import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegister;
 import louis.omoshiroikamo.common.item.ModItems;
 
 public class OKCreativeTab extends CreativeTabs {
@@ -46,7 +47,8 @@ public class OKCreativeTab extends CreativeTabs {
 
         addItem(ModItems.itemMaterial);
         addItem(ModItems.itemWireCoil);
-        addItem(FluidMaterialRegistry.itemBucketMaterial);
+        addItem(FluidMaterialRegister.itemBucketMaterial);
+        addItem(FluidRegister.itemBucketFluid);
         addBlock(ModBlocks.blockMaterial);
     }
 

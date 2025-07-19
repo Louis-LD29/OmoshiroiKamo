@@ -320,9 +320,8 @@ public class TileTest extends AbstractPowerConsumerEntity
             new Column().child(
                 new FluidSlot().syncHandler(
                     new FluidSlotSyncHandler(outputTank).canDrainSlot(
-                        outputTank.getFluidAmount() >= 1000 && !outputTank.getFluid()
-                            .getFluid()
-                            .equals(ModFluids.fluidMana))
+                        outputTank.getFluidAmount() >= 1000
+                          )
 
                 ))
                 .child(
@@ -337,9 +336,7 @@ public class TileTest extends AbstractPowerConsumerEntity
                         .key('F', index -> {
                             return new FluidSlot().syncHandler(
                                 new FluidSlotSyncHandler(inputTank).canDrainSlot(
-                                    inputTank.getFluidAmount() >= 1000 && !inputTank.getFluid()
-                                        .getFluid()
-                                        .equals(ModFluids.fluidMana))
+                                    inputTank.getFluidAmount() >= 1000)
 
                         )
                                 .debugName("Slot " + index);

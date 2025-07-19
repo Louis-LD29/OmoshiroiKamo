@@ -88,9 +88,9 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tabs, List<ItemStack> list) {
-        for (int i = 0; i < MaterialRegistry.all()
-            .size(); i++) {
-            list.add(new ItemStack(this, 1, i));
+        for (MaterialEntry materialEntry : MaterialRegistry.all()) {
+            int meta = materialEntry.meta;
+            list.add(new ItemStack(this, 1, meta));
         }
     }
 

@@ -2,6 +2,8 @@ package louis.omoshiroikamo.common.block.multiblock.part.energy;
 
 import java.util.List;
 
+import louis.omoshiroikamo.api.material.MaterialEntry;
+import louis.omoshiroikamo.common.core.lib.LibResources;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -43,13 +45,10 @@ public class BlockEnergyInOut extends AbstractBlock<TEEnergyInOut> implements IR
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
-        int count = MaterialRegistry.all()
-            .size();
-        for (int i = 0; i < count; i++) {
-            list.add(new ItemStack(this, 1, i));
-        }
-        for (int i = 0; i < count; i++) {
-            list.add(new ItemStack(this, 1, 100 + i));
+        for (MaterialEntry materialEntry : MaterialRegistry.all()) {
+            int meta = materialEntry.meta;
+            list.add(new ItemStack(this, 1, meta));;
+            list.add(new ItemStack(this, 1, LibResources.META1 + meta));
         }
     }
 

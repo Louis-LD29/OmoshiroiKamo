@@ -5,137 +5,147 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import louis.omoshiroikamo.api.fluid.FluidEntry;
+import louis.omoshiroikamo.api.fluid.FluidRegistry;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.config.Config;
 
 public class LangSectionInserter {
 
-    private static final String LANG_PATH = "src/main/resources/assets/test/lang/en_US.lang";
+    private static final String LANG_PATH = "src/main/resources/assets/omoshiroikamo/lang/en_US.lang";
 
-    private static final Map<String, SectionGenerator> SECTIONS = new LinkedHashMap<>();
+    private static final List<Section> SECTIONS = new ArrayList<>();
 
     static {
-        SECTIONS.put(
+        addMaterialSection(
             "#Item Wire Coil",
-            material -> "item.itemWireCoil." + material.getUnlocalizedName()
-                + ".name=Wire Coil ("
-                + material.getName()
-                + ")");
-        SECTIONS.put(
+            mat -> "item.itemWireCoil." + mat.getUnlocalizedName() + ".name=Wire Coil (" + mat.getName() + ")");
+        addMaterialSection(
             "#Item Material Ingot",
-            material -> "item.itemMaterial.ingot." + material.getUnlocalizedName()
-                + ".name="
-                + material.getName()
-                + " Ingot");
-        SECTIONS.put(
+            mat -> "item.itemMaterial.ingot." + mat.getUnlocalizedName() + ".name=" + mat.getName() + " Ingot");
+        addMaterialSection(
             "#Item Material Nugget",
-            material -> "item.itemMaterial.nugget." + material.getUnlocalizedName()
-                + ".name="
-                + material.getName()
-                + " Nugget");
-        SECTIONS.put(
+            mat -> "item.itemMaterial.nugget." + mat.getUnlocalizedName() + ".name=" + mat.getName() + " Nugget");
+        addMaterialSection(
             "#Item Material Plate",
-            material -> "item.itemMaterial.plate." + material.getUnlocalizedName()
-                + ".name="
-                + material.getName()
-                + " Plate");
-        SECTIONS.put(
+            mat -> "item.itemMaterial.plate." + mat.getUnlocalizedName() + ".name=" + mat.getName() + " Plate");
+        addMaterialSection(
             "#Item Material Rod",
-            material -> "item.itemMaterial.rod." + material.getUnlocalizedName()
-                + ".name="
-                + material.getName()
-                + " Rod");
-        SECTIONS.put(
+            mat -> "item.itemMaterial.rod." + mat.getUnlocalizedName() + ".name=" + mat.getName() + " Rod");
+        addMaterialSection(
             "#Item Material Dust",
-            material -> "item.itemMaterial.dust." + material.getUnlocalizedName()
-                + ".name="
-                + material.getName()
-                + " Dust");
-        SECTIONS.put(
+            mat -> "item.itemMaterial.dust." + mat.getUnlocalizedName() + ".name=" + mat.getName() + " Dust");
+        addMaterialSection(
             "#Item Material Gear",
-            material -> "item.itemMaterial.gear." + material.getUnlocalizedName()
-                + ".name="
-                + material.getName()
-                + " Gear");
-        SECTIONS.put(
+            mat -> "item.itemMaterial.gear." + mat.getUnlocalizedName() + ".name=" + mat.getName() + " Gear");
+        addMaterialSection(
             "#Item Bucket Material",
-            material -> "item.itemBucketMaterial." + material.getUnlocalizedName()
-                + ".name=Molten "
-                + material.getName()
-                + " Bucket");
+            mat -> "item.itemBucketMaterial." + mat.getUnlocalizedName() + ".name=Molten " + mat.getName() + " Bucket");
+        addFluidSection(
+            "#Item Bucket Fluid",
+            mat -> "item.itemBucketFluid." + mat.getUnlocalizedName() + ".name=" + mat.getName() + " Bucket");
 
-        SECTIONS.put(
+        addMaterialSection(
             "#Block of Material",
-            material -> "tile.blockMaterial." + material.getUnlocalizedName() + ".name=Block of " + material.getName());
-        SECTIONS.put(
+            mat -> "tile.blockMaterial." + mat.getUnlocalizedName() + ".name=Block of " + mat.getName());
+        addMaterialSection(
             "#Energy Input",
-            material -> "tile.blockEnergyInOut.input." + material.getUnlocalizedName()
+            mat -> "tile.blockEnergyInOut.input." + mat.getUnlocalizedName()
                 + ".name=Energy Input ("
-                + material.getName()
+                + mat.getName()
                 + ")");
-        SECTIONS.put(
+        addMaterialSection(
             "#Energy Output",
-            material -> "tile.blockEnergyInOut.output." + material.getUnlocalizedName()
+            mat -> "tile.blockEnergyInOut.output." + mat.getUnlocalizedName()
                 + ".name=Energy Output ("
-                + material.getName()
+                + mat.getName()
                 + ")");
-        SECTIONS.put(
+        addMaterialSection(
             "#Fluid Input",
-            material -> "tile.blockFluidInOut.input." + material.getUnlocalizedName()
+            mat -> "tile.blockFluidInOut.input." + mat.getUnlocalizedName()
                 + ".name=Fluid Input ("
-                + material.getName()
+                + mat.getName()
                 + ")");
-        SECTIONS.put(
+        addMaterialSection(
             "#Fluid Output",
-            material -> "tile.blockFluidInOut.output." + material.getUnlocalizedName()
+            mat -> "tile.blockFluidInOut.output." + mat.getUnlocalizedName()
                 + ".name=Fluid Output ("
-                + material.getName()
+                + mat.getName()
                 + ")");
-
-        SECTIONS.put(
+        addMaterialSection(
             "#Block Fluid Material",
-            material -> "tile.fluid.molten." + StringUtils.uncapitalize(material.getUnlocalizedName())
+            mat -> "tile.fluid.molten." + StringUtils.uncapitalize(mat.getUnlocalizedName())
                 + ".name=Molten "
-                + material.getName());
-        SECTIONS.put(
+                + mat.getName());
+        addMaterialSection(
             "#Fluid Material",
-            material -> "fluid." + StringUtils.uncapitalize(material.getUnlocalizedName())
-                + ".molten=Molten "
-                + material.getName());
-
-        SECTIONS.put(
+            mat -> "fluid." + StringUtils.uncapitalize(mat.getUnlocalizedName()) + ".molten=Molten " + mat.getName());
+        addMaterialSection(
             "#Tic Material",
-            material -> "material." + StringUtils.uncapitalize(material.getUnlocalizedName())
-                + "="
-                + material.getName());
-
+            mat -> "material." + StringUtils.uncapitalize(mat.getUnlocalizedName()) + "=" + mat.getName());
+        addFluidSection(
+            "#Block Fluid",
+            fluid -> "tile.fluid." + StringUtils.uncapitalize(fluid.getUnlocalizedName()) + ".name=" + fluid.getName());
+        addFluidSection(
+            "#Fluid",
+            fluid -> "fluid." + StringUtils.uncapitalize(fluid.getUnlocalizedName()) + "=" + fluid.getName());
     }
 
     public static void main(String[] args) throws IOException {
-        File langFile = new File(LANG_PATH);
+        MaterialRegistry.init();
+        FluidRegistry.init();
+        generateLang(
+            new File(LANG_PATH),
+            new ArrayList<>(MaterialRegistry.all()),
+            new ArrayList<>(FluidRegistry.all()),
+            "# BEGIN AUTOGEN",
+            "# END AUTOGEN");
+    }
 
-        List<String> existingLines = langFile.exists() ? Files.readAllLines(langFile.toPath()) : new ArrayList<>();
+    public static void insertCustomMaterialsLang(String[] materialNames) {
+        try {
+            File file = new File(Config.configDirectory.getAbsolutePath() + "/lang", "en_US.lang");
 
+            List<MaterialEntry> materials = new ArrayList<>();
+            List<FluidEntry> fluids = new ArrayList<>();
+
+            for (String name : materialNames) {
+                MaterialEntry mat = MaterialRegistry.get(name);
+                if (mat != null) materials.add(mat);
+                FluidEntry fl = FluidRegistry.get(name);
+                if (fl != null) fluids.add(fl);
+            }
+
+            generateLang(file, materials, fluids, "# BEGIN AUTOGEN (Custom Materials)", "# END AUTOGEN");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void generateLang(File file, Collection<MaterialEntry> materials, Collection<FluidEntry> fluids,
+        String beginTag, String endTag) throws IOException {
+
+        List<String> existingLines = file.exists() ? Files.readAllLines(file.toPath()) : new ArrayList<>();
         List<String> cleaned = new ArrayList<>();
         boolean insideAutogen = false;
 
         for (String line : existingLines) {
             if (line.trim()
-                .equals("# BEGIN AUTOGEN")) {
+                .equals(beginTag)) {
                 insideAutogen = true;
                 continue;
             }
             if (line.trim()
-                .equals("# END AUTOGEN")) {
+                .equals(endTag)) {
                 insideAutogen = false;
                 continue;
             }
@@ -144,104 +154,74 @@ public class LangSectionInserter {
             }
         }
 
-        List<String> autogenBlock = new ArrayList<>();
-        autogenBlock.add("# BEGIN AUTOGEN");
-
         Set<String> addedKeys = new HashSet<>();
+        List<String> autogenBlock = new ArrayList<>();
+        autogenBlock.add(beginTag);
 
-        MaterialRegistry.init();
-        for (Map.Entry<String, SectionGenerator> section : SECTIONS.entrySet()) {
-            autogenBlock.add(section.getKey());
-            for (MaterialEntry material : MaterialRegistry.all()) {
-                String line = section.getValue()
-                    .generate(material);
-                String key = line.substring(0, line.indexOf("="));
-                if (addedKeys.add(key)) {
-                    autogenBlock.add(line);
+        for (Section section : SECTIONS) {
+            autogenBlock.add(section.label);
+
+            if (section.generator instanceof MaterialLangGenerator matGen) {
+                for (MaterialEntry material : materials) {
+                    String line = matGen.generate(material);
+                    String key = line.substring(0, line.indexOf("="));
+                    if (addedKeys.add(key)) autogenBlock.add(line);
+                }
+            }
+
+            if (section.generator instanceof FluidLangGenerator fluidGen) {
+                for (FluidEntry fluid : fluids) {
+                    String line = fluidGen.generate(fluid);
+                    String key = line.substring(0, line.indexOf("="));
+                    if (addedKeys.add(key)) autogenBlock.add(line);
                 }
             }
 
             autogenBlock.add("");
         }
 
-        autogenBlock.add("# END AUTOGEN");
+        autogenBlock.add(endTag);
 
         if (!cleaned.isEmpty() && !cleaned.get(cleaned.size() - 1)
-            .isEmpty()) {
-            cleaned.add("");
-        }
+            .isEmpty()) cleaned.add("");
         cleaned.addAll(autogenBlock);
 
-        try (PrintWriter out = new PrintWriter(langFile)) {
-            for (String l : cleaned) {
-                out.println(l);
+        try (PrintWriter out = new PrintWriter(file)) {
+            for (String line : cleaned) {
+                out.println(line);
             }
         }
     }
 
-    public static void insertCustomMaterialsLang(String[] materialNames) {
-        try {
-            File file = new File(Config.configDirectory.getAbsolutePath() + "/lang", "en_US.lang");
+    private static void addMaterialSection(String label, MaterialLangGenerator generator) {
+        SECTIONS.add(new Section(label, generator));
+    }
 
-            List<String> existingLines = file.exists() ? Files.readAllLines(file.toPath()) : new ArrayList<>();
+    private static void addFluidSection(String label, FluidLangGenerator generator) {
+        SECTIONS.add(new Section(label, generator));
+    }
 
-            List<MaterialEntry> materials = new ArrayList<>();
-            for (String name : materialNames) {
-                MaterialEntry entry = MaterialRegistry.get(name);
-                if (entry != null) {
-                    materials.add(entry);
-                }
-            }
+    private static class Section {
 
-            List<String> newLangBlock = new ArrayList<>();
-            newLangBlock.add("# BEGIN AUTOGEN (Custom Materials)");
-            for (Map.Entry<String, SectionGenerator> section : SECTIONS.entrySet()) {
-                newLangBlock.add(section.getKey());
-                for (MaterialEntry mat : materials) {
-                    newLangBlock.add(
-                        section.getValue()
-                            .generate(mat));
-                }
-                newLangBlock.add("");
-            }
-            newLangBlock.add("# END AUTOGEN");
+        String label;
+        LangGenerator generator;
 
-            List<String> cleaned = new ArrayList<>();
-            boolean insideAuto = false;
-            for (String line : existingLines) {
-                if (line.trim()
-                    .equals("# BEGIN AUTOGEN (Custom Materials)")) {
-                    insideAuto = true;
-                    continue;
-                }
-                if (line.trim()
-                    .equals("# END AUTOGEN")) {
-                    insideAuto = false;
-                    continue;
-                }
-                if (!insideAuto) {
-                    cleaned.add(line);
-                }
-            }
-
-            if (!cleaned.isEmpty() && !cleaned.get(cleaned.size() - 1)
-                .isEmpty()) {
-                cleaned.add("");
-            }
-            cleaned.addAll(newLangBlock);
-
-            try (PrintWriter out = new PrintWriter(file)) {
-                for (String l : cleaned) {
-                    out.println(l);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        Section(String label, LangGenerator generator) {
+            this.label = label;
+            this.generator = generator;
         }
     }
 
-    interface SectionGenerator {
+    interface LangGenerator {
+    }
+
+    interface MaterialLangGenerator extends LangGenerator {
 
         String generate(MaterialEntry material);
+    }
+
+    interface FluidLangGenerator extends LangGenerator {
+
+        String generate(FluidEntry fluid);
     }
 }

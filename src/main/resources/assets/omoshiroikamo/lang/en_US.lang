@@ -72,15 +72,6 @@ tile.blockConnectable.connectorEV.name=EV Wire Connector
 tile.blockConnectable.connectorIV.name=IV Wire Connector
 tile.blockConnectable.transformer.name=Transformer
 
-#Fluid
-
-tile.fluid.Steam.name=Steam
-fluid.Steam=Steam
-item.bucketSteam.name=Mana Bucket
-tile.fluid.mana.name=Mana
-fluid.mana=Mana
-item.bucketMana.name=Mana Bucket
-
 #Immersive Engineering
 
 #CHAT
@@ -249,6 +240,21 @@ item.itemBucketMaterial.Tungsten.name=Molten Tungsten Bucket
 item.itemBucketMaterial.TungstenCarbide.name=Molten Tungsten Carbide Bucket
 item.itemBucketMaterial.Niobium.name=Molten Niobium Bucket
 
+#Item Bucket Fluid
+item.itemBucketFluid.Water.name=Water Bucket
+item.itemBucketFluid.Hydrogen.name=Hydrogen Bucket
+item.itemBucketFluid.Oxygen.name=Oxygen Bucket
+item.itemBucketFluid.Steam.name=Steam Bucket
+item.itemBucketFluid.Nitrogen.name=Nitrogen Bucket
+item.itemBucketFluid.CarbonDioxide.name=Carbon Dioxide Bucket
+item.itemBucketFluid.Methane.name=Methane Bucket
+item.itemBucketFluid.Helium.name=Helium Bucket
+item.itemBucketFluid.Argon.name=Argon Bucket
+item.itemBucketFluid.Neon.name=Neon Bucket
+item.itemBucketFluid.Ammonia.name=Ammonia Bucket
+item.itemBucketFluid.Chlorine.name=Chlorine Bucket
+item.itemBucketFluid.SulfurDioxide.name=Sulfur Dioxide Bucket
+
 #Block of Material
 tile.blockMaterial.Iron.name=Block of Iron
 tile.blockMaterial.Copper.name=Block of Copper
@@ -400,5 +406,35 @@ material.inconel625=Inconel 625
 material.tungsten=Tungsten
 material.tungstenCarbide=Tungsten Carbide
 material.niobium=Niobium
+
+#Block Fluid
+tile.fluid.water.name=Water
+tile.fluid.hydrogen.name=Hydrogen
+tile.fluid.oxygen.name=Oxygen
+tile.fluid.steam.name=Steam
+tile.fluid.nitrogen.name=Nitrogen
+tile.fluid.carbonDioxide.name=Carbon Dioxide
+tile.fluid.methane.name=Methane
+tile.fluid.helium.name=Helium
+tile.fluid.argon.name=Argon
+tile.fluid.neon.name=Neon
+tile.fluid.ammonia.name=Ammonia
+tile.fluid.chlorine.name=Chlorine
+tile.fluid.sulfurDioxide.name=Sulfur Dioxide
+
+#Fluid
+fluid.water=Water
+fluid.hydrogen=Hydrogen
+fluid.oxygen=Oxygen
+fluid.steam=Steam
+fluid.nitrogen=Nitrogen
+fluid.carbonDioxide=Carbon Dioxide
+fluid.methane=Methane
+fluid.helium=Helium
+fluid.argon=Argon
+fluid.neon=Neon
+fluid.ammonia=Ammonia
+fluid.chlorine=Chlorine
+fluid.sulfurDioxide=Sulfur Dioxide
 
 # END AUTOGEN

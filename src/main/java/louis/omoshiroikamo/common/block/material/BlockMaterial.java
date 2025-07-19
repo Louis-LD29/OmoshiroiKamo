@@ -40,18 +40,15 @@ public class BlockMaterial extends BlockEio {
     protected void init() {
         GameRegistry.registerBlock(this, ItemBlockMaterial.class, ModObject.blockMaterial.unlocalisedName);
 
-        int meta = 0;
         for (MaterialEntry entry : MaterialRegistry.all()) {
             String matName = entry.getUnlocalizedName();
-            String oreName = "block" + capitalize(matName);
+            int meta = entry.meta;
 
             registerMaterialOreDict(matName, meta);
 
             if ("Carbon Steel".equalsIgnoreCase(entry.getName())) {
                 registerMaterialOreDict("Steel", meta);
             }
-
-            meta++;
         }
     }
 
@@ -94,10 +91,9 @@ public class BlockMaterial extends BlockEio {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
-        int count = MaterialRegistry.all()
-            .size();
-        for (int i = 0; i < count; i++) {
-            list.add(new ItemStack(this, 1, i));
+        for (MaterialEntry materialEntry : MaterialRegistry.all()) {
+            int meta = materialEntry.meta;
+            list.add(new ItemStack(this, 1, meta));
         }
     }
 
