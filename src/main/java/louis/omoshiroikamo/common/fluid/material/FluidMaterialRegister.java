@@ -3,7 +3,6 @@ package louis.omoshiroikamo.common.fluid.material;
 import java.util.HashMap;
 import java.util.Map;
 
-import louis.omoshiroikamo.common.fluid.FluidFuelRegister;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;

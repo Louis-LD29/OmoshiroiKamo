@@ -136,7 +136,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     }
 
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean adv) {
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean adv) {
         if (stack.getTagCompound() != null && stack.getTagCompound()
             .hasKey("linkingPos")) {
             int[] link = stack.getTagCompound()

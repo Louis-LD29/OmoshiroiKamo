@@ -113,10 +113,7 @@ public class TileElectrolyzer extends AbstractProcessingEntity {
                                         if (fluid != null && fluid.getFluid() != null) {
                                             richTooltip.add(
                                                 IKey.str(
-                                                    " - " + fluid.amount
-                                                        + "L of "
-                                                        + fluid.getLocalizedName()
-                                                        + "\n"));
+                                                    " - " + fluid.amount + "L of " + fluid.getLocalizedName() + "\n"));
                                         }
                                     }
                                 }
