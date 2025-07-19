@@ -11,7 +11,8 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import louis.omoshiroikamo.client.fluid.FluidTextureGenerator;
+import louis.omoshiroikamo.client.fluid.FluidMaterialTexture;
+import louis.omoshiroikamo.client.fluid.FluidTexture;
 import louis.omoshiroikamo.client.gui.ManaHUD;
 import louis.omoshiroikamo.client.handler.ClientTickHandler;
 import louis.omoshiroikamo.client.handler.DameEvents;
@@ -82,7 +83,8 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void callAssembleResourcePack() {
-        FluidTextureGenerator.applyAll();
+        FluidMaterialTexture.applyAll();
+        FluidTexture.applyAll();
         super.callAssembleResourcePack();
     }
 

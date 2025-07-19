@@ -19,10 +19,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegistry;
+import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegister;
 
 @SideOnly(Side.CLIENT)
-public class FluidTextureGenerator {
+public class FluidMaterialTexture {
 
     private static BufferedImage baseStill, baseFlow;
     public static final File CONFIG_FLUID_DIR = new File(
@@ -30,7 +30,7 @@ public class FluidTextureGenerator {
 
     public static void applyAll() {
         initBaseTextures();
-        for (Map.Entry<MaterialEntry, Fluid> entry : FluidMaterialRegistry.FLUIDS.entrySet()) {
+        for (Map.Entry<MaterialEntry, Fluid> entry : FluidMaterialRegister.FLUIDS.entrySet()) {
             apply(entry.getValue(), entry.getKey());
         }
         cleanUnusedTextures();
@@ -141,7 +141,7 @@ public class FluidTextureGenerator {
         if (!CONFIG_FLUID_DIR.exists()) return;
 
         Set<String> validNames = new HashSet<>();
-        for (Map.Entry<MaterialEntry, Fluid> entry : FluidMaterialRegistry.FLUIDS.entrySet()) {
+        for (Map.Entry<MaterialEntry, Fluid> entry : FluidMaterialRegister.FLUIDS.entrySet()) {
             String name = entry.getValue()
                 .getName()
                 .replace(".molten", "");
