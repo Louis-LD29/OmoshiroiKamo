@@ -14,6 +14,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import louis.omoshiroikamo.api.energy.MaterialWireType;
 import louis.omoshiroikamo.api.fluid.FluidRegistry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
+import louis.omoshiroikamo.api.ore.OreRegistry;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.command.ModCommands;
 import louis.omoshiroikamo.common.config.Config;
@@ -28,6 +29,7 @@ import louis.omoshiroikamo.common.plugin.nei.IMCForNEI;
 import louis.omoshiroikamo.common.plugin.tic.TICCompat;
 import louis.omoshiroikamo.common.plugin.waila.WailaRegistrar;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
+import louis.omoshiroikamo.common.world.OKWorldGenerator;
 
 public class CommonProxy {
 
@@ -36,6 +38,7 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         MaterialRegistry.init();
         FluidRegistry.init();
+        OreRegistry.init();
         MaterialWireType.init();
 
         Config.preInit(event);
@@ -44,6 +47,7 @@ public class CommonProxy {
         ModItems.init();
         ModFluids.init();
         ModRecipes.init();
+        OKWorldGenerator.init();
 
         callAssembleResourcePack();
         IECompat.preInit();

@@ -1,7 +1,7 @@
 package louis.omoshiroikamo.common;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -19,8 +19,8 @@ import louis.omoshiroikamo.common.item.ModItems;
 public class OKCreativeTab extends CreativeTabs {
 
     public static final CreativeTabs INSTANCE = new OKCreativeTab();
-    private static final Random rand = new Random();
     List<ItemStack> list;
+    private static final List<ItemStack> externalStacks = new ArrayList<>();
 
     public OKCreativeTab() {
         super(LibMisc.MOD_ID);
@@ -50,6 +50,10 @@ public class OKCreativeTab extends CreativeTabs {
         addItem(FluidMaterialRegister.itemBucketMaterial);
         addItem(FluidRegister.itemBucketFluid);
         addBlock(ModBlocks.blockMaterial);
+
+        for (ItemStack stack : externalStacks) {
+            addStack(stack);
+        }
     }
 
     private void addItem(Item item) {
@@ -63,6 +67,18 @@ public class OKCreativeTab extends CreativeTabs {
 
     private void addStack(ItemStack stack) {
         list.add(stack);
+    }
+
+    public static void addToTab(Item item) {
+        externalStacks.add(new ItemStack(item));
+    }
+
+    public static void addToTab(Block block) {
+        externalStacks.add(new ItemStack(block));
+    }
+
+    public static void addToTab(ItemStack stack) {
+        externalStacks.add(stack);
     }
 
     @Override

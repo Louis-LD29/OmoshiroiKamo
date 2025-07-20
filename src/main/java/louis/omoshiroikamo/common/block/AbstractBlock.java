@@ -21,7 +21,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.api.client.IResourceTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
 
-public abstract class AbstractBlock<T extends AbstractTE> extends BlockEio implements IResourceTooltipProvider {
+public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK implements IResourceTooltipProvider {
 
     public static int renderId;
     protected final Random random;

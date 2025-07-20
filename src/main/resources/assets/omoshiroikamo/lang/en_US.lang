@@ -1,6 +1,6 @@
 
 #Config
-config.title=Test Configuration
+config.title=Omoshiroi Kamo Configuration
 config.personal=Personal Settings
 config.personal.tooltip=I won't tell anyone, I promise.
 config.mana=Mana
@@ -436,5 +436,9 @@ fluid.neon=Neon
 fluid.ammonia=Ammonia
 fluid.chlorine=Chlorine
 fluid.sulfurDioxide=Sulfur Dioxide
+
+#Ore
+tile.ore_Hematite.name=Hematite Ore
+tile.ore_Magnetite.name=Magnetite Ore
 
 # END AUTOGEN
