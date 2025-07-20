@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
+import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.fluid.ItemBucketMaterial;
 
 public class FluidMaterialRegister {
@@ -104,6 +105,7 @@ public class FluidMaterialRegister {
         BlockFluidMaterial block = new BlockFluidMaterial(fluid, material, texture);
         block.setBlockName(blockName);
         GameRegistry.registerBlock(block, blockName);
+        OKCreativeTab.addToTab(block);
 
         fluid.setBlock(block);
         block.setFluid(fluid);

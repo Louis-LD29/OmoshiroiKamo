@@ -4,11 +4,11 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 
 import net.minecraft.block.BlockOre;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.ore.OreEntry;
@@ -20,16 +20,27 @@ public class BlockOreOK extends BlockOre {
     private final OreEntry ore;
     private IIcon icon;
 
+    public static BlockOreOK create(OreEntry ore) {
+        BlockOreOK result = new BlockOreOK(ore);
+        result.init();
+        return result;
+    }
+
     public BlockOreOK(OreEntry ore) {
         super();
         this.ore = ore;
         setHardness(3.0F);
         setResistance(5.0F);
         setHarvestLevel("pickaxe", 1);
-        String name = "ore_" + ore.getUnlocalizedName();
-        setBlockName(name);
+        setBlockName("ore_" + ore.getUnlocalizedName());
         setCreativeTab(OKCreativeTab.INSTANCE);
-        OreDictionary.registerOre("ore" + capitalize(name), new ItemStack(Item.getItemFromBlock(this), 1, 0));
+    }
+
+    public void init() {
+        String name = "ore_" + ore.getUnlocalizedName();
+        GameRegistry.registerBlock(this, name);
+        OreDictionary.registerOre("ore" + capitalize(ore.getUnlocalizedName()), new ItemStack(this));
+        OKCreativeTab.addToTab(this);
     }
 
     @SideOnly(Side.CLIENT)
