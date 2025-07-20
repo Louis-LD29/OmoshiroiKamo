@@ -16,6 +16,7 @@ import louis.omoshiroikamo.client.fluid.FluidTexture;
 import louis.omoshiroikamo.client.gui.ManaHUD;
 import louis.omoshiroikamo.client.handler.ClientTickHandler;
 import louis.omoshiroikamo.client.handler.DameEvents;
+import louis.omoshiroikamo.client.ore.OreTexture;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectableISBRH;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectorEVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectorHVTESR;
@@ -83,6 +84,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void callAssembleResourcePack() {
+        OreTexture.applyAll();
         FluidMaterialTexture.applyAll();
         FluidTexture.applyAll();
         super.callAssembleResourcePack();

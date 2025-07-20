@@ -8,6 +8,7 @@ import louis.omoshiroikamo.common.block.material.BlockMaterial;
 import louis.omoshiroikamo.common.block.multiblock.BlockMultiBlock;
 import louis.omoshiroikamo.common.block.multiblock.part.energy.BlockEnergyInOut;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.BlockFluidInOut;
+import louis.omoshiroikamo.common.block.ore.OreRegister;
 
 public class ModBlocks {
 
@@ -45,6 +46,7 @@ public class ModBlocks {
         blockElectrolyzer = BlockElectrolyzer.create();
         blockConnectable = BlockConnectable.create();
         blockMaterial = BlockMaterial.create();
+        OreRegister.init();
     }
 
 }

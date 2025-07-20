@@ -27,6 +27,9 @@ import louis.omoshiroikamo.api.fluid.FluidEntry;
 import louis.omoshiroikamo.api.fluid.FluidRegistry;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
+import louis.omoshiroikamo.api.ore.OreEntry;
+import louis.omoshiroikamo.api.ore.OreRegistry;
+import louis.omoshiroikamo.common.core.helper.Logger;
 import louis.omoshiroikamo.common.core.lang.LangSectionInserter;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.core.lib.LibResources;
@@ -34,15 +37,41 @@ import louis.omoshiroikamo.common.core.network.PacketHandler;
 
 public class Config {
 
-    public static final List<Section> sections = new ArrayList<>();
+    public static class Section {
+
+        public final String name;
+        public final String lang;
+
+        public Section(String name, String lang) {
+            this.name = name;
+            this.lang = lang;
+            register();
+        }
+
+        private void register() {
+            sections.add(this);
+        }
+
+        public String lc() {
+            return name.toLowerCase(Locale.US);
+        }
+    }
+
+    public static final List<Section> sections;
+
+    static {
+        sections = new ArrayList<Section>();
+    }
+
+    public static Configuration config;
     public static final Section sectionMana = new Section("Mana", "mana");
     public static final Section sectionPersonal = new Section("Personal Settings", "personal");
     public static final Section sectionIE = new Section("Immersive Engineering Settings", "ie");
     public static final Section sectionMaterial = new Section("Material Settings", "material");
     public static final Section sectionFluid = new Section("Fluid Settings", "fluid");
+    public static final Section sectionOre = new Section("Ore Settings", "ore");
     public static final Section sectionDamageIndicators = new Section("Damage Indicators Settings", "damage_indicator");
 
-    public static Configuration config;
     public static File configDirectory;
     public static int manaPowerStorageBase = 50000;
     public static int manaUpgradeDiamondCost = 10;
@@ -59,16 +88,16 @@ public class Config {
     public static int[] cableTransferRate = new int[] { 2048, 8192, 32768, 0, 0 };
     public static int[] cableColouration = new int[] { 13926474, 15576418, 7303023, 9862765, 7303023 };
     public static String[] materialCustom = new String[] {};
+    public static String[] oreCustom = new String[] {};
     public static boolean showDamageParticles = true;
     public static int damageColor = 0xFFFFFF;
     public static int healColor = 0x33FF33;
 
     public static final Map<String, MaterialConfig> materialConfigs = new HashMap<>();
     public static final Map<String, FluidConfig> fluidConigs = new HashMap<>();
+    public static final Map<String, OreConfig> oreConfigs = new HashMap<>();
 
     private static ResourcePackAssembler assembler;
-
-    private Config() {}
 
     public static void preInit(FMLPreInitializationEvent event) {
         PacketHandler.INSTANCE
@@ -81,10 +110,51 @@ public class Config {
         if (!configDirectory.exists()) {
             configDirectory.mkdir();
         }
-
         File configFile = new File(configDirectory, LibMisc.MOD_ID + ".cfg");
         config = new Configuration(configFile);
         syncConfig(false);
+    }
+
+    public static void syncConfig(boolean load) {
+        try {
+            if (load) {
+                config.load();
+            }
+            Config.processConfig(config);
+        } catch (Exception e) {
+            Logger.error("Mod has a problem loading it's configuration");
+            e.printStackTrace();
+        } finally {
+            if (config.hasChanged()) {
+                config.save();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onConfigChanged(OnConfigChangedEvent event) {
+        if (event.modID.equals(LibMisc.MOD_ID)) {
+            Logger.info("Updating config...");
+            syncConfig(false);
+            init();
+            postInit();
+        }
+    }
+
+    @SubscribeEvent
+    public void onConfigFileChanged(ConfigFileChangedEvent event) {
+        if (event.modID.equals(LibMisc.MOD_ID)) {
+            Logger.info("Updating config...");
+            syncConfig(true);
+            event.setSuccessful();
+            init();
+            postInit();
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerLoggon(PlayerLoggedInEvent evt) {
+        PacketHandler.INSTANCE.sendTo(new PacketConfigSync(), (EntityPlayerMP) evt.player);
     }
 
     @SneakyThrows
@@ -105,12 +175,14 @@ public class Config {
         File iconDir = new File(configDirectory, "icons");
         File materialFluidDir = new File(configDirectory, LibResources.PREFIX_MATERIAL_FLUID_ICONS);
         File fluidDir = new File(configDirectory, LibResources.PREFIX_FLUID_ICONS);
+        File oreDir = new File(configDirectory, LibResources.PREFIX_ORE_ICONS);
         if (!iconDir.exists()) iconDir.mkdirs();
 
         File[] iconFiles = iconDir.listFiles((dir, name) -> name.endsWith(".png") || name.endsWith(".mcmeta"));
         File[] materialFluidFiles = materialFluidDir
             .listFiles((dir, name) -> name.endsWith(".png") || name.endsWith(".mcmeta"));
         File[] fluidFiles = fluidDir.listFiles((dir, name) -> name.endsWith(".png") || name.endsWith(".mcmeta"));
+        File[] oreFiles = oreDir.listFiles((dir, name) -> name.endsWith(".png"));
 
         if (iconFiles != null) {
             for (File f : iconFiles) {
@@ -120,14 +192,17 @@ public class Config {
         if (materialFluidFiles != null) {
             for (File f : materialFluidFiles) {
                 assembler.addCustomFile("assets/" + LibMisc.MOD_ID.toLowerCase(Locale.ROOT) + "/textures/blocks", f);
-
             }
         }
 
         if (fluidFiles != null) {
             for (File f : fluidFiles) {
                 assembler.addCustomFile("assets/" + LibMisc.MOD_ID.toLowerCase(Locale.ROOT) + "/textures/blocks", f);
-
+            }
+        }
+        if (oreFiles != null) {
+            for (File f : oreFiles) {
+                assembler.addCustomFile("assets/" + LibMisc.MOD_ID.toLowerCase(Locale.ROOT) + "/textures/blocks", f);
             }
         }
     }
@@ -140,21 +215,6 @@ public class Config {
         if (langFiles != null) {
             for (File f : langFiles) {
                 assembler.addLang(f);
-            }
-        }
-    }
-
-    public static void syncConfig(boolean load) {
-        try {
-            if (load) {
-                config.load();
-            }
-            Config.processConfig(config);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (config.hasChanged()) {
-                config.save();
             }
         }
     }
@@ -283,7 +343,6 @@ public class Config {
             .getIntList();
 
         // Material
-
         materialCustom = config.get(
             sectionMaterial.name,
             "materialCustom",
@@ -299,80 +358,93 @@ public class Config {
             }
         }
 
-        Set<String> defined = new HashSet<>(Arrays.asList(materialCustom));
-        Set<String> categoriesToRemove = new HashSet<>();
+        Set<String> materialDefined = new HashSet<>();
+        for (MaterialEntry entry : MaterialRegistry.all()) {
+            materialDefined.add(
+                entry.getName()
+                    .toLowerCase());
+        }
+
+        Set<String> categoriesMaterialToRemove = new HashSet<>();
         for (String category : config.getCategoryNames()) {
             if (category.startsWith("material settings") && !category.equals("material settings")) {
                 String name = category.substring("material settings".length() + 1);
-                if (!defined.contains(name)) {
-                    categoriesToRemove.add(category);
+                if (!materialDefined.contains(name)) {
+                    categoriesMaterialToRemove.add(category);
                 }
             }
         }
 
-        for (String cat : categoriesToRemove) {
+        for (String cat : categoriesMaterialToRemove) {
+            Logger.info(cat);
             config.removeCategory(config.getCategory(cat));
         }
 
+        LangSectionInserter.insertCustomMaterialsLang(materialCustom);
+
         materialConfigs.clear();
         for (MaterialEntry entry : MaterialRegistry.all()) {
-            materialConfigs.put(entry.getName(), MaterialConfig.loadFromConfig(config, entry));
+            materialConfigs.put(
+                entry.getName()
+                    .toLowerCase(),
+                MaterialConfig.loadFromConfig(config, entry));
         }
-
+        // Fluid
         fluidConigs.clear();
         for (FluidEntry entry : FluidRegistry.all()) {
-            fluidConigs.put(entry.getName(), FluidConfig.loadFromConfig(config, entry));
+            fluidConigs.put(
+                entry.getName()
+                    .toLowerCase(),
+                FluidConfig.loadFromConfig(config, entry));
         }
 
-        LangSectionInserter.insertCustomMaterialsLang(materialCustom);
+        // Ore
+        oreCustom = config.get(
+            sectionOre.name,
+            "oreCustom",
+            oreCustom,
+            "List of custom ore names to register on next game load. "
+                + "Each material will be initialized with predefined or config-based properties. Requires game restart.")
+            .getStringList();
+
+        for (String name : oreCustom) {
+            if (!OreRegistry.contains(name)) {
+                OreEntry entry = new OreEntry(name);
+                OreRegistry.register(entry);
+            }
+        }
+
+        Set<String> oreDefined = new HashSet<>();
+        for (OreEntry entry : OreRegistry.all()) {
+            oreDefined.add(entry.getName());
+        }
+
+        Set<String> categoriesOreToRemove = new HashSet<>();
+        for (String category : config.getCategoryNames()) {
+            if (category.startsWith("ore settings") && !category.equals("ore settings")) {
+                String name = category.substring("ore settings".length() + 1);
+                if (!oreDefined.contains(name.toLowerCase())) {
+                    categoriesOreToRemove.add(category);
+                }
+            }
+        }
+
+        for (String cat : categoriesOreToRemove) {
+            config.removeCategory(config.getCategory(cat));
+        }
+        LangSectionInserter.insertCustomMaterialsLang(oreCustom);
+        oreConfigs.clear();
+        for (OreEntry entry : OreRegistry.all()) {
+            oreConfigs.put(
+                entry.getName()
+                    .toLowerCase(),
+                OreConfig.loadFromConfig(config, entry));
+        }
     }
 
     public static void init() {}
 
     public static void postInit() {}
 
-    @SubscribeEvent
-    public void onConfigChanged(OnConfigChangedEvent event) {
-        if (event.modID.equals(LibMisc.MOD_ID)) {
-            syncConfig(false);
-            init();
-            postInit();
-        }
-    }
-
-    @SubscribeEvent
-    public void onConfigFileChanged(ConfigFileChangedEvent event) {
-        if (event.modID.equals(LibMisc.MOD_ID)) {
-            syncConfig(true);
-            event.setSuccessful();
-            init();
-            postInit();
-        }
-    }
-
-    @SubscribeEvent
-    public void onPlayerLoggon(PlayerLoggedInEvent evt) {
-        PacketHandler.INSTANCE.sendTo(new PacketConfigSync(), (EntityPlayerMP) evt.player);
-    }
-
-    public static class Section {
-
-        public final String name;
-        public final String lang;
-
-        public Section(String name, String lang) {
-            this.name = name;
-            this.lang = lang;
-            register();
-        }
-
-        private void register() {
-            sections.add(this);
-        }
-
-        public String lc() {
-            return name.toLowerCase(Locale.US);
-        }
-    }
-
+    private Config() {}
 }

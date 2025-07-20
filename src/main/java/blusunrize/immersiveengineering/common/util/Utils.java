@@ -707,7 +707,7 @@ public class Utils {
             public void onCraftMatrixChanged(IInventory paramIInventory) {}
 
             @Override
-            public boolean canInteractWith(EntityPlayer p_75145_1_) {
+            public boolean canInteractWith(EntityPlayer player) {
                 return false;
             }
         };

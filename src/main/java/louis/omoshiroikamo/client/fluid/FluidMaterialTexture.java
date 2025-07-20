@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -40,26 +41,45 @@ public class FluidMaterialTexture {
         String name = fluid.getName()
             .replace(".molten", ""); // Safer
         int color = entry.getColor();
+        String tinkerBaseName = "liquid_" + name;
 
         try {
-            String tinkerBaseName = "liquid_" + name;
-            File stillFile = new File(CONFIG_FLUID_DIR, tinkerBaseName + ".png");
-            File flowFile = new File(CONFIG_FLUID_DIR, tinkerBaseName + "_flow.png");
-
-            if (!stillFile.exists()) {
-                BufferedImage still = tint(baseStill, color);
-                ImageIO.write(still, "png", stillFile);
-                writeMcmetaFile(stillFile, still.getHeight() / 16, true, 2);
-            }
-
-            if (!flowFile.exists()) {
-                BufferedImage flow = tint(baseFlow, color);
-                ImageIO.write(flow, "png", flowFile);
-                writeMcmetaFile(flowFile, flow.getHeight() / 16, false, 3);
-            }
-
+            applyTexture(tinkerBaseName, baseStill, color, true, 2);
+            applyTexture(tinkerBaseName + "_flow", baseFlow, color, false, 3);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void applyTexture(String baseName, BufferedImage baseImage, int color, boolean reverse,
+        int frametime) throws IOException {
+
+        File imageFile = new File(CONFIG_FLUID_DIR, baseName + ".png");
+        File colorFile = new File(CONFIG_FLUID_DIR, baseName + ".color.txt");
+        File mcmetaFile = new File(imageFile.getAbsolutePath() + ".mcmeta");
+
+        String currentColor = String.format("%06X", color)
+            .toUpperCase();
+        boolean shouldRegen = true;
+
+        if (imageFile.exists() && colorFile.exists()) {
+            String savedColor = Files.readAllLines(colorFile.toPath())
+                .get(0);
+            if (savedColor.equals(currentColor)) {
+                shouldRegen = false;
+            } else {
+                imageFile.delete();
+                mcmetaFile.delete();
+            }
+        }
+
+        if (shouldRegen) {
+            BufferedImage tinted = tint(baseImage, color);
+            ImageIO.write(tinted, "png", imageFile);
+            writeMcmetaFile(imageFile, tinted.getHeight() / 16, reverse, frametime);
+            try (FileWriter writer = new FileWriter(colorFile)) {
+                writer.write(currentColor);
+            }
         }
     }
 
@@ -77,7 +97,6 @@ public class FluidMaterialTexture {
                     .getResourceManager()
                     .getResource(stillLoc)
                     .getInputStream());
-
             baseFlow = ImageIO.read(
                 Minecraft.getMinecraft()
                     .getResourceManager()
@@ -85,9 +104,8 @@ public class FluidMaterialTexture {
                     .getInputStream());
 
             if (!CONFIG_FLUID_DIR.exists()) {
-                boolean created = CONFIG_FLUID_DIR.mkdirs();
-            } else {}
-
+                CONFIG_FLUID_DIR.mkdirs();
+            }
         } catch (IOException e) {
             throw new RuntimeException("Failed to load base textures", e);
         }
@@ -151,6 +169,8 @@ public class FluidMaterialTexture {
             validNames.add(base + "_flow.png");
             validNames.add(base + ".png.mcmeta");
             validNames.add(base + "_flow.png.mcmeta");
+            validNames.add(base + ".color.txt");
+            validNames.add(base + "_flow.color.txt");
         }
 
         File[] files = CONFIG_FLUID_DIR.listFiles();
@@ -159,7 +179,7 @@ public class FluidMaterialTexture {
         for (File file : files) {
             if (!file.isFile()) continue;
             if (!validNames.contains(file.getName())) {
-                boolean deleted = file.delete();
+                file.delete();
             }
         }
     }
