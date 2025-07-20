@@ -16,6 +16,8 @@ import louis.omoshiroikamo.api.fluid.FluidEntry;
 import louis.omoshiroikamo.api.fluid.FluidRegistry;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
+import louis.omoshiroikamo.api.ore.OreEntry;
+import louis.omoshiroikamo.api.ore.OreRegistry;
 import louis.omoshiroikamo.common.config.Config;
 
 public class LangSectionInserter {
@@ -53,6 +55,7 @@ public class LangSectionInserter {
             "#Item Bucket Fluid",
             mat -> "item.itemBucketFluid." + mat.getUnlocalizedName() + ".name=" + mat.getName() + " Bucket");
 
+        // Block
         addMaterialSection(
             "#Block of Material",
             mat -> "tile.blockMaterial." + mat.getUnlocalizedName() + ".name=Block of " + mat.getName());
@@ -97,15 +100,19 @@ public class LangSectionInserter {
         addFluidSection(
             "#Fluid",
             fluid -> "fluid." + StringUtils.uncapitalize(fluid.getUnlocalizedName()) + "=" + fluid.getName());
+
+        addOreSection("#Ore", ore -> "tile.ore_" + ore.getUnlocalizedName() + ".name=" + ore.getName() + " Ore");
     }
 
     public static void main(String[] args) throws IOException {
         MaterialRegistry.init();
         FluidRegistry.init();
+        OreRegistry.init();
         generateLang(
             new File(LANG_PATH),
             new ArrayList<>(MaterialRegistry.all()),
             new ArrayList<>(FluidRegistry.all()),
+            new ArrayList<>(OreRegistry.all()),
             "# BEGIN AUTOGEN",
             "# END AUTOGEN");
     }
@@ -116,15 +123,19 @@ public class LangSectionInserter {
 
             List<MaterialEntry> materials = new ArrayList<>();
             List<FluidEntry> fluids = new ArrayList<>();
+            List<OreEntry> ores = new ArrayList<>();
 
             for (String name : materialNames) {
                 MaterialEntry mat = MaterialRegistry.get(name);
                 if (mat != null) materials.add(mat);
                 FluidEntry fl = FluidRegistry.get(name);
                 if (fl != null) fluids.add(fl);
+                OreEntry or = OreRegistry.get(name);
+                if (or != null) ores.add(or);
+                else System.out.println("[WARN] Missing ore entry: " + name);
             }
 
-            generateLang(file, materials, fluids, "# BEGIN AUTOGEN (Custom Materials)", "# END AUTOGEN");
+            generateLang(file, materials, fluids, ores, "# BEGIN AUTOGEN", "# END AUTOGEN");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -132,7 +143,7 @@ public class LangSectionInserter {
     }
 
     private static void generateLang(File file, Collection<MaterialEntry> materials, Collection<FluidEntry> fluids,
-        String beginTag, String endTag) throws IOException {
+        Collection<OreEntry> ores, String beginTag, String endTag) throws IOException {
 
         List<String> existingLines = file.exists() ? Files.readAllLines(file.toPath()) : new ArrayList<>();
         List<String> cleaned = new ArrayList<>();
@@ -177,6 +188,14 @@ public class LangSectionInserter {
                 }
             }
 
+            if (section.generator instanceof OreLangGenerator oreGen) {
+                for (OreEntry ore : ores) {
+                    String line = oreGen.generate(ore);
+                    String key = line.substring(0, line.indexOf("="));
+                    if (addedKeys.add(key)) autogenBlock.add(line);
+                }
+            }
+
             autogenBlock.add("");
         }
 
@@ -198,6 +217,10 @@ public class LangSectionInserter {
     }
 
     private static void addFluidSection(String label, FluidLangGenerator generator) {
+        SECTIONS.add(new Section(label, generator));
+    }
+
+    private static void addOreSection(String label, OreLangGenerator generator) {
         SECTIONS.add(new Section(label, generator));
     }
 
@@ -223,5 +246,10 @@ public class LangSectionInserter {
     interface FluidLangGenerator extends LangGenerator {
 
         String generate(FluidEntry fluid);
+    }
+
+    interface OreLangGenerator extends LangGenerator {
+
+        String generate(OreEntry fluid);
     }
 }

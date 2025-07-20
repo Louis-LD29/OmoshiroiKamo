@@ -437,4 +437,8 @@ fluid.ammonia=Ammonia
 fluid.chlorine=Chlorine
 fluid.sulfurDioxide=Sulfur Dioxide
 
+#Ore
+tile.ore_Hematite.name=Hematite Ore
+tile.ore_Magnetite.name=Magnetite Ore
+
 # END AUTOGEN
