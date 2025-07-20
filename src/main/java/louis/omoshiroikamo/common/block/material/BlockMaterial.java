@@ -19,10 +19,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.block.BlockEio;
+import louis.omoshiroikamo.common.block.BlockOK;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 
-public class BlockMaterial extends BlockEio {
+public class BlockMaterial extends BlockOK {
 
     protected IIcon icon;
 

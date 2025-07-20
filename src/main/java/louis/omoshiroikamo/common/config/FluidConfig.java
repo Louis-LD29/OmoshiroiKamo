@@ -31,7 +31,9 @@ public class FluidConfig {
     }
 
     public static FluidConfig loadFromConfig(Configuration config, FluidEntry entry) {
-        String cat = Config.sectionFluid.name + "." + entry.getName();
+        String cat = Config.sectionFluid.name + "."
+            + entry.getName()
+                .toLowerCase();
 
         int meta = entry.defaults.meta;
 

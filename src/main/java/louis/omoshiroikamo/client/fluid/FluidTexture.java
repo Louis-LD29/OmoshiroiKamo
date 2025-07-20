@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -37,28 +38,55 @@ public class FluidTexture {
     }
 
     public static void apply(Fluid fluid, FluidEntry entry) {
-        String name = fluid.getName(); // Safer
+        String name = fluid.getName();
         int color = entry.getColor();
+        String baseName = "fluid_" + name;
 
         try {
-            String tinkerBaseName = "fluid_" + name;
-            File stillFile = new File(CONFIG_FLUID_DIR, tinkerBaseName + ".png");
-            File flowFile = new File(CONFIG_FLUID_DIR, tinkerBaseName + "_flow.png");
-
-            if (!stillFile.exists()) {
-                BufferedImage still = tint(baseStill, color);
-                ImageIO.write(still, "png", stillFile);
-                writeMcmetaFile(stillFile, true, 2);
-            }
-
-            if (!flowFile.exists()) {
-                BufferedImage flow = tint(baseFlow, color);
-                ImageIO.write(flow, "png", flowFile);
-                writeMcmetaFile(flowFile, false, 0);
-            }
-
+            applyTexture(baseName, baseStill, baseFlow, color, true, 2);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void applyTexture(String baseName, BufferedImage stillBase, BufferedImage flowBase, int color,
+        boolean writeFrametime, int frametime) throws IOException {
+        File stillFile = new File(CONFIG_FLUID_DIR, baseName + ".png");
+        File flowFile = new File(CONFIG_FLUID_DIR, baseName + "_flow.png");
+        File mcmetaStill = new File(stillFile.getAbsolutePath() + ".mcmeta");
+        File mcmetaFlow = new File(flowFile.getAbsolutePath() + ".mcmeta");
+        File colorFile = new File(CONFIG_FLUID_DIR, baseName + ".color.txt");
+
+        String currentColor = String.format("%06X", color)
+            .toUpperCase();
+        boolean shouldRegen = true;
+
+        if (stillFile.exists() && flowFile.exists() && colorFile.exists()) {
+            String savedColor = Files.readAllLines(colorFile.toPath())
+                .get(0);
+            if (savedColor.equals(currentColor)) {
+                shouldRegen = false;
+            } else {
+                stillFile.delete();
+                flowFile.delete();
+                mcmetaStill.delete();
+                mcmetaFlow.delete();
+            }
+        }
+
+        if (shouldRegen) {
+            BufferedImage still = tint(stillBase, color);
+            BufferedImage flow = tint(flowBase, color);
+
+            ImageIO.write(still, "png", stillFile);
+            ImageIO.write(flow, "png", flowFile);
+
+            writeMcmetaFile(stillFile, writeFrametime, frametime);
+            writeMcmetaFile(flowFile, false, 0); // Flow không cần animation thường
+
+            try (FileWriter writer = new FileWriter(colorFile)) {
+                writer.write(currentColor);
+            }
         }
     }
 
@@ -76,7 +104,6 @@ public class FluidTexture {
                     .getResourceManager()
                     .getResource(stillLoc)
                     .getInputStream());
-
             baseFlow = ImageIO.read(
                 Minecraft.getMinecraft()
                     .getResourceManager()
@@ -84,8 +111,8 @@ public class FluidTexture {
                     .getInputStream());
 
             if (!CONFIG_FLUID_DIR.exists()) {
-                boolean created = CONFIG_FLUID_DIR.mkdirs();
-            } else {}
+                CONFIG_FLUID_DIR.mkdirs();
+            }
 
         } catch (IOException e) {
             throw new RuntimeException("Failed to load base textures", e);
@@ -112,23 +139,18 @@ public class FluidTexture {
         return result;
     }
 
-    private static void writeMcmetaFile(File pngFile, boolean reverse, int frametime) throws IOException {
+    private static void writeMcmetaFile(File pngFile, boolean writeFrametime, int frametime) throws IOException {
         File mcmeta = new File(pngFile.getAbsolutePath() + ".mcmeta");
         if (mcmeta.exists()) return;
 
         StringBuilder json = new StringBuilder();
-        json.append("{\n");
-        json.append("  \"animation\": ");
+        json.append("{\n  \"animation\": ");
 
-        if (reverse) {
-            // reverse == false → có frametime
-            json.append("{\n");
-            json.append("    \"frametime\": ")
+        if (writeFrametime) {
+            json.append("{\n    \"frametime\": ")
                 .append(frametime)
-                .append("\n");
-            json.append("  }");
+                .append("\n  }");
         } else {
-            // reverse == true → không có frametime
             json.append("{}");
         }
 
@@ -152,6 +174,7 @@ public class FluidTexture {
             validNames.add(base + "_flow.png");
             validNames.add(base + ".png.mcmeta");
             validNames.add(base + "_flow.png.mcmeta");
+            validNames.add(base + ".color.txt");
         }
 
         File[] files = CONFIG_FLUID_DIR.listFiles();
@@ -160,7 +183,7 @@ public class FluidTexture {
         for (File file : files) {
             if (!file.isFile()) continue;
             if (!validNames.contains(file.getName())) {
-                boolean deleted = file.delete();
+                file.delete();
             }
         }
     }
