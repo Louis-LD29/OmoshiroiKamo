@@ -1,6 +1,7 @@
 package louis.omoshiroikamo.common.config;
 
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 
 import louis.omoshiroikamo.api.material.MaterialEntry;
 
@@ -38,26 +39,34 @@ public class MaterialConfig {
     }
 
     public static MaterialConfig loadFromConfig(Configuration config, MaterialEntry entry) {
-        String cat = Config.sectionMaterial.name + "." + entry.getName();
+        String cat = Config.sectionMaterial.name.toLowerCase() + "."
+            + entry.getName()
+                .toLowerCase();
+
+        Property metaProp = config.get(cat, "meta", entry.defaults.meta, "Material Meta");
 
         int meta;
         if (entry.defaults.meta < 50) {
-            meta = entry.defaults.meta;
-        } else {
-            meta = config.get(cat, "meta", entry.defaults.meta, "Material Meta")
+            meta = metaProp.setToDefault()
                 .getInt();
+        } else {
+            int before = metaProp.getInt();
+            meta = before;
         }
 
         double density = config.get(cat, "density", entry.defaults.densityKgPerM3, "Density (kg/m^3)")
             .getDouble();
+
         double specificHeat = config
             .get(cat, "specificHeat", entry.defaults.specificHeatJPerKgK, "Specific Heat (J/kg.K)")
             .getDouble();
+
         double thermal = config
             .get(cat, "thermalConductivity", entry.defaults.thermalConductivityWPerMK, "Thermal Conductivity (W/m.K)")
             .getDouble();
         double melting = config.get(cat, "meltingPoint", entry.defaults.meltingPointK, "Melting Point (Kelvin)")
             .getDouble();
+
         double pressure = config.get(cat, "maxPressure", entry.defaults.maxPressureMPa, "Max Pressure (MPa)")
             .getDouble();
         double electrical = config
@@ -65,21 +74,21 @@ public class MaterialConfig {
             .getDouble();
 
         int defaultColor = entry.defaults.color;
-        String hex = String.format("0x%06X", defaultColor)
-            .toUpperCase();
         int color = config
-            .get(cat, "color", defaultColor, "Material display color as RGB integer (" + hex + "), format: 0xRRGGBB")
+            .get(
+                cat,
+                "color",
+                defaultColor,
+                String.format("Material display color as RGB integer (0x%06X), format: 0xRRGGBB", defaultColor))
             .getInt();
 
         int defaultMoltenColor = entry.defaults.moltenColor;
-        String defaultMoltenColorHex = String.format("0x%06X", defaultMoltenColor)
-            .toUpperCase();
-        int moltenColor = config
-            .get(
-                cat,
-                "moltenColor",
-                defaultMoltenColor,
-                "Material display molten color as RGB integer (" + defaultMoltenColorHex + "), format: 0xRRGGBB")
+        int moltenColor = config.get(
+            cat,
+            "moltenColor",
+            defaultMoltenColor,
+            String
+                .format("Material display molten color as RGB integer (0x%06X), format: 0xRRGGBB", defaultMoltenColor))
             .getInt();
 
         return new MaterialConfig(

@@ -1,6 +1,6 @@
 
 #Config
-config.title=Test Configuration
+config.title=Omoshiroi Kamo Configuration
 config.personal=Personal Settings
 config.personal.tooltip=I won't tell anyone, I promise.
 config.mana=Mana

@@ -21,7 +21,7 @@ import louis.omoshiroikamo.common.core.lib.LibMisc;
 public class EnergyUpgrade extends AbstractUpgrade {
 
     public static final AbstractUpgrade EMPOWERED = new EnergyUpgrade(
-        "Test.mana.upgrade.empowered_one",
+        LibMisc.MOD_ID + ".mana.upgrade.empowered_one",
         Config.manaUpgradeDiamondCost,
         new ItemStack(Items.diamond),
         Config.manaPowerStorageBase,

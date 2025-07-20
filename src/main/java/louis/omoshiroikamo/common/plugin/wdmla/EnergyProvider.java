@@ -21,6 +21,7 @@ import com.gtnewhorizons.wdmla.impl.ui.style.TextStyle;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 import louis.omoshiroikamo.common.block.AbstractTE;
+import louis.omoshiroikamo.common.block.energyConnector.TEConnectable;
 
 public enum EnergyProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
@@ -61,6 +62,8 @@ public enum EnergyProvider implements IBlockComponentProvider, IServerDataProvid
         TileEntity tileEntity = accessor.getTileEntity();
         if (!(tileEntity instanceof AbstractTE te)) return;
         if (!(te instanceof IEnergyReceiver handler)) return;
+        if (te instanceof TEConnectable) return;
+
         int stored = handler.getEnergyStored(ForgeDirection.UNKNOWN);
         int maxStored = handler.getMaxEnergyStored(ForgeDirection.UNKNOWN);
 
