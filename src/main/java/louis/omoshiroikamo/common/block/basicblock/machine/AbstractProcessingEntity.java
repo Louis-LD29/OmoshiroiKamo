@@ -178,7 +178,9 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
     }
 
     protected void mergeResults(List<ItemStack> itemStacks, List<FluidStack> fluidStacks) {
-        List<ItemStack> outputStacks = new ArrayList<ItemStack>();
+        boolean success = true;
+
+        List<ItemStack> outputStacks = new ArrayList<>();
         for (int i = slotDefinition.minItemOutputSlot; i <= slotDefinition.maxItemOutputSlot; i++) {
             ItemStack stack = inv.getStackInSlot(i);
             outputStacks.add(stack != null ? stack.copy() : null);
@@ -190,7 +192,6 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             ItemStack copy = output.copy();
             int remaining = copy.stackSize;
 
-            // Merge vào stack đã có (ưu tiên oredict)
             for (int i = 0; i < outputStacks.size() && remaining > 0; i++) {
                 ItemStack current = outputStacks.get(i);
                 if (current != null && current.isItemEqual(copy) && ItemStack.areItemStackTagsEqual(current, copy)) {
@@ -198,7 +199,6 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
                     if (canMerge > 0) {
                         current.stackSize += canMerge;
                         remaining -= canMerge;
-                        outputStacks.set(i, current);
                     }
                 }
             }
@@ -215,6 +215,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
 
             if (remaining > 0) {
                 Logger.info("[mergeResults] Không đủ chỗ chứa ItemStack: " + copy);
+                success = false;
             }
         }
 
@@ -224,33 +225,40 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             inv.setStackInSlot(i, outputStacks.get(listIndex++));
         }
 
+        // Merge fluid outputs
         for (FluidStack output : fluidStacks) {
             if (output == null) continue;
 
             int remaining = output.amount;
 
+            // Ưu tiên merge vào tank đã có
             for (int i = slotDefinition.minFluidOutputSlot; i <= slotDefinition.maxFluidOutputSlot
                 && remaining > 0; i++) {
-                FluidStack current = fluidTanks[i].getFluid();
-                if (current != null && current.isFluidEqual(output)) {
+                if (fluidTanks[i].getFluid() != null && fluidTanks[i].getFluid()
+                    .isFluidEqual(output)) {
                     int filled = fluidTanks[i].fill(new FluidStack(output.getFluid(), remaining), true);
                     remaining -= filled;
                 }
             }
 
+            // Tìm tank trống
             for (int i = slotDefinition.minFluidOutputSlot; i <= slotDefinition.maxFluidOutputSlot
                 && remaining > 0; i++) {
-                FluidStack current = fluidTanks[i].getFluid();
-                if (current == null || current.amount == 0) {
+                if (fluidTanks[i].getFluidAmount() == 0) {
                     int filled = fluidTanks[i].fill(new FluidStack(output.getFluid(), remaining), true);
                     remaining -= filled;
                 }
             }
 
-            if (remaining > 0) {}
+            if (remaining > 0) {
+                Logger.info("[mergeResults] Không đủ chỗ chứa FluidStack: " + output);
+                success = false;
+            }
         }
 
-        cachedNextRecipe = null;
+        if (success) {
+            cachedNextRecipe = null;
+        }
     }
 
     protected MachineRecipe getNextRecipe() {
@@ -274,35 +282,55 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
 
     private boolean canOutput(MachineRecipe recipe) {
         // Kiểm tra item outputs
+        ItemStack[] tempInv = new ItemStack[inv.getSlots()];
+        for (int i = 0; i < inv.getSlots(); i++) {
+            tempInv[i] = inv.getStackInSlot(i) == null ? null
+                : inv.getStackInSlot(i)
+                    .copy();
+        }
+
         for (ItemStack out : recipe.getItemOutputs()) {
             if (out == null) continue;
-            boolean canInsert = false;
+            boolean inserted = false;
 
             for (int i = slotDefinition.minItemOutputSlot; i <= slotDefinition.maxItemOutputSlot; i++) {
-                ItemStack target = inv.getStackInSlot(i);
-                if (target == null || (ItemStack.areItemStacksEqual(target, out)
-                    && target.stackSize + out.stackSize <= target.getMaxStackSize())) {
-                    canInsert = true;
+                ItemStack target = tempInv[i];
+                if (target == null) {
+                    tempInv[i] = out.copy();
+                    inserted = true;
                     break;
-                }
+                } else if (ItemStack.areItemStacksEqual(target, out)
+                    && target.stackSize + out.stackSize <= target.getMaxStackSize()) {
+                        target.stackSize += out.stackSize;
+                        inserted = true;
+                        break;
+                    }
             }
-            if (!canInsert) return false;
+            if (!inserted) return false;
         }
 
         // Kiểm tra fluid outputs
+        FluidTank[] tempTanks = new FluidTank[fluidTanks.length];
+        for (int i = 0; i < fluidTanks.length; i++) {
+            tempTanks[i] = new FluidTank(fluidTanks[i].getCapacity());
+            tempTanks[i].setFluid(
+                fluidTanks[i].getFluid() == null ? null
+                    : fluidTanks[i].getFluid()
+                        .copy());
+        }
+
         for (FluidStack out : recipe.getFluidOutputs()) {
             if (out == null) continue;
-            boolean canInsert = false;
+            boolean inserted = false;
 
             for (int i = slotDefinition.minFluidOutputSlot; i <= slotDefinition.maxFluidOutputSlot; i++) {
-                FluidTank tank = fluidTanks[i];
-                if (tank.fill(out, false) == out.amount) {
-                    canInsert = true;
+                if (tempTanks[i].fill(out, false) == out.amount) {
+                    tempTanks[i].fill(out, true);
+                    inserted = true;
                     break;
                 }
             }
-
-            if (!canInsert) return false;
+            if (!inserted) return false;
         }
 
         return true;

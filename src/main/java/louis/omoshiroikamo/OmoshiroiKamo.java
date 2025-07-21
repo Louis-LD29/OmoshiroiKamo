@@ -4,6 +4,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLConstructionEvent;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -49,4 +50,10 @@ public class OmoshiroiKamo {
     public void serverStarted(FMLServerStartedEvent event) {
         proxy.serverStarted(event);
     }
+
+    @EventHandler
+    public void onConstruction(FMLConstructionEvent event) {
+        proxy.onConstruction(event);
+    }
+
 }

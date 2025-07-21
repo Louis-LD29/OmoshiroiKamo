@@ -62,6 +62,12 @@ public class OreRegistry {
     public static void init() {
         register(new OreEntry("Hematite", 0, 10, 12, 64, 0.4f, true, 0x7A1F1F));
         register(new OreEntry("Magnetite", 1, 9, 8, 48, 0.35f, true, 0x1C1C1C));
+
+        register(new OreEntry("Chalcopyrite", 2, 8, 10, 50, 0.35f, true, 0xD4AF37));
+        register(new OreEntry("Malachite", 3, 6, 9, 40, 0.3f, true, 0x3AA655));
+        register(new OreEntry("Bornite", 4, 7, 10, 45, 0.32f, true, 0x803A6A));
+        register(new OreEntry("Chalcocite", 5, 5, 8, 35, 0.3f, true, 0x4A4A4A));
+        register(new OreEntry("Cuprite", 6, 4, 6, 30, 0.28f, true, 0xA10000));
     }
 
 }

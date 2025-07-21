@@ -1,5 +1,8 @@
 package louis.omoshiroikamo;
 
+import cpw.mods.fml.common.event.FMLConstructionEvent;
+import louis.omoshiroikamo.common.core.helper.Logger;
+import makamys.mclib.core.MCLib;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,6 +25,7 @@ import louis.omoshiroikamo.common.core.handlers.ConvertManaRegenHandler;
 import louis.omoshiroikamo.common.core.handlers.ElementalHandler;
 import louis.omoshiroikamo.common.core.handlers.FlightHandler;
 import louis.omoshiroikamo.common.core.handlers.ManaRegenHandler;
+import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.fluid.ModFluids;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.plugin.compat.IECompat;
@@ -30,6 +34,7 @@ import louis.omoshiroikamo.common.plugin.tic.TICCompat;
 import louis.omoshiroikamo.common.plugin.waila.WailaRegistrar;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
 import louis.omoshiroikamo.common.world.OKWorldGenerator;
+import makamys.mclib.core.MCLibModules;
 
 public class CommonProxy {
 
@@ -51,6 +56,10 @@ public class CommonProxy {
 
         callAssembleResourcePack();
         IECompat.preInit();
+
+        if (!LibMisc.SNAPSHOT_BUILD && !LibMisc.DEV_ENVIRONMENT) {
+            MCLibModules.updateCheckAPI.submitModTask(LibMisc.MOD_ID, Tags.VERSION, LibMisc.VERSION_URL);
+        }
     }
 
     public void init(FMLInitializationEvent event) {
@@ -101,6 +110,15 @@ public class CommonProxy {
     public void serverStarted(FMLServerStartedEvent event) {
         IECompat.serverLoad();
     }
+
+    public void onConstruction(FMLConstructionEvent event) {
+        if(LibMisc.SNAPSHOT_BUILD && !LibMisc.DEV_ENVIRONMENT) {
+            Logger.info(LibMisc.MOD_ID + " is in snapshot mode. Disabling update checker... Other features may also be different.");
+        }
+
+        MCLib.init();
+    }
+
 
     public void callAssembleResourcePack() {
         Config.assembleResourcePack();
