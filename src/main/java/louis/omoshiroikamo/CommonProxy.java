@@ -1,8 +1,5 @@
 package louis.omoshiroikamo;
 
-import cpw.mods.fml.common.event.FMLConstructionEvent;
-import louis.omoshiroikamo.common.core.helper.Logger;
-import makamys.mclib.core.MCLib;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
