@@ -1,5 +1,6 @@
 plugins {
     id 'com.gtnewhorizons.gtnhconvention'
+    id("com.palantir.git-version") version("0.12.3")
 }
 
 // The planned name of the next release
