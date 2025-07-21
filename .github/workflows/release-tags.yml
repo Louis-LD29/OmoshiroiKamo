@@ -4,22 +4,9 @@
 name: Release tagged build
 
 on:
-  workflow_call:
-    secrets:
-      MAVEN_USER:
-        required: false
-      MAVEN_PASSWORD:
-        required: false
-      CURSEFORGE_TOKEN:
-        required: false
-      MODRINTH_TOKEN:
-        required: false
-    inputs:
-      workspace:
-        description: 'setupCIWorkspace/setupDecompWorkspace'
-        required: false
-        default: "setupCIWorkspace"
-        type: string
+  push:
+    tags:
+      - '*'
 
 jobs:
   build:
