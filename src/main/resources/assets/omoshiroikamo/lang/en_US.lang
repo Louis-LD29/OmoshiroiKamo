@@ -440,5 +440,11 @@ fluid.sulfurDioxide=Sulfur Dioxide
 #Ore
 tile.ore_Hematite.name=Hematite Ore
 tile.ore_Magnetite.name=Magnetite Ore
+tile.ore_Chalcopyrite.name=Chalcopyrite Ore
+tile.ore_Malachite.name=Malachite Ore
+tile.ore_Bornite.name=Bornite Ore
+tile.ore_Tetrahedrite.name=Tetrahedrite Ore
+tile.ore_Cuprite.name=Cuprite Ore
+tile.ore_Copper.name=Copper Ore
 
 # END AUTOGEN

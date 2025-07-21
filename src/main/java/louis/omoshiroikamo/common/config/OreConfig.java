@@ -15,9 +15,12 @@ public class OreConfig {
     public final float chancePerChunk;
     public final boolean enabled;
     public final int color;
+    public final int hardness;
+    public final int resistance;
+    public final int harvestLevel;
 
     public OreConfig(String displayName, int meta, int veinSize, int minY, int maxY, float chancePerChunk,
-        boolean enabled, int color) {
+        boolean enabled, int color, int hardness, int resistance, int harvestLevel) {
         this.displayName = displayName;
         this.meta = meta;
         this.veinSize = veinSize;
@@ -26,11 +29,14 @@ public class OreConfig {
         this.chancePerChunk = chancePerChunk;
         this.enabled = enabled;
         this.color = color;
+        this.hardness = hardness;
+        this.resistance = resistance;
+        this.harvestLevel = harvestLevel;
     }
 
     public static OreConfig defaultFor(String name) {
         int defaultMeta = Config.oreConfigs.size();
-        return new OreConfig(name, defaultMeta, 8, 20, 64, 10f, true, 0x888888);
+        return new OreConfig(name, defaultMeta, 10, 12, 64, 0.4f, true, 0x7A1F1F, 5, 10, 2);
     }
 
     public static OreConfig loadFromConfig(Configuration config, OreEntry entry) {
@@ -52,6 +58,23 @@ public class OreConfig {
                 defaultColor,
                 String.format("Material display color as RGB integer (0x%06X), format: 0xRRGGBB", defaultColor))
             .getInt();
-        return new OreConfig(entry.getName(), meta, veinSize, minY, maxY, chance, enabled, color);
+        int hardness = config
+            .getInt("hardness", cat, entry.defaults.hardness, 1, 100, "Block hardness (e.g., 3 = stone)");
+        int resistance = config.getInt("resistance", cat, entry.defaults.resistance, 1, 100, "Explosion resistance");
+        int harvestLevel = config
+            .getInt("harvestLevel", cat, entry.defaults.harvestLevel, 0, 5, "Tool level required to harvest");
+
+        return new OreConfig(
+            entry.getName(),
+            meta,
+            veinSize,
+            minY,
+            maxY,
+            chance,
+            enabled,
+            color,
+            hardness,
+            resistance,
+            harvestLevel);
     }
 }

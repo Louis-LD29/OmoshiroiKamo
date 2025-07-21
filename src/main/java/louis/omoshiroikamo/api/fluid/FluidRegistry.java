@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import louis.omoshiroikamo.api.ore.OreEntry;
 import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.config.FluidConfig;
 
@@ -38,6 +39,10 @@ public class FluidRegistry {
 
         FluidConfig config = Config.fluidConigs.getOrDefault(name, defaultEntry.defaults);
         return new FluidEntry(name, defaultEntry.meta, config);
+    }
+
+    public static FluidEntry getByName(String name) {
+        return REGISTRY.get(name);
     }
 
     public static FluidEntry fromMeta(int meta) {

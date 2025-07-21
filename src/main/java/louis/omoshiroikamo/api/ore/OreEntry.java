@@ -11,10 +11,21 @@ public class OreEntry {
     public final OreConfig defaults;
 
     public OreEntry(String name, int meta, int veinSize, int minY, int maxY, float chancePerChunk, boolean enabled,
-        int color) {
+        int color, int hardness, int resistance, int harvestLevel) {
         this.name = name;
         this.meta = meta;
-        this.defaults = new OreConfig(name, meta, veinSize, minY, maxY, chancePerChunk, enabled, color);
+        this.defaults = new OreConfig(
+            name,
+            meta,
+            veinSize,
+            minY,
+            maxY,
+            chancePerChunk,
+            enabled,
+            color,
+            hardness,
+            resistance,
+            harvestLevel);
     }
 
     public OreEntry(String name, int meta, OreConfig config) {
@@ -69,6 +80,18 @@ public class OreEntry {
 
     public int getColor() {
         return getConfig().color;
+    }
+
+    public int getHardness() {
+        return getConfig().hardness;
+    }
+
+    public int getResistance() {
+        return getConfig().resistance;
+    }
+
+    public int getHarvestLevel() {
+        return getConfig().harvestLevel;
     }
 
 }

@@ -29,9 +29,9 @@ public class BlockOreOK extends BlockOre {
     public BlockOreOK(OreEntry ore) {
         super();
         this.ore = ore;
-        setHardness(3.0F);
-        setResistance(5.0F);
-        setHarvestLevel("pickaxe", 1);
+        setHardness(ore.getHardness());
+        setResistance(ore.getResistance());
+        setHarvestLevel("pickaxe", ore.getHarvestLevel());
         setBlockName("ore_" + ore.getUnlocalizedName());
         setCreativeTab(OKCreativeTab.INSTANCE);
     }
