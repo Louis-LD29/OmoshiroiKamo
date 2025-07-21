@@ -1,9 +1,9 @@
 package louis.omoshiroikamo.common.recipes;
 
-import louis.omoshiroikamo.common.recipes.ore.CopperRecipes;
 import net.minecraftforge.common.MinecraftForge;
 
 import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.common.recipes.ore.CopperRecipes;
 
 public class ModRecipes {
 

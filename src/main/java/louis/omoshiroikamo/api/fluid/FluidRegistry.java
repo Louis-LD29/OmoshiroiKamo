@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import louis.omoshiroikamo.api.ore.OreEntry;
 import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.config.FluidConfig;
 

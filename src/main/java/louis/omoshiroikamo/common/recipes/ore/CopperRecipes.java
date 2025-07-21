@@ -21,7 +21,6 @@ public class CopperRecipes {
         Block chalcopyriteOre = OreRegister.getBlock(OreRegistry.getByName("Chalcopyrite"));
         Block tetrahedriteOre = OreRegister.getBlock(OreRegistry.getByName("Tetrahedrite"));
 
-
         GameRegistry.addSmelting(new ItemStack(copperOre, 1, 0), copperIngot.copy(), 0.7f);
 
         GameRegistry.addSmelting(new ItemStack(cupriteOre, 1, 0), getCopperNugget(8), 0.7f);
