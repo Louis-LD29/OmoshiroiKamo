@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.block.ore;
+package louis.omoshiroikamo.common.ore;
 
 import java.util.HashMap;
 import java.util.Map;

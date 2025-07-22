@@ -27,12 +27,8 @@ import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class ItemMaterial extends Item {
 
-    protected IIcon ingotIcon;
-    protected IIcon nuggetIcon;
-    protected IIcon plateIcon;
-    protected IIcon rodIcon;
-    protected IIcon dustIcon;
-    protected IIcon gearIcon;
+    @SideOnly(Side.CLIENT)
+    protected IIcon ingotIcon, nuggetIcon, plateIcon, rodIcon, dustIcon, gearIcon;
 
     public static ItemMaterial create() {
         ItemMaterial mat = new ItemMaterial();

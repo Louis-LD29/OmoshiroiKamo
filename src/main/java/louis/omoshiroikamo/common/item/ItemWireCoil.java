@@ -57,9 +57,7 @@ import louis.omoshiroikamo.common.plugin.compat.IECompat;
 public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipProvider {
 
     @SideOnly(Side.CLIENT)
-    protected IIcon overlayIcon;
-    @SideOnly(Side.CLIENT)
-    protected IIcon baseIcon;
+    protected IIcon baseIcon, overlayIcon;
 
     public static ItemWireCoil create() {
         ItemWireCoil wireCoil = new ItemWireCoil();

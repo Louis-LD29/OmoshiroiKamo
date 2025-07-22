@@ -47,6 +47,7 @@ public class OKCreativeTab extends CreativeTabs {
 
         addItem(ModItems.itemMaterial);
         addItem(ModItems.itemWireCoil);
+        addItem(ModItems.itemOre);
         addItem(FluidMaterialRegister.itemBucketMaterial);
         addItem(FluidRegister.itemBucketFluid);
         addBlock(ModBlocks.blockMaterial);
@@ -84,12 +85,12 @@ public class OKCreativeTab extends CreativeTabs {
     @Override
     @SideOnly(Side.CLIENT)
     public String getTabLabel() {
-        return LibMisc.MOD_ID;
+        return LibMisc.MOD_NAME;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public String getTranslatedTabLabel() {
-        return LibMisc.MOD_ID;
+        return LibMisc.MOD_NAME;
     }
 }

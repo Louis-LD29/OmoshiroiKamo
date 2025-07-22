@@ -55,6 +55,14 @@ public class LangSectionInserter {
             "#Item Bucket Fluid",
             mat -> "item.itemBucketFluid." + mat.getUnlocalizedName() + ".name=" + mat.getName() + " Bucket");
 
+
+        addOreSection("#Ore Crushed", ore -> "item.itemOre.crushed." + ore.getUnlocalizedName() + ".name=Crushed " + ore.getName() + " Ore");
+
+        addOreSection("#Ore Washed", ore -> "item.itemOre.washed." + ore.getUnlocalizedName() + ".name=Washed " + ore.getName() + " Ore");
+
+        addOreSection("#Ore Enriched", ore -> "item.itemOre.enriched." + ore.getUnlocalizedName() + ".name=Enriched " + ore.getName() + " Ore");
+
+
         // Block
         addMaterialSection(
             "#Block of Material",

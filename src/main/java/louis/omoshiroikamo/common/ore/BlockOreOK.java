@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.block.ore;
+package louis.omoshiroikamo.common.ore;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
 

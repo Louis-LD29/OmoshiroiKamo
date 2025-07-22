@@ -5,9 +5,9 @@ import net.minecraft.item.ItemStack;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
-import louis.omoshiroikamo.common.block.ore.OreRegister;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.item.ModItems;
+import louis.omoshiroikamo.common.ore.OreRegister;
 
 public class CopperRecipes {
 

@@ -35,9 +35,7 @@ import louis.omoshiroikamo.common.core.lib.LibResources;
 public class ItemBucketFluid extends Item {
 
     @SideOnly(Side.CLIENT)
-    protected IIcon baseIcon, overlayIcon;
-    @SideOnly(Side.CLIENT)
-    protected IIcon baseGasIcon, overlayGasIcon;
+    protected IIcon baseIcon, overlayIcon, baseGasIcon, overlayGasIcon;
 
     private static final Map<Integer, FluidEntry> META_TO_ENTRY = new HashMap<>();
     private static final Map<FluidEntry, Integer> ENTRY_TO_META = new HashMap<>();

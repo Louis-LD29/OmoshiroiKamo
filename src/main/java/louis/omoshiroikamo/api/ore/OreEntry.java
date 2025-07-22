@@ -79,7 +79,16 @@ public class OreEntry {
     }
 
     public int getColor() {
-        return getConfig().color;
+        int color = getConfig().color;
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+
+        float brightness = 1.2f;
+        r = Math.min(255, (int) (r * brightness));
+        g = Math.min(255, (int) (g * brightness));
+        b = Math.min(255, (int) (b * brightness));
+        return (r << 16) | (g << 8) | b;
     }
 
     public int getHardness() {

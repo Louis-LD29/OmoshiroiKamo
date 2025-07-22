@@ -16,11 +16,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 import louis.omoshiroikamo.api.ore.OreEntry;
-import louis.omoshiroikamo.common.block.ore.OreRegister;
 import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.core.helper.Logger;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.ore.OreRegister;
 
 public class OreTexture {
 

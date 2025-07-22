@@ -24,6 +24,7 @@ import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class BlockMaterial extends BlockOK {
 
+    @SideOnly(Side.CLIENT)
     protected IIcon icon;
 
     public static BlockMaterial create() {

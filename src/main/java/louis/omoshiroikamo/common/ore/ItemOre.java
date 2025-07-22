@@ -1,0 +1,129 @@
+package louis.omoshiroikamo.common.ore;
+
+import static org.apache.commons.lang3.StringUtils.capitalize;
+
+import java.util.List;
+
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.oredict.OreDictionary;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.api.ore.OreEntry;
+import louis.omoshiroikamo.api.ore.OreRegistry;
+import louis.omoshiroikamo.common.OKCreativeTab;
+import louis.omoshiroikamo.common.core.lib.LibResources;
+
+public class ItemOre extends Item {
+
+    @SideOnly(Side.CLIENT)
+    protected IIcon crushedOverlay,crushed, washed, enriched;
+
+    public static ItemOre create() {
+        ItemOre ore = new ItemOre();
+        ore.init();
+        return ore;
+    }
+
+    protected ItemOre() {
+        setHasSubtypes(true);
+        setMaxDamage(0);
+        setCreativeTab(OKCreativeTab.INSTANCE);
+        setUnlocalizedName(ModObject.itemOre.unlocalisedName);
+    }
+
+    private void init() {
+        GameRegistry.registerItem(this, ModObject.itemOre.unlocalisedName);
+
+        for (OreEntry entry : OreRegistry.all()) {
+            String oreName = entry.getUnlocalizedName();
+            registerMaterialOreDict(oreName, entry.meta);
+        }
+    }
+
+    private void registerMaterialOreDict(String name, int meta) {
+        OreDictionary.registerOre("crushed" + capitalize(name), new ItemStack(this, 1, LibResources.BASE + meta));
+        OreDictionary.registerOre("washed" + capitalize(name), new ItemStack(this, 1, LibResources.META1 + meta));
+        OreDictionary.registerOre("enriched" + capitalize(name), new ItemStack(this, 1, LibResources.META2 + meta));
+    }
+
+    @Override
+    public String getUnlocalizedName(ItemStack stack) {
+        int meta = stack.getItemDamage();
+        int baseMeta = meta % LibResources.META1;
+        OreEntry ore = OreRegistry.fromMeta(baseMeta);
+        String base = super.getUnlocalizedName(stack);
+
+        String type;
+        if (meta >= LibResources.META2) {
+            type = "enriched";
+        } else if (meta >= LibResources.META1) {
+            type = "washed";
+        } else {
+            type = "crushed";
+        }
+
+        String or = ore.getUnlocalizedName();
+        return base + "." + type + "." + or;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+        for (OreEntry entry : OreRegistry.all()) {
+            int meta = entry.meta;
+            // crushed
+            list.add(new ItemStack(this, 1, meta));
+            // washed
+            list.add(new ItemStack(this, 1, LibResources.META1 + meta));
+            // enriched
+            list.add(new ItemStack(this, 1, LibResources.META2 + meta));
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(ItemStack stack, int pass) {
+        int meta = stack.getItemDamage();
+        if (meta >= LibResources.META2) return enriched;
+        if (meta >= LibResources.META1) return washed;
+
+        return (pass == 0) ? crushed : crushedOverlay;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack stack, int renderPass) {
+        int meta = stack.getItemDamage();
+
+        if (meta < LibResources.META1 && renderPass == 1) {
+            return 0xFFFFFF;
+        }
+
+        int baseMeta = meta % LibResources.META1;
+        OreEntry mat = OreRegistry.fromMeta(baseMeta);
+        return mat.getColor();
+    }
+
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses() {
+        return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void registerIcons(IIconRegister reg) {
+        crushed = reg.registerIcon(LibResources.PREFIX_MOD + "base_crushed");
+        crushedOverlay  = reg.registerIcon(LibResources.PREFIX_MOD + "crushed_overlay");
+        washed = reg.registerIcon(LibResources.PREFIX_MOD + "base_washed");
+        enriched = reg.registerIcon(LibResources.PREFIX_MOD + "base_enriched");
+    }
+}

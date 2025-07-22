@@ -30,6 +30,7 @@ public enum ModObject {
     itemMaterial,
     itemBucketMaterial,
     itemBucketFluid,
+    itemOre,
     itemWireCoil;
 
     public final String unlocalisedName;
