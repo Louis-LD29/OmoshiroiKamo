@@ -43,6 +43,7 @@ public class ItemBucketFluid extends Item {
     public ItemBucketFluid() {
         setHasSubtypes(true);
         setMaxDamage(0);
+        setMaxStackSize(1);
         setCreativeTab(OKCreativeTab.INSTANCE);
         setUnlocalizedName(ModObject.itemBucketFluid.unlocalisedName);
     }

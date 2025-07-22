@@ -4,9 +4,10 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidStack;
+
+import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
+import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
 public interface IPoweredTask {
 
@@ -25,7 +26,7 @@ public interface IPoweredTask {
     @Nullable
     MachineRecipe getRecipe();
 
-    List<ItemStack> getItemOutputs();
+    List<ChanceItemStack> getItemOutputs();
 
-    List<FluidStack> getFluidOutputs();
+    List<ChanceFluidStack> getFluidOutputs();
 }

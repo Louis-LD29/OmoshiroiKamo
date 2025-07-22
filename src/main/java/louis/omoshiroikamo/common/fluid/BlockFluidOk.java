@@ -1,17 +1,17 @@
-package louis.omoshiroikamo.common.fluid.material;
+package louis.omoshiroikamo.common.fluid;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.common.fluid.BlockFluid;
 
-public class BlockFluidMaterial extends BlockFluid {
+public class BlockFluidOk extends BlockFluidClassic {
 
     String texture;
     boolean alpha;
@@ -20,13 +20,13 @@ public class BlockFluidMaterial extends BlockFluid {
     boolean overwriteFluidIcons = true;
     private Fluid fluid = null;
 
-    public BlockFluidMaterial(Fluid fluid, Material material, String texture) {
+    public BlockFluidOk(Fluid fluid, Material material, String texture) {
         super(fluid, material);
         this.texture = texture;
         this.setCreativeTab(OKCreativeTab.INSTANCE);
     }
 
-    public BlockFluidMaterial(Fluid fluid, Material material, String texture, boolean alpha) {
+    public BlockFluidOk(Fluid fluid, Material material, String texture, boolean alpha) {
         this(fluid, material, texture);
         this.alpha = alpha;
     }

@@ -7,21 +7,24 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import louis.omoshiroikamo.common.core.helper.OreDictUtils;
+import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
+import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
 public class MachineRecipe {
 
-    public final List<ItemStack> itemInputs;
-    public final List<FluidStack> fluidInputs;
-    public final List<ItemStack> itemOutputs;
-    public final List<FluidStack> fluidOutputs;
+    public final List<ChanceItemStack> itemInputs;
+    public final List<ChanceFluidStack> fluidInputs;
+    public final List<ChanceItemStack> itemOutputs;
+    public final List<ChanceFluidStack> fluidOutputs;
 
     public final int requiredTemperature; // Độ K
     public final float requiredPressure; // Áp suất kPa hoặc tuỳ định nghĩa
     public final int energyCost; // EU hoặc RF hoặc tick
     public final String uid; // EU hoặc RF hoặc tick
 
-    public MachineRecipe(List<ItemStack> itemInputs, List<FluidStack> fluidInputs, List<ItemStack> itemOutputs,
-        List<FluidStack> fluidOutputs, int requiredTemperature, int requiredPressure, int energyCost, String uid) {
+    public MachineRecipe(List<ChanceItemStack> itemInputs, List<ChanceFluidStack> fluidInputs,
+        List<ChanceItemStack> itemOutputs, List<ChanceFluidStack> fluidOutputs, int requiredTemperature,
+        int requiredPressure, int energyCost, String uid) {
         this.itemInputs = itemInputs;
         this.fluidInputs = fluidInputs;
         this.itemOutputs = itemOutputs;
@@ -32,19 +35,19 @@ public class MachineRecipe {
         this.uid = uid;
     }
 
-    public List<ItemStack> getItemInputs() {
+    public List<ChanceItemStack> getItemInputs() {
         return itemInputs;
     }
 
-    public List<ItemStack> getItemOutputs() {
+    public List<ChanceItemStack> getItemOutputs() {
         return itemOutputs;
     }
 
-    public List<FluidStack> getFluidInputs() {
+    public List<ChanceFluidStack> getFluidInputs() {
         return fluidInputs;
     }
 
-    public List<FluidStack> getFluidOutputs() {
+    public List<ChanceFluidStack> getFluidOutputs() {
         return fluidOutputs;
     }
 
@@ -76,12 +79,13 @@ public class MachineRecipe {
             && containsAllFluids(fluids, fluidInputs);
     }
 
-    private boolean containsAllItems(List<ItemStack> available, List<ItemStack> required) {
-        for (ItemStack req : required) {
-            int remaining = req.stackSize;
+    private boolean containsAllItems(List<ItemStack> available, List<ChanceItemStack> required) {
+        for (ChanceItemStack req : required) {
+            if (req.chance < 1.0f) continue;
+            int remaining = req.stack.stackSize;
 
             for (ItemStack candidate : available) {
-                if (OreDictUtils.isOreDictMatch(candidate, req)) {
+                if (OreDictUtils.isOreDictMatch(candidate, req.stack)) {
                     remaining -= candidate.stackSize;
                     if (remaining <= 0) break;
                 }
@@ -92,12 +96,13 @@ public class MachineRecipe {
         return true;
     }
 
-    private boolean containsAllFluids(List<FluidStack> available, List<FluidStack> required) {
-        for (FluidStack req : required) {
-            int remaining = req.amount;
+    private boolean containsAllFluids(List<FluidStack> available, List<ChanceFluidStack> required) {
+        for (ChanceFluidStack req : required) {
+            if (req.chance < 1.0f) continue;
+            int remaining = req.stack.amount;
 
             for (FluidStack candidate : available) {
-                if (canMergeFluids(candidate, req)) {
+                if (canMergeFluids(candidate, req.stack)) {
                     remaining -= candidate.amount;
                     if (remaining <= 0) break;
                 }
@@ -110,11 +115,13 @@ public class MachineRecipe {
 
     public int getInputComplexityScore() {
         int itemScore = itemInputs != null ? itemInputs.stream()
-            .mapToInt(stack -> stack != null ? stack.stackSize : 0)
+            .mapToInt(entry -> entry != null && entry.stack != null ? (int) (entry.stack.stackSize * entry.chance) : 0)
             .sum() : 0;
+
         int fluidScore = fluidInputs != null ? fluidInputs.stream()
-            .mapToInt(fluid -> fluid != null ? fluid.amount : 0)
+            .mapToInt(entry -> entry != null && entry.stack != null ? (int) (entry.stack.amount * entry.chance) : 0)
             .sum() : 0;
+
         return itemScore + fluidScore;
     }
 

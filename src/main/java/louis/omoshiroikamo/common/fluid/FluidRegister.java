@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import louis.omoshiroikamo.api.fluid.FluidEntry;
 import louis.omoshiroikamo.api.fluid.FluidRegistry;
-import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegister;
 
 public class FluidRegister {
 

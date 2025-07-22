@@ -22,6 +22,8 @@ import com.google.gson.Gson;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
+import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
 public class RecipeLoader {
 
@@ -85,7 +87,7 @@ public class RecipeLoader {
                         if (i.oredict != null && !i.oredict.isEmpty()) {
                             List<ItemStack> oreStacks = OreDictionary.getOres(i.oredict);
                             if (!oreStacks.isEmpty()) {
-                                builder.addItemInput(i.oredict, i.amount);
+                                builder.addItemInput(i.oredict, i.amount, i.chance > 0 ? i.chance : 1.0f);
                             }
                             continue;
                         }
@@ -94,13 +96,13 @@ public class RecipeLoader {
 
                         Item item = GameRegistry.findItem(i.modid, i.name);
                         if (item != null) {
-                            builder.addItemInput(new ItemStack(item, i.amount, meta));
+                            builder.addItemInput(new ItemStack(item, i.amount, meta), i.chance > 0 ? i.chance : 1.0f);
                             continue;
                         }
 
                         Block block = GameRegistry.findBlock(i.modid, i.name);
                         if (block != null) {
-                            builder.addItemInput(new ItemStack(block, i.amount, meta));
+                            builder.addItemInput(new ItemStack(block, i.amount, meta), i.chance > 0 ? i.chance : 1.0f);
                             continue;
                         }
 
@@ -112,7 +114,7 @@ public class RecipeLoader {
                     for (JsonStack f : r.fluidInputs) {
                         Fluid fluid = FluidRegistry.getFluid(f.name);
                         if (fluid != null) {
-                            builder.addFluidInput(fluid, f.amount);
+                            builder.addFluidInput(new FluidStack(fluid, f.amount), f.chance > 0 ? f.chance : 1.0f);
                         }
                     }
                 }
@@ -123,7 +125,7 @@ public class RecipeLoader {
                         if (i.oredict != null && !i.oredict.isEmpty()) {
                             List<ItemStack> oreStacks = OreDictionary.getOres(i.oredict);
                             if (!oreStacks.isEmpty()) {
-                                builder.addItemOutput(i.oredict, i.amount);
+                                builder.addItemOutput(i.oredict, i.amount, i.chance);
                             }
                             continue;
                         }
@@ -132,13 +134,13 @@ public class RecipeLoader {
 
                         Item item = GameRegistry.findItem(i.modid, i.name);
                         if (item != null) {
-                            builder.addItemOutput(new ItemStack(item, i.amount, meta));
+                            builder.addItemOutput(new ItemStack(item, i.amount, meta), i.chance);
                             continue;
                         }
 
                         Block block = GameRegistry.findBlock(i.modid, i.name);
                         if (block != null) {
-                            builder.addItemOutput(new ItemStack(block, i.amount, meta));
+                            builder.addItemOutput(new ItemStack(block, i.amount, meta), i.chance);
                             continue;
                         }
                     }
@@ -149,7 +151,7 @@ public class RecipeLoader {
                     for (JsonStack f : r.fluidOutputs) {
                         Fluid fluid = FluidRegistry.getFluid(f.name);
                         if (fluid != null) {
-                            builder.addFluidOutput(fluid, f.amount);
+                            builder.addFluidOutput(new FluidStack(fluid, f.amount), f.chance);
                         }
                     }
                 }
@@ -192,45 +194,45 @@ public class RecipeLoader {
             StringBuilder data = new StringBuilder();
 
             if (builder.getItemInputs() != null) {
-                for (ItemStack stack : builder.getItemInputs()) {
+                for (ChanceItemStack chanceStack : builder.getItemInputs()) {
                     data.append(
-                        stack.getItem()
+                        chanceStack.stack.getItem()
                             .getUnlocalizedName())
                         .append(":")
-                        .append(stack.stackSize)
+                        .append(chanceStack.stack.stackSize)
                         .append(";");
                 }
             }
 
             if (builder.getFluidInputs() != null) {
-                for (FluidStack fluid : builder.getFluidInputs()) {
+                for (ChanceFluidStack chancStack : builder.getFluidInputs()) {
                     data.append(
-                        fluid.getFluid()
+                        chancStack.stack.getFluid()
                             .getName())
                         .append(":")
-                        .append(fluid.amount)
+                        .append(chancStack.stack.amount)
                         .append(";");
                 }
             }
 
             if (builder.getItemOutputs() != null) {
-                for (ItemStack stack : builder.getItemOutputs()) {
+                for (ChanceItemStack chanceStack : builder.getItemOutputs()) {
                     data.append(
-                        stack.getItem()
+                        chanceStack.stack.getItem()
                             .getUnlocalizedName())
                         .append(":")
-                        .append(stack.stackSize)
+                        .append(chanceStack.stack.stackSize)
                         .append(";");
                 }
             }
 
             if (builder.getFluidOutputs() != null) {
-                for (FluidStack fluid : builder.getFluidOutputs()) {
+                for (ChanceFluidStack chancStack : builder.getFluidOutputs()) {
                     data.append(
-                        fluid.getFluid()
+                        chancStack.stack.getFluid()
                             .getName())
                         .append(":")
-                        .append(fluid.amount)
+                        .append(chancStack.stack.amount)
                         .append(";");
                 }
             }
@@ -266,6 +268,7 @@ public class RecipeLoader {
         public String name;
         public int meta;
         public int amount;
+        public float chance;
     }
 
     static class JsonRecipe {

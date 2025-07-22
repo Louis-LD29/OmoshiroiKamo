@@ -16,7 +16,7 @@ import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegister;
+import louis.omoshiroikamo.common.fluid.FluidMaterialRegister;
 import louis.omoshiroikamo.common.item.ModItems;
 import tconstruct.TConstruct;
 import tconstruct.library.TConstructRegistry;

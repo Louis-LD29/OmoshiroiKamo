@@ -22,6 +22,8 @@ import louis.omoshiroikamo.common.plugin.nei.PositionedFluidTank;
 import louis.omoshiroikamo.common.plugin.nei.RecipeHandlerBase;
 import louis.omoshiroikamo.common.recipes.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.MachineRecipeRegistry;
+import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
+import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
 public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
 
@@ -56,8 +58,8 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
     public void loadCraftingRecipes(ItemStack item) {
         super.loadCraftingRecipes(item);
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockElectrolyzer.unlocalisedName)) {
-            for (ItemStack out : recipe.getItemOutputs()) {
-                if (NEIServerUtils.areStacksSameTypeCrafting(out, item)) {
+            for (ChanceItemStack out : recipe.getItemOutputs()) {
+                if (NEIServerUtils.areStacksSameTypeCrafting(out.stack, item)) {
                     arecipes.add(new CachedElectrolyzerRecipe(recipe));
                 }
             }
@@ -68,8 +70,8 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
     public void loadCraftingRecipes(FluidStack fluid) {
         super.loadCraftingRecipes(fluid);
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockElectrolyzer.unlocalisedName)) {
-            for (FluidStack out : recipe.getFluidOutputs()) {
-                if (out != null && out.isFluidEqual(fluid)) {
+            for (ChanceFluidStack out : recipe.getFluidOutputs()) {
+                if (out != null && out.stack.isFluidEqual(fluid)) {
                     arecipes.add(new CachedElectrolyzerRecipe(recipe));
                 }
             }
@@ -80,9 +82,9 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
     public void loadUsageRecipes(ItemStack ingredient) {
         super.loadUsageRecipes(ingredient);
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockElectrolyzer.unlocalisedName)) {
-            for (ItemStack in : recipe.getItemInputs()) {
-                if (OreDictUtils.isOreDictMatch(in, ingredient)
-                    || NEIServerUtils.areStacksSameTypeCrafting(in, ingredient)) {
+            for (ChanceItemStack in : recipe.getItemInputs()) {
+                if (OreDictUtils.isOreDictMatch(in.stack, ingredient)
+                    || NEIServerUtils.areStacksSameTypeCrafting(in.stack, ingredient)) {
                     arecipes.add(new CachedElectrolyzerRecipe(recipe));
                 }
             }
@@ -93,8 +95,8 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
     public void loadUsageRecipes(FluidStack fluid) {
         super.loadUsageRecipes(fluid);
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockElectrolyzer.unlocalisedName)) {
-            for (FluidStack input : recipe.getFluidInputs()) {
-                if (input != null && input.isFluidEqual(fluid)) {
+            for (ChanceFluidStack input : recipe.getFluidInputs()) {
+                if (input != null && input.stack.isFluidEqual(fluid)) {
                     arecipes.add(new CachedElectrolyzerRecipe(recipe));
                 }
             }
@@ -251,10 +253,10 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
 
     public class CachedElectrolyzerRecipe extends CachedBaseRecipe {
 
-        private final List<ItemStack> itemInputs = new ArrayList<>();
-        private final List<ItemStack> itemOutputs = new ArrayList<>();
-        private final List<FluidStack> fluidInputs = new ArrayList<>();
-        private final List<FluidStack> fluidOutputs = new ArrayList<>();
+        private final List<ChanceItemStack> itemInputs = new ArrayList<>();
+        private final List<ChanceItemStack> itemOutputs = new ArrayList<>();
+        private final List<ChanceFluidStack> fluidInputs = new ArrayList<>();
+        private final List<ChanceFluidStack> fluidOutputs = new ArrayList<>();
         private final int energyCost;
         private final int usagePerTick;
         private final int requiredTemperature;
@@ -277,11 +279,11 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
         public List<PositionedFluidTank> getFluidInputs() {
             List<PositionedFluidTank> result = new ArrayList<>();
             for (int i = 0; i < Math.min(fluidInputs.size(), 3); i++) {
-                FluidStack fs = fluidInputs.get(i);
+                ChanceFluidStack fs = fluidInputs.get(i);
                 if (fs == null) continue;
                 int x = 15 + i * 18;
                 Rectangle rect = new Rectangle(x + 1, 32 + 1, 16, 16);
-                result.add(new PositionedFluidTank(fs, 1000, rect));
+                result.add(new PositionedFluidTank(fs.stack, 1000, rect));
             }
             return result;
         }
@@ -289,11 +291,11 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
         public List<PositionedFluidTank> getFluidOutputs() {
             List<PositionedFluidTank> result = new ArrayList<>();
             for (int i = 0; i < Math.min(fluidOutputs.size(), 3); i++) {
-                FluidStack fs = fluidOutputs.get(i);
+                ChanceFluidStack fs = fluidOutputs.get(i);
                 if (fs == null) continue;
                 int x = 95 + i * 18;
                 Rectangle rect = new Rectangle(x + 1, 32 + 1, 16, 16);
-                result.add(new PositionedFluidTank(fs, 1000, rect));
+                result.add(new PositionedFluidTank(fs.stack, 1000, rect));
             }
             return result;
         }
@@ -302,10 +304,10 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
         public List<PositionedStack> getIngredients() {
             List<PositionedStack> result = new ArrayList<>();
             for (int i = 0; i < Math.min(itemInputs.size(), 3); i++) {
-                ItemStack stack = itemInputs.get(i);
-                if (stack == null) continue;
+                ChanceItemStack is = itemInputs.get(i);
+                if (is == null) continue;
                 int x = 15 + i * 18;
-                result.add(new PositionedStack(stack, x + 1, 8 + 1));
+                result.add(new PositionedStack(is.stack, x + 1, 8 + 1));
             }
             return result;
         }
@@ -314,10 +316,10 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
         public List<PositionedStack> getOtherStacks() {
             List<PositionedStack> result = new ArrayList<>();
             for (int i = 0; i < Math.min(itemOutputs.size(), 3); i++) {
-                ItemStack stack = itemOutputs.get(i);
-                if (stack == null) continue;
+                ChanceItemStack is = itemOutputs.get(i);
+                if (is == null) continue;
                 int x = 95 + i * 18;
-                result.add(new PositionedStack(stack, x + 1, 8 + 1));
+                result.add(new PositionedStack(is.stack, x + 1, 8 + 1));
             }
             return result;
         }

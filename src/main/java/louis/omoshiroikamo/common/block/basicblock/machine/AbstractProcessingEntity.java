@@ -21,6 +21,8 @@ import louis.omoshiroikamo.common.core.helper.OreDictUtils;
 import louis.omoshiroikamo.common.recipes.IPoweredTask;
 import louis.omoshiroikamo.common.recipes.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.MachineRecipeRegistry;
+import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
+import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
 public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEntity
     implements IInternalPowerReceiver, IProgressTile {
@@ -168,8 +170,8 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
     protected void taskComplete() {
         if (currentTask != null) {
             lastCompletedRecipe = currentTask.getRecipe();
-            List<ItemStack> itemOutputs = currentTask.getItemOutputs();
-            List<FluidStack> fluidOutputs = currentTask.getFluidOutputs();
+            List<ChanceItemStack> itemOutputs = currentTask.getItemOutputs();
+            List<ChanceFluidStack> fluidOutputs = currentTask.getFluidOutputs();
             mergeResults(itemOutputs, fluidOutputs);
         }
         markDirty();
@@ -177,17 +179,17 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
         lastProgressScaled = 0;
     }
 
-    protected void mergeResults(List<ItemStack> itemStacks, List<FluidStack> fluidStacks) {
+    protected void mergeResults(List<ChanceItemStack> itemStacks, List<ChanceFluidStack> fluidStacks) {
         List<ItemStack> outputStacks = new ArrayList<ItemStack>();
         for (int i = slotDefinition.minItemOutputSlot; i <= slotDefinition.maxItemOutputSlot; i++) {
             ItemStack stack = inv.getStackInSlot(i);
             outputStacks.add(stack != null ? stack.copy() : null);
         }
 
-        for (ItemStack output : itemStacks) {
+        for (ChanceItemStack output : itemStacks) {
             if (output == null) continue;
 
-            ItemStack copy = output.copy();
+            ItemStack copy = output.stack.copy();
             int remaining = copy.stackSize;
 
             // Merge vào stack đã có (ưu tiên oredict)
@@ -224,16 +226,16 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             inv.setStackInSlot(i, outputStacks.get(listIndex++));
         }
 
-        for (FluidStack output : fluidStacks) {
+        for (ChanceFluidStack output : fluidStacks) {
             if (output == null) continue;
 
-            int remaining = output.amount;
+            int remaining = output.stack.amount;
 
             for (int i = slotDefinition.minFluidOutputSlot; i <= slotDefinition.maxFluidOutputSlot
                 && remaining > 0; i++) {
                 FluidStack current = fluidTanks[i].getFluid();
-                if (current != null && current.isFluidEqual(output)) {
-                    int filled = fluidTanks[i].fill(new FluidStack(output.getFluid(), remaining), true);
+                if (current != null && current.isFluidEqual(output.stack)) {
+                    int filled = fluidTanks[i].fill(new FluidStack(output.stack.getFluid(), remaining), true);
                     remaining -= filled;
                 }
             }
@@ -242,7 +244,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
                 && remaining > 0; i++) {
                 FluidStack current = fluidTanks[i].getFluid();
                 if (current == null || current.amount == 0) {
-                    int filled = fluidTanks[i].fill(new FluidStack(output.getFluid(), remaining), true);
+                    int filled = fluidTanks[i].fill(new FluidStack(output.stack.getFluid(), remaining), true);
                     remaining -= filled;
                 }
             }
@@ -274,14 +276,14 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
 
     private boolean canOutput(MachineRecipe recipe) {
         // Kiểm tra item outputs
-        for (ItemStack out : recipe.getItemOutputs()) {
+        for (ChanceItemStack out : recipe.getItemOutputs()) {
             if (out == null) continue;
             boolean canInsert = false;
 
             for (int i = slotDefinition.minItemOutputSlot; i <= slotDefinition.maxItemOutputSlot; i++) {
                 ItemStack target = inv.getStackInSlot(i);
-                if (target == null || (ItemStack.areItemStacksEqual(target, out)
-                    && target.stackSize + out.stackSize <= target.getMaxStackSize())) {
+                if (target == null || (ItemStack.areItemStacksEqual(target, out.stack)
+                    && target.stackSize + out.stack.stackSize <= target.getMaxStackSize())) {
                     canInsert = true;
                     break;
                 }
@@ -290,13 +292,13 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
         }
 
         // Kiểm tra fluid outputs
-        for (FluidStack out : recipe.getFluidOutputs()) {
+        for (ChanceFluidStack out : recipe.getFluidOutputs()) {
             if (out == null) continue;
             boolean canInsert = false;
 
             for (int i = slotDefinition.minFluidOutputSlot; i <= slotDefinition.maxFluidOutputSlot; i++) {
                 FluidTank tank = fluidTanks[i];
-                if (tank.fill(out, false) == out.amount) {
+                if (tank.fill(out.stack, false) == out.stack.amount) {
                     canInsert = true;
                     break;
                 }
@@ -309,14 +311,14 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
     }
 
     private void consumeInputs(MachineRecipe recipe) {
-        for (ItemStack input : recipe.getItemInputs()) {
-            int remaining = input.stackSize;
+        for (ChanceItemStack input : recipe.getItemInputs()) {
+            int remaining = input.stack.stackSize;
 
             for (int i = slotDefinition.minItemInputSlot; i <= slotDefinition.maxItemInputSlot && remaining > 0; i++) {
                 ItemStack target = inv.getStackInSlot(i);
                 if (target == null) continue;
 
-                boolean matches = OreDictUtils.isOreDictMatch(input, target);
+                boolean matches = OreDictUtils.isOreDictMatch(input.stack, target);
 
                 if (matches) {
                     int consumed = Math.min(remaining, target.stackSize);
@@ -338,20 +340,20 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             }
 
             if (remaining > 0) {
-                Logger.info("[consumeInputs] Không đủ item để tiêu thụ: " + input.getDisplayName());
+                Logger.info("[consumeInputs] Không đủ item để tiêu thụ: " + input.stack.getDisplayName());
             }
         }
 
         // Tiêu thụ fluid inputs
-        for (FluidStack input : recipe.getFluidInputs()) {
-            int remaining = input.amount;
+        for (ChanceFluidStack input : recipe.getFluidInputs()) {
+            int remaining = input.stack.amount;
 
             for (int i = slotDefinition.minFluidInputSlot; i <= slotDefinition.maxFluidInputSlot
                 && remaining > 0; i++) {
                 FluidTank tank = fluidTanks[i];
                 FluidStack contained = tank.getFluid();
 
-                if (contained != null && contained.isFluidEqual(input)) {
+                if (contained != null && contained.isFluidEqual(input.stack)) {
                     int drained = Math.min(remaining, contained.amount);
                     tank.drain(drained, true);
                     remaining -= drained;
@@ -360,9 +362,9 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
 
             if (remaining > 0) {
                 Logger.info(
-                    "[consumeInputs] Không đủ fluid để tiêu thụ: " + input.amount
+                    "[consumeInputs] Không đủ fluid để tiêu thụ: " + input.stack.amount
                         + "L of "
-                        + input.getFluid()
+                        + input.stack.getFluid()
                             .getName());
             }
         }
@@ -465,8 +467,8 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
         if (recipe == null) return Collections.emptyList();
 
         List<ItemStack> result = new ArrayList<>();
-        for (ItemStack stack : recipe.getItemOutputs()) {
-            result.add(stack != null ? OreDictUtils.getOreDictRepresentative(stack) : null);
+        for (ChanceItemStack is : recipe.getItemOutputs()) {
+            result.add(is != null ? OreDictUtils.getOreDictRepresentative(is.stack) : null);
         }
         return result;
     }
@@ -476,8 +478,8 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
         if (recipe == null) return Collections.emptyList();
 
         List<FluidStack> result = new ArrayList<>();
-        for (FluidStack stack : recipe.getFluidOutputs()) {
-            result.add(stack != null ? stack.copy() : null);
+        for (ChanceFluidStack fs : recipe.getFluidOutputs()) {
+            result.add(fs != null ? fs.stack.copy() : null);
         }
         return result;
     }

@@ -14,6 +14,8 @@ import org.jetbrains.annotations.Nullable;
 import louis.omoshiroikamo.common.recipes.IPoweredTask;
 import louis.omoshiroikamo.common.recipes.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.MachineRecipeRegistry;
+import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
+import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
 public class PoweredTask implements IPoweredTask {
 
@@ -172,12 +174,12 @@ public class PoweredTask implements IPoweredTask {
     }
 
     @Override
-    public List<ItemStack> getItemOutputs() {
+    public List<ChanceItemStack> getItemOutputs() {
         return recipe.getItemOutputs();
     }
 
     @Override
-    public List<FluidStack> getFluidOutputs() {
+    public List<ChanceFluidStack> getFluidOutputs() {
         return recipe.getFluidOutputs();
     }
 }

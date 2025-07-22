@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.fluid.material;
+package louis.omoshiroikamo.common.fluid;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.OKCreativeTab;
-import louis.omoshiroikamo.common.fluid.ItemBucketMaterial;
 
 public class FluidMaterialRegister {
 
@@ -102,7 +101,7 @@ public class FluidMaterialRegister {
 
         // register our fluid block for the fluid
         // this constructor implicitly does fluid.setBlock to it, that's why it's not called separately
-        BlockFluidMaterial block = new BlockFluidMaterial(fluid, material, texture);
+        BlockFluidOk block = new BlockFluidOk(fluid, material, texture);
         block.setBlockName(blockName);
         GameRegistry.registerBlock(block, blockName);
         OKCreativeTab.addToTab(block);

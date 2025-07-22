@@ -31,7 +31,6 @@ import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegister;
 
 public class ItemBucketMaterial extends Item {
 
@@ -44,6 +43,7 @@ public class ItemBucketMaterial extends Item {
     public ItemBucketMaterial() {
         setHasSubtypes(true);
         setMaxDamage(0);
+        setMaxStackSize(1);
         setCreativeTab(OKCreativeTab.INSTANCE);
         setUnlocalizedName(ModObject.itemBucketMaterial.unlocalisedName);
     }
