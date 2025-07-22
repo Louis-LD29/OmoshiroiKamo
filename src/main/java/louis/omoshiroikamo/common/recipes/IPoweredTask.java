@@ -6,9 +6,6 @@ import javax.annotation.Nullable;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
-import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 public interface IPoweredTask {

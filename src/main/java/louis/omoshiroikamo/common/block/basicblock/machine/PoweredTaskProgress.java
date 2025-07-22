@@ -4,12 +4,10 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.FluidStack;
 
 import louis.omoshiroikamo.common.recipes.IPoweredTask;
 import louis.omoshiroikamo.common.recipes.MachineRecipe;
-import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
-import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
-import net.minecraftforge.fluids.FluidStack;
 
 public class PoweredTaskProgress implements IPoweredTask {
 
