@@ -170,8 +170,8 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
     protected void taskComplete() {
         if (currentTask != null) {
             lastCompletedRecipe = currentTask.getRecipe();
-            List<ChanceItemStack> itemOutputs = currentTask.getItemOutputs();
-            List<ChanceFluidStack> fluidOutputs = currentTask.getFluidOutputs();
+            List<ItemStack> itemOutputs = currentTask.getItemOutputs();
+            List<FluidStack> fluidOutputs = currentTask.getFluidOutputs();
             mergeResults(itemOutputs, fluidOutputs);
         }
         markDirty();
@@ -179,17 +179,17 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
         lastProgressScaled = 0;
     }
 
-    protected void mergeResults(List<ChanceItemStack> itemStacks, List<ChanceFluidStack> fluidStacks) {
+    protected void mergeResults(List<ItemStack> itemStacks, List<FluidStack> fluidStacks) {
         List<ItemStack> outputStacks = new ArrayList<ItemStack>();
         for (int i = slotDefinition.minItemOutputSlot; i <= slotDefinition.maxItemOutputSlot; i++) {
             ItemStack stack = inv.getStackInSlot(i);
             outputStacks.add(stack != null ? stack.copy() : null);
         }
 
-        for (ChanceItemStack output : itemStacks) {
+        for (ItemStack output : itemStacks) {
             if (output == null) continue;
 
-            ItemStack copy = output.stack.copy();
+            ItemStack copy = output.copy();
             int remaining = copy.stackSize;
 
             // Merge vào stack đã có (ưu tiên oredict)
@@ -226,16 +226,16 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
             inv.setStackInSlot(i, outputStacks.get(listIndex++));
         }
 
-        for (ChanceFluidStack output : fluidStacks) {
+        for (FluidStack output : fluidStacks) {
             if (output == null) continue;
 
-            int remaining = output.stack.amount;
+            int remaining = output.amount;
 
             for (int i = slotDefinition.minFluidOutputSlot; i <= slotDefinition.maxFluidOutputSlot
                 && remaining > 0; i++) {
                 FluidStack current = fluidTanks[i].getFluid();
-                if (current != null && current.isFluidEqual(output.stack)) {
-                    int filled = fluidTanks[i].fill(new FluidStack(output.stack.getFluid(), remaining), true);
+                if (current != null && current.isFluidEqual(output)) {
+                    int filled = fluidTanks[i].fill(new FluidStack(output.getFluid(), remaining), true);
                     remaining -= filled;
                 }
             }
@@ -244,7 +244,7 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
                 && remaining > 0; i++) {
                 FluidStack current = fluidTanks[i].getFluid();
                 if (current == null || current.amount == 0) {
-                    int filled = fluidTanks[i].fill(new FluidStack(output.stack.getFluid(), remaining), true);
+                    int filled = fluidTanks[i].fill(new FluidStack(output.getFluid(), remaining), true);
                     remaining -= filled;
                 }
             }
@@ -462,24 +462,29 @@ public abstract class AbstractProcessingEntity extends AbstractPowerConsumerEnti
         return MachineRecipeRegistry.findMatchingRecipe(getMachineName(), getItemInputs(), getFluidInputs());
     }
 
-    public List<ItemStack> getItemOutput() {
+    public List<ChanceItemStack> getItemOutput() {
         MachineRecipe recipe = isLocked() ? lockedRecipe : getPredictedRecipe();
         if (recipe == null) return Collections.emptyList();
 
-        List<ItemStack> result = new ArrayList<>();
+        List<ChanceItemStack> result = new ArrayList<>();
         for (ChanceItemStack is : recipe.getItemOutputs()) {
-            result.add(is != null ? OreDictUtils.getOreDictRepresentative(is.stack) : null);
+            if (is != null && is.stack != null) {
+                ItemStack oreRep = OreDictUtils.getOreDictRepresentative(is.stack);
+                result.add(new ChanceItemStack(oreRep, is.chance));
+            }
         }
         return result;
     }
 
-    public List<FluidStack> getFluidOutput() {
+    public List<ChanceFluidStack> getFluidOutput() {
         MachineRecipe recipe = isLocked() ? lockedRecipe : getPredictedRecipe();
         if (recipe == null) return Collections.emptyList();
 
-        List<FluidStack> result = new ArrayList<>();
+        List<ChanceFluidStack> result = new ArrayList<>();
         for (ChanceFluidStack fs : recipe.getFluidOutputs()) {
-            result.add(fs != null ? fs.stack.copy() : null);
+            if (fs != null && fs.stack != null) {
+                result.add(new ChanceFluidStack(fs.stack.copy(), fs.chance));
+            }
         }
         return result;
     }

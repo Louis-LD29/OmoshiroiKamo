@@ -140,8 +140,8 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
     protected void taskComplete() {
         if (currentTask != null) {
             lastCompletedRecipe = currentTask.getRecipe();
-            List<ChanceItemStack> itemOutputs = currentTask.getItemOutputs();
-            List<ChanceFluidStack> fluidOutputs = currentTask.getFluidOutputs();
+            List<ItemStack> itemOutputs = currentTask.getItemOutputs();
+            List<FluidStack> fluidOutputs = currentTask.getFluidOutputs();
             mergeResults(itemOutputs, fluidOutputs);
         }
         markDirty();
@@ -149,12 +149,12 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
         lastProgressScaled = 0;
     }
 
-    protected void mergeResults(List<ChanceItemStack> itemStacks, List<ChanceFluidStack> fluidStacks) {
+    protected void mergeResults(List<ItemStack> itemStacks, List<FluidStack> fluidStacks) {
         // Merge ItemStack vào các output inventory
-        for (ChanceItemStack output : itemStacks) {
+        for (ItemStack output : itemStacks) {
             if (output == null) continue;
 
-            ItemStack remaining = output.stack.copy();
+            ItemStack remaining = output.copy();
 
             outer: for (TEItemOutput io : mItemOutput) {
                 ItemStackHandler handler = io.getInv();
@@ -194,10 +194,10 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
             if (remaining != null && remaining.stackSize > 0) {}
         }
 
-        for (ChanceFluidStack output : fluidStacks) {
+        for (FluidStack output : fluidStacks) {
             if (output == null) continue;
 
-            int remaining = output.stack.amount;
+            int remaining = output.amount;
 
             outer: for (TEFluidOutput fo : mFluidOutput) {
                 SmartTank[] tanks = fo.getTanks();
@@ -207,8 +207,8 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                     if (tank == null || tank.getFluid() == null) continue;
 
                     if (tank.getFluid()
-                        .isFluidEqual(output.stack)) {
-                        int filled = tank.fill(new FluidStack(output.stack.getFluid(), remaining), true);
+                        .isFluidEqual(output)) {
+                        int filled = tank.fill(new FluidStack(output.getFluid(), remaining), true);
                         remaining -= filled;
                         if (remaining <= 0) break outer;
                     }
@@ -222,7 +222,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                 for (SmartTank tank : tanks) {
                     if (tank == null || tank.getFluidAmount() > 0) continue;
 
-                    int filled = tank.fill(new FluidStack(output.stack.getFluid(), remaining), true);
+                    int filled = tank.fill(new FluidStack(output.getFluid(), remaining), true);
                     remaining -= filled;
                     if (remaining <= 0) break outer;
                 }

@@ -10,8 +10,14 @@
     ],
     "fluidOutputs": [
       {
+      "name": "hydrogen",
+      "amount": 2000,
+      "chance": 1
+      },
+      {
         "name": "hydrogen",
-        "amount": 2000
+        "amount": 2000,
+        "chance": 0.2
       },
       {
         "name": "oxygen",

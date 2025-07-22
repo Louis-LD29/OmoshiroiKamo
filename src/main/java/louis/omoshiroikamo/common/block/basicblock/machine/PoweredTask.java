@@ -36,6 +36,8 @@ public class PoweredTask implements IPoweredTask {
     private List<ItemStack> itemStacks;
 
     private List<FluidStack> fluidStacks;
+    private List<ItemStack> completedItemOutputs = null;
+    private List<FluidStack> completedFluidOutputs = null;
 
     public PoweredTask(MachineRecipe recipe, float chance, List<ItemStack> itemStacks, List<FluidStack> fluidStacks) {
         this(recipe, 0, chance, itemStacks, fluidStacks);
@@ -174,12 +176,46 @@ public class PoweredTask implements IPoweredTask {
     }
 
     @Override
-    public List<ChanceItemStack> getItemOutputs() {
-        return recipe.getItemOutputs();
+    public List<ItemStack> getItemOutputs() {
+        return getCompletedItemOutputs();
     }
 
     @Override
-    public List<ChanceFluidStack> getFluidOutputs() {
-        return recipe.getFluidOutputs();
+    public List<FluidStack> getFluidOutputs() {
+        return getCompletedFluidOutputs();
     }
+
+    public List<ItemStack> getCompletedItemOutputs() {
+        if (completedItemOutputs != null) return completedItemOutputs;
+
+        completedItemOutputs = new ArrayList<>();
+        if (recipe == null) return completedItemOutputs;
+
+        for (ChanceItemStack output : recipe.getItemOutputs()) {
+            if (output != null && output.stack != null) {
+                if (output.chance >= getChance()) {
+                    completedItemOutputs.add(output.stack.copy());
+                }
+            }
+        }
+        return completedItemOutputs;
+    }
+
+    public List<FluidStack> getCompletedFluidOutputs() {
+        if (completedFluidOutputs != null) return completedFluidOutputs;
+
+        completedFluidOutputs = new ArrayList<>();
+        if (recipe == null) return completedFluidOutputs;
+
+        for (ChanceFluidStack output : recipe.getFluidOutputs()) {
+            if (output != null && output.stack != null) {
+                if (output.chance >= getChance()) {
+                    completedFluidOutputs.add(output.stack.copy());
+                }
+            }
+        }
+
+        return completedFluidOutputs;
+    }
+
 }

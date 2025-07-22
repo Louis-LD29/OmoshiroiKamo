@@ -2,12 +2,14 @@ package louis.omoshiroikamo.common.block.basicblock.machine;
 
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import louis.omoshiroikamo.common.recipes.IPoweredTask;
 import louis.omoshiroikamo.common.recipes.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
 public class PoweredTaskProgress implements IPoweredTask {
 
@@ -53,12 +55,12 @@ public class PoweredTaskProgress implements IPoweredTask {
     }
 
     @Override
-    public List<ChanceItemStack> getItemOutputs() {
+    public List<ItemStack> getItemOutputs() {
         return null;
     }
 
     @Override
-    public List<ChanceFluidStack> getFluidOutputs() {
+    public List<FluidStack> getFluidOutputs() {
         return null;
     }
 }

@@ -3,7 +3,6 @@ package louis.omoshiroikamo.common.block.basicblock.electrolyzer;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
@@ -29,6 +28,8 @@ import louis.omoshiroikamo.client.gui.modularui2.MGuis;
 import louis.omoshiroikamo.common.block.basicblock.machine.AbstractProcessingEntity;
 import louis.omoshiroikamo.common.block.basicblock.machine.SlotDefinition;
 import louis.omoshiroikamo.common.config.Config;
+import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
+import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
 public class TileElectrolyzer extends AbstractProcessingEntity {
 
@@ -97,23 +98,37 @@ public class TileElectrolyzer extends AbstractProcessingEntity {
                             .tooltipDynamic(richTooltip -> {
                                 richTooltip.add(IKey.str("Predicted Outputs:\n"));
 
-                                List<ItemStack> items = getItemOutput();
-                                List<FluidStack> fluids = getFluidOutput();
+                                List<ChanceItemStack> items = getItemOutput();
+                                List<ChanceFluidStack> fluids = getFluidOutput();
 
                                 if (items.isEmpty() && fluids.isEmpty()) {
                                     richTooltip.add(IKey.str(" - No valid recipe\n"));
                                 } else {
-                                    for (ItemStack item : items) {
-                                        if (item != null) {
-                                            richTooltip.add(
-                                                IKey.str(" - " + item.stackSize + "x " + item.getDisplayName() + "\n"));
-                                        }
-                                    }
-                                    for (FluidStack fluid : fluids) {
-                                        if (fluid != null && fluid.getFluid() != null) {
+                                    for (ChanceItemStack item : items) {
+                                        if (item != null && item.stack != null) {
+                                            String chanceStr = item.chance >= 1f ? ""
+                                                : String.format(" (%.0f%%)", item.chance * 100f);
                                             richTooltip.add(
                                                 IKey.str(
-                                                    " - " + fluid.amount + "L of " + fluid.getLocalizedName() + "\n"));
+                                                    " - " + item.stack.stackSize
+                                                        + "x "
+                                                        + item.stack.getDisplayName()
+                                                        + chanceStr
+                                                        + "\n"));
+                                        }
+                                    }
+
+                                    for (ChanceFluidStack fluid : fluids) {
+                                        if (fluid != null && fluid.stack != null && fluid.stack.getFluid() != null) {
+                                            String chanceStr = fluid.chance >= 1f ? ""
+                                                : String.format(" (%.0f%%)", fluid.chance * 100f);
+                                            richTooltip.add(
+                                                IKey.str(
+                                                    " - " + fluid.stack.amount
+                                                        + "L of "
+                                                        + fluid.stack.getLocalizedName()
+                                                        + chanceStr
+                                                        + "\n"));
                                         }
                                     }
                                 }
