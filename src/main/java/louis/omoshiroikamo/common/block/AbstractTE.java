@@ -10,6 +10,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.factory.PosGuiData;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.enderio.core.common.TileEntityEnder;
 
 import louis.omoshiroikamo.api.SideReference;
@@ -179,5 +182,10 @@ public abstract class AbstractTE extends TileEntityEio implements IGuiHolder<Pos
 
     public ChunkCoordinates getChunkCoord() {
         return new ChunkCoordinates(xCoord, yCoord, zCoord);
+    }
+
+    @Override
+    public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
+        return null;
     }
 }

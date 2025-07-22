@@ -51,6 +51,7 @@ public class OKCreativeTab extends CreativeTabs {
         addItem(FluidMaterialRegister.itemBucketMaterial);
         addItem(FluidRegister.itemBucketFluid);
         addBlock(ModBlocks.blockMaterial);
+        addBlock(ModBlocks.blockAnvil);
 
         for (ItemStack stack : externalStacks) {
             addStack(stack);

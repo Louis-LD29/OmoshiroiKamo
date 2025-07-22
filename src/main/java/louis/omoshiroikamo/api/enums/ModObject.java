@@ -24,7 +24,7 @@ public enum ModObject {
     blockMaterial,
     blockFluidMaterial,
     blockConnectable,
-    blockInsulator,
+    blockAnvil,
 
     itemOperationOrb,
     itemMaterial,

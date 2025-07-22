@@ -363,8 +363,6 @@ public abstract class AbstractMachineEntity extends AbstractTE implements IGuiHo
         return false;
     }
 
-    protected abstract boolean processTasks(boolean redstoneCheckPassed);
-
     // ---- Tile Entity
     // ------------------------------------------------------------------------------
 

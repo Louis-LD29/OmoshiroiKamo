@@ -2,6 +2,7 @@ package louis.omoshiroikamo.common.block;
 
 import net.minecraft.block.Block;
 
+import louis.omoshiroikamo.common.block.anvil.BlockAnvil;
 import louis.omoshiroikamo.common.block.basicblock.electrolyzer.BlockElectrolyzer;
 import louis.omoshiroikamo.common.block.energyConnector.BlockConnectable;
 import louis.omoshiroikamo.common.block.material.BlockMaterial;
@@ -14,6 +15,7 @@ public class ModBlocks {
 
     public static Block blockConnectable;
     public static Block blockMaterial;
+    public static Block blockAnvil;
     public static Block blockMultiBlock;
     public static Block blockTest;
     public static Block blockSolar;
@@ -46,6 +48,7 @@ public class ModBlocks {
         blockElectrolyzer = BlockElectrolyzer.create();
         blockConnectable = BlockConnectable.create();
         blockMaterial = BlockMaterial.create();
+        blockAnvil = BlockAnvil.create();
         OreRegister.init();
     }
 
