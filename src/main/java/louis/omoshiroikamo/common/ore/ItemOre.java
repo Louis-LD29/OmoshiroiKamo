@@ -23,7 +23,7 @@ import louis.omoshiroikamo.common.core.lib.LibResources;
 public class ItemOre extends Item {
 
     @SideOnly(Side.CLIENT)
-    protected IIcon crushedOverlay,crushed, washed, enriched;
+    protected IIcon crushedOverlay, crushed, washed, enriched;
 
     public static ItemOre create() {
         ItemOre ore = new ItemOre();
@@ -111,7 +111,6 @@ public class ItemOre extends Item {
         return mat.getColor();
     }
 
-
     @Override
     @SideOnly(Side.CLIENT)
     public boolean requiresMultipleRenderPasses() {
@@ -122,7 +121,7 @@ public class ItemOre extends Item {
     @Override
     public void registerIcons(IIconRegister reg) {
         crushed = reg.registerIcon(LibResources.PREFIX_MOD + "base_crushed");
-        crushedOverlay  = reg.registerIcon(LibResources.PREFIX_MOD + "crushed_overlay");
+        crushedOverlay = reg.registerIcon(LibResources.PREFIX_MOD + "crushed_overlay");
         washed = reg.registerIcon(LibResources.PREFIX_MOD + "base_washed");
         enriched = reg.registerIcon(LibResources.PREFIX_MOD + "base_enriched");
     }
