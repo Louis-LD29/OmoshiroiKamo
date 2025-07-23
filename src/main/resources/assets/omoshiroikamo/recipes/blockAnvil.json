@@ -1,0 +1,29 @@
+[
+  {
+    "machine": "blockAnvil",
+    "enabled": true,
+    "itemInputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "ore_Chalcopyrite",
+        "amount": 1
+      }
+    ],
+    "itemOutputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 2,
+        "amount": 1
+      },
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 2,
+        "amount": 1,
+        "chance": 0.2
+      }
+    ],
+    "energyCost": 1
+  }
+]

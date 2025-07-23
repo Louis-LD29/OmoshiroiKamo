@@ -212,6 +212,100 @@ public abstract class RecipeHandlerBase extends TemplateRecipeHandler implements
         GuiDraw.drawTexturedModalRect(x, y, 0, 0, 18, 18);
     }
 
+    public void drawStretchedItemSlot(int x, int y, int totalWidth, int totalHeight) {
+        Minecraft.getMinecraft()
+            .getTextureManager()
+            .bindTexture(new ResourceLocation(LibResources.GUI_SLOT));
+
+        int texX = 18;
+        int texY = 0;
+        int pieceW = 6;
+        int pieceH = 6;
+
+        int innerW = totalWidth - 2 * pieceW;
+        int innerH = totalHeight - 2 * pieceH;
+
+        GuiDraw.drawTexturedModalRect(x, y, texX, texY, pieceW, pieceH); // Top-left
+        GuiDraw.drawTexturedModalRect(x + totalWidth - pieceW, y, texX + 12, texY, pieceW, pieceH); // Top-right
+        GuiDraw.drawTexturedModalRect(x, y + totalHeight - pieceH, texX, texY + 12, pieceW, pieceH); // Bottom-left
+        GuiDraw.drawTexturedModalRect(
+            x + totalWidth - pieceW,
+            y + totalHeight - pieceH,
+            texX + 12,
+            texY + 12,
+            pieceW,
+            pieceH); // Bottom-right
+
+        for (int i = 0; i < innerW; i += pieceW) {
+            int w = Math.min(pieceW, innerW - i);
+            GuiDraw.drawTexturedModalRect(x + pieceW + i, y, texX + 6, texY, w, pieceH); // Top
+            GuiDraw.drawTexturedModalRect(x + pieceW + i, y + totalHeight - pieceH, texX + 6, texY + 12, w, pieceH); // Bottom
+        }
+
+        for (int j = 0; j < innerH; j += pieceH) {
+            int h = Math.min(pieceH, innerH - j);
+            GuiDraw.drawTexturedModalRect(x, y + pieceH + j, texX, texY + 6, pieceW, h); // Left
+            GuiDraw.drawTexturedModalRect(x + totalWidth - pieceW, y + pieceH + j, texX + 12, texY + 6, pieceW, h); // Right
+        }
+
+        for (int i = 0; i < innerW; i += pieceW) {
+            int w = Math.min(pieceW, innerW - i);
+            for (int j = 0; j < innerH; j += pieceH) {
+                int h = Math.min(pieceH, innerH - j);
+                GuiDraw.drawTexturedModalRect(x + pieceW + i, y + pieceH + j, texX + 6, texY + 6, w, h); // Center
+            }
+        }
+    }
+
+    public void drawStretchedFluidSlot(int x, int y, int totalWidth, int totalHeight) {
+        Minecraft.getMinecraft()
+            .getTextureManager()
+            .bindTexture(new ResourceLocation(LibResources.GUI_SLOT));
+
+        int texX = 0;
+        int texY = 0;
+        int pieceW = 6;
+        int pieceH = 6;
+
+        int innerW = totalWidth - 2 * pieceW;
+        int innerH = totalHeight - 2 * pieceH;
+
+        // Bốn góc
+        GuiDraw.drawTexturedModalRect(x, y, texX, texY, pieceW, pieceH); // Top-left
+        GuiDraw.drawTexturedModalRect(x + totalWidth - pieceW, y, texX + 12, texY, pieceW, pieceH); // Top-right
+        GuiDraw.drawTexturedModalRect(x, y + totalHeight - pieceH, texX, texY + 12, pieceW, pieceH); // Bottom-left
+        GuiDraw.drawTexturedModalRect(
+            x + totalWidth - pieceW,
+            y + totalHeight - pieceH,
+            texX + 12,
+            texY + 12,
+            pieceW,
+            pieceH); // Bottom-right
+
+        // Viền trên / dưới
+        for (int i = 0; i < innerW; i += pieceW) {
+            int w = Math.min(pieceW, innerW - i);
+            GuiDraw.drawTexturedModalRect(x + pieceW + i, y, texX + 6, texY, w, pieceH); // Top
+            GuiDraw.drawTexturedModalRect(x + pieceW + i, y + totalHeight - pieceH, texX + 6, texY + 12, w, pieceH); // Bottom
+        }
+
+        // Viền trái / phải
+        for (int j = 0; j < innerH; j += pieceH) {
+            int h = Math.min(pieceH, innerH - j);
+            GuiDraw.drawTexturedModalRect(x, y + pieceH + j, texX, texY + 6, pieceW, h); // Left
+            GuiDraw.drawTexturedModalRect(x + totalWidth - pieceW, y + pieceH + j, texX + 12, texY + 6, pieceW, h); // Right
+        }
+
+        // Phần nền giữa
+        for (int i = 0; i < innerW; i += pieceW) {
+            int w = Math.min(pieceW, innerW - i);
+            for (int j = 0; j < innerH; j += pieceH) {
+                int h = Math.min(pieceH, innerH - j);
+                GuiDraw.drawTexturedModalRect(x + pieceW + i, y + pieceH + j, texX + 6, texY + 6, w, h); // Center
+            }
+        }
+    }
+
     public abstract class CachedBaseRecipe extends CachedRecipe {
 
         public List<PositionedFluidTank> getFluidTanks() {

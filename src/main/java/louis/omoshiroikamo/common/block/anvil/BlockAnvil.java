@@ -20,8 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.client.render.block.anvil.AnvilISBRH;
-import louis.omoshiroikamo.common.block.AbstractBlock;
-import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class BlockAnvil extends AbstractBlock<TEAnvil> {
@@ -42,7 +41,7 @@ public class BlockAnvil extends AbstractBlock<TEAnvil> {
     @Override
     protected void init() {
         GameRegistry.registerBlock(this, ItemBlockAnvil.class, modObject.unlocalisedName);
-        GameRegistry.registerTileEntity(TEInsulator.class, modObject.unlocalisedName + "TileEntity");
+        GameRegistry.registerTileEntity(TEAnvil.class, modObject.unlocalisedName + "TileEntity");
     }
 
     @Override

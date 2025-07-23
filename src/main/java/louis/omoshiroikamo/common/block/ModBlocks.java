@@ -3,7 +3,7 @@ package louis.omoshiroikamo.common.block;
 import net.minecraft.block.Block;
 
 import louis.omoshiroikamo.common.block.anvil.BlockAnvil;
-import louis.omoshiroikamo.common.block.basicblock.electrolyzer.BlockElectrolyzer;
+import louis.omoshiroikamo.common.block.electrolyzer.BlockElectrolyzer;
 import louis.omoshiroikamo.common.block.energyConnector.BlockConnectable;
 import louis.omoshiroikamo.common.block.material.BlockMaterial;
 import louis.omoshiroikamo.common.block.multiblock.BlockMultiBlock;

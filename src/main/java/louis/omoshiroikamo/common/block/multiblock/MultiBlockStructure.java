@@ -11,8 +11,8 @@ import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
 import com.gtnewhorizon.structurelib.structure.ISurvivalBuildEnvironment;
 import com.gtnewhorizon.structurelib.structure.StructureDefinition;
 
-import louis.omoshiroikamo.common.block.AbstractTE;
 import louis.omoshiroikamo.common.block.ModBlocks;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 
 public class MultiBlockStructure {
 

@@ -3,7 +3,9 @@ package louis.omoshiroikamo.common.plugin.nei.recipe;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -15,7 +17,7 @@ import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.common.block.basicblock.electrolyzer.TileElectrolyzer;
+import louis.omoshiroikamo.common.block.electrolyzer.TileElectrolyzer;
 import louis.omoshiroikamo.common.core.helper.OreDictUtils;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.plugin.nei.PositionedFluidTank;
@@ -49,18 +51,24 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
 
     @Override
     public void loadAllRecipes() {
+        Set<MachineRecipe> added = new HashSet<>();
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockElectrolyzer.unlocalisedName)) {
-            arecipes.add(new CachedElectrolyzerRecipe(recipe));
+            if (added.add(recipe)) {
+                arecipes.add(new CachedElectrolyzerRecipe(recipe));
+            }
         }
     }
 
     @Override
     public void loadCraftingRecipes(ItemStack item) {
         super.loadCraftingRecipes(item);
+        Set<MachineRecipe> added = new HashSet<>();
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockElectrolyzer.unlocalisedName)) {
             for (ChanceItemStack out : recipe.getItemOutputs()) {
                 if (NEIServerUtils.areStacksSameTypeCrafting(out.stack, item)) {
-                    arecipes.add(new CachedElectrolyzerRecipe(recipe));
+                    if (added.add(recipe)) {
+                        arecipes.add(new CachedElectrolyzerRecipe(recipe));
+                    }
                 }
             }
         }
@@ -69,10 +77,13 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
     @Override
     public void loadCraftingRecipes(FluidStack fluid) {
         super.loadCraftingRecipes(fluid);
+        Set<MachineRecipe> added = new HashSet<>();
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockElectrolyzer.unlocalisedName)) {
             for (ChanceFluidStack out : recipe.getFluidOutputs()) {
                 if (out != null && out.stack.isFluidEqual(fluid)) {
-                    arecipes.add(new CachedElectrolyzerRecipe(recipe));
+                    if (added.add(recipe)) {
+                        arecipes.add(new CachedElectrolyzerRecipe(recipe));
+                    }
                 }
             }
         }
@@ -81,11 +92,14 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
         super.loadUsageRecipes(ingredient);
+        Set<MachineRecipe> added = new HashSet<>();
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockElectrolyzer.unlocalisedName)) {
             for (ChanceItemStack in : recipe.getItemInputs()) {
                 if (OreDictUtils.isOreDictMatch(in.stack, ingredient)
                     || NEIServerUtils.areStacksSameTypeCrafting(in.stack, ingredient)) {
-                    arecipes.add(new CachedElectrolyzerRecipe(recipe));
+                    if (added.add(recipe)) {
+                        arecipes.add(new CachedElectrolyzerRecipe(recipe));
+                    }
                 }
             }
         }
@@ -94,10 +108,13 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
     @Override
     public void loadUsageRecipes(FluidStack fluid) {
         super.loadUsageRecipes(fluid);
+        Set<MachineRecipe> added = new HashSet<>();
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockElectrolyzer.unlocalisedName)) {
             for (ChanceFluidStack input : recipe.getFluidInputs()) {
                 if (input != null && input.stack.isFluidEqual(fluid)) {
-                    arecipes.add(new CachedElectrolyzerRecipe(recipe));
+                    if (added.add(recipe)) {
+                        arecipes.add(new CachedElectrolyzerRecipe(recipe));
+                    }
                 }
             }
         }

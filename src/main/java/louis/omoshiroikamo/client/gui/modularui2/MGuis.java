@@ -10,13 +10,19 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 
-import louis.omoshiroikamo.common.block.AbstractTE;
-import louis.omoshiroikamo.common.block.basicblock.machine.AbstractMachineEntity;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractIOTE;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
+import louis.omoshiroikamo.common.block.abstractClass.machine.AbstractMachineEntity;
 
 public class MGuis {
 
     public static MGuiBuilder mteTemplatePanelBuilder(AbstractMachineEntity te, PosGuiData data,
         PanelSyncManager syncManager, UISettings uiSettings) {
+        return new MGuiBuilder(te, data, syncManager, uiSettings);
+    }
+
+    public static MGuiBuilder mteTemplatePanelBuilder(AbstractIOTE te, PosGuiData data, PanelSyncManager syncManager,
+        UISettings uiSettings) {
         return new MGuiBuilder(te, data, syncManager, uiSettings);
     }
 

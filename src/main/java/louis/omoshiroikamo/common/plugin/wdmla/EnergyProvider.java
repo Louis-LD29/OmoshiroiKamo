@@ -20,7 +20,7 @@ import com.gtnewhorizons.wdmla.impl.ui.style.TextStyle;
 
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
-import louis.omoshiroikamo.common.block.AbstractTE;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.block.energyConnector.TEConnectable;
 
 public enum EnergyProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {

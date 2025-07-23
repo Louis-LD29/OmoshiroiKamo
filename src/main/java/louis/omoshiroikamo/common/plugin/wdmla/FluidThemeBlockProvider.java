@@ -11,7 +11,7 @@ import com.gtnewhorizons.wdmla.impl.ui.component.TextComponent;
 
 import louis.omoshiroikamo.api.fluid.IFluidHandlerAdv;
 import louis.omoshiroikamo.api.fluid.SmartTank;
-import louis.omoshiroikamo.common.block.AbstractTE;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 
 public enum FluidThemeBlockProvider implements IBlockComponentProvider {

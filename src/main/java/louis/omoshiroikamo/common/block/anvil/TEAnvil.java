@@ -2,42 +2,25 @@ package louis.omoshiroikamo.common.block.anvil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.cleanroommc.modularui.utils.item.ItemStackHandler;
-
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.common.block.AbstractTE;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractTaskTE;
+import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
 
-public class TEAnvil extends AbstractTE implements ISidedInventory {
-
-    public ItemStackHandler inv;
-    private final int[] allSlots;
+public class TEAnvil extends AbstractTaskTE implements ISidedInventory {
 
     public TEAnvil() {
-        inv = new ItemStackHandler(9);
-        allSlots = new int[inv.getSlots()];
-        for (int i = 0; i < allSlots.length; i++) {
-            allSlots[i] = i;
-        }
+        super(new SlotDefinition(0, 0, 1, 8, -1, -1));
     }
 
     @Override
     public String getMachineName() {
         return ModObject.blockAnvil.unlocalisedName;
-    }
-
-    @Override
-    public boolean isActive() {
-        return false;
-    }
-
-    @Override
-    protected boolean processTasks(boolean redstoneCheckPassed) {
-        return false;
     }
 
     @Override
@@ -100,6 +83,11 @@ public class TEAnvil extends AbstractTE implements ISidedInventory {
             return false;
         }
 
+        if (held.getItem() instanceof ItemPickaxe) {
+            this.addStage(1);
+            return true;
+        }
+
         ItemStack existing = inv.getStackInSlot(0);
         int maxStackSize = held.getMaxStackSize();
 
@@ -138,122 +126,34 @@ public class TEAnvil extends AbstractTE implements ISidedInventory {
     }
 
     @Override
+    public void doUpdate() {
+        super.doUpdate();
+    }
+
+    @Override
     public void writeCommon(NBTTagCompound root) {
-        root.setTag("item_inv", this.inv.serializeNBT());
+        super.writeCommon(root);
     }
 
     @Override
     public void readCommon(NBTTagCompound root) {
-        this.inv.deserializeNBT(root.getCompoundTag("item_inv"));
+        super.readCommon(root);
     }
 
     @Override
-    public int[] getAccessibleSlotsFromSide(int slot) {
-        return allSlots;
-    }
-
-    @Override
-    public boolean canInsertItem(int slot, ItemStack itemstack, int side) {
-        if (slot != 0) return false;
-        ItemStack existing = inv.getStackInSlot(slot);
-        if (existing != null) {
-            return existing.isStackable() && existing.isItemEqual(itemstack);
+    protected void taskComplete() {
+        super.taskComplete();
+        if (!worldObj.isRemote) {
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
-        return isItemValidForSlot(slot, itemstack);
-    }
-
-    @Override
-    public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
-        if (slot < 1) {
-            return false;
-        }
-        ItemStack existing = inv.getStackInSlot(slot);
-        if (existing == null || existing.stackSize < itemstack.stackSize) {
-            return false;
-        }
-        return itemstack.getItem() == existing.getItem();
-    }
-
-    @Override
-    public int getSizeInventory() {
-        return inv.getSlots();
-    }
-
-    @Override
-    public ItemStack getStackInSlot(int slot) {
-        if (slot < 0 || slot >= inv.getSlots()) {
-            return null;
-        }
-        return inv.getStackInSlot(slot);
-    }
-
-    @Override
-    public ItemStack decrStackSize(int fromSlot, int amount) {
-        ItemStack fromStack = inv.getStackInSlot(fromSlot);
-        if (fromStack == null) {
-            return null;
-        }
-        if (fromStack.stackSize <= amount) {
-            inv.setStackInSlot(fromSlot, null);
-            return fromStack;
-        }
-        ItemStack result = fromStack.splitStack(amount);
-        inv.setStackInSlot(fromSlot, fromStack.stackSize > 0 ? fromStack : null);
-        return result;
-    }
-
-    @Override
-    public ItemStack getStackInSlotOnClosing(int i) {
-        return null;
     }
 
     @Override
     public void setInventorySlotContents(int slot, ItemStack contents) {
-        if (contents == null) {
-            inv.setStackInSlot(slot, null);
-        } else {
-            inv.setStackInSlot(slot, contents.copy());
+        super.setInventorySlotContents(slot, contents);
+        markDirty();
+        if (!worldObj.isRemote) {
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
-
-        ItemStack stack = inv.getStackInSlot(slot);
-        if (stack != null && stack.stackSize > getInventoryStackLimit()) {
-            stack.stackSize = getInventoryStackLimit();
-            inv.setStackInSlot(slot, stack);
-        }
-    }
-
-    @Override
-    public String getInventoryName() {
-        return getMachineName();
-    }
-
-    @Override
-    public boolean hasCustomInventoryName() {
-        return false;
-    }
-
-    @Override
-    public int getInventoryStackLimit() {
-        return 64;
-    }
-
-    @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
-        return canPlayerAccess(player);
-    }
-
-    @Override
-    public void openInventory() {
-
-    }
-
-    @Override
-    public void closeInventory() {
-
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int index, ItemStack stack) {
-        return true;
     }
 }

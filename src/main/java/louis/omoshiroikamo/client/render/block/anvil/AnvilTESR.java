@@ -32,24 +32,52 @@ public class AnvilTESR extends AbstractMTESR {
     public void renderDynamic(TileEntity tile, double x, double y, double z, float partialTicks) {
         if (!(tile instanceof TEAnvil te)) return;
 
-        ItemStack stack = te.getStackInSlot(0);
-        if (stack == null) return;
-
         GL11.glPushMatrix();
-
-        GL11.glTranslated(x + 0.5, y + 6f / 16f, z + 0.5);
-
-        // Nếu không phải block thì quay nằm xuống
-        if (!(stack.getItem() instanceof ItemBlock)) {
-            GL11.glRotatef(90f, 1f, 0f, 0f);
-            GL11.glTranslatef(0f, -0.25f, -0.1f);
-        }
+        GL11.glTranslated(x + 0.5, y + 0.375, z + 0.5); // căn giữa block
 
         RenderItem renderItem = (RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class);
-        EntityItem ghostItem = new EntityItem(tile.getWorldObj(), 0, 0, 0, stack);
-        ghostItem.hoverStart = 0f;
 
-        renderItem.doRender(ghostItem, 0, 0, 0, 0, 0);
+        // Render input stack bên phải
+        int inputIndex = 0;
+        for (int i = te.getSlotDefinition()
+            .getMinInputSlot(); i <= te.getSlotDefinition()
+                .getMaxInputSlot(); i++) {
+            ItemStack stack = te.getStackInSlot(i);
+            if (stack == null) continue;
+
+            GL11.glPushMatrix();
+            GL11.glTranslatef(0.3f, inputIndex * 0.1f, 0f); // phải + chồng lên
+            if (!(stack.getItem() instanceof ItemBlock)) {
+                GL11.glRotatef(90f, 1f, 0f, 0f);
+                GL11.glTranslatef(0f, -0.25f, -0.1f);
+            }
+            EntityItem ghostItem = new EntityItem(tile.getWorldObj(), 0, 0, 0, stack);
+            ghostItem.hoverStart = 0f;
+            renderItem.doRender(ghostItem, 0, 0, 0, 0, 0);
+            GL11.glPopMatrix();
+            inputIndex++;
+        }
+
+        // Render output stack bên trái
+        int outputIndex = 0;
+        for (int i = te.getSlotDefinition()
+            .getMinOutputSlot(); i <= te.getSlotDefinition()
+                .getMaxOutputSlot(); i++) {
+            ItemStack stack = te.getStackInSlot(i);
+            if (stack == null) continue;
+
+            GL11.glPushMatrix();
+            GL11.glTranslatef(-0.3f, outputIndex * 0.1f, 0f); // trái + chồng lên
+            if (!(stack.getItem() instanceof ItemBlock)) {
+                GL11.glRotatef(90f, 1f, 0f, 0f);
+                GL11.glTranslatef(0f, -0.25f, -0.1f);
+            }
+            EntityItem ghostItem = new EntityItem(tile.getWorldObj(), 0, 0, 0, stack);
+            ghostItem.hoverStart = 0f;
+            renderItem.doRender(ghostItem, 0, 0, 0, 0, 0);
+            GL11.glPopMatrix();
+            outputIndex++;
+        }
 
         GL11.glPopMatrix();
     }

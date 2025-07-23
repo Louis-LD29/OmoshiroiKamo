@@ -4,7 +4,7 @@ import net.minecraft.entity.EntityLivingBase;
 
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
-import louis.omoshiroikamo.common.block.AbstractTE;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 import mcp.mobius.waila.api.IWailaRegistrar;
 

@@ -38,11 +38,13 @@ import com.cleanroommc.modularui.widgets.layout.Row;
 
 import louis.omoshiroikamo.api.io.IoMode;
 import louis.omoshiroikamo.api.io.IoType;
-import louis.omoshiroikamo.common.block.basicblock.machine.AbstractMachineEntity;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractIOTE;
+import louis.omoshiroikamo.common.block.abstractClass.machine.AbstractMachineEntity;
 
 public class MGuiBuilder {
 
-    private final AbstractMachineEntity te;
+    private AbstractMachineEntity te;
+    private AbstractIOTE ioTe;
     private final PosGuiData posGuiData;
     private final PanelSyncManager syncManager;
     private final UISettings uiSettings;
@@ -57,6 +59,13 @@ public class MGuiBuilder {
 
     public MGuiBuilder(AbstractMachineEntity te, PosGuiData data, PanelSyncManager syncManager, UISettings uiSettings) {
         this.te = te;
+        this.posGuiData = data;
+        this.syncManager = syncManager;
+        this.uiSettings = uiSettings;
+    }
+
+    public MGuiBuilder(AbstractIOTE te, PosGuiData data, PanelSyncManager syncManager, UISettings uiSettings) {
+        this.ioTe = te;
         this.posGuiData = data;
         this.syncManager = syncManager;
         this.uiSettings = uiSettings;
@@ -98,15 +107,32 @@ public class MGuiBuilder {
     }
 
     public ModularPanel build() {
-        ModularPanel panel = ModularPanel.defaultPanel(te.getMachineName())
-            .size(width, height);
+        ModularPanel panel;
+
+        if (te == null) {
+            panel = ModularPanel.defaultPanel(ioTe.getMachineName())
+                .size(width, height);
+        } else {
+            panel = ModularPanel.defaultPanel(te.getMachineName())
+                .size(width, height);
+        }
+
         if (doesBindPlayerInventory) {
             panel.bindPlayerInventory();
         }
+
         if (doesAddConfigIOItem || doesAddConfigIOFluid || doesAddConfigIOHeat || doesAddConfigR) {
             panel.child(createConfig());
         }
-        syncManager.addCloseListener($ -> te.markDirty());
+
+        syncManager.addCloseListener($ -> {
+            if (te != null) {
+                te.markDirty();
+            } else if (ioTe != null) {
+                ioTe.markDirty();
+            }
+        });
+
         return panel;
     }
 
@@ -124,15 +150,18 @@ public class MGuiBuilder {
             .childPadding(2)
             .bottomRel(0.5f);
 
-        if (doesAddConfigR) {
+        if (doesAddConfigR && (te != null || ioTe != null)) {
             column.child(
                 new ToggleButton().size(18, 18)
                     .overlay(true, MGuiTextures.BUTTON_REDSTONE_ON)
                     .overlay(false, MGuiTextures.BUTTON_REDSTONE_OFF)
                     .value(
                         new BooleanSyncValue(
-                            () -> te.redstoneCheckPassed,
-                            value -> { te.redstoneCheckPassed = value; }))
+                            () -> (te != null ? te.redstoneCheckPassed : ioTe.redstoneCheckPassed),
+                            value -> {
+                                if (te != null) te.redstoneCheckPassed = value;
+                                else ioTe.redstoneCheckPassed = value;
+                            }))
                     .selectedBackground(GuiTextures.MC_BUTTON)
                     .selectedHoverBackground(GuiTextures.MC_BUTTON_HOVERED)
                     .tooltip(richTooltip -> {
@@ -175,7 +204,7 @@ public class MGuiBuilder {
             .coverChildren()
             .topRel(0f, 4, 1f);
 
-        ForgeDirection blockFront = te.getFacingDir();
+        ForgeDirection blockFront = te != null ? te.getFacingDir() : ioTe.getFacingDir();
         Map<Character, ForgeDirection> faceMap = new HashMap<>();
         faceMap.put('U', ForgeDirection.UP);
         faceMap.put('D', ForgeDirection.DOWN);
@@ -296,18 +325,30 @@ public class MGuiBuilder {
                 richTooltip -> richTooltip.addLine(
                     IKey.dynamic(
                         () -> type + " - "
-                            + te.getIoMode(face, type)
-                                .getUnlocalisedName())))
+                            + (te != null ? te.getIoMode(face, type)
+                                .getUnlocalisedName()
+                                : ioTe.getIoMode(face, type)
+                                    .getUnlocalisedName()))))
             .value(
                 new IntSyncValue(
-                    () -> te.getIoMode(face, type)
-                        .ordinal(),
+                    () -> te != null ? te.getIoMode(face, type)
+                        .ordinal()
+                        : ioTe.getIoMode(face, type)
+                            .ordinal(),
                     val -> {
                         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-                            te.setIoMode(face, IoMode.NONE, type);
+                            if (te != null) {
+                                te.setIoMode(face, IoMode.NONE, type);
+                            } else {
+                                ioTe.setIoMode(face, IoMode.NONE, type);
+                            }
                         } else {
                             IoMode mode = IoMode.values()[val];
-                            te.setIoMode(face, mode, type);
+                            if (te != null) {
+                                te.setIoMode(face, mode, type);
+                            } else {
+                                ioTe.setIoMode(face, mode, type);
+                            }
                         }
                     }));
     }

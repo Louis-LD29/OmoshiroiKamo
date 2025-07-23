@@ -41,7 +41,7 @@ import louis.omoshiroikamo.api.io.IoMode;
 import louis.omoshiroikamo.api.io.IoType;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.client.gui.modularui2.MGuis;
-import louis.omoshiroikamo.common.block.basicblock.machine.SlotDefinition;
+import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
 import louis.omoshiroikamo.common.block.multiblock.TileAddon;
 import louis.omoshiroikamo.common.block.multiblock.TileMain;
 import louis.omoshiroikamo.common.block.multiblock.boiler.TileBoiler;

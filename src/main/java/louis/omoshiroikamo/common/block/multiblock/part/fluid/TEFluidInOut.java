@@ -5,7 +5,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import louis.omoshiroikamo.api.fluid.IFluidHandlerAdv;
-import louis.omoshiroikamo.common.block.AbstractTE;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 
 public abstract class TEFluidInOut extends AbstractTE implements IFluidHandlerAdv {
 

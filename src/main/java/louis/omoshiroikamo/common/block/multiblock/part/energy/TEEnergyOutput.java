@@ -1,6 +1,7 @@
 package louis.omoshiroikamo.common.block.multiblock.part.energy;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import com.cleanroommc.modularui.factory.PosGuiData;
@@ -13,15 +14,16 @@ import louis.omoshiroikamo.api.energy.EnergyStorageAdv;
 import louis.omoshiroikamo.api.energy.PowerDistributor;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
+import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
 
 public class TEEnergyOutput extends TEEnergyInOut {
 
     private PowerDistributor powerDis;
 
     protected TEEnergyOutput(int meta) {
+        super(new SlotDefinition(0, 0, 0, 0, -1, -1), new EnergyStorageAdv(MaterialRegistry.fromMeta(meta % 100)));
         this.meta = meta;
-        material = MaterialRegistry.fromMeta(meta % 100);
-        energyStorage = new EnergyStorageAdv(material);
+        this.material = MaterialRegistry.fromMeta(meta % 100);
     }
 
     public TEEnergyOutput() {
@@ -41,6 +43,11 @@ public class TEEnergyOutput extends TEEnergyInOut {
     @Override
     protected boolean processTasks(boolean redstoneCheckPassed) {
         return transmitEnergy();
+    }
+
+    @Override
+    protected boolean isMachineItemValidForSlot(int slot, ItemStack itemstack) {
+        return false;
     }
 
     @Override
@@ -73,4 +80,5 @@ public class TEEnergyOutput extends TEEnergyInOut {
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
         return null;
     }
+
 }

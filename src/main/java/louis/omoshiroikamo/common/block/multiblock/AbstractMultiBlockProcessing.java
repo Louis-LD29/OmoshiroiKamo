@@ -12,9 +12,6 @@ import net.minecraftforge.fluids.FluidStack;
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
 
 import louis.omoshiroikamo.api.fluid.SmartTank;
-import louis.omoshiroikamo.common.block.basicblock.machine.IProgressTile;
-import louis.omoshiroikamo.common.block.basicblock.machine.PoweredTask;
-import louis.omoshiroikamo.common.block.basicblock.machine.PoweredTaskProgress;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidInput;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidOutput;
 import louis.omoshiroikamo.common.block.multiblock.part.item.TEItemInput;
@@ -22,8 +19,11 @@ import louis.omoshiroikamo.common.block.multiblock.part.item.TEItemOutput;
 import louis.omoshiroikamo.common.core.helper.Logger;
 import louis.omoshiroikamo.common.core.helper.OreDictUtils;
 import louis.omoshiroikamo.common.recipes.IPoweredTask;
+import louis.omoshiroikamo.common.recipes.IProgressTile;
 import louis.omoshiroikamo.common.recipes.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.MachineRecipeRegistry;
+import louis.omoshiroikamo.common.recipes.PoweredTask;
+import louis.omoshiroikamo.common.recipes.PoweredTaskProgress;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 

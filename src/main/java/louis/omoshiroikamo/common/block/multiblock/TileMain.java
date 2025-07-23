@@ -11,8 +11,8 @@ import louis.omoshiroikamo.api.enums.BlockMassType;
 import louis.omoshiroikamo.api.fluid.SmartTank;
 import louis.omoshiroikamo.api.heat.HeatStorage;
 import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.common.block.basicblock.machine.AbstractMachineEntity;
-import louis.omoshiroikamo.common.block.basicblock.machine.SlotDefinition;
+import louis.omoshiroikamo.common.block.abstractClass.machine.AbstractMachineEntity;
+import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
 
 public abstract class TileMain extends AbstractMachineEntity {
 

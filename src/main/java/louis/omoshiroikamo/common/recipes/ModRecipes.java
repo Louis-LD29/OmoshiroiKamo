@@ -10,6 +10,7 @@ public class ModRecipes {
     public static void init() {
         MinecraftForge.EVENT_BUS.register(ManaAnvilRecipe.instance);
         RecipeLoader.loadRecipes(ModObject.blockElectrolyzer.unlocalisedName);
+        RecipeLoader.loadRecipes(ModObject.blockAnvil.unlocalisedName);
         CopperRecipes.init();
     }
 }
