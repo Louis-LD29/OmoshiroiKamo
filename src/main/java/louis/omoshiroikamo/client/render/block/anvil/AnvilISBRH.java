@@ -62,6 +62,13 @@ public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
         GL11.glPushMatrix();
         try {
+            if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
+                GL11.glTranslatef(0.5f, 0.5f, 0.5f);
+            } else if (type == ItemRenderType.INVENTORY) {
+                GL11.glTranslatef(0f, -0.2f, 0f);
+            } else if (type == ItemRenderType.EQUIPPED) {
+                GL11.glTranslatef(0.5f, 0.5f, 0.5f);
+            }
             IECompat.handleStaticTileItemRenderer(anvil);
         } catch (Exception e) {
             e.printStackTrace();

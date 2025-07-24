@@ -88,6 +88,11 @@ chat.ImmersiveEngineering.info.averageLoss=Average loss between points: %1$s%%
 #DESCRIPTIONS
 desc.ImmersiveEngineering.info.attachedToDim=Linking from %1$s, %2$s, %3$s in Dimension %4$s
 
+#NEI INTEGRATION
+neiintegration.chance=Chance: %s
+neiintegration.chance.never=Never
+neiintegration.chance.lessThan1=<1%
+
 # BEGIN AUTOGEN
 #Item Wire Coil
 item.itemWireCoil.Iron.name=Wire Coil (Iron)
