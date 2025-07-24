@@ -11,8 +11,8 @@ import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
 import com.gtnewhorizon.structurelib.structure.ISurvivalBuildEnvironment;
 import com.gtnewhorizon.structurelib.structure.StructureDefinition;
 
-import louis.omoshiroikamo.common.block.AbstractTE;
 import louis.omoshiroikamo.common.block.ModBlocks;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 
 public class MultiBlockStructure {
 
@@ -35,8 +35,7 @@ public class MultiBlockStructure {
                         0),
                     ofBlock(Blocks.iron_block, 0),
                     ofBlockAnyMeta(ModBlocks.blockEnergyInOut),
-                    ofBlockAnyMeta(ModBlocks.blockItemInput),
-                    ofBlockAnyMeta(ModBlocks.blockItemOutput),
+                    ofBlockAnyMeta(ModBlocks.blockItemInOut),
                     ofBlockAnyMeta(ModBlocks.blockFluidInOut)));
 
         IStructureDefinition<TileMultiBlock> definition = builder.build();

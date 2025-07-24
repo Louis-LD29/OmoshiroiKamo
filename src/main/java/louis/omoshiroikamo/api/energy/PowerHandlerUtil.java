@@ -8,7 +8,7 @@ import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-import louis.omoshiroikamo.common.block.AbstractPoweredTE;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractPoweredTE;
 
 public class PowerHandlerUtil {
 

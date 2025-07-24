@@ -44,6 +44,13 @@ public abstract class RecipeHandlerBase extends TemplateRecipeHandler implements
     }
 
     @Override
+    public void drawExtras(int recipe) {
+        super.drawExtras(recipe);
+        this.drawItemChance(recipe);
+        this.drawFluidChance(recipe);
+    }
+
+    @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals("liquid") && results[0] instanceof FluidStack
             && ((FluidStack) results[0]).getFluid() != null) {
@@ -100,6 +107,18 @@ public abstract class RecipeHandlerBase extends TemplateRecipeHandler implements
         }
 
         return currenttip;
+    }
+
+    @Override
+    public List<String> handleItemTooltip(GuiRecipe<?> guiRecipe, ItemStack itemStack, List<String> currenttip,
+        int recipe) {
+        super.handleItemTooltip(guiRecipe, itemStack, currenttip, recipe);
+        CachedBaseRecipe crecipe = (CachedBaseRecipe) this.arecipes.get(recipe);
+        Point mouse = GuiDraw.getMousePosition();
+        Point offset = guiRecipe.getRecipePosition(recipe);
+        Point relMouse = new Point(mouse.x - guiRecipe.guiLeft - offset.x, mouse.y - guiRecipe.guiTop - offset.y);
+
+        return this.provideItemTooltip(guiRecipe, itemStack, currenttip, crecipe, relMouse);
     }
 
     public List<String> provideTooltip(GuiRecipe<?> guiRecipe, List<String> currenttip, CachedBaseRecipe crecipe,
@@ -183,12 +202,45 @@ public abstract class RecipeHandlerBase extends TemplateRecipeHandler implements
 
     public void drawFluidTanks(int recipe) {
         CachedRecipe cachedRecipe = this.arecipes.get(recipe);
-        if (cachedRecipe instanceof CachedBaseRecipe) {
-            CachedBaseRecipe crecipe = (CachedBaseRecipe) cachedRecipe;
+        if (cachedRecipe instanceof CachedBaseRecipe crecipe) {
             if (crecipe.getFluidTanks() != null) {
                 for (PositionedFluidTank fluidTank : crecipe.getFluidTanks()) {
                     fluidTank.draw();
                 }
+            }
+        }
+    }
+
+    public void drawItemChance(int recipeIndex) {
+        CachedRecipe cachedRecipe = this.arecipes.get(recipeIndex);
+        if (!(cachedRecipe instanceof CachedBaseRecipe crecipe)) return;
+
+        List<PositionedStack> allStacks = new ArrayList<>();
+        if (crecipe.getResult() != null) allStacks.add(crecipe.getResult());
+
+        List<PositionedStack> ingredients = crecipe.getIngredients();
+        if (ingredients != null) allStacks.addAll(ingredients);
+
+        List<PositionedStack> others = crecipe.getOtherStacks();
+        if (others != null) allStacks.addAll(others);
+
+        for (PositionedStack stack : allStacks) {
+            if (stack instanceof PositionedStackAdv advStack) {
+                advStack.drawChance();
+            }
+        }
+    }
+
+    public void drawFluidChance(int recipeIndex) {
+        CachedRecipe cachedRecipe = this.arecipes.get(recipeIndex);
+        if (!(cachedRecipe instanceof CachedBaseRecipe crecipe)) return;
+
+        List<PositionedFluidTank> tanks = crecipe.getFluidTanks();
+        if (tanks == null || tanks.isEmpty()) return;
+
+        for (PositionedFluidTank tank : tanks) {
+            if (tank != null) {
+                tank.drawChance();
             }
         }
     }
@@ -198,18 +250,112 @@ public abstract class RecipeHandlerBase extends TemplateRecipeHandler implements
         return this.getRecipeID();
     }
 
-    public void drawItemSlotBackground(int x, int y) {
+    public void drawItemSlot(int x, int y) {
         Minecraft.getMinecraft()
             .getTextureManager()
             .bindTexture(new ResourceLocation(LibResources.GUI_SLOT));
         GuiDraw.drawTexturedModalRect(x, y, 18, 0, 18, 18);
     }
 
-    public void drawFluidSlotBackground(int x, int y) {
+    public void drawFluidSlot(int x, int y) {
         Minecraft.getMinecraft()
             .getTextureManager()
             .bindTexture(new ResourceLocation(LibResources.GUI_SLOT));
         GuiDraw.drawTexturedModalRect(x, y, 0, 0, 18, 18);
+    }
+
+    public void drawStretchedItemSlot(int x, int y, int totalWidth, int totalHeight) {
+        Minecraft.getMinecraft()
+            .getTextureManager()
+            .bindTexture(new ResourceLocation(LibResources.GUI_SLOT));
+
+        int texX = 18;
+        int texY = 0;
+        int pieceW = 6;
+        int pieceH = 6;
+
+        int innerW = totalWidth - 2 * pieceW;
+        int innerH = totalHeight - 2 * pieceH;
+
+        GuiDraw.drawTexturedModalRect(x, y, texX, texY, pieceW, pieceH); // Top-left
+        GuiDraw.drawTexturedModalRect(x + totalWidth - pieceW, y, texX + 12, texY, pieceW, pieceH); // Top-right
+        GuiDraw.drawTexturedModalRect(x, y + totalHeight - pieceH, texX, texY + 12, pieceW, pieceH); // Bottom-left
+        GuiDraw.drawTexturedModalRect(
+            x + totalWidth - pieceW,
+            y + totalHeight - pieceH,
+            texX + 12,
+            texY + 12,
+            pieceW,
+            pieceH); // Bottom-right
+
+        for (int i = 0; i < innerW; i += pieceW) {
+            int w = Math.min(pieceW, innerW - i);
+            GuiDraw.drawTexturedModalRect(x + pieceW + i, y, texX + 6, texY, w, pieceH); // Top
+            GuiDraw.drawTexturedModalRect(x + pieceW + i, y + totalHeight - pieceH, texX + 6, texY + 12, w, pieceH); // Bottom
+        }
+
+        for (int j = 0; j < innerH; j += pieceH) {
+            int h = Math.min(pieceH, innerH - j);
+            GuiDraw.drawTexturedModalRect(x, y + pieceH + j, texX, texY + 6, pieceW, h); // Left
+            GuiDraw.drawTexturedModalRect(x + totalWidth - pieceW, y + pieceH + j, texX + 12, texY + 6, pieceW, h); // Right
+        }
+
+        for (int i = 0; i < innerW; i += pieceW) {
+            int w = Math.min(pieceW, innerW - i);
+            for (int j = 0; j < innerH; j += pieceH) {
+                int h = Math.min(pieceH, innerH - j);
+                GuiDraw.drawTexturedModalRect(x + pieceW + i, y + pieceH + j, texX + 6, texY + 6, w, h); // Center
+            }
+        }
+    }
+
+    public void drawStretchedFluidSlot(int x, int y, int totalWidth, int totalHeight) {
+        Minecraft.getMinecraft()
+            .getTextureManager()
+            .bindTexture(new ResourceLocation(LibResources.GUI_SLOT));
+
+        int texX = 0;
+        int texY = 0;
+        int pieceW = 6;
+        int pieceH = 6;
+
+        int innerW = totalWidth - 2 * pieceW;
+        int innerH = totalHeight - 2 * pieceH;
+
+        // Bốn góc
+        GuiDraw.drawTexturedModalRect(x, y, texX, texY, pieceW, pieceH); // Top-left
+        GuiDraw.drawTexturedModalRect(x + totalWidth - pieceW, y, texX + 12, texY, pieceW, pieceH); // Top-right
+        GuiDraw.drawTexturedModalRect(x, y + totalHeight - pieceH, texX, texY + 12, pieceW, pieceH); // Bottom-left
+        GuiDraw.drawTexturedModalRect(
+            x + totalWidth - pieceW,
+            y + totalHeight - pieceH,
+            texX + 12,
+            texY + 12,
+            pieceW,
+            pieceH); // Bottom-right
+
+        // Viền trên / dưới
+        for (int i = 0; i < innerW; i += pieceW) {
+            int w = Math.min(pieceW, innerW - i);
+            GuiDraw.drawTexturedModalRect(x + pieceW + i, y, texX + 6, texY, w, pieceH); // Top
+            GuiDraw.drawTexturedModalRect(x + pieceW + i, y + totalHeight - pieceH, texX + 6, texY + 12, w, pieceH); // Bottom
+        }
+
+        // Viền trái / phải
+        for (int j = 0; j < innerH; j += pieceH) {
+            int h = Math.min(pieceH, innerH - j);
+            GuiDraw.drawTexturedModalRect(x, y + pieceH + j, texX, texY + 6, pieceW, h); // Left
+            GuiDraw.drawTexturedModalRect(x + totalWidth - pieceW, y + pieceH + j, texX + 12, texY + 6, pieceW, h); // Right
+        }
+
+        // Phần nền giữa
+        for (int i = 0; i < innerW; i += pieceW) {
+            int w = Math.min(pieceW, innerW - i);
+            for (int j = 0; j < innerH; j += pieceH) {
+                int h = Math.min(pieceH, innerH - j);
+                GuiDraw.drawTexturedModalRect(x + pieceW + i, y + pieceH + j, texX + 6, texY + 6, w, h); // Center
+            }
+        }
     }
 
     public abstract class CachedBaseRecipe extends CachedRecipe {

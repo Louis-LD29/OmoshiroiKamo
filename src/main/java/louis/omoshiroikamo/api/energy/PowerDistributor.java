@@ -12,7 +12,7 @@ import com.enderio.core.common.util.BlockCoord;
 
 import louis.omoshiroikamo.api.enums.VoltageTier;
 import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.common.block.AbstractTE;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 
 public class PowerDistributor {
 

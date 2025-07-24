@@ -11,14 +11,13 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import louis.omoshiroikamo.api.client.IResourceTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.block.AbstractBlock;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 
-public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> implements IResourceTooltipProvider {
+public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> {
 
     protected BlockFluidInOut() {
         super(ModObject.blockFluidInOut, TEFluidInOut.class);
@@ -35,11 +34,6 @@ public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> implements IRes
         GameRegistry.registerBlock(this, ItemBlockFluidInOut.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(TEFluidInput.class, modObject.unlocalisedName + "TEFluidInput");
         GameRegistry.registerTileEntity(TEFluidOutput.class, modObject.unlocalisedName + "TEFluidOutput");
-    }
-
-    @Override
-    public String getUnlocalizedNameForTooltip(ItemStack itemStack) {
-        return getUnlocalizedName();
     }
 
     @Override

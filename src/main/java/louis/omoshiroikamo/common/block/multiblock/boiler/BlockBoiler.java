@@ -18,7 +18,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.common.block.basicblock.machine.AbstractMachineBlock;
+import louis.omoshiroikamo.common.block.abstractClass.machine.AbstractMachineBlock;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class BlockBoiler extends AbstractMachineBlock<TileBoiler> implements IAdvancedTooltipProvider {

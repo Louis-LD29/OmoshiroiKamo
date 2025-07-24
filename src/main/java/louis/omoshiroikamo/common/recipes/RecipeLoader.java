@@ -22,6 +22,8 @@ import com.google.gson.Gson;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
+import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
 public class RecipeLoader {
 
@@ -82,25 +84,27 @@ public class RecipeLoader {
                 // --- Item Inputs ---
                 if (r.itemInputs != null) {
                     for (JsonStack i : r.itemInputs) {
+                        int meta = (i.meta != null) ? i.meta : 0;
+                        int amount = (i.amount != null) ? i.amount : 1;
+                        float chance = (i.chance != null) ? i.chance : 1.0f;
+
                         if (i.oredict != null && !i.oredict.isEmpty()) {
                             List<ItemStack> oreStacks = OreDictionary.getOres(i.oredict);
                             if (!oreStacks.isEmpty()) {
-                                builder.addItemInput(i.oredict, i.amount);
+                                builder.addItemInput(i.oredict, amount, chance);
                             }
                             continue;
                         }
 
-                        int meta = (i.meta >= 0) ? i.meta : OreDictionary.WILDCARD_VALUE;
-
                         Item item = GameRegistry.findItem(i.modid, i.name);
                         if (item != null) {
-                            builder.addItemInput(new ItemStack(item, i.amount, meta));
+                            builder.addItemInput(new ItemStack(item, amount, meta), chance);
                             continue;
                         }
 
                         Block block = GameRegistry.findBlock(i.modid, i.name);
                         if (block != null) {
-                            builder.addItemInput(new ItemStack(block, i.amount, meta));
+                            builder.addItemInput(new ItemStack(block, amount, meta), chance);
                             continue;
                         }
 
@@ -110,9 +114,11 @@ public class RecipeLoader {
                 // --- Fluid Inputs ---
                 if (r.fluidInputs != null) {
                     for (JsonStack f : r.fluidInputs) {
+                        int amount = (f.amount != null) ? f.amount : 1;
+                        float chance = (f.chance != null) ? f.chance : 1.0f;
                         Fluid fluid = FluidRegistry.getFluid(f.name);
                         if (fluid != null) {
-                            builder.addFluidInput(fluid, f.amount);
+                            builder.addFluidInput(new FluidStack(fluid, amount), chance);
                         }
                     }
                 }
@@ -120,25 +126,27 @@ public class RecipeLoader {
                 // --- Item Outputs ---
                 if (r.itemOutputs != null) {
                     for (JsonStack i : r.itemOutputs) {
+                        int meta = (i.meta != null) ? i.meta : 0;
+                        int amount = (i.amount != null) ? i.amount : 1;
+                        float chance = (i.chance != null) ? i.chance : 1.0f;
+
                         if (i.oredict != null && !i.oredict.isEmpty()) {
                             List<ItemStack> oreStacks = OreDictionary.getOres(i.oredict);
                             if (!oreStacks.isEmpty()) {
-                                builder.addItemOutput(i.oredict, i.amount);
+                                builder.addItemOutput(i.oredict, amount, chance);
                             }
                             continue;
                         }
 
-                        int meta = (i.meta >= 0) ? i.meta : OreDictionary.WILDCARD_VALUE;
-
                         Item item = GameRegistry.findItem(i.modid, i.name);
                         if (item != null) {
-                            builder.addItemOutput(new ItemStack(item, i.amount, meta));
+                            builder.addItemOutput(new ItemStack(item, amount, meta), chance);
                             continue;
                         }
 
                         Block block = GameRegistry.findBlock(i.modid, i.name);
                         if (block != null) {
-                            builder.addItemOutput(new ItemStack(block, i.amount, meta));
+                            builder.addItemOutput(new ItemStack(block, amount, meta), chance);
                             continue;
                         }
                     }
@@ -147,9 +155,11 @@ public class RecipeLoader {
                 // --- Fluid Outputs ---
                 if (r.fluidOutputs != null) {
                     for (JsonStack f : r.fluidOutputs) {
+                        int amount = (f.amount != null) ? f.amount : 1;
+                        float chance = (f.chance != null) ? f.chance : 1.0f;
                         Fluid fluid = FluidRegistry.getFluid(f.name);
                         if (fluid != null) {
-                            builder.addFluidOutput(fluid, f.amount);
+                            builder.addFluidOutput(new FluidStack(fluid, amount), chance);
                         }
                     }
                 }
@@ -192,45 +202,45 @@ public class RecipeLoader {
             StringBuilder data = new StringBuilder();
 
             if (builder.getItemInputs() != null) {
-                for (ItemStack stack : builder.getItemInputs()) {
+                for (ChanceItemStack chanceStack : builder.getItemInputs()) {
                     data.append(
-                        stack.getItem()
+                        chanceStack.stack.getItem()
                             .getUnlocalizedName())
                         .append(":")
-                        .append(stack.stackSize)
+                        .append(chanceStack.stack.stackSize)
                         .append(";");
                 }
             }
 
             if (builder.getFluidInputs() != null) {
-                for (FluidStack fluid : builder.getFluidInputs()) {
+                for (ChanceFluidStack chancStack : builder.getFluidInputs()) {
                     data.append(
-                        fluid.getFluid()
+                        chancStack.stack.getFluid()
                             .getName())
                         .append(":")
-                        .append(fluid.amount)
+                        .append(chancStack.stack.amount)
                         .append(";");
                 }
             }
 
             if (builder.getItemOutputs() != null) {
-                for (ItemStack stack : builder.getItemOutputs()) {
+                for (ChanceItemStack chanceStack : builder.getItemOutputs()) {
                     data.append(
-                        stack.getItem()
+                        chanceStack.stack.getItem()
                             .getUnlocalizedName())
                         .append(":")
-                        .append(stack.stackSize)
+                        .append(chanceStack.stack.stackSize)
                         .append(";");
                 }
             }
 
             if (builder.getFluidOutputs() != null) {
-                for (FluidStack fluid : builder.getFluidOutputs()) {
+                for (ChanceFluidStack chancStack : builder.getFluidOutputs()) {
                     data.append(
-                        fluid.getFluid()
+                        chancStack.stack.getFluid()
                             .getName())
                         .append(":")
-                        .append(fluid.amount)
+                        .append(chancStack.stack.amount)
                         .append(";");
                 }
             }
@@ -264,8 +274,9 @@ public class RecipeLoader {
         public String modid;
         public String oredict;
         public String name;
-        public int meta;
-        public int amount;
+        public Integer meta;
+        public Integer amount;
+        public Float chance;
     }
 
     static class JsonRecipe {

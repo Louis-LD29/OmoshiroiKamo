@@ -58,7 +58,7 @@ element.dendro.name=Dendro
 #Item
 
 item.Test:operationOrb.name=Operation Orb
-tile.blockTest.name=Test Block
+item.itemHammer.name=Hammer
 
 #Block
 
@@ -71,6 +71,7 @@ tile.blockConnectable.connectorHV.name=HV Wire Connector
 tile.blockConnectable.connectorEV.name=EV Wire Connector
 tile.blockConnectable.connectorIV.name=IV Wire Connector
 tile.blockConnectable.transformer.name=Transformer
+tile.blockAnvil.name=Anvil
 
 #Immersive Engineering
 
@@ -86,6 +87,11 @@ chat.ImmersiveEngineering.info.averageLoss=Average loss between points: %1$s%%
 
 #DESCRIPTIONS
 desc.ImmersiveEngineering.info.attachedToDim=Linking from %1$s, %2$s, %3$s in Dimension %4$s
+
+#NEI INTEGRATION
+neiintegration.chance=Chance: %s
+neiintegration.chance.never=Never
+neiintegration.chance.lessThan1=<1%
 
 # BEGIN AUTOGEN
 #Item Wire Coil
@@ -254,6 +260,36 @@ item.itemBucketFluid.Neon.name=Neon Bucket
 item.itemBucketFluid.Ammonia.name=Ammonia Bucket
 item.itemBucketFluid.Chlorine.name=Chlorine Bucket
 item.itemBucketFluid.SulfurDioxide.name=Sulfur Dioxide Bucket
+
+#Ore Crushed
+item.itemOre.crushed.Hematite.name=Crushed Hematite Ore
+item.itemOre.crushed.Magnetite.name=Crushed Magnetite Ore
+item.itemOre.crushed.Chalcopyrite.name=Crushed Chalcopyrite Ore
+item.itemOre.crushed.Malachite.name=Crushed Malachite Ore
+item.itemOre.crushed.Bornite.name=Crushed Bornite Ore
+item.itemOre.crushed.Tetrahedrite.name=Crushed Tetrahedrite Ore
+item.itemOre.crushed.Cuprite.name=Crushed Cuprite Ore
+item.itemOre.crushed.Copper.name=Crushed Copper Ore
+
+#Ore Washed
+item.itemOre.washed.Hematite.name=Washed Hematite Ore
+item.itemOre.washed.Magnetite.name=Washed Magnetite Ore
+item.itemOre.washed.Chalcopyrite.name=Washed Chalcopyrite Ore
+item.itemOre.washed.Malachite.name=Washed Malachite Ore
+item.itemOre.washed.Bornite.name=Washed Bornite Ore
+item.itemOre.washed.Tetrahedrite.name=Washed Tetrahedrite Ore
+item.itemOre.washed.Cuprite.name=Washed Cuprite Ore
+item.itemOre.washed.Copper.name=Washed Copper Ore
+
+#Ore Enriched
+item.itemOre.enriched.Hematite.name=Enriched Hematite Ore
+item.itemOre.enriched.Magnetite.name=Enriched Magnetite Ore
+item.itemOre.enriched.Chalcopyrite.name=Enriched Chalcopyrite Ore
+item.itemOre.enriched.Malachite.name=Enriched Malachite Ore
+item.itemOre.enriched.Bornite.name=Enriched Bornite Ore
+item.itemOre.enriched.Tetrahedrite.name=Enriched Tetrahedrite Ore
+item.itemOre.enriched.Cuprite.name=Enriched Cuprite Ore
+item.itemOre.enriched.Copper.name=Enriched Copper Ore
 
 #Block of Material
 tile.blockMaterial.Iron.name=Block of Iron
@@ -440,5 +476,11 @@ fluid.sulfurDioxide=Sulfur Dioxide
 #Ore
 tile.ore_Hematite.name=Hematite Ore
 tile.ore_Magnetite.name=Magnetite Ore
+tile.ore_Chalcopyrite.name=Chalcopyrite Ore
+tile.ore_Malachite.name=Malachite Ore
+tile.ore_Bornite.name=Bornite Ore
+tile.ore_Tetrahedrite.name=Tetrahedrite Ore
+tile.ore_Cuprite.name=Cuprite Ore
+tile.ore_Copper.name=Copper Ore
 
 # END AUTOGEN

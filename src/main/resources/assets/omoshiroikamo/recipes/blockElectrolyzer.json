@@ -10,8 +10,9 @@
     ],
     "fluidOutputs": [
       {
-        "name": "hydrogen",
-        "amount": 2000
+      "name": "hydrogen",
+      "amount": 2000,
+      "chance": 1
       },
       {
         "name": "oxygen",
@@ -21,4 +22,5 @@
     "energyCost": 5268,
     "requiredTemperature": 0
   }
+
 ]

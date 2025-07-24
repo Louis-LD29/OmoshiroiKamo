@@ -17,6 +17,8 @@ import louis.omoshiroikamo.client.gui.ManaHUD;
 import louis.omoshiroikamo.client.handler.ClientTickHandler;
 import louis.omoshiroikamo.client.handler.DameEvents;
 import louis.omoshiroikamo.client.ore.OreTexture;
+import louis.omoshiroikamo.client.render.block.anvil.AnvilISBRH;
+import louis.omoshiroikamo.client.render.block.anvil.AnvilTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectableISBRH;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectorEVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectorHVTESR;
@@ -26,8 +28,10 @@ import louis.omoshiroikamo.client.render.block.connectable.ConnectorMVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectorULVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.InsulatorTESR;
 import louis.omoshiroikamo.client.render.block.connectable.TransformerTESR;
+import louis.omoshiroikamo.client.render.item.hammer.HammerRenderer;
 import louis.omoshiroikamo.client.render.item.pufferfish.PufferFishRenderer;
 import louis.omoshiroikamo.common.block.ModBlocks;
+import louis.omoshiroikamo.common.block.anvil.TEAnvil;
 import louis.omoshiroikamo.common.block.energyConnector.TEConnectorEV;
 import louis.omoshiroikamo.common.block.energyConnector.TEConnectorHV;
 import louis.omoshiroikamo.common.block.energyConnector.TEConnectorIV;
@@ -69,10 +73,15 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TEConnectorIV.class, new ConnectorIVTESR());
         ClientRegistry.bindTileEntitySpecialRenderer(TETransformer.class, new TransformerTESR());
 
+        AnvilISBRH anvilISBRH = new AnvilISBRH();
+        RenderingRegistry.registerBlockHandler(anvilISBRH);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockAnvil), anvilISBRH);
+        ClientRegistry.bindTileEntitySpecialRenderer(TEAnvil.class, new AnvilTESR());
+
         if (Config.renderPufferFish) {
             MinecraftForgeClient.registerItemRenderer(Items.fish, new PufferFishRenderer());
         }
-
+        MinecraftForgeClient.registerItemRenderer(ModItems.itemHammer, new HammerRenderer());
     }
 
     @Override

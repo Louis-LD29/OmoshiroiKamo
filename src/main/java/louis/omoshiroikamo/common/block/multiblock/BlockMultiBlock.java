@@ -5,7 +5,7 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.common.block.AbstractBlock;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
 
 public class BlockMultiBlock extends AbstractBlock<TileMultiBlock> {
 

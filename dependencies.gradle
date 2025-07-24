@@ -50,9 +50,10 @@ dependencies {
     implementation("com.github.GTNewHorizons:TinkersConstruct:1.13.40-GTNH:dev") { transitive = false }
     implementation("com.github.GTNewHorizons:EnderIO:2.9.18:dev")
 
+    runtimeOnlyNonPublishable("com.github.GTNewHorizons:Railcraft:9.16.32:dev")
+
     compileOnly 'org.jetbrains:annotations:24.0.1'
     compileOnly "org.projectlombok:lombok:1.16.8"
-
 
     shadowImplementation('com.github.makamys:MCLib:0.3.7.7') {
         exclude group: "codechicken"

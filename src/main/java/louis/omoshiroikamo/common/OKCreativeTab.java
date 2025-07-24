@@ -12,8 +12,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.fluid.FluidMaterialRegister;
 import louis.omoshiroikamo.common.fluid.FluidRegister;
-import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegister;
 import louis.omoshiroikamo.common.item.ModItems;
 
 public class OKCreativeTab extends CreativeTabs {
@@ -47,9 +47,12 @@ public class OKCreativeTab extends CreativeTabs {
 
         addItem(ModItems.itemMaterial);
         addItem(ModItems.itemWireCoil);
+        addItem(ModItems.itemOre);
+        addItem(ModItems.itemHammer);
         addItem(FluidMaterialRegister.itemBucketMaterial);
         addItem(FluidRegister.itemBucketFluid);
         addBlock(ModBlocks.blockMaterial);
+        addBlock(ModBlocks.blockAnvil);
 
         for (ItemStack stack : externalStacks) {
             addStack(stack);
@@ -84,12 +87,12 @@ public class OKCreativeTab extends CreativeTabs {
     @Override
     @SideOnly(Side.CLIENT)
     public String getTabLabel() {
-        return LibMisc.MOD_ID;
+        return LibMisc.MOD_NAME;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public String getTranslatedTabLabel() {
-        return LibMisc.MOD_ID;
+        return LibMisc.MOD_NAME;
     }
 }

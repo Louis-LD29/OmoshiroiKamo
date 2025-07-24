@@ -1,0 +1,169 @@
+[
+  {
+    "machine": "blockAnvil",
+    "enabled": true,
+    "itemInputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "ore_Chalcopyrite",
+        "amount": 1
+      }
+    ],
+    "itemOutputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 2,
+        "amount": 1
+      },
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 2,
+        "amount": 1,
+        "chance": 0.2
+      }
+    ],
+    "energyCost": 1
+  },
+
+  {
+    "machine": "blockAnvil",
+    "enabled": true,
+    "itemInputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "ore_Malachite",
+        "amount": 1
+      }
+    ],
+    "itemOutputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 3,
+        "amount": 1
+      },
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 3,
+        "amount": 1,
+        "chance": 0.2
+      }
+    ],
+    "energyCost": 1
+  },
+
+  {
+    "machine": "blockAnvil",
+    "enabled": true,
+    "itemInputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "ore_Bornite",
+        "amount": 1
+      }
+    ],
+    "itemOutputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 4,
+        "amount": 1
+      },
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 4,
+        "amount": 1,
+        "chance": 0.2
+      }
+    ],
+    "energyCost": 1
+  },
+
+  {
+    "machine": "blockAnvil",
+    "enabled": true,
+    "itemInputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "ore_Tetrahedrite",
+        "amount": 1
+      }
+    ],
+    "itemOutputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 5,
+        "amount": 1
+      },
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 5,
+        "amount": 1,
+        "chance": 0.2
+      }
+    ],
+    "energyCost": 1
+  },
+
+  {
+    "machine": "blockAnvil",
+    "enabled": true,
+    "itemInputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "ore_Cuprite",
+        "amount": 1
+      }
+    ],
+    "itemOutputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 6,
+        "amount": 1
+      },
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 6,
+        "amount": 1,
+        "chance": 0.2
+      }
+    ],
+    "energyCost": 1
+  },
+
+  {
+    "machine": "blockAnvil",
+    "enabled": true,
+    "itemInputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "ore_Copper",
+        "amount": 1
+      }
+    ],
+    "itemOutputs": [
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 7,
+        "amount": 1
+      },
+      {
+        "modid": "OmoshiroiKamo",
+        "name": "itemOre",
+        "meta": 7,
+        "amount": 1,
+        "chance": 0.2
+      }
+    ],
+    "energyCost": 1
+  }
+]

@@ -13,8 +13,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import com.enderio.core.common.util.BlockCoord;
 
 import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.common.block.basicblock.machine.AbstractMachineEntity;
-import louis.omoshiroikamo.common.block.basicblock.machine.SlotDefinition;
+import louis.omoshiroikamo.common.block.abstractClass.machine.AbstractMachineEntity;
+import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
 
 public abstract class TileAddon extends AbstractMachineEntity {
 

@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 import louis.omoshiroikamo.api.fluid.IFluidHandlerAdv;
 import louis.omoshiroikamo.api.fluid.SmartTank;
-import louis.omoshiroikamo.common.block.AbstractTE;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

@@ -27,7 +27,7 @@ import louis.omoshiroikamo.api.fluid.SmartTank;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.client.gui.modularui2.MGuiTextures;
 import louis.omoshiroikamo.client.gui.modularui2.MGuis;
-import louis.omoshiroikamo.common.block.basicblock.machine.SlotDefinition;
+import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
 import louis.omoshiroikamo.common.block.multiblock.TileMain;
 
 public class TileBoiler extends TileMain {

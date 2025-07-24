@@ -27,12 +27,8 @@ import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class ItemMaterial extends Item {
 
-    protected IIcon ingotIcon;
-    protected IIcon nuggetIcon;
-    protected IIcon plateIcon;
-    protected IIcon rodIcon;
-    protected IIcon dustIcon;
-    protected IIcon gearIcon;
+    @SideOnly(Side.CLIENT)
+    protected IIcon ingotIcon, nuggetIcon, plateIcon, rodIcon, dustIcon, gearIcon;
 
     public static ItemMaterial create() {
         ItemMaterial mat = new ItemMaterial();
@@ -66,7 +62,7 @@ public class ItemMaterial extends Item {
     }
 
     private void registerMaterialOreDict(String name, int meta) {
-        OreDictionary.registerOre("ingot" + capitalize(name), new ItemStack(this, LibResources.BASE + 1, meta));
+        OreDictionary.registerOre("ingot" + capitalize(name), new ItemStack(this, 1, LibResources.BASE + meta));
         OreDictionary.registerOre("nugget" + capitalize(name), new ItemStack(this, 1, LibResources.META1 + meta));
         OreDictionary.registerOre("plate" + capitalize(name), new ItemStack(this, 1, LibResources.META2 + meta));
         OreDictionary.registerOre("rod" + capitalize(name), new ItemStack(this, 1, LibResources.META3 + meta));

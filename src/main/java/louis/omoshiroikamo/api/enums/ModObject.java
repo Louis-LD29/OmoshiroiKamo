@@ -14,6 +14,7 @@ public enum ModObject {
     blockFluidOutput,
     blockFluidFilter,
     blockFluidInOut,
+    blockItemInOut,
     blockItemInput,
     blockItemOutput,
     blockEnergyInOut,
@@ -24,12 +25,14 @@ public enum ModObject {
     blockMaterial,
     blockFluidMaterial,
     blockConnectable,
-    blockInsulator,
+    blockAnvil,
 
     itemOperationOrb,
     itemMaterial,
     itemBucketMaterial,
     itemBucketFluid,
+    itemOre,
+    itemHammer,
     itemWireCoil;
 
     public final String unlocalisedName;

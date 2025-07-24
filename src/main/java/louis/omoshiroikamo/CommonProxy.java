@@ -51,7 +51,6 @@ public class CommonProxy {
         ModBlocks.init();
         ModItems.init();
         ModFluids.init();
-        ModRecipes.init();
         OKWorldGenerator.init();
 
         callAssembleResourcePack();
@@ -75,6 +74,7 @@ public class CommonProxy {
             .bus()
             .register(FlightHandler.instance);
 
+        ModRecipes.init();
         IECompat.init();
 
         if (Loader.isModLoaded("Waila")) {

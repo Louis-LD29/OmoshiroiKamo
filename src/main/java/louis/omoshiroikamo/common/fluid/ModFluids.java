@@ -3,7 +3,6 @@ package louis.omoshiroikamo.common.fluid;
 import net.minecraftforge.fluids.IFluidTank;
 
 import louis.omoshiroikamo.common.core.lib.LibMisc;
-import louis.omoshiroikamo.common.fluid.material.FluidMaterialRegister;
 
 public class ModFluids {
 

@@ -40,6 +40,10 @@ public class FluidRegistry {
         return new FluidEntry(name, defaultEntry.meta, config);
     }
 
+    public static FluidEntry getByName(String name) {
+        return REGISTRY.get(name);
+    }
+
     public static FluidEntry fromMeta(int meta) {
         if (meta < 0 || meta >= META_INDEXED.size()) return META_INDEXED.get(0);
         return META_INDEXED.get(meta);

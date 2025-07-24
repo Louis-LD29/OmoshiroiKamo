@@ -24,8 +24,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectableISBRH;
-import louis.omoshiroikamo.common.block.AbstractBlock;
-import louis.omoshiroikamo.common.block.AbstractTE;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class BlockConnectable extends AbstractBlock<TEConnectable> {
