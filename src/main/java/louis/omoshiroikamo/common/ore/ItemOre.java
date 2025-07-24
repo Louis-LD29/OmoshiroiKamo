@@ -4,11 +4,16 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -125,4 +130,47 @@ public class ItemOre extends Item {
         washed = reg.registerIcon(LibResources.PREFIX_MOD + "base_washed");
         enriched = reg.registerIcon(LibResources.PREFIX_MOD + "base_enriched");
     }
+
+    @Override
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+        int meta = stack.getItemDamage();
+        if (meta >= LibResources.META1) return stack;
+
+        MovingObjectPosition mop = getMovingObjectPositionFromPlayer(world, player, true);
+        if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+            if (tryWash(stack, world, mop.blockX, mop.blockY, mop.blockZ, meta)) {
+                return stack;
+            }
+        }
+
+        if (tryWash(stack, world, player.posX, player.boundingBox.minY, player.posZ, meta)) {
+            return stack;
+        }
+
+        return super.onItemRightClick(stack, world, player);
+    }
+
+    private boolean tryWash(ItemStack stack, World world, double x, double y, double z, int meta) {
+        if (meta >= LibResources.META1) return false;
+
+        Block block = world.getBlock((int) Math.floor(x), (int) Math.floor(y), (int) Math.floor(z));
+        if (block.getMaterial() != Material.water) return false;
+
+        if (!world.isRemote) {
+            stack.setItemDamage(LibResources.META1 + (meta % LibResources.META1));
+            world.playSoundEffect(x, y, z, "game.neutral.swim", 0.4F, 1.0F);
+            for (int i = 0; i < 5; i++) {
+                world.spawnParticle(
+                    "splash",
+                    x + 0.5 + (world.rand.nextDouble() - 0.5),
+                    y + 0.5,
+                    z + 0.5 + (world.rand.nextDouble() - 0.5),
+                    0,
+                    0.1,
+                    0);
+            }
+        }
+        return true;
+    }
+
 }

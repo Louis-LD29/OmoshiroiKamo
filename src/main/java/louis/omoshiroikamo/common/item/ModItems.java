@@ -12,12 +12,14 @@ public final class ModItems {
     public static Item itemWireCoil;
     public static Item itemMaterial;
     public static Item itemOre;
+    public static Item itemHammer;
 
     public static void init() {
         itemOperationOrb = new ItemOperationOrb();
         itemWireCoil = ItemWireCoil.create();
         itemMaterial = ItemMaterial.create();
         itemOre = ItemOre.create();
+        itemHammer = ItemHammer.create();
     }
 
     public static void registerItemRenderer() {

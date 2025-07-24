@@ -2,7 +2,6 @@ package louis.omoshiroikamo.common.block.anvil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -11,6 +10,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTaskTE;
 import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
+import louis.omoshiroikamo.common.item.ItemHammer;
 
 public class TEAnvil extends AbstractTaskTE implements ISidedInventory {
 
@@ -83,12 +83,18 @@ public class TEAnvil extends AbstractTaskTE implements ISidedInventory {
             return false;
         }
 
-        if (held.getItem() instanceof ItemPickaxe) {
-            this.addStage(1);
-            return true;
+        ItemStack existing = inv.getStackInSlot(0);
+
+        if (held.getItem() instanceof ItemHammer) {
+            if (existing != null) {
+                this.addStage(1);
+                held.damageItem(1, player);
+                return true;
+            } else {
+                return false;
+            }
         }
 
-        ItemStack existing = inv.getStackInSlot(0);
         int maxStackSize = held.getMaxStackSize();
 
         if (canInsertItem(0, held, side.ordinal())) {

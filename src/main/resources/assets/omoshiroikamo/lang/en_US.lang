@@ -58,7 +58,7 @@ element.dendro.name=Dendro
 #Item
 
 item.Test:operationOrb.name=Operation Orb
-tile.blockTest.name=Test Block
+item.itemHammer.name=Hammer
 
 #Block
 
@@ -71,6 +71,7 @@ tile.blockConnectable.connectorHV.name=HV Wire Connector
 tile.blockConnectable.connectorEV.name=EV Wire Connector
 tile.blockConnectable.connectorIV.name=IV Wire Connector
 tile.blockConnectable.transformer.name=Transformer
+tile.blockAnvil.name=Anvil
 
 #Immersive Engineering
 

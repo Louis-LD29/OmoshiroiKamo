@@ -7,7 +7,6 @@ import java.util.Set;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
@@ -15,8 +14,10 @@ import org.lwjgl.opengl.GL11;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.core.helper.OreDictUtils;
 import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.plugin.nei.RecipeHandlerBase;
 import louis.omoshiroikamo.common.recipes.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.MachineRecipeRegistry;
@@ -53,13 +54,20 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
     public void loadCraftingRecipes(ItemStack item) {
         super.loadCraftingRecipes(item);
         Set<MachineRecipe> added = new HashSet<>();
+        boolean isHammer = item.getItem() == ModItems.itemHammer;
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockAnvil.unlocalisedName)) {
-            for (ChanceItemStack out : recipe.getItemOutputs()) {
-                if (NEIServerUtils.areStacksSameTypeCrafting(out.stack, item)) {
-                    if (added.add(recipe)) {
-                        arecipes.add(new CachedAnvilRecipe(recipe));
+            if (isHammer) {
+                if (added.add(recipe)) {
+                    arecipes.add(new CachedAnvilRecipe(recipe));
+                }
+            } else {
+                for (ChanceItemStack out : recipe.getItemOutputs()) {
+                    if (NEIServerUtils.areStacksSameTypeCrafting(out.stack, item)) {
+                        if (added.add(recipe)) {
+                            arecipes.add(new CachedAnvilRecipe(recipe));
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         }
@@ -69,15 +77,24 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
     public void loadUsageRecipes(ItemStack ingredient) {
         super.loadUsageRecipes(ingredient);
         Set<MachineRecipe> added = new HashSet<>();
-        for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockAnvil.unlocalisedName)) {
-            for (ChanceItemStack in : recipe.getItemInputs()) {
-                if (OreDictUtils.isOreDictMatch(in.stack, ingredient)
-                    || NEIServerUtils.areStacksSameTypeCrafting(in.stack, ingredient)) {
 
-                    if (added.add(recipe)) {
-                        arecipes.add(new CachedAnvilRecipe(recipe));
+        boolean isHammer = ingredient.getItem() == ModItems.itemHammer;
+
+        for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockAnvil.unlocalisedName)) {
+            if (isHammer) {
+                if (added.add(recipe)) {
+                    arecipes.add(new CachedAnvilRecipe(recipe));
+                }
+            } else {
+                for (ChanceItemStack in : recipe.getItemInputs()) {
+                    if (OreDictUtils.isOreDictMatch(in.stack, ingredient)
+                        || NEIServerUtils.areStacksSameTypeCrafting(in.stack, ingredient)) {
+
+                        if (added.add(recipe)) {
+                            arecipes.add(new CachedAnvilRecipe(recipe));
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         }
@@ -86,18 +103,9 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
     @Override
     public void drawBackground(int recipeIndex) {
         super.drawBackground(recipeIndex);
-        CachedAnvilRecipe recipe = (CachedAnvilRecipe) arecipes.get(recipeIndex);
 
-        int inputCount = recipe.itemInputs.size();
-        int outputCount = recipe.itemOutputs.size();
-
-        int inputRows = (inputCount + 2) / 3;
-        int outputRows = (outputCount + 2) / 3;
-
-        int maxRows = Math.max(inputRows, outputRows);
-
-        drawStretchedItemSlot(15, 8, 54, maxRows * 18);
-        drawStretchedItemSlot(95, 8, 54, maxRows * 18);
+        drawStretchedItemSlot(15, 8, 54, 54);
+        drawStretchedItemSlot(95, 8, 54, 54);
     }
 
     @Override
@@ -196,9 +204,9 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
             int inputRows = (itemInputs.size() + 2) / 3;
             int outputRows = (itemOutputs.size() + 2) / 3;
             int maxHeight = Math.max(inputRows, outputRows) * 18;
-            int centerY = 8 + (maxHeight - 18) / 2;
 
-            result.add(new PositionedStack(new ItemStack(Items.diamond_pickaxe), 73, centerY + 1));
+            result.add(new PositionedStack(new ItemStack(ModItems.itemHammer), 73, 16 + 1));
+            result.add(new PositionedStack(new ItemStack(ModBlocks.blockAnvil), 73, 34 + 1));
             return result;
         }
 

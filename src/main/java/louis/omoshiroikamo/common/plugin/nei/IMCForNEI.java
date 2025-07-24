@@ -11,7 +11,7 @@ public class IMCForNEI {
     public static void IMCSender() {
         sendHandler(ModObject.blockElectrolyzer.getRegistryName(), 85, 6);
         sendCatalyst(ModObject.blockElectrolyzer.getRegistryName());
-        sendHandler(ModObject.blockAnvil.getRegistryName(), 85, 6);
+        sendHandler(ModObject.blockAnvil.getRegistryName(), 64, 6);
         sendCatalyst(ModObject.blockAnvil.getRegistryName());
         sendHandler("materialProperties", ModObject.itemMaterial.getRegistryName(), 85, 1);
     }

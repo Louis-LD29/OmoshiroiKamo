@@ -28,6 +28,7 @@ import louis.omoshiroikamo.client.render.block.connectable.ConnectorMVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectorULVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.InsulatorTESR;
 import louis.omoshiroikamo.client.render.block.connectable.TransformerTESR;
+import louis.omoshiroikamo.client.render.item.hammer.HammerRenderer;
 import louis.omoshiroikamo.client.render.item.pufferfish.PufferFishRenderer;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.block.anvil.TEAnvil;
@@ -80,7 +81,7 @@ public class ClientProxy extends CommonProxy {
         if (Config.renderPufferFish) {
             MinecraftForgeClient.registerItemRenderer(Items.fish, new PufferFishRenderer());
         }
-
+        MinecraftForgeClient.registerItemRenderer(ModItems.itemHammer, new HammerRenderer());
     }
 
     @Override
