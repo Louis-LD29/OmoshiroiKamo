@@ -100,7 +100,6 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
     @Override
     public void drawBackground(int recipeIndex) {
         super.drawBackground(recipeIndex);
-
         drawStretchedItemSlot(15, 8, 54, 54);
         drawStretchedItemSlot(95, 8, 54, 54);
     }
@@ -109,12 +108,10 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
 
         private final List<ChanceItemStack> itemInputs = new ArrayList<>();
         private final List<ChanceItemStack> itemOutputs = new ArrayList<>();
-        private final int energyCost;
 
         public CachedAnvilRecipe(MachineRecipe recipe) {
             if (recipe.getItemInputs() != null) itemInputs.addAll(recipe.getItemInputs());
             if (recipe.getItemOutputs() != null) itemOutputs.addAll(recipe.getItemOutputs());
-            this.energyCost = recipe.energyCost;
         }
 
         @Override
@@ -153,10 +150,6 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
         @Override
         public PositionedStack getResult() {
             return null;
-        }
-
-        public int getEnergyCost() {
-            return energyCost;
         }
     }
 }

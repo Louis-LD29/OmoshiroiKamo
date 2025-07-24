@@ -16,16 +16,17 @@ import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.block.ModBlocks;
+import louis.omoshiroikamo.common.core.lib.LibResources;
 
-public class BlockItemItemInput extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
+public class BlockItemItemInOut extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
-    public BlockItemItemInput() {
-        super(ModBlocks.blockItemInput, ModBlocks.blockItemInput);
+    public BlockItemItemInOut() {
+        super(ModBlocks.blockItemInOut, ModBlocks.blockItemInOut);
         setHasSubtypes(true);
         setCreativeTab(OKCreativeTab.INSTANCE);
     }
 
-    public BlockItemItemInput(Block block) {
+    public BlockItemItemInOut(Block block) {
         super(block, block);
         setHasSubtypes(true);
         setCreativeTab(OKCreativeTab.tabBlock);
@@ -34,16 +35,23 @@ public class BlockItemItemInput extends ItemBlockWithMetadata implements IAdvanc
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         int meta = stack.getItemDamage();
-        MaterialEntry material = MaterialRegistry.fromMeta(meta);
-        return super.getUnlocalizedName(stack) + "." + material.getUnlocalizedName();
+        boolean isOutput = meta >= LibResources.META1;
+        MaterialEntry material = MaterialRegistry.fromMeta(meta % LibResources.META1);
+
+        String base = super.getUnlocalizedName(stack);
+        String type = isOutput ? "output" : "input";
+        String mat = material.getUnlocalizedName();
+
+        return base + "." + type + "." + mat;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> list) {
-        for (int i = 0; i < MaterialRegistry.all()
-            .size(); i++) {
-            list.add(new ItemStack(this, 1, i));
+    public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+        for (MaterialEntry materialEntry : MaterialRegistry.all()) {
+            int meta = materialEntry.meta;
+            list.add(new ItemStack(this, 1, meta));;
+            list.add(new ItemStack(this, 1, LibResources.META1 + meta));
         }
     }
 
@@ -54,7 +62,7 @@ public class BlockItemItemInput extends ItemBlockWithMetadata implements IAdvanc
     public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
         int meta = itemstack.getItemDamage();
         MaterialEntry material = MaterialRegistry.fromMeta(meta);
-        list.add("§7Material:§f " + material.getName());
+        list.add("§7Material:§f " + material.getMeta());
         list.add("§7Slot:§f " + material.getItemSlotCount());
     }
 

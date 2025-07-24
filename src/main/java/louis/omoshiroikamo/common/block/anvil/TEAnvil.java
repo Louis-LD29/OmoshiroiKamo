@@ -112,10 +112,9 @@ public class TEAnvil extends AbstractTaskTE implements ISidedInventory {
                 inv.setStackInSlot(0, existing);
                 held.stackSize -= canAdd;
             } else {
-                return false; // Không thể chồng
+                return false;
             }
 
-            // Cập nhật inventory người chơi
             if (held.stackSize <= 0) {
                 player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
             } else {
@@ -124,7 +123,7 @@ public class TEAnvil extends AbstractTaskTE implements ISidedInventory {
 
             markDirty();
             world.markBlockForUpdate(xCoord, yCoord, zCoord);
-            player.inventoryContainer.detectAndSendChanges(); // cập nhật client
+            player.inventoryContainer.detectAndSendChanges();
             return true;
         }
 

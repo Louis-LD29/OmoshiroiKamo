@@ -1,7 +1,7 @@
 package louis.omoshiroikamo.common.block.multiblock.part.item;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -17,13 +17,13 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 
-public class TEItemInput extends AbstractTE {
+public class TEItemInput extends TEItemInOut {
 
     protected ItemStackHandler inv;
 
     protected TEItemInput(int meta) {
+        super(MaterialRegistry.fromMeta(meta));
         material = MaterialRegistry.fromMeta(meta);
         inv = new ItemStackHandler(material.getItemSlotCount());
     }
@@ -34,33 +34,12 @@ public class TEItemInput extends AbstractTE {
 
     @Override
     public String getMachineName() {
-        return ModObject.blockItemInput.unlocalisedName;
+        return ModObject.blockItemInOut.unlocalisedName;
     }
 
     @Override
-    public boolean isActive() {
-        return false;
-    }
-
-    @Override
-    protected boolean processTasks(boolean redstoneCheckPassed) {
-        return false;
-    }
-
-    @Override
-    public void writeCommon(NBTTagCompound root) {
-        root.setTag("item_inv", this.inv.serializeNBT());
-
-    }
-
-    @Override
-    public void readCommon(NBTTagCompound root) {
-        this.inv.deserializeNBT(root.getCompoundTag("item_inv"));
-    }
-
-    @Override
-    public void doUpdate() {
-        super.doUpdate();
+    protected boolean isMachineItemValidForSlot(int slot, ItemStack itemstack) {
+        return true;
     }
 
     @Override

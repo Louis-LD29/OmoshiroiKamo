@@ -19,13 +19,14 @@ import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.ore.OreEntry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 
-public class ItemOre extends Item {
+public class ItemOre extends Item implements IAdvancedTooltipProvider {
 
     @SideOnly(Side.CLIENT)
     protected IIcon crushedOverlay, crushed, washed, enriched;
@@ -173,4 +174,22 @@ public class ItemOre extends Item {
         return true;
     }
 
+    @Override
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+
+    @Override
+    public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean advanced) {
+        int meta = itemstack.getItemDamage();
+
+        if (meta < LibResources.META1) {
+            list.add("§7Right-click or stand in water to wash");
+        } else if (meta < LibResources.META2) {
+            list.add("§7Washed from crushed ore");
+        }
+    }
+
+    @Override
+    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+
+    }
 }

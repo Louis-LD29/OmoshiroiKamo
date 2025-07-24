@@ -14,6 +14,7 @@ public enum ModObject {
     blockFluidOutput,
     blockFluidFilter,
     blockFluidInOut,
+    blockItemInOut,
     blockItemInput,
     blockItemOutput,
     blockEnergyInOut,

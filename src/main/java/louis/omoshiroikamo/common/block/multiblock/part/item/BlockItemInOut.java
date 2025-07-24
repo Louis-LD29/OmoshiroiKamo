@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.block.multiblock.part.fluid;
+package louis.omoshiroikamo.common.block.multiblock.part.item;
 
 import java.util.List;
 
@@ -15,25 +15,27 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
+import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidInput;
+import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidOutput;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 
-public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> {
+public class BlockItemInOut extends AbstractBlock<TEItemInOut> {
 
-    protected BlockFluidInOut() {
-        super(ModObject.blockFluidInOut, TEFluidInOut.class);
+    protected BlockItemInOut() {
+        super(ModObject.blockItemInOut, TEItemInOut.class);
     }
 
-    public static BlockFluidInOut create() {
-        BlockFluidInOut res = new BlockFluidInOut();
+    public static BlockItemInOut create() {
+        BlockItemInOut res = new BlockItemInOut();
         res.init();
         return res;
     }
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, ItemBlockFluidInOut.class, modObject.unlocalisedName);
-        GameRegistry.registerTileEntity(TEFluidInput.class, modObject.unlocalisedName + "TEFluidInput");
-        GameRegistry.registerTileEntity(TEFluidOutput.class, modObject.unlocalisedName + "TEFluidOutput");
+        GameRegistry.registerBlock(this, BlockItemItemInOut.class, modObject.unlocalisedName);
+        GameRegistry.registerTileEntity(TEFluidInput.class, modObject.unlocalisedName + "TEItemInput");
+        GameRegistry.registerTileEntity(TEFluidOutput.class, modObject.unlocalisedName + "TEItemOutput");
     }
 
     @Override
@@ -49,9 +51,9 @@ public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> {
     @Override
     public TileEntity createTileEntity(World world, int meta) {
         if (meta >= 100) {
-            return new TEFluidOutput(meta);
+            return new TEItemOutput(meta);
         } else {
-            return new TEFluidInput(meta);
+            return new TEItemInput(meta);
         }
     }
 }
