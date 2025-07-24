@@ -12,6 +12,7 @@ import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.item.ModItems;
+import louis.omoshiroikamo.common.plugin.nei.PositionedStackAdv;
 import louis.omoshiroikamo.common.plugin.nei.RecipeHandlerBase;
 
 public class MaterialPropertiesHandler extends RecipeHandlerBase {
@@ -70,7 +71,7 @@ public class MaterialPropertiesHandler extends RecipeHandlerBase {
             int col = i % itemsPerRow;
             int x = xStart + col * itemSize;
             int y = yStart + row * itemSize;
-            drawItemSlotBackground(x, y);
+            drawItemSlot(x, y);
         }
 
         // === Tọa độ text ===
@@ -193,7 +194,7 @@ public class MaterialPropertiesHandler extends RecipeHandlerBase {
                 int col = i % itemsPerRow;
                 int x = baseX + col * itemSize;
                 int y = baseY + row * itemSize;
-                stacks.add(new PositionedStack(materialItems.get(i), x, y));
+                stacks.add(new PositionedStackAdv(materialItems.get(i), x, y));
             }
 
             return stacks;

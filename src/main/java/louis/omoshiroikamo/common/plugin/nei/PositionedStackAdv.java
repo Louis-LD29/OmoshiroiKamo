@@ -13,7 +13,11 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.EnumChatFormatting;
+
+import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;
@@ -21,6 +25,7 @@ import codechicken.nei.recipe.GuiRecipe;
 public class PositionedStackAdv extends PositionedStack {
 
     private final List<String> tooltip = new ArrayList<>();
+    public float chance;
 
     public PositionedStackAdv(Object object, int x, int y) {
         super(object, x, y);
@@ -56,7 +61,30 @@ public class PositionedStackAdv extends PositionedStack {
         return this;
     }
 
+    public void drawChance() {
+        if (chance <= 0.0f || chance >= 1.0f) return;
+        float scale = 0.6f;
+        String text = String.format("%.0f%%", chance * 100f);
+        FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+        int stringWidth = font.getStringWidth(text);
+
+        float inverse = 1f / scale;
+
+        int x = this.relx + 1;
+        int y = this.rely + 1;
+
+        GL11.glPushMatrix();
+        GL11.glScalef(scale, scale, 1.0f);
+        font.drawStringWithShadow(
+            text,
+            (int) ((x + 16 - stringWidth * scale) * inverse),
+            (int) (y * inverse),
+            0xFFFFFF);
+        GL11.glPopMatrix();
+    }
+
     public PositionedStackAdv setChance(float chance) {
+        this.chance = Math.max(0.0f, Math.min(1.0f, chance));
         if (chance <= 0.0F) {
             this.tooltip.add(
                 EnumChatFormatting.GRAY

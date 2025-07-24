@@ -5,11 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
-import org.lwjgl.opengl.GL11;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
@@ -18,6 +15,7 @@ import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.core.helper.OreDictUtils;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.item.ModItems;
+import louis.omoshiroikamo.common.plugin.nei.PositionedStackAdv;
 import louis.omoshiroikamo.common.plugin.nei.RecipeHandlerBase;
 import louis.omoshiroikamo.common.recipes.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.MachineRecipeRegistry;
@@ -55,8 +53,9 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
         super.loadCraftingRecipes(item);
         Set<MachineRecipe> added = new HashSet<>();
         boolean isHammer = item.getItem() == ModItems.itemHammer;
+        boolean isAnvil = item.getItem() == Item.getItemFromBlock(ModBlocks.blockAnvil);
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockAnvil.unlocalisedName)) {
-            if (isHammer) {
+            if (isHammer || isAnvil) {
                 if (added.add(recipe)) {
                     arecipes.add(new CachedAnvilRecipe(recipe));
                 }
@@ -77,11 +76,10 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
     public void loadUsageRecipes(ItemStack ingredient) {
         super.loadUsageRecipes(ingredient);
         Set<MachineRecipe> added = new HashSet<>();
-
         boolean isHammer = ingredient.getItem() == ModItems.itemHammer;
-
+        boolean isAnvil = ingredient.getItem() == Item.getItemFromBlock(ModBlocks.blockAnvil);
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockAnvil.unlocalisedName)) {
-            if (isHammer) {
+            if (isHammer || isAnvil) {
                 if (added.add(recipe)) {
                     arecipes.add(new CachedAnvilRecipe(recipe));
                 }
@@ -89,7 +87,6 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
                 for (ChanceItemStack in : recipe.getItemInputs()) {
                     if (OreDictUtils.isOreDictMatch(in.stack, ingredient)
                         || NEIServerUtils.areStacksSameTypeCrafting(in.stack, ingredient)) {
-
                         if (added.add(recipe)) {
                             arecipes.add(new CachedAnvilRecipe(recipe));
                         }
@@ -106,58 +103,6 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
 
         drawStretchedItemSlot(15, 8, 54, 54);
         drawStretchedItemSlot(95, 8, 54, 54);
-    }
-
-    @Override
-    public void drawExtras(int recipeIndex) {
-        CachedAnvilRecipe recipe = (CachedAnvilRecipe) arecipes.get(recipeIndex);
-        FontRenderer font = Minecraft.getMinecraft().fontRenderer;
-
-        float scale = 0.6f;
-        float inverse = 1f / scale;
-
-        GL11.glPushMatrix();
-        GL11.glScalef(scale, scale, 1f);
-
-        for (int i = 0; i < recipe.itemInputs.size(); i++) {
-            ChanceItemStack is = recipe.itemInputs.get(i);
-            if (is == null || is.chance >= 1.0f) continue;
-
-            int row = i / 3;
-            int col = i % 3;
-
-            int baseX = 15 + col * 18;
-            int baseY = 8 + row * 18;
-
-            String text = String.format("%.0f%%", is.chance * 100);
-            int stringWidth = font.getStringWidth(text);
-
-            int x = (int) ((baseX + 17 - stringWidth * scale) * inverse);
-            int y = (int) ((baseY + 2) * inverse);
-
-            font.drawStringWithShadow(text, x, y, 0xFFFFFF);
-        }
-
-        for (int i = 0; i < recipe.itemOutputs.size(); i++) {
-            ChanceItemStack is = recipe.itemOutputs.get(i);
-            if (is == null || is.chance >= 1.0f) continue;
-
-            int row = i / 3;
-            int col = i % 3;
-
-            int baseX = 95 + col * 18;
-            int baseY = 8 + row * 18;
-
-            String text = String.format("%.0f%%", is.chance * 100);
-            int stringWidth = font.getStringWidth(text);
-
-            int x = (int) ((baseX + 17 - stringWidth * scale) * inverse);
-            int y = (int) ((baseY + 2) * inverse);
-
-            font.drawStringWithShadow(text, x, y, 0xFFFFFF);
-        }
-
-        GL11.glPopMatrix();
     }
 
     public class CachedAnvilRecipe extends CachedBaseRecipe {
@@ -182,7 +127,7 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
                 int row = i / 3;
                 int x = 15 + col * 18;
                 int y = 8 + row * 18;
-                result.add(new PositionedStack(is.stack, x + 1, y + 1));
+                result.add(new PositionedStackAdv(is.stack, x + 1, y + 1).setChance(is.chance));
             }
             return result;
         }
@@ -197,16 +142,11 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
                 int row = i / 3;
                 int x = 95 + col * 18;
                 int y = 8 + row * 18;
-                result.add(new PositionedStack(is.stack, x + 1, y + 1));
+                result.add(new PositionedStackAdv(is.stack, x + 1, y + 1).setChance(is.chance));
             }
 
-            // Tính tổng chiều cao block input/output để căn giữa pickaxe
-            int inputRows = (itemInputs.size() + 2) / 3;
-            int outputRows = (itemOutputs.size() + 2) / 3;
-            int maxHeight = Math.max(inputRows, outputRows) * 18;
-
-            result.add(new PositionedStack(new ItemStack(ModItems.itemHammer), 73, 16 + 1));
-            result.add(new PositionedStack(new ItemStack(ModBlocks.blockAnvil), 73, 34 + 1));
+            result.add(new PositionedStackAdv(new ItemStack(ModItems.itemHammer), 73, 16 + 1));
+            result.add(new PositionedStackAdv(new ItemStack(ModBlocks.blockAnvil), 73, 34 + 1));
             return result;
         }
 

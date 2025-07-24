@@ -10,11 +10,14 @@ package louis.omoshiroikamo.common.plugin.nei;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.EnumChatFormatting;
@@ -38,6 +41,8 @@ public class PositionedFluidTank {
     public boolean flowingTexture = false;
     public boolean showAmount = true;
     public boolean perTick = false;
+    public float chance;
+    private final List<String> tooltip = new ArrayList<>();
 
     public PositionedFluidTank(FluidTank[] tanks, Rectangle position, String overlayTexture, Point overlayTexturePos) {
         this.position = position;
@@ -84,7 +89,24 @@ public class PositionedFluidTank {
             currenttip
                 .add(EnumChatFormatting.GRAY.toString() + this.tank.getFluid().amount + (this.perTick ? "L/t" : "L"));
         }
+        if (!this.tooltip.isEmpty()) {
+            for (String tip : this.tooltip) {
+                currenttip.add(tip);
+            }
+        }
         return currenttip;
+    }
+
+    public PositionedFluidTank addToTooltip(List<String> lines) {
+        for (String tip : lines) {
+            this.tooltip.add(tip);
+        }
+        return this;
+    }
+
+    public PositionedFluidTank addToTooltip(String line) {
+        this.tooltip.add(line);
+        return this;
     }
 
     public boolean transfer(boolean usage) {
@@ -163,15 +185,35 @@ public class PositionedFluidTank {
             int realY = this.position.y + this.position.height - 5;
 
             GL11.glPushMatrix();
-            GL11.glTranslatef(realX, realY, 0.0f); // dịch tới đúng vị trí
-            GL11.glScalef(scale, scale, 1.0f); // scale nhỏ
+            GL11.glTranslatef(realX, realY, 0.0f);
+            GL11.glScalef(scale, scale, 1.0f);
 
-            // Sau khi scale, vẽ tại (0,0) vì đã translate trước đó
             GuiDraw.drawStringC(amountStr, 0, 0, 0xFFFFFF, true);
 
             GL11.glPopMatrix();
         }
+    }
 
+    public void drawChance() {
+        if (chance <= 0.0f || chance >= 1.0f) return;
+        float scale = 0.6f;
+        String text = String.format("%.0f%%", chance * 100f);
+        FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+        int stringWidth = font.getStringWidth(text);
+
+        float inverse = 1f / scale;
+
+        int x = this.position.x + 1;
+        int y = this.position.y + 1;
+
+        GL11.glPushMatrix();
+        GL11.glScalef(scale, scale, 1.0f);
+        font.drawStringWithShadow(
+            text,
+            (int) ((x + 16 - stringWidth * scale) * inverse),
+            (int) (y * inverse),
+            0xFFFFFF);
+        GL11.glPopMatrix();
     }
 
     public void setPermutationToRender(int index) {
@@ -180,5 +222,25 @@ public class PositionedFluidTank {
 
     public int getPermutationCount() {
         return this.tanks.length;
+    }
+
+    public PositionedFluidTank setChance(float chance) {
+        this.chance = Math.max(0.0f, Math.min(1.0f, chance));
+        if (chance <= 0.0F) {
+            this.tooltip.add(
+                EnumChatFormatting.GRAY
+                    + String.format(NEIUtils.translate("chance"), NEIUtils.translate("chance.never")));
+        } else if (chance < 0.01F) {
+            this.tooltip.add(
+                EnumChatFormatting.GRAY
+                    + String.format(NEIUtils.translate("chance"), NEIUtils.translate("chance.lessThan1")));
+        } else if (chance != 1.0F) {
+            NumberFormat percentFormat = NumberFormat.getPercentInstance();
+            percentFormat.setMaximumFractionDigits(2);
+            this.tooltip.add(
+                EnumChatFormatting.GRAY
+                    + String.format(NEIUtils.translate("chance"), String.valueOf(percentFormat.format(chance))));
+        }
+        return this;
     }
 }

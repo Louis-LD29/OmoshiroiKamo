@@ -44,6 +44,13 @@ public abstract class RecipeHandlerBase extends TemplateRecipeHandler implements
     }
 
     @Override
+    public void drawExtras(int recipe) {
+        super.drawExtras(recipe);
+        this.drawItemChance(recipe);
+        this.drawFluidChance(recipe);
+    }
+
+    @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals("liquid") && results[0] instanceof FluidStack
             && ((FluidStack) results[0]).getFluid() != null) {
@@ -100,6 +107,18 @@ public abstract class RecipeHandlerBase extends TemplateRecipeHandler implements
         }
 
         return currenttip;
+    }
+
+    @Override
+    public List<String> handleItemTooltip(GuiRecipe<?> guiRecipe, ItemStack itemStack, List<String> currenttip,
+        int recipe) {
+        super.handleItemTooltip(guiRecipe, itemStack, currenttip, recipe);
+        CachedBaseRecipe crecipe = (CachedBaseRecipe) this.arecipes.get(recipe);
+        Point mouse = GuiDraw.getMousePosition();
+        Point offset = guiRecipe.getRecipePosition(recipe);
+        Point relMouse = new Point(mouse.x - guiRecipe.guiLeft - offset.x, mouse.y - guiRecipe.guiTop - offset.y);
+
+        return this.provideItemTooltip(guiRecipe, itemStack, currenttip, crecipe, relMouse);
     }
 
     public List<String> provideTooltip(GuiRecipe<?> guiRecipe, List<String> currenttip, CachedBaseRecipe crecipe,
@@ -183,12 +202,45 @@ public abstract class RecipeHandlerBase extends TemplateRecipeHandler implements
 
     public void drawFluidTanks(int recipe) {
         CachedRecipe cachedRecipe = this.arecipes.get(recipe);
-        if (cachedRecipe instanceof CachedBaseRecipe) {
-            CachedBaseRecipe crecipe = (CachedBaseRecipe) cachedRecipe;
+        if (cachedRecipe instanceof CachedBaseRecipe crecipe) {
             if (crecipe.getFluidTanks() != null) {
                 for (PositionedFluidTank fluidTank : crecipe.getFluidTanks()) {
                     fluidTank.draw();
                 }
+            }
+        }
+    }
+
+    public void drawItemChance(int recipeIndex) {
+        CachedRecipe cachedRecipe = this.arecipes.get(recipeIndex);
+        if (!(cachedRecipe instanceof CachedBaseRecipe crecipe)) return;
+
+        List<PositionedStack> allStacks = new ArrayList<>();
+        if (crecipe.getResult() != null) allStacks.add(crecipe.getResult());
+
+        List<PositionedStack> ingredients = crecipe.getIngredients();
+        if (ingredients != null) allStacks.addAll(ingredients);
+
+        List<PositionedStack> others = crecipe.getOtherStacks();
+        if (others != null) allStacks.addAll(others);
+
+        for (PositionedStack stack : allStacks) {
+            if (stack instanceof PositionedStackAdv advStack) {
+                advStack.drawChance();
+            }
+        }
+    }
+
+    public void drawFluidChance(int recipeIndex) {
+        CachedRecipe cachedRecipe = this.arecipes.get(recipeIndex);
+        if (!(cachedRecipe instanceof CachedBaseRecipe crecipe)) return;
+
+        List<PositionedFluidTank> tanks = crecipe.getFluidTanks();
+        if (tanks == null || tanks.isEmpty()) return;
+
+        for (PositionedFluidTank tank : tanks) {
+            if (tank != null) {
+                tank.drawChance();
             }
         }
     }
@@ -198,14 +250,14 @@ public abstract class RecipeHandlerBase extends TemplateRecipeHandler implements
         return this.getRecipeID();
     }
 
-    public void drawItemSlotBackground(int x, int y) {
+    public void drawItemSlot(int x, int y) {
         Minecraft.getMinecraft()
             .getTextureManager()
             .bindTexture(new ResourceLocation(LibResources.GUI_SLOT));
         GuiDraw.drawTexturedModalRect(x, y, 18, 0, 18, 18);
     }
 
-    public void drawFluidSlotBackground(int x, int y) {
+    public void drawFluidSlot(int x, int y) {
         Minecraft.getMinecraft()
             .getTextureManager()
             .bindTexture(new ResourceLocation(LibResources.GUI_SLOT));
