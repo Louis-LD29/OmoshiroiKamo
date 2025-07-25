@@ -90,6 +90,10 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
         // Process any current items
         requiresClientSync |= checkProgress(redstoneChecksPassed);
 
+        if (currentTask == null) {
+            stage = 0f;
+        }
+
         if (currentTask != null || !hasValidInputsForRecipe()) {
             return requiresClientSync;
         }
@@ -163,6 +167,7 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
         }
         markDirty();
         currentTask = null;
+        stage = 0f;
         lastProgressScaled = 0;
     }
 
