@@ -33,7 +33,7 @@ public class BlockItemInOut extends AbstractBlock<TEItemInOut> {
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, BlockItemItemInOut.class, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockItemInOut.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(TEFluidInput.class, modObject.unlocalisedName + "TEItemInput");
         GameRegistry.registerTileEntity(TEFluidOutput.class, modObject.unlocalisedName + "TEItemOutput");
     }

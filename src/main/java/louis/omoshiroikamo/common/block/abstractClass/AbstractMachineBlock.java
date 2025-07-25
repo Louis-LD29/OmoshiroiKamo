@@ -8,9 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
@@ -49,14 +47,6 @@ public abstract class AbstractMachineBlock<T extends AbstractTE> extends Abstrac
                 world.spawnParticle("smoke", startX + xOffset, startY + yOffset, startZ + zOffset, 0.0D, 0.0D, 0.0D);
             }
         }
-    }
-
-    protected boolean isActive(IBlockAccess blockAccess, int x, int y, int z) {
-        TileEntity te = blockAccess.getTileEntity(x, y, z);
-        if (te instanceof AbstractTE) {
-            return ((AbstractTE) te).isActive();
-        }
-        return false;
     }
 
     @Override

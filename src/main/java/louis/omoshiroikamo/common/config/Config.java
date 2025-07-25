@@ -90,6 +90,7 @@ public class Config {
     public static String[] materialCustom = new String[] {};
     public static String[] oreCustom = new String[] {};
     public static boolean showDamageParticles = true;
+    public static boolean useWDMLA = true;
     public static int damageColor = 0xFFFFFF;
     public static int healColor = 0x33FF33;
 
@@ -113,6 +114,8 @@ public class Config {
         File configFile = new File(configDirectory, LibMisc.MOD_ID + ".cfg");
         config = new Configuration(configFile);
         syncConfig(false);
+
+        Logger.info("Loaded Config");
     }
 
     public static void syncConfig(boolean load) {
@@ -267,6 +270,9 @@ public class Config {
                 renderPufferFish,
                 "If true, render Pufferfish with 3d model with some things. Requires game restart.")
             .getBoolean(renderPufferFish);
+
+        useWDMLA = config.get(sectionPersonal.name, "useWDMLA", useWDMLA, "If true, use WDMLA. Requires game restart.")
+            .getBoolean(useWDMLA);
 
         // Damage Indicator
 

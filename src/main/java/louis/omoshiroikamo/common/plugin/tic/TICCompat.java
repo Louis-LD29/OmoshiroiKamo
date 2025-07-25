@@ -10,11 +10,12 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.ModBlocks;
+import louis.omoshiroikamo.common.core.helper.Logger;
+import louis.omoshiroikamo.common.core.lib.LibMods;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.fluid.FluidMaterialRegister;
 import louis.omoshiroikamo.common.item.ModItems;
@@ -27,9 +28,15 @@ import tconstruct.smeltery.TinkerSmeltery;
 
 public class TICCompat {
 
+    public static void init() {
+        if (!LibMods.tiC) return;
+        registerTinkersConstructIntegration();
+        Logger.info("Loaded TICCompat");
+    }
+
     public static boolean hasClay = GameRegistry.findItem("TConstruct", "clayPattern") != null;
 
-    public static void registerTinkersConstructIntegration(FMLPostInitializationEvent evt) {
+    public static void registerTinkersConstructIntegration() {
         if (TinkerSmeltery.smeltery == null) return;
 
         Block block = ModBlocks.blockMaterial;

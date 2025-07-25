@@ -39,6 +39,7 @@ import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.core.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.core.lib.LibMods;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.plugin.compat.IECompat;
 
@@ -250,7 +251,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                                     nodeLink.connectCable(type, targetLink);
                                     IESaveData.setDirty(world.provider.dimensionId);
 
-                                    if (Loader.isModLoaded("ImmersiveEngineering")) {
+                                    if (LibMods.immersiveEngineering) {
                                         player.triggerAchievement(IEAchievements.connectWire);
                                     }
 

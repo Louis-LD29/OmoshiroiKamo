@@ -11,6 +11,7 @@ import louis.omoshiroikamo.api.energy.EnergyStorageAdv;
 import louis.omoshiroikamo.api.energy.PowerHandlerUtil;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
+import louis.omoshiroikamo.common.core.lib.LibMods;
 import louis.omoshiroikamo.common.plugin.compat.IC2Compat;
 
 @Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
@@ -42,7 +43,7 @@ public abstract class AbstractPoweredTE extends AbstractIOTE implements IEnergyH
             return;
         }
 
-        if (IC2Compat.isIC2Loaded() && !this.inICNet) {
+        if (LibMods.ic2 && !this.inICNet) {
             IC2Compat.loadIC2Tile(this);
             this.inICNet = true;
         }
@@ -68,7 +69,7 @@ public abstract class AbstractPoweredTE extends AbstractIOTE implements IEnergyH
 
     @Optional.Method(modid = "IC2")
     void unload() {
-        if (IC2Compat.isIC2Loaded() && this.inICNet) {
+        if (LibMods.ic2 && this.inICNet) {
             IC2Compat.unloadIC2Tile(this);
             this.inICNet = false;
         }
@@ -80,11 +81,13 @@ public abstract class AbstractPoweredTE extends AbstractIOTE implements IEnergyH
 
     @Override
     public void writeCommon(NBTTagCompound root) {
+        super.writeCommon(root);
         root.setInteger(PowerHandlerUtil.STORED_ENERGY_NBT_KEY, storedEnergyRF);
     }
 
     @Override
     public void readCommon(NBTTagCompound root) {
+        super.readCommon(root);
         int energy;
         if (root.hasKey("storedEnergy")) {
             float storedEnergyMJ = root.getFloat("storedEnergy");

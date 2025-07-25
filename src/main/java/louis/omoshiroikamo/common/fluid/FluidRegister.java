@@ -32,7 +32,7 @@ public class FluidRegister {
             int temperature = (int) Math.round(entry.getTemperature());
 
             Fluid fluid = registerFluid(fluidName, density, viscosity, temperature);
-
+            fluid.setGaseous(entry.isGas());
             Block block = fluid.getBlock();
             BLOCKS.put(entry, block);
             FLUIDS.put(entry, fluid);

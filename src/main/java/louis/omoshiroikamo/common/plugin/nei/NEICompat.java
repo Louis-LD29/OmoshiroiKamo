@@ -4,9 +4,17 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import cpw.mods.fml.common.event.FMLInterModComms;
 import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.common.core.helper.Logger;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.core.lib.LibMods;
 
-public class IMCForNEI {
+public class NEICompat {
+
+    public static void init() {
+        if (!LibMods.nei) return;
+        IMCSender();
+
+    }
 
     public static void IMCSender() {
         sendHandler(ModObject.blockElectrolyzer.getRegistryName(), 85, 6);
@@ -14,6 +22,7 @@ public class IMCForNEI {
         sendHandler(ModObject.blockAnvil.getRegistryName(), 64, 6);
         sendCatalyst(ModObject.blockAnvil.getRegistryName());
         sendHandler("materialProperties", ModObject.itemMaterial.getRegistryName(), 85, 1);
+        Logger.info("Loaded IMCForNEI");
     }
 
     private static void sendHandler(String handler, String itemName, int height, int recipesPerPage) {

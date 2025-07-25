@@ -10,11 +10,11 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-import cpw.mods.fml.common.Loader;
 import crazypants.enderio.Log;
 import louis.omoshiroikamo.api.fluid.IFluidCoolant;
 import louis.omoshiroikamo.api.fluid.IFluidFuel;
 import louis.omoshiroikamo.api.fluid.IFluidRegister;
+import louis.omoshiroikamo.common.core.lib.LibMods;
 
 public class FluidFuelRegister implements IFluidRegister {
 
@@ -32,7 +32,7 @@ public class FluidFuelRegister implements IFluidRegister {
 
     private FluidFuelRegister() {
         addCoolant(FluidRegistry.WATER, 0.0023f);
-        if (Loader.isModLoaded("BuildCraft|Energy")) {
+        if (LibMods.buildCraftEnergy) {
             try {
                 IFluidRegister reg = (IFluidRegister) Class.forName("crazypants.enderio.fluid.BuildCraftFluidRegister")
                     .newInstance();

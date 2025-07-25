@@ -2,11 +2,13 @@ package louis.omoshiroikamo.common.plugin.nei;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+import louis.omoshiroikamo.common.core.helper.Logger;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.plugin.nei.recipe.AnvilRecipeHandler;
 import louis.omoshiroikamo.common.plugin.nei.recipe.ElectrolyzerRecipeHandler;
 import louis.omoshiroikamo.common.plugin.nei.recipe.MaterialPropertiesHandler;
 
+@SuppressWarnings("unused")
 public class NEIConfig implements IConfigureNEI {
 
     @Override
@@ -19,6 +21,7 @@ public class NEIConfig implements IConfigureNEI {
 
         API.registerRecipeHandler(new MaterialPropertiesHandler());
         API.registerUsageHandler(new MaterialPropertiesHandler());
+        Logger.info("Loaded NeiConfig");
     }
 
     @Override

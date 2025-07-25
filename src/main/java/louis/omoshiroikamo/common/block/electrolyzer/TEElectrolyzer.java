@@ -2,7 +2,13 @@ package louis.omoshiroikamo.common.block.electrolyzer;
 
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
 
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
@@ -22,7 +28,10 @@ import com.cleanroommc.modularui.widgets.slot.FluidSlot;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 
+import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.api.fluid.IFluidHandlerAdv;
+import louis.omoshiroikamo.api.fluid.SmartTank;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.client.gui.modularui2.MGuis;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractPoweredTaskTE;
@@ -31,9 +40,9 @@ import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
-public class TileElectrolyzer extends AbstractPoweredTaskTE {
+public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandlerAdv, IWailaInfoProvider {
 
-    public TileElectrolyzer() {
+    public TEElectrolyzer() {
         super(new SlotDefinition(0, 2, 3, 5, 0, 2, 3, 5, -1, -1), MaterialRegistry.getByName("Iron"));
     }
 
@@ -54,6 +63,13 @@ public class TileElectrolyzer extends AbstractPoweredTaskTE {
     }
 
     @Override
+    public boolean onBlockActivated(World world, EntityPlayer player, ForgeDirection side, float hitX, float hitY,
+        float hitZ) {
+        openGui(player);
+        return true;
+    }
+
+    @Override
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
         syncManager.registerSlotGroup("item_inv", 1);
         syncManager.syncValue("progress", new DoubleSyncValue(this::getProgress, value -> setProgress((float) value)));
@@ -69,9 +85,9 @@ public class TileElectrolyzer extends AbstractPoweredTaskTE {
                     SlotGroupWidget.builder()
                         .matrix("IIISSIII", "FFFSSFFF")
                         .key('I', index -> {
-                            return new ItemSlot().slot(new ModularSlot(this.inv, index).slotGroup("item_inv")
-                            // .filter(stack -> isItemValidForSlot(index, stack))
-                            )
+                            return new ItemSlot().slot(
+                                new ModularSlot(this.inv, index).slotGroup("item_inv")
+                                    .filter(stack -> isMachineItemValidForSlot(index, stack)))
                                 .debugName("Slot " + index);
                         })
                         .key('F', index -> {
@@ -140,4 +156,51 @@ public class TileElectrolyzer extends AbstractPoweredTaskTE {
                             .topRel(0.21f)
                             .leftRel(0.5f)));
     }
+
+    @Override
+    public SmartTank[] getTanks() {
+        return fluidTanks;
+    }
+
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        return 0;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+        return null;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+        return null;
+    }
+
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
+        return false;
+    }
+
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        return false;
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+        if (fluidTanks == null || fluidTanks.length == 0) return new FluidTankInfo[0];
+
+        FluidTankInfo[] info = new FluidTankInfo[fluidTanks.length];
+        for (int i = 0; i < fluidTanks.length; i++) {
+            SmartTank tank = fluidTanks[i];
+            if (tank != null) {
+                info[i] = new FluidTankInfo(tank.getFluid(), tank.getCapacity());
+            } else {
+                info[i] = new FluidTankInfo(null, 0);
+            }
+        }
+        return info;
+    }
+
 }

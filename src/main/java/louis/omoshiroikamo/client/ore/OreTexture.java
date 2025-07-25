@@ -87,8 +87,6 @@ public class OreTexture {
             if (!CONFIG_ORE_DIR.exists()) {
                 CONFIG_ORE_DIR.mkdirs();
             }
-
-            Logger.info("Loaded baseStone and oreMask successfully.");
         } catch (IOException e) {
             Logger.error("Failed to load base ore textures.");
             throw new RuntimeException("Failed to load ore base/mask", e);
