@@ -14,7 +14,6 @@ public interface IWailaInfoProvider {
         return false;
     }
 
-
     default boolean hasActiveStatus() {
         return false;
     }
