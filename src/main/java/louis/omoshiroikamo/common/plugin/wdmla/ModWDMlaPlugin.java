@@ -1,19 +1,19 @@
 package louis.omoshiroikamo.common.plugin.wdmla;
 
-import com.gtnewhorizons.wdmla.api.WDMlaPlugin;
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.core.lib.LibMods;
 import net.minecraft.util.ResourceLocation;
 
 import com.gtnewhorizons.wdmla.api.IWDMlaClientRegistration;
 import com.gtnewhorizons.wdmla.api.IWDMlaCommonRegistration;
 import com.gtnewhorizons.wdmla.api.IWDMlaPlugin;
+import com.gtnewhorizons.wdmla.api.WDMlaPlugin;
 
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
+import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.core.lib.LibMods;
 
 @SuppressWarnings("unused")
- @WDMlaPlugin
+@WDMlaPlugin
 public class ModWDMlaPlugin implements IWDMlaPlugin {
 
     @Override

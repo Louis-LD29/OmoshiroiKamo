@@ -2,7 +2,6 @@ package louis.omoshiroikamo.api;
 
 public interface IWailaInfoProvider {
 
-
     default boolean hasFluidStorage() {
         return false;
     }
@@ -11,7 +10,7 @@ public interface IWailaInfoProvider {
         return false;
     }
 
-//    WDMLA only
+    // WDMLA only
     default boolean hasItemStorage() {
         return false;
     }

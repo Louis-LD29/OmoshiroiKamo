@@ -27,9 +27,10 @@ public class ActiveTEProvider implements IWailaDataProvider {
         IWailaConfigHandler config) {
         return currenttip;
     }
+
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,
-                                     IWailaConfigHandler config) {
+        IWailaConfigHandler config) {
         if (!config.getConfig(LibMisc.MOD_ID + ".activeTE")) return currenttip;
 
         TileEntity tile = accessor.getTileEntity();
