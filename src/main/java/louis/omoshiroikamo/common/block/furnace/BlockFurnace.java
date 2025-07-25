@@ -49,6 +49,11 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
     }
 
     @Override
+    public int damageDropped(int meta) {
+        return 0;
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister reg) {
         this.icon = reg.registerIcon("furnace_side");
@@ -58,17 +63,14 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
+        if (side == 0 || side == 1) return iconTop;
+        if (side == 3) return iconFrontOff;
         return icon;
     }
 
     @Override
-    public int damageDropped(int meta) {
-        return 0;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
         if (side == 1 || side == 0) return iconTop;
         TileEntity tileEntity = world.getTileEntity(x, y, z);
