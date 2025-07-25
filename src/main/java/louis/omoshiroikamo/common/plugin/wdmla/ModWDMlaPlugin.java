@@ -16,9 +16,9 @@ public class ModWDMlaPlugin implements IWDMlaPlugin {
 
     @Override
     public void registerClient(IWDMlaClientRegistration registration) {
+        registration.registerBlockComponent(BlockStatusProvider.INSTANCE, AbstractBlock.class);
         registration.registerBlockComponent(FluidProvider.INSTANCE, AbstractBlock.class);
         registration.registerBlockComponent(EnergyProvider.INSTANCE, AbstractBlock.class);
-        registration.registerBlockComponent(BlockStatusProvider.INSTANCE, AbstractBlock.class);
         registration.registerItemStorageClient(StorageProvider.INSTANCE);
     }
 

@@ -6,6 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
 
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
@@ -27,6 +30,8 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 
 import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.api.fluid.IFluidHandlerAdv;
+import louis.omoshiroikamo.api.fluid.SmartTank;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.client.gui.modularui2.MGuis;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractPoweredTaskTE;
@@ -35,7 +40,7 @@ import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
-public class TEElectrolyzer extends AbstractPoweredTaskTE implements IWailaInfoProvider {
+public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandlerAdv, IWailaInfoProvider {
 
     public TEElectrolyzer() {
         super(new SlotDefinition(0, 2, 3, 5, 0, 2, 3, 5, -1, -1), MaterialRegistry.getByName("Iron"));
@@ -166,4 +171,56 @@ public class TEElectrolyzer extends AbstractPoweredTaskTE implements IWailaInfoP
     public boolean hasFluidStorage() {
         return true;
     }
+
+    @Override
+    public boolean hasActiveStatus() {
+        return true;
+    }
+
+    @Override
+    public SmartTank[] getTanks() {
+        return fluidTanks;
+    }
+
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        return 0;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+        return null;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+        return null;
+    }
+
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
+        return false;
+    }
+
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        return false;
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+        if (fluidTanks == null || fluidTanks.length == 0) return new FluidTankInfo[0];
+
+        FluidTankInfo[] info = new FluidTankInfo[fluidTanks.length];
+        for (int i = 0; i < fluidTanks.length; i++) {
+            SmartTank tank = fluidTanks[i];
+            if (tank != null) {
+                info[i] = new FluidTankInfo(tank.getFluid(), tank.getCapacity());
+            } else {
+                info[i] = new FluidTankInfo(null, 0);
+            }
+        }
+        return info;
+    }
+
 }
