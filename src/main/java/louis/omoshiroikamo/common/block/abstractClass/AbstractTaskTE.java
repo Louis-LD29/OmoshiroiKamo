@@ -90,10 +90,6 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
         // Process any current items
         requiresClientSync |= checkProgress(redstoneChecksPassed);
 
-        if (currentTask == null) {
-            stage = 0f;
-        }
-
         if (currentTask != null || !hasValidInputsForRecipe()) {
             return requiresClientSync;
         }
@@ -150,8 +146,8 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
     }
 
     public float useStage(float amount) {
+
         float used = Math.min(stage, amount);
-        stage = 0f;
         if (currentTask != null) {
             currentTask.update(used);
         }
@@ -167,7 +163,6 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
         }
         markDirty();
         currentTask = null;
-        stage = 0f;
         lastProgressScaled = 0;
     }
 
@@ -263,7 +258,7 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
         return canOutput(nextRecipe) ? nextRecipe : null;
     }
 
-    private boolean canOutput(MachineRecipe recipe) {
+    protected boolean canOutput(MachineRecipe recipe) {
         // Kiểm tra item outputs
         for (ChanceItemStack out : recipe.getItemOutputs()) {
             if (out == null) continue;
