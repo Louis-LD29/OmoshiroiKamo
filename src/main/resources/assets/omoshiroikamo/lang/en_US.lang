@@ -9,6 +9,10 @@ config.ie=Immersive Engineering
 config.ie.tooltip=Settings related to wire behavior and render.
 config.material=Material
 config.material.tooltip=Configure properties and rendering of materials such as ingots, blocks, and wires.
+config.fluid=Fluid
+config.fluid.tooltip=Configure properties and rendering of fluids abd Gaseous such as Water, Hydrogen,...
+config.ore=Ore
+config.ore.tooltip=Configure properties and rendering of ores such as hamatile, magnetile,...
 config.damage_indicator=Damage Indicator
 config.damage_indicator.tooltip=Configure properties and rendering of Damage Indicator.
 

@@ -5,6 +5,7 @@ import cpw.mods.fml.common.Loader;
 public class LibMods {
 
     public static final boolean waila = Loader.isModLoaded("Waila");
+    public static final boolean wdmla = Loader.isModLoaded("wdmla");
     public static final boolean baubles = Loader.isModLoaded("Baubles");
     public static final boolean baublesExpanded = Loader.isModLoaded("Baubles|Expanded");
     public static final boolean nei = Loader.isModLoaded("NotEnoughItems");

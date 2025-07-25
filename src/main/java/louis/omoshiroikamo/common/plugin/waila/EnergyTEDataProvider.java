@@ -47,8 +47,9 @@ public class EnergyTEDataProvider implements IWailaDataProvider {
 
                 if (maxStored > 0) {
                     int percent = (int) ((stored * 100.0) / maxStored);
-                    currenttip.add(
-                        String.format("§6Energy§r: §a%,d§7 / §a%,d§7 RF §8(§e%d%%§8)", stored, maxStored, percent));
+                    currenttip
+                        .add(String.format("§7Energy: §a%,d§7 / §a%,d§7 RF §8(§e%d%%§8)", stored, maxStored, percent));
+
                 }
             }
 
@@ -62,11 +63,11 @@ public class EnergyTEDataProvider implements IWailaDataProvider {
                     .getMaxPowerTransfer();
                 int maxUsage = te.getMaterial()
                     .getMaxPowerUsage();
+                currenttip.add(String.format("§7Voltage Tier: §f%s", voltageTier));
+                currenttip.add(String.format("§7Voltage: §b%.0f§7 V", voltage));
+                currenttip.add(String.format("§7Max Transfer: §b%,d§7 RF/t", maxTransfer));
+                currenttip.add(String.format("§7Max Usage: §b%,d§7 RF/t", maxUsage));
 
-                currenttip.add(String.format("§6Voltage Tier§r: §e%s", voltageTier));
-                currenttip.add(String.format("§6Voltage§r: §b%.0f§7 V", voltage));
-                currenttip.add(String.format("§6Max Transfer§r: §b%,d§7 RF/t", maxTransfer));
-                currenttip.add(String.format("§6Max Usage§r: §b%,d§7 RF/t", maxUsage));
             } else if (te.getMaterial() != null) {
                 currenttip.add("§7(Hold §eShift§7 for details)");
             }

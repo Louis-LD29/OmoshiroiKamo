@@ -1,21 +1,24 @@
 package louis.omoshiroikamo.common.plugin.wdmla;
 
+import com.gtnewhorizons.wdmla.api.WDMlaPlugin;
+import louis.omoshiroikamo.common.config.Config;
+import louis.omoshiroikamo.common.core.lib.LibMods;
 import net.minecraft.util.ResourceLocation;
 
 import com.gtnewhorizons.wdmla.api.IWDMlaClientRegistration;
 import com.gtnewhorizons.wdmla.api.IWDMlaCommonRegistration;
 import com.gtnewhorizons.wdmla.api.IWDMlaPlugin;
-import com.gtnewhorizons.wdmla.api.WDMlaPlugin;
 
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 
 @SuppressWarnings("unused")
-@WDMlaPlugin
+ @WDMlaPlugin
 public class ModWDMlaPlugin implements IWDMlaPlugin {
 
     @Override
     public void registerClient(IWDMlaClientRegistration registration) {
+        if (!LibMods.wdmla || !Config.useWDMLA) return;
         registration.registerBlockComponent(BlockStatusProvider.INSTANCE, AbstractBlock.class);
         registration.registerProgressClient(BlockProcessProvider.INSTANCE);
         registration.registerBlockComponent(FluidProvider.INSTANCE, AbstractBlock.class);
@@ -25,6 +28,7 @@ public class ModWDMlaPlugin implements IWDMlaPlugin {
 
     @Override
     public void register(IWDMlaCommonRegistration registration) {
+        if (!LibMods.wdmla || !Config.useWDMLA) return;
         registration.registerBlockDataProvider(BlockStatusProvider.INSTANCE, AbstractBlock.class);
         registration.registerProgress(BlockProcessProvider.INSTANCE, AbstractBlock.class);
         registration.registerItemStorage(StorageProvider.INSTANCE, AbstractBlock.class);

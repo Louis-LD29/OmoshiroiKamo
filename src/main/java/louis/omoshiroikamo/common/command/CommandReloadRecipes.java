@@ -1,13 +1,10 @@
 package louis.omoshiroikamo.common.command;
 
-import java.io.File;
-
-import louis.omoshiroikamo.common.recipes.ModRecipes;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 
-import louis.omoshiroikamo.common.recipes.RecipeLoader;
+import louis.omoshiroikamo.common.recipes.ModRecipes;
 
 public class CommandReloadRecipes extends CommandBase {
 
@@ -20,7 +17,6 @@ public class CommandReloadRecipes extends CommandBase {
     public String getCommandUsage(ICommandSender sender) {
         return "/reloadrecipes";
     }
-
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {

@@ -40,6 +40,8 @@ public class FluidTEDataProvider implements IWailaDataProvider {
         if (!(tileEntity instanceof IWailaInfoProvider provider)) return currenttip;
         if (!provider.hasFluidStorage()) return currenttip;
         AbstractTE te = (AbstractTE) tileEntity;
+        if (!accessor.getPlayer()
+            .isSneaking()) return currenttip;
 
         SmartTank[] tanks = handler.getTanks();
         if (tanks == null || tanks.length == 0) return currenttip;
@@ -56,26 +58,24 @@ public class FluidTEDataProvider implements IWailaDataProvider {
                 int fluidTemp = tank.getFluid()
                     .getFluid()
                     .getTemperature();
-
                 currenttip.add(
                     String.format(
-                        "§b%s§r: §a%,d§7 / §a%,d§7L §8| §e%d§7 K",
+                        "§b%s§7: §a%,d§7 / §a%,d§7L §8| §e%d§7 K",
                         fluidName,
                         fluidAmount,
                         capacity,
                         fluidTemp));
+
             } else {
-                currenttip.add(String.format("§7Empty§r: §a0§7 / §a%,d§7L", tank.getCapacity()));
+                currenttip.add(String.format("§7Empty: 0 / %,dL", tank.getCapacity()));
             }
         }
 
-        if (accessor.getPlayer()
-            .isSneaking() && te.getMaterial() != null) {
+        if (te.getMaterial() != null) {
             int meltPointK = (int) te.getMaterial()
                 .getMeltingPointK();
-            currenttip.add(String.format("§6Melting Point§r: §c%d§7 K", meltPointK));
-        } else if (te.getMaterial() != null) {
-            currenttip.add("§7(Hold §eShift§7 for details)");
+            currenttip.add(String.format("§7Melting Point: §c%d§7 K", meltPointK));
+
         }
 
         return currenttip;
