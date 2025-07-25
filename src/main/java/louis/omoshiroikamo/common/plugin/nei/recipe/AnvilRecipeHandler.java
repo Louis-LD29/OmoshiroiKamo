@@ -52,21 +52,13 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
     public void loadCraftingRecipes(ItemStack item) {
         super.loadCraftingRecipes(item);
         Set<MachineRecipe> added = new HashSet<>();
-        boolean isHammer = item.getItem() == ModItems.itemHammer;
-        boolean isAnvil = item.getItem() == Item.getItemFromBlock(ModBlocks.blockAnvil);
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockAnvil.unlocalisedName)) {
-            if (isHammer || isAnvil) {
-                if (added.add(recipe)) {
-                    arecipes.add(new CachedAnvilRecipe(recipe));
-                }
-            } else {
-                for (ChanceItemStack out : recipe.getItemOutputs()) {
-                    if (NEIServerUtils.areStacksSameTypeCrafting(out.stack, item)) {
-                        if (added.add(recipe)) {
-                            arecipes.add(new CachedAnvilRecipe(recipe));
-                        }
-                        break;
+            for (ChanceItemStack out : recipe.getItemOutputs()) {
+                if (NEIServerUtils.areStacksSameTypeCrafting(out.stack, item)) {
+                    if (added.add(recipe)) {
+                        arecipes.add(new CachedAnvilRecipe(recipe));
                     }
+                    break;
                 }
             }
         }

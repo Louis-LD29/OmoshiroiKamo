@@ -5,12 +5,14 @@ import net.minecraft.entity.EntityLivingBase;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
+import louis.omoshiroikamo.common.core.helper.Logger;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.core.lib.LibMods;
 import mcp.mobius.waila.api.IWailaRegistrar;
 
 public class WailaCompat {
 
+    @Deprecated
     public static void wailaCallback(IWailaRegistrar registrar) {
 
         // Configs
@@ -35,6 +37,7 @@ public class WailaCompat {
         if (Loader.isModLoaded("wdmla")) {
             return;
         }
+        Logger.info("Loaded WailaCompat");
         FMLInterModComms
             .sendMessage("Waila", "register", "com.louis.test.common.plugin.waila.WailaRegistrar.wailaCallback");
     }

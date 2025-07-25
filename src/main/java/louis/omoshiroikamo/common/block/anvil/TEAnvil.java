@@ -6,13 +6,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTaskTE;
 import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
 import louis.omoshiroikamo.common.item.ItemHammer;
 
-public class TEAnvil extends AbstractTaskTE implements IWailaInfoProvider {
+public class TEAnvil extends AbstractTaskTE {
 
     public TEAnvil() {
         super(new SlotDefinition(0, 0, 1, 8, -1, -1));
@@ -160,10 +159,5 @@ public class TEAnvil extends AbstractTaskTE implements IWailaInfoProvider {
         if (!worldObj.isRemote) {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
-    }
-
-    @Override
-    public boolean hasItemStorage() {
-        return true;
     }
 }

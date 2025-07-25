@@ -17,4 +17,8 @@ public interface IWailaInfoProvider {
     default boolean hasActiveStatus() {
         return false;
     }
+
+    default boolean hasProcessStatus() {
+        return false;
+    }
 }

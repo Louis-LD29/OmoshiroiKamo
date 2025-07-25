@@ -23,6 +23,7 @@ import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.api.enums.VoltageTier;
 import louis.omoshiroikamo.client.render.AbstractMTESR;
 import louis.omoshiroikamo.common.config.Config;
+import louis.omoshiroikamo.common.core.helper.Logger;
 
 @Optional.InterfaceList({
     @Optional.Interface(
@@ -48,6 +49,7 @@ public class IECompat {
         FMLCommonHandler.instance()
             .bus()
             .register(new EventHandler());
+        Logger.info("Loaded IECompat");
     }
 
     public static void serverLoad() {

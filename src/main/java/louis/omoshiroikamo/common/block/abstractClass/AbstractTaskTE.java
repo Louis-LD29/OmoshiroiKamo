@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
+import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
 import louis.omoshiroikamo.common.core.helper.Logger;
 import louis.omoshiroikamo.common.core.helper.OreDictUtils;
@@ -22,7 +23,7 @@ import louis.omoshiroikamo.common.recipes.PoweredTaskProgress;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
-public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTile {
+public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTile, IWailaInfoProvider {
 
     protected final Random random = new Random();
     protected IPoweredTask currentTask = null;
@@ -372,30 +373,26 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
     }
 
     @Override
-    public void readCustomNBT(NBTTagCompound nbtRoot) {
-        super.readCustomNBT(nbtRoot);
-        currentTask = nbtRoot.hasKey("currentTask") ? createTask(nbtRoot.getCompoundTag("currentTask")) : null;
-        String uid = nbtRoot.getString("lastCompletedRecipe");
-        lastCompletedRecipe = MachineRecipeRegistry.getRecipeForUid(uid);
-
-    }
-
-    @Override
-    public void writeCustomNBT(NBTTagCompound nbtRoot) {
-        super.writeCustomNBT(nbtRoot);
+    public void writeCommon(NBTTagCompound root) {
+        super.writeCommon(root);
         if (currentTask != null) {
             NBTTagCompound currentTaskNBT = new NBTTagCompound();
             currentTask.writeToNBT(currentTaskNBT);
-            nbtRoot.setTag("currentTask", currentTaskNBT);
+            root.setTag("currentTask", currentTaskNBT);
         }
         if (lastCompletedRecipe != null) {
-            nbtRoot.setString("lastCompletedRecipe", lastCompletedRecipe.getUid());
+            root.setString("lastCompletedRecipe", lastCompletedRecipe.getUid());
         }
     }
 
     @Override
-    public void readCommon(NBTTagCompound nbtRoot) {
-        super.readCommon(nbtRoot);
+    public void readCommon(NBTTagCompound root) {
+        super.readCommon(root);
+
+        currentTask = root.hasKey("currentTask") ? createTask(root.getCompoundTag("currentTask")) : null;
+        String uid = root.getString("lastCompletedRecipe");
+        lastCompletedRecipe = MachineRecipeRegistry.getRecipeForUid(uid);
+
         cachedNextRecipe = null;
     }
 
@@ -427,5 +424,15 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
             }
         }
         return list;
+    }
+
+    @Override
+    public boolean hasItemStorage() {
+        return true;
+    }
+
+    @Override
+    public boolean hasProcessStatus() {
+        return true;
     }
 }

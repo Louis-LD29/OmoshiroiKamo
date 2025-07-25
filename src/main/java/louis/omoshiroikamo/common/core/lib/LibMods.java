@@ -11,4 +11,5 @@ public class LibMods {
     public static final boolean tiC = Loader.isModLoaded("TConstruct");
     public static final boolean immersiveEngineering = Loader.isModLoaded("ImmersiveEngineering");
     public static final boolean buildCraftEnergy = Loader.isModLoaded("BuildCraft|Energy");
+    public static final boolean ic2 = Loader.isModLoaded("IC2");
 }

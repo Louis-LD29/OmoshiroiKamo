@@ -158,26 +158,6 @@ public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandl
     }
 
     @Override
-    public boolean hasItemStorage() {
-        return true;
-    }
-
-    @Override
-    public boolean hasEnergyStorage() {
-        return true;
-    }
-
-    @Override
-    public boolean hasFluidStorage() {
-        return true;
-    }
-
-    @Override
-    public boolean hasActiveStatus() {
-        return true;
-    }
-
-    @Override
     public SmartTank[] getTanks() {
         return fluidTanks;
     }

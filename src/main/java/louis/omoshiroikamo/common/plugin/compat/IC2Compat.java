@@ -4,7 +4,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
@@ -23,10 +22,6 @@ public class IC2Compat {
 
     public static double rfToEu(int rf) {
         return rf * RF_TO_EU;
-    }
-
-    public static boolean isIC2Loaded() {
-        return Loader.isModLoaded("IC2");
     }
 
     @Optional.Method(modid = "IC2")

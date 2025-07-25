@@ -36,7 +36,6 @@ public enum EnergyProvider implements IBlockComponentProvider {
         int maxStored = handler.getMaxEnergyStored(ForgeDirection.UNKNOWN);
 
         if (maxStored > 0) {
-            int percent = (int) ((stored * 100.0) / maxStored);
 
             tooltip.child(
                 new ProgressComponent(stored, maxStored)
@@ -44,9 +43,8 @@ public enum EnergyProvider implements IBlockComponentProvider {
                     .child(
                         new VPanelComponent().padding(DEFAULT_PROGRESS_DESCRIPTION_PADDING)
                             .child(
-                                new TextComponent(
-                                    String.format("Energy: %,d / %,d RF (%d%%)", stored, maxStored, percent))
-                                        .style(new TextStyle().color(0xFFFFFF)))));
+                                new TextComponent(String.format("%,d / %,d RF", stored, maxStored))
+                                    .style(new TextStyle().color(0xFFFFFF)))));
         }
         if (accessor.showDetails() && te.getMaterial() != null) {
             tooltip.child(

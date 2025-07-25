@@ -26,6 +26,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.api.energy.tile.IEnergySink;
 import louis.omoshiroikamo.common.config.Config;
+import louis.omoshiroikamo.common.core.lib.LibMods;
 import louis.omoshiroikamo.common.plugin.compat.IC2Compat;
 
 /*
@@ -102,7 +103,7 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
     public void doUpdate() {
         super.doUpdate();
         if (!worldObj.isRemote) {
-            if (IC2Compat.isIC2Loaded() && !this.inICNet) {
+            if (LibMods.ic2 && !this.inICNet) {
                 IC2Compat.loadIC2Tile(this);
                 this.inICNet = true;
             }
@@ -132,7 +133,7 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
     }
 
     void unload() {
-        if (IC2Compat.isIC2Loaded() && this.inICNet) {
+        if (LibMods.ic2 && this.inICNet) {
             IC2Compat.unloadIC2Tile(this);
             this.inICNet = false;
         }
@@ -163,8 +164,7 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
         ForgeDirection fd = ForgeDirection.getOrientation(getFacing())
             .getOpposite();
         TileEntity tile = worldObj.getTileEntity(xCoord + fd.offsetX, yCoord + fd.offsetY, zCoord + fd.offsetZ);
-        return tile != null
-            && (tile instanceof IEnergyReceiver || (IC2Compat.isIC2Loaded() && IC2Compat.isEnergySink(tile)));
+        return tile != null && (tile instanceof IEnergyReceiver || (LibMods.ic2 && IC2Compat.isEnergySink(tile)));
     }
 
     @Override
@@ -179,7 +179,7 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
         int ret = 0;
         if (capacitor instanceof IEnergyReceiver && ((IEnergyReceiver) capacitor).canConnectEnergy(fd.getOpposite()))
             ret = ((IEnergyReceiver) capacitor).receiveEnergy(fd.getOpposite(), toAccept, simulate);
-        else if (IC2Compat.isIC2Loaded() && IC2Compat.isAcceptingEnergySink(capacitor, this, fd.getOpposite())) {
+        else if (LibMods.ic2 && IC2Compat.isAcceptingEnergySink(capacitor, this, fd.getOpposite())) {
             double left = IC2Compat.injectEnergy(
                 capacitor,
                 fd.getOpposite(),
@@ -302,7 +302,7 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
     @Optional.Method(modid = "IC2")
     @Override
     public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction) {
-        return IC2Compat.isIC2Loaded() && canConnectEnergy(direction);
+        return LibMods.ic2 && canConnectEnergy(direction);
     }
 
     @Optional.Method(modid = "IC2")
