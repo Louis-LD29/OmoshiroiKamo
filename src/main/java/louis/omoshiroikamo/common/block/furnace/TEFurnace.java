@@ -85,9 +85,20 @@ public class TEFurnace extends AbstractTaskTE {
                     inv.setStackInSlot(1, null);
                 }
             }
+            forceClientUpdate = true;
         }
-        if (burnTime < 1) return false;
+
+        if (burnTime <= 0) {
+            return false;
+        }
+
         return super.processTasks(redstoneChecksPassed);
+    }
+
+    @Override
+    protected void taskComplete() {
+        super.taskComplete();
+        forceClientUpdate = true;
     }
 
     @Override

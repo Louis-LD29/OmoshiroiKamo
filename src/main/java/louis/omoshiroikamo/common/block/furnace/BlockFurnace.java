@@ -101,6 +101,52 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
         super.breakBlock(world, x, y, z, block, meta);
     }
 
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z) {
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity instanceof AbstractTE te && te.isActive()) {
+            return 13;
+        }
+        return super.getLightValue(world, x, y, z);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (!(tileEntity instanceof AbstractTE te) || !te.isActive()) return;
+
+        int facing = te.facing;
+
+        double d0 = x + 0.5;
+        double d1 = y + rand.nextDouble() * 6.0 / 16.0;
+        double d2 = z + 0.5;
+
+        double offset = 0.52;
+        double sideOffset = rand.nextDouble() * 0.6 - 0.3;
+
+        switch (facing) {
+            case 0: // Down (hiếm khi dùng)
+            case 1: // Up
+            case 2: // North (-Z)
+                world.spawnParticle("smoke", d0 + sideOffset, d1, d2 - offset, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("flame", d0 + sideOffset, d1, d2 - offset, 0.0D, 0.0D, 0.0D);
+                break;
+            case 3: // South (+Z)
+                world.spawnParticle("smoke", d0 + sideOffset, d1, d2 + offset, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("flame", d0 + sideOffset, d1, d2 + offset, 0.0D, 0.0D, 0.0D);
+                break;
+            case 4: // West (-X)
+                world.spawnParticle("smoke", d0 - offset, d1, d2 + sideOffset, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("flame", d0 - offset, d1, d2 + sideOffset, 0.0D, 0.0D, 0.0D);
+                break;
+            case 5: // East (+X)
+                world.spawnParticle("smoke", d0 + offset, d1, d2 + sideOffset, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle("flame", d0 + offset, d1, d2 + sideOffset, 0.0D, 0.0D, 0.0D);
+                break;
+        }
+    }
+
     public static void dropStack(World world, int x, int y, int z, ItemStack stack) {
         if (stack == null || stack.stackSize <= 0) return;
 
@@ -119,29 +165,7 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
     }
 
     @Override
-    public void randomDisplayTick(World worldIn, int x, int y, int z, Random random) {
-        if (isActive(worldIn, x, y, z)) {
-            int l = worldIn.getBlockMetadata(x, y, z);
-            float f = (float) x + 0.5F;
-            float f1 = (float) y + 0.0F + random.nextFloat() * 6.0F / 16.0F;
-            float f2 = (float) z + 0.5F;
-            float f3 = 0.52F;
-            float f4 = random.nextFloat() * 0.6F - 0.3F;
-
-            if (l == 4) {
-                worldIn.spawnParticle("smoke", (double) (f - f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
-                worldIn.spawnParticle("flame", (double) (f - f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
-            } else if (l == 5) {
-                worldIn.spawnParticle("smoke", (double) (f + f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
-                worldIn.spawnParticle("flame", (double) (f + f3), (double) f1, (double) (f2 + f4), 0.0D, 0.0D, 0.0D);
-            } else if (l == 2) {
-                worldIn.spawnParticle("smoke", (double) (f + f4), (double) f1, (double) (f2 - f3), 0.0D, 0.0D, 0.0D);
-                worldIn.spawnParticle("flame", (double) (f + f4), (double) f1, (double) (f2 - f3), 0.0D, 0.0D, 0.0D);
-            } else if (l == 3) {
-                worldIn.spawnParticle("smoke", (double) (f + f4), (double) f1, (double) (f2 + f3), 0.0D, 0.0D, 0.0D);
-                worldIn.spawnParticle("flame", (double) (f + f4), (double) f1, (double) (f2 + f3), 0.0D, 0.0D, 0.0D);
-            }
-        }
-        super.randomDisplayTick(worldIn, x, y, z, random);
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block blockId) {
+        super.onNeighborBlockChange(world, x, y, z, blockId);
     }
 }
