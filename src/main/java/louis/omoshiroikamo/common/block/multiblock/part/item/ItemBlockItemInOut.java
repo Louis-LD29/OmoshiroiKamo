@@ -18,15 +18,15 @@ import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 
-public class BlockItemItemInOut extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
+public class ItemBlockItemInOut extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 
-    public BlockItemItemInOut() {
+    public ItemBlockItemInOut() {
         super(ModBlocks.blockItemInOut, ModBlocks.blockItemInOut);
         setHasSubtypes(true);
         setCreativeTab(OKCreativeTab.INSTANCE);
     }
 
-    public BlockItemItemInOut(Block block) {
+    public ItemBlockItemInOut(Block block) {
         super(block, block);
         setHasSubtypes(true);
         setCreativeTab(OKCreativeTab.tabBlock);

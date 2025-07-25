@@ -15,7 +15,7 @@ import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.common.block.electrolyzer.TileElectrolyzer;
+import louis.omoshiroikamo.common.block.electrolyzer.TEElectrolyzer;
 import louis.omoshiroikamo.common.core.helper.OreDictUtils;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.plugin.nei.PositionedFluidTank;
@@ -215,7 +215,7 @@ public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
             if (recipe.getItemOutputs() != null) itemOutputs.addAll(recipe.getItemOutputs());
             if (recipe.getFluidInputs() != null) fluidInputs.addAll(recipe.getFluidInputs());
             if (recipe.getFluidOutputs() != null) fluidOutputs.addAll(recipe.getFluidOutputs());
-            TileElectrolyzer te = new TileElectrolyzer();
+            TEElectrolyzer te = new TEElectrolyzer();
 
             this.energyCost = recipe.energyCost;
             this.usagePerTick = te.getPowerUsePerTick();

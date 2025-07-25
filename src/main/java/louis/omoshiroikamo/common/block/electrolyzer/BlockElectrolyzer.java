@@ -18,10 +18,10 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractMachineBlock;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 
-public class BlockElectrolyzer extends AbstractMachineBlock<TileElectrolyzer> {
+public class BlockElectrolyzer extends AbstractMachineBlock<TEElectrolyzer> {
 
     protected BlockElectrolyzer() {
-        super(ModObject.blockElectrolyzer, TileElectrolyzer.class);
+        super(ModObject.blockElectrolyzer, TEElectrolyzer.class);
     }
 
     public static BlockElectrolyzer create() {
@@ -54,7 +54,7 @@ public class BlockElectrolyzer extends AbstractMachineBlock<TileElectrolyzer> {
 
     @Override
     public TileEntity createTileEntity(World world, int i) {
-        return new TileElectrolyzer();
+        return new TEElectrolyzer();
     }
 
     @Override

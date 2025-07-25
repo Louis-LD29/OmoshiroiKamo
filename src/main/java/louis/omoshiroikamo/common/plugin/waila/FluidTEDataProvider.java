@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.api.fluid.IFluidHandlerAdv;
 import louis.omoshiroikamo.api.fluid.SmartTank;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
@@ -36,6 +37,8 @@ public class FluidTEDataProvider implements IWailaDataProvider {
 
         TileEntity tileEntity = accessor.getTileEntity();
         if (!(tileEntity instanceof IFluidHandlerAdv handler)) return currenttip;
+        if (!(tileEntity instanceof IWailaInfoProvider provider)) return currenttip;
+        if (!provider.hasFluidStorage()) return currenttip;
         AbstractTE te = (AbstractTE) tileEntity;
 
         SmartTank[] tanks = handler.getTanks();

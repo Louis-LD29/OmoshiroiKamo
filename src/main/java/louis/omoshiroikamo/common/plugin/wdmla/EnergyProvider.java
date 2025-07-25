@@ -17,8 +17,8 @@ import com.gtnewhorizons.wdmla.impl.ui.style.ProgressStyle;
 import com.gtnewhorizons.wdmla.impl.ui.style.TextStyle;
 
 import cofh.api.energy.IEnergyReceiver;
+import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
-import louis.omoshiroikamo.common.block.energyConnector.TEConnectable;
 
 public enum EnergyProvider implements IBlockComponentProvider {
 
@@ -28,8 +28,9 @@ public enum EnergyProvider implements IBlockComponentProvider {
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor) {
         TileEntity tileEntity = accessor.getTileEntity();
         if (!(tileEntity instanceof AbstractTE te)) return;
-        if (!(te instanceof IEnergyReceiver handler)) return;
-        if (te instanceof TEConnectable) return;
+        if (!(tileEntity instanceof IEnergyReceiver handler)) return;
+        if (!(tileEntity instanceof IWailaInfoProvider provider)) return;
+        if (!provider.hasEnergyStorage()) return;
 
         int stored = handler.getEnergyStored(ForgeDirection.UNKNOWN);
         int maxStored = handler.getMaxEnergyStored(ForgeDirection.UNKNOWN);

@@ -18,6 +18,7 @@ import com.gtnewhorizons.wdmla.impl.ui.ThemeHelper;
 import com.gtnewhorizons.wdmla.impl.ui.component.TextComponent;
 import com.gtnewhorizons.wdmla.plugin.universal.FluidStorageProvider;
 
+import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.api.fluid.IFluidHandlerAdv;
 import louis.omoshiroikamo.api.fluid.SmartTank;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
@@ -30,9 +31,11 @@ public enum FluidProvider implements IBlockComponentProvider {
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor) {
         TileEntity tileEntity = accessor.getTileEntity();
+        if (!(tileEntity instanceof AbstractTE te)) return;
         if (!(tileEntity instanceof IFluidHandlerAdv handler)) return;
+        if (!(tileEntity instanceof IWailaInfoProvider provider)) return;
+        if (!provider.hasFluidStorage()) return;
 
-        AbstractTE te = tileEntity instanceof AbstractTE at ? at : null;
         SmartTank[] tanks = handler.getTanks();
         if (tanks == null || tanks.length == 0) return;
 

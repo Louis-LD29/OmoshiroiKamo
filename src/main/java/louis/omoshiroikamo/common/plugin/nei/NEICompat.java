@@ -3,11 +3,17 @@ package louis.omoshiroikamo.common.plugin.nei;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.core.lib.LibMods;
 import louis.omoshiroikamo.common.plugin.nei.recipe.AnvilRecipeHandler;
 import louis.omoshiroikamo.common.plugin.nei.recipe.ElectrolyzerRecipeHandler;
 import louis.omoshiroikamo.common.plugin.nei.recipe.MaterialPropertiesHandler;
 
-public class NEIConfig implements IConfigureNEI {
+public class NEICompat implements IConfigureNEI {
+
+    public static void init() {
+        if (!LibMods.nei) return;
+        IMCForNEI.IMCSender();
+    }
 
     @Override
     public void loadConfig() {

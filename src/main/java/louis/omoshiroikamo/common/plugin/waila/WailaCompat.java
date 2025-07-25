@@ -6,9 +6,10 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.core.lib.LibMods;
 import mcp.mobius.waila.api.IWailaRegistrar;
 
-public class WailaRegistrar {
+public class WailaCompat {
 
     public static void wailaCallback(IWailaRegistrar registrar) {
 
@@ -28,6 +29,9 @@ public class WailaRegistrar {
     }
 
     public static void init() {
+        if (!LibMods.waila) {
+            return;
+        }
         if (Loader.isModLoaded("wdmla")) {
             return;
         }

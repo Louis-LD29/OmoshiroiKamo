@@ -49,14 +49,6 @@ public abstract class AbstractMachineBlock<T extends AbstractMachineEntity> exte
         }
     }
 
-    protected boolean isActive(IBlockAccess blockAccess, int x, int y, int z) {
-        TileEntity te = blockAccess.getTileEntity(x, y, z);
-        if (te instanceof AbstractMachineEntity) {
-            return ((AbstractMachineEntity) te).isActive();
-        }
-        return false;
-    }
-
     @Override
     public String getUnlocalizedNameForTooltip(ItemStack stack) {
         return getUnlocalizedName();

@@ -6,10 +6,8 @@ import com.gtnewhorizons.wdmla.api.IWDMlaClientRegistration;
 import com.gtnewhorizons.wdmla.api.IWDMlaCommonRegistration;
 import com.gtnewhorizons.wdmla.api.IWDMlaPlugin;
 import com.gtnewhorizons.wdmla.api.WDMlaPlugin;
-import com.gtnewhorizons.wdmla.plugin.universal.ItemStorageProvider;
 
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
-import louis.omoshiroikamo.common.block.anvil.BlockAnvil;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 
 @SuppressWarnings("unused")
@@ -20,11 +18,14 @@ public class ModWDMlaPlugin implements IWDMlaPlugin {
     public void registerClient(IWDMlaClientRegistration registration) {
         registration.registerBlockComponent(FluidProvider.INSTANCE, AbstractBlock.class);
         registration.registerBlockComponent(EnergyProvider.INSTANCE, AbstractBlock.class);
+        registration.registerBlockComponent(BlockStatusProvider.INSTANCE, AbstractBlock.class);
+        registration.registerItemStorageClient(StorageProvider.INSTANCE);
     }
 
     @Override
     public void register(IWDMlaCommonRegistration registration) {
-        registration.registerItemStorage(ItemStorageProvider.Extension.INSTANCE, BlockAnvil.class);
+        registration.registerBlockDataProvider(BlockStatusProvider.INSTANCE, AbstractBlock.class);
+        registration.registerItemStorage(StorageProvider.INSTANCE, AbstractBlock.class);
     }
 
     public static ResourceLocation Uid(String uid) {

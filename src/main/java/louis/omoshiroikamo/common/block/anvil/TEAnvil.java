@@ -1,18 +1,18 @@
 package louis.omoshiroikamo.common.block.anvil;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTaskTE;
 import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
 import louis.omoshiroikamo.common.item.ItemHammer;
 
-public class TEAnvil extends AbstractTaskTE implements ISidedInventory {
+public class TEAnvil extends AbstractTaskTE implements IWailaInfoProvider {
 
     public TEAnvil() {
         super(new SlotDefinition(0, 0, 1, 8, -1, -1));
@@ -160,5 +160,10 @@ public class TEAnvil extends AbstractTaskTE implements ISidedInventory {
         if (!worldObj.isRemote) {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
+    }
+
+    @Override
+    public boolean hasItemStorage() {
+        return true;
     }
 }

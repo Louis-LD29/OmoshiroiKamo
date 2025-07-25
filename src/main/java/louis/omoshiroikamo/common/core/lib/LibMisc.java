@@ -14,6 +14,7 @@ public final class LibMisc {
         + "required-after:structurelib;"
         + "required-after:modularui2;"
         + "required-after:neid;"
+        + "after:Waila;"
         + "after:ImmersiveEngineering;"
         + "after:TConstruct;";
 

@@ -2,9 +2,11 @@ package louis.omoshiroikamo.common.block.anvil;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -98,4 +100,36 @@ public class BlockAnvil extends AbstractBlock<TEAnvil> {
         this.setBlockBoundsBasedOnState(world, x, y, z);
         return super.getCollisionBoundingBoxFromPool(world, x, y, z);
     }
+
+    @Override
+    public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te instanceof TEAnvil anvil) {
+            for (int i = 0; i < anvil.getSizeInventory(); i++) {
+                ItemStack stack = anvil.getStackInSlot(i);
+                if (stack != null) {
+                    dropStack(world, x, y, z, stack);
+                }
+            }
+        }
+        super.breakBlock(world, x, y, z, block, meta);
+    }
+
+    public static void dropStack(World world, int x, int y, int z, ItemStack stack) {
+        if (stack == null || stack.stackSize <= 0) return;
+
+        float dx = world.rand.nextFloat() * 0.8F + 0.1F;
+        float dy = world.rand.nextFloat() * 0.8F + 0.1F;
+        float dz = world.rand.nextFloat() * 0.8F + 0.1F;
+
+        EntityItem entityItem = new EntityItem(world, x + dx, y + dy, z + dz, stack.copy());
+
+        float motion = 0.05F;
+        entityItem.motionX = world.rand.nextGaussian() * motion;
+        entityItem.motionY = world.rand.nextGaussian() * motion + 0.2F;
+        entityItem.motionZ = world.rand.nextGaussian() * motion;
+
+        world.spawnEntityInWorld(entityItem);
+    }
+
 }

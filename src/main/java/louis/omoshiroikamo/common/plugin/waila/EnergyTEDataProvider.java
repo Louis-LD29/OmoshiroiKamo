@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import cofh.api.energy.IEnergyHandler;
+import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -37,6 +38,8 @@ public class EnergyTEDataProvider implements IWailaDataProvider {
         if (tileEntity instanceof IEnergyHandler handler) {
 
             AbstractTE te = (AbstractTE) tileEntity;
+            if (!(tileEntity instanceof IWailaInfoProvider provider)) return currenttip;
+            if (!provider.hasEnergyStorage()) return currenttip;
 
             if (!config.getConfig("thermalexpansion.energyhandler")) {
                 int stored = handler.getEnergyStored(accessor.getSide());

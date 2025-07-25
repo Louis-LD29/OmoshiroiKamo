@@ -5,7 +5,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLConstructionEvent;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -28,9 +27,9 @@ import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.fluid.ModFluids;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.plugin.compat.IECompat;
-import louis.omoshiroikamo.common.plugin.nei.IMCForNEI;
+import louis.omoshiroikamo.common.plugin.nei.NEICompat;
 import louis.omoshiroikamo.common.plugin.tic.TICCompat;
-import louis.omoshiroikamo.common.plugin.waila.WailaRegistrar;
+import louis.omoshiroikamo.common.plugin.waila.WailaCompat;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
 import louis.omoshiroikamo.common.world.OKWorldGenerator;
 import makamys.mclib.core.MCLib;
@@ -75,15 +74,10 @@ public class CommonProxy {
             .register(FlightHandler.instance);
 
         ModRecipes.init();
+
         IECompat.init();
-
-        if (Loader.isModLoaded("Waila")) {
-            WailaRegistrar.init();
-        }
-
-        if (Loader.isModLoaded("NotEnoughItems")) {
-            IMCForNEI.IMCSender();
-        }
+        WailaCompat.init();
+        NEICompat.init();
 
     }
 
@@ -91,9 +85,8 @@ public class CommonProxy {
         Config.postInit();
         MinecraftForge.EVENT_BUS.register(new ElementalHandler());
 
-        if (Loader.isModLoaded("TConstruct")) {
-            TICCompat.registerTinkersConstructIntegration(event);
-        }
+        TICCompat.init();
+
     }
 
     public EntityPlayer getClientPlayer() {
