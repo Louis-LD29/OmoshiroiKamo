@@ -61,7 +61,7 @@ public class ItemBlockEnergyInOut extends ItemBlockWithMetadata implements IAdva
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean flag) {
         int meta = itemstack.getItemDamage();
-        MaterialEntry material = MaterialRegistry.fromMeta(meta);
+        MaterialEntry material = MaterialRegistry.fromMeta(meta % LibResources.META1);
 
         list.add(String.format("§7Material:§f %s", material.getName()));
         list.add(

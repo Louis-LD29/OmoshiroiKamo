@@ -115,7 +115,7 @@ public class MaterialEntry {
     // Item
     public int getItemSlotCount() {
         double volume = getVolume();
-        return Math.max(1, (int) Math.ceil(volume / 0.01));
+        return Math.max(1, (int) Math.ceil(volume / 0.01)) * 2;
     }
 
     // Fluid

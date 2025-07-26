@@ -76,6 +76,7 @@ tile.blockConnectable.connectorEV.name=EV Wire Connector
 tile.blockConnectable.connectorIV.name=IV Wire Connector
 tile.blockConnectable.transformer.name=Transformer
 tile.blockAnvil.name=Anvil
+tile.blockFurnace.name=Furnace
 
 #Immersive Engineering
 

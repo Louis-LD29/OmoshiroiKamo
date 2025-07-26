@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 
 import com.cleanroommc.modularui.factory.GuiFactories;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
@@ -33,12 +32,6 @@ public class BlockSolarPanel extends AbstractMachineBlock<TileSolarPanel> implem
         BlockSolarPanel res = new BlockSolarPanel();
         res.init();
         return res;
-    }
-
-    @Override
-    protected void init() {
-        GameRegistry.registerBlock(this, ItemBlockSolarPanel.class, modObject.unlocalisedName);
-        GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
     }
 
     @Override

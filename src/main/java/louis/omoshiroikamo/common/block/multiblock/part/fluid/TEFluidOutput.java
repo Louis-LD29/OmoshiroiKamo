@@ -19,6 +19,7 @@ import com.cleanroommc.modularui.widgets.slot.FluidSlot;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.fluid.SmartTank;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
+import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class TEFluidOutput extends TEFluidInOut {
 
@@ -27,7 +28,7 @@ public class TEFluidOutput extends TEFluidInOut {
 
     protected TEFluidOutput(int meta) {
         this.meta = meta;
-        material = MaterialRegistry.fromMeta(meta % 100);
+        material = MaterialRegistry.fromMeta(meta % LibResources.META1);
         tank = new SmartTank(material);
     }
 
@@ -37,7 +38,7 @@ public class TEFluidOutput extends TEFluidInOut {
 
     @Override
     public String getMachineName() {
-        return ModObject.blockFluidInOut.unlocalisedName + "." + (meta >= 100 ? "output" : "input");
+        return ModObject.blockFluidInOut.unlocalisedName + "." + (meta >= LibResources.META1 ? "output" : "input");
     }
 
     @Override

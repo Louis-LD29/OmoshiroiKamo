@@ -20,6 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractStorageTE;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 
 public class BlockFurnace extends AbstractBlock<TEFurnace> {
@@ -89,10 +90,10 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
 
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-        TileEntity te = world.getTileEntity(x, y, z);
-        if (te instanceof TEFurnace anvil) {
-            for (int i = 0; i < anvil.getSizeInventory(); i++) {
-                ItemStack stack = anvil.getStackInSlot(i);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity instanceof AbstractStorageTE te) {
+            for (int i = 0; i < te.getSizeInventory(); i++) {
+                ItemStack stack = te.getStackInSlot(i);
                 if (stack != null) {
                     dropStack(world, x, y, z, stack);
                 }

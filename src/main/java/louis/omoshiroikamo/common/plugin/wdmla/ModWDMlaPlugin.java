@@ -19,6 +19,7 @@ public class ModWDMlaPlugin implements IWDMlaPlugin {
     @Override
     public void registerClient(IWDMlaClientRegistration registration) {
         if (!LibMods.wdmla || !Config.useWDMLA) return;
+        registration.registerBlockComponent(CustomProvider.INSTANCE, AbstractBlock.class);
         registration.registerBlockComponent(BlockStatusProvider.INSTANCE, AbstractBlock.class);
         registration.registerProgressClient(BlockProcessProvider.INSTANCE);
         registration.registerBlockComponent(FluidProvider.INSTANCE, AbstractBlock.class);
@@ -29,6 +30,7 @@ public class ModWDMlaPlugin implements IWDMlaPlugin {
     @Override
     public void register(IWDMlaCommonRegistration registration) {
         if (!LibMods.wdmla || !Config.useWDMLA) return;
+        registration.registerBlockDataProvider(CustomProvider.INSTANCE, AbstractBlock.class);
         registration.registerBlockDataProvider(BlockStatusProvider.INSTANCE, AbstractBlock.class);
         registration.registerProgress(BlockProcessProvider.INSTANCE, AbstractBlock.class);
         registration.registerItemStorage(StorageProvider.INSTANCE, AbstractBlock.class);

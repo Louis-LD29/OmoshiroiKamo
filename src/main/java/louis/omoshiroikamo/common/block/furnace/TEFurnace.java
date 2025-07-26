@@ -1,9 +1,14 @@
 package louis.omoshiroikamo.common.block.furnace;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -20,11 +25,17 @@ import com.cleanroommc.modularui.widgets.SlotGroupWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
+import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
+import com.gtnewhorizons.wdmla.api.ui.IComponent;
+import com.gtnewhorizons.wdmla.api.ui.ITooltip;
+import com.gtnewhorizons.wdmla.impl.ui.ThemeHelper;
+import com.gtnewhorizons.wdmla.plugin.vanilla.VanillaIdentifiers;
 
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.client.gui.modularui2.MGuiTextures;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTaskTE;
 import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
+import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
 public class TEFurnace extends AbstractTaskTE {
 
@@ -66,39 +77,59 @@ public class TEFurnace extends AbstractTaskTE {
 
     @Override
     protected boolean processTasks(boolean redstoneChecksPassed) {
-        if (burnTime <= 0 && inv.getStackInSlot(0) != null) {
-            ItemStack fuelStack = inv.getStackInSlot(1);
-            if (fuelStack == null || fuelStack.stackSize <= 0) return false;
+        ItemStack input = inv.getStackInSlot(0);
+        ItemStack fuel = inv.getStackInSlot(1);
 
-            int fuelBurn = getBurnTime(fuelStack);
-            if (fuelBurn <= 0) return false;
+        if (burnTime <= 0 && input != null && fuel != null && fuel.stackSize > 0) {
+            int fuelBurn = getBurnTime(fuel);
+            if (fuelBurn > 0) {
+                burnTime = totalBurnTime = fuelBurn;
 
-            burnTime = totalBurnTime = fuelBurn;
-
-            ItemStack container = fuelStack.getItem()
-                .getContainerItem(fuelStack);
-            if (container != null && !ItemStack.areItemStacksEqual(container, fuelStack)) {
-                inv.setStackInSlot(1, container);
-            } else {
-                fuelStack.stackSize--;
-                if (fuelStack.stackSize <= 0) {
-                    inv.setStackInSlot(1, null);
+                ItemStack container = fuel.getItem()
+                    .getContainerItem(fuel);
+                if (container != null && !ItemStack.areItemStacksEqual(container, fuel)) {
+                    inv.setStackInSlot(1, container);
+                } else {
+                    fuel.stackSize--;
+                    if (fuel.stackSize <= 0) {
+                        inv.setStackInSlot(1, null);
+                    }
                 }
+
+                forceClientUpdate = true;
             }
-            forceClientUpdate = true;
         }
 
-        if (burnTime <= 0) {
+        if (burnTime == 0) {
+            burnTime = -1;
+            forceClientUpdate = true;
             return false;
         }
-
-        return super.processTasks(redstoneChecksPassed);
+        if (burnTime > 0) {
+            super.processTasks(redstoneChecksPassed);
+        }
+        return false;
     }
 
     @Override
-    protected void taskComplete() {
-        super.taskComplete();
-        forceClientUpdate = true;
+    protected void updateEntityClient() {
+        if (isActive() != lastActive) {
+            ticksSinceActiveChanged++;
+            if (ticksSinceActiveChanged > 20 || isActive()) {
+                ticksSinceActiveChanged = 0;
+                lastActive = isActive();
+                forceClientUpdate = true;
+            }
+        }
+
+        if (forceClientUpdate) {
+            if (worldObj.rand.nextInt(1024) <= (isDirty ? 256 : 0)) {
+                isDirty = !isDirty;
+            }
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            worldObj.updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
+            forceClientUpdate = false;
+        }
     }
 
     @Override
@@ -171,4 +202,73 @@ public class TEFurnace extends AbstractTaskTE {
         panel.bindPlayerInventory();
         return panel;
     }
+
+    @Override
+    public boolean hasProcessStatus() {
+        return false;
+    }
+
+    @Override
+    public boolean hasItemStorage() {
+        return false;
+    }
+
+    @Override
+    public void appendTooltip(ITooltip tooltip, BlockAccessor accessor) {
+        if (!(accessor.getTileEntity() instanceof TEFurnace)) return;
+        NBTTagCompound data = accessor.getServerData();
+        float progressTE = data.getFloat("progressTE");
+        this.inv.deserializeNBT(data.getCompoundTag("item_inv"));
+
+        ItemStack input = inv.getStackInSlot(0);
+        ItemStack fuel = inv.getStackInSlot(1);
+
+        List<ItemStack> outputs = new ArrayList<>();
+        for (int i = slotDefinition.getMinOutputSlot(); i < slotDefinition.getMaxOutputSlot(); i++) {
+            outputs.add(inv.getStackInSlot(i));
+        }
+
+        boolean allOutputEmpty = outputs.stream()
+            .allMatch(s -> s == null);
+
+        if (input != null && allOutputEmpty) {
+            List<ChanceItemStack> resultList = getItemOutput();
+            for (int i = 0; i < resultList.size() && i < outputs.size(); i++) {
+                ChanceItemStack out = resultList.get(i);
+                if (out != null && out.stack != null) {
+                    ItemStack ghost = out.stack.copy();
+                    ghost.stackSize = 0;
+                    outputs.set(i, ghost);
+                }
+            }
+        }
+
+        boolean allEmpty = input == null && fuel == null
+            && outputs.stream()
+                .allMatch(s -> s == null);
+
+        if (!allEmpty) {
+            IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
+                Arrays.asList(input, fuel),
+                outputs,
+                (int) (progressTE * 100),
+                100,
+                accessor.showDetails());
+
+            if (progress != null) {
+                tooltip.child(progress.tag(VanillaIdentifiers.FURNACE));
+            }
+        }
+
+        super.appendTooltip(tooltip, accessor);
+    }
+
+    @Override
+    public void appendServerData(NBTTagCompound data, BlockAccessor accessor) {
+        if (!(accessor.getTileEntity() instanceof TEFurnace te)) return;
+
+        data.setFloat("progressTE", te.getProgress());
+        data.setTag("item_inv", this.inv.serializeNBT());
+    }
+
 }

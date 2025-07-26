@@ -20,7 +20,6 @@ public class ModBlocks {
     public static Block blockAnvil;
     public static Block blockFurnace;
     public static Block blockMultiBlock;
-    public static Block blockTest;
     public static Block blockSolar;
     public static Block blockBoiler;
     public static Block blockFluidInOut;
@@ -31,7 +30,6 @@ public class ModBlocks {
     public static Block blockElectrolyzer;
 
     public static void init() {
-        // blockTest = BlockTest.create();
         // blockSolar = BlockSolarPanel.create();
         // blockBoiler = BlockBoiler.create();
         // blockFluidInput = BlockFluidInput.create();

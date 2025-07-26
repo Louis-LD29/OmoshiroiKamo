@@ -96,6 +96,18 @@ public class LangSectionInserter {
                 + mat.getName()
                 + ")");
         addMaterialSection(
+            "#Item Input",
+            mat -> "tile.blockItemInOut.input." + mat.getUnlocalizedName()
+                + ".name=Item Input ("
+                + mat.getName()
+                + ")");
+        addMaterialSection(
+            "#Item Output",
+            mat -> "tile.blockItemInOut.output." + mat.getUnlocalizedName()
+                + ".name=Item Output ("
+                + mat.getName()
+                + ")");
+        addMaterialSection(
             "#Block Fluid Material",
             mat -> "tile.fluid.molten." + StringUtils.uncapitalize(mat.getUnlocalizedName())
                 + ".name=Molten "

@@ -6,9 +6,7 @@ import louis.omoshiroikamo.common.core.lib.LibMisc;
 
 public enum ModObject {
 
-    blockMeta,
     blockMultiblock,
-    blockTest,
     blockBoiler,
     blockFluidInOut,
     blockItemInOut,
