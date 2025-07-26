@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 
 import com.cleanroommc.modularui.factory.GuiFactories;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
@@ -28,12 +27,6 @@ public class BlockElectrolyzer extends AbstractMachineBlock<TEElectrolyzer> {
         BlockElectrolyzer res = new BlockElectrolyzer();
         res.init();
         return res;
-    }
-
-    @Override
-    protected void init() {
-        GameRegistry.registerBlock(this, ItemBlockElectrolyzer.class, modObject.unlocalisedName);
-        GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
     }
 
     @Override

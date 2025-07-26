@@ -37,6 +37,11 @@ public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> {
     }
 
     @Override
+    public String getUnlocalizedName() {
+        return super.getUnlocalizedName();
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
         for (MaterialEntry materialEntry : MaterialRegistry.all()) {

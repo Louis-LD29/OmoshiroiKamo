@@ -145,8 +145,17 @@ public class TEAnvil extends AbstractTaskTE {
     }
 
     @Override
+    protected boolean processTasks(boolean redstoneChecksPassed) {
+        if (currentTask == null) {
+            stage = 0f;
+        }
+        return super.processTasks(redstoneChecksPassed);
+    }
+
+    @Override
     protected void taskComplete() {
         super.taskComplete();
+        stage = 0f;
         if (!worldObj.isRemote) {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }

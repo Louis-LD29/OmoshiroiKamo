@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 import com.enderio.core.common.TileEntityEnder;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
@@ -38,12 +37,6 @@ public class BlockAnvil extends AbstractBlock<TEAnvil> {
         BlockAnvil res = new BlockAnvil();
         res.init();
         return res;
-    }
-
-    @Override
-    protected void init() {
-        GameRegistry.registerBlock(this, ItemBlockAnvil.class, modObject.unlocalisedName);
-        GameRegistry.registerTileEntity(TEAnvil.class, modObject.unlocalisedName + "TileEntity");
     }
 
     @Override

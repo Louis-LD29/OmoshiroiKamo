@@ -15,6 +15,7 @@ import louis.omoshiroikamo.api.energy.PowerDistributor;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
+import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class TEEnergyOutput extends TEEnergyInOut {
 
@@ -23,7 +24,7 @@ public class TEEnergyOutput extends TEEnergyInOut {
     protected TEEnergyOutput(int meta) {
         super(new SlotDefinition(0, 0, 0, 0, -1, -1), new EnergyStorageAdv(MaterialRegistry.fromMeta(meta % 100)));
         this.meta = meta;
-        this.material = MaterialRegistry.fromMeta(meta % 100);
+        this.material = MaterialRegistry.fromMeta(meta % LibResources.META1);
     }
 
     public TEEnergyOutput() {
@@ -32,7 +33,7 @@ public class TEEnergyOutput extends TEEnergyInOut {
 
     @Override
     public String getMachineName() {
-        return ModObject.blockFluidInOut.unlocalisedName + "." + (meta >= 100 ? "output" : "input");
+        return ModObject.blockFluidInOut.unlocalisedName + "." + (meta >= LibResources.META1 ? "output" : "input");
     }
 
     @Override

@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -183,10 +182,6 @@ public abstract class AbstractTE extends TileEntityEio implements IGuiHolder<Pos
         if (isServerSide()) {
             MGuis.open(player, this);
         }
-    }
-
-    public ChunkCoordinates getChunkCoord() {
-        return new ChunkCoordinates(xCoord, yCoord, zCoord);
     }
 
     @Override

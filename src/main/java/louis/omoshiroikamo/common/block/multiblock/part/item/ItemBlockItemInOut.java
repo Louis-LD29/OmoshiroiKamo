@@ -61,9 +61,10 @@ public class ItemBlockItemInOut extends ItemBlockWithMetadata implements IAdvanc
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
         int meta = itemstack.getItemDamage();
-        MaterialEntry material = MaterialRegistry.fromMeta(meta);
-        list.add("§7Material:§f " + material.getMeta());
-        list.add("§7Slot:§f " + material.getItemSlotCount());
+        MaterialEntry material = MaterialRegistry.fromMeta(meta % LibResources.META1);
+
+        list.add(String.format("§7Material:§f %s", material.getName()));
+        list.add(String.format("§7Slot:§f %d", material.getItemSlotCount()));
     }
 
     @Override

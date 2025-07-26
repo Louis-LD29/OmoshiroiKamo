@@ -1,5 +1,6 @@
 package louis.omoshiroikamo.common.block.abstractClass;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -18,12 +19,14 @@ import net.minecraftforge.common.util.ForgeDirection;
 import com.enderio.core.common.TileEntityEnder;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.client.IResourceTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.BlockOK;
 import louis.omoshiroikamo.common.block.abstractClass.machine.AbstractMachineEntity;
 
-public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK implements IResourceTooltipProvider {
+public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK
+    implements IResourceTooltipProvider, IAdvancedTooltipProvider {
 
     public static int renderId;
     protected final Random random;
@@ -139,6 +142,16 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK implem
         return getUnlocalizedName();
     }
 
+    @Override
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+
+    @Override
+    public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean advanced) {
+
+    }
+
+    @Override
+    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
     // Renderer
 
     @Override

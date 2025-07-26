@@ -405,40 +405,40 @@ public class Config {
         }
 
         // Ore
-        oreCustom = config.get(
-            sectionOre.name,
-            "oreCustom",
-            oreCustom,
-            "List of custom ore names to register on next game load. "
-                + "Each material will be initialized with predefined or config-based properties. Requires game restart.")
-            .getStringList();
-
-        for (String name : oreCustom) {
-            if (!OreRegistry.contains(name)) {
-                OreEntry entry = new OreEntry(name);
-                OreRegistry.register(entry);
-            }
-        }
-
-        Set<String> oreDefined = new HashSet<>();
-        for (OreEntry entry : OreRegistry.all()) {
-            oreDefined.add(entry.getName());
-        }
-
-        Set<String> categoriesOreToRemove = new HashSet<>();
-        for (String category : config.getCategoryNames()) {
-            if (category.startsWith("ore settings") && !category.equals("ore settings")) {
-                String name = category.substring("ore settings".length() + 1);
-                if (!oreDefined.contains(name.toLowerCase())) {
-                    categoriesOreToRemove.add(category);
-                }
-            }
-        }
-
-        for (String cat : categoriesOreToRemove) {
-            config.removeCategory(config.getCategory(cat));
-        }
-        LangSectionInserter.insertCustomMaterialsLang(oreCustom);
+        // oreCustom = config.get(
+        // sectionOre.name,
+        // "oreCustom",
+        // oreCustom,
+        // "List of custom ore names to register on next game load. "
+        // + "Each material will be initialized with predefined or config-based properties. Requires game restart.")
+        // .getStringList();
+        //
+        // for (String name : oreCustom) {
+        // if (!OreRegistry.contains(name)) {
+        // OreEntry entry = new OreEntry(name);
+        // OreRegistry.register(entry);
+        // }
+        // }
+        //
+        // Set<String> oreDefined = new HashSet<>();
+        // for (OreEntry entry : OreRegistry.all()) {
+        // oreDefined.add(entry.getName());
+        // }
+        //
+        // Set<String> categoriesOreToRemove = new HashSet<>();
+        // for (String category : config.getCategoryNames()) {
+        // if (category.startsWith("ore settings") && !category.equals("ore settings")) {
+        // String name = category.substring("ore settings".length() + 1);
+        // if (!oreDefined.contains(name.toLowerCase())) {
+        // categoriesOreToRemove.add(category);
+        // }
+        // }
+        // }
+        //
+        // for (String cat : categoriesOreToRemove) {
+        // config.removeCategory(config.getCategory(cat));
+        // }
+        // LangSectionInserter.insertCustomMaterialsLang(oreCustom);
         oreConfigs.clear();
         for (OreEntry entry : OreRegistry.all()) {
             oreConfigs.put(

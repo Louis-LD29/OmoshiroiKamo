@@ -1,5 +1,10 @@
 package louis.omoshiroikamo.api;
 
+import net.minecraft.nbt.NBTTagCompound;
+
+import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
+import com.gtnewhorizons.wdmla.api.ui.ITooltip;
+
 public interface IWailaInfoProvider {
 
     default boolean hasFluidStorage() {
@@ -22,4 +27,8 @@ public interface IWailaInfoProvider {
     default boolean hasProcessStatus() {
         return false;
     }
+
+    default void appendTooltip(ITooltip tooltip, BlockAccessor accessor) {};
+
+    default void appendServerData(NBTTagCompound data, BlockAccessor accessor) {};
 }

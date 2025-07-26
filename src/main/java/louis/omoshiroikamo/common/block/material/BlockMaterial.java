@@ -39,7 +39,7 @@ public class BlockMaterial extends BlockOK {
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, ItemBlockMaterial.class, ModObject.blockMaterial.unlocalisedName);
+        GameRegistry.registerBlock(this, ModObject.blockMaterial.unlocalisedName);
 
         for (MaterialEntry entry : MaterialRegistry.all()) {
             String matName = entry.getUnlocalizedName();

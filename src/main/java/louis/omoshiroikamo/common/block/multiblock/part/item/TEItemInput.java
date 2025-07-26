@@ -17,15 +17,13 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
+import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class TEItemInput extends TEItemInOut {
 
-    protected ItemStackHandler inv;
-
     protected TEItemInput(int meta) {
-        super(MaterialRegistry.fromMeta(meta));
-        material = MaterialRegistry.fromMeta(meta);
-        inv = new ItemStackHandler(material.getItemSlotCount());
+        super(MaterialRegistry.fromMeta(meta % LibResources.META1));
+        this.meta = meta;
     }
 
     public TEItemInput() {
@@ -43,6 +41,11 @@ public class TEItemInput extends TEItemInOut {
     }
 
     @Override
+    public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
+        return false;
+    }
+
+    @Override
     public boolean onBlockActivated(World world, EntityPlayer player, ForgeDirection side, float hitX, float hitY,
         float hitZ) {
         openGui(player);
@@ -55,17 +58,26 @@ public class TEItemInput extends TEItemInOut {
         syncManager.registerSlotGroup("item_inv", slotCount);
 
         ParentWidget<?> parent = new ParentWidget<>();
-        parent.align(Alignment.TopCenter);
+        parent.align(Alignment.TopLeft);
 
         int slotSize = 18;
-        int totalWidth = slotCount * slotSize;
-        int startX = -totalWidth / 2;
+        int slotsPerRow = 9;
+        int paddingX = 7;
+        int paddingY = 7;
 
         for (int i = 0; i < slotCount; i++) {
-            int x = startX + i * slotSize;
+            int row = i / slotsPerRow;
+            int col = i % slotsPerRow;
+
+            int x = paddingX + col * slotSize;
+            int y = paddingY + row * slotSize;
+
+            int finalI = i;
             parent.child(
-                new ItemSlot().slot(new ModularSlot(inv, i).slotGroup("item_inv"))
-                    .pos(x, 0));
+                new ItemSlot().slot(
+                    new ModularSlot(inv, finalI).slotGroup("item_inv")
+                        .filter(itemStack -> isMachineItemValidForSlot(finalI, itemStack)))
+                    .pos(x, y));
         }
 
         return ModularPanel.defaultPanel(getMachineName())

@@ -6,26 +6,19 @@ import louis.omoshiroikamo.common.core.lib.LibMisc;
 
 public enum ModObject {
 
-    blockMeta,
     blockMultiblock,
-    blockTest,
     blockBoiler,
-    blockFluidInput,
-    blockFluidOutput,
-    blockFluidFilter,
     blockFluidInOut,
     blockItemInOut,
-    blockItemInput,
-    blockItemOutput,
     blockEnergyInOut,
     blockHeatInput,
     blockHeatSource,
     blockElectrolyzer,
     blockSolar,
     blockMaterial,
-    blockFluidMaterial,
     blockConnectable,
     blockAnvil,
+    blockFurnace,
 
     itemOperationOrb,
     itemMaterial,

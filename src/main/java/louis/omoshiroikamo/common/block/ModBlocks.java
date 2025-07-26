@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import louis.omoshiroikamo.common.block.anvil.BlockAnvil;
 import louis.omoshiroikamo.common.block.electrolyzer.BlockElectrolyzer;
 import louis.omoshiroikamo.common.block.energyConnector.BlockConnectable;
+import louis.omoshiroikamo.common.block.furnace.BlockFurnace;
 import louis.omoshiroikamo.common.block.material.BlockMaterial;
 import louis.omoshiroikamo.common.block.multiblock.BlockMultiBlock;
 import louis.omoshiroikamo.common.block.multiblock.part.energy.BlockEnergyInOut;
@@ -17,8 +18,8 @@ public class ModBlocks {
     public static Block blockConnectable;
     public static Block blockMaterial;
     public static Block blockAnvil;
+    public static Block blockFurnace;
     public static Block blockMultiBlock;
-    public static Block blockTest;
     public static Block blockSolar;
     public static Block blockBoiler;
     public static Block blockFluidInOut;
@@ -29,7 +30,6 @@ public class ModBlocks {
     public static Block blockElectrolyzer;
 
     public static void init() {
-        // blockTest = BlockTest.create();
         // blockSolar = BlockSolarPanel.create();
         // blockBoiler = BlockBoiler.create();
         // blockFluidInput = BlockFluidInput.create();
@@ -47,6 +47,7 @@ public class ModBlocks {
         blockConnectable = BlockConnectable.create();
         blockMaterial = BlockMaterial.create();
         blockAnvil = BlockAnvil.create();
+        blockFurnace = BlockFurnace.create();
         OreRegister.init();
     }
 

@@ -64,7 +64,7 @@ public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvan
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean advanced) {
         int meta = itemstack.getItemDamage();
-        MaterialEntry material = MaterialRegistry.fromMeta(meta);
+        MaterialEntry material = MaterialRegistry.fromMeta(meta % LibResources.META1);
 
         list.add(String.format("§7Material:§f %s", material.getName()));
         list.add(String.format("§7Volume:§f %,dL", material.getVolumeMB()));

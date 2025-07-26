@@ -1,6 +1,7 @@
 package louis.omoshiroikamo.common.block.abstractClass;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -9,6 +10,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+
+import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
+import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 
 import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
@@ -90,10 +94,6 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
         // Process any current items
         requiresClientSync |= checkProgress(redstoneChecksPassed);
 
-        if (currentTask == null) {
-            stage = 0f;
-        }
-
         if (currentTask != null || !hasValidInputsForRecipe()) {
             return requiresClientSync;
         }
@@ -150,8 +150,8 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
     }
 
     public float useStage(float amount) {
+
         float used = Math.min(stage, amount);
-        stage = 0f;
         if (currentTask != null) {
             currentTask.update(used);
         }
@@ -167,7 +167,6 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
         }
         markDirty();
         currentTask = null;
-        stage = 0f;
         lastProgressScaled = 0;
     }
 
@@ -263,7 +262,7 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
         return canOutput(nextRecipe) ? nextRecipe : null;
     }
 
-    private boolean canOutput(MachineRecipe recipe) {
+    protected boolean canOutput(MachineRecipe recipe) {
         // Kiểm tra item outputs
         for (ChanceItemStack out : recipe.getItemOutputs()) {
             if (out == null) continue;
@@ -431,6 +430,35 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
         return list;
     }
 
+    public List<ChanceItemStack> getItemOutput() {
+        if (currentTask == null) return Collections.emptyList();
+        MachineRecipe recipe = currentTask.getRecipe();
+        if (recipe == null) return Collections.emptyList();
+
+        List<ChanceItemStack> result = new ArrayList<>();
+        for (ChanceItemStack is : recipe.getItemOutputs()) {
+            if (is != null && is.stack != null) {
+                ItemStack oreRep = OreDictUtils.getOreDictRepresentative(is.stack);
+                result.add(new ChanceItemStack(oreRep, is.chance));
+            }
+        }
+        return result;
+    }
+
+    public List<ChanceFluidStack> getFluidOutput() {
+        if (currentTask == null) return Collections.emptyList();
+        MachineRecipe recipe = currentTask.getRecipe();
+        if (recipe == null) return Collections.emptyList();
+
+        List<ChanceFluidStack> result = new ArrayList<>();
+        for (ChanceFluidStack fs : recipe.getFluidOutputs()) {
+            if (fs != null && fs.stack != null) {
+                result.add(new ChanceFluidStack(fs.stack.copy(), fs.chance));
+            }
+        }
+        return result;
+    }
+
     @Override
     public boolean hasItemStorage() {
         return true;
@@ -439,5 +467,10 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
     @Override
     public boolean hasProcessStatus() {
         return true;
+    }
+
+    @Override
+    public void appendTooltip(ITooltip tooltip, BlockAccessor accessor) {
+
     }
 }
