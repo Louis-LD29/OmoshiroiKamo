@@ -1,4 +1,4 @@
-package blusunrize.immersiveengineering.client.models;
+package louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.client.models;
 
 import java.util.ArrayList;
 
@@ -7,8 +7,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 
-import blusunrize.immersiveengineering.client.ClientUtils;
-import blusunrize.immersiveengineering.common.util.chickenbones.Matrix4;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.client.ClientUtils;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.chickenbones.Matrix4;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.

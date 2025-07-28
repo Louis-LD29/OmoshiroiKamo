@@ -1,4 +1,4 @@
-package blusunrize.immersiveengineering.api;
+package louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api;
 
 import net.minecraft.nbt.NBTTagCompound;
 

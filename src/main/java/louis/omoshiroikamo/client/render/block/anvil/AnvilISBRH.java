@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import louis.omoshiroikamo.common.block.anvil.TEAnvil;
-import louis.omoshiroikamo.common.plugin.compat.IECompat;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.client.ClientUtils;
 
 public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
 
@@ -33,7 +33,7 @@ public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
         TileEntity te = world.getTileEntity(x, y, z);
         if (!(te instanceof TEAnvil teAnvil)) return false;
 
-        IECompat.handleStaticTileRenderer(teAnvil);
+        ClientUtils.handleStaticTileRenderer(teAnvil);
 
         return false;
     }
@@ -69,7 +69,7 @@ public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
             } else if (type == ItemRenderType.EQUIPPED) {
                 GL11.glTranslatef(0.5f, 0.5f, 0.5f);
             }
-            IECompat.handleStaticTileItemRenderer(anvil);
+            ClientUtils.handleStaticTileItemRenderer(anvil);
         } catch (Exception e) {
             e.printStackTrace();
         }

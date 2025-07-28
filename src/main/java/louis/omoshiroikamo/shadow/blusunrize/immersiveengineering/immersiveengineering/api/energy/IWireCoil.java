@@ -1,4 +1,4 @@
-package blusunrize.immersiveengineering.api.energy;
+package louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy;
 
 import net.minecraft.item.ItemStack;
 

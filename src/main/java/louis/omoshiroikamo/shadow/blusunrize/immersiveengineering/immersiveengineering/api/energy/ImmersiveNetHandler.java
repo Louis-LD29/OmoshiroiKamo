@@ -1,7 +1,7 @@
-package blusunrize.immersiveengineering.api.energy;
+package louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy;
 
-import static blusunrize.immersiveengineering.api.ApiUtils.*;
 import static java.util.Collections.newSetFromMap;
+import static louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.ApiUtils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,12 +18,12 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import blusunrize.immersiveengineering.api.ApiUtils;
-import blusunrize.immersiveengineering.api.DimensionBlockPos;
-import blusunrize.immersiveengineering.api.TargetingInfo;
-import blusunrize.immersiveengineering.common.IESaveData;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.ApiUtils;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.DimensionBlockPos;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.TargetingInfo;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.IESaveData;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.

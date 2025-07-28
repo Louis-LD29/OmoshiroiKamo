@@ -14,7 +14,8 @@ import net.minecraft.util.ResourceLocation;
 
 import com.enderio.core.client.render.RenderUtil;
 
-public abstract class ModelIEObj extends blusunrize.immersiveengineering.client.models.ModelIEObj {
+public abstract class ModelIEObj
+    extends louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.client.models.ModelIEObj {
 
     private static ResourceLocation texture;
 

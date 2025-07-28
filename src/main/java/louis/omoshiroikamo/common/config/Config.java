@@ -15,7 +15,6 @@ import net.minecraftforge.common.config.Configuration;
 
 import com.enderio.core.common.util.ResourcePackAssembler;
 
-import blusunrize.immersiveengineering.api.energy.WireType;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -34,6 +33,7 @@ import louis.omoshiroikamo.common.core.lang.LangSectionInserter;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.core.network.PacketHandler;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
 
 public class Config {
 

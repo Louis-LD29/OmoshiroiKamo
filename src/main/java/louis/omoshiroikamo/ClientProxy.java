@@ -42,6 +42,7 @@ import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
 import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
 import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.item.ModItems;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.client.ClientEventHandler;
 
 public class ClientProxy extends CommonProxy {
 
@@ -54,6 +55,8 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void init(FMLInitializationEvent event) {
+        ClientEventHandler clientEventHandler = new ClientEventHandler();
+        MinecraftForge.EVENT_BUS.register(clientEventHandler);
         super.init(event);
         ModItems.registerItemRenderer();
         MinecraftForge.EVENT_BUS.register(ManaHUD.instance);
@@ -81,6 +84,7 @@ public class ClientProxy extends CommonProxy {
         if (Config.renderPufferFish) {
             MinecraftForgeClient.registerItemRenderer(Items.fish, new PufferFishRenderer());
         }
+
         MinecraftForgeClient.registerItemRenderer(ModItems.itemHammer, new HammerRenderer());
     }
 

@@ -14,18 +14,18 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 
-import blusunrize.immersiveengineering.api.ApiUtils;
-import blusunrize.immersiveengineering.api.DimensionBlockPos;
-import blusunrize.immersiveengineering.api.TargetingInfo;
-import blusunrize.immersiveengineering.api.energy.IICProxy;
-import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.WireType;
-import blusunrize.immersiveengineering.common.util.Utils;
 import louis.omoshiroikamo.api.energy.MaterialWireType;
 import louis.omoshiroikamo.api.enums.VoltageTier;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.core.helper.Logger;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.ApiUtils;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.DimensionBlockPos;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.TargetingInfo;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IICProxy;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IImmersiveConnectable;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.Utils;
 
 public abstract class TEConnectable extends AbstractTE implements IImmersiveConnectable {
 

@@ -1,5 +1,10 @@
 package louis.omoshiroikamo.common.plugin.compat;
 
+import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
+import blusunrize.immersiveengineering.common.IESaveData;
+import blusunrize.immersiveengineering.common.util.IELogger;
+import cpw.mods.fml.relauncher.Side;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.client.ClientEventHandler;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -8,41 +13,18 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.WireType;
-import blusunrize.immersiveengineering.common.EventHandler;
-import blusunrize.immersiveengineering.common.IESaveData;
 import blusunrize.immersiveengineering.common.blocks.metal.TileEntityConnectorHV;
 import blusunrize.immersiveengineering.common.blocks.metal.TileEntityConnectorLV;
 import blusunrize.immersiveengineering.common.blocks.metal.TileEntityConnectorMV;
-import blusunrize.immersiveengineering.common.util.IELogger;
-import blusunrize.immersiveengineering.common.util.chickenbones.Matrix4;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.api.enums.VoltageTier;
 import louis.omoshiroikamo.client.render.AbstractMTESR;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.core.helper.Logger;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.EventHandler;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.chickenbones.Matrix4;
 
-@Optional.InterfaceList({
-    @Optional.Interface(
-        iface = "blusunrize.immersiveengineering.common.blocks.metal.TileEntityConnectorLV",
-        modid = "ImmersiveEngineering"),
-    @Optional.Interface(
-        iface = "blusunrize.immersiveengineering.common.blocks.metal.TileEntityConnectorMV",
-        modid = "ImmersiveEngineering"),
-    @Optional.Interface(
-        iface = "blusunrize.immersiveengineering.common.blocks.metal.TileEntityConnectorHV",
-        modid = "ImmersiveEngineering"), })
 public class IECompat {
-
-    public static void preInit() {
-        WireType.cableLossRatio = Config.cableLossRatio;
-        WireType.cableTransferRate = Config.cableTransferRate;
-        WireType.cableColouration = Config.cableColouration;
-        WireType.cableLength = Config.cableLength;
-    }
 
     public static void init() {
         MinecraftForge.EVENT_BUS.register(new EventHandler());
@@ -71,44 +53,6 @@ public class IECompat {
             }
         }
 
-    }
-
-    public static void handleStaticTileRenderer(TileEntity tile) {
-        handleStaticTileRenderer(tile, true);
-    }
-
-    public static void handleStaticTileRenderer(TileEntity tile, boolean translate) {
-        TileEntitySpecialRenderer tesr = TileEntityRendererDispatcher.instance.getSpecialRenderer(tile);
-        if (tesr instanceof AbstractMTESR) {
-            Matrix4 matrixT = new Matrix4();
-            if (translate) matrixT.translate(tile.xCoord, tile.yCoord, tile.zCoord);
-            ((AbstractMTESR) tesr).renderStatic(tile, Tessellator.instance, matrixT, new Matrix4());
-        }
-    }
-
-    public static void handleStaticTileItemRenderer(TileEntity tile) {
-        handleStaticTileItemRenderer(tile, true);
-    }
-
-    public static void handleStaticTileItemRenderer(TileEntity tile, boolean translate) {
-        TileEntitySpecialRenderer tesr = TileEntityRendererDispatcher.instance.getSpecialRenderer(tile);
-        if (tesr instanceof AbstractMTESR) {
-            Matrix4 matrixT = new Matrix4();
-            if (translate) matrixT.translate(tile.xCoord, tile.yCoord, tile.zCoord);
-            ((AbstractMTESR) tesr).renderItem(tile, Tessellator.instance, matrixT, new Matrix4());
-        }
-    }
-
-    @Optional.Method(modid = "IC2")
-    public static boolean isCableTierCompatible(TileEntity tile, VoltageTier tier) {
-        if (!(tile instanceof TileEntityConnectorLV || tile instanceof TileEntityConnectorMV
-            || tile instanceof TileEntityConnectorHV)) {
-            return true;
-        }
-
-        return (tile.getClass() == TileEntityConnectorLV.class && tier.equals(VoltageTier.LV))
-            || (tile.getClass() == TileEntityConnectorMV.class && tier.equals(VoltageTier.MV))
-            || (tile.getClass() == TileEntityConnectorHV.class && tier.equals(VoltageTier.HV));
     }
 
 }

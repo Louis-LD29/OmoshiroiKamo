@@ -3,7 +3,7 @@
 // (powered by FernFlower decompiler)
 //
 
-package blusunrize.immersiveengineering.client;
+package louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.client;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +14,6 @@ import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound.AttenuationType;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
@@ -50,14 +49,13 @@ import net.minecraftforge.fluids.FluidTank;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
-import blusunrize.immersiveengineering.client.render.TileRenderIE;
-import blusunrize.immersiveengineering.common.util.IESound;
-import blusunrize.immersiveengineering.common.util.Utils;
-import blusunrize.immersiveengineering.common.util.chickenbones.Matrix4;
 import codechicken.lib.gui.GuiDraw;
+import louis.omoshiroikamo.client.render.AbstractMTESR;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IImmersiveConnectable;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.Utils;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.chickenbones.Matrix4;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -613,25 +611,6 @@ public class ClientUtils {
         return rarityColor.ordinal() < 16 ? chatColours[rarityColor.ordinal()] : 0;
     }
 
-    public static IESound generatePositionedIESound(String soundName, float volume, float pitch, boolean repeat,
-        int delay, double x, double y, double z) {
-        IESound sound = new IESound(
-            new ResourceLocation(soundName),
-            volume,
-            pitch,
-            repeat,
-            delay,
-            x,
-            y,
-            z,
-            AttenuationType.LINEAR);
-        sound.evaluateVolume();
-        ClientUtils.mc()
-            .getSoundHandler()
-            .playSound(sound);
-        return sound;
-    }
-
     public static ModelRenderer[] copyModelRenderers(ModelBase model, ModelRenderer... oldRenderers) {
         ModelRenderer[] newRenderers = new ModelRenderer[oldRenderers.length];
         for (int i = 0; i < newRenderers.length; i++) if (oldRenderers[i] != null) {
@@ -674,10 +653,23 @@ public class ClientUtils {
 
     public static void handleStaticTileRenderer(TileEntity tile, boolean translate) {
         TileEntitySpecialRenderer tesr = TileEntityRendererDispatcher.instance.getSpecialRenderer(tile);
-        if (tesr instanceof TileRenderIE) {
+        if (tesr instanceof AbstractMTESR) {
             Matrix4 matrixT = new Matrix4();
             if (translate) matrixT.translate(tile.xCoord, tile.yCoord, tile.zCoord);
-            ((TileRenderIE) tesr).renderStatic(tile, Tessellator.instance, matrixT, new Matrix4());
+            ((AbstractMTESR) tesr).renderStatic(tile, Tessellator.instance, matrixT, new Matrix4());
+        }
+    }
+
+    public static void handleStaticTileItemRenderer(TileEntity tile) {
+        handleStaticTileItemRenderer(tile, true);
+    }
+
+    public static void handleStaticTileItemRenderer(TileEntity tile, boolean translate) {
+        TileEntitySpecialRenderer tesr = TileEntityRendererDispatcher.instance.getSpecialRenderer(tile);
+        if (tesr instanceof AbstractMTESR) {
+            Matrix4 matrixT = new Matrix4();
+            if (translate) matrixT.translate(tile.xCoord, tile.yCoord, tile.zCoord);
+            ((AbstractMTESR) tesr).renderItem(tile, Tessellator.instance, matrixT, new Matrix4());
         }
     }
 

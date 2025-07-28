@@ -3,7 +3,7 @@ package louis.omoshiroikamo.common.block.energyConnector;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
 
 public class TEConnectorEV extends TEConnectorHV {
 

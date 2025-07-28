@@ -1,8 +1,8 @@
-package blusunrize.immersiveengineering.api.energy;
+package louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy;
 
 import net.minecraft.util.Vec3;
 
-import blusunrize.immersiveengineering.api.TargetingInfo;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.TargetingInfo;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.

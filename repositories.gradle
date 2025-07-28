@@ -16,4 +16,8 @@ repositories {
     maven {
         url = uri("https://jitpack.io")
     }
+    maven {
+        name = "CurseMaven"
+        url = uri("https://cursemaven.com")
+    }
 }

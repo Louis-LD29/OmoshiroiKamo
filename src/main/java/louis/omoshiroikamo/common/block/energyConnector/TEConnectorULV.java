@@ -1,6 +1,6 @@
 package louis.omoshiroikamo.common.block.energyConnector;
 
-import static blusunrize.immersiveengineering.common.util.Utils.toIIC;
+import static louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.Utils.toIIC;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,12 +13,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.AbstractConnection;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
-import blusunrize.immersiveengineering.api.energy.WireType;
-import blusunrize.immersiveengineering.common.util.Utils;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 import cpw.mods.fml.common.Optional;
@@ -28,6 +22,12 @@ import ic2.api.energy.tile.IEnergySink;
 import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.core.lib.LibMods;
 import louis.omoshiroikamo.common.plugin.compat.IC2Compat;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IImmersiveConnectable;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler.AbstractConnection;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.Utils;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.

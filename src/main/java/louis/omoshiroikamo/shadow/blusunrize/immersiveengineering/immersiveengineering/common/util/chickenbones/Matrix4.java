@@ -1,4 +1,4 @@
-package blusunrize.immersiveengineering.common.util.chickenbones;
+package louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.chickenbones;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

@@ -45,7 +45,6 @@ dependencies {
     api("com.github.GTNewHorizons:EnderCore:0.4.8:dev")
     api("com.github.GTNewHorizons:Angelica:1.0.0-beta49:dev") { transitive = false }
     compileOnly("com.github.GTNewHorizons:ModularUI:1.2.20:dev")
-    implementation rfg.deobf("curse.maven:immersive-engineering-231951:2299019")
     implementation("com.github.GTNewHorizons:Botania:1.12.16-GTNH:dev") { transitive = false }
     implementation("com.github.GTNewHorizons:TinkersConstruct:1.13.40-GTNH:dev") { transitive = false }
     implementation("com.github.GTNewHorizons:EnderIO:2.9.18:dev")

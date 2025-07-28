@@ -9,7 +9,6 @@ import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
-import blusunrize.immersiveengineering.client.ClientUtils;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import louis.omoshiroikamo.common.block.energyConnector.BlockConnectable;
@@ -21,7 +20,7 @@ import louis.omoshiroikamo.common.block.energyConnector.TEConnectorMV;
 import louis.omoshiroikamo.common.block.energyConnector.TEConnectorULV;
 import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
 import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
-import louis.omoshiroikamo.common.plugin.compat.IECompat;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.client.ClientUtils;
 
 public class ConnectableISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
 
@@ -54,35 +53,35 @@ public class ConnectableISBRH implements ISimpleBlockRenderingHandler, IItemRend
         switch (meta) {
             case BlockConnectable.META_insulator:
                 TEInsulator tileInsulator = (TEInsulator) te;
-                IECompat.handleStaticTileRenderer(tileInsulator);
+                ClientUtils.handleStaticTileRenderer(tileInsulator);
                 return true;
             case BlockConnectable.META_connectorULV:
                 TEConnectorULV tileConnectorULV = (TEConnectorULV) te;
-                IECompat.handleStaticTileRenderer(tileConnectorULV);
+                ClientUtils.handleStaticTileRenderer(tileConnectorULV);
                 return true;
             case BlockConnectable.META_connectorLV:
                 TEConnectorLV tileConnectorLV = (TEConnectorLV) te;
-                IECompat.handleStaticTileRenderer(tileConnectorLV);
+                ClientUtils.handleStaticTileRenderer(tileConnectorLV);
                 return true;
             case BlockConnectable.META_connectorMV:
                 TEConnectorMV tileConnectorMV = (TEConnectorMV) te;
-                IECompat.handleStaticTileRenderer(tileConnectorMV);
+                ClientUtils.handleStaticTileRenderer(tileConnectorMV);
                 return true;
             case BlockConnectable.META_connectorHV:
                 TEConnectorHV tileConnectorHV = (TEConnectorHV) te;
-                IECompat.handleStaticTileRenderer(tileConnectorHV);
+                ClientUtils.handleStaticTileRenderer(tileConnectorHV);
                 return true;
             case BlockConnectable.META_connectorEV:
                 TEConnectorEV tileConnectorEV = (TEConnectorEV) te;
-                IECompat.handleStaticTileRenderer(tileConnectorEV);
+                ClientUtils.handleStaticTileRenderer(tileConnectorEV);
                 return true;
             case BlockConnectable.META_connectorIV:
                 TEConnectorIV tileConnectorIV = (TEConnectorIV) te;
-                IECompat.handleStaticTileRenderer(tileConnectorIV);
+                ClientUtils.handleStaticTileRenderer(tileConnectorIV);
                 return true;
             case BlockConnectable.META_transformer:
                 TETransformer tileTransformer = (TETransformer) te;
-                IECompat.handleStaticTileRenderer(tileTransformer);
+                ClientUtils.handleStaticTileRenderer(tileTransformer);
                 return true;
         }
         return false;
@@ -116,28 +115,28 @@ public class ConnectableISBRH implements ISimpleBlockRenderingHandler, IItemRend
         try {
             switch (meta) {
                 case BlockConnectable.META_insulator:
-                    IECompat.handleStaticTileItemRenderer(insulator);
+                    ClientUtils.handleStaticTileItemRenderer(insulator);
                     break;
                 case BlockConnectable.META_connectorULV:
-                    IECompat.handleStaticTileItemRenderer(connectorULV);
+                    ClientUtils.handleStaticTileItemRenderer(connectorULV);
                     break;
                 case BlockConnectable.META_connectorLV:
-                    IECompat.handleStaticTileItemRenderer(connectorLV);
+                    ClientUtils.handleStaticTileItemRenderer(connectorLV);
                     break;
                 case BlockConnectable.META_connectorMV:
-                    IECompat.handleStaticTileItemRenderer(connectorMV);
+                    ClientUtils.handleStaticTileItemRenderer(connectorMV);
                     break;
                 case BlockConnectable.META_connectorHV:
-                    IECompat.handleStaticTileItemRenderer(connectorHV);
+                    ClientUtils.handleStaticTileItemRenderer(connectorHV);
                     break;
                 case BlockConnectable.META_connectorEV:
-                    IECompat.handleStaticTileItemRenderer(connectorEV);
+                    ClientUtils.handleStaticTileItemRenderer(connectorEV);
                     break;
                 case BlockConnectable.META_connectorIV:
-                    IECompat.handleStaticTileItemRenderer(connectorIV);
+                    ClientUtils.handleStaticTileItemRenderer(connectorIV);
                     break;
                 case BlockConnectable.META_transformer:
-                    IECompat.handleStaticTileItemRenderer(transformer);
+                    ClientUtils.handleStaticTileItemRenderer(transformer);
                     break;
             }
         } catch (Exception e) {

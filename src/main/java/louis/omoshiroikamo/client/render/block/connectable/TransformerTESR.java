@@ -6,13 +6,13 @@ import net.minecraft.util.IIcon;
 
 import org.lwjgl.opengl.GL11;
 
-import blusunrize.immersiveengineering.common.util.chickenbones.Matrix4;
 import louis.omoshiroikamo.client.model.ModelIEObj;
 import louis.omoshiroikamo.client.render.AbstractMTESR;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.block.energyConnector.BlockConnectable;
 import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
 import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.chickenbones.Matrix4;
 
 public class TransformerTESR extends AbstractMTESR {
 

@@ -17,16 +17,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import blusunrize.immersiveengineering.api.TargetingInfo;
-import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
-import blusunrize.immersiveengineering.api.energy.IWireCoil;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
-import blusunrize.immersiveengineering.api.energy.WireType;
-import blusunrize.immersiveengineering.common.IESaveData;
 import blusunrize.immersiveengineering.common.util.IEAchievements;
-import blusunrize.immersiveengineering.common.util.Utils;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -34,14 +25,20 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.energy.MaterialWireType;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.api.enums.VoltageTier;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.core.helper.ItemNBTHelper;
 import louis.omoshiroikamo.common.core.lib.LibMods;
 import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.common.plugin.compat.IECompat;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.TargetingInfo;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IImmersiveConnectable;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IWireCoil;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.IESaveData;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.Utils;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -166,15 +163,6 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
 
         TargetingInfo target = new TargetingInfo(side, hitX, hitY, hitZ);
         WireType type = getWireType(stack);
-
-        if (type instanceof MaterialWireType materialType && Loader.isModLoaded("ImmersiveEngineering")) {
-            VoltageTier tier = materialType.getMaterial()
-                .getVoltageTier();
-            if (!IECompat.isCableTierCompatible(tileEntity, tier)) {
-                player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "wrongCable"));
-                return false;
-            }
-        }
 
         if (!((IImmersiveConnectable) tileEntity).canConnectCable(type, target)) {
             player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "wrongCable"));

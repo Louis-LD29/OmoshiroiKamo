@@ -3,14 +3,15 @@ package louis.omoshiroikamo.api.energy;
 import java.util.HashMap;
 import java.util.Map;
 
+import louis.omoshiroikamo.common.config.Config;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.WireType;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.item.ModItems;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -28,6 +29,10 @@ public class MaterialWireType extends WireType {
     public static final Map<Integer, MaterialWireType> MATERIAL_WIRE_TYPES = new HashMap<>();
 
     public static void init() {
+        WireType.cableLossRatio = Config.cableLossRatio;
+        WireType.cableTransferRate = Config.cableTransferRate;
+        WireType.cableColouration = Config.cableColouration;
+        WireType.cableLength = Config.cableLength;
         for (MaterialEntry material : MaterialRegistry.all()) {
             if (material != null) {
                 MATERIAL_WIRE_TYPES.put(material.getMeta(), new MaterialWireType(material.meta));

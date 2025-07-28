@@ -1,4 +1,4 @@
-package blusunrize.immersiveengineering.common.util;
+package louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util;
 
 import org.apache.logging.log4j.Level;
 

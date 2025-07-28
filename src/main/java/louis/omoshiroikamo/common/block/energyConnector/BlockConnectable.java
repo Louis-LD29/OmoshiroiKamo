@@ -54,7 +54,7 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, modObject.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockConnectable.class, modObject.unlocalisedName);
         GameRegistry.registerTileEntity(TEInsulator.class, modObject.unlocalisedName + "_insulator");
         GameRegistry.registerTileEntity(TEConnectorULV.class, modObject.unlocalisedName + "_connectorULV");
         GameRegistry.registerTileEntity(TEConnectorLV.class, modObject.unlocalisedName + "_connectorLV");

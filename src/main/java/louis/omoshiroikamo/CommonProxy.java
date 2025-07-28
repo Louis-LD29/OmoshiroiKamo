@@ -53,7 +53,6 @@ public class CommonProxy {
         OKWorldGenerator.init();
 
         callAssembleResourcePack();
-        IECompat.preInit();
 
         if (!LibMisc.SNAPSHOT_BUILD && !LibMisc.DEV_ENVIRONMENT) {
             MCLibModules.updateCheckAPI.submitModTask(LibMisc.MOD_ID, Tags.VERSION, LibMisc.VERSION_URL);
