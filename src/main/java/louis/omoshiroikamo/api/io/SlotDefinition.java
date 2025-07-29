@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.block.abstractClass.machine;
+package louis.omoshiroikamo.api.io;
 
 public class SlotDefinition {
 

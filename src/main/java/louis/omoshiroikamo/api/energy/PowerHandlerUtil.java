@@ -50,18 +50,6 @@ public class PowerHandlerUtil {
         item.setTagCompound(tag);
     }
 
-    public static int recieveInternal(IInternalPoweredTile target, int maxReceive, ForgeDirection from,
-        boolean simulate) {
-
-        int result = Math.min(target.getMaxEnergyRecieved(from), maxReceive);
-        result = Math.min(target.getMaxEnergyStored() - target.getEnergyStored(), result);
-        result = Math.max(0, result);
-        if (result > 0 && !simulate) {
-            target.setEnergyStored(target.getEnergyStored() + result);
-        }
-        return result;
-    }
-
     public static int recieveInternal(AbstractPoweredTE target, int maxReceive, ForgeDirection from, boolean simulate) {
 
         int result = Math.min(target.getMaxEnergyRecieved(), maxReceive);

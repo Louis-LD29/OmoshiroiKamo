@@ -23,7 +23,6 @@ import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.client.IResourceTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.BlockOK;
-import louis.omoshiroikamo.common.block.abstractClass.machine.AbstractMachineEntity;
 
 public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK
     implements IResourceTooltipProvider, IAdvancedTooltipProvider {
@@ -166,8 +165,8 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK
 
     public boolean isActive(IBlockAccess blockAccess, int x, int y, int z) {
         TileEntity te = blockAccess.getTileEntity(x, y, z);
-        if (te instanceof AbstractMachineEntity) {
-            return ((AbstractMachineEntity) te).isActive();
+        if (te instanceof AbstractTE) {
+            return ((AbstractTE) te).isActive();
         }
         return false;
     }

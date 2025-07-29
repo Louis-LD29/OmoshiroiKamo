@@ -31,6 +31,7 @@ public class BlockAnvil extends AbstractBlock<TEAnvil> {
 
     protected BlockAnvil() {
         super(ModObject.blockAnvil, TEAnvil.class);
+        setStepSound(soundTypeStone);
     }
 
     public static BlockAnvil create() {

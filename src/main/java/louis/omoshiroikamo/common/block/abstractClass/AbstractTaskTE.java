@@ -15,7 +15,7 @@ import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 
 import louis.omoshiroikamo.api.IWailaInfoProvider;
-import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.common.core.helper.Logger;
 import louis.omoshiroikamo.common.core.helper.OreDictUtils;
 import louis.omoshiroikamo.common.recipes.IPoweredTask;
@@ -62,7 +62,7 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
 
     @Override
     public boolean isActive() {
-        return currentTask == null ? false : currentTask.getProgress() >= 0 && redstoneCheckPassed;
+        return currentTask != null && currentTask.getProgress() >= 0 && redstoneCheckPassed;
     }
 
     @Override

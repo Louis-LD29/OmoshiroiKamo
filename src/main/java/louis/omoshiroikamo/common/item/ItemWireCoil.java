@@ -17,8 +17,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import blusunrize.immersiveengineering.common.util.IEAchievements;
-import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -49,9 +47,6 @@ import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengin
  * It is intended for use in a standalone mod inspired by Immersive Engineering.
  */
 
-@Optional.InterfaceList({ @Optional.Interface(
-    iface = "blusunrize.immersiveengineering.common.util.IEAchievements",
-    modid = "ImmersiveEngineering") })
 public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipProvider {
 
     @SideOnly(Side.CLIENT)
@@ -238,10 +233,6 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                                     nodeHere.connectCable(type, target);
                                     nodeLink.connectCable(type, targetLink);
                                     IESaveData.setDirty(world.provider.dimensionId);
-
-                                    if (LibMods.immersiveEngineering) {
-                                        player.triggerAchievement(IEAchievements.connectWire);
-                                    }
 
                                     if (!player.capabilities.isCreativeMode) stack.stackSize--;
 

@@ -1,6 +1,7 @@
 package louis.omoshiroikamo.common.block.solar;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,18 +26,18 @@ import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.enderio.core.common.util.BlockCoord;
 
-import cofh.api.energy.EnergyStorage;
 import louis.omoshiroikamo.api.energy.PowerDistributor;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.fluid.IFluidCoolant;
 import louis.omoshiroikamo.api.io.IoMode;
 import louis.omoshiroikamo.api.io.IoType;
+import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.client.gui.modularui2.MGuis;
-import louis.omoshiroikamo.common.block.abstractClass.machine.AbstractGeneratorEntity;
-import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractPoweredTE;
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.common.fluid.FluidFuelRegister;
 
-public class TileSolarPanel extends AbstractGeneratorEntity {
+public class TileSolarPanel extends AbstractPoweredTE {
 
     private PowerDistributor powerDis;
 
@@ -48,18 +49,15 @@ public class TileSolarPanel extends AbstractGeneratorEntity {
     private static final int CHECK_INTERVAL = 100;
 
     public TileSolarPanel() {
-        super(new SlotDefinition(0, 1, -1, -1, -1, -1));
-        this.setEnergyStorage(new EnergyStorage(1000, 400, 200));
+        super(new SlotDefinition(0, 1, -1, -1, -1, -1), MaterialRegistry.getByName("Iron"));
+        energyStorage.setCapacity(10000);
+        energyStorage.setMaxExtract(200);
+        energyStorage.setMaxReceive(200);
     }
 
     @Override
     public String getMachineName() {
         return ModObject.blockSolar.unlocalisedName;
-    }
-
-    @Override
-    public boolean hasCustomInventoryName() {
-        return false;
     }
 
     @Override
@@ -193,8 +191,6 @@ public class TileSolarPanel extends AbstractGeneratorEntity {
 
         lightValue = MathHelper.clamp_int(lightValue, 0, 15);
 
-        float lightRatio = lightValue / 15f;
-
         return lightValue / 15f;
     }
 
@@ -271,6 +267,12 @@ public class TileSolarPanel extends AbstractGeneratorEntity {
             return 0.4f; // Giảm còn 30% hiệu suất
         }
         return 1.0f; // Thời tiết đẹp
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, EntityPlayer player, ForgeDirection side, float hitX, float hitY, float hitZ) {
+        openGui(player);
+        return true;
     }
 
     @Override

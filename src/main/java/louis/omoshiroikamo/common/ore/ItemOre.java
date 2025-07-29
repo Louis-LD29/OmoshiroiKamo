@@ -49,7 +49,7 @@ public class ItemOre extends Item implements IAdvancedTooltipProvider {
 
         for (OreEntry entry : OreRegistry.all()) {
             String oreName = entry.getUnlocalizedName();
-            registerMaterialOreDict(oreName, entry.meta);
+            registerMaterialOreDict(oreName, entry.getMeta());
         }
     }
 
@@ -83,7 +83,7 @@ public class ItemOre extends Item implements IAdvancedTooltipProvider {
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
         for (OreEntry entry : OreRegistry.all()) {
-            int meta = entry.meta;
+            int meta = entry.getMeta();
             // crushed
             list.add(new ItemStack(this, 1, meta));
             // washed

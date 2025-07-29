@@ -1,5 +1,6 @@
 package louis.omoshiroikamo.common.block.abstractClass;
 
+import com.enderio.core.common.util.BlockCoord;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -187,5 +188,10 @@ public abstract class AbstractTE extends TileEntityEio implements IGuiHolder<Pos
     @Override
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
         return null;
+    }
+
+    @Override
+    public BlockCoord getLocation() {
+        return new BlockCoord(xCoord, yCoord, zCoord);
     }
 }

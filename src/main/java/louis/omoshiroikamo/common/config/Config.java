@@ -32,7 +32,7 @@ import louis.omoshiroikamo.common.core.helper.Logger;
 import louis.omoshiroikamo.common.core.lang.LangSectionInserter;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.common.core.network.PacketHandler;
+import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
 
 public class Config {

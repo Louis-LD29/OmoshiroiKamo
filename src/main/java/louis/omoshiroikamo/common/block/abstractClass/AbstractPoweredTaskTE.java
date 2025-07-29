@@ -12,8 +12,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
 import louis.omoshiroikamo.api.IWailaInfoProvider;
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
 import louis.omoshiroikamo.common.core.helper.Logger;
 import louis.omoshiroikamo.common.core.helper.OreDictUtils;
 import louis.omoshiroikamo.common.recipes.IPoweredTask;
@@ -121,7 +121,7 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
         }
         sendTaskProgressPacket();
 
-        return requiresClientSync;
+        return requiresClientSync || super.processTasks(redstoneChecksPassed);
     }
 
     protected boolean checkProgress(boolean redstoneChecksPassed) {

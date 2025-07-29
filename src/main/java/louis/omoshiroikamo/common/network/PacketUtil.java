@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.core.network;
+package louis.omoshiroikamo.common.network;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

@@ -1,6 +1,7 @@
 package louis.omoshiroikamo.common.block.multiblock.part.fluid;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -23,13 +24,9 @@ import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class TEFluidInput extends TEFluidInOut {
 
-    protected SmartTank tank;
-    private boolean tankDirty = false;
-
     protected TEFluidInput(int meta) {
+        super(MaterialRegistry.fromMeta(meta % LibResources.META1));
         this.meta = meta;
-        material = MaterialRegistry.fromMeta(meta % LibResources.META1);
-        tank = new SmartTank(material);
     }
 
     public TEFluidInput() {
@@ -47,10 +44,8 @@ public class TEFluidInput extends TEFluidInOut {
     }
 
     @Override
-    protected boolean processTasks(boolean redstoneCheckPassed) {
-        boolean needsUpdate = tankDirty;
-        tankDirty = false;
-        return needsUpdate;
+    protected boolean isMachineItemValidForSlot(int slot, ItemStack itemstack) {
+        return false;
     }
 
     @Override
@@ -75,7 +70,7 @@ public class TEFluidInput extends TEFluidInOut {
         }
         int res = tank.fill(resource, doFill);
         if (res > 0 && doFill) {
-            tankDirty = true;
+            tanksDirty = true;
         }
         return res;
     }

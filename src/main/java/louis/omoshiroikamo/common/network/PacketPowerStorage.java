@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.core.network;
+package louis.omoshiroikamo.common.network;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -49,8 +49,7 @@ public class PacketPowerStorage implements IMessage, IMessageHandler<PacketPower
     public IMessage onMessage(PacketPowerStorage message, MessageContext ctx) {
         EntityPlayer player = OmoshiroiKamo.proxy.getClientPlayer();
         TileEntity te = player.worldObj.getTileEntity(message.x, message.y, message.z);
-        if (te instanceof IPowerContainer) {
-            IPowerContainer me = (IPowerContainer) te;
+        if (te instanceof IPowerContainer me) {
             me.setEnergyStored(message.storedEnergy);
         }
         return null;

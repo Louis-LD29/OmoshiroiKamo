@@ -1,6 +1,7 @@
 package louis.omoshiroikamo.common.block.multiblock.part.fluid;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -23,13 +24,9 @@ import louis.omoshiroikamo.common.core.lib.LibResources;
 
 public class TEFluidOutput extends TEFluidInOut {
 
-    protected SmartTank tank;
-    private boolean tankDirty = false;
-
     protected TEFluidOutput(int meta) {
+        super( MaterialRegistry.fromMeta(meta % LibResources.META1));
         this.meta = meta;
-        material = MaterialRegistry.fromMeta(meta % LibResources.META1);
-        tank = new SmartTank(material);
     }
 
     public TEFluidOutput() {
@@ -47,10 +44,8 @@ public class TEFluidOutput extends TEFluidInOut {
     }
 
     @Override
-    protected boolean processTasks(boolean redstoneCheckPassed) {
-        boolean needsUpdate = tankDirty;
-        tankDirty = false;
-        return needsUpdate;
+    protected boolean isMachineItemValidForSlot(int slot, ItemStack itemstack) {
+        return false;
     }
 
     @Override
@@ -72,7 +67,7 @@ public class TEFluidOutput extends TEFluidInOut {
     public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
         FluidStack res = tank.drain(resource, doDrain);
         if (res != null && res.amount > 0 && doDrain) {
-            tankDirty = true;
+            tanksDirty = true;
         }
         return res;
     }
@@ -81,7 +76,7 @@ public class TEFluidOutput extends TEFluidInOut {
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
         FluidStack res = tank.drain(maxDrain, doDrain);
         if (res != null && res.amount > 0 && doDrain) {
-            tankDirty = true;
+            tanksDirty = true;
         }
         return res;
     }

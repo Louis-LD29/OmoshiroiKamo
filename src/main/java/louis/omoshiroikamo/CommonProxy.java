@@ -1,6 +1,7 @@
 package louis.omoshiroikamo;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -11,6 +12,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.api.energy.MaterialWireType;
 import louis.omoshiroikamo.api.fluid.FluidRegistry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
@@ -26,12 +28,15 @@ import louis.omoshiroikamo.common.core.helper.Logger;
 import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.fluid.ModFluids;
 import louis.omoshiroikamo.common.item.ModItems;
-import louis.omoshiroikamo.common.plugin.compat.IECompat;
 import louis.omoshiroikamo.common.plugin.nei.NEICompat;
 import louis.omoshiroikamo.common.plugin.tic.TICCompat;
 import louis.omoshiroikamo.common.plugin.waila.WailaCompat;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
 import louis.omoshiroikamo.common.world.OKWorldGenerator;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.EventHandler;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.IESaveData;
+import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.IELogger;
 import makamys.mclib.core.MCLib;
 import makamys.mclib.core.MCLibModules;
 
@@ -72,9 +77,12 @@ public class CommonProxy {
             .bus()
             .register(FlightHandler.instance);
 
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
+        FMLCommonHandler.instance()
+            .bus()
+            .register(new EventHandler());
         ModRecipes.init();
 
-        IECompat.init();
         WailaCompat.init();
         NEICompat.init();
 
@@ -96,12 +104,32 @@ public class CommonProxy {
         return null;
     }
 
+    public World getEntityWorld() {
+        return MinecraftServer.getServer()
+            .getEntityWorld();
+    }
+
     public void serverLoad(FMLServerStartingEvent event) {
         ModCommands.init(event);
     }
 
     public void serverStarted(FMLServerStartedEvent event) {
-        IECompat.serverLoad();
+        if (ImmersiveNetHandler.INSTANCE == null) ImmersiveNetHandler.INSTANCE = new ImmersiveNetHandler();
+
+        if (FMLCommonHandler.instance()
+            .getEffectiveSide() == Side.SERVER) {
+            World world = OmoshiroiKamo.proxy.getEntityWorld();
+            if (!world.isRemote) {
+                IELogger.info("WorldData loading");
+                IESaveData worldData = (IESaveData) world.loadItemData(IESaveData.class, IESaveData.dataName);
+                if (worldData == null) {
+                    IELogger.info("WorldData not found");
+                    worldData = new IESaveData(IESaveData.dataName);
+                    world.setItemData(IESaveData.dataName, worldData);
+                } else IELogger.info("WorldData retrieved");
+                IESaveData.setInstance(world.provider.dimensionId, worldData);
+            }
+        }
     }
 
     public void onConstruction(FMLConstructionEvent event) {

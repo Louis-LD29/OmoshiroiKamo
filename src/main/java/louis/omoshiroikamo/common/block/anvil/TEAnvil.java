@@ -8,7 +8,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTaskTE;
-import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.common.item.ItemHammer;
 
 public class TEAnvil extends AbstractTaskTE {

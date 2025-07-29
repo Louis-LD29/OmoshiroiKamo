@@ -35,7 +35,7 @@ import louis.omoshiroikamo.api.fluid.SmartTank;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.client.gui.modularui2.MGuis;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractPoweredTaskTE;
-import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;

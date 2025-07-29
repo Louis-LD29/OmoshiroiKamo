@@ -32,15 +32,14 @@ import com.gtnewhorizons.wdmla.impl.ui.ThemeHelper;
 import com.gtnewhorizons.wdmla.plugin.vanilla.VanillaIdentifiers;
 
 import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.client.gui.modularui2.MGuiTextures;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTaskTE;
-import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
 public class TEFurnace extends AbstractTaskTE {
 
     public int burnTime = 0;
-
     public int totalBurnTime;
 
     public TEFurnace() {
@@ -80,35 +79,41 @@ public class TEFurnace extends AbstractTaskTE {
         ItemStack input = inv.getStackInSlot(0);
         ItemStack fuel = inv.getStackInSlot(1);
 
-        if (burnTime <= 0 && input != null && fuel != null && fuel.stackSize > 0) {
-            int fuelBurn = getBurnTime(fuel);
-            if (fuelBurn > 0) {
-                burnTime = totalBurnTime = fuelBurn;
+        if (fuel != null && fuel.stackSize > 0) {
+            if (burnTime <= 0 && (input != null || currentTask != null)) {
+                int fuelBurn = getBurnTime(fuel);
+                if (fuelBurn > 0) {
+                    burnTime = totalBurnTime = fuelBurn;
 
-                ItemStack container = fuel.getItem()
-                    .getContainerItem(fuel);
-                if (container != null && !ItemStack.areItemStacksEqual(container, fuel)) {
-                    inv.setStackInSlot(1, container);
-                } else {
-                    fuel.stackSize--;
-                    if (fuel.stackSize <= 0) {
-                        inv.setStackInSlot(1, null);
+                    ItemStack container = fuel.getItem()
+                        .getContainerItem(fuel);
+                    if (container != null && !ItemStack.areItemStacksEqual(container, fuel)) {
+                        inv.setStackInSlot(1, container);
+                    } else {
+                        fuel.stackSize--;
+                        if (fuel.stackSize <= 0) {
+                            inv.setStackInSlot(1, null);
+                        }
                     }
+                    lastActive = true;
                 }
-
-                forceClientUpdate = true;
             }
         }
 
-        if (burnTime == 0) {
-            burnTime = -1;
-            forceClientUpdate = true;
-            return false;
+        if (currentTask == null && burnTime > 0) {
+            burnTime--;
         }
+
         if (burnTime > 0) {
-            super.processTasks(redstoneChecksPassed);
+            return super.processTasks(redstoneChecksPassed);
         }
+
         return false;
+    }
+
+    @Override
+    public boolean isActive() {
+        return super.isActive() || burnTime > 0;
     }
 
     @Override
@@ -218,6 +223,7 @@ public class TEFurnace extends AbstractTaskTE {
         if (!(accessor.getTileEntity() instanceof TEFurnace)) return;
         NBTTagCompound data = accessor.getServerData();
         float progressTE = data.getFloat("progressTE");
+        float burnTime = data.getFloat("burnTime");
         this.inv.deserializeNBT(data.getCompoundTag("item_inv"));
 
         ItemStack input = inv.getStackInSlot(0);
@@ -259,6 +265,9 @@ public class TEFurnace extends AbstractTaskTE {
                 tooltip.child(progress.tag(VanillaIdentifiers.FURNACE));
             }
         }
+        if (burnTime > 0) {
+            tooltip.text(String.format("Burn Time: " + ((int) burnTime) / 20) + "s");
+        }
 
         super.appendTooltip(tooltip, accessor);
     }
@@ -268,6 +277,7 @@ public class TEFurnace extends AbstractTaskTE {
         if (!(accessor.getTileEntity() instanceof TEFurnace te)) return;
 
         data.setFloat("progressTE", te.getProgress());
+        data.setFloat("burnTime", burnTime);
         data.setTag("item_inv", this.inv.serializeNBT());
     }
 

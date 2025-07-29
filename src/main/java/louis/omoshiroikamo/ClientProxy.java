@@ -1,10 +1,14 @@
 package louis.omoshiroikamo;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -103,4 +107,14 @@ public class ClientProxy extends CommonProxy {
         super.callAssembleResourcePack();
     }
 
+    @Override
+    public EntityPlayer getClientPlayer() {
+        return Minecraft.getMinecraft().thePlayer;
+    }
+
+    @Override
+    public World getClientWorld() {
+        return FMLClientHandler.instance()
+            .getClient().theWorld;
+    }
 }
