@@ -20,7 +20,7 @@ import com.cleanroommc.modularui.widgets.slot.FluidSlot;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.fluid.SmartTank;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class TEFluidOutput extends TEFluidInOut {
 

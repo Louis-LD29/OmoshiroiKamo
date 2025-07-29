@@ -2,7 +2,7 @@ package louis.omoshiroikamo.api.enums;
 
 import net.minecraft.block.Block;
 
-import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 
 public enum ModObject {
 

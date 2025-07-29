@@ -6,9 +6,9 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-import louis.omoshiroikamo.common.core.helper.OreDictUtils;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
+import louis.omoshiroikamo.common.util.helper.OreDictUtils;
 
 public class MachineRecipe {
 

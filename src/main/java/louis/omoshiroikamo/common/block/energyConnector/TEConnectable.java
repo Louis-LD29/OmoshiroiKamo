@@ -14,20 +14,20 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 
+import louis.omoshiroikamo.api.ApiUtils;
+import louis.omoshiroikamo.api.DimensionBlockPos;
+import louis.omoshiroikamo.api.TargetingInfo;
+import louis.omoshiroikamo.api.energy.IWCProxy;
+import louis.omoshiroikamo.api.energy.IWireConnectable;
 import louis.omoshiroikamo.api.energy.MaterialWireType;
+import louis.omoshiroikamo.api.energy.WireNetHandler;
+import louis.omoshiroikamo.api.energy.WireType;
 import louis.omoshiroikamo.api.enums.VoltageTier;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
-import louis.omoshiroikamo.common.core.helper.Logger;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.ApiUtils;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.DimensionBlockPos;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.TargetingInfo;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IICProxy;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IImmersiveConnectable;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.Utils;
+import louis.omoshiroikamo.common.util.Utils;
+import louis.omoshiroikamo.common.util.helper.Logger;
 
-public abstract class TEConnectable extends AbstractTE implements IImmersiveConnectable {
+public abstract class TEConnectable extends AbstractTE implements IWireConnectable {
 
     protected WireType limitType = null;
     private boolean needsVisualUpdate = true;
@@ -76,14 +76,14 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
         super.invalidate();
         if (worldObj != null && (!worldObj.isRemote || !Minecraft.getMinecraft()
             .isSingleplayer()))
-            ImmersiveNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(this), worldObj, !worldObj.isRemote);
+            WireNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(this), worldObj, !worldObj.isRemote);
     }
 
     @Override
     public void onEnergyPassthrough(int amount) {}
 
     @Override
-    public boolean allowEnergyToPass(ImmersiveNetHandler.Connection con) {
+    public boolean allowEnergyToPass(WireNetHandler.Connection con) {
         return true;
     }
 
@@ -133,10 +133,9 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
     }
 
     @Override
-    public void removeCable(ImmersiveNetHandler.Connection connection) {
+    public void removeCable(WireNetHandler.Connection connection) {
         WireType type = connection != null ? connection.cableType : null;
-        Set<ImmersiveNetHandler.Connection> outputs = ImmersiveNetHandler.INSTANCE
-            .getConnections(worldObj, Utils.toCC(this));
+        Set<WireNetHandler.Connection> outputs = WireNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
         if (outputs == null || outputs.size() == 0) {
             if (type == limitType || type == null) this.limitType = null;
         }
@@ -145,13 +144,13 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
 
     @Override
     public void onChunkUnload() {
-        ImmersiveNetHandler.INSTANCE.setProxy(new DimensionBlockPos(this), new IICProxy(this));
+        WireNetHandler.INSTANCE.setProxy(new DimensionBlockPos(this), new IWCProxy(this));
         super.onChunkUnload();
     }
 
     @Override
     public void validate() {
-        ImmersiveNetHandler.INSTANCE.resetCachedIndirectConnections();
+        WireNetHandler.INSTANCE.resetCachedIndirectConnections();
         super.validate();
     }
 
@@ -170,10 +169,8 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
         this.writeToNBT(nbttagcompound);
         if (worldObj != null && !worldObj.isRemote) {
             NBTTagList connectionList = new NBTTagList();
-            Set<ImmersiveNetHandler.Connection> conL = ImmersiveNetHandler.INSTANCE
-                .getConnections(worldObj, Utils.toCC(this));
-            if (conL != null)
-                for (ImmersiveNetHandler.Connection con : conL) connectionList.appendTag(con.writeToNBT());
+            Set<WireNetHandler.Connection> conL = WireNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
+            if (conL != null) for (WireNetHandler.Connection con : conL) connectionList.appendTag(con.writeToNBT());
             nbttagcompound.setTag("connectionList", connectionList);
         }
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, nbttagcompound);
@@ -188,12 +185,12 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
             && !Minecraft.getMinecraft()
                 .isSingleplayer()) {
             NBTTagList connectionList = nbt.getTagList("connectionList", 10);
-            ImmersiveNetHandler.INSTANCE.clearConnectionsOriginatingFrom(Utils.toCC(this), worldObj);
+            WireNetHandler.INSTANCE.clearConnectionsOriginatingFrom(Utils.toCC(this), worldObj);
             for (int i = 0; i < connectionList.tagCount(); i++) {
                 NBTTagCompound conTag = connectionList.getCompoundTagAt(i);
-                ImmersiveNetHandler.Connection con = ImmersiveNetHandler.Connection.readFromNBT(conTag);
+                WireNetHandler.Connection con = WireNetHandler.Connection.readFromNBT(conTag);
                 if (con != null) {
-                    ImmersiveNetHandler.INSTANCE.addConnection(worldObj, Utils.toCC(this), con);
+                    WireNetHandler.INSTANCE.addConnection(worldObj, Utils.toCC(this), con);
                 } else Logger.error("CLIENT read connection as null");
             }
         }

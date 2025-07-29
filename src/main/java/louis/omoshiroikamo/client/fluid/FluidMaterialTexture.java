@@ -19,8 +19,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.fluid.FluidMaterialRegister;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 @SideOnly(Side.CLIENT)
 public class FluidMaterialTexture {

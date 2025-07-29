@@ -17,27 +17,27 @@ import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.client.render.RenderHelper;
-import louis.omoshiroikamo.common.core.helper.ItemNBTHelper;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.entity.EntityDoppleganger;
+import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
-public abstract class ItemBauble extends ItemMod implements IBauble {
+public abstract class ItemBauble extends ItemOK implements IBauble {
 
     private static final String TAG_HASHCODE = "playerHashcode";
     private static final String TAG_BAUBLE_UUID_MOST = "baubleUUIDMost";
     private static final String TAG_BAUBLE_UUID_LEAST = "baubleUUIDLeast";
 
-    protected boolean disableRightClickEquip = false;
+    protected boolean disableRightClickEquip;
 
     public ItemBauble(String name, boolean disableRightClickEquip) {
-        super();
+        super(name);
         this.disableRightClickEquip = disableRightClickEquip;
         setMaxStackSize(1);
-        setUnlocalizedName(name);
     }
 
     public ItemBauble(String name) {
-        this(name, false); // mặc định bật chức năng auto-equip
+        this(name, true);
     }
 
     public static UUID getBaubleUUID(ItemStack stack) {
@@ -61,9 +61,8 @@ public abstract class ItemBauble extends ItemMod implements IBauble {
         return ItemNBTHelper.getInt(stack, TAG_HASHCODE, 0);
     }
 
-    public ItemBauble disableRightClickEquip() {
-        this.disableRightClickEquip = true;
-        return this;
+    public void disableRightClickEquip() {
+        this.disableRightClickEquip = false;
     }
 
     @Override
@@ -102,13 +101,13 @@ public abstract class ItemBauble extends ItemMod implements IBauble {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-        if (GuiScreen.isShiftKeyDown()) addHiddenTooltip(par1ItemStack, par2EntityPlayer, par3List, par4);
+    public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+        if (GuiScreen.isShiftKeyDown()) addHiddenTooltip(itemStack, par2EntityPlayer, par3List, par4);
         else addStringToTooltip(StatCollector.translateToLocal(LibMisc.MOD_ID + "misc.shiftinfo"), par3List);
     }
 
-    public void addHiddenTooltip(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-        BaubleType type = getBaubleType(par1ItemStack);
+    public void addHiddenTooltip(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+        BaubleType type = getBaubleType(itemStack);
         addStringToTooltip(
             StatCollector.translateToLocal(
                 LibMisc.MOD_ID + ".baubletype."
@@ -154,8 +153,8 @@ public abstract class ItemBauble extends ItemMod implements IBauble {
     @Override
     public void onEquipped(ItemStack stack, EntityLivingBase player) {
         if (player != null) {
-            // if(!player.worldObj.isRemote)
-            // player.worldObj.playSoundAtEntity(player, "botania:equipBauble", 0.1F, 1.3F);
+            if (!player.worldObj.isRemote)
+                player.worldObj.playSoundAtEntity(player, LibResources.PREFIX_MOD + "equipBauble", 0.1F, 1.3F);
             onEquippedOrLoadedIntoWorld(stack, player);
 
             setLastPlayerHashcode(stack, player.hashCode());

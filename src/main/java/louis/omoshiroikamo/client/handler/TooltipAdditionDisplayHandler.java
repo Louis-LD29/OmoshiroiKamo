@@ -17,7 +17,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
-import louis.omoshiroikamo.common.core.lib.LibObfuscation;
+import louis.omoshiroikamo.common.util.lib.LibObfuscation;
 import vazkii.botania.api.mana.IManaTooltipDisplay;
 
 public class TooltipAdditionDisplayHandler {

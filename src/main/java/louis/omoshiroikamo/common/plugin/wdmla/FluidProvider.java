@@ -21,7 +21,7 @@ import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.api.fluid.IFluidHandlerAdv;
 import louis.omoshiroikamo.api.fluid.SmartTank;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 
 public enum FluidProvider implements IBlockComponentProvider {
 

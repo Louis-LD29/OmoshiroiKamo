@@ -10,10 +10,10 @@ import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.plugin.nei.PositionedStackAdv;
 import louis.omoshiroikamo.common.plugin.nei.RecipeHandlerBase;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class MaterialPropertiesHandler extends RecipeHandlerBase {
 

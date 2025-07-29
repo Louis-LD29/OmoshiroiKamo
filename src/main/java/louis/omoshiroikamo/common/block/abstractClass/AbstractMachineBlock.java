@@ -16,11 +16,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.client.IResourceTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.network.PacketFluidTanks;
 import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.network.PacketIoMode;
 import louis.omoshiroikamo.common.network.PacketPowerStorage;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public abstract class AbstractMachineBlock<T extends AbstractTE> extends AbstractBlock<T>
     implements IResourceTooltipProvider, IAdvancedTooltipProvider {

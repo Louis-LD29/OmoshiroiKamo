@@ -46,7 +46,7 @@ import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
 import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
 import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.item.ModItems;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.client.ClientEventHandler;
+import louis.omoshiroikamo.common.util.handlers.ClientEventHandler;
 
 public class ClientProxy extends CommonProxy {
 
@@ -116,5 +116,18 @@ public class ClientProxy extends CommonProxy {
     public World getClientWorld() {
         return FMLClientHandler.instance()
             .getClient().theWorld;
+    }
+
+    @Override
+    public long getTickCount() {
+        return clientTickCount;
+    }
+
+    @Override
+    protected void onClientTick() {
+        if (!Minecraft.getMinecraft()
+            .isGamePaused() && Minecraft.getMinecraft().theWorld != null) {
+            ++clientTickCount;
+        }
     }
 }

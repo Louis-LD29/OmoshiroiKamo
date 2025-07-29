@@ -11,12 +11,12 @@ import net.minecraft.util.IIcon;
 
 import org.lwjgl.opengl.GL11;
 
-import louis.omoshiroikamo.client.model.ModelIEObj;
+import louis.omoshiroikamo.client.models.ModelIEObj;
 import louis.omoshiroikamo.client.render.AbstractMTESR;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.block.anvil.TEAnvil;
-import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.chickenbones.Matrix4;
+import louis.omoshiroikamo.common.plugin.chickenbones.Matrix4;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class AnvilTESR extends AbstractMTESR {
 

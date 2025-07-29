@@ -9,8 +9,8 @@ import com.gtnewhorizons.wdmla.api.WDMlaPlugin;
 
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
 import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
-import louis.omoshiroikamo.common.core.lib.LibMods;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMods;
 
 @SuppressWarnings("unused")
 @WDMlaPlugin

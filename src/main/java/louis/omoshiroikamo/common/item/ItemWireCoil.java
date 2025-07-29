@@ -17,25 +17,23 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import louis.omoshiroikamo.api.TargetingInfo;
 import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
+import louis.omoshiroikamo.api.energy.IWireCoil;
+import louis.omoshiroikamo.api.energy.IWireConnectable;
 import louis.omoshiroikamo.api.energy.MaterialWireType;
+import louis.omoshiroikamo.api.energy.WireNetHandler;
+import louis.omoshiroikamo.api.energy.WireNetHandler.Connection;
+import louis.omoshiroikamo.api.energy.WireType;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.OKCreativeTab;
-import louis.omoshiroikamo.common.core.helper.ItemNBTHelper;
-import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.TargetingInfo;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IImmersiveConnectable;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IWireCoil;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.IESaveData;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.Utils;
+import louis.omoshiroikamo.common.util.Utils;
+import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.lib.LibResources;
+import louis.omoshiroikamo.common.world.WireNetSaveData;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -46,7 +44,7 @@ import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengin
  * It is intended for use in a standalone mod inspired by Immersive Engineering.
  */
 
-public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipProvider {
+public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipProvider {
 
     @SideOnly(Side.CLIENT)
     protected IIcon baseIcon, overlayIcon;
@@ -58,14 +56,9 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     }
 
     protected ItemWireCoil() {
+        super(ModObject.itemWireCoil.unlocalisedName);
         setHasSubtypes(true);
         setMaxDamage(0);
-        setCreativeTab(OKCreativeTab.INSTANCE);
-        setUnlocalizedName(ModObject.itemWireCoil.unlocalisedName);
-    }
-
-    private void init() {
-        GameRegistry.registerItem(this, ModObject.itemWireCoil.unlocalisedName);
     }
 
     @Override
@@ -152,13 +145,12 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
         if (world.isRemote) return false;
 
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (!(tileEntity instanceof IImmersiveConnectable) || !((IImmersiveConnectable) tileEntity).canConnect())
-            return false;
+        if (!(tileEntity instanceof IWireConnectable) || !((IWireConnectable) tileEntity).canConnect()) return false;
 
         TargetingInfo target = new TargetingInfo(side, hitX, hitY, hitZ);
         WireType type = getWireType(stack);
 
-        if (!((IImmersiveConnectable) tileEntity).canConnectCable(type, target)) {
+        if (!((IWireConnectable) tileEntity).canConnectCable(type, target)) {
             player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "wrongCable"));
             return false;
         }
@@ -178,7 +170,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                 player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "sameConnection"));
             } else {
                 TileEntity tileEntityLink = world.getTileEntity(pos[1], pos[2], pos[3]);
-                if (!(tileEntityLink instanceof IImmersiveConnectable)) {
+                if (!(tileEntityLink instanceof IWireConnectable)) {
                     player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "invalidPoint"));
                 } else {
                     int distance = (int) Math
@@ -187,16 +179,15 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                     if (distance > type.getMaxLength()) {
                         player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "tooFar"));
                     } else {
-                        IImmersiveConnectable nodeHere = (IImmersiveConnectable) tileEntity;
-                        IImmersiveConnectable nodeLink = (IImmersiveConnectable) tileEntityLink;
+                        IWireConnectable nodeHere = (IWireConnectable) tileEntity;
+                        IWireConnectable nodeLink = (IWireConnectable) tileEntityLink;
 
                         if (!nodeLink.canConnectCable(type, target)) {
                             player
                                 .addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "invalidPoint"));
                         } else {
                             boolean exists = false;
-                            Set<Connection> conns = ImmersiveNetHandler.INSTANCE
-                                .getConnections(world, Utils.toCC(nodeHere));
+                            Set<Connection> conns = WireNetHandler.INSTANCE.getConnections(world, Utils.toCC(nodeHere));
                             if (conns != null) {
                                 for (Connection con : conns) {
                                     if (con.end.equals(Utils.toCC(nodeLink))) {
@@ -223,7 +214,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                                     vecLink)) {
                                     TargetingInfo targetLink = TargetingInfo.readFromNBT(stack.getTagCompound());
 
-                                    ImmersiveNetHandler.INSTANCE.addConnection(
+                                    WireNetHandler.INSTANCE.addConnection(
                                         world,
                                         Utils.toCC(nodeHere),
                                         Utils.toCC(nodeLink),
@@ -231,7 +222,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                                         type);
                                     nodeHere.connectCable(type, target);
                                     nodeLink.connectCable(type, targetLink);
-                                    IESaveData.setDirty(world.provider.dimensionId);
+                                    WireNetSaveData.setDirty(world.provider.dimensionId);
 
                                     if (!player.capabilities.isCreativeMode) stack.stackSize--;
 

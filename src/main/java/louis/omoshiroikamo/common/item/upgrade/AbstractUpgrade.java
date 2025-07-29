@@ -12,9 +12,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.IRenderUpgrade;
 import louis.omoshiroikamo.api.client.SpecialTooltipHandler;
 import louis.omoshiroikamo.api.mana.IManaItemUpgrade;
-import louis.omoshiroikamo.common.core.helper.ItemNBTHelper;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public abstract class AbstractUpgrade implements IManaItemUpgrade {
 

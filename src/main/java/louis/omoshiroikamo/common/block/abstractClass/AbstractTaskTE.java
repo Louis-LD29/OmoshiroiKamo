@@ -16,8 +16,6 @@ import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 
 import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.api.io.SlotDefinition;
-import louis.omoshiroikamo.common.core.helper.Logger;
-import louis.omoshiroikamo.common.core.helper.OreDictUtils;
 import louis.omoshiroikamo.common.recipes.IPoweredTask;
 import louis.omoshiroikamo.common.recipes.IProgressTile;
 import louis.omoshiroikamo.common.recipes.MachineRecipe;
@@ -26,6 +24,8 @@ import louis.omoshiroikamo.common.recipes.PoweredTask;
 import louis.omoshiroikamo.common.recipes.PoweredTaskProgress;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
+import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.helper.OreDictUtils;
 
 public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTile, IWailaInfoProvider {
 

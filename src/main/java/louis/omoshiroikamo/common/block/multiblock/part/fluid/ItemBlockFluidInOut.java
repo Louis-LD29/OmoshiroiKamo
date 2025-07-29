@@ -18,8 +18,8 @@ import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.block.ModBlocks;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
 

@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import cofh.api.energy.IEnergyHandler;
 import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;

@@ -22,18 +22,18 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.relauncher.Side;
 import lombok.SneakyThrows;
+import louis.omoshiroikamo.api.energy.WireType;
 import louis.omoshiroikamo.api.fluid.FluidEntry;
 import louis.omoshiroikamo.api.fluid.FluidRegistry;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.api.ore.OreEntry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
-import louis.omoshiroikamo.common.core.helper.Logger;
-import louis.omoshiroikamo.common.core.lang.LangSectionInserter;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
-import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.network.PacketHandler;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
+import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.lang.LangSectionInserter;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class Config {
 

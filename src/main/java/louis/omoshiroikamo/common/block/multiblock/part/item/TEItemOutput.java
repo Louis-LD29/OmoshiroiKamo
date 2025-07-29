@@ -17,7 +17,7 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class TEItemOutput extends TEItemInOut {
 

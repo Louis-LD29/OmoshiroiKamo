@@ -36,10 +36,11 @@ import louis.omoshiroikamo.api.client.IFlightEnablerItem;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.mana.IManaItem;
 import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.core.helper.ItemNBTHelper;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import louis.omoshiroikamo.common.recipes.ManaAnvilRecipe;
+import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 import vazkii.botania.api.mana.IManaTooltipDisplay;
 
 public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTooltipDisplay, IAdvancedTooltipProvider,
@@ -47,21 +48,22 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
     protected static final int MAX_MANA = 500000;
     protected static final float CONVERSION_RATE = 625f;
-    private static final String TAG_MANA = "mana";
+
+    public static ItemOperationOrb create() {
+        ItemOperationOrb item = new ItemOperationOrb();
+        item.init();
+        return item;
+    }
 
     public ItemOperationOrb() {
-        this(ModObject.itemOperationOrb.unlocalisedName);
-        setMaxDamage(1000);
+        super(ModObject.itemOperationOrb.unlocalisedName);
         this.disableRightClickEquip();
+        setMaxDamage(1000);
         setNoRepair();
     }
 
-    public ItemOperationOrb(String name) {
-        super(name);
-    }
-
     public static void setMana(ItemStack stack, int mana) {
-        ItemNBTHelper.setInt(stack, TAG_MANA, mana);
+        ItemNBTHelper.setInt(stack, LibResources.KEY_MANA, mana);
     }
 
     @Override
@@ -70,8 +72,9 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
     }
 
     @Override
-    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> list) {
-        list.add(new ItemStack(par1));
+    public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List<ItemStack> list) {
+        list.add(new ItemStack(item, 1, 0));
+        list.add(new ItemStack(item, 1, 1000));
     }
 
     @Override
@@ -93,7 +96,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
     @Override
     public int getMana(ItemStack stack) {
-        return ItemNBTHelper.getInt(stack, TAG_MANA, 0);
+        return ItemNBTHelper.getInt(stack, LibResources.KEY_MANA, 0);
     }
 
     @Override
@@ -103,12 +106,6 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
     @Override
     public void addMana(ItemStack stack, int mana) {
-        setMana(stack, Math.min(getMana(stack) + mana, getMaxMana(stack)));
-        stack.setItemDamage(getDamage(stack));
-    }
-
-    @Override
-    public void addMana(ItemStack stack, int mana, EntityPlayer player) {
         setMana(stack, Math.min(getMana(stack) + mana, getMaxMana(stack)));
         stack.setItemDamage(getDamage(stack));
     }
@@ -150,17 +147,16 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
     @Override
     public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        ManaAnvilRecipe.instance.addCommonTooltipEntries(itemstack, entityplayer, list, flag);
+        ManaAnvilRecipe.INSTANCE.addCommonTooltipEntries(itemstack, entityplayer, list, flag);
     }
 
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        ManaAnvilRecipe.instance.addBasicTooltipEntries(itemstack, entityplayer, list, flag);
+        ManaAnvilRecipe.INSTANCE.addBasicTooltipEntries(itemstack, entityplayer, list, flag);
     }
 
     @Override
     public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-
         if (!Config.addDurabilityTootip) {
             list.add(ItemUtil.getDurabilityString(itemstack));
         }
@@ -175,7 +171,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
                     + LibMisc.lang
                         .localize("item." + ModObject.itemOperationOrb.unlocalisedName + ".tooltip.effPowered"));
         }
-        ManaAnvilRecipe.instance.addAdvancedTooltipEntries(itemstack, entityplayer, list, flag);
+        ManaAnvilRecipe.INSTANCE.addAdvancedTooltipEntries(itemstack, entityplayer, list, flag);
     }
 
     @Override
@@ -211,7 +207,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
             player.sendPlayerAbilities();
         }
 
-        if (player.capabilities.isFlying) manaItem.addMana(stack, -625, player);
+        if (player.capabilities.isFlying) manaItem.addMana(stack, -625);
 
         if (manaItem.getMana(stack) < 50000) {
             player.capabilities.allowFlying = false;
@@ -237,7 +233,6 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
     @Override
     public ModularPanel buildUI(PlayerInventoryGuiData guiData, PanelSyncManager guiSyncManager, UISettings settings) {
         IItemHandlerModifiable itemHandler = new ItemStackItemHandler(guiData, 4);
-        // guiSyncManager.registerSlotGroup("mixer_items", 2);
 
         guiSyncManager.addOpenListener(player -> {
 

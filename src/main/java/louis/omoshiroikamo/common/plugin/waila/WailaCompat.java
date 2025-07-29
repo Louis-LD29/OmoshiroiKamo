@@ -5,9 +5,9 @@ import net.minecraft.entity.EntityLivingBase;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.core.helper.Logger;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
-import louis.omoshiroikamo.common.core.lib.LibMods;
+import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMods;
 import mcp.mobius.waila.api.IWailaRegistrar;
 
 @SuppressWarnings("deprecation")

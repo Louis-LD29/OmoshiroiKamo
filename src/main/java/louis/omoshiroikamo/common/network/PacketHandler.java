@@ -7,7 +7,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 
 public class PacketHandler {
 

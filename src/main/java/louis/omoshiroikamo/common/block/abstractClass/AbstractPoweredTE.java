@@ -12,10 +12,10 @@ import louis.omoshiroikamo.api.energy.IPowerContainer;
 import louis.omoshiroikamo.api.energy.PowerHandlerUtil;
 import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.common.core.lib.LibMods;
 import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.network.PacketPowerStorage;
 import louis.omoshiroikamo.common.plugin.compat.IC2Compat;
+import louis.omoshiroikamo.common.util.lib.LibMods;
 
 @Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
     @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "IC2") })

@@ -14,7 +14,7 @@ import crazypants.enderio.Log;
 import louis.omoshiroikamo.api.fluid.IFluidCoolant;
 import louis.omoshiroikamo.api.fluid.IFluidFuel;
 import louis.omoshiroikamo.api.fluid.IFluidRegister;
-import louis.omoshiroikamo.common.core.lib.LibMods;
+import louis.omoshiroikamo.common.util.lib.LibMods;
 
 public class FluidFuelRegister implements IFluidRegister {
 

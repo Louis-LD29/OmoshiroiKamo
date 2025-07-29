@@ -10,8 +10,6 @@ import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.item.ModItems;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -66,7 +64,7 @@ public class MaterialWireType extends WireType {
     }
 
     @Override
-    public int getColour(ImmersiveNetHandler.Connection connection) {
+    public int getColour(WireNetHandler.Connection connection) {
         return material.getColor();
     }
 
@@ -77,7 +75,7 @@ public class MaterialWireType extends WireType {
     }
 
     @Override
-    public IIcon getIcon(ImmersiveNetHandler.Connection connection) {
+    public IIcon getIcon(WireNetHandler.Connection connection) {
         return WireType.iconDefaultWire;
     }
 

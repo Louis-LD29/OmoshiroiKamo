@@ -24,7 +24,7 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.ore.OreEntry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
 import louis.omoshiroikamo.common.OKCreativeTab;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class ItemOre extends Item implements IAdvancedTooltipProvider {
 

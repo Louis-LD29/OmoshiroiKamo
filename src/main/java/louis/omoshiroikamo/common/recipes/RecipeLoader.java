@@ -21,9 +21,9 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 
 public class RecipeLoader {
 

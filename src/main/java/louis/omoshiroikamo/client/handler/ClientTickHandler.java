@@ -12,8 +12,8 @@ import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import louis.omoshiroikamo.api.mana.IManaItem;
-import louis.omoshiroikamo.common.core.helper.Helper;
 import louis.omoshiroikamo.common.mana.ManaNetworkHandler;
+import louis.omoshiroikamo.common.util.helper.Helper;
 
 public class ClientTickHandler {
 
