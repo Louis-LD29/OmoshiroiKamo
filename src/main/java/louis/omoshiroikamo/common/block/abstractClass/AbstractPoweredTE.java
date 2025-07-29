@@ -1,12 +1,8 @@
 package louis.omoshiroikamo.common.block.abstractClass;
 
-import louis.omoshiroikamo.common.network.PacketHandler;
-import louis.omoshiroikamo.common.network.PacketPowerStorage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import com.enderio.core.common.util.BlockCoord;
 
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.Optional;
@@ -14,9 +10,11 @@ import ic2.api.energy.tile.IEnergySink;
 import louis.omoshiroikamo.api.energy.EnergyStorageAdv;
 import louis.omoshiroikamo.api.energy.IPowerContainer;
 import louis.omoshiroikamo.api.energy.PowerHandlerUtil;
-import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.io.SlotDefinition;
+import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.common.core.lib.LibMods;
+import louis.omoshiroikamo.common.network.PacketHandler;
+import louis.omoshiroikamo.common.network.PacketPowerStorage;
 import louis.omoshiroikamo.common.plugin.compat.IC2Compat;
 
 @Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),

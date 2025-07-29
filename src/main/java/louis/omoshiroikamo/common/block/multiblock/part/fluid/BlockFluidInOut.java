@@ -2,9 +2,6 @@ package louis.omoshiroikamo.common.block.multiblock.part.fluid;
 
 import java.util.List;
 
-import louis.omoshiroikamo.common.network.PacketFluidTanks;
-import louis.omoshiroikamo.common.network.PacketHandler;
-import louis.omoshiroikamo.common.network.PacketPowerStorage;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,6 +16,8 @@ import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
 import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.network.PacketFluidTanks;
+import louis.omoshiroikamo.common.network.PacketHandler;
 
 public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> {
 

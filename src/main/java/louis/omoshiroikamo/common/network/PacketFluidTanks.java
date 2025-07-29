@@ -1,10 +1,11 @@
 package louis.omoshiroikamo.common.network;
 
-import com.enderio.core.common.util.BlockCoord;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
 import com.enderio.core.common.network.NetworkUtil;
+import com.enderio.core.common.util.BlockCoord;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -13,7 +14,6 @@ import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import louis.omoshiroikamo.OmoshiroiKamo;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractStorageTE;
-import net.minecraft.tileentity.TileEntity;
 
 public class PacketFluidTanks implements IMessage, IMessageHandler<PacketFluidTanks, IMessage> {
 
@@ -57,8 +57,7 @@ public class PacketFluidTanks implements IMessage, IMessageHandler<PacketFluidTa
 
     @Override
     public IMessage onMessage(PacketFluidTanks message, MessageContext ctx) {
-        EntityPlayer player = ctx.side == Side.SERVER
-            ? ctx.getServerHandler().playerEntity
+        EntityPlayer player = ctx.side == Side.SERVER ? ctx.getServerHandler().playerEntity
             : OmoshiroiKamo.proxy.getClientPlayer();
 
         if (player == null) return null;

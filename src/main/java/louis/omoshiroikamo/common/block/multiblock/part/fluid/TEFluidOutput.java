@@ -25,7 +25,7 @@ import louis.omoshiroikamo.common.core.lib.LibResources;
 public class TEFluidOutput extends TEFluidInOut {
 
     protected TEFluidOutput(int meta) {
-        super( MaterialRegistry.fromMeta(meta % LibResources.META1));
+        super(MaterialRegistry.fromMeta(meta % LibResources.META1));
         this.meta = meta;
     }
 

@@ -1,7 +1,5 @@
 package louis.omoshiroikamo.common.block.multiblock.part.item;
 
-import louis.omoshiroikamo.api.io.SlotDefinition;
-import louis.omoshiroikamo.common.block.abstractClass.AbstractStorageTE;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -9,8 +7,9 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
 
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractStorageTE;
 
 public abstract class TEItemInOut extends AbstractStorageTE implements ISidedInventory {
 
@@ -18,7 +17,7 @@ public abstract class TEItemInOut extends AbstractStorageTE implements ISidedInv
     private final int[] allSlots;
 
     public TEItemInOut(MaterialEntry material) {
-        super(new SlotDefinition(-1,-1), material);
+        super(new SlotDefinition(-1, -1), material);
         inv = new ItemStackHandler(material.getItemSlotCount());
         this.material = material;
         allSlots = new int[inv.getSlots()];

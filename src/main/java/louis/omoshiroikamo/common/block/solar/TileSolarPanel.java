@@ -31,10 +31,10 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.fluid.IFluidCoolant;
 import louis.omoshiroikamo.api.io.IoMode;
 import louis.omoshiroikamo.api.io.IoType;
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.client.gui.modularui2.MGuis;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractPoweredTE;
-import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.common.fluid.FluidFuelRegister;
 
 public class TileSolarPanel extends AbstractPoweredTE {
@@ -270,7 +270,8 @@ public class TileSolarPanel extends AbstractPoweredTE {
     }
 
     @Override
-    public boolean onBlockActivated(World world, EntityPlayer player, ForgeDirection side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, EntityPlayer player, ForgeDirection side, float hitX, float hitY,
+        float hitZ) {
         openGui(player);
         return true;
     }

@@ -1,23 +1,21 @@
 package louis.omoshiroikamo.common.block.multiblock.part.fluid;
 
-import com.cleanroommc.modularui.utils.item.ItemStackHandler;
-import louis.omoshiroikamo.api.fluid.SmartTank;
-import louis.omoshiroikamo.api.io.SlotDefinition;
-import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.common.block.abstractClass.AbstractStorageTE;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import louis.omoshiroikamo.api.fluid.IFluidHandlerAdv;
-import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
+import louis.omoshiroikamo.api.fluid.SmartTank;
+import louis.omoshiroikamo.api.io.SlotDefinition;
+import louis.omoshiroikamo.api.material.MaterialEntry;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractStorageTE;
 
 public abstract class TEFluidInOut extends AbstractStorageTE implements IFluidHandlerAdv {
 
     protected SmartTank tank;
 
     public TEFluidInOut(MaterialEntry material) {
-        super(new SlotDefinition(-1,-1), material);
+        super(new SlotDefinition(-1, -1), material);
         tank = new SmartTank(material);
     }
 

@@ -22,9 +22,9 @@ import com.enderio.core.common.util.ItemUtil;
 import louis.omoshiroikamo.api.io.IIoConfigurable;
 import louis.omoshiroikamo.api.io.IoMode;
 import louis.omoshiroikamo.api.io.IoType;
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.client.gui.modularui2.MGuis;
-import louis.omoshiroikamo.api.io.SlotDefinition;
 
 public abstract class AbstractIOTE extends AbstractStorageTE implements IIoConfigurable {
 

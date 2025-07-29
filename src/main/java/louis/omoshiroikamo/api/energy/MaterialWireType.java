@@ -3,12 +3,12 @@ package louis.omoshiroikamo.api.energy;
 import java.util.HashMap;
 import java.util.Map;
 
-import louis.omoshiroikamo.common.config.Config;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
+import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
 import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;

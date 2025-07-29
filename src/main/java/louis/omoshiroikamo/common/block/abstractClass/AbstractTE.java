@@ -1,6 +1,5 @@
 package louis.omoshiroikamo.common.block.abstractClass;
 
-import com.enderio.core.common.util.BlockCoord;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,6 +13,7 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.enderio.core.common.TileEntityEnder;
+import com.enderio.core.common.util.BlockCoord;
 
 import louis.omoshiroikamo.api.SideReference;
 import louis.omoshiroikamo.api.material.MaterialEntry;
