@@ -17,7 +17,6 @@ import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.utils.Alignment;
-import com.cleanroommc.modularui.value.sync.DoubleSyncValue;
 import com.cleanroommc.modularui.value.sync.IntSyncValue;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widgets.ProgressWidget;
@@ -173,7 +172,8 @@ public class TEFurnace extends AbstractTaskTE {
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
         syncManager.registerSlotGroup("furnace", 3);
         ModularPanel panel = new ModularPanel(getMachineName());
-        syncManager.syncValue("progress", new DoubleSyncValue(this::getProgress, value -> setProgress((float) value)));
+        // syncManager.syncValue("progress", new DoubleSyncValue(this::getProgress, value -> setProgress((float)
+        // value)));
         syncManager.syncValue("burnTime", new IntSyncValue(() -> burnTime, value -> burnTime = value));
         syncManager.syncValue("totalBurnTime", new IntSyncValue(() -> totalBurnTime, value -> totalBurnTime = value));
         panel.child(
@@ -222,7 +222,6 @@ public class TEFurnace extends AbstractTaskTE {
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor) {
         if (!(accessor.getTileEntity() instanceof TEFurnace)) return;
         NBTTagCompound data = accessor.getServerData();
-        float progressTE = data.getFloat("progressTE");
         float burnTime = data.getFloat("burnTime");
         this.inv.deserializeNBT(data.getCompoundTag("item_inv"));
 
@@ -257,7 +256,7 @@ public class TEFurnace extends AbstractTaskTE {
             IComponent progress = ThemeHelper.INSTANCE.furnaceLikeProgress(
                 Arrays.asList(input, fuel),
                 outputs,
-                (int) (progressTE * 100),
+                (int) (getProgress() * 100),
                 100,
                 accessor.showDetails());
 
@@ -276,7 +275,7 @@ public class TEFurnace extends AbstractTaskTE {
     public void appendServerData(NBTTagCompound data, BlockAccessor accessor) {
         if (!(accessor.getTileEntity() instanceof TEFurnace te)) return;
 
-        data.setFloat("progressTE", te.getProgress());
+        // data.setFloat("progressTE", te.getProgress());
         data.setFloat("burnTime", burnTime);
         data.setTag("item_inv", this.inv.serializeNBT());
     }

@@ -13,7 +13,6 @@ public class NEICompat {
     public static void init() {
         if (!LibMods.nei) return;
         IMCSender();
-
     }
 
     public static void IMCSender() {
@@ -21,6 +20,8 @@ public class NEICompat {
         sendCatalyst(ModObject.blockElectrolyzer.getRegistryName());
         sendHandler(ModObject.blockAnvil.getRegistryName(), 64, 6);
         sendCatalyst(ModObject.blockAnvil.getRegistryName());
+        sendCatalyst("smelting", ModObject.blockFurnace.getRegistryName());
+        sendCatalyst("fuel", ModObject.blockFurnace.getRegistryName());
         sendHandler("materialProperties", ModObject.itemMaterial.getRegistryName(), 85, 1);
         Logger.info("Loaded IMCForNEI");
     }

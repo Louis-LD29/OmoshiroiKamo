@@ -30,7 +30,7 @@ gui.powerMonitor.of=of
 power.rf=RF
 fluid.millibucket.abr=L
 fluid.empty=Empty
-Testmisc.shiftinfo=Hold &bSHIFT&7 for more info
+misc.shiftinfo=§7Hold §6Shift §7for details
 
 #BAUBLE TOOLTIPS
 
@@ -61,7 +61,7 @@ element.dendro.name=Dendro
 
 #Item
 
-item.Test:operationOrb.name=Operation Orb
+item.itemOperationOrb.name=Operation Orb
 item.itemHammer.name=Hammer
 
 #Block

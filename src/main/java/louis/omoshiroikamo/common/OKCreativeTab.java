@@ -49,6 +49,7 @@ public class OKCreativeTab extends CreativeTabs {
         addItem(ModItems.itemWireCoil);
         addItem(ModItems.itemOre);
         addItem(ModItems.itemHammer);
+        addItem(ModItems.itemOperationOrb);
         addItem(FluidMaterialRegister.itemBucketMaterial);
         addItem(FluidRegister.itemBucketFluid);
         addBlock(ModBlocks.blockMaterial);

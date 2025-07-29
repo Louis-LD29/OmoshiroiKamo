@@ -11,13 +11,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
+import com.enderio.core.api.common.util.IProgressTile;
 import com.gtnewhorizons.wdmla.api.accessor.BlockAccessor;
 import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 
 import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.common.recipes.IPoweredTask;
-import louis.omoshiroikamo.common.recipes.IProgressTile;
 import louis.omoshiroikamo.common.recipes.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.MachineRecipeRegistry;
 import louis.omoshiroikamo.common.recipes.PoweredTask;
@@ -298,8 +298,9 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
         return true;
     }
 
-    private void consumeInputs(MachineRecipe recipe) {
+    private void consumeInputs(MachineRecipe recipe, float chance) {
         for (ChanceItemStack input : recipe.getItemInputs()) {
+
             int remaining = input.stack.stackSize;
 
             for (int i = slotDefinition.minItemInputSlot; i <= slotDefinition.maxItemInputSlot && remaining > 0; i++) {
@@ -309,6 +310,10 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
                 boolean matches = OreDictUtils.isOreDictMatch(input.stack, target);
 
                 if (matches) {
+                    if (input.chance < chance) {
+                        continue;
+                    }
+
                     int consumed = Math.min(remaining, target.stackSize);
                     target.stackSize -= consumed;
                     remaining -= consumed;
@@ -361,7 +366,7 @@ public abstract class AbstractTaskTE extends AbstractIOTE implements IProgressTi
     protected boolean startNextTask(MachineRecipe nextRecipe, float chance) {
         if (nextRecipe
             == MachineRecipeRegistry.findMatchingRecipe(getMachineName(), getItemInputs(), getFluidInputs())) {
-            consumeInputs(nextRecipe);
+            consumeInputs(nextRecipe, chance);
             currentTask = createTask(nextRecipe, chance);
             return true;
         }

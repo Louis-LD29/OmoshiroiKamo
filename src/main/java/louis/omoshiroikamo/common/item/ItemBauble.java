@@ -19,7 +19,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.client.render.RenderHelper;
 import louis.omoshiroikamo.common.entity.EntityDoppleganger;
 import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
-import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public abstract class ItemBauble extends ItemOK implements IBauble {
@@ -66,28 +65,27 @@ public abstract class ItemBauble extends ItemOK implements IBauble {
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         if (disableRightClickEquip) {
-            return par1ItemStack;
+            return itemStack;
         }
 
-        if (!EntityDoppleganger.isTruePlayer(par3EntityPlayer)) return par1ItemStack;
+        if (!EntityDoppleganger.isTruePlayer(player)) return itemStack;
 
-        if (canEquip(par1ItemStack, par3EntityPlayer)) {
-            InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(par3EntityPlayer);
+        if (canEquip(itemStack, player)) {
+            InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
             for (int i = 0; i < baubles.getSizeInventory(); i++) {
-                if (baubles.isItemValidForSlot(i, par1ItemStack)) {
+                if (baubles.isItemValidForSlot(i, itemStack)) {
                     ItemStack stackInSlot = baubles.getStackInSlot(i);
-                    if (stackInSlot == null
-                        || ((IBauble) stackInSlot.getItem()).canUnequip(stackInSlot, par3EntityPlayer)) {
-                        if (!par2World.isRemote) {
-                            baubles.setInventorySlotContents(i, par1ItemStack.copy());
-                            if (!par3EntityPlayer.capabilities.isCreativeMode) par3EntityPlayer.inventory
-                                .setInventorySlotContents(par3EntityPlayer.inventory.currentItem, null);
+                    if (stackInSlot == null || ((IBauble) stackInSlot.getItem()).canUnequip(stackInSlot, player)) {
+                        if (!world.isRemote) {
+                            baubles.setInventorySlotContents(i, itemStack.copy());
+                            if (!player.capabilities.isCreativeMode)
+                                player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
                         }
 
                         if (stackInSlot != null) {
-                            ((IBauble) stackInSlot.getItem()).onUnequipped(stackInSlot, par3EntityPlayer);
+                            ((IBauble) stackInSlot.getItem()).onUnequipped(stackInSlot, player);
                             return stackInSlot.copy();
                         }
                         break;
@@ -96,29 +94,28 @@ public abstract class ItemBauble extends ItemOK implements IBauble {
             }
         }
 
-        return par1ItemStack;
+        return itemStack;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-        if (GuiScreen.isShiftKeyDown()) addHiddenTooltip(itemStack, par2EntityPlayer, par3List, par4);
-        else addStringToTooltip(StatCollector.translateToLocal(LibMisc.MOD_ID + "misc.shiftinfo"), par3List);
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
+        if (GuiScreen.isShiftKeyDown()) addHiddenTooltip(itemStack, player, list, par4);
+        else addStringToTooltip(StatCollector.translateToLocal("misc.shiftinfo"), list);
     }
 
-    public void addHiddenTooltip(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+    public void addHiddenTooltip(ItemStack itemStack, EntityPlayer player, List par3List, boolean par4) {
         BaubleType type = getBaubleType(itemStack);
         addStringToTooltip(
             StatCollector.translateToLocal(
-                LibMisc.MOD_ID + ".baubletype."
-                    + type.name()
-                        .toLowerCase()),
+                "baubletype." + type.name()
+                    .toLowerCase()),
             par3List);
 
         String key = RenderHelper.getKeyDisplayString("Baubles Inventory");
 
         if (key != null) addStringToTooltip(
-            StatCollector.translateToLocal(LibMisc.MOD_ID + ".baubletooltip")
+            StatCollector.translateToLocal("baubletooltip")
                 .replaceAll("%key%", key),
             par3List);
 

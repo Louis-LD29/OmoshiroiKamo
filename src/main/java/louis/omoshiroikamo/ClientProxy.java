@@ -59,10 +59,13 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void init(FMLInitializationEvent event) {
+        super.init(event);
+
         ClientEventHandler clientEventHandler = new ClientEventHandler();
         MinecraftForge.EVENT_BUS.register(clientEventHandler);
-        super.init(event);
+
         ModItems.registerItemRenderer();
+
         MinecraftForge.EVENT_BUS.register(ManaHUD.instance);
         FMLCommonHandler.instance()
             .bus()

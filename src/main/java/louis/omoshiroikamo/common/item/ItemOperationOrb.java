@@ -72,9 +72,14 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
     }
 
     @Override
-    public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List<ItemStack> list) {
-        list.add(new ItemStack(item, 1, 0));
-        list.add(new ItemStack(item, 1, 1000));
+    public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+        ItemStack empty = new ItemStack(item);
+        setMana(empty, 0);
+        list.add(empty);
+
+        ItemStack full = new ItemStack(item);
+        setMana(full, MAX_MANA);
+        list.add(full);
     }
 
     @Override

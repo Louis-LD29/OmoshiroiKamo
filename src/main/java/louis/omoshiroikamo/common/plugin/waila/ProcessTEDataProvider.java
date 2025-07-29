@@ -8,8 +8,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import com.enderio.core.api.common.util.IProgressTile;
+
 import louis.omoshiroikamo.api.IWailaInfoProvider;
-import louis.omoshiroikamo.common.recipes.IProgressTile;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

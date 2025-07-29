@@ -17,7 +17,6 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.utils.Alignment;
 import com.cleanroommc.modularui.value.sync.BooleanSyncValue;
-import com.cleanroommc.modularui.value.sync.DoubleSyncValue;
 import com.cleanroommc.modularui.value.sync.FluidSlotSyncHandler;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widgets.ProgressWidget;
@@ -72,7 +71,6 @@ public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandl
     @Override
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
         syncManager.registerSlotGroup("item_inv", 1);
-        syncManager.syncValue("progress", new DoubleSyncValue(this::getProgress, value -> setProgress((float) value)));
 
         return MGuis.mteTemplatePanelBuilder(this, data, syncManager, settings)
             .doesAddConfigR(true)

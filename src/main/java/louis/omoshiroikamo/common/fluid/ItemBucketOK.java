@@ -14,19 +14,20 @@ import org.apache.commons.lang3.StringUtils;
 import cpw.mods.fml.common.registry.GameRegistry;
 import crazypants.enderio.fluid.BucketHandler;
 import louis.omoshiroikamo.common.OKCreativeTab;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
-public class ItemBucketEio extends ItemBucket {
+public class ItemBucketOK extends ItemBucket {
 
     private final boolean canPlace;
     protected String fluidName;
 
-    public static ItemBucketEio create(Fluid fluid) {
+    public static ItemBucketOK create(Fluid fluid) {
         return create(fluid, true);
     }
 
-    public static ItemBucketEio create(Fluid fluid, boolean canPlace) {
+    public static ItemBucketOK create(Fluid fluid, boolean canPlace) {
         Block fluidBlock = fluid.getBlock() != null ? fluid.getBlock() : Blocks.air;
-        ItemBucketEio b = new ItemBucketEio(fluidBlock, fluid.getName(), canPlace);
+        ItemBucketOK b = new ItemBucketOK(fluidBlock, fluid.getName(), canPlace);
         b.init();
 
         FluidContainerRegistry.registerFluidContainer(fluid, new ItemStack(b), new ItemStack(Items.bucket));
@@ -35,7 +36,7 @@ public class ItemBucketEio extends ItemBucket {
         return b;
     }
 
-    protected ItemBucketEio(Block block, String fluidName, boolean canPlace) {
+    protected ItemBucketOK(Block block, String fluidName, boolean canPlace) {
         super(block);
         this.fluidName = fluidName;
         this.canPlace = canPlace;
@@ -43,7 +44,7 @@ public class ItemBucketEio extends ItemBucket {
         setContainerItem(Items.bucket);
         String str = "bucket" + StringUtils.capitalize(fluidName);
         setUnlocalizedName(str);
-        setTextureName("enderio:" + str);
+        setTextureName(LibResources.PREFIX_MOD + str);
     }
 
     @Override

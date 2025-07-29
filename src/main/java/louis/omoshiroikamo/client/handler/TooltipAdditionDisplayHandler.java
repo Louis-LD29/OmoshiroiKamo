@@ -63,8 +63,9 @@ public class TooltipAdditionDisplayHandler {
                     if (fixY < 0) {
                         offy -= fixY;
                     }
-                    if (stack.getItem() instanceof IManaTooltipDisplay display)
-                        drawManaBar(stack, display, mouseX, mouseY, offx, offy, tooltipHeight);
+                    if (stack.getItem() instanceof IManaTooltipDisplay display) {
+                        // drawManaBar(stack, display, mouseX, mouseY, offx, offy, tooltipHeight);
+                    }
                 }
             }
         }

@@ -11,11 +11,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
+import com.enderio.core.api.common.util.IProgressTile;
+
 import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.common.recipes.IPoweredTask;
-import louis.omoshiroikamo.common.recipes.IProgressTile;
 import louis.omoshiroikamo.common.recipes.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.MachineRecipeRegistry;
 import louis.omoshiroikamo.common.recipes.PoweredTask;
@@ -54,7 +55,7 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
 
     @Override
     public boolean isActive() {
-        return currentTask == null ? false : currentTask.getProgress() >= 0 && redstoneCheckPassed;
+        return currentTask != null && currentTask.getProgress() >= 0 && redstoneCheckPassed;
     }
 
     @Override
@@ -65,10 +66,6 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
     @Override
     public void setProgress(float progress) {
         this.currentTask = progress < 0 ? null : new PoweredTaskProgress(progress);
-    }
-
-    public IPoweredTask getCurrentTask() {
-        return currentTask;
     }
 
     public boolean getRedstoneChecksPassed() {

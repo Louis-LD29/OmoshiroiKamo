@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.plugin.tic;
+package louis.omoshiroikamo.common.plugin.compat;
 
 import java.util.Locale;
 

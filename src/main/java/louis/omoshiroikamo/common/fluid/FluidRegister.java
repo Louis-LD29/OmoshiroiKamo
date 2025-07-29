@@ -61,7 +61,7 @@ public class FluidRegister {
     }
 
     public static Fluid registerFluid(String name, int density, int viscosity, int temperature) {
-        return FluidMaterialRegister.registerFluid(
+        return ModFluids.registerFluid(
             name,
             name,
             "fluid." + name,
