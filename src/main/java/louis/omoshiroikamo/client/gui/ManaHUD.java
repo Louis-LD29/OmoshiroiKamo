@@ -18,9 +18,9 @@ import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import louis.omoshiroikamo.api.mana.IManaItem;
 import louis.omoshiroikamo.client.handler.ClientTickHandler;
-import louis.omoshiroikamo.common.core.helper.Helper;
-import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.mana.ManaNetworkHandler;
+import louis.omoshiroikamo.common.util.helper.Helper;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class ManaHUD {
 

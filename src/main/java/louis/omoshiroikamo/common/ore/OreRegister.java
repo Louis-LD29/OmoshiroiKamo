@@ -16,6 +16,7 @@ public class OreRegister {
         for (OreEntry entry : OreRegistry.all()) {
             BlockOreOK oreBlock = BlockOreOK.create(entry);
             BLOCKS.put(entry, oreBlock);
+            String name = oreBlock.getUnlocalizedName();
         }
     }
 

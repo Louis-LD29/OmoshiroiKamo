@@ -4,16 +4,15 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import cpw.mods.fml.common.event.FMLInterModComms;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.common.core.helper.Logger;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
-import louis.omoshiroikamo.common.core.lib.LibMods;
+import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMods;
 
 public class NEICompat {
 
     public static void init() {
         if (!LibMods.nei) return;
         IMCSender();
-
     }
 
     public static void IMCSender() {
@@ -21,6 +20,8 @@ public class NEICompat {
         sendCatalyst(ModObject.blockElectrolyzer.getRegistryName());
         sendHandler(ModObject.blockAnvil.getRegistryName(), 64, 6);
         sendCatalyst(ModObject.blockAnvil.getRegistryName());
+        sendCatalyst("smelting", ModObject.blockFurnace.getRegistryName());
+        sendCatalyst("fuel", ModObject.blockFurnace.getRegistryName());
         sendHandler("materialProperties", ModObject.itemMaterial.getRegistryName(), 85, 1);
         Logger.info("Loaded IMCForNEI");
     }

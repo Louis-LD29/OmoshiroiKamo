@@ -9,7 +9,7 @@ import net.minecraftforge.common.config.ConfigElement;
 
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 
 public class GuiConfigFactory extends GuiConfig {
 

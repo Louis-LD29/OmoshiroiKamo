@@ -23,12 +23,12 @@ public class OreRegistry {
         if (REGISTRY.containsKey(entry.getName())) throw new IllegalStateException("Duplicate ore: " + entry.getName());
 
         REGISTRY.put(entry.getName(), entry);
-        META_LOOKUP.put(entry.meta, entry);
+        META_LOOKUP.put(entry.getMeta(), entry);
 
-        while (META_INDEXED.size() <= entry.meta) {
+        while (META_INDEXED.size() <= entry.getMeta()) {
             META_INDEXED.add(null);
         }
-        META_INDEXED.set(entry.meta, entry);
+        META_INDEXED.set(entry.getMeta(), entry);
     }
 
     public static OreEntry get(String name) {
@@ -36,7 +36,7 @@ public class OreRegistry {
         if (defaultEntry == null) return null;
 
         OreConfig config = Config.oreConfigs.getOrDefault(name, defaultEntry.defaults);
-        return new OreEntry(name, defaultEntry.meta, config);
+        return new OreEntry(name, defaultEntry.getMeta(), config);
     }
 
     public static OreEntry getByName(String name) {
@@ -49,7 +49,7 @@ public class OreRegistry {
     }
 
     public static int indexOf(OreEntry entry) {
-        return entry.meta;
+        return entry.getMeta();
     }
 
     public static Collection<OreEntry> all() {

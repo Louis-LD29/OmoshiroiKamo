@@ -4,7 +4,7 @@ import net.minecraft.util.ResourceLocation;
 
 import com.cleanroommc.modularui.drawable.UITexture;
 
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class MUITexture {
 

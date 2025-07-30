@@ -11,8 +11,8 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import louis.omoshiroikamo.client.ClientUtils;
 import louis.omoshiroikamo.common.block.anvil.TEAnvil;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.client.ClientUtils;
 
 public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
 

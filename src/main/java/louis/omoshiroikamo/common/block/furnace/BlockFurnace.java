@@ -28,14 +28,16 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
     @SideOnly(Side.CLIENT)
     private IIcon icon, iconFrontOff, iconFrontOn, iconTop;
 
-    protected BlockFurnace() {
-        super(ModObject.blockFurnace, TEFurnace.class);
-    }
-
     public static BlockFurnace create() {
         BlockFurnace res = new BlockFurnace();
         res.init();
         return res;
+    }
+
+    protected BlockFurnace() {
+        super(ModObject.blockFurnace, TEFurnace.class);
+        setStepSound(soundTypeStone);
+        setLightOpacity(0);
     }
 
     @Override

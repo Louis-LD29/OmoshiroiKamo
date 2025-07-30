@@ -7,12 +7,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import louis.omoshiroikamo.api.ApiUtils;
+import louis.omoshiroikamo.api.TargetingInfo;
+import louis.omoshiroikamo.api.energy.IWireConnectable;
+import louis.omoshiroikamo.api.energy.WireNetHandler;
+import louis.omoshiroikamo.api.energy.WireType;
 import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.ApiUtils;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.TargetingInfo;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IImmersiveConnectable;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -51,14 +51,14 @@ public class TETransformer extends TEConnectable {
     }
 
     @Override
-    public Vec3 getRaytraceOffset(IImmersiveConnectable link) {
+    public Vec3 getRaytraceOffset(IWireConnectable link) {
         ForgeDirection fd = ForgeDirection.getOrientation(getFacing())
             .getOpposite();
         return Vec3.createVectorHelper(.5 + fd.offsetX * .0625, .5 + fd.offsetY * .0625, .5 + fd.offsetZ * .0625);
     }
 
     @Override
-    public Vec3 getConnectionOffset(ImmersiveNetHandler.Connection con) {
+    public Vec3 getConnectionOffset(WireNetHandler.Connection con) {
         WireType wire = con.cableType;
         ForgeDirection facing = ForgeDirection.getOrientation(getFacing());
         ForgeDirection right;
@@ -164,7 +164,7 @@ public class TETransformer extends TEConnectable {
     }
 
     @Override
-    public void removeCable(ImmersiveNetHandler.Connection connection) {
+    public void removeCable(WireNetHandler.Connection connection) {
         WireType type = connection != null ? connection.cableType : null;
         if (type == null) {
             limitType = null;

@@ -15,7 +15,7 @@ public final class ModItems {
     public static Item itemHammer;
 
     public static void init() {
-        itemOperationOrb = new ItemOperationOrb();
+        itemOperationOrb = ItemOperationOrb.create();
         itemWireCoil = ItemWireCoil.create();
         itemMaterial = ItemMaterial.create();
         itemOre = ItemOre.create();

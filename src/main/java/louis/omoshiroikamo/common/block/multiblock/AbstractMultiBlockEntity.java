@@ -19,7 +19,7 @@ import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidInput;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidOutput;
 import louis.omoshiroikamo.common.block.multiblock.part.item.TEItemInput;
 import louis.omoshiroikamo.common.block.multiblock.part.item.TEItemOutput;
-import louis.omoshiroikamo.common.core.helper.Logger;
+import louis.omoshiroikamo.common.util.helper.Logger;
 
 public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntity<T>> extends AbstractTE {
 

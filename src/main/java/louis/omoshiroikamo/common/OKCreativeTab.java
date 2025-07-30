@@ -11,10 +11,10 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.common.block.ModBlocks;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.fluid.FluidMaterialRegister;
 import louis.omoshiroikamo.common.fluid.FluidRegister;
 import louis.omoshiroikamo.common.item.ModItems;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 
 public class OKCreativeTab extends CreativeTabs {
 
@@ -49,6 +49,7 @@ public class OKCreativeTab extends CreativeTabs {
         addItem(ModItems.itemWireCoil);
         addItem(ModItems.itemOre);
         addItem(ModItems.itemHammer);
+        addItem(ModItems.itemOperationOrb);
         addItem(FluidMaterialRegister.itemBucketMaterial);
         addItem(FluidRegister.itemBucketFluid);
         addBlock(ModBlocks.blockMaterial);

@@ -5,9 +5,9 @@ import net.minecraft.item.ItemStack;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
-import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.ore.OreRegister;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class CopperRecipes {
 
@@ -31,19 +31,14 @@ public class CopperRecipes {
         GameRegistry.addSmelting(new ItemStack(copperOre, 1, 0), copperIngot.copy(), 0.7f);
         GameRegistry.addSmelting(washedCopper, getCopperNugget(12), 0.7f);
 
-        GameRegistry.addSmelting(new ItemStack(cupriteOre, 1, 0), getCopperNugget(8), 0.7f);
         GameRegistry.addSmelting(washedCuprite, getCopperNugget(11), 0.7f);
 
-        GameRegistry.addSmelting(new ItemStack(borniteOre, 1, 0), getCopperNugget(5), 0.7f);
         GameRegistry.addSmelting(washedBornite, getCopperNugget(8), 0.7f);
 
-        GameRegistry.addSmelting(new ItemStack(malachiteOre, 1, 0), getCopperNugget(5), 0.7f);
         GameRegistry.addSmelting(washedMalachite, getCopperNugget(7), 0.7f);
 
-        GameRegistry.addSmelting(new ItemStack(chalcopyriteOre, 1, 0), getCopperNugget(3), 0.7f);
         GameRegistry.addSmelting(washedChalcopyrite, getCopperNugget(5), 0.7f);
 
-        GameRegistry.addSmelting(new ItemStack(tetrahedriteOre, 1, 0), getCopperNugget(3), 0.7f);
         GameRegistry.addSmelting(washedTetrahedrite, getCopperNugget(4), 0.7f);
 
     }

@@ -39,12 +39,12 @@ import com.cleanroommc.modularui.widgets.layout.Row;
 import louis.omoshiroikamo.api.io.IoMode;
 import louis.omoshiroikamo.api.io.IoType;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractIOTE;
-import louis.omoshiroikamo.common.block.abstractClass.machine.AbstractMachineEntity;
+import louis.omoshiroikamo.common.network.PacketHandler;
+import louis.omoshiroikamo.common.network.PacketIoMode;
 
 public class MGuiBuilder {
 
-    private AbstractMachineEntity te;
-    private AbstractIOTE ioTe;
+    private final AbstractIOTE ioTe;
     private final PosGuiData posGuiData;
     private final PanelSyncManager syncManager;
     private final UISettings uiSettings;
@@ -57,28 +57,11 @@ public class MGuiBuilder {
     private boolean doesAddConfigIOHeat = false;
     private boolean doesAddConfigR = true;
 
-    public MGuiBuilder(AbstractMachineEntity te, PosGuiData data, PanelSyncManager syncManager, UISettings uiSettings) {
-        this.te = te;
-        this.posGuiData = data;
-        this.syncManager = syncManager;
-        this.uiSettings = uiSettings;
-    }
-
     public MGuiBuilder(AbstractIOTE te, PosGuiData data, PanelSyncManager syncManager, UISettings uiSettings) {
         this.ioTe = te;
         this.posGuiData = data;
         this.syncManager = syncManager;
         this.uiSettings = uiSettings;
-    }
-
-    public MGuiBuilder setWidth(int width) {
-        this.width = width;
-        return this;
-    }
-
-    public MGuiBuilder setHeight(int height) {
-        this.height = height;
-        return this;
     }
 
     public MGuiBuilder doesBindPlayerInventory(boolean doesBindPlayerInventory) {
@@ -107,15 +90,8 @@ public class MGuiBuilder {
     }
 
     public ModularPanel build() {
-        ModularPanel panel;
-
-        if (te == null) {
-            panel = ModularPanel.defaultPanel(ioTe.getMachineName())
-                .size(width, height);
-        } else {
-            panel = ModularPanel.defaultPanel(te.getMachineName())
-                .size(width, height);
-        }
+        ModularPanel panel = ModularPanel.defaultPanel(ioTe.getMachineName())
+            .size(width, height);
 
         if (doesBindPlayerInventory) {
             panel.bindPlayerInventory();
@@ -125,13 +101,7 @@ public class MGuiBuilder {
             panel.child(createConfig());
         }
 
-        syncManager.addCloseListener($ -> {
-            if (te != null) {
-                te.markDirty();
-            } else if (ioTe != null) {
-                ioTe.markDirty();
-            }
-        });
+        syncManager.addCloseListener($ -> { ioTe.markDirty(); });
 
         return panel;
     }
@@ -150,18 +120,15 @@ public class MGuiBuilder {
             .childPadding(2)
             .bottomRel(0.5f);
 
-        if (doesAddConfigR && (te != null || ioTe != null)) {
+        if (doesAddConfigR) {
             column.child(
                 new ToggleButton().size(18, 18)
                     .overlay(true, MGuiTextures.BUTTON_REDSTONE_ON)
                     .overlay(false, MGuiTextures.BUTTON_REDSTONE_OFF)
                     .value(
                         new BooleanSyncValue(
-                            () -> (te != null ? te.redstoneCheckPassed : ioTe.redstoneCheckPassed),
-                            value -> {
-                                if (te != null) te.redstoneCheckPassed = value;
-                                else ioTe.redstoneCheckPassed = value;
-                            }))
+                            () -> (ioTe.redstoneCheckPassed),
+                            value -> { ioTe.redstoneCheckPassed = value; }))
                     .selectedBackground(GuiTextures.MC_BUTTON)
                     .selectedHoverBackground(GuiTextures.MC_BUTTON_HOVERED)
                     .tooltip(richTooltip -> {
@@ -204,7 +171,7 @@ public class MGuiBuilder {
             .coverChildren()
             .topRel(0f, 4, 1f);
 
-        ForgeDirection blockFront = te != null ? te.getFacingDir() : ioTe.getFacingDir();
+        ForgeDirection blockFront = ioTe.getFacingDir();
         Map<Character, ForgeDirection> faceMap = new HashMap<>();
         faceMap.put('U', ForgeDirection.UP);
         faceMap.put('D', ForgeDirection.DOWN);
@@ -325,31 +292,18 @@ public class MGuiBuilder {
                 richTooltip -> richTooltip.addLine(
                     IKey.dynamic(
                         () -> type + " - "
-                            + (te != null ? te.getIoMode(face, type)
-                                .getUnlocalisedName()
-                                : ioTe.getIoMode(face, type)
-                                    .getUnlocalisedName()))))
+                            + (ioTe.getIoMode(face, type)
+                                .getUnlocalisedName()))))
             .value(
                 new IntSyncValue(
-                    () -> te != null ? te.getIoMode(face, type)
-                        .ordinal()
-                        : ioTe.getIoMode(face, type)
-                            .ordinal(),
+                    () -> (ioTe.getIoMode(face, type)
+                        .ordinal()),
                     val -> {
-                        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-                            if (te != null) {
-                                te.setIoMode(face, IoMode.NONE, type);
-                            } else {
-                                ioTe.setIoMode(face, IoMode.NONE, type);
-                            }
-                        } else {
-                            IoMode mode = IoMode.values()[val];
-                            if (te != null) {
-                                te.setIoMode(face, mode, type);
-                            } else {
-                                ioTe.setIoMode(face, mode, type);
-                            }
-                        }
+                        IoMode mode = IoMode.values()[val];
+
+                        ioTe.setIoMode(face, mode, type);
+                        PacketHandler.INSTANCE.sendToServer(new PacketIoMode(ioTe, face, type));
+
                     }));
     }
 

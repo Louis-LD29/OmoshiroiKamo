@@ -16,8 +16,6 @@ import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.electrolyzer.TEElectrolyzer;
-import louis.omoshiroikamo.common.core.helper.OreDictUtils;
-import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.plugin.nei.PositionedFluidTank;
 import louis.omoshiroikamo.common.plugin.nei.PositionedStackAdv;
 import louis.omoshiroikamo.common.plugin.nei.RecipeHandlerBase;
@@ -25,6 +23,8 @@ import louis.omoshiroikamo.common.recipes.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.MachineRecipeRegistry;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
+import louis.omoshiroikamo.common.util.helper.OreDictUtils;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class ElectrolyzerRecipeHandler extends RecipeHandlerBase {
 

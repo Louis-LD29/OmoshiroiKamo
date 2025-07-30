@@ -4,7 +4,7 @@ import static louis.omoshiroikamo.client.gui.modularui2.MUITexture.icon;
 
 import com.cleanroommc.modularui.drawable.UITexture;
 
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public interface MGuiTextures {
 

@@ -13,9 +13,9 @@ import com.enderio.core.common.util.BlockCoord;
 import louis.omoshiroikamo.api.energy.EnergyStorageAdv;
 import louis.omoshiroikamo.api.energy.PowerDistributor;
 import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class TEEnergyOutput extends TEEnergyInOut {
 
@@ -43,7 +43,16 @@ public class TEEnergyOutput extends TEEnergyInOut {
 
     @Override
     protected boolean processTasks(boolean redstoneCheckPassed) {
-        return transmitEnergy();
+        return false;
+    }
+
+    @Override
+    public void doUpdate() {
+        super.doUpdate();
+        if (worldObj.isRemote) {
+            return;
+        }
+        transmitEnergy();
     }
 
     @Override

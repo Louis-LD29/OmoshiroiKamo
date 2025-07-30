@@ -10,22 +10,22 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
+import com.enderio.core.api.common.util.IProgressTile;
 
 import louis.omoshiroikamo.api.fluid.SmartTank;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidInput;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidOutput;
 import louis.omoshiroikamo.common.block.multiblock.part.item.TEItemInput;
 import louis.omoshiroikamo.common.block.multiblock.part.item.TEItemOutput;
-import louis.omoshiroikamo.common.core.helper.Logger;
-import louis.omoshiroikamo.common.core.helper.OreDictUtils;
 import louis.omoshiroikamo.common.recipes.IPoweredTask;
-import louis.omoshiroikamo.common.recipes.IProgressTile;
 import louis.omoshiroikamo.common.recipes.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.MachineRecipeRegistry;
 import louis.omoshiroikamo.common.recipes.PoweredTask;
 import louis.omoshiroikamo.common.recipes.PoweredTaskProgress;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
+import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.helper.OreDictUtils;
 
 public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockProcessing<T>>
     extends AbstractMultiBlockEntity<T> implements IProgressTile {
@@ -43,7 +43,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
 
     @Override
     public boolean isActive() {
-        return currentTask == null ? false : currentTask.getProgress() >= 0 && redstoneCheckPassed;
+        return currentTask != null && currentTask.getProgress() >= 0 && redstoneCheckPassed;
     }
 
     public float getProgress() {

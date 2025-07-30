@@ -2,7 +2,7 @@ package louis.omoshiroikamo.api.io;
 
 import net.minecraft.util.EnumChatFormatting;
 
-import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 
 public enum IoMode {
 

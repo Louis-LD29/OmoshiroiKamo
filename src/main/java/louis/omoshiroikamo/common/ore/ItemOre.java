@@ -24,7 +24,7 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.ore.OreEntry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
 import louis.omoshiroikamo.common.OKCreativeTab;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class ItemOre extends Item implements IAdvancedTooltipProvider {
 
@@ -49,7 +49,7 @@ public class ItemOre extends Item implements IAdvancedTooltipProvider {
 
         for (OreEntry entry : OreRegistry.all()) {
             String oreName = entry.getUnlocalizedName();
-            registerMaterialOreDict(oreName, entry.meta);
+            registerMaterialOreDict(oreName, entry.getMeta());
         }
     }
 
@@ -83,7 +83,7 @@ public class ItemOre extends Item implements IAdvancedTooltipProvider {
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
         for (OreEntry entry : OreRegistry.all()) {
-            int meta = entry.meta;
+            int meta = entry.getMeta();
             // crushed
             list.add(new ItemStack(this, 1, meta));
             // washed

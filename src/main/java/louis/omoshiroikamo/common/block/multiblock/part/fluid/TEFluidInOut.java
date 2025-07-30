@@ -5,9 +5,19 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import louis.omoshiroikamo.api.fluid.IFluidHandlerAdv;
-import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
+import louis.omoshiroikamo.api.fluid.SmartTank;
+import louis.omoshiroikamo.api.io.SlotDefinition;
+import louis.omoshiroikamo.api.material.MaterialEntry;
+import louis.omoshiroikamo.common.block.abstractClass.AbstractStorageTE;
 
-public abstract class TEFluidInOut extends AbstractTE implements IFluidHandlerAdv {
+public abstract class TEFluidInOut extends AbstractStorageTE implements IFluidHandlerAdv {
+
+    protected SmartTank tank;
+
+    public TEFluidInOut(MaterialEntry material) {
+        super(new SlotDefinition(-1, -1), material);
+        tank = new SmartTank(material);
+    }
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {

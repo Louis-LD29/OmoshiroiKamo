@@ -13,6 +13,7 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.enderio.core.common.TileEntityEnder;
+import com.enderio.core.common.util.BlockCoord;
 
 import louis.omoshiroikamo.api.SideReference;
 import louis.omoshiroikamo.api.material.MaterialEntry;
@@ -187,5 +188,10 @@ public abstract class AbstractTE extends TileEntityEio implements IGuiHolder<Pos
     @Override
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
         return null;
+    }
+
+    @Override
+    public BlockCoord getLocation() {
+        return new BlockCoord(xCoord, yCoord, zCoord);
     }
 }

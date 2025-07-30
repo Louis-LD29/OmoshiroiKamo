@@ -6,11 +6,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.common.OKCreativeTab;
 
-public class ItemHammer extends Item {
+public class ItemHammer extends ItemOK {
 
     public static ItemHammer create() {
         ItemHammer item = new ItemHammer();
@@ -19,13 +17,8 @@ public class ItemHammer extends Item {
     }
 
     protected ItemHammer() {
+        super(ModObject.itemHammer.unlocalisedName);
         setMaxDamage(131);
-        setCreativeTab(OKCreativeTab.INSTANCE);
-        setUnlocalizedName(ModObject.itemHammer.unlocalisedName);
-    }
-
-    private void init() {
-        GameRegistry.registerItem(this, ModObject.itemHammer.unlocalisedName);
     }
 
     @Override

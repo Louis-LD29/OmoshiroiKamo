@@ -16,7 +16,7 @@ import louis.omoshiroikamo.api.client.SpecialTooltipHandler;
 import louis.omoshiroikamo.api.energy.PowerDisplayUtil;
 import louis.omoshiroikamo.api.mana.IManaItem;
 import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 
 public class EnergyUpgrade extends AbstractUpgrade {
 

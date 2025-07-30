@@ -22,7 +22,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.client.render.block.anvil.AnvilISBRH;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class BlockAnvil extends AbstractBlock<TEAnvil> {
 
@@ -31,6 +31,7 @@ public class BlockAnvil extends AbstractBlock<TEAnvil> {
 
     protected BlockAnvil() {
         super(ModObject.blockAnvil, TEAnvil.class);
+        setStepSound(soundTypeStone);
     }
 
     public static BlockAnvil create() {
