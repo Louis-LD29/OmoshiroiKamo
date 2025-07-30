@@ -41,6 +41,7 @@ dependencies {
     api("com.github.GTNewHorizons:EnderCore:0.4.8:dev")
 
     devOnlyNonPublishable("com.github.GTNewHorizons:Baubles-Expanded:2.1.9-GTNH:dev")
+    devOnlyNonPublishable('net.industrial-craft:industrialcraft-2:2.2.828-experimental:dev')
     devOnlyNonPublishable("com.github.GTNewHorizons:Angelica:1.0.0-beta53:dev") { transitive = false }
     devOnlyNonPublishable("com.github.GTNewHorizons:WDMla:2.7.3:dev")
     devOnlyNonPublishable("com.github.GTNewHorizons:Botania:1.12.21-GTNH:dev") { transitive = false }
