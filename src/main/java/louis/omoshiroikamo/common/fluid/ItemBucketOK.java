@@ -12,7 +12,6 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.apache.commons.lang3.StringUtils;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import crazypants.enderio.fluid.BucketHandler;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 

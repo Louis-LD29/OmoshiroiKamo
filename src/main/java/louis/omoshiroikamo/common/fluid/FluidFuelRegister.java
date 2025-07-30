@@ -10,10 +10,10 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-import crazypants.enderio.Log;
 import louis.omoshiroikamo.api.fluid.IFluidCoolant;
 import louis.omoshiroikamo.api.fluid.IFluidFuel;
 import louis.omoshiroikamo.api.fluid.IFluidRegister;
+import louis.omoshiroikamo.common.util.helper.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMods;
 
 public class FluidFuelRegister implements IFluidRegister {
@@ -34,11 +34,11 @@ public class FluidFuelRegister implements IFluidRegister {
         addCoolant(FluidRegistry.WATER, 0.0023f);
         if (LibMods.buildCraftEnergy) {
             try {
-                IFluidRegister reg = (IFluidRegister) Class.forName("crazypants.enderio.fluid.BuildCraftFluidRegister")
+                IFluidRegister reg = (IFluidRegister) Class.forName("louis.omoshiroikamo.common.fluid.BuildCraftFluidRegister")
                     .newInstance();
                 otherRegisters.add(reg);
             } catch (Exception e) {
-                Log.error("FluidFuelRegister: Error occured registering build craft fuels: " + e);
+                Logger.error("FluidFuelRegister: Error occured registering build craft fuels: " + e);
             }
         }
     }

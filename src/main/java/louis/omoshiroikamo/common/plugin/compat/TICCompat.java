@@ -34,10 +34,11 @@ public class TICCompat {
         Logger.info("Loaded TICCompat");
     }
 
-    public static boolean hasClay = GameRegistry.findItem("TConstruct", "clayPattern") != null;
+    public static boolean hasClay;
 
     public static void registerTinkersConstructIntegration() {
         if (TinkerSmeltery.smeltery == null) return;
+        hasClay = GameRegistry.findItem("TConstruct", "clayPattern") != null;
 
         Block block = ModBlocks.blockMaterial;
         Item item = ModItems.itemMaterial;

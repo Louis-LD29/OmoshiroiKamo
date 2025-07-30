@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import com.enderio.core.common.event.ConfigFileChangedEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.config.Configuration;
 
@@ -21,7 +22,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.relauncher.Side;
-import lombok.SneakyThrows;
 import louis.omoshiroikamo.api.energy.WireType;
 import louis.omoshiroikamo.api.fluid.FluidEntry;
 import louis.omoshiroikamo.api.fluid.FluidRegistry;
@@ -160,7 +160,6 @@ public class Config {
         PacketHandler.INSTANCE.sendTo(new PacketConfigSync(), (EntityPlayerMP) evt.player);
     }
 
-    @SneakyThrows
     public static void assembleResourcePack() {
         assembler = new ResourcePackAssembler(
             new File(configDirectory, LibMisc.MOD_NAME + " Resourcepack"),
