@@ -203,9 +203,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
     public void onEquippedOrLoadedIntoWorld(ItemStack stack, EntityLivingBase entity) {
         super.onEquippedOrLoadedIntoWorld(stack, entity);
         if (!(entity instanceof EntityPlayer player)) return;
-
-        IManaItem manaItem = (IManaItem) stack.getItem();
-        if (manaItem == null) return;
+        if (!(stack.getItem() instanceof IManaItem manaItem)) return;
 
         if (!player.capabilities.allowFlying) {
             player.capabilities.allowFlying = true;
@@ -232,7 +230,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
     @Override
     public String[] getBaubleTypes(ItemStack itemstack) {
-        return new String[] { BaubleExpandedSlots.ringType };
+        return new String[] { BaubleExpandedSlots.ringType, BaubleExpandedSlots.amuletType };
     }
 
     @Override

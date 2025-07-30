@@ -10,10 +10,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import com.enderio.core.common.event.ConfigFileChangedEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.config.Configuration;
 
+import com.enderio.core.common.event.ConfigFileChangedEvent;
 import com.enderio.core.common.util.ResourcePackAssembler;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;

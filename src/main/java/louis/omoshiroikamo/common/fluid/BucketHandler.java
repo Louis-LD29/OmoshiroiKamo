@@ -1,8 +1,8 @@
 package louis.omoshiroikamo.common.fluid;
 
+import java.util.HashMap;
+import java.util.Map;
 
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -12,8 +12,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 
-import java.util.HashMap;
-import java.util.Map;
+import cpw.mods.fml.common.eventhandler.Event;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class BucketHandler {
 
@@ -56,4 +56,3 @@ public class BucketHandler {
     }
 
 }
-

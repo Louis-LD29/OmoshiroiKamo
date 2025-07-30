@@ -1,6 +1,5 @@
 package louis.omoshiroikamo.common.fluid;
 
-import louis.omoshiroikamo.api.fluid.IFluidFuel;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -8,6 +7,7 @@ import buildcraft.api.fuels.BuildcraftFuelRegistry;
 import buildcraft.api.fuels.ICoolant;
 import buildcraft.api.fuels.IFuel;
 import louis.omoshiroikamo.api.fluid.IFluidCoolant;
+import louis.omoshiroikamo.api.fluid.IFluidFuel;
 import louis.omoshiroikamo.api.fluid.IFluidRegister;
 import louis.omoshiroikamo.common.fluid.FluidFuelRegister.CoolantImpl;
 import louis.omoshiroikamo.common.fluid.FluidFuelRegister.FuelImpl;

@@ -1,7 +1,8 @@
 package louis.omoshiroikamo.client.gui.modularui2;
 
-import net.minecraft.entity.player.EntityPlayer;
+import javax.annotation.Nonnull;
 
+import net.minecraft.entity.player.EntityPlayer;
 
 import com.cleanroommc.modularui.factory.GuiFactories;
 import com.cleanroommc.modularui.factory.PosGuiData;
@@ -11,8 +12,6 @@ import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 
 import louis.omoshiroikamo.common.block.abstractClass.AbstractIOTE;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
-
-import javax.annotation.Nonnull;
 
 public class MGuis {
 

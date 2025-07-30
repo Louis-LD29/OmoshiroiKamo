@@ -14,14 +14,18 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import baubles.common.container.InventoryBaubles;
 import baubles.common.lib.PlayerHandler;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.client.render.RenderHelper;
 import louis.omoshiroikamo.common.entity.EntityDoppleganger;
 import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibResources;
+import tconstruct.library.accessory.IAccessory;
 
-public abstract class ItemBauble extends ItemOK implements IBauble {
+@Optional.InterfaceList({ @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles"),
+    @Optional.Interface(iface = "tconstruct.library.accessory.IAccessory", modid = "TConstruct") })
+public abstract class ItemBauble extends ItemOK implements IBauble, IAccessory {
 
     private static final String TAG_HASHCODE = "playerHashcode";
     private static final String TAG_BAUBLE_UUID_MOST = "baubleUUIDMost";
@@ -126,28 +130,32 @@ public abstract class ItemBauble extends ItemOK implements IBauble {
     }
 
     @Override
+    public boolean doesContainerItemLeaveCraftingGrid(ItemStack p_77630_1_) {
+        return false;
+    }
+
+    // Bauble
+
+    @Override
+    @Optional.Method(modid = "Baubles")
+    public BaubleType getBaubleType(ItemStack itemstack) {
+        return BaubleType.UNIVERSAL;
+    }
+
+    @Override
+    @Optional.Method(modid = "Baubles")
     public boolean canEquip(ItemStack stack, EntityLivingBase player) {
         return true;
     }
 
     @Override
+    @Optional.Method(modid = "Baubles")
     public boolean canUnequip(ItemStack stack, EntityLivingBase player) {
         return true;
     }
 
     @Override
-    public void onWornTick(ItemStack stack, EntityLivingBase player) {
-        if (getLastPlayerHashcode(stack) != player.hashCode()) {
-            onEquippedOrLoadedIntoWorld(stack, player);
-            setLastPlayerHashcode(stack, player.hashCode());
-        }
-    }
-
-    public void onEquippedOrLoadedIntoWorld(ItemStack stack, EntityLivingBase player) {
-        // NO-OP
-    }
-
-    @Override
+    @Optional.Method(modid = "Baubles")
     public void onEquipped(ItemStack stack, EntityLivingBase player) {
         if (player != null) {
             if (!player.worldObj.isRemote)
@@ -159,13 +167,31 @@ public abstract class ItemBauble extends ItemOK implements IBauble {
         }
     }
 
+    public void onEquippedOrLoadedIntoWorld(ItemStack stack, EntityLivingBase player) {
+        // NO-OP
+    }
+
     @Override
+    @Optional.Method(modid = "Baubles")
     public void onUnequipped(ItemStack stack, EntityLivingBase player) {
         // NO-OP
     }
 
     @Override
-    public boolean doesContainerItemLeaveCraftingGrid(ItemStack p_77630_1_) {
-        return false;
+    @Optional.Method(modid = "Baubles")
+    public void onWornTick(ItemStack stack, EntityLivingBase player) {
+        if (getLastPlayerHashcode(stack) != player.hashCode()) {
+            onEquippedOrLoadedIntoWorld(stack, player);
+            setLastPlayerHashcode(stack, player.hashCode());
+        }
     }
+
+    // TConstruct
+
+    @Override
+    @Optional.Method(modid = "TConstruct")
+    public boolean canEquipAccessory(ItemStack itemStack, int slot) {
+        return slot == 0;
+    }
+
 }
