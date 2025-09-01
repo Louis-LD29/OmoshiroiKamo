@@ -35,21 +35,21 @@
  */
 dependencies {
 
-    api("com.github.GTNewHorizons:StructureLib:1.4.10:dev")
+    api("com.github.GTNewHorizons:StructureLib:1.4.18:dev")
     api("com.github.GTNewHorizons:NotEnoughIds:2.1.10:dev")
-    api("com.github.GTNewHorizons:ModularUI2:2.2.16-1.7.10:dev")
+    api("com.github.GTNewHorizons:ModularUI2:2.2.17-1.7.10:dev")
     api("com.github.GTNewHorizons:EnderCore:0.4.8:dev")
 
-    devOnlyNonPublishable("com.github.GTNewHorizons:Baubles-Expanded:2.1.9-GTNH:dev")
+    devOnlyNonPublishable("com.github.GTNewHorizons:Baubles-Expanded:2.1.13-GTNH:dev")
     devOnlyNonPublishable('net.industrial-craft:industrialcraft-2:2.2.828-experimental:dev')
-    devOnlyNonPublishable("com.github.GTNewHorizons:Angelica:1.0.0-beta53:dev") { transitive = false }
+    devOnlyNonPublishable("com.github.GTNewHorizons:Angelica:1.0.0-beta55:dev") { transitive = false }
     devOnlyNonPublishable("com.github.GTNewHorizons:WDMla:2.7.3:dev")
-    devOnlyNonPublishable("com.github.GTNewHorizons:Botania:1.12.21-GTNH:dev") { transitive = false }
-    devOnlyNonPublishable("com.github.GTNewHorizons:TinkersConstruct:1.13.46-GTNH:dev") { transitive = false }
-    devOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.7.69-GTNH:dev")
+    devOnlyNonPublishable("com.github.GTNewHorizons:Botania:1.12.23-GTNH:dev") { transitive = false }
+    devOnlyNonPublishable("com.github.GTNewHorizons:TinkersConstruct:1.13.51-GTNH:dev") { transitive = false }
+    devOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.7.78-GTNH:dev")
 
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:EnderIO:2.9.22:dev")
-    runtimeOnlyNonPublishable("com.github.GTNewHorizons:Railcraft:9.16.32:dev")
+    runtimeOnlyNonPublishable("com.github.GTNewHorizons:Railcraft:9.16.33:dev")
 
     compileOnly("com.github.GTNewHorizons:ModularUI:1.2.20:dev")
     compileOnly('com.github.GTNewHorizons:BuildCraft:7.1.44:dev')
