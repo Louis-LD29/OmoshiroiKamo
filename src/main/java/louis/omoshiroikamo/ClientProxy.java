@@ -32,6 +32,7 @@ import louis.omoshiroikamo.client.render.block.connectable.ConnectorMVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectorULVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.InsulatorTESR;
 import louis.omoshiroikamo.client.render.block.connectable.TransformerTESR;
+import louis.omoshiroikamo.client.render.item.backpack.BackpackRenderer;
 import louis.omoshiroikamo.client.render.item.hammer.HammerRenderer;
 import louis.omoshiroikamo.client.render.item.pufferfish.PufferFishRenderer;
 import louis.omoshiroikamo.common.block.ModBlocks;
@@ -44,9 +45,9 @@ import louis.omoshiroikamo.common.block.energyConnector.TEConnectorMV;
 import louis.omoshiroikamo.common.block.energyConnector.TEConnectorULV;
 import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
 import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.util.handlers.ClientEventHandler;
+import louis.omoshiroikamo.config.Config;
 
 public class ClientProxy extends CommonProxy {
 
@@ -93,6 +94,7 @@ public class ClientProxy extends CommonProxy {
         }
 
         MinecraftForgeClient.registerItemRenderer(ModItems.itemHammer, new HammerRenderer());
+        MinecraftForgeClient.registerItemRenderer(ModItems.itemBackPack, new BackpackRenderer());
     }
 
     @Override

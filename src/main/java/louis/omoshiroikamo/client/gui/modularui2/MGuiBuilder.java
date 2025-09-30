@@ -22,19 +22,17 @@ import com.cleanroommc.modularui.drawable.ItemDrawable;
 import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.utils.item.IItemHandler;
 import com.cleanroommc.modularui.value.sync.BooleanSyncValue;
 import com.cleanroommc.modularui.value.sync.IntSyncValue;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widget.Widget;
-import com.cleanroommc.modularui.widgets.ButtonWidget;
-import com.cleanroommc.modularui.widgets.CycleButtonWidget;
-import com.cleanroommc.modularui.widgets.Dialog;
-import com.cleanroommc.modularui.widgets.PageButton;
-import com.cleanroommc.modularui.widgets.PagedWidget;
-import com.cleanroommc.modularui.widgets.ToggleButton;
+import com.cleanroommc.modularui.widgets.*;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.cleanroommc.modularui.widgets.layout.Row;
+import com.cleanroommc.modularui.widgets.slot.ItemSlot;
+import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 
 import louis.omoshiroikamo.api.io.IoMode;
 import louis.omoshiroikamo.api.io.IoType;
@@ -205,7 +203,9 @@ public class MGuiBuilder {
 
         int pageIndex = 0;
         for (TabEntry tab : tabs) {
-            if (!tab.enabled) continue;
+            if (!tab.enabled) {
+                continue;
+            }
 
             // Add tab button
             tabRow.child(
@@ -307,4 +307,19 @@ public class MGuiBuilder {
                     }));
     }
 
+    public static SlotGroupWidget buildPlayerInventorySlotGroup(IItemHandler playerInventory) {
+        return SlotGroupWidget.builder()
+            .row("PPPPPPPPP")
+            .row("PPPPPPPPP")
+            .row("PPPPPPPPP")
+            .key('P', i -> new ItemSlot().slot(new ModularSlot(playerInventory, 9 + i).slotGroup("player_inventory")))
+            .build();
+    }
+
+    public static SlotGroupWidget buildPlayerHotbarSlotGroup(IItemHandler playerInventory) {
+        return SlotGroupWidget.builder()
+            .row("HHHHHHHHH")
+            .key('H', i -> new ItemSlot().slot(new ModularSlot(playerInventory, i).slotGroup("player_inventory")))
+            .build();
+    }
 }

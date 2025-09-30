@@ -1,8 +1,8 @@
 package louis.omoshiroikamo.api.ore;
 
 import louis.omoshiroikamo.api.fluid.FluidRegistry;
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.config.OreConfig;
+import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.config.OreConfig;
 
 public class OreEntry {
 

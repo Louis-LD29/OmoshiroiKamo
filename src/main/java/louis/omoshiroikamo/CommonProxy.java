@@ -22,12 +22,8 @@ import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.command.ModCommands;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.fluid.ModFluids;
 import louis.omoshiroikamo.common.item.ModItems;
-import louis.omoshiroikamo.common.plugin.compat.TICCompat;
-import louis.omoshiroikamo.common.plugin.nei.NEICompat;
-import louis.omoshiroikamo.common.plugin.waila.WailaCompat;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
 import louis.omoshiroikamo.common.util.handlers.ConvertManaRegenHandler;
 import louis.omoshiroikamo.common.util.handlers.ElementalHandler;
@@ -38,6 +34,11 @@ import louis.omoshiroikamo.common.util.helper.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.world.OKWorldGenerator;
 import louis.omoshiroikamo.common.world.WireNetSaveData;
+import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.plugin.compat.EtFuturumCompat;
+import louis.omoshiroikamo.plugin.compat.TICCompat;
+import louis.omoshiroikamo.plugin.nei.NEICompat;
+import louis.omoshiroikamo.plugin.waila.WailaCompat;
 import makamys.mclib.core.MCLib;
 import makamys.mclib.core.MCLibModules;
 
@@ -90,7 +91,7 @@ public class CommonProxy {
 
         WailaCompat.init();
         NEICompat.init();
-
+        EtFuturumCompat.init();
     }
 
     public void postInit(FMLPostInitializationEvent event) {
@@ -119,7 +120,9 @@ public class CommonProxy {
     }
 
     public void serverStarted(FMLServerStartedEvent event) {
-        if (WireNetHandler.INSTANCE == null) WireNetHandler.INSTANCE = new WireNetHandler();
+        if (WireNetHandler.INSTANCE == null) {
+            WireNetHandler.INSTANCE = new WireNetHandler();
+        }
 
         if (FMLCommonHandler.instance()
             .getEffectiveSide() == Side.SERVER) {
@@ -132,7 +135,9 @@ public class CommonProxy {
                     Logger.info("WorldData not found");
                     worldData = new WireNetSaveData(WireNetSaveData.dataName);
                     world.setItemData(WireNetSaveData.dataName, worldData);
-                } else Logger.info("WorldData retrieved");
+                } else {
+                    Logger.info("WorldData retrieved");
+                }
                 WireNetSaveData.setInstance(world.provider.dimensionId, worldData);
             }
         }

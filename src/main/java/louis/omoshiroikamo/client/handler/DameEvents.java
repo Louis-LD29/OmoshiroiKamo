@@ -9,7 +9,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import louis.omoshiroikamo.client.render.DamageParticleRenderer;
-import louis.omoshiroikamo.common.config.Config;
+import louis.omoshiroikamo.config.Config;
 
 /**
  * Inspired by or partially based on ToroHealth Damage Indicators
@@ -28,7 +28,9 @@ public class DameEvents {
     }
 
     public void displayDamageDealt(EntityLivingBase entity) {
-        if (!entity.worldObj.isRemote) return;
+        if (!entity.worldObj.isRemote) {
+            return;
+        }
 
         if (!Config.showDamageParticles) {
             return;

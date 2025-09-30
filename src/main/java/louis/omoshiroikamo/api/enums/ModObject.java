@@ -21,6 +21,11 @@ public enum ModObject {
     blockFurnace,
 
     itemOperationOrb,
+    itemBackPack,
+    itemUpgrade,
+    itemStackUpgrade,
+    itemCraftingUpgrade,
+    itemMagnetUpgrade,
     itemMaterial,
     itemBucketMaterial,
     itemBucketFluid,

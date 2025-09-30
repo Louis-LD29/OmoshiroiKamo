@@ -18,7 +18,7 @@ import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.api.ore.OreEntry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
-import louis.omoshiroikamo.common.config.Config;
+import louis.omoshiroikamo.config.Config;
 
 public class LangSectionInserter {
 
@@ -151,12 +151,19 @@ public class LangSectionInserter {
 
             for (String name : materialNames) {
                 MaterialEntry mat = MaterialRegistry.get(name);
-                if (mat != null) materials.add(mat);
+                if (mat != null) {
+                    materials.add(mat);
+                }
                 FluidEntry fl = FluidRegistry.get(name);
-                if (fl != null) fluids.add(fl);
+                if (fl != null) {
+                    fluids.add(fl);
+                }
                 OreEntry or = OreRegistry.get(name);
-                if (or != null) ores.add(or);
-                else System.out.println("[WARN] Missing ore entry: " + name);
+                if (or != null) {
+                    ores.add(or);
+                } else {
+                    System.out.println("[WARN] Missing ore entry: " + name);
+                }
             }
 
             generateLang(file, materials, fluids, ores, "# BEGIN AUTOGEN", "# END AUTOGEN");
@@ -200,7 +207,9 @@ public class LangSectionInserter {
                 for (MaterialEntry material : materials) {
                     String line = matGen.generate(material);
                     String key = line.substring(0, line.indexOf("="));
-                    if (addedKeys.add(key)) autogenBlock.add(line);
+                    if (addedKeys.add(key)) {
+                        autogenBlock.add(line);
+                    }
                 }
             }
 
@@ -208,7 +217,9 @@ public class LangSectionInserter {
                 for (FluidEntry fluid : fluids) {
                     String line = fluidGen.generate(fluid);
                     String key = line.substring(0, line.indexOf("="));
-                    if (addedKeys.add(key)) autogenBlock.add(line);
+                    if (addedKeys.add(key)) {
+                        autogenBlock.add(line);
+                    }
                 }
             }
 
@@ -216,7 +227,9 @@ public class LangSectionInserter {
                 for (OreEntry ore : ores) {
                     String line = oreGen.generate(ore);
                     String key = line.substring(0, line.indexOf("="));
-                    if (addedKeys.add(key)) autogenBlock.add(line);
+                    if (addedKeys.add(key)) {
+                        autogenBlock.add(line);
+                    }
                 }
             }
 
@@ -226,7 +239,9 @@ public class LangSectionInserter {
         autogenBlock.add(endTag);
 
         if (!cleaned.isEmpty() && !cleaned.get(cleaned.size() - 1)
-            .isEmpty()) cleaned.add("");
+            .isEmpty()) {
+            cleaned.add("");
+        }
         cleaned.addAll(autogenBlock);
 
         try (PrintWriter out = new PrintWriter(file)) {

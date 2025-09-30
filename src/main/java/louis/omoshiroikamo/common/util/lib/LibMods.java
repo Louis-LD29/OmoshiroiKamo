@@ -1,16 +1,47 @@
 package louis.omoshiroikamo.common.util.lib;
 
+import java.util.function.Supplier;
+
 import cpw.mods.fml.common.Loader;
 
-public class LibMods {
+public enum LibMods {
 
-    public static final boolean waila = Loader.isModLoaded("Waila");
-    public static final boolean wdmla = Loader.isModLoaded("wdmla");
-    public static final boolean baubles = Loader.isModLoaded("Baubles");
-    public static final boolean baublesExpanded = Loader.isModLoaded("Baubles|Expanded");
-    public static final boolean nei = Loader.isModLoaded("NotEnoughItems");
-    public static final boolean tiC = Loader.isModLoaded("TConstruct");
-    public static final boolean immersiveEngineering = Loader.isModLoaded("ImmersiveEngineering");
-    public static final boolean buildCraftEnergy = Loader.isModLoaded("BuildCraft|Energy");
-    public static final boolean ic2 = Loader.isModLoaded("IC2");
+    Waila("Waila"),
+    WDMLA("wdmla"),
+    Baubles("Baubles"),
+    BaublesExpanded("Baubles|Expanded"),
+    NotEnoughItems("NotEnoughItems"),
+    TConstruct("TConstruct"),
+    ImmersiveEngineering("ImmersiveEngineering"),
+    BuildCraftEnergy("BuildCraft|Energy"),
+    IC2("IC2"),
+    BogoSorter("bogosorter"),
+    EtFuturum("etfuturum"),;
+
+    public final String modid;
+    private final Supplier<Boolean> supplier;
+    private Boolean loaded;
+
+    LibMods(String modid) {
+        this.modid = modid;
+        this.supplier = null;
+    }
+
+    LibMods(Supplier<Boolean> supplier) {
+        this.supplier = supplier;
+        this.modid = null;
+    }
+
+    public boolean isLoaded() {
+        if (loaded == null) {
+            if (supplier != null) {
+                loaded = supplier.get();
+            } else if (modid != null) {
+                loaded = Loader.isModLoaded(modid);
+            } else {
+                loaded = false;
+            }
+        }
+        return loaded;
+    }
 }

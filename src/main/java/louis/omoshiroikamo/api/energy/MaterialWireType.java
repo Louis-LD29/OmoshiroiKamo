@@ -8,8 +8,8 @@ import net.minecraft.util.IIcon;
 
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.item.ModItems;
+import louis.omoshiroikamo.config.Config;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.

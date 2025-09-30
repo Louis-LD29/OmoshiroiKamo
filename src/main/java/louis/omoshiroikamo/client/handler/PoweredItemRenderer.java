@@ -15,8 +15,8 @@ import com.enderio.core.client.render.RenderUtil;
 import com.enderio.core.common.vecmath.Vector4f;
 
 import cofh.api.energy.IEnergyContainerItem;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
+import louis.omoshiroikamo.config.Config;
 
 public class PoweredItemRenderer implements IItemRenderer {
 

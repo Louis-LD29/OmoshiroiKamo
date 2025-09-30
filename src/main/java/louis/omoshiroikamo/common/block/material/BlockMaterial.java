@@ -34,12 +34,12 @@ public class BlockMaterial extends BlockOK {
     }
 
     private BlockMaterial() {
-        super(ModObject.blockMaterial.unlocalisedName, null, net.minecraft.block.material.Material.iron);
+        super(ModObject.blockMaterial, null, net.minecraft.block.material.Material.iron);
     }
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, ModObject.blockMaterial.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockMaterial.class, ModObject.blockMaterial.unlocalisedName);
 
         for (MaterialEntry entry : MaterialRegistry.all()) {
             String matName = entry.getUnlocalizedName();

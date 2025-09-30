@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.api.drawable.IKey;
@@ -29,22 +30,30 @@ import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.enderio.core.common.util.ItemUtil;
+import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 
 import baubles.api.BaubleType;
 import baubles.api.expanded.BaubleExpandedSlots;
 import cofh.api.energy.IEnergyContainerItem;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.client.IFlightEnablerItem;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.mana.IManaItem;
-import louis.omoshiroikamo.common.config.Config;
+import louis.omoshiroikamo.client.gui.modularui2.MGuiBuilder;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import louis.omoshiroikamo.common.recipes.ManaAnvilRecipe;
 import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMods;
 import louis.omoshiroikamo.common.util.lib.LibResources;
+import louis.omoshiroikamo.config.Config;
 import vazkii.botania.api.mana.IManaTooltipDisplay;
 
+@EventBusSubscriber()
 public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTooltipDisplay, IAdvancedTooltipProvider,
     IEnergyContainerItem, IFlightEnablerItem, ISimpleBauble, IGuiHolder<PlayerInventoryGuiData> {
 
@@ -199,29 +208,41 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
     }
 
     @Override
-    public void onEquippedOrLoadedIntoWorld(ItemStack stack, EntityLivingBase entity) {
-        super.onEquippedOrLoadedIntoWorld(stack, entity);
+    public void onEquipped(ItemStack stack, EntityLivingBase entity) {
+        super.onEquipped(stack, entity);
+
         if (!(entity instanceof EntityPlayer player)) {
             return;
         }
-        if (!(stack.getItem() instanceof IManaItem manaItem)) {
+        if (player instanceof FakePlayer) {
             return;
         }
 
-        if (!player.capabilities.allowFlying) {
-            player.capabilities.allowFlying = true;
-            player.sendPlayerAbilities();
+        player.capabilities.allowFlying = true;
+        player.sendPlayerAbilities();
+    }
+
+    @Override
+    public void onUnequipped(ItemStack stack, EntityLivingBase entity) {
+        super.onUnequipped(stack, entity);
+
+        if (!(entity instanceof EntityPlayer player)) {
+            return;
+        }
+        if (player instanceof FakePlayer) {
+            return;
         }
 
-        if (player.capabilities.isFlying) {
-            manaItem.addMana(stack, -625);
-        }
-
-        if (manaItem.getMana(stack) < 50000) {
+        if (!player.capabilities.isCreativeMode) {
             player.capabilities.allowFlying = false;
             player.capabilities.isFlying = false;
             player.sendPlayerAbilities();
         }
+    }
+
+    @EventBusSubscriber.Condition
+    public static boolean shouldEventBusSubscribe() {
+        return LibMods.Baubles.isLoaded();
     }
 
     @Override
@@ -232,6 +253,37 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
     @Override
     public String[] getBaubleTypes(ItemStack itemstack) {
         return new String[] { BaubleExpandedSlots.ringType, BaubleExpandedSlots.amuletType };
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.side != Side.SERVER || event.phase != TickEvent.Phase.END) {
+            return;
+        }
+        EntityPlayer player = event.player;
+
+        boolean hasRing = false;
+        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+            ItemStack stack = player.inventory.getStackInSlot(i);
+            if (stack != null && stack.getItem() != null && stack.getItem() instanceof ItemOperationOrb) {
+                hasRing = true;
+                break;
+            }
+        }
+
+        if (player.capabilities.allowFlying == hasRing) {
+            return;
+        }
+
+        if (hasRing) {
+            player.capabilities.allowFlying = true;
+        } else {
+            if (!player.capabilities.isCreativeMode) {
+                player.capabilities.allowFlying = false;
+                player.capabilities.isFlying = false;
+            }
+        }
+        player.sendPlayerAbilities();
     }
 
     @Override
@@ -288,7 +340,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
                 new ParentWidget<>().widthRel(1f)
                     .height(138)
                     .child(
-                        IKey.str(StatCollector.translateToLocal("item.golden_bag.name"))
+                        IKey.str(StatCollector.translateToLocal("item.itemOperationOrb.name"))
                             .asWidget()
                             .margin(6, 0, 5, 0)
                             .align(Alignment.TopLeft))
@@ -301,31 +353,17 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
                             .alignX(0.05f)
                             .alignY(0.99f)))
                 .child(
-                    buildPlayerInventorySlotGroup().align(Alignment.TopLeft)
+                    MGuiBuilder.buildPlayerInventorySlotGroup(playerInventory)
+                        .align(Alignment.TopLeft)
                         .marginLeft(8)
                         .marginTop(panelHeight - 82))
                 .child(
-                    buildPlayerHotbarSlotGroup().align(Alignment.TopLeft)
+                    MGuiBuilder.buildPlayerHotbarSlotGroup(playerInventory)
+                        .align(Alignment.TopLeft)
                         .marginLeft(8)
                         .marginTop(panelHeight - 24)));
 
         return panel;
-    }
-
-    private SlotGroupWidget buildPlayerInventorySlotGroup() {
-        return SlotGroupWidget.builder()
-            .row("PPPPPPPPP")
-            .row("PPPPPPPPP")
-            .row("PPPPPPPPP")
-            .key('P', i -> new ItemSlot().slot(new ModularSlot(playerInventory, 9 + i).slotGroup("player_inventory")))
-            .build();
-    }
-
-    private SlotGroupWidget buildPlayerHotbarSlotGroup() {
-        return SlotGroupWidget.builder()
-            .row("HHHHHHHHH")
-            .key('H', i -> new ItemSlot().slot(new ModularSlot(playerInventory, i).slotGroup("player_inventory")))
-            .build();
     }
 
     private SlotGroupWidget buildBagSlotGroup() {

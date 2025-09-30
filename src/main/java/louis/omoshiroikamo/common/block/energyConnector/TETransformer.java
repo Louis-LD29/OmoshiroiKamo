@@ -12,7 +12,7 @@ import louis.omoshiroikamo.api.TargetingInfo;
 import louis.omoshiroikamo.api.energy.IWireConnectable;
 import louis.omoshiroikamo.api.energy.WireNetHandler;
 import louis.omoshiroikamo.api.energy.WireType;
-import louis.omoshiroikamo.common.config.Config;
+import louis.omoshiroikamo.config.Config;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -110,7 +110,9 @@ public class TETransformer extends TEConnectable {
                     xCoord + inc + 1,
                     yCoord + inc + 1,
                     zCoord + inc + 1);
-            } else renderAABB = super.getRenderBoundingBox();
+            } else {
+                renderAABB = super.getRenderBoundingBox();
+            }
         }
         return renderAABB;
     }
@@ -128,14 +130,18 @@ public class TETransformer extends TEConnectable {
     public void writeCommon(NBTTagCompound root) {
         super.writeCommon(root);
 
-        if (secondCable != null) root.setString("secondCable", secondCable.getUniqueName());
+        if (secondCable != null) {
+            root.setString("secondCable", secondCable.getUniqueName());
+        }
     }
 
     @Override
     public void readCommon(NBTTagCompound root) {
         super.readCommon(root);
 
-        if (root.hasKey("secondCable")) secondCable = ApiUtils.getWireTypeFromNBT(root, "secondCable");
+        if (root.hasKey("secondCable")) {
+            secondCable = ApiUtils.getWireTypeFromNBT(root, "secondCable");
+        }
     }
 
     @Override
@@ -170,15 +176,23 @@ public class TETransformer extends TEConnectable {
             limitType = null;
             secondCable = null;
         }
-        if (type == limitType) this.limitType = null;
-        if (type == secondCable) this.secondCable = null;
+        if (type == limitType) {
+            this.limitType = null;
+        }
+        if (type == secondCable) {
+            this.secondCable = null;
+        }
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     public int getTargetedConnector(WireType cableType) {
-        if (limitType == null || limitType == cableType) return 0;
+        if (limitType == null || limitType == cableType) {
+            return 0;
+        }
 
-        if (secondCable == null || secondCable == cableType) return 1;
+        if (secondCable == null || secondCable == cableType) {
+            return 1;
+        }
 
         return -1;
     }

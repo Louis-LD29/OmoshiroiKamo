@@ -32,7 +32,7 @@ public class FluidFuelRegister implements IFluidRegister {
 
     private FluidFuelRegister() {
         addCoolant(FluidRegistry.WATER, 0.0023f);
-        if (LibMods.buildCraftEnergy) {
+        if (LibMods.BuildCraftEnergy.isLoaded()) {
             try {
                 IFluidRegister reg = (IFluidRegister) Class
                     .forName("louis.omoshiroikamo.common.fluid.BuildCraftFluidRegister")

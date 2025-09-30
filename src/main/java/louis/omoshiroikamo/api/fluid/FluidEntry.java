@@ -1,7 +1,7 @@
 package louis.omoshiroikamo.api.fluid;
 
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.config.FluidConfig;
+import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.config.FluidConfig;
 
 public class FluidEntry {
 

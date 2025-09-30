@@ -12,7 +12,7 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
 import com.enderio.core.client.render.RenderUtil;
 
 import louis.omoshiroikamo.client.ClientUtils;
-import louis.omoshiroikamo.common.plugin.chickenbones.Matrix4;
+import louis.omoshiroikamo.plugin.chickenbones.Matrix4;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.

@@ -35,24 +35,27 @@
  */
 dependencies {
 
-    api("com.github.GTNewHorizons:StructureLib:1.4.18:dev")
+    api("com.github.GTNewHorizons:StructureLib:1.4.22:dev")
     api("com.github.GTNewHorizons:NotEnoughIds:2.1.10:dev")
-    api("com.github.GTNewHorizons:ModularUI2:2.2.17-1.7.10:dev")
+    api("com.github.GTNewHorizons:ModularUI2:2.2.18-1.7.10:dev")
     api("com.github.GTNewHorizons:EnderCore:0.4.8:dev")
 
+    devOnlyNonPublishable("com.github.GTNewHorizons:waila:1.8.14:dev")
     devOnlyNonPublishable("com.github.GTNewHorizons:Baubles-Expanded:2.1.13-GTNH:dev")
     devOnlyNonPublishable('net.industrial-craft:industrialcraft-2:2.2.828-experimental:dev')
     devOnlyNonPublishable("com.github.GTNewHorizons:Angelica:1.0.0-beta55:dev") { transitive = false }
-    devOnlyNonPublishable("com.github.GTNewHorizons:WDMla:2.7.3:dev")
     devOnlyNonPublishable("com.github.GTNewHorizons:Botania:1.12.23-GTNH:dev") { transitive = false }
     devOnlyNonPublishable("com.github.GTNewHorizons:TinkersConstruct:1.13.51-GTNH:dev") { transitive = false }
-    devOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.7.78-GTNH:dev")
+    devOnlyNonPublishable("ganymedes01.etfuturum:Et-Futurum-Requiem:2.6.2.6-GTNH:dev") { transitive = false }
+    devOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.7.79-GTNH:dev")
 
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:EnderIO:2.9.22:dev")
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:Railcraft:9.16.33:dev")
 
     compileOnly("com.github.GTNewHorizons:ModularUI:1.2.20:dev")
+    compileOnly("com.github.GTNewHorizons:WDMla:2.7.3:dev")
     compileOnly('com.github.GTNewHorizons:BuildCraft:7.1.44:dev')
+    compileOnly files("libs/neverenoughanimations-v1.0.6-1-7-10.8+91c551807b-dirty-dev.jar")
 
     shadowImplementation('com.github.makamys:MCLib:0.3.7.7') {
         exclude group: "codechicken"

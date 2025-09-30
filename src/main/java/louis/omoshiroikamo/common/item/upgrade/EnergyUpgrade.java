@@ -15,8 +15,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.SpecialTooltipHandler;
 import louis.omoshiroikamo.api.energy.PowerDisplayUtil;
 import louis.omoshiroikamo.api.mana.IManaItem;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.config.Config;
 
 public class EnergyUpgrade extends AbstractUpgrade {
 

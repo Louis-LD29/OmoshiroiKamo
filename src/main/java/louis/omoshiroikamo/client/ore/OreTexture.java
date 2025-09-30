@@ -16,11 +16,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 import louis.omoshiroikamo.api.ore.OreEntry;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.ore.OreRegister;
 import louis.omoshiroikamo.common.util.helper.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
+import louis.omoshiroikamo.config.Config;
 
 public class OreTexture {
 
@@ -78,7 +78,9 @@ public class OreTexture {
     }
 
     private static void initBaseTextures() {
-        if (baseStone != null && oreMask != null) return;
+        if (baseStone != null && oreMask != null) {
+            return;
+        }
 
         try {
             baseStone = loadVanillaTexture("textures/blocks/stone.png");
@@ -148,7 +150,9 @@ public class OreTexture {
     }
 
     public static void cleanUnusedTextures() {
-        if (!CONFIG_ORE_DIR.exists()) return;
+        if (!CONFIG_ORE_DIR.exists()) {
+            return;
+        }
 
         Set<String> validNames = new HashSet<>();
         for (Map.Entry<OreEntry, Block> entry : OreRegister.BLOCKS.entrySet()) {
@@ -159,10 +163,14 @@ public class OreTexture {
         }
 
         File[] files = CONFIG_ORE_DIR.listFiles();
-        if (files == null) return;
+        if (files == null) {
+            return;
+        }
 
         for (File file : files) {
-            if (!file.isFile()) continue;
+            if (!file.isFile()) {
+                continue;
+            }
             if (!validNames.contains(file.getName())) {
                 file.delete();
             }

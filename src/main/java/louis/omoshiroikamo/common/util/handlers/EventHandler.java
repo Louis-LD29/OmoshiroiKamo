@@ -20,9 +20,9 @@ import louis.omoshiroikamo.api.energy.IWCProxy;
 import louis.omoshiroikamo.api.energy.IWireConnectable;
 import louis.omoshiroikamo.api.energy.WireNetHandler;
 import louis.omoshiroikamo.api.energy.WireNetHandler.Connection;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.util.helper.Logger;
 import louis.omoshiroikamo.common.world.WireNetSaveData;
+import louis.omoshiroikamo.config.Config;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -38,7 +38,9 @@ public class EventHandler {
 
     @SubscribeEvent
     public void onLoad(WorldEvent.Load event) {
-        if (WireNetHandler.INSTANCE == null) WireNetHandler.INSTANCE = new WireNetHandler();
+        if (WireNetHandler.INSTANCE == null) {
+            WireNetHandler.INSTANCE = new WireNetHandler();
+        }
     }
 
     // transferPerTick
@@ -107,10 +109,12 @@ public class EventHandler {
             for (Map.Entry<Connection, Integer> e : WireNetHandler.INSTANCE
                 .getTransferedRates(event.world.provider.dimensionId)
                 .entrySet()) if (e.getValue() > e.getKey().cableType.getTransferRate()) {
-                    if (event.world instanceof WorldServer) for (Vec3 vec : e.getKey()
-                        .getSubVertices(event.world))
-                        ((WorldServer) event.world)
-                            .func_147487_a("flame", vec.xCoord, vec.yCoord, vec.zCoord, 0, 0, .02, 0, 1);
+                    if (event.world instanceof WorldServer) {
+                        for (Vec3 vec : e.getKey()
+                            .getSubVertices(event.world))
+                            ((WorldServer) event.world)
+                                .func_147487_a("flame", vec.xCoord, vec.yCoord, vec.zCoord, 0, 0, .02, 0, 1);
+                    }
                     WireNetHandler.INSTANCE.removeConnection(event.world, e.getKey());
                 }
             WireNetHandler.INSTANCE.getTransferedRates(event.world.provider.dimensionId)

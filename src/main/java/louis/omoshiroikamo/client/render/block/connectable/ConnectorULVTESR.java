@@ -12,8 +12,8 @@ import louis.omoshiroikamo.client.render.AbstractMTESR;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.block.energyConnector.BlockConnectable;
 import louis.omoshiroikamo.common.block.energyConnector.TEConnectorULV;
-import louis.omoshiroikamo.common.plugin.chickenbones.Matrix4;
 import louis.omoshiroikamo.common.util.lib.LibResources;
+import louis.omoshiroikamo.plugin.chickenbones.Matrix4;
 
 public class ConnectorULVTESR extends AbstractMTESR {
 
@@ -32,7 +32,9 @@ public class ConnectorULVTESR extends AbstractMTESR {
 
     @Override
     public void renderStatic(TileEntity tile, Tessellator tes, Matrix4 translationMatrix, Matrix4 rotationMatrix) {
-        if (!(tile instanceof TEConnectorULV te)) return;
+        if (!(tile instanceof TEConnectorULV te)) {
+            return;
+        }
 
         translationMatrix.translate(0.5, 0.5, 0.5);
 

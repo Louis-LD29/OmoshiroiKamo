@@ -15,6 +15,8 @@ config.ore=Ore
 config.ore.tooltip=Configure properties and rendering of ores such as hamatile, magnetile,...
 config.damage_indicator=Damage Indicator
 config.damage_indicator.tooltip=Configure properties and rendering of Damage Indicator.
+config.magnet=Magnet Settings
+config.magnet.tooltip=How do they work?
 
 #IO
 
@@ -39,6 +41,8 @@ baubletype.ring=Equippable in the &aRing&7 slot
 baubletype.belt=Equippable in the &aBelt&7 slot
 baubletooltip=Press &b%key%&7 to open the Baubles menu
 
+#TOOLTIPS
+
 item.mana.tooltip.lvs=lvs
 item.operationOrb.tooltip.effPowered=Efficiency when powered
 
@@ -48,6 +52,10 @@ tooltip.anvilupgrades=Anvil Upgrades:
 
 mana.upgrade.empowered_one.name=Empowered
 
+#KeyBinding
+
+category.omoshiroikamo=Omoshiroi Kamo
+keybind.backpackOpenToggle=Open Backpack
 
 #Elemental
 
@@ -62,6 +70,23 @@ element.dendro.name=Dendro
 #Item
 
 item.itemOperationOrb.name=Operation Orb
+
+item.itemBackPack.Starter.name=Starter Backpack
+item.itemBackPack.Copper.name=Copper Backpack
+item.itemBackPack.Iron.name=Iron Backpack
+item.itemBackPack.Gold.name=Gold Backpack
+item.itemBackPack.Diamond.name=Diamond Backpack
+item.itemBackPack.Obsidian.name=Obsidian Backpack
+item.itemBackPack.Netherite.name=Netherite Backpack
+item.itemUpgrade.name=Upgrade Base
+item.itemStackUpgrade.Starter.name=Stack Upgrade Starter Tier
+item.itemStackUpgrade.Iron.name=Stack Upgrade Tier 1
+item.itemStackUpgrade.Gold.name=Stack Upgrade Tier 2
+item.itemStackUpgrade.Diamond.name=Stack Upgrade Tier 3
+item.itemStackUpgrade.Netherite.name=Stack Upgrade Tier 4
+item.itemCraftingUpgrade.name=Crafting Upgrade
+item.itemMagnetUpgrade.name=Magnet Upgrade
+
 item.itemHammer.name=Hammer
 
 #Block

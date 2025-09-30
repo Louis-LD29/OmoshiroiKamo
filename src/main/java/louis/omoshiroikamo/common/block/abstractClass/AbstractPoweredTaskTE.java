@@ -16,13 +16,13 @@ import com.enderio.core.api.common.util.IProgressTile;
 import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.common.recipes.IPoweredTask;
-import louis.omoshiroikamo.common.recipes.MachineRecipe;
-import louis.omoshiroikamo.common.recipes.MachineRecipeRegistry;
-import louis.omoshiroikamo.common.recipes.PoweredTask;
-import louis.omoshiroikamo.common.recipes.PoweredTaskProgress;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
+import louis.omoshiroikamo.common.recipes.machine.IPoweredTask;
+import louis.omoshiroikamo.common.recipes.machine.MachineRecipe;
+import louis.omoshiroikamo.common.recipes.machine.MachineRecipeRegistry;
+import louis.omoshiroikamo.common.recipes.machine.PoweredTask;
+import louis.omoshiroikamo.common.recipes.machine.PoweredTaskProgress;
 import louis.omoshiroikamo.common.util.helper.Logger;
 import louis.omoshiroikamo.common.util.helper.OreDictUtils;
 
@@ -170,7 +170,9 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
         }
 
         for (ItemStack output : itemStacks) {
-            if (output == null) continue;
+            if (output == null) {
+                continue;
+            }
 
             ItemStack copy = output.copy();
             int remaining = copy.stackSize;
@@ -210,7 +212,9 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
         }
 
         for (FluidStack output : fluidStacks) {
-            if (output == null) continue;
+            if (output == null) {
+                continue;
+            }
 
             int remaining = output.amount;
 
@@ -260,7 +264,9 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
     private boolean canOutput(MachineRecipe recipe) {
         // Kiểm tra item outputs
         for (ChanceItemStack out : recipe.getItemOutputs()) {
-            if (out == null) continue;
+            if (out == null) {
+                continue;
+            }
             boolean canInsert = false;
 
             for (int i = slotDefinition.minItemOutputSlot; i <= slotDefinition.maxItemOutputSlot; i++) {
@@ -271,12 +277,16 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
                     break;
                 }
             }
-            if (!canInsert) return false;
+            if (!canInsert) {
+                return false;
+            }
         }
 
         // Kiểm tra fluid outputs
         for (ChanceFluidStack out : recipe.getFluidOutputs()) {
-            if (out == null) continue;
+            if (out == null) {
+                continue;
+            }
             boolean canInsert = false;
 
             for (int i = slotDefinition.minFluidOutputSlot; i <= slotDefinition.maxFluidOutputSlot; i++) {
@@ -287,7 +297,9 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
                 }
             }
 
-            if (!canInsert) return false;
+            if (!canInsert) {
+                return false;
+            }
         }
 
         return true;
@@ -299,7 +311,9 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
 
             for (int i = slotDefinition.minItemInputSlot; i <= slotDefinition.maxItemInputSlot && remaining > 0; i++) {
                 ItemStack target = inv.getStackInSlot(i);
-                if (target == null) continue;
+                if (target == null) {
+                    continue;
+                }
 
                 boolean matches = OreDictUtils.isOreDictMatch(input.stack, target);
 
@@ -442,7 +456,9 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
 
     public List<ChanceItemStack> getItemOutput() {
         MachineRecipe recipe = isLocked() ? lockedRecipe : getPredictedRecipe();
-        if (recipe == null) return Collections.emptyList();
+        if (recipe == null) {
+            return Collections.emptyList();
+        }
 
         List<ChanceItemStack> result = new ArrayList<>();
         for (ChanceItemStack is : recipe.getItemOutputs()) {
@@ -456,7 +472,9 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
 
     public List<ChanceFluidStack> getFluidOutput() {
         MachineRecipe recipe = isLocked() ? lockedRecipe : getPredictedRecipe();
-        if (recipe == null) return Collections.emptyList();
+        if (recipe == null) {
+            return Collections.emptyList();
+        }
 
         List<ChanceFluidStack> result = new ArrayList<>();
         for (ChanceFluidStack fs : recipe.getFluidOutputs()) {

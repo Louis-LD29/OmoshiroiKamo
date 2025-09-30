@@ -33,7 +33,7 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK
     protected final Class<T> teClass;
 
     protected AbstractBlock(ModObject mo, Class<T> teClass, Material mat) {
-        super(mo.unlocalisedName, teClass, mat);
+        super(mo, teClass, mat);
         modObject = mo;
         this.teClass = teClass;
         setHardness(2.0F);

@@ -15,8 +15,8 @@ import louis.omoshiroikamo.client.models.ModelIEObj;
 import louis.omoshiroikamo.client.render.AbstractMTESR;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.block.anvil.TEAnvil;
-import louis.omoshiroikamo.common.plugin.chickenbones.Matrix4;
 import louis.omoshiroikamo.common.util.lib.LibResources;
+import louis.omoshiroikamo.plugin.chickenbones.Matrix4;
 
 public class AnvilTESR extends AbstractMTESR {
 
@@ -30,7 +30,9 @@ public class AnvilTESR extends AbstractMTESR {
 
     @Override
     public void renderDynamic(TileEntity tile, double x, double y, double z, float partialTicks) {
-        if (!(tile instanceof TEAnvil te)) return;
+        if (!(tile instanceof TEAnvil te)) {
+            return;
+        }
 
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5, y + 0.375, z + 0.5); // căn giữa block
@@ -43,7 +45,9 @@ public class AnvilTESR extends AbstractMTESR {
             .getMinInputSlot(); i <= te.getSlotDefinition()
                 .getMaxInputSlot(); i++) {
             ItemStack stack = te.getStackInSlot(i);
-            if (stack == null) continue;
+            if (stack == null) {
+                continue;
+            }
 
             GL11.glPushMatrix();
             GL11.glTranslatef(0.3f, inputIndex * 0.1f, 0f); // phải + chồng lên
@@ -64,7 +68,9 @@ public class AnvilTESR extends AbstractMTESR {
             .getMinOutputSlot(); i <= te.getSlotDefinition()
                 .getMaxOutputSlot(); i++) {
             ItemStack stack = te.getStackInSlot(i);
-            if (stack == null) continue;
+            if (stack == null) {
+                continue;
+            }
 
             GL11.glPushMatrix();
             GL11.glTranslatef(-0.3f, outputIndex * 0.1f, 0f); // trái + chồng lên
@@ -84,7 +90,9 @@ public class AnvilTESR extends AbstractMTESR {
 
     @Override
     public void renderStatic(TileEntity tile, Tessellator tes, Matrix4 translationMatrix, Matrix4 rotationMatrix) {
-        if (!(tile instanceof TEAnvil te)) return;
+        if (!(tile instanceof TEAnvil te)) {
+            return;
+        }
         translationMatrix.translate(.5, 0, .5);
         modelAnvil.render(tile, tes, translationMatrix, rotationMatrix, 1, false);
     }

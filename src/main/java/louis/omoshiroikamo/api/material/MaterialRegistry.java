@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.config.MaterialConfig;
+import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.config.MaterialConfig;
 
 public class MaterialRegistry {
 
@@ -20,8 +20,9 @@ public class MaterialRegistry {
     private static final List<MaterialEntry> META_INDEXED = new ArrayList<>();
 
     public static void register(MaterialEntry entry) {
-        if (REGISTRY.containsKey(entry.getName()))
+        if (REGISTRY.containsKey(entry.getName())) {
             throw new IllegalStateException("Duplicate material: " + entry.getName());
+        }
 
         REGISTRY.put(entry.getName(), entry);
         META_LOOKUP.put(entry.meta, entry);
@@ -34,7 +35,9 @@ public class MaterialRegistry {
 
     public static MaterialEntry get(String name) {
         MaterialEntry defaultEntry = REGISTRY.get(name);
-        if (defaultEntry == null) return null;
+        if (defaultEntry == null) {
+            return null;
+        }
 
         MaterialConfig config = Config.materialConfigs.getOrDefault(name, defaultEntry.defaults);
         return new MaterialEntry(name, defaultEntry.meta, config);
@@ -45,7 +48,9 @@ public class MaterialRegistry {
     }
 
     public static MaterialEntry fromMeta(int meta) {
-        if (meta < 0 || meta >= META_INDEXED.size()) return META_INDEXED.get(0);
+        if (meta < 0 || meta >= META_INDEXED.size()) {
+            return META_INDEXED.get(0);
+        }
         return META_INDEXED.get(meta);
     }
 

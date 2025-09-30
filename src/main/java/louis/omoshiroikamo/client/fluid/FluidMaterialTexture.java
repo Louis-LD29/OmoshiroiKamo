@@ -18,9 +18,9 @@ import net.minecraftforge.fluids.Fluid;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.fluid.FluidMaterialRegister;
 import louis.omoshiroikamo.common.util.lib.LibResources;
+import louis.omoshiroikamo.config.Config;
 
 @SideOnly(Side.CLIENT)
 public class FluidMaterialTexture {
@@ -84,7 +84,9 @@ public class FluidMaterialTexture {
     }
 
     private static void initBaseTextures() {
-        if (baseStill != null && baseFlow != null) return;
+        if (baseStill != null && baseFlow != null) {
+            return;
+        }
 
         try {
             ResourceLocation stillLoc = new ResourceLocation(
@@ -134,7 +136,9 @@ public class FluidMaterialTexture {
     private static void writeMcmetaFile(File pngFile, int frameCount, boolean reverse, int frametime)
         throws IOException {
         File mcmeta = new File(pngFile.getAbsolutePath() + ".mcmeta");
-        if (mcmeta.exists()) return;
+        if (mcmeta.exists()) {
+            return;
+        }
 
         StringBuilder json = new StringBuilder();
         json.append("{\n  \"animation\": {\n");
@@ -156,7 +160,9 @@ public class FluidMaterialTexture {
     }
 
     public static void cleanUnusedTextures() {
-        if (!CONFIG_FLUID_DIR.exists()) return;
+        if (!CONFIG_FLUID_DIR.exists()) {
+            return;
+        }
 
         Set<String> validNames = new HashSet<>();
         for (Map.Entry<MaterialEntry, Fluid> entry : FluidMaterialRegister.FLUIDS.entrySet()) {
@@ -174,10 +180,14 @@ public class FluidMaterialTexture {
         }
 
         File[] files = CONFIG_FLUID_DIR.listFiles();
-        if (files == null) return;
+        if (files == null) {
+            return;
+        }
 
         for (File file : files) {
-            if (!file.isFile()) continue;
+            if (!file.isFile()) {
+                continue;
+            }
             if (!validNames.contains(file.getName())) {
                 file.delete();
             }

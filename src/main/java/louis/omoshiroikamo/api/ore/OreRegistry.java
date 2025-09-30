@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.config.OreConfig;
+import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.config.OreConfig;
 
 public class OreRegistry {
 
@@ -20,7 +20,9 @@ public class OreRegistry {
     private static final List<OreEntry> META_INDEXED = new ArrayList<>();
 
     public static void register(OreEntry entry) {
-        if (REGISTRY.containsKey(entry.getName())) throw new IllegalStateException("Duplicate ore: " + entry.getName());
+        if (REGISTRY.containsKey(entry.getName())) {
+            throw new IllegalStateException("Duplicate ore: " + entry.getName());
+        }
 
         REGISTRY.put(entry.getName(), entry);
         META_LOOKUP.put(entry.getMeta(), entry);
@@ -33,7 +35,9 @@ public class OreRegistry {
 
     public static OreEntry get(String name) {
         OreEntry defaultEntry = REGISTRY.get(name);
-        if (defaultEntry == null) return null;
+        if (defaultEntry == null) {
+            return null;
+        }
 
         OreConfig config = Config.oreConfigs.getOrDefault(name, defaultEntry.defaults);
         return new OreEntry(name, defaultEntry.getMeta(), config);
@@ -44,7 +48,9 @@ public class OreRegistry {
     }
 
     public static OreEntry fromMeta(int meta) {
-        if (meta < 0 || meta >= META_INDEXED.size()) return META_INDEXED.get(0);
+        if (meta < 0 || meta >= META_INDEXED.size()) {
+            return META_INDEXED.get(0);
+        }
         return META_INDEXED.get(meta);
     }
 

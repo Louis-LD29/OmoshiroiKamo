@@ -4,8 +4,8 @@ import java.awt.Color;
 
 import louis.omoshiroikamo.api.enums.BlockMassType;
 import louis.omoshiroikamo.api.enums.VoltageTier;
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.config.MaterialConfig;
+import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.config.MaterialConfig;
 
 public class MaterialEntry {
 

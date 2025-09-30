@@ -31,7 +31,9 @@ public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         TileEntity te = world.getTileEntity(x, y, z);
-        if (!(te instanceof TEAnvil teAnvil)) return false;
+        if (!(te instanceof TEAnvil teAnvil)) {
+            return false;
+        }
 
         ClientUtils.handleStaticTileRenderer(teAnvil);
 

@@ -35,9 +35,9 @@ import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.client.gui.modularui2.MGuis;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractPoweredTaskTE;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
+import louis.omoshiroikamo.config.Config;
 
 public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandlerAdv, IWailaInfoProvider {
 
@@ -57,7 +57,9 @@ public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandl
 
     @Override
     protected boolean isMachineItemValidForSlot(int slot, ItemStack stack) {
-        if (stack == null) return false;
+        if (stack == null) {
+            return false;
+        }
         return slot >= slotDefinition.minItemInputSlot && slot <= slotDefinition.maxItemInputSlot;
     }
 
@@ -187,7 +189,9 @@ public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandl
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        if (fluidTanks == null || fluidTanks.length == 0) return new FluidTankInfo[0];
+        if (fluidTanks == null || fluidTanks.length == 0) {
+            return new FluidTankInfo[0];
+        }
 
         FluidTankInfo[] info = new FluidTankInfo[fluidTanks.length];
         for (int i = 0; i < fluidTanks.length; i++) {

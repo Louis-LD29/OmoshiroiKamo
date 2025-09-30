@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
-import louis.omoshiroikamo.common.config.Config;
+import louis.omoshiroikamo.config.Config;
 
 /**
  * Inspired by or partially based on ToroHealth Damage Indicators

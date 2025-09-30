@@ -10,7 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.energy.IWireConnectable;
 import louis.omoshiroikamo.api.energy.WireNetHandler;
 import louis.omoshiroikamo.api.energy.WireType;
-import louis.omoshiroikamo.common.config.Config;
+import louis.omoshiroikamo.config.Config;
 
 public class TEInsulator extends TEConnectable {
 
@@ -70,7 +70,9 @@ public class TEInsulator extends TEConnectable {
                     xCoord + inc + 1,
                     yCoord + inc + 1,
                     zCoord + inc + 1);
-            } else renderAABB = super.getRenderBoundingBox();
+            } else {
+                renderAABB = super.getRenderBoundingBox();
+            }
         }
         return renderAABB;
     }

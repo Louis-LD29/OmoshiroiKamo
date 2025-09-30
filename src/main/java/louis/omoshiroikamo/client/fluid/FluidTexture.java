@@ -18,9 +18,9 @@ import net.minecraftforge.fluids.Fluid;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.fluid.FluidEntry;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.fluid.FluidRegister;
 import louis.omoshiroikamo.common.util.lib.LibResources;
+import louis.omoshiroikamo.config.Config;
 
 @SideOnly(Side.CLIENT)
 public class FluidTexture {
@@ -91,7 +91,9 @@ public class FluidTexture {
     }
 
     private static void initBaseTextures() {
-        if (baseStill != null && baseFlow != null) return;
+        if (baseStill != null && baseFlow != null) {
+            return;
+        }
 
         try {
             ResourceLocation stillLoc = new ResourceLocation(
@@ -141,7 +143,9 @@ public class FluidTexture {
 
     private static void writeMcmetaFile(File pngFile, boolean writeFrametime, int frametime) throws IOException {
         File mcmeta = new File(pngFile.getAbsolutePath() + ".mcmeta");
-        if (mcmeta.exists()) return;
+        if (mcmeta.exists()) {
+            return;
+        }
 
         StringBuilder json = new StringBuilder();
         json.append("{\n  \"animation\": ");
@@ -162,7 +166,9 @@ public class FluidTexture {
     }
 
     public static void cleanUnusedTextures() {
-        if (!CONFIG_FLUID_DIR.exists()) return;
+        if (!CONFIG_FLUID_DIR.exists()) {
+            return;
+        }
 
         Set<String> validNames = new HashSet<>();
         for (Map.Entry<FluidEntry, Fluid> entry : FluidRegister.FLUIDS.entrySet()) {
@@ -178,10 +184,14 @@ public class FluidTexture {
         }
 
         File[] files = CONFIG_FLUID_DIR.listFiles();
-        if (files == null) return;
+        if (files == null) {
+            return;
+        }
 
         for (File file : files) {
-            if (!file.isFile()) continue;
+            if (!file.isFile()) {
+                continue;
+            }
             if (!validNames.contains(file.getName())) {
                 file.delete();
             }

@@ -21,6 +21,7 @@ public class ModBlocks {
     public static Block blockFurnace;
     public static Block blockMultiBlock;
     public static Block blockSolar;
+    public static Block blockBackpack;
     public static Block blockFluidInOut;
     public static Block blockEnergyInOut;
     public static Block blockItemInOut;

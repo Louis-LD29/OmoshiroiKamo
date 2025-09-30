@@ -59,13 +59,17 @@ public class TEFurnace extends AbstractTaskTE {
 
     @Override
     protected boolean isMachineItemValidForSlot(int slot, ItemStack itemstack) {
-        if (slot == 1) return TileEntityFurnace.isItemFuel(itemstack);
+        if (slot == 1) {
+            return TileEntityFurnace.isItemFuel(itemstack);
+        }
         return slotDefinition.isInputSlot(slot);
     }
 
     @Override
     public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
-        if (slot == 1) return false;
+        if (slot == 1) {
+            return false;
+        }
         return super.canExtractItem(slot, itemstack, side);
     }
 
@@ -143,7 +147,9 @@ public class TEFurnace extends AbstractTaskTE {
 
     @Override
     public float useStage(float amount) {
-        if (burnTime <= 0) return 0;
+        if (burnTime <= 0) {
+            return 0;
+        }
 
         float used = Math.min(burnTime, amount);
         burnTime -= used;
@@ -172,8 +178,6 @@ public class TEFurnace extends AbstractTaskTE {
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
         syncManager.registerSlotGroup("furnace", 3);
         ModularPanel panel = new ModularPanel(getMachineName());
-        // syncManager.syncValue("progress", new DoubleSyncValue(this::getProgress, value -> setProgress((float)
-        // value)));
         syncManager.syncValue("burnTime", new IntSyncValue(() -> burnTime, value -> burnTime = value));
         syncManager.syncValue("totalBurnTime", new IntSyncValue(() -> totalBurnTime, value -> totalBurnTime = value));
         panel.child(
@@ -220,7 +224,9 @@ public class TEFurnace extends AbstractTaskTE {
 
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor) {
-        if (!(accessor.getTileEntity() instanceof TEFurnace)) return;
+        if (!(accessor.getTileEntity() instanceof TEFurnace)) {
+            return;
+        }
         NBTTagCompound data = accessor.getServerData();
         float burnTime = data.getFloat("burnTime");
         this.inv.deserializeNBT(data.getCompoundTag("item_inv"));
@@ -273,7 +279,9 @@ public class TEFurnace extends AbstractTaskTE {
 
     @Override
     public void appendServerData(NBTTagCompound data, BlockAccessor accessor) {
-        if (!(accessor.getTileEntity() instanceof TEFurnace te)) return;
+        if (!(accessor.getTileEntity() instanceof TEFurnace te)) {
+            return;
+        }
 
         // data.setFloat("progressTE", te.getProgress());
         data.setFloat("burnTime", burnTime);

@@ -54,8 +54,8 @@ import louis.omoshiroikamo.api.energy.IWireConnectable;
 import louis.omoshiroikamo.api.energy.WireNetHandler;
 import louis.omoshiroikamo.api.energy.WireNetHandler.Connection;
 import louis.omoshiroikamo.client.render.AbstractMTESR;
-import louis.omoshiroikamo.common.plugin.chickenbones.Matrix4;
 import louis.omoshiroikamo.common.util.Utils;
+import louis.omoshiroikamo.plugin.chickenbones.Matrix4;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -135,7 +135,9 @@ public class ClientUtils {
 
     public static void drawConnection(WireNetHandler.Connection connection, IWireConnectable start,
         IWireConnectable end, IIcon icon) {
-        if (connection == null || start == null || end == null) return;
+        if (connection == null || start == null || end == null) {
+            return;
+        }
         int col = connection.cableType.getColour(connection);
         double r = connection.cableType.getRenderDiameter() / 2;
         drawConnection(connection, start, end, col, 255, r, icon);
@@ -147,12 +149,17 @@ public class ClientUtils {
 
     public static void drawConnection(WireNetHandler.Connection connection, IWireConnectable start,
         IWireConnectable end, int colour, int alpha, double radius, IIcon icon) {
-        if (connection == null || start == null || end == null || connection.end == null || connection.start == null)
+        if (connection == null || start == null || end == null || connection.end == null || connection.start == null) {
             return;
+        }
         Vec3 startOffset = start.getConnectionOffset(connection);
         Vec3 endOffset = end.getConnectionOffset(connection);
-        if (startOffset == null) startOffset = Vec3.createVectorHelper(.5, .5, .5);
-        if (endOffset == null) endOffset = Vec3.createVectorHelper(.5, .5, .5);
+        if (startOffset == null) {
+            startOffset = Vec3.createVectorHelper(.5, .5, .5);
+        }
+        if (endOffset == null) {
+            endOffset = Vec3.createVectorHelper(.5, .5, .5);
+        }
         double dx = (connection.end.posX + endOffset.xCoord) - (connection.start.posX + startOffset.xCoord);
         double dy = (connection.end.posY + endOffset.yCoord) - (connection.start.posY + startOffset.yCoord);
         double dz = (connection.end.posZ + endOffset.zCoord) - (connection.start.posZ + startOffset.zCoord);
@@ -528,13 +535,17 @@ public class ClientUtils {
 
     public static ResourceLocation getResource(String path) {
         ResourceLocation rl = resourceMap.containsKey(path) ? resourceMap.get(path) : new ResourceLocation(path);
-        if (!resourceMap.containsKey(path)) resourceMap.put(path, rl);
+        if (!resourceMap.containsKey(path)) {
+            resourceMap.put(path, rl);
+        }
         return rl;
     }
 
     public static WavefrontObject getModel(String path) {
         ResourceLocation rl = resourceMap.containsKey(path) ? resourceMap.get(path) : new ResourceLocation(path);
-        if (!resourceMap.containsKey(path)) resourceMap.put(path, rl);
+        if (!resourceMap.containsKey(path)) {
+            resourceMap.put(path, rl);
+        }
         return (WavefrontObject) AdvancedModelLoader.loadModel(rl);
     }
 
@@ -550,8 +561,11 @@ public class ClientUtils {
         if (stack != null) {
             IIcon ic = null;
             Block b = Block.getBlockFromItem(stack.getItem());
-            if (b != null && b != Blocks.air) ic = b.getIcon(2, stack.getItemDamage());
-            else ic = stack.getIconIndex();
+            if (b != null && b != Blocks.air) {
+                ic = b.getIcon(2, stack.getItemDamage());
+            } else {
+                ic = stack.getIconIndex();
+            }
             if (ic != null) {
                 String name = ic.getIconName();
                 String resource = "";
@@ -560,7 +574,9 @@ public class ClientUtils {
                     String[] split = name.split(":", 2);
                     resource = split[0] + ":";
                     icon = split[1];
-                } else icon = name;
+                } else {
+                    icon = name;
+                }
                 return resource + "textures/"
                     + (stack.getItemSpriteNumber() == 0 ? "blocks" : "items")
                     + "/"
@@ -652,7 +668,9 @@ public class ClientUtils {
         TileEntitySpecialRenderer tesr = TileEntityRendererDispatcher.instance.getSpecialRenderer(tile);
         if (tesr instanceof AbstractMTESR) {
             Matrix4 matrixT = new Matrix4();
-            if (translate) matrixT.translate(tile.xCoord, tile.yCoord, tile.zCoord);
+            if (translate) {
+                matrixT.translate(tile.xCoord, tile.yCoord, tile.zCoord);
+            }
             ((AbstractMTESR) tesr).renderStatic(tile, Tessellator.instance, matrixT, new Matrix4());
         }
     }
@@ -665,7 +683,9 @@ public class ClientUtils {
         TileEntitySpecialRenderer tesr = TileEntityRendererDispatcher.instance.getSpecialRenderer(tile);
         if (tesr instanceof AbstractMTESR) {
             Matrix4 matrixT = new Matrix4();
-            if (translate) matrixT.translate(tile.xCoord, tile.yCoord, tile.zCoord);
+            if (translate) {
+                matrixT.translate(tile.xCoord, tile.yCoord, tile.zCoord);
+            }
             ((AbstractMTESR) tesr).renderItem(tile, Tessellator.instance, matrixT, new Matrix4());
         }
     }
@@ -725,103 +745,116 @@ public class ClientUtils {
 
         for (GroupObject groupObject : model.groupObjects) {
             boolean render = false;
-            if (renderedParts == null || renderedParts.length < 1) render = true;
-            else for (String s : renderedParts) if (groupObject.name.equalsIgnoreCase(s)) render = true;
-            if (render) for (Face face : groupObject.faces) {
-                if (face.faceNormal == null) face.faceNormal = face.calculateFaceNormal();
-
-                normalCopy.x = face.faceNormal.x;
-                normalCopy.y = face.faceNormal.y;
-                normalCopy.z = face.faceNormal.z;
-                rotationMatrix.apply(normalCopy);
-                float biggestNormal = Math
-                    .max(Math.abs(normalCopy.y), Math.max(Math.abs(normalCopy.x), Math.abs(normalCopy.z)));
-                int side = biggestNormal == Math.abs(normalCopy.y) ? (normalCopy.y < 0 ? 0 : 1)
-                    : biggestNormal == Math.abs(normalCopy.z) ? (normalCopy.z < 0 ? 2 : 3) : (normalCopy.x < 0 ? 4 : 5);
-
-                BlockLightingInfo faceLight = null;
-                if (offsetLighting == 0 && world != null) faceLight = calculateBlockLighting(
-                    side,
-                    world,
-                    world.getBlock(x, y, z),
-                    x,
-                    y,
-                    z,
-                    colR,
-                    colG,
-                    colB,
-                    standardBlockAABB);
-                else if (offsetLighting == 1 && world != null) {
-                    double faceMinX = face.vertices[0].x;
-                    double faceMinY = face.vertices[0].y;
-                    double faceMinZ = face.vertices[0].z;
-                    double faceMaxX = face.vertices[0].x;
-                    double faceMaxY = face.vertices[0].y;
-                    double faceMaxZ = face.vertices[0].z;
-                    for (int i = 1; i < face.vertices.length; ++i) {
-                        faceMinX = Math.min(faceMinX, face.vertices[i].x);
-                        faceMinY = Math.min(faceMinY, face.vertices[i].y);
-                        faceMinZ = Math.min(faceMinZ, face.vertices[i].z);
-                        faceMaxX = Math.max(faceMaxX, face.vertices[i].x);
-                        faceMaxY = Math.max(faceMaxY, face.vertices[i].y);
-                        faceMaxZ = Math.max(faceMaxZ, face.vertices[i].z);
-                    }
-                    faceLight = calculateBlockLighting(
-                        side,
-                        world,
-                        world.getBlock(x, y, z),
-                        x,
-                        y,
-                        z,
-                        colR,
-                        colG,
-                        colB,
-                        AxisAlignedBB.getBoundingBox(faceMinX, faceMinY, faceMinZ, faceMaxX, faceMaxY, faceMaxZ));
+            if (renderedParts == null || renderedParts.length < 1) {
+                render = true;
+            } else {
+                for (String s : renderedParts) if (groupObject.name.equalsIgnoreCase(s)) {
+                    render = true;
                 }
-
-                tes.setNormal(face.faceNormal.x, face.faceNormal.y, face.faceNormal.z);
-
-                for (int i = 0; i < face.vertices.length; ++i) {
-                    int target = !invertFaces ? i : (face.vertices.length - 1 - i);
-                    int corner = (int) (target / (float) face.vertices.length * 4);
-                    Vertex vertex = face.vertices[target];
-                    vertexCopy.x = vertex.x;
-                    vertexCopy.y = vertex.y;
-                    vertexCopy.z = vertex.z;
-                    rotationMatrix.apply(vertexCopy);
-                    translationMatrix.apply(vertexCopy);
-                    if (faceLight != null) {
-                        int bright = corner == 0 ? faceLight.brightnessTopLeft
-                            : corner == 1 ? faceLight.brightnessBottomLeft
-                                : corner == 2 ? faceLight.brightnessBottomRight : faceLight.brightnessTopRight;
-                        int last = bright & 255;
-                        if (last > 247) bright -= last;
-                        tes.setBrightness(bright);
-                        float r = corner == 0 ? faceLight.colorRedTopLeft
-                            : corner == 1 ? faceLight.colorRedBottomLeft
-                                : corner == 2 ? faceLight.colorRedBottomRight : faceLight.colorRedTopRight;
-                        float g = corner == 0 ? faceLight.colorGreenTopLeft
-                            : corner == 1 ? faceLight.colorGreenBottomLeft
-                                : corner == 2 ? faceLight.colorGreenBottomRight : faceLight.colorGreenTopRight;
-                        float b = corner == 0 ? faceLight.colorBlueTopLeft
-                            : corner == 1 ? faceLight.colorBlueBottomLeft
-                                : corner == 2 ? faceLight.colorBlueBottomRight : faceLight.colorBlueTopRight;
-                        tes.setColorOpaque_F(r, g, b);
-                    } else if (world != null) {
-                        tes.setBrightness(0xb000b0);
-                        tes.setColorOpaque_F(colR, colG, colB);
+            }
+            if (render) {
+                for (Face face : groupObject.faces) {
+                    if (face.faceNormal == null) {
+                        face.faceNormal = face.calculateFaceNormal();
                     }
 
-                    if (face.textureCoordinates != null && face.textureCoordinates.length > 0) {
-                        TextureCoordinate textureCoordinate = face.textureCoordinates[target];
-                        tes.addVertexWithUV(
-                            vertexCopy.x,
-                            vertexCopy.y,
-                            vertexCopy.z,
-                            textureCoordinate.u,
-                            textureCoordinate.v);
-                    } else {
-                        tes.addVertex(vertexCopy.x, vertexCopy.y, vertexCopy.z);
+                    normalCopy.x = face.faceNormal.x;
+                    normalCopy.y = face.faceNormal.y;
+                    normalCopy.z = face.faceNormal.z;
+                    rotationMatrix.apply(normalCopy);
+                    float biggestNormal = Math
+                        .max(Math.abs(normalCopy.y), Math.max(Math.abs(normalCopy.x), Math.abs(normalCopy.z)));
+                    int side = biggestNormal == Math.abs(normalCopy.y) ? (normalCopy.y < 0 ? 0 : 1)
+                        : biggestNormal == Math.abs(normalCopy.z) ? (normalCopy.z < 0 ? 2 : 3)
+                            : (normalCopy.x < 0 ? 4 : 5);
+
+                    BlockLightingInfo faceLight = null;
+                    if (offsetLighting == 0 && world != null) {
+                        faceLight = calculateBlockLighting(
+                            side,
+                            world,
+                            world.getBlock(x, y, z),
+                            x,
+                            y,
+                            z,
+                            colR,
+                            colG,
+                            colB,
+                            standardBlockAABB);
+                    } else if (offsetLighting == 1 && world != null) {
+                        double faceMinX = face.vertices[0].x;
+                        double faceMinY = face.vertices[0].y;
+                        double faceMinZ = face.vertices[0].z;
+                        double faceMaxX = face.vertices[0].x;
+                        double faceMaxY = face.vertices[0].y;
+                        double faceMaxZ = face.vertices[0].z;
+                        for (int i = 1; i < face.vertices.length; ++i) {
+                            faceMinX = Math.min(faceMinX, face.vertices[i].x);
+                            faceMinY = Math.min(faceMinY, face.vertices[i].y);
+                            faceMinZ = Math.min(faceMinZ, face.vertices[i].z);
+                            faceMaxX = Math.max(faceMaxX, face.vertices[i].x);
+                            faceMaxY = Math.max(faceMaxY, face.vertices[i].y);
+                            faceMaxZ = Math.max(faceMaxZ, face.vertices[i].z);
+                        }
+                        faceLight = calculateBlockLighting(
+                            side,
+                            world,
+                            world.getBlock(x, y, z),
+                            x,
+                            y,
+                            z,
+                            colR,
+                            colG,
+                            colB,
+                            AxisAlignedBB.getBoundingBox(faceMinX, faceMinY, faceMinZ, faceMaxX, faceMaxY, faceMaxZ));
+                    }
+
+                    tes.setNormal(face.faceNormal.x, face.faceNormal.y, face.faceNormal.z);
+
+                    for (int i = 0; i < face.vertices.length; ++i) {
+                        int target = !invertFaces ? i : (face.vertices.length - 1 - i);
+                        int corner = (int) (target / (float) face.vertices.length * 4);
+                        Vertex vertex = face.vertices[target];
+                        vertexCopy.x = vertex.x;
+                        vertexCopy.y = vertex.y;
+                        vertexCopy.z = vertex.z;
+                        rotationMatrix.apply(vertexCopy);
+                        translationMatrix.apply(vertexCopy);
+                        if (faceLight != null) {
+                            int bright = corner == 0 ? faceLight.brightnessTopLeft
+                                : corner == 1 ? faceLight.brightnessBottomLeft
+                                    : corner == 2 ? faceLight.brightnessBottomRight : faceLight.brightnessTopRight;
+                            int last = bright & 255;
+                            if (last > 247) {
+                                bright -= last;
+                            }
+                            tes.setBrightness(bright);
+                            float r = corner == 0 ? faceLight.colorRedTopLeft
+                                : corner == 1 ? faceLight.colorRedBottomLeft
+                                    : corner == 2 ? faceLight.colorRedBottomRight : faceLight.colorRedTopRight;
+                            float g = corner == 0 ? faceLight.colorGreenTopLeft
+                                : corner == 1 ? faceLight.colorGreenBottomLeft
+                                    : corner == 2 ? faceLight.colorGreenBottomRight : faceLight.colorGreenTopRight;
+                            float b = corner == 0 ? faceLight.colorBlueTopLeft
+                                : corner == 1 ? faceLight.colorBlueBottomLeft
+                                    : corner == 2 ? faceLight.colorBlueBottomRight : faceLight.colorBlueTopRight;
+                            tes.setColorOpaque_F(r, g, b);
+                        } else if (world != null) {
+                            tes.setBrightness(0xb000b0);
+                            tes.setColorOpaque_F(colR, colG, colB);
+                        }
+
+                        if (face.textureCoordinates != null && face.textureCoordinates.length > 0) {
+                            TextureCoordinate textureCoordinate = face.textureCoordinates[target];
+                            tes.addVertexWithUV(
+                                vertexCopy.x,
+                                vertexCopy.y,
+                                vertexCopy.z,
+                                textureCoordinate.u,
+                                textureCoordinate.v);
+                        } else {
+                            tes.addVertex(vertexCopy.x, vertexCopy.y, vertexCopy.z);
+                        }
                     }
                 }
             }
@@ -852,7 +885,9 @@ public class ClientUtils {
     public static void renderStaticWavefrontModelWithIcon(IBlockAccess world, int x, int y, int z,
         WavefrontObject model, IIcon icon, Tessellator tes, Matrix4 translationMatrix, Matrix4 rotationMatrix,
         int offsetLighting, boolean invertFaces, float colR, float colG, float colB, String... renderedParts) {
-        if (icon == null) return;
+        if (icon == null) {
+            return;
+        }
         if (world != null) {
             int lb = world.getLightBrightnessForSkyBlocks(x, y, z, 0);
             int lb_j = lb % 65536;
@@ -871,99 +906,114 @@ public class ClientUtils {
 
         for (GroupObject groupObject : model.groupObjects) {
             boolean render = false;
-            if (renderedParts == null || renderedParts.length < 1) render = true;
-            else for (String s : renderedParts) if (groupObject.name.equalsIgnoreCase(s)) render = true;
-            if (render) for (Face face : groupObject.faces) {
-                if (face.faceNormal == null) face.faceNormal = face.calculateFaceNormal();
-
-                normalCopy.x = face.faceNormal.x;
-                normalCopy.y = face.faceNormal.y;
-                normalCopy.z = face.faceNormal.z;
-                rotationMatrix.apply(normalCopy);
-                float biggestNormal = Math
-                    .max(Math.abs(normalCopy.y), Math.max(Math.abs(normalCopy.x), Math.abs(normalCopy.z)));
-                int side = biggestNormal == Math.abs(normalCopy.y) ? (normalCopy.y < 0 ? 0 : 1)
-                    : biggestNormal == Math.abs(normalCopy.z) ? (normalCopy.z < 0 ? 2 : 3) : (normalCopy.x < 0 ? 4 : 5);
-
-                BlockLightingInfo faceLight = null;
-                if (offsetLighting == 0 && world != null) faceLight = calculateBlockLighting(
-                    side,
-                    world,
-                    world.getBlock(x, y, z),
-                    x,
-                    y,
-                    z,
-                    colR,
-                    colG,
-                    colB,
-                    standardBlockAABB);
-                else if (offsetLighting == 1 && world != null) {
-                    double faceMinX = face.vertices[0].x;
-                    double faceMinY = face.vertices[0].y;
-                    double faceMinZ = face.vertices[0].z;
-                    double faceMaxX = face.vertices[0].x;
-                    double faceMaxY = face.vertices[0].y;
-                    double faceMaxZ = face.vertices[0].z;
-                    for (int i = 1; i < face.vertices.length; ++i) {
-                        faceMinX = Math.min(faceMinX, face.vertices[i].x);
-                        faceMinY = Math.min(faceMinY, face.vertices[i].y);
-                        faceMinZ = Math.min(faceMinZ, face.vertices[i].z);
-                        faceMaxX = Math.max(faceMaxX, face.vertices[i].x);
-                        faceMaxY = Math.max(faceMaxY, face.vertices[i].y);
-                        faceMaxZ = Math.max(faceMaxZ, face.vertices[i].z);
+            if (renderedParts == null || renderedParts.length < 1) {
+                render = true;
+            } else {
+                for (String s : renderedParts) if (groupObject.name.equalsIgnoreCase(s)) {
+                    render = true;
+                }
+            }
+            if (render) {
+                for (Face face : groupObject.faces) {
+                    if (face.faceNormal == null) {
+                        face.faceNormal = face.calculateFaceNormal();
                     }
-                    faceLight = calculateBlockLighting(
-                        side,
-                        world,
-                        world.getBlock(x, y, z),
-                        x,
-                        y,
-                        z,
+
+                    normalCopy.x = face.faceNormal.x;
+                    normalCopy.y = face.faceNormal.y;
+                    normalCopy.z = face.faceNormal.z;
+                    rotationMatrix.apply(normalCopy);
+                    float biggestNormal = Math
+                        .max(Math.abs(normalCopy.y), Math.max(Math.abs(normalCopy.x), Math.abs(normalCopy.z)));
+                    int side = biggestNormal == Math.abs(normalCopy.y) ? (normalCopy.y < 0 ? 0 : 1)
+                        : biggestNormal == Math.abs(normalCopy.z) ? (normalCopy.z < 0 ? 2 : 3)
+                            : (normalCopy.x < 0 ? 4 : 5);
+
+                    BlockLightingInfo faceLight = null;
+                    if (offsetLighting == 0 && world != null) {
+                        faceLight = calculateBlockLighting(
+                            side,
+                            world,
+                            world.getBlock(x, y, z),
+                            x,
+                            y,
+                            z,
+                            colR,
+                            colG,
+                            colB,
+                            standardBlockAABB);
+                    } else if (offsetLighting == 1 && world != null) {
+                        double faceMinX = face.vertices[0].x;
+                        double faceMinY = face.vertices[0].y;
+                        double faceMinZ = face.vertices[0].z;
+                        double faceMaxX = face.vertices[0].x;
+                        double faceMaxY = face.vertices[0].y;
+                        double faceMaxZ = face.vertices[0].z;
+                        for (int i = 1; i < face.vertices.length; ++i) {
+                            faceMinX = Math.min(faceMinX, face.vertices[i].x);
+                            faceMinY = Math.min(faceMinY, face.vertices[i].y);
+                            faceMinZ = Math.min(faceMinZ, face.vertices[i].z);
+                            faceMaxX = Math.max(faceMaxX, face.vertices[i].x);
+                            faceMaxY = Math.max(faceMaxY, face.vertices[i].y);
+                            faceMaxZ = Math.max(faceMaxZ, face.vertices[i].z);
+                        }
+                        faceLight = calculateBlockLighting(
+                            side,
+                            world,
+                            world.getBlock(x, y, z),
+                            x,
+                            y,
+                            z,
+                            colR,
+                            colG,
+                            colB,
+                            AxisAlignedBB.getBoundingBox(faceMinX, faceMinY, faceMinZ, faceMaxX, faceMaxY, faceMaxZ));
+                    }
+
+                    tes.setNormal(face.faceNormal.x, face.faceNormal.y, face.faceNormal.z);
+
+                    float averageU = 0F;
+                    float averageV = 0F;
+                    if (face.textureCoordinates != null && face.textureCoordinates.length > 0) {
+                        for (int i = 0; i < face.textureCoordinates.length; ++i) {
+                            averageU += face.textureCoordinates[i].u;
+                            averageV += face.textureCoordinates[i].v;
+                        }
+                        averageU = averageU / face.textureCoordinates.length;
+                        averageV = averageV / face.textureCoordinates.length;
+                    }
+
+                    TextureCoordinate[] oldUVs = new TextureCoordinate[face.textureCoordinates.length];
+                    for (int v = 0; v < face.vertices.length; ++v) {
+                        float offsetU, offsetV;
+                        offsetU = baseOffsetU;
+                        offsetV = baseOffsetV;
+                        if (face.textureCoordinates[v].u > averageU) {
+                            offsetU = -offsetU;
+                        }
+                        if (face.textureCoordinates[v].v > averageV) {
+                            offsetV = -offsetV;
+                        }
+
+                        oldUVs[v] = face.textureCoordinates[v];
+                        TextureCoordinate textureCoordinate = face.textureCoordinates[v];
+                        face.textureCoordinates[v] = new TextureCoordinate(
+                            minU + sizeU * (textureCoordinate.u + offsetU),
+                            minV + sizeV * (textureCoordinate.v + offsetV));
+                    }
+                    addFaceToWorldRender(
+                        face,
+                        tes,
+                        faceLight,
+                        translationMatrix,
+                        rotationMatrix,
+                        invertFaces,
                         colR,
                         colG,
-                        colB,
-                        AxisAlignedBB.getBoundingBox(faceMinX, faceMinY, faceMinZ, faceMaxX, faceMaxY, faceMaxZ));
+                        colB);
+                    for (int v = 0; v < face.vertices.length; ++v)
+                        face.textureCoordinates[v] = new TextureCoordinate(oldUVs[v].u, oldUVs[v].v);
                 }
-
-                tes.setNormal(face.faceNormal.x, face.faceNormal.y, face.faceNormal.z);
-
-                float averageU = 0F;
-                float averageV = 0F;
-                if (face.textureCoordinates != null && face.textureCoordinates.length > 0) {
-                    for (int i = 0; i < face.textureCoordinates.length; ++i) {
-                        averageU += face.textureCoordinates[i].u;
-                        averageV += face.textureCoordinates[i].v;
-                    }
-                    averageU = averageU / face.textureCoordinates.length;
-                    averageV = averageV / face.textureCoordinates.length;
-                }
-
-                TextureCoordinate[] oldUVs = new TextureCoordinate[face.textureCoordinates.length];
-                for (int v = 0; v < face.vertices.length; ++v) {
-                    float offsetU, offsetV;
-                    offsetU = baseOffsetU;
-                    offsetV = baseOffsetV;
-                    if (face.textureCoordinates[v].u > averageU) offsetU = -offsetU;
-                    if (face.textureCoordinates[v].v > averageV) offsetV = -offsetV;
-
-                    oldUVs[v] = face.textureCoordinates[v];
-                    TextureCoordinate textureCoordinate = face.textureCoordinates[v];
-                    face.textureCoordinates[v] = new TextureCoordinate(
-                        minU + sizeU * (textureCoordinate.u + offsetU),
-                        minV + sizeV * (textureCoordinate.v + offsetV));
-                }
-                addFaceToWorldRender(
-                    face,
-                    tes,
-                    faceLight,
-                    translationMatrix,
-                    rotationMatrix,
-                    invertFaces,
-                    colR,
-                    colG,
-                    colB);
-                for (int v = 0; v < face.vertices.length; ++v)
-                    face.textureCoordinates[v] = new TextureCoordinate(oldUVs[v].u, oldUVs[v].v);
             }
         }
     }
@@ -975,36 +1025,47 @@ public class ClientUtils {
 
         for (GroupObject groupObject : model.groupObjects) {
             boolean render = false;
-            if (renderedParts == null || renderedParts.length < 1) render = true;
-            else for (String s : renderedParts) if (groupObject.name.equalsIgnoreCase(s)) render = true;
-            if (render) for (Face face : groupObject.faces) {
-                if (face.faceNormal == null) face.faceNormal = face.calculateFaceNormal();
+            if (renderedParts == null || renderedParts.length < 1) {
+                render = true;
+            } else {
+                for (String s : renderedParts) if (groupObject.name.equalsIgnoreCase(s)) {
+                    render = true;
+                }
+            }
+            if (render) {
+                for (Face face : groupObject.faces) {
+                    if (face.faceNormal == null) {
+                        face.faceNormal = face.calculateFaceNormal();
+                    }
 
-                normalCopy.x = face.faceNormal.x;
-                normalCopy.y = face.faceNormal.y;
-                normalCopy.z = face.faceNormal.z;
-                rotationMatrix.apply(normalCopy);
+                    normalCopy.x = face.faceNormal.x;
+                    normalCopy.y = face.faceNormal.y;
+                    normalCopy.z = face.faceNormal.z;
+                    rotationMatrix.apply(normalCopy);
 
-                tes.setNormal(face.faceNormal.x, face.faceNormal.y, face.faceNormal.z);
-                for (int i = 0; i < face.vertices.length; ++i) {
-                    Vertex vertex = face.vertices[i];
-                    vertexCopy.x = vertex.x;
-                    vertexCopy.y = vertex.y;
-                    vertexCopy.z = vertex.z;
-                    rotationMatrix.apply(vertexCopy);
-                    translationMatrix.apply(vertexCopy);
+                    tes.setNormal(face.faceNormal.x, face.faceNormal.y, face.faceNormal.z);
+                    for (int i = 0; i < face.vertices.length; ++i) {
+                        Vertex vertex = face.vertices[i];
+                        vertexCopy.x = vertex.x;
+                        vertexCopy.y = vertex.y;
+                        vertexCopy.z = vertex.z;
+                        rotationMatrix.apply(vertexCopy);
+                        translationMatrix.apply(vertexCopy);
 
-                    if ((face.textureCoordinates != null) && (face.textureCoordinates.length > 0)) {
-                        TextureCoordinate textureCoordinate = face.textureCoordinates[flipTextureU
-                            ? (face.textureCoordinates.length - 1) - i
-                            : i];
-                        tes.addVertexWithUV(
-                            vertexCopy.x,
-                            vertexCopy.y,
-                            vertexCopy.z,
-                            textureCoordinate.u,
-                            textureCoordinate.v);
-                    } else tes.addVertex(vertexCopy.x, vertexCopy.y, vertexCopy.z);
+                        if ((face.textureCoordinates != null) && (face.textureCoordinates.length > 0)) {
+                            TextureCoordinate textureCoordinate = face.textureCoordinates[flipTextureU
+                                ? (face.textureCoordinates.length - 1) - i
+                                : i];
+                            tes.addVertexWithUV(
+                                vertexCopy.x,
+                                vertexCopy.y,
+                                vertexCopy.z,
+                                textureCoordinate.u,
+                                textureCoordinate.v);
+                        } else {
+                            tes.addVertex(vertexCopy.x, vertexCopy.y, vertexCopy.z);
+                        }
+                    }
                 }
             }
         }
@@ -1017,17 +1078,23 @@ public class ClientUtils {
 
     public static void renderWavefrontWithIconUVs(WavefrontObject model, int glDrawingMode, IIcon icon,
         String... parts) {
-        if (icon == null) return;
+        if (icon == null) {
+            return;
+        }
         List<String> renderParts = Arrays.asList(parts);
         tes().startDrawing(glDrawingMode);
-        for (GroupObject go : model.groupObjects)
-            if (go.glDrawingMode == glDrawingMode) if (renderParts.isEmpty() || renderParts.contains(go.name))
+        for (GroupObject go : model.groupObjects) if (go.glDrawingMode == glDrawingMode) {
+            if (renderParts.isEmpty() || renderParts.contains(go.name)) {
                 tessellateWavefrontGroupObjectWithIconUVs(go, icon);
+            }
+        }
         tes().draw();
     }
 
     public static void tessellateWavefrontGroupObjectWithIconUVs(GroupObject object, IIcon icon) {
-        if (icon == null) return;
+        if (icon == null) {
+            return;
+        }
 
         float minU = icon.getInterpolatedU(0);
         float sizeU = icon.getInterpolatedU(16) - minU;
@@ -1052,8 +1119,12 @@ public class ClientUtils {
                 float offsetU, offsetV;
                 offsetU = baseOffsetU;
                 offsetV = baseOffsetV;
-                if (face.textureCoordinates[v].u > averageU) offsetU = -offsetU;
-                if (face.textureCoordinates[v].v > averageV) offsetV = -offsetV;
+                if (face.textureCoordinates[v].u > averageU) {
+                    offsetU = -offsetU;
+                }
+                if (face.textureCoordinates[v].v > averageV) {
+                    offsetV = -offsetV;
+                }
 
                 oldUVs[v] = face.textureCoordinates[v];
                 TextureCoordinate textureCoordinate = face.textureCoordinates[v];
@@ -1326,8 +1397,9 @@ public class ClientUtils {
         if (icon != null) {
             int iW = icon.getIconWidth();
             int iH = icon.getIconHeight();
-            if (iW > 0 && iH > 0)
+            if (iW > 0 && iH > 0) {
                 drawRepeatedIcon(x, y, w, h, iW, iH, icon.getMinU(), icon.getMaxU(), icon.getMinV(), icon.getMaxV());
+            }
         }
     }
 
@@ -1398,9 +1470,11 @@ public class ClientUtils {
     public static void renderToolTip(ItemStack stack, int x, int y) {
         List list = stack.getTooltip(mc().thePlayer, mc().gameSettings.advancedItemTooltips);
 
-        for (int k = 0; k < list.size(); ++k)
-            if (k == 0) list.set(k, stack.getRarity().rarityColor + (String) list.get(k));
-            else list.set(k, EnumChatFormatting.GRAY + (String) list.get(k));
+        for (int k = 0; k < list.size(); ++k) if (k == 0) {
+            list.set(k, stack.getRarity().rarityColor + (String) list.get(k));
+        } else {
+            list.set(k, EnumChatFormatting.GRAY + (String) list.get(k));
+        }
 
         FontRenderer font = stack.getItem()
             .getFontRenderer(stack);
@@ -1427,7 +1501,9 @@ public class ClientUtils {
             while (iterator.hasNext()) {
                 String s = iterator.next();
                 int l = font.getStringWidth(s);
-                if (l > k) k = l;
+                if (l > k) {
+                    k = l;
+                }
             }
 
             int j2 = x + 12;
@@ -1444,11 +1520,17 @@ public class ClientUtils {
                 shift = true;
             }
             if (!shift && mc().currentScreen != null) {
-                if (j2 + k > mc().currentScreen.width) j2 -= 28 + k;
-                if (k2 + i1 + 6 > mc().currentScreen.height) k2 = mc().currentScreen.height - i1 - 6;
+                if (j2 + k > mc().currentScreen.width) {
+                    j2 -= 28 + k;
+                }
+                if (k2 + i1 + 6 > mc().currentScreen.height) {
+                    k2 = mc().currentScreen.height - i1 - 6;
+                }
             }
 
-            if (list.size() > 1) i1 += 2 + (list.size() - 1) * 10;
+            if (list.size() > 1) {
+                i1 += 2 + (list.size() - 1) * 10;
+            }
 
             int j1 = -267386864;
             drawGradientRect(j2 - 3, k2 - 4, j2 + k + 3, k2 - 3, j1, j1);
@@ -1467,7 +1549,9 @@ public class ClientUtils {
                 String s1 = (String) list.get(i2);
                 font.drawStringWithShadow(s1, j2, k2, -1);
 
-                if (i2 == 0) k2 += 2;
+                if (i2 == 0) {
+                    k2 += 2;
+                }
 
                 k2 += 10;
             }
@@ -1503,10 +1587,13 @@ public class ClientUtils {
         } else {
             if (mX >= x && mX < x + w && mY >= y && mY < y + h) {
                 if (tank.getFluid() != null && tank.getFluid()
-                    .getFluid() != null) tooltip.add(
+                    .getFluid() != null) {
+                    tooltip.add(
                         tank.getFluid()
                             .getLocalizedName());
-                else tooltip.add(StatCollector.translateToLocal("gui.ImmersiveEngineering.empty"));
+                } else {
+                    tooltip.add(StatCollector.translateToLocal("gui.ImmersiveEngineering.empty"));
+                }
                 tooltip.add(tank.getFluidAmount() + "/" + tank.getCapacity() + "mB");
             }
         }
@@ -3181,9 +3268,15 @@ public class ClientUtils {
         public int aoBrightnessXZPP;
 
         public int getAoBrightness(int par0, int par1, int par2, int par3) {
-            if (par0 == 0) par0 = par3;
-            if (par1 == 0) par1 = par3;
-            if (par2 == 0) par2 = par3;
+            if (par0 == 0) {
+                par0 = par3;
+            }
+            if (par1 == 0) {
+                par1 = par3;
+            }
+            if (par2 == 0) {
+                par2 = par3;
+            }
             return par0 + par1 + par2 + par3 >> 2 & 16711935;
         }
 
