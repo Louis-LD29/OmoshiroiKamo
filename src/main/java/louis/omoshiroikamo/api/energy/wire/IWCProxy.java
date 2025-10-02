@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.api.energy;
+package louis.omoshiroikamo.api.energy.wire;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -8,7 +8,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import louis.omoshiroikamo.api.TargetingInfo;
-import louis.omoshiroikamo.api.energy.WireNetHandler.Connection;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
 import louis.omoshiroikamo.common.util.Utils;
 import louis.omoshiroikamo.common.util.helper.Logger;
 /*
@@ -34,8 +34,9 @@ public class IWCProxy implements IWireConnectable {
     }
 
     public IWCProxy(TileEntity te) {
-        if (!(te instanceof IWireConnectable))
+        if (!(te instanceof IWireConnectable)) {
             throw new IllegalArgumentException("Can't create an IWCProxy for a null/non-IWC TileEntity");
+        }
         dim = te.getWorldObj().provider.dimensionId;
         canEnergyPass = ((IWireConnectable) te).allowEnergyToPass(null);
         cc = Utils.toCC(te);
@@ -64,7 +65,9 @@ public class IWCProxy implements IWireConnectable {
             return;
         }
         TileEntity te = w.getTileEntity(cc.posX, cc.posY, cc.posZ);
-        if (!(te instanceof IWireConnectable)) return;
+        if (!(te instanceof IWireConnectable)) {
+            return;
+        }
         ((IWireConnectable) te).removeCable(connection);
     }
 

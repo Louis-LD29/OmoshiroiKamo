@@ -21,12 +21,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.TargetingInfo;
 import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
-import louis.omoshiroikamo.api.energy.IWireCoil;
-import louis.omoshiroikamo.api.energy.IWireConnectable;
-import louis.omoshiroikamo.api.energy.MaterialWireType;
-import louis.omoshiroikamo.api.energy.WireNetHandler;
-import louis.omoshiroikamo.api.energy.WireNetHandler.Connection;
-import louis.omoshiroikamo.api.energy.WireType;
+import louis.omoshiroikamo.api.energy.wire.IWireCoil;
+import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
+import louis.omoshiroikamo.api.energy.wire.MaterialWireType;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
+import louis.omoshiroikamo.api.energy.wire.WireType;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
@@ -124,13 +124,15 @@ public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipP
             .hasKey("linkingPos")) {
             int[] link = stack.getTagCompound()
                 .getIntArray("linkingPos");
-            if (link != null && link.length > 3) list.add(
-                StatCollector.translateToLocalFormatted(
-                    LibResources.DESC_INFO + "attachedToDim",
-                    link[1],
-                    link[2],
-                    link[3],
-                    link[0]));
+            if (link != null && link.length > 3) {
+                list.add(
+                    StatCollector.translateToLocalFormatted(
+                        LibResources.DESC_INFO + "attachedToDim",
+                        link[1],
+                        link[2],
+                        link[3],
+                        link[0]));
+            }
         }
     }
 
@@ -142,10 +144,14 @@ public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipP
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
         float hitX, float hitY, float hitZ) {
-        if (world.isRemote) return false;
+        if (world.isRemote) {
+            return false;
+        }
 
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (!(tileEntity instanceof IWireConnectable) || !((IWireConnectable) tileEntity).canConnect()) return false;
+        if (!(tileEntity instanceof IWireConnectable) || !((IWireConnectable) tileEntity).canConnect()) {
+            return false;
+        }
 
         TargetingInfo target = new TargetingInfo(side, hitX, hitY, hitZ);
         WireType type = getWireType(stack);
@@ -158,11 +164,15 @@ public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipP
         if (!ItemNBTHelper.verifyExistance(stack, "linkingPos")) {
             // Lưu điểm kết nối đầu tiên
             ItemNBTHelper.setIntArray(stack, "linkingPos", new int[] { world.provider.dimensionId, x, y, z });
-            if (stack.getTagCompound() == null) stack.setTagCompound(new NBTTagCompound());
+            if (stack.getTagCompound() == null) {
+                stack.setTagCompound(new NBTTagCompound());
+            }
             target.writeToNBT(stack.getTagCompound());
         } else {
             int[] pos = ItemNBTHelper.getIntArray(stack, "linkingPos", 0);
-            if (pos.length != 4) return false;
+            if (pos.length != 4) {
+                return false;
+            }
 
             if (pos[0] != world.provider.dimensionId) {
                 player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "wrongDimension"));
@@ -224,7 +234,9 @@ public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipP
                                     nodeLink.connectCable(type, targetLink);
                                     WireNetSaveData.setDirty(world.provider.dimensionId);
 
-                                    if (!player.capabilities.isCreativeMode) stack.stackSize--;
+                                    if (!player.capabilities.isCreativeMode) {
+                                        stack.stackSize--;
+                                    }
 
                                     ((TileEntity) nodeHere).markDirty();
                                     world.addBlockEvent(x, y, z, tileEntity.getBlockType(), -1, 0);

@@ -8,6 +8,11 @@ import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
+import louis.omoshiroikamo.api.energy.powerInterface.EnergyConnectionPI;
+import louis.omoshiroikamo.api.energy.powerInterface.EnergyHandlerPI;
+import louis.omoshiroikamo.api.energy.powerInterface.EnergyProviderPI;
+import louis.omoshiroikamo.api.energy.powerInterface.EnergyReceiverPI;
+import louis.omoshiroikamo.api.energy.powerInterface.IPowerInterface;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractPoweredTE;
 
 public class PowerHandlerUtil {

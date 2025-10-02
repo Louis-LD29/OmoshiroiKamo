@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.api.energy;
+package louis.omoshiroikamo.api.energy.wire;
 
 import java.util.LinkedHashSet;
 
@@ -6,7 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-import louis.omoshiroikamo.api.energy.WireNetHandler.Connection;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
 
 /**
  * @author BluSunrize - 08.03.2015<br>

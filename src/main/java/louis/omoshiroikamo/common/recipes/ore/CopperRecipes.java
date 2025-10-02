@@ -14,12 +14,12 @@ public class CopperRecipes {
     public static void init() {
         ItemStack copperIngot = new ItemStack(ModItems.itemMaterial, 1, 1);
 
-        Block copperOre = OreRegister.getBlock(OreRegistry.getByName("Copper"));
-        Block cupriteOre = OreRegister.getBlock(OreRegistry.getByName("Cuprite"));
-        Block borniteOre = OreRegister.getBlock(OreRegistry.getByName("Bornite"));
-        Block malachiteOre = OreRegister.getBlock(OreRegistry.getByName("Malachite"));
-        Block chalcopyriteOre = OreRegister.getBlock(OreRegistry.getByName("Chalcopyrite"));
-        Block tetrahedriteOre = OreRegister.getBlock(OreRegistry.getByName("Tetrahedrite"));
+        Block copperOre = OreRegister.getBlock(OreRegistry.get("Copper"));
+        Block cupriteOre = OreRegister.getBlock(OreRegistry.get("Cuprite"));
+        Block borniteOre = OreRegister.getBlock(OreRegistry.get("Bornite"));
+        Block malachiteOre = OreRegister.getBlock(OreRegistry.get("Malachite"));
+        Block chalcopyriteOre = OreRegister.getBlock(OreRegistry.get("Chalcopyrite"));
+        Block tetrahedriteOre = OreRegister.getBlock(OreRegistry.get("Tetrahedrite"));
 
         ItemStack washedCopper = new ItemStack(ModItems.itemOre, 1, LibResources.META1 + 7);
         ItemStack washedCuprite = new ItemStack(ModItems.itemOre, 1, LibResources.META1 + 6);

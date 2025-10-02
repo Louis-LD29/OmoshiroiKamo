@@ -49,7 +49,7 @@ public class TileSolarPanel extends AbstractPoweredTE {
     private static final int CHECK_INTERVAL = 100;
 
     public TileSolarPanel() {
-        super(new SlotDefinition(0, 1, -1, -1, -1, -1), MaterialRegistry.getByName("Iron"));
+        super(new SlotDefinition(0, 1, -1, -1, -1, -1), MaterialRegistry.get("Iron"));
         energyStorage.setCapacity(10000);
         energyStorage.setMaxExtract(200);
         energyStorage.setMaxReceive(200);
@@ -114,7 +114,9 @@ public class TileSolarPanel extends AbstractPoweredTE {
         transmitEnergy();
 
         if (worldObj.getTotalWorldTime() % 24000 == 0) {
-            if (dustLevel < 50) dustLevel++;
+            if (dustLevel < 50) {
+                dustLevel++;
+            }
         }
 
         if (worldObj.getTotalWorldTime() % 100 == 0) {
@@ -122,7 +124,9 @@ public class TileSolarPanel extends AbstractPoweredTE {
         }
 
         if (worldObj.isRaining()) {
-            if (dustLevel > 0) dustLevel = 0;
+            if (dustLevel > 0) {
+                dustLevel = 0;
+            }
         }
 
     }

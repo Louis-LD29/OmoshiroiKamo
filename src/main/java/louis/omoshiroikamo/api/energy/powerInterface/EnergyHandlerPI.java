@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.api.energy;
+package louis.omoshiroikamo.api.energy.powerInterface;
 
 import cofh.api.energy.IEnergyHandler;
 

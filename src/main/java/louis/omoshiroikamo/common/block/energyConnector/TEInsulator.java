@@ -7,9 +7,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import louis.omoshiroikamo.api.energy.IWireConnectable;
-import louis.omoshiroikamo.api.energy.WireNetHandler;
-import louis.omoshiroikamo.api.energy.WireType;
+import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireType;
 import louis.omoshiroikamo.config.GeneralConfig;
 
 public class TEInsulator extends TEConnectable {

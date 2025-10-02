@@ -4,8 +4,8 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import louis.omoshiroikamo.api.TargetingInfo;
-import louis.omoshiroikamo.api.energy.WireNetHandler;
-import louis.omoshiroikamo.api.energy.WireType;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireType;
 
 public class TEConnectorHV extends TEConnectorMV {
 

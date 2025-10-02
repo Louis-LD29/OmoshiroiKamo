@@ -3,7 +3,7 @@ package louis.omoshiroikamo.common.block.energyConnector;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import louis.omoshiroikamo.api.energy.WireNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
 
 public class TEConnectorMV extends TEConnectorLV {
 

@@ -41,7 +41,7 @@ import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandlerAdv, IWailaInfoProvider {
 
     public TEElectrolyzer() {
-        super(new SlotDefinition(0, 2, 3, 5, 0, 2, 3, 5, -1, -1), MaterialRegistry.getByName("Iron"));
+        super(new SlotDefinition(0, 2, 3, 5, 0, 2, 3, 5, -1, -1), MaterialRegistry.get("Iron"));
     }
 
     @Override

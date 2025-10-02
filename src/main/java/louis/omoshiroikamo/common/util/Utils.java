@@ -21,7 +21,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.BlockFluidBase;
 
 import louis.omoshiroikamo.api.DirectionalChunkCoords;
-import louis.omoshiroikamo.api.energy.IWireConnectable;
+import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -35,27 +35,36 @@ import louis.omoshiroikamo.api.energy.IWireConnectable;
 public class Utils {
 
     public static ChunkCoordinates toCC(Object object) {
-        if (object instanceof ChunkCoordinates) return (ChunkCoordinates) object;
-        if (object instanceof TileEntity) return new ChunkCoordinates(
-            ((TileEntity) object).xCoord,
-            ((TileEntity) object).yCoord,
-            ((TileEntity) object).zCoord);
+        if (object instanceof ChunkCoordinates) {
+            return (ChunkCoordinates) object;
+        }
+        if (object instanceof TileEntity) {
+            return new ChunkCoordinates(
+                ((TileEntity) object).xCoord,
+                ((TileEntity) object).yCoord,
+                ((TileEntity) object).zCoord);
+        }
         return null;
     }
 
     public static DirectionalChunkCoords toDirCC(Object object, ForgeDirection direction) {
-        if (object instanceof ChunkCoordinates) return new DirectionalChunkCoords((ChunkCoordinates) object, direction);
-        if (object instanceof TileEntity) return new DirectionalChunkCoords(
-            ((TileEntity) object).xCoord,
-            ((TileEntity) object).yCoord,
-            ((TileEntity) object).zCoord,
-            direction);
+        if (object instanceof ChunkCoordinates) {
+            return new DirectionalChunkCoords((ChunkCoordinates) object, direction);
+        }
+        if (object instanceof TileEntity) {
+            return new DirectionalChunkCoords(
+                ((TileEntity) object).xCoord,
+                ((TileEntity) object).yCoord,
+                ((TileEntity) object).zCoord,
+                direction);
+        }
         return null;
     }
 
     public static IWireConnectable toIIC(Object object, World world) {
-        if (object instanceof IWireConnectable) return (IWireConnectable) object;
-        else if (object instanceof ChunkCoordinates && world != null
+        if (object instanceof IWireConnectable) {
+            return (IWireConnectable) object;
+        } else if (object instanceof ChunkCoordinates && world != null
             && world.blockExists(
                 ((ChunkCoordinates) object).posX,
                 ((ChunkCoordinates) object).posY,
@@ -64,7 +73,9 @@ public class Utils {
                         ((ChunkCoordinates) object).posX,
                         ((ChunkCoordinates) object).posY,
                         ((ChunkCoordinates) object).posZ);
-                    if (te instanceof IWireConnectable) return (IWireConnectable) te;
+                    if (te instanceof IWireConnectable) {
+                        return (IWireConnectable) te;
+                    }
                 }
         return null;
     }
@@ -94,8 +105,9 @@ public class Utils {
         float f7 = f4 * f5;
         float f8 = f3 * f5;
         double d3 = 5.0D;
-        if (living instanceof EntityPlayerMP)
+        if (living instanceof EntityPlayerMP) {
             d3 = ((EntityPlayerMP) living).theItemInWorldManager.getBlockReachDistance();
+        }
 
         Vec3 vec31 = vec3.addVector((double) f7 * d3, (double) f6 * d3, (double) f8 * d3);
         return world.func_147447_a(vec3, vec31, bool, !bool, false);
@@ -107,15 +119,19 @@ public class Utils {
         Iterator<ChunkCoordinates> it = inter.iterator();
         while (it.hasNext()) {
             ChunkCoordinates cc = it.next();
-            if (!cc.equals(cc0) && !cc.equals(cc1)) return false;
+            if (!cc.equals(cc0) && !cc.equals(cc1)) {
+                return false;
+            }
         }
         return true;
     }
 
     public static Vec3 getFlowVector(World world, int x, int y, int z) {
-        if (world.getBlock(x, y, z) instanceof BlockFluidBase)
+        if (world.getBlock(x, y, z) instanceof BlockFluidBase) {
             return ((BlockFluidBase) world.getBlock(x, y, z)).getFlowVector(world, x, y, z);
-        else if (!(world.getBlock(x, y, z) instanceof BlockLiquid)) return Vec3.createVectorHelper(0, 0, 0);
+        } else if (!(world.getBlock(x, y, z) instanceof BlockLiquid)) {
+            return Vec3.createVectorHelper(0, 0, 0);
+        }
 
         BlockLiquid block = (BlockLiquid) world.getBlock(x, y, z);
         Vec3 vec3 = Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
@@ -126,10 +142,18 @@ public class Utils {
             int j1 = x;
             int k1 = z;
 
-            if (i1 == 0) j1 = x - 1;
-            if (i1 == 1) k1 = z - 1;
-            if (i1 == 2) ++j1;
-            if (i1 == 3) ++k1;
+            if (i1 == 0) {
+                j1 = x - 1;
+            }
+            if (i1 == 1) {
+                k1 = z - 1;
+            }
+            if (i1 == 2) {
+                ++j1;
+            }
+            if (i1 == 3) {
+                ++k1;
+            }
             int l1 = getEffectiveFlowDecay(world, j1, y, k1, mat);
             int i2;
 
@@ -154,16 +178,34 @@ public class Utils {
         if (world.getBlockMetadata(x, y, z) >= 8) {
             boolean flag = false;
 
-            if (flag || block.isBlockSolid(world, x, y, z - 1, 2)) flag = true;
-            if (flag || block.isBlockSolid(world, x, y, z + 1, 3)) flag = true;
-            if (flag || block.isBlockSolid(world, x - 1, y, z, 4)) flag = true;
-            if (flag || block.isBlockSolid(world, x + 1, y, z, 5)) flag = true;
-            if (flag || block.isBlockSolid(world, x, y + 1, z - 1, 2)) flag = true;
-            if (flag || block.isBlockSolid(world, x, y + 1, z + 1, 3)) flag = true;
-            if (flag || block.isBlockSolid(world, x - 1, y + 1, z, 4)) flag = true;
-            if (flag || block.isBlockSolid(world, x + 1, y + 1, z, 5)) flag = true;
-            if (flag) vec3 = vec3.normalize()
-                .addVector(0.0D, -6.0D, 0.0D);
+            if (flag || block.isBlockSolid(world, x, y, z - 1, 2)) {
+                flag = true;
+            }
+            if (flag || block.isBlockSolid(world, x, y, z + 1, 3)) {
+                flag = true;
+            }
+            if (flag || block.isBlockSolid(world, x - 1, y, z, 4)) {
+                flag = true;
+            }
+            if (flag || block.isBlockSolid(world, x + 1, y, z, 5)) {
+                flag = true;
+            }
+            if (flag || block.isBlockSolid(world, x, y + 1, z - 1, 2)) {
+                flag = true;
+            }
+            if (flag || block.isBlockSolid(world, x, y + 1, z + 1, 3)) {
+                flag = true;
+            }
+            if (flag || block.isBlockSolid(world, x - 1, y + 1, z, 4)) {
+                flag = true;
+            }
+            if (flag || block.isBlockSolid(world, x + 1, y + 1, z, 5)) {
+                flag = true;
+            }
+            if (flag) {
+                vec3 = vec3.normalize()
+                    .addVector(0.0D, -6.0D, 0.0D);
+            }
         }
         vec3 = vec3.normalize();
         return vec3;
@@ -171,9 +213,13 @@ public class Utils {
 
     static int getEffectiveFlowDecay(IBlockAccess world, int x, int y, int z, Material mat) {
         if (world.getBlock(x, y, z)
-            .getMaterial() != mat) return -1;
+            .getMaterial() != mat) {
+            return -1;
+        }
         int l = world.getBlockMetadata(x, y, z);
-        if (l >= 8) l = 0;
+        if (l >= 8) {
+            l = 0;
+        }
         return l;
     }
 
@@ -183,18 +229,28 @@ public class Utils {
 
     public static Vec3 rotateVector(Vec3 vec0, double angleX, double angleY, double angleZ) {
         Vec3 vec1 = Vec3.createVectorHelper(vec0.xCoord, vec0.yCoord, vec0.zCoord);
-        if (angleX != 0) vec1.rotateAroundX((float) angleX);
-        if (angleY != 0) vec1.rotateAroundY((float) angleY);
-        if (angleZ != 0) vec1.rotateAroundZ((float) angleZ);
+        if (angleX != 0) {
+            vec1.rotateAroundX((float) angleX);
+        }
+        if (angleY != 0) {
+            vec1.rotateAroundY((float) angleY);
+        }
+        if (angleZ != 0) {
+            vec1.rotateAroundZ((float) angleZ);
+        }
         return vec1;
     }
 
     public static boolean isVecInEntityHead(EntityLivingBase entity, Vec3 vec) {
         if (entity.height / entity.width < 2)// Crude check to see if the entity is bipedal or at least upright (this
-            // should work for blazes)
+        // should work for blazes)
+        {
             return false;
+        }
         double d = vec.yCoord - (entity.posY + entity.getEyeHeight());
-        if (Math.abs(d) < .25) return true;
+        if (Math.abs(d) < .25) {
+            return true;
+        }
         return false;
     }
 
@@ -270,8 +326,12 @@ public class Utils {
                 b = world.getBlock(cc.posX, cc.posY, cc.posZ);
                 meta = world.getBlockMetadata(cc.posX, cc.posY, cc.posZ);
                 if (b.canCollideCheck(meta, false)
-                    && b.collisionRayTrace(world, cc.posX, cc.posY, cc.posZ, pos, posNext) != null) ret.add(cc);
-                if (place) world.setBlock(cc.posX, cc.posY, cc.posZ, tmp);
+                    && b.collisionRayTrace(world, cc.posX, cc.posY, cc.posZ, pos, posNext) != null) {
+                    ret.add(cc);
+                }
+                if (place) {
+                    world.setBlock(cc.posX, cc.posY, cc.posZ, tmp);
+                }
                 checked.add(cc);
             }
             cc = new ChunkCoordinates(
@@ -282,8 +342,12 @@ public class Utils {
                 b = world.getBlock(cc.posX, cc.posY, cc.posZ);
                 meta = world.getBlockMetadata(cc.posX, cc.posY, cc.posZ);
                 if (b.canCollideCheck(meta, false)
-                    && b.collisionRayTrace(world, cc.posX, cc.posY, cc.posZ, posVeryPrev, posPrev) != null) ret.add(cc);
-                if (place) world.setBlock(cc.posX, cc.posY, cc.posZ, tmp);
+                    && b.collisionRayTrace(world, cc.posX, cc.posY, cc.posZ, posVeryPrev, posPrev) != null) {
+                    ret.add(cc);
+                }
+                if (place) {
+                    world.setBlock(cc.posX, cc.posY, cc.posZ, tmp);
+                }
                 checked.add(cc);
             }
         }
@@ -296,9 +360,15 @@ public class Utils {
     public static ChunkCoordinates rayTraceForFirst(Vec3 start, Vec3 end, World w, HashSet<ChunkCoordinates> ignore) {
         HashSet<ChunkCoordinates> trace = rayTrace(start, end, w);
         for (ChunkCoordinates cc : ignore) trace.remove(cc);
-        if (start.xCoord != end.xCoord) trace = findMinOrMax(trace, start.xCoord > end.xCoord, 0);
-        if (start.yCoord != end.yCoord) trace = findMinOrMax(trace, start.yCoord > end.yCoord, 0);
-        if (start.zCoord != end.zCoord) trace = findMinOrMax(trace, start.zCoord > end.zCoord, 0);
+        if (start.xCoord != end.xCoord) {
+            trace = findMinOrMax(trace, start.xCoord > end.xCoord, 0);
+        }
+        if (start.yCoord != end.yCoord) {
+            trace = findMinOrMax(trace, start.yCoord > end.yCoord, 0);
+        }
+        if (start.zCoord != end.zCoord) {
+            trace = findMinOrMax(trace, start.zCoord > end.zCoord, 0);
+        }
         if (trace.size() > 0) {
             ChunkCoordinates ret = trace.iterator()
                 .next();
@@ -313,12 +383,16 @@ public class Utils {
         // find minimum
         for (ChunkCoordinates cc : in) {
             int curr = (coord == 0 ? cc.posX : (coord == 1 ? cc.posY : cc.posZ));
-            if (max ^ (curr < currMinMax)) currMinMax = curr;
+            if (max ^ (curr < currMinMax)) {
+                currMinMax = curr;
+            }
         }
         // fill ret set
         for (ChunkCoordinates cc : in) {
             int curr = (coord == 0 ? cc.posX : (coord == 1 ? cc.posY : cc.posZ));
-            if (curr == currMinMax) ret.add(cc);
+            if (curr == currMinMax) {
+                ret.add(cc);
+            }
         }
         return ret;
     }

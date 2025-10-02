@@ -17,11 +17,11 @@ import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import louis.omoshiroikamo.api.ApiUtils;
 import louis.omoshiroikamo.api.DimensionBlockPos;
 import louis.omoshiroikamo.api.TargetingInfo;
-import louis.omoshiroikamo.api.energy.IWCProxy;
-import louis.omoshiroikamo.api.energy.IWireConnectable;
-import louis.omoshiroikamo.api.energy.MaterialWireType;
-import louis.omoshiroikamo.api.energy.WireNetHandler;
-import louis.omoshiroikamo.api.energy.WireType;
+import louis.omoshiroikamo.api.energy.wire.IWCProxy;
+import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
+import louis.omoshiroikamo.api.energy.wire.MaterialWireType;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireType;
 import louis.omoshiroikamo.api.enums.VoltageTier;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.util.Utils;
@@ -75,8 +75,9 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
     public void invalidate() {
         super.invalidate();
         if (worldObj != null && (!worldObj.isRemote || !Minecraft.getMinecraft()
-            .isSingleplayer()))
+            .isSingleplayer())) {
             WireNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(this), worldObj, !worldObj.isRemote);
+        }
     }
 
     @Override
@@ -107,18 +108,40 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
         if (cableType instanceof MaterialWireType) {
             VoltageTier tier = ((MaterialWireType) cableType).getMaterial()
                 .getVoltageTier();
-            if (tier == VoltageTier.ULV && !canTakeULV()) return false;
-            if (tier == VoltageTier.LV && !canTakeLV()) return false;
-            if (tier == VoltageTier.MV && !canTakeMV()) return false;
-            if (tier == VoltageTier.HV && !canTakeHV()) return false;
-            if (tier == VoltageTier.EV && !canTakeEV()) return false;
-            if (tier == VoltageTier.IV && !canTakeIV()) return false;
+            if (tier == VoltageTier.ULV && !canTakeULV()) {
+                return false;
+            }
+            if (tier == VoltageTier.LV && !canTakeLV()) {
+                return false;
+            }
+            if (tier == VoltageTier.MV && !canTakeMV()) {
+                return false;
+            }
+            if (tier == VoltageTier.HV && !canTakeHV()) {
+                return false;
+            }
+            if (tier == VoltageTier.EV && !canTakeEV()) {
+                return false;
+            }
+            if (tier == VoltageTier.IV && !canTakeIV()) {
+                return false;
+            }
         }
-        if (cableType == WireType.STEEL && !canTakeHV()) return false;
-        if (cableType == WireType.ELECTRUM && !canTakeMV()) return false;
-        if (cableType == WireType.COPPER && !canTakeLV()) return false;
-        if (cableType == WireType.STRUCTURE_ROPE) return false;
-        if (cableType == WireType.STRUCTURE_STEEL) return false;
+        if (cableType == WireType.STEEL && !canTakeHV()) {
+            return false;
+        }
+        if (cableType == WireType.ELECTRUM && !canTakeMV()) {
+            return false;
+        }
+        if (cableType == WireType.COPPER && !canTakeLV()) {
+            return false;
+        }
+        if (cableType == WireType.STRUCTURE_ROPE) {
+            return false;
+        }
+        if (cableType == WireType.STRUCTURE_STEEL) {
+            return false;
+        }
         return limitType == null || limitType == cableType;
     }
 
@@ -137,7 +160,9 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
         WireType type = connection != null ? connection.cableType : null;
         Set<WireNetHandler.Connection> outputs = WireNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
         if (outputs == null || outputs.size() == 0) {
-            if (type == limitType || type == null) this.limitType = null;
+            if (type == limitType || type == null) {
+                this.limitType = null;
+            }
         }
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
@@ -170,7 +195,9 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
         if (worldObj != null && !worldObj.isRemote) {
             NBTTagList connectionList = new NBTTagList();
             Set<WireNetHandler.Connection> conL = WireNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
-            if (conL != null) for (WireNetHandler.Connection con : conL) connectionList.appendTag(con.writeToNBT());
+            if (conL != null) {
+                for (WireNetHandler.Connection con : conL) connectionList.appendTag(con.writeToNBT());
+            }
             nbttagcompound.setTag("connectionList", connectionList);
         }
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, nbttagcompound);
@@ -191,7 +218,9 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
                 WireNetHandler.Connection con = WireNetHandler.Connection.readFromNBT(conTag);
                 if (con != null) {
                     WireNetHandler.INSTANCE.addConnection(worldObj, Utils.toCC(this), con);
-                } else Logger.error("CLIENT read connection as null");
+                } else {
+                    Logger.error("CLIENT read connection as null");
+                }
             }
         }
     }
@@ -211,7 +240,9 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
             needsVisualUpdate = root.getBoolean("needsVisualUpdate");
         }
         try {
-            if (root.hasKey("limitType")) limitType = ApiUtils.getWireTypeFromNBT(root, "limitType");
+            if (root.hasKey("limitType")) {
+                limitType = ApiUtils.getWireTypeFromNBT(root, "limitType");
+            }
         } catch (Exception e) {
             Logger.error("MTEConnector encountered MASSIVE error reading NBT. You shoudl probably report this.");
         }
@@ -221,7 +252,9 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
     public void writeCommon(NBTTagCompound root) {
         root.setBoolean("needsVisualUpdate", needsVisualUpdate);
         try {
-            if (limitType != null) root.setString("limitType", limitType.getUniqueName());
+            if (limitType != null) {
+                root.setString("limitType", limitType.getUniqueName());
+            }
 
             if (this.worldObj != null) {
                 root.setIntArray("prevPos", new int[] { this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord });

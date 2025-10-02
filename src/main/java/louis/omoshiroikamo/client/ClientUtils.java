@@ -50,9 +50,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import codechicken.lib.gui.GuiDraw;
-import louis.omoshiroikamo.api.energy.IWireConnectable;
-import louis.omoshiroikamo.api.energy.WireNetHandler;
-import louis.omoshiroikamo.api.energy.WireNetHandler.Connection;
+import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
 import louis.omoshiroikamo.client.render.AbstractMTESR;
 import louis.omoshiroikamo.common.util.Utils;
 import louis.omoshiroikamo.plugin.chickenbones.Matrix4;

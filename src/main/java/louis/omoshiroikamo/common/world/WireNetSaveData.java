@@ -11,9 +11,9 @@ import net.minecraft.world.WorldSavedData;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.api.DimensionBlockPos;
-import louis.omoshiroikamo.api.energy.IWCProxy;
-import louis.omoshiroikamo.api.energy.WireNetHandler;
-import louis.omoshiroikamo.api.energy.WireNetHandler.Connection;
+import louis.omoshiroikamo.api.energy.wire.IWCProxy;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
 import louis.omoshiroikamo.common.util.handlers.EventHandler;
 
 /*
@@ -87,12 +87,16 @@ public class WireNetSaveData extends WorldSavedData {
 
     public static void setDirty(int dimension) {
         if (FMLCommonHandler.instance()
-            .getEffectiveSide() == Side.SERVER && INSTANCE != null) INSTANCE.markDirty();
+            .getEffectiveSide() == Side.SERVER && INSTANCE != null) {
+            INSTANCE.markDirty();
+        }
     }
 
     public static void setInstance(int dimension, WireNetSaveData in) {
         if (FMLCommonHandler.instance()
-            .getEffectiveSide() == Side.SERVER) INSTANCE = in;
+            .getEffectiveSide() == Side.SERVER) {
+            INSTANCE = in;
+        }
     }
 
 }

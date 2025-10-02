@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.api.energy;
+package louis.omoshiroikamo.api.energy.wire;
 
 import static java.util.Collections.newSetFromMap;
 import static louis.omoshiroikamo.api.ApiUtils.*;
@@ -51,68 +51,93 @@ public class WireNetHandler {
     }
 
     public Map<Connection, Integer> getTransferedRates(int dimension) {
-        if (!transferPerTick.containsKey(dimension))
+        if (!transferPerTick.containsKey(dimension)) {
             transferPerTick.put(dimension, new ConcurrentHashMap<Connection, Integer>());
+        }
         return transferPerTick.get(dimension);
     }
 
     public void addConnection(World world, ChunkCoordinates node, ChunkCoordinates connection, int distance,
         WireType cableType) {
-        if (!getMultimap(world.provider.dimensionId).containsKey(node)) getMultimap(world.provider.dimensionId)
-            .put(node, newSetFromMap(new ConcurrentHashMap<Connection, Boolean>()));
+        if (!getMultimap(world.provider.dimensionId).containsKey(node)) {
+            getMultimap(world.provider.dimensionId)
+                .put(node, newSetFromMap(new ConcurrentHashMap<Connection, Boolean>()));
+        }
         getMultimap(world.provider.dimensionId).get(node)
             .add(new Connection(node, connection, cableType, distance));
-        if (!getMultimap(world.provider.dimensionId).containsKey(connection)) getMultimap(world.provider.dimensionId)
-            .put(connection, newSetFromMap(new ConcurrentHashMap<Connection, Boolean>()));
+        if (!getMultimap(world.provider.dimensionId).containsKey(connection)) {
+            getMultimap(world.provider.dimensionId)
+                .put(connection, newSetFromMap(new ConcurrentHashMap<Connection, Boolean>()));
+        }
         getMultimap(world.provider.dimensionId).get(connection)
             .add(new Connection(connection, node, cableType, distance));
         if (FMLCommonHandler.instance()
-            .getEffectiveSide() == Side.SERVER) indirectConnections.clear();
-        if (world.blockExists(node.posX, node.posY, node.posZ)) world
-            .addBlockEvent(node.posX, node.posY, node.posZ, world.getBlock(node.posX, node.posY, node.posZ), -1, 0);
-        if (world.blockExists(connection.posX, connection.posY, connection.posZ)) world.addBlockEvent(
-            connection.posX,
-            connection.posY,
-            connection.posZ,
-            world.getBlock(connection.posX, connection.posY, connection.posZ),
-            -1,
-            0);
+            .getEffectiveSide() == Side.SERVER) {
+            indirectConnections.clear();
+        }
+        if (world.blockExists(node.posX, node.posY, node.posZ)) {
+            world
+                .addBlockEvent(node.posX, node.posY, node.posZ, world.getBlock(node.posX, node.posY, node.posZ), -1, 0);
+        }
+        if (world.blockExists(connection.posX, connection.posY, connection.posZ)) {
+            world.addBlockEvent(
+                connection.posX,
+                connection.posY,
+                connection.posZ,
+                world.getBlock(connection.posX, connection.posY, connection.posZ),
+                -1,
+                0);
+        }
         WireNetSaveData.setDirty(world.provider.dimensionId);
     }
 
     public void addConnection(World world, ChunkCoordinates node, Connection con) {
-        if (!getMultimap(world.provider.dimensionId).containsKey(node)) getMultimap(world.provider.dimensionId)
-            .put(node, newSetFromMap(new ConcurrentHashMap<Connection, Boolean>()));
+        if (!getMultimap(world.provider.dimensionId).containsKey(node)) {
+            getMultimap(world.provider.dimensionId)
+                .put(node, newSetFromMap(new ConcurrentHashMap<Connection, Boolean>()));
+        }
         getMultimap(world.provider.dimensionId).get(node)
             .add(con);
         if (FMLCommonHandler.instance()
-            .getEffectiveSide() == Side.SERVER) indirectConnections.clear();
+            .getEffectiveSide() == Side.SERVER) {
+            indirectConnections.clear();
+        }
         WireNetSaveData.setDirty(world.provider.dimensionId);
     }
 
     public void addConnection(int world, ChunkCoordinates node, Connection con) {
-        if (!getMultimap(world).containsKey(node))
+        if (!getMultimap(world).containsKey(node)) {
             getMultimap(world).put(node, newSetFromMap(new ConcurrentHashMap<Connection, Boolean>()));
+        }
         getMultimap(world).get(node)
             .add(con);
         if (FMLCommonHandler.instance()
-            .getEffectiveSide() == Side.SERVER) indirectConnections.clear();
+            .getEffectiveSide() == Side.SERVER) {
+            indirectConnections.clear();
+        }
         WireNetSaveData.setDirty(world);
     }
 
     public void setProxy(DimensionBlockPos position, IWCProxy proxy) {
-        if (proxy != null) proxies.put(position, proxy);
-        else if (proxies.containsKey(position)) proxies.remove(position);
+        if (proxy != null) {
+            proxies.put(position, proxy);
+        } else if (proxies.containsKey(position)) {
+            proxies.remove(position);
+        }
     }
 
     public void addProxy(IWCProxy p) {
-        if (p == null) return;
+        if (p == null) {
+            return;
+        }
         ChunkCoordinates pos = p.getPos();
         setProxy(new DimensionBlockPos(p.getDimension(), pos.posX, pos.posY, pos.posZ), p);
     }
 
     public void removeConnection(World world, Connection con) {
-        if (con == null || world == null) return;
+        if (con == null || world == null) {
+            return;
+        }
         for (Set<Connection> conl : getMultimap(world.provider.dimensionId).values()) {
             Iterator<Connection> it = conl.iterator();
             while (it.hasNext()) {
@@ -123,35 +148,44 @@ public class WireNetHandler {
                     remove(itCon.end, world, itCon);
                     remove(itCon.start, world, itCon);
 
-                    if (world.blockExists(itCon.start.posX, itCon.start.posY, itCon.start.posZ)) world.addBlockEvent(
-                        itCon.start.posX,
-                        itCon.start.posY,
-                        itCon.start.posZ,
-                        world.getBlock(itCon.start.posX, itCon.start.posY, itCon.start.posZ),
-                        -1,
-                        0);
-                    if (world.blockExists(itCon.end.posX, itCon.end.posY, itCon.end.posZ)) world.addBlockEvent(
-                        itCon.end.posX,
-                        itCon.end.posY,
-                        itCon.end.posZ,
-                        world.getBlock(itCon.end.posX, itCon.end.posY, itCon.end.posZ),
-                        -1,
-                        0);
+                    if (world.blockExists(itCon.start.posX, itCon.start.posY, itCon.start.posZ)) {
+                        world.addBlockEvent(
+                            itCon.start.posX,
+                            itCon.start.posY,
+                            itCon.start.posZ,
+                            world.getBlock(itCon.start.posX, itCon.start.posY, itCon.start.posZ),
+                            -1,
+                            0);
+                    }
+                    if (world.blockExists(itCon.end.posX, itCon.end.posY, itCon.end.posZ)) {
+                        world.addBlockEvent(
+                            itCon.end.posX,
+                            itCon.end.posY,
+                            itCon.end.posZ,
+                            world.getBlock(itCon.end.posX, itCon.end.posY, itCon.end.posZ),
+                            -1,
+                            0);
+                    }
                 }
             }
         }
         if (FMLCommonHandler.instance()
-            .getEffectiveSide() == Side.SERVER) indirectConnections.clear();
+            .getEffectiveSide() == Side.SERVER) {
+            indirectConnections.clear();
+        }
         WireNetSaveData.setDirty(world.provider.dimensionId);
     }
 
     private void remove(ChunkCoordinates cc, World w, Connection c) {
         IWireConnectable iic = toIWC(cc, w);
-        if (iic != null) iic.removeCable(c);
-        else {
+        if (iic != null) {
+            iic.removeCable(c);
+        } else {
             DimensionBlockPos pos = new DimensionBlockPos(w.provider.dimensionId, cc.posX, cc.posY, cc.posZ);
-            if (proxies.containsKey(pos)) proxies.get(pos)
-                .removeCable(c);
+            if (proxies.containsKey(pos)) {
+                proxies.get(pos)
+                    .removeCable(c);
+            }
         }
     }
 
@@ -167,7 +201,9 @@ public class WireNetHandler {
 
     public synchronized Set<Connection> getConnections(World world, ChunkCoordinates node) {
         ConcurrentHashMap<ChunkCoordinates, Set<Connection>> map = getMultimap(world.provider.dimensionId);
-        if (map.containsKey(node)) return map.get(node);
+        if (map.containsKey(node)) {
+            return map.get(node);
+        }
         return null;
     }
 
@@ -180,23 +216,31 @@ public class WireNetHandler {
     }
 
     public void clearConnectionsOriginatingFrom(ChunkCoordinates node, World world) {
-        if (getMultimap(world.provider.dimensionId).containsKey(node)) getMultimap(world.provider.dimensionId).get(node)
-            .clear();
+        if (getMultimap(world.provider.dimensionId).containsKey(node)) {
+            getMultimap(world.provider.dimensionId).get(node)
+                .clear();
+        }
         if (FMLCommonHandler.instance()
-            .getEffectiveSide() == Side.SERVER) indirectConnections.clear();
+            .getEffectiveSide() == Side.SERVER) {
+            indirectConnections.clear();
+        }
     }
 
     public void resetCachedIndirectConnections() {
         if (FMLCommonHandler.instance()
-            .getEffectiveSide() == Side.SERVER) indirectConnections.clear();
+            .getEffectiveSide() == Side.SERVER) {
+            indirectConnections.clear();
+        }
     }
 
     /**
      * Clears all connections to and from this node.
      */
     public void clearAllConnectionsFor(ChunkCoordinates node, World world, boolean doDrops) {
-        if (getMultimap(world.provider.dimensionId).containsKey(node)) getMultimap(world.provider.dimensionId).get(node)
-            .clear();
+        if (getMultimap(world.provider.dimensionId).containsKey(node)) {
+            getMultimap(world.provider.dimensionId).get(node)
+                .clear();
+        }
         remove(node, world, null);
         // ConcurrentSkipListSet<Connection> itlist = new ConcurrentSkipListSet<Connection>();
         // for (ConcurrentSkipListSet<Connection> conl : getMultimap(world.provider.dimensionId).values())
@@ -217,30 +261,39 @@ public class WireNetHandler {
                         double dy = node.posY + .5 + Math.signum(con.start.posY - con.end.posY);
                         double dz = node.posZ + .5 + Math.signum(con.start.posZ - con.end.posZ);
                         if (doDrops && world.getGameRules()
-                            .getGameRuleBooleanValue("doTileDrops"))
+                            .getGameRuleBooleanValue("doTileDrops")) {
                             world.spawnEntityInWorld(new EntityItem(world, dx, dy, dz, con.cableType.getWireCoil()));
-                        if (world.blockExists(con.start.posX, con.start.posY, con.start.posZ)) world.addBlockEvent(
-                            con.start.posX,
-                            con.start.posY,
-                            con.start.posZ,
-                            world.getBlock(con.start.posX, con.start.posY, con.start.posZ),
+                        }
+                        if (world.blockExists(con.start.posX, con.start.posY, con.start.posZ)) {
+                            world.addBlockEvent(
+                                con.start.posX,
+                                con.start.posY,
+                                con.start.posZ,
+                                world.getBlock(con.start.posX, con.start.posY, con.start.posZ),
+                                -1,
+                                0);
+                        }
+                    } else if (world.blockExists(con.end.posX, con.end.posY, con.end.posZ)) {
+                        world.addBlockEvent(
+                            con.end.posX,
+                            con.end.posY,
+                            con.end.posZ,
+                            world.getBlock(con.end.posX, con.end.posY, con.end.posZ),
                             -1,
                             0);
-                    } else if (world.blockExists(con.end.posX, con.end.posY, con.end.posZ)) world.addBlockEvent(
-                        con.end.posX,
-                        con.end.posY,
-                        con.end.posZ,
-                        world.getBlock(con.end.posX, con.end.posY, con.end.posZ),
-                        -1,
-                        0);
+                    }
                 }
             }
         }
-        if (world.blockExists(node.posX, node.posY, node.posZ)) world
-            .addBlockEvent(node.posX, node.posY, node.posZ, world.getBlock(node.posX, node.posY, node.posZ), -1, 0);
+        if (world.blockExists(node.posX, node.posY, node.posZ)) {
+            world
+                .addBlockEvent(node.posX, node.posY, node.posZ, world.getBlock(node.posX, node.posY, node.posZ), -1, 0);
+        }
         WireNetSaveData.setDirty(world.provider.dimensionId);
         if (FMLCommonHandler.instance()
-            .getEffectiveSide() == Side.SERVER) indirectConnections.clear();
+            .getEffectiveSide() == Side.SERVER) {
+            indirectConnections.clear();
+        }
     }
 
     /**
@@ -250,49 +303,65 @@ public class WireNetHandler {
     public void clearAllConnectionsFor(ChunkCoordinates node, World world, TargetingInfo target) {
         IWireConnectable iic = toIWC(node, world);
         WireType type = target == null ? null : iic.getCableLimiter(target);
-        if (type == null) return;
+        if (type == null) {
+            return;
+        }
         for (Set<Connection> conl : getMultimap(world.provider.dimensionId).values()) {
             Iterator<Connection> it = conl.iterator();
             while (it.hasNext()) {
                 Connection con = it.next();
-                if (con.cableType == type) if (node.equals(con.start) || node.equals(con.end)) {
-                    it.remove();
-                    remove(con.end, world, con);
-                    remove(con.start, world, con);
-                    if (node.equals(con.end)) {
-                        double dx = node.posX + .5 + Math.signum(con.start.posX - con.end.posX);
-                        double dy = node.posY + .5 + Math.signum(con.start.posY - con.end.posY);
-                        double dz = node.posZ + .5 + Math.signum(con.start.posZ - con.end.posZ);
-                        if (world.getGameRules()
-                            .getGameRuleBooleanValue("doTileDrops"))
-                            world.spawnEntityInWorld(new EntityItem(world, dx, dy, dz, con.cableType.getWireCoil()));
-                        if (world.blockExists(con.start.posX, con.start.posY, con.start.posZ)) world.addBlockEvent(
-                            con.start.posX,
-                            con.start.posY,
-                            con.start.posZ,
-                            world.getBlock(con.start.posX, con.start.posY, con.start.posZ),
-                            -1,
-                            0);
-                    } else if (world.blockExists(con.end.posX, con.end.posY, con.end.posZ)) world.addBlockEvent(
-                        con.end.posX,
-                        con.end.posY,
-                        con.end.posZ,
-                        world.getBlock(con.end.posX, con.end.posY, con.end.posZ),
-                        -1,
-                        0);
+                if (con.cableType == type) {
+                    if (node.equals(con.start) || node.equals(con.end)) {
+                        it.remove();
+                        remove(con.end, world, con);
+                        remove(con.start, world, con);
+                        if (node.equals(con.end)) {
+                            double dx = node.posX + .5 + Math.signum(con.start.posX - con.end.posX);
+                            double dy = node.posY + .5 + Math.signum(con.start.posY - con.end.posY);
+                            double dz = node.posZ + .5 + Math.signum(con.start.posZ - con.end.posZ);
+                            if (world.getGameRules()
+                                .getGameRuleBooleanValue("doTileDrops")) {
+                                world
+                                    .spawnEntityInWorld(new EntityItem(world, dx, dy, dz, con.cableType.getWireCoil()));
+                            }
+                            if (world.blockExists(con.start.posX, con.start.posY, con.start.posZ)) {
+                                world.addBlockEvent(
+                                    con.start.posX,
+                                    con.start.posY,
+                                    con.start.posZ,
+                                    world.getBlock(con.start.posX, con.start.posY, con.start.posZ),
+                                    -1,
+                                    0);
+                            }
+                        } else if (world.blockExists(con.end.posX, con.end.posY, con.end.posZ)) {
+                            world.addBlockEvent(
+                                con.end.posX,
+                                con.end.posY,
+                                con.end.posZ,
+                                world.getBlock(con.end.posX, con.end.posY, con.end.posZ),
+                                -1,
+                                0);
+                        }
+                    }
                 }
             }
         }
-        if (world.blockExists(node.posX, node.posY, node.posZ)) world
-            .addBlockEvent(node.posX, node.posY, node.posZ, world.getBlock(node.posX, node.posY, node.posZ), -1, 0);
+        if (world.blockExists(node.posX, node.posY, node.posZ)) {
+            world
+                .addBlockEvent(node.posX, node.posY, node.posZ, world.getBlock(node.posX, node.posY, node.posZ), -1, 0);
+        }
 
         WireNetSaveData.setDirty(world.provider.dimensionId);
         if (FMLCommonHandler.instance()
-            .getEffectiveSide() == Side.SERVER) indirectConnections.clear();
+            .getEffectiveSide() == Side.SERVER) {
+            indirectConnections.clear();
+        }
     }
 
     public Set<AbstractConnection> getIndirectEnergyConnections(ChunkCoordinates node, World world) {
-        if (indirectConnections.containsKey(node)) return indirectConnections.get(node);
+        if (indirectConnections.containsKey(node)) {
+            return indirectConnections.get(node);
+        }
 
         List<IWireConnectable> openList = new ArrayList<IWireConnectable>();
         Set<AbstractConnection> closedList = newSetFromMap(new ConcurrentHashMap<AbstractConnection, Boolean>());
@@ -301,19 +370,23 @@ public class WireNetHandler {
 
         checked.add(node);
         Set<Connection> conL = getConnections(world, node);
-        if (conL != null) for (Connection con : conL) {
-            IWireConnectable end = toIWC(con.end, world);
-            if (end == null) {
-                DimensionBlockPos p = new DimensionBlockPos(
-                    world.provider.dimensionId,
-                    con.end.posX,
-                    con.end.posY,
-                    con.end.posZ);
-                if (proxies.containsKey(p)) end = proxies.get(p);
-            }
-            if (end != null) {
-                openList.add(end);
-                backtracker.put(con.end, node);
+        if (conL != null) {
+            for (Connection con : conL) {
+                IWireConnectable end = toIWC(con.end, world);
+                if (end == null) {
+                    DimensionBlockPos p = new DimensionBlockPos(
+                        world.provider.dimensionId,
+                        con.end.posX,
+                        con.end.posY,
+                        con.end.posZ);
+                    if (proxies.containsKey(p)) {
+                        end = proxies.get(p);
+                    }
+                }
+                if (end != null) {
+                    openList.add(end);
+                    backtracker.put(con.end, node);
+                }
             }
         }
 
@@ -334,13 +407,16 @@ public class WireNetHandler {
                         if (last != null) {
 
                             Set<Connection> conLB = getConnections(world, prev);
-                            if (conLB != null) for (Connection conB : conLB) if (conB.end.equals(last)) {
-                                connectionParts.add(conB);
-                                distance += conB.length;
-                                if (averageType == null
-                                    || conB.cableType.getTransferRate() < averageType.getTransferRate())
-                                    averageType = conB.cableType;
-                                break;
+                            if (conLB != null) {
+                                for (Connection conB : conLB) if (conB.end.equals(last)) {
+                                    connectionParts.add(conB);
+                                    distance += conB.length;
+                                    if (averageType == null
+                                        || conB.cableType.getTransferRate() < averageType.getTransferRate()) {
+                                        averageType = conB.cableType;
+                                    }
+                                    break;
+                                }
                             }
                         }
                     }
@@ -354,19 +430,23 @@ public class WireNetHandler {
                 }
 
                 Set<Connection> conLN = getConnections(world, toCC(next));
-                if (conLN != null) for (Connection con : conLN) if (next.allowEnergyToPass(con)) {
-                    IWireConnectable end = toIWC(con.end, world);
-                    if (end == null) {
-                        DimensionBlockPos p = new DimensionBlockPos(
-                            world.provider.dimensionId,
-                            con.end.posX,
-                            con.end.posY,
-                            con.end.posZ);
-                        if (proxies.containsKey(p)) end = proxies.get(p);
-                    }
-                    if (end != null && !checked.contains(con.end) && !openList.contains(end)) {
-                        openList.add(end);
-                        backtracker.put(con.end, toCC(next));
+                if (conLN != null) {
+                    for (Connection con : conLN) if (next.allowEnergyToPass(con)) {
+                        IWireConnectable end = toIWC(con.end, world);
+                        if (end == null) {
+                            DimensionBlockPos p = new DimensionBlockPos(
+                                world.provider.dimensionId,
+                                con.end.posX,
+                                con.end.posY,
+                                con.end.posZ);
+                            if (proxies.containsKey(p)) {
+                                end = proxies.get(p);
+                            }
+                        }
+                        if (end != null && !checked.contains(con.end) && !openList.contains(end)) {
+                            openList.add(end);
+                            backtracker.put(con.end, toCC(next));
+                        }
                     }
                 }
                 checked.add(toCC(next));
@@ -375,8 +455,9 @@ public class WireNetHandler {
         }
         if (FMLCommonHandler.instance()
             .getEffectiveSide() == Side.SERVER) {
-            if (!indirectConnections.containsKey(node))
+            if (!indirectConnections.containsKey(node)) {
                 indirectConnections.put(node, newSetFromMap(new ConcurrentHashMap<AbstractConnection, Boolean>()));
+            }
             indirectConnections.get(node)
                 .addAll(closedList);
         }
@@ -399,7 +480,9 @@ public class WireNetHandler {
         }
 
         public boolean hasSameConnectors(Connection o) {
-            if (!(o instanceof Connection)) return false;
+            if (!(o instanceof Connection)) {
+                return false;
+            }
             Connection con = (Connection) o;
             boolean n0 = start.equals(con.start) && end.equals(con.end);
             boolean n1 = start.equals(con.end) && end.equals(con.start);
@@ -412,8 +495,12 @@ public class WireNetHandler {
                 Vec3 vEnd = Vec3.createVectorHelper(end.posX, end.posY, end.posZ);
                 IWireConnectable iicStart = toIWC(start, world);
                 IWireConnectable iicEnd = toIWC(end, world);
-                if (iicStart != null) vStart = addVectors(vStart, iicStart.getConnectionOffset(this));
-                if (iicEnd != null) vEnd = addVectors(vEnd, iicEnd.getConnectionOffset(this));
+                if (iicStart != null) {
+                    vStart = addVectors(vStart, iicStart.getConnectionOffset(this));
+                }
+                if (iicEnd != null) {
+                    vEnd = addVectors(vEnd, iicEnd.getConnectionOffset(this));
+                }
                 catenaryVertices = getConnectionCatenary(this, vStart, vEnd);
             }
             return catenaryVertices;
@@ -421,15 +508,21 @@ public class WireNetHandler {
 
         public NBTTagCompound writeToNBT() {
             NBTTagCompound tag = new NBTTagCompound();
-            if (start != null) tag.setIntArray("start", new int[] { start.posX, start.posY, start.posZ });
-            if (end != null) tag.setIntArray("end", new int[] { end.posX, end.posY, end.posZ });
+            if (start != null) {
+                tag.setIntArray("start", new int[] { start.posX, start.posY, start.posZ });
+            }
+            if (end != null) {
+                tag.setIntArray("end", new int[] { end.posX, end.posY, end.posZ });
+            }
             tag.setString("cableType", cableType.getUniqueName());
             tag.setInteger("length", length);
             return tag;
         }
 
         public static Connection readFromNBT(NBTTagCompound tag) {
-            if (tag == null) return null;
+            if (tag == null) {
+                return null;
+            }
             int[] iStart = tag.getIntArray("start");
             ChunkCoordinates start = new ChunkCoordinates(iStart[0], iStart[1], iStart[2]);
 
@@ -438,24 +531,43 @@ public class WireNetHandler {
 
             WireType type = ApiUtils.getWireTypeFromNBT(tag, "cableType");
 
-            if (start != null && end != null && type != null)
+            if (start != null && end != null && type != null) {
                 return new Connection(start, end, type, tag.getInteger("length"));
+            }
             return null;
         }
 
         @Override
         public int compareTo(Connection o) {
-            if (equals(o)) return 0;
+            if (equals(o)) {
+                return 0;
+            }
             int distComp = Integer.compare(length, o.length);
             int cableComp = -1 * Integer.compare(cableType.getTransferRate(), o.cableType.getTransferRate());
-            if (cableComp != 0) return cableComp;
-            if (distComp != 0) return distComp;
-            if (start.posX != o.start.posX) return start.posX > o.start.posX ? 1 : -1;
-            if (start.posY != o.start.posY) return start.posY > o.start.posY ? 1 : -1;
-            if (start.posZ != o.start.posZ) return start.posZ > o.start.posZ ? 1 : -1;
-            if (end.posX != o.end.posX) return end.posX > o.end.posX ? 1 : -1;
-            if (end.posY != o.end.posY) return end.posY > o.end.posY ? 1 : -1;
-            if (end.posZ != o.end.posZ) return end.posZ > o.end.posZ ? 1 : -1;
+            if (cableComp != 0) {
+                return cableComp;
+            }
+            if (distComp != 0) {
+                return distComp;
+            }
+            if (start.posX != o.start.posX) {
+                return start.posX > o.start.posX ? 1 : -1;
+            }
+            if (start.posY != o.start.posY) {
+                return start.posY > o.start.posY ? 1 : -1;
+            }
+            if (start.posZ != o.start.posZ) {
+                return start.posZ > o.start.posZ ? 1 : -1;
+            }
+            if (end.posX != o.end.posX) {
+                return end.posX > o.end.posX ? 1 : -1;
+            }
+            if (end.posY != o.end.posY) {
+                return end.posY > o.end.posY ? 1 : -1;
+            }
+            if (end.posZ != o.end.posZ) {
+                return end.posZ > o.end.posZ ? 1 : -1;
+            }
             return 0;
         }
     }

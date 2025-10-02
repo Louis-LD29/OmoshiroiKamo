@@ -1,14 +1,14 @@
-package louis.omoshiroikamo.api.energy;
+package louis.omoshiroikamo.api.energy.powerInterface;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
-import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
 
-public class EnergyProviderPI implements IPowerInterface {
+public class EnergyReceiverPI implements IPowerInterface {
 
-    private IEnergyProvider rfPower;
+    private IEnergyReceiver rfPower;
 
-    public EnergyProviderPI(IEnergyProvider powerReceptor) {
+    public EnergyReceiverPI(IEnergyReceiver powerReceptor) {
         rfPower = powerReceptor;
     }
 
@@ -43,6 +43,16 @@ public class EnergyProviderPI implements IPowerInterface {
 
     @Override
     public int getPowerRequest(ForgeDirection dir) {
+        if (rfPower != null && dir != null && rfPower.canConnectEnergy(dir)) {
+            return rfPower.receiveEnergy(dir, 99999999, true);
+        }
+        return 0;
+    }
+
+    public static int getPowerRequest(ForgeDirection dir, IEnergyReceiver handler) {
+        if (handler != null && dir != null && handler.canConnectEnergy(dir)) {
+            return handler.receiveEnergy(dir, 99999999, true);
+        }
         return 0;
     }
 
@@ -53,16 +63,19 @@ public class EnergyProviderPI implements IPowerInterface {
 
     @Override
     public int recieveEnergy(ForgeDirection opposite, int canOffer) {
+        if (rfPower != null && opposite != null) {
+            return rfPower.receiveEnergy(opposite, canOffer, false);
+        }
         return 0;
     }
 
     @Override
     public boolean isOutputOnly() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isInputOnly() {
-        return false;
+        return true;
     }
 }

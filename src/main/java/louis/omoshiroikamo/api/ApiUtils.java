@@ -7,10 +7,10 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import louis.omoshiroikamo.api.energy.IWCProxy;
-import louis.omoshiroikamo.api.energy.IWireConnectable;
-import louis.omoshiroikamo.api.energy.WireNetHandler.Connection;
-import louis.omoshiroikamo.api.energy.WireType;
+import louis.omoshiroikamo.api.energy.wire.IWCProxy;
+import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
+import louis.omoshiroikamo.api.energy.wire.WireType;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -25,18 +25,25 @@ import louis.omoshiroikamo.api.energy.WireType;
 public class ApiUtils {
 
     public static ChunkCoordinates toCC(Object object) {
-        if (object instanceof ChunkCoordinates) return (ChunkCoordinates) object;
-        if (object instanceof TileEntity) return new ChunkCoordinates(
-            ((TileEntity) object).xCoord,
-            ((TileEntity) object).yCoord,
-            ((TileEntity) object).zCoord);
-        if (object instanceof IWCProxy) return ((IWCProxy) object).getPos();
+        if (object instanceof ChunkCoordinates) {
+            return (ChunkCoordinates) object;
+        }
+        if (object instanceof TileEntity) {
+            return new ChunkCoordinates(
+                ((TileEntity) object).xCoord,
+                ((TileEntity) object).yCoord,
+                ((TileEntity) object).zCoord);
+        }
+        if (object instanceof IWCProxy) {
+            return ((IWCProxy) object).getPos();
+        }
         return null;
     }
 
     public static IWireConnectable toIWC(Object object, World world) {
-        if (object instanceof IWireConnectable) return (IWireConnectable) object;
-        else if (object instanceof ChunkCoordinates && world != null
+        if (object instanceof IWireConnectable) {
+            return (IWireConnectable) object;
+        } else if (object instanceof ChunkCoordinates && world != null
             && world.blockExists(
                 ((ChunkCoordinates) object).posX,
                 ((ChunkCoordinates) object).posY,
@@ -45,7 +52,9 @@ public class ApiUtils {
                         ((ChunkCoordinates) object).posX,
                         ((ChunkCoordinates) object).posY,
                         ((ChunkCoordinates) object).posZ);
-                    if (te instanceof IWireConnectable) return (IWireConnectable) te;
+                    if (te instanceof IWireConnectable) {
+                        return (IWireConnectable) te;
+                    }
                 }
         return null;
     }
@@ -57,7 +66,9 @@ public class ApiUtils {
     public static Vec3[] getConnectionCatenary(Connection connection, Vec3 start, Vec3 end) {
         boolean vertical = connection.end.posX == connection.start.posX && connection.end.posZ == connection.start.posZ;
 
-        if (vertical) return new Vec3[] { Vec3.createVectorHelper(end.xCoord, end.yCoord, end.zCoord) };
+        if (vertical) {
+            return new Vec3[] { Vec3.createVectorHelper(end.xCoord, end.yCoord, end.zCoord) };
+        }
 
         double dx = (end.xCoord) - (start.xCoord);
         double dy = (end.yCoord) - (start.yCoord);
@@ -69,7 +80,9 @@ public class ApiUtils {
         while (!vertical && limiter < 300) {
             limiter++;
             l += 0.01;
-            if (Math.sinh(l) / l >= Math.sqrt(k * k - dy * dy) / dw) break;
+            if (Math.sinh(l) / l >= Math.sqrt(k * k - dy * dy) / dw) {
+                break;
+            }
         }
         double a = dw / 2 / l;
         double p = (0 + dw - a * Math.log((k + dy) / (k - dy))) * 0.5;
@@ -97,6 +110,8 @@ public class ApiUtils {
             return i == 1 ? WireType.ELECTRUM
                 : i == 2 ? WireType.STEEL
                     : i == 3 ? WireType.STRUCTURE_ROPE : i == 4 ? WireType.STRUCTURE_STEEL : WireType.COPPER;
-        } else return WireType.getValue(tag.getString(key));
+        } else {
+            return WireType.getValue(tag.getString(key));
+        }
     }
 }

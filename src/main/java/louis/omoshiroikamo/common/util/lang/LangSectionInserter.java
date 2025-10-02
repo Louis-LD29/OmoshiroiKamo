@@ -18,7 +18,6 @@ import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.api.ore.OreEntry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
-import louis.omoshiroikamo.config.Config;
 
 public class LangSectionInserter {
 
@@ -141,37 +140,37 @@ public class LangSectionInserter {
             "# END AUTOGEN");
     }
 
-    public static void insertCustomMaterialsLang(String[] materialNames) {
-        try {
-            File file = new File(Config.configDirectory.getAbsolutePath() + "/lang", "en_US.lang");
-
-            List<MaterialEntry> materials = new ArrayList<>();
-            List<FluidEntry> fluids = new ArrayList<>();
-            List<OreEntry> ores = new ArrayList<>();
-
-            for (String name : materialNames) {
-                MaterialEntry mat = MaterialRegistry.get(name);
-                if (mat != null) {
-                    materials.add(mat);
-                }
-                FluidEntry fl = FluidRegistry.get(name);
-                if (fl != null) {
-                    fluids.add(fl);
-                }
-                OreEntry or = OreRegistry.get(name);
-                if (or != null) {
-                    ores.add(or);
-                } else {
-                    System.out.println("[WARN] Missing ore entry: " + name);
-                }
-            }
-
-            generateLang(file, materials, fluids, ores, "# BEGIN AUTOGEN", "# END AUTOGEN");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    // public static void insertCustomMaterialsLang(String[] materialNames) {
+    // try {
+    // File file = new File(Config.configDirectory.getAbsolutePath() + "/lang", "en_US.lang");
+    //
+    // List<MaterialEntry> materials = new ArrayList<>();
+    // List<FluidEntry> fluids = new ArrayList<>();
+    // List<OreEntry> ores = new ArrayList<>();
+    //
+    // for (String name : materialNames) {
+    // MaterialEntry mat = MaterialRegistry.get(name);
+    // if (mat != null) {
+    // materials.add(mat);
+    // }
+    // FluidEntry fl = FluidRegistry.get(name);
+    // if (fl != null) {
+    // fluids.add(fl);
+    // }
+    // OreEntry or = OreRegistry.get(name);
+    // if (or != null) {
+    // ores.add(or);
+    // } else {
+    // System.out.println("[WARN] Missing ore entry: " + name);
+    // }
+    // }
+    //
+    // generateLang(file, materials, fluids, ores, "# BEGIN AUTOGEN", "# END AUTOGEN");
+    //
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
+    // }
 
     private static void generateLang(File file, Collection<MaterialEntry> materials, Collection<FluidEntry> fluids,
         Collection<OreEntry> ores, String beginTag, String endTag) throws IOException {

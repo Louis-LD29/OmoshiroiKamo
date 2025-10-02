@@ -18,7 +18,7 @@ import org.lwjgl.opengl.GL11;
 import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import louis.omoshiroikamo.api.energy.WireType;
+import louis.omoshiroikamo.api.energy.wire.WireType;
 import louis.omoshiroikamo.client.ClientUtils;
 import louis.omoshiroikamo.client.models.ModelIEObj;
 import louis.omoshiroikamo.common.item.ModItems;
