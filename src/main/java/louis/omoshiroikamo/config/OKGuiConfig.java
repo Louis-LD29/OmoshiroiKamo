@@ -6,6 +6,8 @@ import com.gtnewhorizon.gtnhlib.config.ConfigException;
 import com.gtnewhorizon.gtnhlib.config.SimpleGuiConfig;
 
 import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.config.general.DamageIndicatorsConfig;
+import louis.omoshiroikamo.config.general.MagnetConfig;
 import louis.omoshiroikamo.config.item.ItemConfig;
 
 public class OKGuiConfig extends SimpleGuiConfig {

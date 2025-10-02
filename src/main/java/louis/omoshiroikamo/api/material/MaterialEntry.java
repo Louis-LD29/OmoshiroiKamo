@@ -4,44 +4,33 @@ import java.awt.Color;
 
 import louis.omoshiroikamo.api.enums.BlockMassType;
 import louis.omoshiroikamo.api.enums.VoltageTier;
-import louis.omoshiroikamo.config.Config;
-import louis.omoshiroikamo.config.MaterialConfig;
 
 public class MaterialEntry {
 
     public final String name;
     public final int meta;
-    public final MaterialConfig defaults;
+    public final double densityKgPerM3;
+    public final double specificHeatJPerKgK;
+    public final double thermalConductivityWPerMK;
+    public final double meltingPointK;
+    public final double maxPressureMPa;
+    public final double electricalConductivity;
+    public final int color;
+    public final int moltenColor;
 
-    public MaterialEntry(String name, int meta, double density, double specificHeat, double thermalConductivity,
-        double meltingPoint, double maxPressure, double electricalConductivity, int color, int moltenColor) {
+    public MaterialEntry(String name, int meta, double densityKgPerM3, double specificHeatJPerKgK,
+        double thermalConductivityWPerMK, double meltingPointK, double maxPressureMPa, double electricalConductivity,
+        int color, int moltenColor) {
         this.name = name;
         this.meta = meta;
-        this.defaults = new MaterialConfig(
-            name,
-            meta,
-            density,
-            specificHeat,
-            thermalConductivity,
-            meltingPoint,
-            maxPressure,
-            electricalConductivity,
-            color,
-            moltenColor);
-    }
-
-    public MaterialEntry(String name, int meta, MaterialConfig config) {
-        this.name = name;
-        this.meta = meta;
-        this.defaults = config;
-    }
-
-    public MaterialEntry(String name) {
-        this(
-            name,
-            MaterialRegistry.all()
-                .size(),
-            MaterialConfig.defaultFor(name));
+        this.densityKgPerM3 = densityKgPerM3;
+        this.specificHeatJPerKgK = specificHeatJPerKgK;
+        this.thermalConductivityWPerMK = thermalConductivityWPerMK;
+        this.meltingPointK = meltingPointK;
+        this.maxPressureMPa = maxPressureMPa;
+        this.electricalConductivity = electricalConductivity;
+        this.color = color;
+        this.moltenColor = moltenColor;
     }
 
     public int getMeta() {
@@ -56,36 +45,31 @@ public class MaterialEntry {
         return name.replace(" ", "");
     }
 
-    public MaterialConfig getConfig() {
-        return Config.materialConfigs.getOrDefault(getName(), defaults);
-    }
-
     public double getDensityKgPerM3() {
-        return getConfig().densityKgPerM3;
+        return densityKgPerM3;
     }
 
     public double getSpecificHeat() {
-        return getConfig().specificHeatJPerKgK;
+        return specificHeatJPerKgK;
     }
 
     public double getThermalConductivity() {
-        return getConfig().thermalConductivityWPerMK;
+        return thermalConductivityWPerMK;
     }
 
     public double getMeltingPointK() {
-        return getConfig().meltingPointK;
+        return meltingPointK;
     }
 
     public double getMaxPressureMPa() {
-        return getConfig().maxPressureMPa;
+        return maxPressureMPa;
     }
 
     public double getElectricalConductivity() {
-        return getConfig().electricalConductivity;
+        return electricalConductivity;
     }
 
     public int getColor() {
-        int color = getConfig().color;
         int r = (color >> 16) & 0xFF;
         int g = (color >> 8) & 0xFF;
         int b = color & 0xFF;
@@ -98,11 +82,10 @@ public class MaterialEntry {
     }
 
     public int getMoltenColor() {
-        int color = getConfig().moltenColor;
 
-        int r = (color >> 16) & 0xFF;
-        int g = (color >> 8) & 0xFF;
-        int b = color & 0xFF;
+        int r = (moltenColor >> 16) & 0xFF;
+        int g = (moltenColor >> 8) & 0xFF;
+        int b = moltenColor & 0xFF;
 
         float[] hsb = Color.RGBtoHSB(r, g, b, null);
 

@@ -20,16 +20,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.fluid.FluidEntry;
 import louis.omoshiroikamo.common.fluid.FluidRegister;
 import louis.omoshiroikamo.common.util.lib.LibResources;
-import louis.omoshiroikamo.config.Config;
 
 @SideOnly(Side.CLIENT)
 public class FluidTexture {
 
     private static BufferedImage baseStill, baseFlow;
-    public static final File CONFIG_FLUID_DIR = new File(
-        Config.configDirectory.getAbsolutePath() + "/" + LibResources.PREFIX_FLUID_ICONS);
+    public static File CONFIG_FLUID_DIR;
 
-    public static void applyAll() {
+    public static void applyAll(File configDirectory) {
+        CONFIG_FLUID_DIR = new File(configDirectory.getAbsolutePath() + "/" + LibResources.PREFIX_FLUID_ICONS);
         initBaseTextures();
         for (Map.Entry<FluidEntry, Fluid> entry : FluidRegister.FLUIDS.entrySet()) {
             apply(entry.getValue(), entry.getKey());

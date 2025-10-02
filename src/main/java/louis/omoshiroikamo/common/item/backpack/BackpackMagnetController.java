@@ -1,6 +1,6 @@
 package louis.omoshiroikamo.common.item.backpack;
 
-import static louis.omoshiroikamo.config.MagnetConfig.magnetConfig;
+import static louis.omoshiroikamo.config.general.MagnetConfig.magnetConfig;
 import static louis.omoshiroikamo.plugin.botania.BotaniaUtil.hasSolegnoliaAround;
 
 import java.util.ArrayList;

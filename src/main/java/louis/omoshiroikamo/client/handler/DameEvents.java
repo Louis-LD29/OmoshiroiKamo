@@ -1,6 +1,6 @@
 package louis.omoshiroikamo.client.handler;
 
-import static louis.omoshiroikamo.config.DamageIndicatorsConfig.indicatorsConfig;
+import static louis.omoshiroikamo.config.general.DamageIndicatorsConfig.indicatorsConfig;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;

@@ -20,15 +20,14 @@ import louis.omoshiroikamo.common.ore.OreRegister;
 import louis.omoshiroikamo.common.util.helper.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
-import louis.omoshiroikamo.config.Config;
 
 public class OreTexture {
 
     private static BufferedImage baseStone, oreMask;
-    public static final File CONFIG_ORE_DIR = new File(
-        Config.configDirectory.getAbsolutePath() + "/" + LibResources.PREFIX_ORE_ICONS);
+    public static File CONFIG_ORE_DIR;
 
-    public static void applyAll() {
+    public static void applyAll(File configDirectory) {
+        CONFIG_ORE_DIR = new File(configDirectory.getAbsolutePath() + "/" + LibResources.PREFIX_ORE_ICONS);
         initBaseTextures();
         for (Map.Entry<OreEntry, Block> entry : OreRegister.BLOCKS.entrySet()) {
             apply(entry.getValue(), entry.getKey());

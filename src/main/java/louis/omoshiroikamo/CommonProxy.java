@@ -34,7 +34,6 @@ import louis.omoshiroikamo.common.util.helper.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.world.OKWorldGenerator;
 import louis.omoshiroikamo.common.world.WireNetSaveData;
-import louis.omoshiroikamo.config.Config;
 import louis.omoshiroikamo.plugin.compat.EtFuturumCompat;
 import louis.omoshiroikamo.plugin.compat.TICCompat;
 import louis.omoshiroikamo.plugin.nei.NEICompat;
@@ -56,8 +55,6 @@ public class CommonProxy {
         OreRegistry.init();
         MaterialWireType.init();
 
-        Config.preInit(event);
-
         ModBlocks.init();
         ModItems.init();
         ModFluids.init();
@@ -72,7 +69,6 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent event) {
-        Config.init();
         FMLCommonHandler.instance()
             .bus()
             .register(ManaRegenHandler.instance);
@@ -91,7 +87,6 @@ public class CommonProxy {
     }
 
     public void postInit(FMLPostInitializationEvent event) {
-        Config.postInit();
         MinecraftForge.EVENT_BUS.register(new ElementalHandler());
 
         TICCompat.init();

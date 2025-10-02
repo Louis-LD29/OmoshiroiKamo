@@ -10,9 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import louis.omoshiroikamo.config.Config;
-import louis.omoshiroikamo.config.OreConfig;
-
 public class OreRegistry {
 
     private static final Map<String, OreEntry> REGISTRY = new LinkedHashMap<>();
@@ -34,16 +31,6 @@ public class OreRegistry {
     }
 
     public static OreEntry get(String name) {
-        OreEntry defaultEntry = REGISTRY.get(name);
-        if (defaultEntry == null) {
-            return null;
-        }
-
-        OreConfig config = Config.oreConfigs.getOrDefault(name, defaultEntry.defaults);
-        return new OreEntry(name, defaultEntry.getMeta(), config);
-    }
-
-    public static OreEntry getByName(String name) {
         return REGISTRY.get(name);
     }
 

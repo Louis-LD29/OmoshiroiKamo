@@ -10,9 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import louis.omoshiroikamo.config.Config;
-import louis.omoshiroikamo.config.FluidConfig;
-
 public class FluidRegistry {
 
     private static final Map<String, FluidEntry> REGISTRY = new LinkedHashMap<>();
@@ -34,16 +31,6 @@ public class FluidRegistry {
     }
 
     public static FluidEntry get(String name) {
-        FluidEntry defaultEntry = REGISTRY.get(name);
-        if (defaultEntry == null) {
-            return null;
-        }
-
-        FluidConfig config = Config.fluidConigs.getOrDefault(name, defaultEntry.defaults);
-        return new FluidEntry(name, defaultEntry.meta, config);
-    }
-
-    public static FluidEntry getByName(String name) {
         return REGISTRY.get(name);
     }
 

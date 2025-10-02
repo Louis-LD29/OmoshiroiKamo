@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.config;
+package louis.omoshiroikamo.config.general;
 
 import com.gtnewhorizon.gtnhlib.config.Config;
 

@@ -2,12 +2,8 @@ package louis.omoshiroikamo.config;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.config.Configuration;
@@ -20,15 +16,8 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.relauncher.Side;
-import louis.omoshiroikamo.api.fluid.FluidEntry;
-import louis.omoshiroikamo.api.fluid.FluidRegistry;
-import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.api.ore.OreEntry;
-import louis.omoshiroikamo.api.ore.OreRegistry;
 import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.util.helper.Logger;
-import louis.omoshiroikamo.common.util.lang.LangSectionInserter;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 
 public class Config {
@@ -41,17 +30,6 @@ public class Config {
 
     public static File configDirectory;
     public static Configuration config;
-
-    public static final Section sectionMaterial = new Section("Material Settings", "material");
-    public static final Section sectionFluid = new Section("Fluid Settings", "fluid");
-    public static final Section sectionOre = new Section("Ore Settings", "ore");
-
-    public static String[] materialCustom = new String[] {};
-    public static String[] oreCustom = new String[] {};
-
-    public static final Map<String, MaterialConfig> materialConfigs = new HashMap<>();
-    public static final Map<String, FluidConfig> fluidConigs = new HashMap<>();
-    public static final Map<String, OreConfig> oreConfigs = new HashMap<>();
 
     public static void syncConfig(boolean load) {
         try {
@@ -70,105 +48,6 @@ public class Config {
     }
 
     public static void processConfig(Configuration config) {
-
-        // Material
-        materialCustom = config.get(
-            sectionMaterial.name,
-            "materialCustom",
-            materialCustom,
-            "List of custom material names to register on next game load. "
-                + "Each material will be initialized with predefined or config-based properties. Requires game restart.")
-            .getStringList();
-
-        for (String name : materialCustom) {
-            if (!MaterialRegistry.contains(name)) {
-                MaterialEntry entry = new MaterialEntry(name);
-                MaterialRegistry.register(entry);
-            }
-        }
-
-        Set<String> materialDefined = new HashSet<>();
-        for (MaterialEntry entry : MaterialRegistry.all()) {
-            materialDefined.add(
-                entry.getName()
-                    .toLowerCase());
-        }
-
-        Set<String> categoriesMaterialToRemove = new HashSet<>();
-        for (String category : config.getCategoryNames()) {
-            if (category.startsWith("material settings") && !category.equals("material settings")) {
-                String name = category.substring("material settings".length() + 1);
-                if (!materialDefined.contains(name)) {
-                    categoriesMaterialToRemove.add(category);
-                }
-            }
-        }
-
-        for (String cat : categoriesMaterialToRemove) {
-            Logger.info(cat);
-            config.removeCategory(config.getCategory(cat));
-        }
-
-        LangSectionInserter.insertCustomMaterialsLang(materialCustom);
-
-        materialConfigs.clear();
-        for (MaterialEntry entry : MaterialRegistry.all()) {
-            materialConfigs.put(
-                entry.getName()
-                    .toLowerCase(),
-                MaterialConfig.loadFromConfig(config, entry));
-        }
-        // Fluid
-        fluidConigs.clear();
-        for (FluidEntry entry : FluidRegistry.all()) {
-            fluidConigs.put(
-                entry.getName()
-                    .toLowerCase(),
-                FluidConfig.loadFromConfig(config, entry));
-        }
-
-        // Ore
-        // oreCustom = config.get(
-        // sectionOre.name,
-        // "oreCustom",
-        // oreCustom,
-        // "List of custom ore names to register on next game load. "
-        // + "Each material will be initialized with predefined or config-based properties. Requires game restart.")
-        // .getStringList();
-        //
-        // for (String name : oreCustom) {
-        // if (!OreRegistry.contains(name)) {
-        // OreEntry entry = new OreEntry(name);
-        // OreRegistry.register(entry);
-        // }
-        // }
-        //
-        // Set<String> oreDefined = new HashSet<>();
-        // for (OreEntry entry : OreRegistry.all()) {
-        // oreDefined.add(entry.getName());
-        // }
-        //
-        // Set<String> categoriesOreToRemove = new HashSet<>();
-        // for (String category : config.getCategoryNames()) {
-        // if (category.startsWith("ore settings") && !category.equals("ore settings")) {
-        // String name = category.substring("ore settings".length() + 1);
-        // if (!oreDefined.contains(name.toLowerCase())) {
-        // categoriesOreToRemove.add(category);
-        // }
-        // }
-        // }
-        //
-        // for (String cat : categoriesOreToRemove) {
-        // config.removeCategory(config.getCategory(cat));
-        // }
-        // LangSectionInserter.insertCustomMaterialsLang(oreCustom);
-        oreConfigs.clear();
-        for (OreEntry entry : OreRegistry.all()) {
-            oreConfigs.put(
-                entry.getName()
-                    .toLowerCase(),
-                OreConfig.loadFromConfig(config, entry));
-        }
 
     }
 

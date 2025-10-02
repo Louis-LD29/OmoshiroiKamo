@@ -10,9 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import louis.omoshiroikamo.config.Config;
-import louis.omoshiroikamo.config.MaterialConfig;
-
 public class MaterialRegistry {
 
     private static final Map<String, MaterialEntry> REGISTRY = new LinkedHashMap<>();
@@ -34,16 +31,6 @@ public class MaterialRegistry {
     }
 
     public static MaterialEntry get(String name) {
-        MaterialEntry defaultEntry = REGISTRY.get(name);
-        if (defaultEntry == null) {
-            return null;
-        }
-
-        MaterialConfig config = Config.materialConfigs.getOrDefault(name, defaultEntry.defaults);
-        return new MaterialEntry(name, defaultEntry.meta, config);
-    }
-
-    public static MaterialEntry getByName(String name) {
         return REGISTRY.get(name);
     }
 
@@ -88,13 +75,6 @@ public class MaterialRegistry {
         register(new MaterialEntry("Tungsten", 14, 19250, 134, 173, 3695, 60, 1.82e7, 0x3A3A3A, 0xFF0000));
         register(new MaterialEntry("Tungsten Carbide", 15, 15000, 180, 84, 3143, 80, 5.00e6, 0x555555, 0xCC2200));
         register(new MaterialEntry("Niobium", 16, 8570, 265, 54, 2741, 45, 6.70e6, 0xAFAFFF, 0xCC3300));
-
-        // Custom
-        int meta = 50;
-        for (String matName : Config.materialCustom) {
-            MaterialConfig config = Config.materialConfigs.getOrDefault(matName, MaterialConfig.defaultFor(matName));
-            register(new MaterialEntry(matName, meta++, config));
-        }
     }
 
 }

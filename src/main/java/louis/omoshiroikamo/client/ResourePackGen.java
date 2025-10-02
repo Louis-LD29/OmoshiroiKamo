@@ -6,12 +6,25 @@ import java.util.Locale;
 import com.enderio.core.common.util.ResourcePackAssembler;
 
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import louis.omoshiroikamo.client.fluid.FluidMaterialTexture;
+import louis.omoshiroikamo.client.fluid.FluidTexture;
+import louis.omoshiroikamo.client.ore.OreTexture;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class ResourePackGen {
 
     public static File configDirectory;
+
+    public static void applyAllTexture(FMLPreInitializationEvent event) {
+        configDirectory = new File(event.getModConfigurationDirectory(), LibMisc.MOD_ID);
+        if (!configDirectory.exists()) {
+            configDirectory.mkdir();
+        }
+        FluidTexture.applyAll(configDirectory);
+        FluidMaterialTexture.applyAll(configDirectory);
+        OreTexture.applyAll(configDirectory);
+    }
 
     public static void assembleResourcePack(FMLPreInitializationEvent event) {
 

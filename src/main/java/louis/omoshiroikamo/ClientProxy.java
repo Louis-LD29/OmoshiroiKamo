@@ -14,11 +14,9 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import louis.omoshiroikamo.client.fluid.FluidMaterialTexture;
-import louis.omoshiroikamo.client.fluid.FluidTexture;
+import louis.omoshiroikamo.client.ResourePackGen;
 import louis.omoshiroikamo.client.gui.ManaHUD;
 import louis.omoshiroikamo.client.handler.DameEvents;
-import louis.omoshiroikamo.client.ore.OreTexture;
 import louis.omoshiroikamo.client.render.block.anvil.AnvilISBRH;
 import louis.omoshiroikamo.client.render.block.anvil.AnvilTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectableISBRH;
@@ -98,9 +96,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void callAssembleResourcePack(FMLPreInitializationEvent event) {
-        OreTexture.applyAll();
-        FluidMaterialTexture.applyAll();
-        FluidTexture.applyAll();
+        ResourePackGen.applyAllTexture(event);
         super.callAssembleResourcePack(event);
     }
 
