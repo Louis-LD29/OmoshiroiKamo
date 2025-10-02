@@ -21,7 +21,7 @@ public final class LibMisc {
     // Proxy Constants
     public static final String PROXY_COMMON = Tags.MOD_GROUP + ".CommonProxy";
     public static final String PROXY_CLIENT = Tags.MOD_GROUP + ".ClientProxy";
-    public static final String GUI_FACTORY = Tags.MOD_GROUP + ".config.ConfigFactory";
+    public static final String GUI_FACTORY = Tags.MOD_GROUP + ".config.OKGuiConfigFactory";
     public static final Lang lang = new Lang();
 
     public static final boolean SNAPSHOT_BUILD = Boolean.parseBoolean(Tags.SNAPSHOT_BUILD);

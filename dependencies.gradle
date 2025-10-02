@@ -51,11 +51,11 @@ dependencies {
 
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:EnderIO:2.9.22:dev")
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:Railcraft:9.16.33:dev")
-
+    
     compileOnly("com.github.GTNewHorizons:ModularUI:1.2.20:dev")
-    compileOnly("com.github.GTNewHorizons:WDMla:2.7.3:dev")
     compileOnly('com.github.GTNewHorizons:BuildCraft:7.1.44:dev')
     compileOnly files("libs/neverenoughanimations-v1.0.6-1-7-10.8+91c551807b-dirty-dev.jar")
+    compileOnly("com.github.GTNewHorizons:WDMla:2.7.3:dev")
 
     shadowImplementation('com.github.makamys:MCLib:0.3.7.7') {
         exclude group: "codechicken"

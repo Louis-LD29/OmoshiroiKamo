@@ -6,6 +6,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 import com.cleanroommc.modularui.api.IGuiHolder;
@@ -70,11 +71,7 @@ public class ItemBackpack extends ItemBauble implements IGuiHolder<PlayerInvento
         } else if (meta == 4) {
             type = "Diamond";
         } else if (meta == 5) {
-            if (!LibMods.EtFuturum.isLoaded()) {
-                type = "Obsidian";
-            } else {
-                type = "Netherite";
-            }
+            type = LibMods.EtFuturum.isLoaded() ? "Netherite" : "Obsidian";
         } else {
             type = "Starter";
         }
@@ -88,6 +85,16 @@ public class ItemBackpack extends ItemBauble implements IGuiHolder<PlayerInvento
                 .openFromMainHand(player);
         }
         return super.onItemRightClick(itemStackIn, worldIn, player);
+    }
+
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean advanced) {
+        if (itemStack.hasTagCompound()) {
+            NBTTagCompound tag = itemStack.getTagCompound();
+            list.add(tag.toString());
+        } else {
+            list.add("No data");
+        }
     }
 
     public int getBackpackRow(int meta) {

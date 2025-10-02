@@ -1,10 +1,14 @@
 package louis.omoshiroikamo.common.item.backpack;
 
+import static louis.omoshiroikamo.config.MagnetConfig.magnetConfig;
 import static louis.omoshiroikamo.plugin.botania.BotaniaUtil.hasSolegnoliaAround;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -37,7 +41,6 @@ import louis.omoshiroikamo.client.gui.BackpackGui;
 import louis.omoshiroikamo.client.gui.modularui2.handler.UpgradeItemStackHandler;
 import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.network.PacketMagnetState;
-import louis.omoshiroikamo.config.Config;
 import louis.omoshiroikamo.plugin.baubles.BaublesUtil;
 import vazkii.botania.common.core.helper.Vector3;
 
@@ -49,8 +52,6 @@ public class BackpackMagnetController {
     private static List<Item> blacklist = null;
 
     private static final double collisionDistanceSq = 1.25 * 1.25;
-    private static final double speed = 0.035;
-    private static final double speed4 = speed * 4;
 
     public BackpackMagnetController() {
         PacketHandler.INSTANCE
@@ -94,7 +95,7 @@ public class BackpackMagnetController {
 
     private static ActiveMagnet getActiveMagnet(EntityPlayer player) {
         ItemStack[] inv = player.inventory.mainInventory;
-        int maxSlot = Config.magnetAllowInMainInventory ? 4 * 9 : 9;
+        int maxSlot = magnetConfig.magnetAllowInMainInventory ? 4 * 9 : 9;
         InventoryBaubles baubleInv = PlayerHandler.getPlayerBaubles(player);
         UpgradeItemStackHandler upgradeHandler = new UpgradeItemStackHandler(BackpackGui.upgradeSlot);
 
@@ -119,7 +120,7 @@ public class BackpackMagnetController {
             }
         }
 
-        if (!Config.magnetAllowInBaublesSlot) {
+        if (!magnetConfig.magnetAllowInBaublesSlot) {
             return null;
         }
         for (int i = 0; i < baubleInv.getSizeInventory(); i++) {
@@ -149,9 +150,7 @@ public class BackpackMagnetController {
     public static void doHoover(EntityPlayer player, ActiveMagnet mag) {
         int cooldown = getCooldown(mag.item);
 
-        if (blacklist == null) {
-            initBlacklist();
-        }
+        initBlacklist(mag);
 
         if (cooldown > 0) {
             setCooldown(mag.item, cooldown - 1);
@@ -159,12 +158,12 @@ public class BackpackMagnetController {
         }
 
         AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(
-            player.posX - Config.magnetRange,
-            player.posY - Config.magnetRange,
-            player.posZ - Config.magnetRange,
-            player.posX + Config.magnetRange,
-            player.posY + Config.magnetRange,
-            player.posZ + Config.magnetRange);
+            player.posX - magnetConfig.magnetRange,
+            player.posY - magnetConfig.magnetRange,
+            player.posZ - magnetConfig.magnetRange,
+            player.posX + magnetConfig.magnetRange,
+            player.posY + magnetConfig.magnetRange,
+            player.posZ + magnetConfig.magnetRange);
 
         List<Entity> interestingItems = selectEntitiesWithinAABB(player.worldObj, aabb);
 
@@ -195,14 +194,27 @@ public class BackpackMagnetController {
         }
     }
 
-    private static void initBlacklist() {
-        blacklist = new ArrayList<Item>();
-        for (String name : Config.magnetBlacklist) {
-            String[] parts = name.split(":");
-            if (parts.length == 2) {
-                Item item = GameRegistry.findItem(parts[0], parts[1]);
-                if (item != null) {
-                    blacklist.add(item);
+    private static void initBlacklist(ActiveMagnet mag) {
+        Set<String> names = new HashSet<>();
+        names.addAll(Arrays.asList(magnetConfig.magnetBlacklist));
+        names.addAll(BackpackGui.getBlacklist(mag.item));
+
+        List<Item> newBlacklist = new ArrayList<>();
+
+        for (String name : names) {
+            addItemToBlacklist(newBlacklist, name);
+        }
+
+        blacklist = newBlacklist;
+    }
+
+    private static void addItemToBlacklist(List<Item> list, String name) {
+        String[] parts = name.split(":");
+        if (parts.length == 2) {
+            Item item = GameRegistry.findItem(parts[0], parts[1]);
+            if (item != null) {
+                if (!list.contains(item)) {
+                    list.add(item);
                 }
             }
         }
@@ -212,7 +224,7 @@ public class BackpackMagnetController {
     private static List<Entity> selectEntitiesWithinAABB(World world, AxisAlignedBB bb) {
         List<Entity> arraylist = null;
 
-        int itemsRemaining = Config.magnetMaxItems;
+        int itemsRemaining = magnetConfig.magnetMaxItems;
         if (itemsRemaining <= 0) {
             itemsRemaining = Integer.MAX_VALUE;
         }
@@ -251,7 +263,7 @@ public class BackpackMagnetController {
                             if (gotOne) {
                                 if (arraylist == null) {
                                     arraylist = new ArrayList<Entity>(
-                                        Config.magnetMaxItems > 0 ? Config.magnetMaxItems : 20);
+                                        magnetConfig.magnetMaxItems > 0 ? magnetConfig.magnetMaxItems : 20);
                                 }
                                 arraylist.add(entity);
                                 if (itemsRemaining-- <= 0) {
@@ -406,5 +418,4 @@ public class BackpackMagnetController {
         int cd = root.getInteger(TAG_COOLDOWN);
         return cd;
     }
-
 }

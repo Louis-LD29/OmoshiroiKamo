@@ -37,7 +37,6 @@ import louis.omoshiroikamo.client.gui.modularui2.MGuis;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractPoweredTaskTE;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
-import louis.omoshiroikamo.config.Config;
 
 public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandlerAdv, IWailaInfoProvider {
 
@@ -47,7 +46,7 @@ public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandl
 
     @Override
     public int getPowerUsePerTick() {
-        return Config.PowerUserPerTickRF;
+        return 20;
     }
 
     @Override

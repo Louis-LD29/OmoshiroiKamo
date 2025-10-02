@@ -11,14 +11,12 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import louis.omoshiroikamo.client.fluid.FluidMaterialTexture;
 import louis.omoshiroikamo.client.fluid.FluidTexture;
 import louis.omoshiroikamo.client.gui.ManaHUD;
-import louis.omoshiroikamo.client.handler.ClientTickHandler;
 import louis.omoshiroikamo.client.handler.DameEvents;
 import louis.omoshiroikamo.client.ore.OreTexture;
 import louis.omoshiroikamo.client.render.block.anvil.AnvilISBRH;
@@ -46,9 +44,9 @@ import louis.omoshiroikamo.common.block.energyConnector.TEConnectorULV;
 import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
 import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
 import louis.omoshiroikamo.common.item.ModItems;
-import louis.omoshiroikamo.common.util.handlers.ClientEventHandler;
-import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.config.item.ItemConfig;
 
+@SuppressWarnings("unused")
 public class ClientProxy extends CommonProxy {
 
     public ClientProxy() {}
@@ -62,15 +60,9 @@ public class ClientProxy extends CommonProxy {
     public void init(FMLInitializationEvent event) {
         super.init(event);
 
-        ClientEventHandler clientEventHandler = new ClientEventHandler();
-        MinecraftForge.EVENT_BUS.register(clientEventHandler);
-
         ModItems.registerItemRenderer();
 
         MinecraftForge.EVENT_BUS.register(ManaHUD.instance);
-        FMLCommonHandler.instance()
-            .bus()
-            .register(ClientTickHandler.instance);
 
         ConnectableISBRH connectableISBRH = new ConnectableISBRH();
         RenderingRegistry.registerBlockHandler(connectableISBRH);
@@ -89,7 +81,7 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockAnvil), anvilISBRH);
         ClientRegistry.bindTileEntitySpecialRenderer(TEAnvil.class, new AnvilTESR());
 
-        if (Config.renderPufferFish) {
+        if (ItemConfig.itemConfig.renderPufferFish) {
             MinecraftForgeClient.registerItemRenderer(Items.fish, new PufferFishRenderer());
         }
 
@@ -105,11 +97,11 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void callAssembleResourcePack() {
+    public void callAssembleResourcePack(FMLPreInitializationEvent event) {
         OreTexture.applyAll();
         FluidMaterialTexture.applyAll();
         FluidTexture.applyAll();
-        super.callAssembleResourcePack();
+        super.callAssembleResourcePack(event);
     }
 
     @Override

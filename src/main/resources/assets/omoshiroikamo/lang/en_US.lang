@@ -18,6 +18,11 @@ config.damage_indicator.tooltip=Configure properties and rendering of Damage Ind
 config.magnet=Magnet Settings
 config.magnet.tooltip=How do they work?
 
+config.magnetConfig=Magnet Settings
+config.damageIndicatorsConfig=Damage Indicators Settings
+config.itemConfig=Item Settings
+config.anvilUpgradeConfig=Anvil Upgrade Settings
+
 #IO
 
 gui.machine.ioMode.none=None

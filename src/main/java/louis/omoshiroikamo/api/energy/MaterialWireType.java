@@ -9,7 +9,6 @@ import net.minecraft.util.IIcon;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.item.ModItems;
-import louis.omoshiroikamo.config.Config;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -27,10 +26,6 @@ public class MaterialWireType extends WireType {
     public static final Map<Integer, MaterialWireType> MATERIAL_WIRE_TYPES = new HashMap<>();
 
     public static void init() {
-        WireType.cableLossRatio = Config.cableLossRatio;
-        WireType.cableTransferRate = Config.cableTransferRate;
-        WireType.cableColouration = Config.cableColouration;
-        WireType.cableLength = Config.cableLength;
         for (MaterialEntry material : MaterialRegistry.all()) {
             if (material != null) {
                 MATERIAL_WIRE_TYPES.put(material.getMeta(), new MaterialWireType(material.meta));

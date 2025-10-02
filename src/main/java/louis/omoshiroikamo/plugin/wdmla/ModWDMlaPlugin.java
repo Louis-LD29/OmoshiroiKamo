@@ -10,7 +10,7 @@ import com.gtnewhorizons.wdmla.api.WDMlaPlugin;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibMods;
-import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.config.GeneralConfig;
 
 @SuppressWarnings("unused")
 @WDMlaPlugin
@@ -18,7 +18,7 @@ public class ModWDMlaPlugin implements IWDMlaPlugin {
 
     @Override
     public void registerClient(IWDMlaClientRegistration registration) {
-        if (!LibMods.WDMLA.isLoaded() || !Config.useWDMLA) {
+        if (!LibMods.WDMLA.isLoaded() || !GeneralConfig.useWDMLA) {
             return;
         }
         registration.registerBlockComponent(CustomProvider.INSTANCE, AbstractBlock.class);
@@ -31,7 +31,7 @@ public class ModWDMlaPlugin implements IWDMlaPlugin {
 
     @Override
     public void register(IWDMlaCommonRegistration registration) {
-        if (!LibMods.WDMLA.isLoaded() || !Config.useWDMLA) {
+        if (!LibMods.WDMLA.isLoaded() || !GeneralConfig.useWDMLA) {
             return;
         }
         registration.registerBlockDataProvider(CustomProvider.INSTANCE, AbstractBlock.class);

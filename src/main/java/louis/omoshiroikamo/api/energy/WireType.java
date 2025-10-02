@@ -33,7 +33,9 @@ public abstract class WireType {
 
     public static WireType getValue(String name) {
         for (WireType type : values) if (type != null && type.getUniqueName()
-            .equals(name)) return type;
+            .equals(name)) {
+                return type;
+            }
         return COPPER;
     }
 
@@ -69,10 +71,10 @@ public abstract class WireType {
 
     // THESE VALUES ARE FOR IE's OWN CABLES!
     public static String[] uniqueNames = { "COPPER", "ELECTRUM", "STEEL", "STRUCTURE_ROPE", "STRUCTURE_STEEL" };
-    public static double[] cableLossRatio;
-    public static int[] cableTransferRate;
-    public static int[] cableColouration;
-    public static int[] cableLength;
+    public static double[] cableLossRatio = { 0.05, 0.025, 0.025, 1.0, 1.0 };
+    public static int[] cableTransferRate = { 2048, 8192, 32768, 0, 0 };
+    public static int[] cableColouration = { 13926474, 15576418, 7303023, 9862765, 7303023 };
+    public static int[] cableLength = { 16, 16, 32, 32, 32 };
     public static Item ieWireCoil;
     public static double[] renderDiameter = { .03125, .03125, .0625, .0625, .0625 };
     public static IIcon iconDefaultWire;

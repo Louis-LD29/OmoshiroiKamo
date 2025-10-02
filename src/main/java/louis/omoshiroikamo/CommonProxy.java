@@ -20,6 +20,7 @@ import louis.omoshiroikamo.api.energy.WireNetHandler;
 import louis.omoshiroikamo.api.fluid.FluidRegistry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
+import louis.omoshiroikamo.client.ResourePackGen;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.command.ModCommands;
 import louis.omoshiroikamo.common.fluid.ModFluids;
@@ -27,7 +28,6 @@ import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
 import louis.omoshiroikamo.common.util.handlers.ConvertManaRegenHandler;
 import louis.omoshiroikamo.common.util.handlers.ElementalHandler;
-import louis.omoshiroikamo.common.util.handlers.EventHandler;
 import louis.omoshiroikamo.common.util.handlers.FlightHandler;
 import louis.omoshiroikamo.common.util.handlers.ManaRegenHandler;
 import louis.omoshiroikamo.common.util.helper.Logger;
@@ -63,7 +63,7 @@ public class CommonProxy {
         ModFluids.init();
         OKWorldGenerator.init();
 
-        callAssembleResourcePack();
+        callAssembleResourcePack(event);
 
         if (!LibMisc.SNAPSHOT_BUILD && !LibMisc.DEV_ENVIRONMENT) {
             MCLibModules.updateCheckAPI.submitModTask(LibMisc.MOD_ID, Tags.VERSION, LibMisc.VERSION_URL);
@@ -83,10 +83,6 @@ public class CommonProxy {
             .bus()
             .register(FlightHandler.instance);
 
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
-        FMLCommonHandler.instance()
-            .bus()
-            .register(new EventHandler());
         ModRecipes.init();
 
         WailaCompat.init();
@@ -153,8 +149,8 @@ public class CommonProxy {
         MCLib.init();
     }
 
-    public void callAssembleResourcePack() {
-        Config.assembleResourcePack();
+    public void callAssembleResourcePack(FMLPreInitializationEvent event) {
+        ResourePackGen.assembleResourcePack(event);
     }
 
     protected void onServerTick() {

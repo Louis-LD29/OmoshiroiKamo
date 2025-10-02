@@ -53,6 +53,24 @@ public class ModularCraftingSlotAdv extends ModularCraftingSlot {
     }
 
     @Override
+    public boolean canTakeStack(EntityPlayer player) {
+        boolean allEmpty = true;
+
+        for (int i = 0; i < 9; i++) {
+            ItemStack stack = craftMatrix.getStackInSlot(i);
+            if (stack != null) {
+                allEmpty = false;
+                break;
+            }
+        }
+
+        if (allEmpty) {
+            return false;
+        }
+        return super.canTakeStack(player);
+    }
+
+    @Override
     public void setCraftMatrix(InventoryCraftingWrapper craftMatrix) {
         this.craftMatrix = craftMatrix;
     }

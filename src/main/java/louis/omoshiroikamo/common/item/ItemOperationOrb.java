@@ -50,7 +50,7 @@ import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibMods;
 import louis.omoshiroikamo.common.util.lib.LibResources;
-import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.config.item.ItemConfig;
 import vazkii.botania.api.mana.IManaTooltipDisplay;
 
 @EventBusSubscriber()
@@ -169,7 +169,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
     @Override
     public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        if (!Config.addDurabilityTootip) {
+        if (!ItemConfig.itemConfig.addDurabilityTootip) {
             list.add(ItemUtil.getDurabilityString(itemstack));
         }
         String str = EnergyUpgrade.getStoredEnergyString(itemstack);

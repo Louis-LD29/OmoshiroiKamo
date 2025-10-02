@@ -10,6 +10,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.world.WorldEvent;
 
+import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -22,7 +24,7 @@ import louis.omoshiroikamo.api.energy.WireNetHandler;
 import louis.omoshiroikamo.api.energy.WireNetHandler.Connection;
 import louis.omoshiroikamo.common.util.helper.Logger;
 import louis.omoshiroikamo.common.world.WireNetSaveData;
-import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.config.GeneralConfig;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -32,12 +34,14 @@ import louis.omoshiroikamo.config.Config;
  * This adapted version complies with the original license terms.
  * It is intended for use in a standalone mod inspired by Immersive Engineering.
  */
+@EventBusSubscriber()
+@SuppressWarnings("unused")
 public class EventHandler {
 
     public static boolean validateConnsNextTick = false;
 
     @SubscribeEvent
-    public void onLoad(WorldEvent.Load event) {
+    public static void onLoad(WorldEvent.Load event) {
         if (WireNetHandler.INSTANCE == null) {
             WireNetHandler.INSTANCE = new WireNetHandler();
         }
@@ -45,21 +49,21 @@ public class EventHandler {
 
     // transferPerTick
     @SubscribeEvent
-    public void onSave(WorldEvent.Save event) {
+    public static void onSave(WorldEvent.Save event) {
         WireNetSaveData.setDirty(0);
     }
 
     @SubscribeEvent
-    public void onUnload(WorldEvent.Unload event) {
+    public static void onUnload(WorldEvent.Unload event) {
         WireNetSaveData.setDirty(0);
     }
 
     @SubscribeEvent
-    public void onWorldTick(WorldTickEvent event) {
+    public static void onWorldTick(WorldTickEvent event) {
         if (event.phase == TickEvent.Phase.START && validateConnsNextTick
             && FMLCommonHandler.instance()
                 .getEffectiveSide() == Side.SERVER) {
-            boolean validateConnections = Config.validateConnections;
+            boolean validateConnections = GeneralConfig.validateConnections;
             int invalidConnectionsDropped = 0;
             for (int dim : WireNetHandler.INSTANCE.getRelevantDimensions()) {
                 World world = MinecraftServer.getServer()

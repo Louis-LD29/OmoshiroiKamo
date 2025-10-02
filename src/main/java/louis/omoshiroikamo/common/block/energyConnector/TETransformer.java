@@ -12,7 +12,7 @@ import louis.omoshiroikamo.api.TargetingInfo;
 import louis.omoshiroikamo.api.energy.IWireConnectable;
 import louis.omoshiroikamo.api.energy.WireNetHandler;
 import louis.omoshiroikamo.api.energy.WireType;
-import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.config.GeneralConfig;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -101,7 +101,7 @@ public class TETransformer extends TEConnectable {
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         if (renderAABB == null) {
-            if (Config.increasedRenderboxes) {
+            if (GeneralConfig.increasedRenderboxes) {
                 int inc = getRenderRadiusIncrease();
                 renderAABB = AxisAlignedBB.getBoundingBox(
                     xCoord - inc,

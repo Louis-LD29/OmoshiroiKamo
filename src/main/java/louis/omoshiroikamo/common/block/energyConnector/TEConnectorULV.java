@@ -26,7 +26,7 @@ import louis.omoshiroikamo.api.energy.WireNetHandler.Connection;
 import louis.omoshiroikamo.api.energy.WireType;
 import louis.omoshiroikamo.common.util.Utils;
 import louis.omoshiroikamo.common.util.lib.LibMods;
-import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.config.GeneralConfig;
 import louis.omoshiroikamo.plugin.compat.IC2Compat;
 
 /*
@@ -76,7 +76,7 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         if (renderAABB == null) {
-            if (Config.increasedRenderboxes) {
+            if (GeneralConfig.increasedRenderboxes) {
                 int inc = getRenderRadiusIncrease();
                 renderAABB = AxisAlignedBB.getBoundingBox(
                     xCoord - inc,

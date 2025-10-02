@@ -15,6 +15,8 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import org.lwjgl.opengl.GL11;
 
+import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import louis.omoshiroikamo.api.energy.WireType;
 import louis.omoshiroikamo.client.ClientUtils;
@@ -31,6 +33,8 @@ import louis.omoshiroikamo.common.util.lib.LibResources;
  * It is intended for use in a standalone mod inspired by Immersive Engineering.
  */
 
+@EventBusSubscriber()
+@SuppressWarnings("unused")
 public class ClientEventHandler {
 
     public static IIcon iconItemBlank;
@@ -38,7 +42,7 @@ public class ClientEventHandler {
     public static int itemSheetHeight;
 
     @SubscribeEvent()
-    public void textureStich(TextureStitchEvent.Pre event) {
+    public static void textureStich(TextureStitchEvent.Pre event) {
         if (event.map.getTextureType() == 0) {
             WireType.iconDefaultWire = event.map.registerIcon(LibResources.PREFIX_MOD.toLowerCase() + "wire");
         }
@@ -49,10 +53,12 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent()
-    public void textureStich(TextureStitchEvent.Post event) {
-        if (event.map.getTextureType() == 0) for (ModelIEObj modelIE : ModelIEObj.existingStaticRenders) {
-            WavefrontObject model = modelIE.rebindModel();
-            rebindUVsToIcon(model, modelIE);
+    public static void textureStich(TextureStitchEvent.Post event) {
+        if (event.map.getTextureType() == 0) {
+            for (ModelIEObj modelIE : ModelIEObj.existingStaticRenders) {
+                WavefrontObject model = modelIE.rebindModel();
+                rebindUVsToIcon(model, modelIE);
+            }
         }
         if (event.map.getTextureType() == 1) {
             itemSheetWidth = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
@@ -60,10 +66,12 @@ public class ClientEventHandler {
         }
     }
 
-    void rebindUVsToIcon(WavefrontObject model, ModelIEObj modelIE) {
+    private static void rebindUVsToIcon(WavefrontObject model, ModelIEObj modelIE) {
         for (GroupObject groupObject : model.groupObjects) {
             IIcon icon = modelIE.getBlockIcon(groupObject.name);
-            if (icon == null) continue;
+            if (icon == null) {
+                continue;
+            }
             float minU = icon.getInterpolatedU(0);
             float sizeU = icon.getInterpolatedU(16) - minU;
             float minV = icon.getInterpolatedV(0);
@@ -87,8 +95,12 @@ public class ClientEventHandler {
                     TextureCoordinate textureCoordinate = face.textureCoordinates[i];
                     offsetU = baseOffsetU;
                     offsetV = baseOffsetV;
-                    if (face.textureCoordinates[i].u > averageU) offsetU = -offsetU;
-                    if (face.textureCoordinates[i].v > averageV) offsetV = -offsetV;
+                    if (face.textureCoordinates[i].u > averageU) {
+                        offsetU = -offsetU;
+                    }
+                    if (face.textureCoordinates[i].v > averageV) {
+                        offsetV = -offsetV;
+                    }
 
                     face.textureCoordinates[i] = new TextureCoordinate(
                         minU + sizeU * (textureCoordinate.u + offsetU),
@@ -99,7 +111,7 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent()
-    public void onRenderOverlayPost(RenderGameOverlayEvent.Post event) {
+    public static void onRenderOverlayPost(RenderGameOverlayEvent.Post event) {
         if (ClientUtils.mc().thePlayer != null && event.type == RenderGameOverlayEvent.ElementType.TEXT) {
             EntityPlayer player = ClientUtils.mc().thePlayer;
             if (player.getCurrentEquippedItem() != null) {

@@ -7,7 +7,7 @@ import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.util.helper.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibMods;
-import louis.omoshiroikamo.config.Config;
+import louis.omoshiroikamo.config.GeneralConfig;
 import mcp.mobius.waila.api.IWailaRegistrar;
 
 @SuppressWarnings("deprecation")
@@ -39,7 +39,7 @@ public class WailaCompat {
             return;
         }
 
-        if (LibMods.WDMLA.isLoaded() && Config.useWDMLA) {
+        if (LibMods.WDMLA.isLoaded() && GeneralConfig.useWDMLA) {
             Logger.info("Loaded WDMLACompat");
             return;
         }

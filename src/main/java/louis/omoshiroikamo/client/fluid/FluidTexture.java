@@ -82,7 +82,7 @@ public class FluidTexture {
             ImageIO.write(flow, "png", flowFile);
 
             writeMcmetaFile(stillFile, writeFrametime, frametime);
-            writeMcmetaFile(flowFile, false, 0); // Flow không cần animation thường
+            writeMcmetaFile(flowFile, false, 0);
 
             try (FileWriter writer = new FileWriter(colorFile)) {
                 writer.write(currentColor);

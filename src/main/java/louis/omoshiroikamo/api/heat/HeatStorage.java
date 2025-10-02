@@ -11,11 +11,7 @@ public class HeatStorage {
     protected float heatCapacity;
     protected float maxTemperature;
     protected float maxTransfer;
-
-    // 0K - Không thể thấp hơn
     protected static final float ABSOLUTE_ZERO = 0f;
-
-    // Nhiệt độ môi trường: 20°C = 293K
     protected float normalTemperature = 293f;
 
     public HeatStorage(float heatCapacity, float maxTemperature, float maxTransfer) {
@@ -96,7 +92,9 @@ public class HeatStorage {
     }
 
     public float receiveHeat(float energy, boolean doTransfer) {
-        if (energy <= 0) return 0;
+        if (energy <= 0) {
+            return 0;
+        }
 
         float deltaT = energy / heatCapacity;
         float newTemp = this.heat + deltaT;
@@ -112,7 +110,9 @@ public class HeatStorage {
     }
 
     public float extractHeat(float energy, boolean doTransfer) {
-        if (energy <= 0) return 0;
+        if (energy <= 0) {
+            return 0;
+        }
 
         float deltaT = energy / heatCapacity;
         float newTemp = this.heat - deltaT;
@@ -174,8 +174,12 @@ public class HeatStorage {
     }
 
     public int calculateTicksToReachTemperature(float maxReceivePerTick, float currentTemp, float targetTemp) {
-        if (targetTemp <= currentTemp) return 0;
-        if (maxReceivePerTick <= 0 || heatCapacity <= 0) return Integer.MAX_VALUE;
+        if (targetTemp <= currentTemp) {
+            return 0;
+        }
+        if (maxReceivePerTick <= 0 || heatCapacity <= 0) {
+            return Integer.MAX_VALUE;
+        }
 
         float deltaT = targetTemp - currentTemp;
         float totalEnergyRequired = heatCapacity * deltaT;
@@ -184,7 +188,9 @@ public class HeatStorage {
     }
 
     public String getTimeFormatted(int ticks) {
-        if (ticks == Integer.MAX_VALUE) return "Reach";
+        if (ticks == Integer.MAX_VALUE) {
+            return "Reach";
+        }
 
         int totalSeconds = ticks / 20;
         int minutes = totalSeconds / 60;
