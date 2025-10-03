@@ -40,6 +40,7 @@ public class ItemBackpack extends ItemBauble implements IGuiHolder<PlayerInvento
         setHasSubtypes(true);
         setMaxStackSize(1);
         setCreativeTab(OKCreativeTab.INSTANCE);
+        disableRightClickEquip();
     }
 
     @Override
@@ -80,7 +81,7 @@ public class ItemBackpack extends ItemBauble implements IGuiHolder<PlayerInvento
 
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer player) {
-        if (!worldIn.isRemote) {
+        if (!worldIn.isRemote && !player.isSneaking()) {
             GuiFactories.playerInventory()
                 .openFromMainHand(player);
         }

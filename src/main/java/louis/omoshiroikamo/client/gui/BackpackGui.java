@@ -47,9 +47,8 @@ import louis.omoshiroikamo.client.gui.modularui2.handler.UpgradeItemStackHandler
 import louis.omoshiroikamo.client.gui.modularui2.slot.ModularBackpackSlot;
 import louis.omoshiroikamo.client.gui.modularui2.slot.ModularCraftingSlotAdv;
 import louis.omoshiroikamo.client.gui.modularui2.slot.ModularUpgradeSlot;
-import louis.omoshiroikamo.client.gui.modularui2.widgets.PageButtonSync;
+import louis.omoshiroikamo.client.gui.modularui2.widgets.BackPackPageButton;
 import louis.omoshiroikamo.common.item.ModItems;
-import louis.omoshiroikamo.common.item.backpack.BackpackMagnetController;
 import louis.omoshiroikamo.common.item.backpack.ItemBackpack;
 import louis.omoshiroikamo.common.item.backpack.ItemCraftingUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemMagnetUpgrade;
@@ -57,8 +56,6 @@ import louis.omoshiroikamo.common.item.backpack.ItemStackUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemUpgrade;
 
 public class BackpackGui extends ModularPanel {
-
-    static BackpackMagnetController controller = new BackpackMagnetController();
 
     public final UpgradeItemStackHandler upgradeHandler;
     public final BackpackItemStackHandler backpackHandler;
@@ -232,8 +229,6 @@ public class BackpackGui extends ModularPanel {
         this.height(panelHeight[meta])
             .width(panelWidth[meta]);
 
-        this.child(buildUpgradePage());
-
         this.child(
             new Column().child(
                 new ParentWidget<>().widthRel(1f)
@@ -271,6 +266,8 @@ public class BackpackGui extends ModularPanel {
                 .padding(4)
                 .childPadding(4)
                 .child(buildUpgradeSlotGroup(meta)));
+
+        this.child(buildUpgradePage());
     }
 
     private SlotGroupWidget buildBagSlotGroup(int tier) {
@@ -386,38 +383,40 @@ public class BackpackGui extends ModularPanel {
         }
 
         List<Integer> enabledIndices = new ArrayList<>();
-
         for (int i = 0; i < upgradeTabs.size(); i++) {
-            TabBinding binding = upgradeTabs.get(i);
-            if (enableMap.getOrDefault(binding.upgradeClass, false)) {
-                enabledIndices.add(i);
+            if (enableMap.getOrDefault(upgradeTabs.get(i).upgradeClass, false)) {
+                enabledIndices.add(i + 1);
             }
         }
 
         if (upgradeController.isInitialised()) {
             int savedIndex = getPageIndex();
 
-            int finalIndex = -1;
-            if (enabledIndices.contains(savedIndex)) {
-                upgradeController.setPage(savedIndex);
-                finalIndex = savedIndex;
-            } else if (!enabledIndices.isEmpty()) {
-                upgradeController.setPage(enabledIndices.get(0));
-                finalIndex = enabledIndices.get(0);
+            if (enabledIndices.isEmpty()) {
+                upgradeController.setPage(0);
+                upgradePage.setEnabled(true);
+                upgradeTabRow.setEnabled(false);
+            } else {
+                upgradePage.setEnabled(true);
+                upgradeTabRow.setEnabled(true);
+
+                if (enabledIndices.contains(savedIndex)) {
+                    upgradeController.setPage(savedIndex);
+                } else {
+                    int fallback = enabledIndices.get(0);
+                    upgradeController.setPage(fallback);
+                }
             }
         }
-
     }
 
     private IWidget buildUpgradePage() {
         ParentWidget<?> widget = new ParentWidget<>().leftRelOffset(1, 1)
             .coverChildren();
 
-        upgradeController = new PagedWidget.Controller() {
-
-        };
-        upgradePage = new PagedWidget<>().debugName("root parent")
-            .controller(upgradeController)
+        upgradeController = new PagedWidget.Controller();
+        upgradePage = new PagedWidget<>().controller(upgradeController)
+            .debugName("root parent")
             .rightRelOffset(0f, 1);
 
         upgradeTabRow = new Row().debugName("Tab col")
@@ -428,12 +427,15 @@ public class BackpackGui extends ModularPanel {
             new TabEntry(ModItems.itemCraftingUpgrade, buildCraftingSlotGroup(), ItemCraftingUpgrade.class),
             new TabEntry(ModItems.itemMagnetUpgrade, buildMagnetSlotGroup(), ItemMagnetUpgrade.class));
 
+        ParentWidget<?> emptyPage = new ParentWidget<>().debugName("Empty Page");
+        upgradePage.addPage(emptyPage);
+
         for (int i = 0; i < tabs.size(); i++) {
             TabEntry tab = tabs.get(i);
-            int index = i;
+            int index = i + 1;
 
-            PageButtonSync button = new PageButtonSync(index, upgradeController)
-                .tab(GuiTextures.TAB_TOP, index == 0 ? -1 : 0)
+            BackPackPageButton button = new BackPackPageButton(index, upgradeController)
+                .tab(GuiTextures.TAB_TOP, i == 0 ? -1 : 0)
                 .size(22)
                 .excludeAreaInNEI()
                 .syncHandler(new InteractionSyncHandler().setOnMousePressed(mouseData -> setPageIndex(index)))
@@ -446,23 +448,23 @@ public class BackpackGui extends ModularPanel {
             upgradePage.addPage(tab.page);
         }
 
-        // Gắn các widget con trước
         this.child(upgradeTabRow);
         widget.child(upgradePage);
 
-        if (upgradeController.isInitialised()) {
-            upgradeController.setPage(getPageIndex());
-        }
+        upgradePage.setEnabled(true);
+        upgradeTabRow.setEnabled(false);
+
+        updateUpgradeWidgets();
         return widget;
     }
 
     private static class TabBinding {
 
-        final PageButtonSync button;
+        final BackPackPageButton button;
         final IWidget page;
         final Class<? extends ItemUpgrade> upgradeClass;
 
-        TabBinding(PageButtonSync button, IWidget page, Class<? extends ItemUpgrade> upgradeClass) {
+        TabBinding(BackPackPageButton button, IWidget page, Class<? extends ItemUpgrade> upgradeClass) {
             this.button = button;
             this.page = page;
             this.upgradeClass = upgradeClass;

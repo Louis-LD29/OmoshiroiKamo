@@ -25,10 +25,10 @@ public class FluidRegister {
 
             int density = (int) Math.round(entry.getDensityKgPerM3());
             if (entry.isGas()) {
-                density = -Math.abs(density); // Đảm bảo khí có density âm
+                density = -Math.abs(density);
             }
 
-            int viscosity = (int) Math.round(entry.getViscosityPaS() * 1000); // Pa·s → mPa·s (nếu cần đơn vị)
+            int viscosity = (int) Math.round(entry.getViscosityPaS() * 1000);
             int temperature = (int) Math.round(entry.getTemperature());
 
             Fluid fluid = registerFluid(fluidName, density, viscosity, temperature);

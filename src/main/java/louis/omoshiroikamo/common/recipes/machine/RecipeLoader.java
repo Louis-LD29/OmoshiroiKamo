@@ -254,12 +254,11 @@ public class RecipeLoader {
             data.append(";E=")
                 .append(builder.getEnergyCost());
 
-            // Băm SHA-256 → rút gọn thành 8 ký tự hex
             byte[] hash = digest.digest(
                 data.toString()
                     .getBytes(StandardCharsets.UTF_8));
             StringBuilder hex = new StringBuilder();
-            for (int i = 0; i < 4; i++) { // lấy 4 byte đầu → 8 ký tự
+            for (int i = 0; i < 4; i++) {
                 hex.append(String.format("%02x", hash[i]));
             }
 

@@ -15,7 +15,7 @@ import com.cleanroommc.modularui.value.sync.SyncHandler;
 import com.cleanroommc.modularui.widget.Widget;
 import com.cleanroommc.modularui.widgets.PagedWidget;
 
-public class PageButtonSync extends Widget<PageButtonSync> implements Interactable {
+public class BackPackPageButton extends Widget<BackPackPageButton> implements Interactable {
 
     private final int index;
     private final PagedWidget.Controller controller;
@@ -27,7 +27,7 @@ public class PageButtonSync extends Widget<PageButtonSync> implements Interactab
     private IGuiAction.MousePressed mousePressed;
     private InteractionSyncHandler syncHandler;
 
-    public PageButtonSync(int index, PagedWidget.Controller controller) {
+    public BackPackPageButton(int index, PagedWidget.Controller controller) {
         this.index = index;
         this.controller = controller;
         disableHoverBackground();
@@ -81,7 +81,7 @@ public class PageButtonSync extends Widget<PageButtonSync> implements Interactab
         return this.controller.getActivePageIndex() == this.index;
     }
 
-    public PageButtonSync background(boolean active, IDrawable... background) {
+    public BackPackPageButton background(boolean active, IDrawable... background) {
         if (active) {
             return background(background);
         }
@@ -95,14 +95,14 @@ public class PageButtonSync extends Widget<PageButtonSync> implements Interactab
         return this;
     }
 
-    public PageButtonSync tab(TabTexture texture, int location) {
+    public BackPackPageButton tab(TabTexture texture, int location) {
         return background(invertSelected(), texture.get(location, invertSelected()))
             .background(!invertSelected(), texture.get(location, !invertSelected()))
             .disableHoverBackground()
             .size(texture.getWidth(), texture.getHeight());
     }
 
-    public PageButtonSync invertSelected(boolean invert) {
+    public BackPackPageButton invertSelected(boolean invert) {
         this.invert = invert;
         return getThis();
     }
@@ -111,23 +111,23 @@ public class PageButtonSync extends Widget<PageButtonSync> implements Interactab
         return this.invert;
     }
 
-    public PageButtonSync onMousePressed(IGuiAction.MousePressed mousePressed) {
+    public BackPackPageButton onMousePressed(IGuiAction.MousePressed mousePressed) {
         this.mousePressed = mousePressed;
         return getThis();
     }
 
-    public PageButtonSync syncHandler(InteractionSyncHandler interactionSyncHandler) {
+    public BackPackPageButton syncHandler(InteractionSyncHandler interactionSyncHandler) {
         this.syncHandler = interactionSyncHandler;
         setSyncHandler(interactionSyncHandler);
         return getThis();
     }
 
-    public PageButtonSync playClickSound(boolean play) {
+    public BackPackPageButton playClickSound(boolean play) {
         this.playClickSound = play;
         return getThis();
     }
 
-    public PageButtonSync clickSound(Runnable clickSound) {
+    public BackPackPageButton clickSound(Runnable clickSound) {
         this.clickSound = clickSound;
         return getThis();
     }

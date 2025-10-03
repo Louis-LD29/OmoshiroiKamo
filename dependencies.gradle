@@ -35,7 +35,7 @@
  */
 dependencies {
 
-    api("com.github.GTNewHorizons:StructureLib:1.4.22:dev")
+    api("com.github.GTNewHorizons:StructureLib:1.4.23:dev")
     api("com.github.GTNewHorizons:NotEnoughIds:2.1.10:dev")
     api("com.github.GTNewHorizons:ModularUI2:2.2.18-1.7.10:dev")
     api("com.github.GTNewHorizons:EnderCore:0.4.8:dev")

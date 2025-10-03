@@ -234,7 +234,6 @@ public class TileSolarPanel extends AbstractPoweredTE {
             }
         }
 
-        // Các block cứng định nghĩa sẵn
         if (block == Blocks.lava || block == Blocks.flowing_lava) {
             return 8;
         } else if (block == Blocks.fire || block == Blocks.torch) {
@@ -268,9 +267,9 @@ public class TileSolarPanel extends AbstractPoweredTE {
             return 0f;
         }
         if (worldObj.isRaining()) {
-            return 0.4f; // Giảm còn 30% hiệu suất
+            return 0.4f;
         }
-        return 1.0f; // Thời tiết đẹp
+        return 1.0f;
     }
 
     @Override

@@ -132,10 +132,9 @@ public class PoweredTask implements IPoweredTask {
         float usedEnergy = nbtRoot.getFloat(KEY_USED_ENERGY);
         float chance = nbtRoot.getFloat(KEY_CHANCE);
 
-        // Đọc danh sách item
         List<ItemStack> itemStacks = new ArrayList<ItemStack>();
         if (nbtRoot.hasKey("ItemStacks")) {
-            NBTTagList itemList = nbtRoot.getTagList("ItemStacks", 10); // 10 = compound
+            NBTTagList itemList = nbtRoot.getTagList("ItemStacks", 10);
             for (int i = 0; i < itemList.tagCount(); i++) {
                 NBTTagCompound tag = itemList.getCompoundTagAt(i);
                 ItemStack stack = ItemStack.loadItemStackFromNBT(tag);
@@ -145,7 +144,6 @@ public class PoweredTask implements IPoweredTask {
             }
         }
 
-        // Đọc danh sách fluid
         List<FluidStack> fluidStacks = new ArrayList<FluidStack>();
         if (nbtRoot.hasKey("FluidStacks")) {
             NBTTagList fluidList = nbtRoot.getTagList("FluidStacks", 10);

@@ -68,13 +68,19 @@ public abstract class ItemBauble extends ItemOK implements IBauble, IAccessory {
         this.disableRightClickEquip = false;
     }
 
+    public void enableRightClickEquip() {
+        this.disableRightClickEquip = true;
+    }
+
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
-        if (disableRightClickEquip) {
+        if (!disableRightClickEquip) {
             return itemStack;
         }
 
-        if (!EntityDoppleganger.isTruePlayer(player)) return itemStack;
+        if (!EntityDoppleganger.isTruePlayer(player)) {
+            return itemStack;
+        }
 
         if (canEquip(itemStack, player)) {
             InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
@@ -84,8 +90,9 @@ public abstract class ItemBauble extends ItemOK implements IBauble, IAccessory {
                     if (stackInSlot == null || ((IBauble) stackInSlot.getItem()).canUnequip(stackInSlot, player)) {
                         if (!world.isRemote) {
                             baubles.setInventorySlotContents(i, itemStack.copy());
-                            if (!player.capabilities.isCreativeMode)
+                            if (!player.capabilities.isCreativeMode) {
                                 player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                            }
                         }
 
                         if (stackInSlot != null) {
@@ -104,8 +111,11 @@ public abstract class ItemBauble extends ItemOK implements IBauble, IAccessory {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
-        if (GuiScreen.isShiftKeyDown()) addHiddenTooltip(itemStack, player, list, par4);
-        else addStringToTooltip(StatCollector.translateToLocal("misc.shiftinfo"), list);
+        if (GuiScreen.isShiftKeyDown()) {
+            addHiddenTooltip(itemStack, player, list, par4);
+        } else {
+            addStringToTooltip(StatCollector.translateToLocal("misc.shiftinfo"), list);
+        }
     }
 
     public void addHiddenTooltip(ItemStack itemStack, EntityPlayer player, List par3List, boolean par4) {
@@ -118,10 +128,12 @@ public abstract class ItemBauble extends ItemOK implements IBauble, IAccessory {
 
         String key = RenderHelper.getKeyDisplayString("Baubles Inventory");
 
-        if (key != null) addStringToTooltip(
-            StatCollector.translateToLocal("baubletooltip")
-                .replaceAll("%key%", key),
-            par3List);
+        if (key != null) {
+            addStringToTooltip(
+                StatCollector.translateToLocal("baubletooltip")
+                    .replaceAll("%key%", key),
+                par3List);
+        }
 
     }
 
@@ -158,8 +170,9 @@ public abstract class ItemBauble extends ItemOK implements IBauble, IAccessory {
     @Optional.Method(modid = "Baubles")
     public void onEquipped(ItemStack stack, EntityLivingBase player) {
         if (player != null) {
-            if (!player.worldObj.isRemote)
+            if (!player.worldObj.isRemote) {
                 player.worldObj.playSoundAtEntity(player, LibResources.PREFIX_MOD + "equipBauble", 0.1F, 1.3F);
+            }
             onEquippedOrLoadedIntoWorld(stack, player);
 
             setLastPlayerHashcode(stack, player.hashCode());

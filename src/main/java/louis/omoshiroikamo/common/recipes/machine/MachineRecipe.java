@@ -17,10 +17,10 @@ public class MachineRecipe {
     public final List<ChanceItemStack> itemOutputs;
     public final List<ChanceFluidStack> fluidOutputs;
 
-    public final int requiredTemperature; // Độ K
-    public final float requiredPressure; // Áp suất kPa hoặc tuỳ định nghĩa
-    public final int energyCost; // EU hoặc RF hoặc tick
-    public final String uid; // EU hoặc RF hoặc tick
+    public final int requiredTemperature;
+    public final float requiredPressure;
+    public final int energyCost;
+    public final String uid;
 
     public MachineRecipe(List<ChanceItemStack> itemInputs, List<ChanceFluidStack> fluidInputs,
         List<ChanceItemStack> itemOutputs, List<ChanceFluidStack> fluidOutputs, int requiredTemperature,

@@ -74,7 +74,6 @@ public class MaterialPropertiesHandler extends RecipeHandlerBase {
             drawItemSlot(x, y);
         }
 
-        // === Tọa độ text ===
         int itemRows = (recipe.materialItems.size() + itemsPerRow - 1) / itemsPerRow;
         int textX = xStart;
         int textY = yStart + itemRows * itemSize + 6;

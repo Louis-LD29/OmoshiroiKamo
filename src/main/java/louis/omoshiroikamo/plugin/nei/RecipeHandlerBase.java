@@ -334,7 +334,6 @@ public abstract class RecipeHandlerBase extends TemplateRecipeHandler implements
         int innerW = totalWidth - 2 * pieceW;
         int innerH = totalHeight - 2 * pieceH;
 
-        // Bốn góc
         GuiDraw.drawTexturedModalRect(x, y, texX, texY, pieceW, pieceH); // Top-left
         GuiDraw.drawTexturedModalRect(x + totalWidth - pieceW, y, texX + 12, texY, pieceW, pieceH); // Top-right
         GuiDraw.drawTexturedModalRect(x, y + totalHeight - pieceH, texX, texY + 12, pieceW, pieceH); // Bottom-left
@@ -344,23 +343,20 @@ public abstract class RecipeHandlerBase extends TemplateRecipeHandler implements
             texX + 12,
             texY + 12,
             pieceW,
-            pieceH); // Bottom-right
+            pieceH);
 
-        // Viền trên / dưới
         for (int i = 0; i < innerW; i += pieceW) {
             int w = Math.min(pieceW, innerW - i);
-            GuiDraw.drawTexturedModalRect(x + pieceW + i, y, texX + 6, texY, w, pieceH); // Top
-            GuiDraw.drawTexturedModalRect(x + pieceW + i, y + totalHeight - pieceH, texX + 6, texY + 12, w, pieceH); // Bottom
+            GuiDraw.drawTexturedModalRect(x + pieceW + i, y, texX + 6, texY, w, pieceH);
+            GuiDraw.drawTexturedModalRect(x + pieceW + i, y + totalHeight - pieceH, texX + 6, texY + 12, w, pieceH);
         }
 
-        // Viền trái / phải
         for (int j = 0; j < innerH; j += pieceH) {
             int h = Math.min(pieceH, innerH - j);
-            GuiDraw.drawTexturedModalRect(x, y + pieceH + j, texX, texY + 6, pieceW, h); // Left
-            GuiDraw.drawTexturedModalRect(x + totalWidth - pieceW, y + pieceH + j, texX + 12, texY + 6, pieceW, h); // Right
+            GuiDraw.drawTexturedModalRect(x, y + pieceH + j, texX, texY + 6, pieceW, h);
+            GuiDraw.drawTexturedModalRect(x + totalWidth - pieceW, y + pieceH + j, texX + 12, texY + 6, pieceW, h);
         }
 
-        // Phần nền giữa
         for (int i = 0; i < innerW; i += pieceW) {
             int w = Math.min(pieceW, innerW - i);
             for (int j = 0; j < innerH; j += pieceH) {
