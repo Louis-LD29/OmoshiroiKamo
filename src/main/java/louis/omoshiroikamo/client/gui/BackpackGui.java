@@ -9,10 +9,13 @@ import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.StatCollector;
+
+import org.jetbrains.annotations.Nullable;
 
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.api.widget.IWidget;
@@ -24,7 +27,6 @@ import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.utils.Alignment;
 import com.cleanroommc.modularui.utils.item.InvWrapper;
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
-import com.cleanroommc.modularui.value.sync.IntSyncValue;
 import com.cleanroommc.modularui.value.sync.InteractionSyncHandler;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widget.ParentWidget;
@@ -51,6 +53,7 @@ import louis.omoshiroikamo.client.gui.modularui2.widgets.BackPackPageButton;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.item.backpack.ItemBackpack;
 import louis.omoshiroikamo.common.item.backpack.ItemCraftingUpgrade;
+import louis.omoshiroikamo.common.item.backpack.ItemFeedingUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemMagnetUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemStackUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemUpgrade;
@@ -61,6 +64,7 @@ public class BackpackGui extends ModularPanel {
     public final BackpackItemStackHandler backpackHandler;
     public final ItemStackHandler craftingHandler;
     public final ItemStackHandler magnetHandler;
+    public final ItemStackHandler feedingHandler;
     private final InvWrapper playerInventory;
     private final EntityPlayer player;
     private final PlayerInventoryGuiData data;
@@ -69,11 +73,13 @@ public class BackpackGui extends ModularPanel {
     private final ItemBackpack item;
 
     private static final String TAG_PAGE = "UpgradePage";
-    private static final String MAGNET_BLACKLIST = "MagnetBlacklist";
+    public static final String MAGNET_FILTER = "MagnetFilter";
+    public static final String FEEDING_FILTER = "FeedingFilter";
     public static final String BACKPACKUPGRADE = "BackpackUpgrade";
     public static final String BACKPACKINV = "BackpackInv";
     public static final String CRAFTINGINV = "CraftingInv";
     public static final String MAGNETINV = "MagnetInv";
+    public static final String FEEDINGINV = "FeedingInv";
     private static final int[] panelWidth = { 176, 176, 176, 176, 230, 230 };
     private static final int[] panelHeight = { 166, 184, 220, 274, 274, 292 };
     public static int slot = 120;
@@ -81,7 +87,6 @@ public class BackpackGui extends ModularPanel {
     private static final int[] invMargin = { 8, 8, 8, 8, 35, 35 };
     private static final int[] backpackHeight = { 84, 102, 138, 192, 192, 210 };
 
-    public static int pageIndex = 0;
     private static PagedWidget<?> upgradePage;
     private static PagedWidget.Controller upgradeController;
     private static Flow upgradeTabRow;
@@ -101,8 +106,6 @@ public class BackpackGui extends ModularPanel {
 
         settings.getNEISettings()
             .enableNEI();
-
-        syncManager.syncValue("pageIndex", new IntSyncValue(() -> this.pageIndex, val -> this.pageIndex = val));
 
         this.upgradeHandler = new UpgradeItemStackHandler(upgradeSlot) {
 
@@ -182,7 +185,41 @@ public class BackpackGui extends ModularPanel {
                             }
                         }
                     }
-                    root.setTag(MAGNET_BLACKLIST, blacklistList);
+                    root.setTag(MAGNET_FILTER, blacklistList);
+
+                    usedItem.setTagCompound(root);
+                }
+            }
+        };
+
+        this.feedingHandler = new ItemStackHandler(10) {
+
+            @Override
+            public void onContentsChanged(int slot) {
+                ItemStack usedItem = data.getUsedItemStack();
+                if (usedItem != null) {
+                    NBTTagCompound root = usedItem.getTagCompound();
+                    if (root == null) {
+                        root = new NBTTagCompound();
+                    }
+                    root.setTag(FEEDINGINV, this.serializeNBT());
+
+                    NBTTagList blacklistList = new NBTTagList();
+                    for (int i = 0; i < getSlots(); i++) {
+                        ItemStack stackInSlot = getStackInSlot(i);
+                        if (stackInSlot != null && stackInSlot.getItem() != null) {
+                            NBTTagCompound itemTag = new NBTTagCompound();
+
+                            GameRegistry.UniqueIdentifier uid = GameRegistry
+                                .findUniqueIdentifierFor(stackInSlot.getItem());
+                            if (uid != null) {
+                                String id = uid.modId + ":" + uid.name;
+                                itemTag.setString("id", id);
+                                blacklistList.appendTag(itemTag);
+                            }
+                        }
+                    }
+                    root.setTag(FEEDING_FILTER, blacklistList);
 
                     usedItem.setTagCompound(root);
                 }
@@ -215,6 +252,9 @@ public class BackpackGui extends ModularPanel {
                 }
                 if (root.hasKey(MAGNETINV)) {
                     magnetHandler.deserializeNBT(root.getCompoundTag(MAGNETINV));
+                }
+                if (root.hasKey(FEEDINGINV)) {
+                    feedingHandler.deserializeNBT(root.getCompoundTag(FEEDINGINV));
                 }
             }
         }
@@ -425,7 +465,8 @@ public class BackpackGui extends ModularPanel {
 
         List<TabEntry> tabs = Arrays.asList(
             new TabEntry(ModItems.itemCraftingUpgrade, buildCraftingSlotGroup(), ItemCraftingUpgrade.class),
-            new TabEntry(ModItems.itemMagnetUpgrade, buildMagnetSlotGroup(), ItemMagnetUpgrade.class));
+            new TabEntry(ModItems.itemMagnetUpgrade, buildMagnetSlotGroup(), ItemMagnetUpgrade.class),
+            new TabEntry(ModItems.itemFeedingUpgrade, buildFeedingSlotGroup(), ItemFeedingUpgrade.class));
 
         ParentWidget<?> emptyPage = new ParentWidget<>().debugName("Empty Page");
         upgradePage.addPage(emptyPage);
@@ -541,7 +582,53 @@ public class BackpackGui extends ModularPanel {
                     .row("III")
                     .row("III")
                     .row("III")
-                    .key('I', i -> new PhantomItemSlot().slot(new ModularSlot(magnetHandler, i)))
+                    .key('I', i -> new PhantomItemSlot().slot(new ModularSlot(magnetHandler, i) {
+
+                        @Override
+                        public int getSlotStackLimit() {
+                            return 1;
+                        }
+                    }))
+                    .build()
+                    .margin(0, 0, 18, 5));
+        return widget;
+    }
+
+    private IWidget buildFeedingSlotGroup() {
+        ParentWidget<?> widget = new ParentWidget<>();
+        widget.padding(7)
+            .background(GuiTextures.MC_BACKGROUND)
+            .coverChildren()
+            .excludeAreaInNEI()
+            .child(
+                new ItemDrawable(ModItems.itemFeedingUpgrade).asIcon()
+                    .asWidget()
+                    .size(18)
+                    .pos(5, 5))
+            .child(
+                IKey.str("Feeding")
+                    .asWidget()
+                    .pos(23, 10))
+            .child(
+                SlotGroupWidget.builder()
+                    .row("III")
+                    .row("III")
+                    .row("III")
+                    .key('I', i -> new PhantomItemSlot() {}.slot(new ModularSlot(feedingHandler, i) {
+
+                        @Override
+                        public int getSlotStackLimit() {
+                            return 1;
+                        }
+
+                        @Override
+                        public boolean isItemValid(@Nullable ItemStack stack) {
+                            if (stack == null) {
+                                return false;
+                            }
+                            return stack.getItem() instanceof ItemFood;
+                        }
+                    }))
                     .build()
                     .margin(0, 0, 18, 5));
         return widget;
@@ -627,6 +714,16 @@ public class BackpackGui extends ModularPanel {
         return true;
     }
 
+    public boolean canAddFeedingUpgrade() {
+        for (int i = 0; i < upgradeHandler.getSlots(); i++) {
+            ItemStack stack = upgradeHandler.getStackInSlot(i);
+            if (stack != null && stack.getItem() instanceof ItemFeedingUpgrade) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // Getter
     public PlayerInventoryGuiData getData() {
         return data;
@@ -666,22 +763,5 @@ public class BackpackGui extends ModularPanel {
         return getData().getUsedItemStack()
             .getTagCompound()
             .getInteger(TAG_PAGE);
-    }
-
-    public static List<String> getBlacklist(ItemStack magnet) {
-        List<String> blacklist = new ArrayList<>();
-        if (magnet != null && magnet.hasTagCompound()
-            && magnet.getTagCompound()
-                .hasKey(MAGNET_BLACKLIST)) {
-            NBTTagList list = magnet.getTagCompound()
-                .getTagList(MAGNET_BLACKLIST, 10);
-            for (int i = 0; i < list.tagCount(); i++) {
-                NBTTagCompound entry = list.getCompoundTagAt(i);
-                if (entry.hasKey("id")) {
-                    blacklist.add(entry.getString("id"));
-                }
-            }
-        }
-        return blacklist;
     }
 }

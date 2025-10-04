@@ -22,6 +22,7 @@ config.magnetConfig=Magnet Settings
 config.damageIndicatorsConfig=Damage Indicators Settings
 config.itemConfig=Item Settings
 config.anvilUpgradeConfig=Anvil Upgrade Settings
+config.feedingConfig=Feeding Settings
 
 #IO
 
@@ -91,6 +92,7 @@ item.itemStackUpgrade.Diamond.name=Stack Upgrade Tier 3
 item.itemStackUpgrade.Netherite.name=Stack Upgrade Tier 4
 item.itemCraftingUpgrade.name=Crafting Upgrade
 item.itemMagnetUpgrade.name=Magnet Upgrade
+item.itemFeedingUpgrade.name=Feeding Upgrade
 
 item.itemHammer.name=Hammer
 

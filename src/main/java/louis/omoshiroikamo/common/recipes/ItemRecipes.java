@@ -187,6 +187,24 @@ public class ItemRecipes {
                 "ingotIron",
                 'U',
                 new ItemStack(ModItems.itemUpgrade, 1, 0)));
+
+        // Feeding Upgrade
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModItems.itemFeedingUpgrade, 1, 0),
+                " C ",
+                "AUM",
+                " E ",
+                'E',
+                "pearlEnder",
+                'C',
+                new ItemStack(Items.golden_carrot, 1, 0),
+                'A',
+                new ItemStack(Items.golden_apple, 1, 0),
+                'M',
+                new ItemStack(Items.speckled_melon, 1, 0),
+                'U',
+                new ItemStack(ModItems.itemUpgrade, 1, 0)));
     }
 
 }

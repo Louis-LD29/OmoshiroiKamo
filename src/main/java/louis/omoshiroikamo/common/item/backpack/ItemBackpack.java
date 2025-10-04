@@ -1,7 +1,17 @@
 package louis.omoshiroikamo.common.item.backpack;
 
-import java.util.List;
-
+import com.cleanroommc.modularui.api.IGuiHolder;
+import com.cleanroommc.modularui.factory.GuiFactories;
+import com.cleanroommc.modularui.factory.PlayerInventoryGuiData;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
+import cpw.mods.fml.common.registry.GameRegistry;
+import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.client.gui.BackpackGui;
+import louis.omoshiroikamo.common.OKCreativeTab;
+import louis.omoshiroikamo.common.item.ItemBauble;
+import louis.omoshiroikamo.common.util.lib.LibMods;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -9,31 +19,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-import com.cleanroommc.modularui.api.IGuiHolder;
-import com.cleanroommc.modularui.factory.GuiFactories;
-import com.cleanroommc.modularui.factory.PlayerInventoryGuiData;
-import com.cleanroommc.modularui.screen.ModularPanel;
-import com.cleanroommc.modularui.screen.UISettings;
-import com.cleanroommc.modularui.value.sync.PanelSyncManager;
-
-import cpw.mods.fml.common.registry.GameRegistry;
-import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.client.gui.BackpackGui;
-import louis.omoshiroikamo.common.OKCreativeTab;
-import louis.omoshiroikamo.common.item.ItemBauble;
-import louis.omoshiroikamo.common.util.lib.LibMods;
+import java.util.List;
 
 public class ItemBackpack extends ItemBauble implements IGuiHolder<PlayerInventoryGuiData> {
 
-    static BackpackMagnetController controller = new BackpackMagnetController();
-
     public static BackpackGui gui;
-
-    public static ItemBackpack create() {
-        ItemBackpack item = new ItemBackpack();
-        item.init();
-        return item;
-    }
+    static BackpackMagnetController controller = new BackpackMagnetController();
 
     public ItemBackpack() {
         super(ModObject.itemBackPack.unlocalisedName);
@@ -41,6 +32,12 @@ public class ItemBackpack extends ItemBauble implements IGuiHolder<PlayerInvento
         setMaxStackSize(1);
         setCreativeTab(OKCreativeTab.INSTANCE);
         disableRightClickEquip();
+    }
+
+    public static ItemBackpack create() {
+        ItemBackpack item = new ItemBackpack();
+        item.init();
+        return item;
     }
 
     @Override

@@ -14,8 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,27 +33,27 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.client.gui.BackpackGui;
 import louis.omoshiroikamo.client.gui.modularui2.handler.UpgradeItemStackHandler;
+import louis.omoshiroikamo.common.network.PacketBackPackState;
 import louis.omoshiroikamo.common.network.PacketHandler;
-import louis.omoshiroikamo.common.network.PacketMagnetState;
-import louis.omoshiroikamo.plugin.baubles.BaublesUtil;
+import louis.omoshiroikamo.common.util.lib.LibObfuscation;
 import vazkii.botania.common.core.helper.Vector3;
 
 @EventBusSubscriber()
 public class BackpackMagnetController {
 
-    private static final String TAG_COOLDOWN = "cooldown";
+    private static final String TAG_COOLDOWN = "magnetCooldown";
     protected static Random rand = new Random();
-    private static List<Item> blacklist = null;
+    private static List<Item> filter = null;
 
     private static final double collisionDistanceSq = 1.25 * 1.25;
 
     public BackpackMagnetController() {
         PacketHandler.INSTANCE
-            .registerMessage(PacketMagnetState.class, PacketMagnetState.class, PacketHandler.nextID(), Side.SERVER);
+            .registerMessage(PacketBackPackState.class, PacketBackPackState.class, PacketHandler.nextID(), Side.SERVER);
     }
 
     @SubscribeEvent
@@ -64,7 +62,7 @@ public class BackpackMagnetController {
             return;
         }
 
-        ActiveMagnet mag = getActiveMagnet(event.player);
+        BackpackUtil.ActiveBackPack mag = getActiveMagnet(event.player);
         if (mag != null && event.player.getHealth() > 0f) {
             doHoover(event.player, mag);
         }
@@ -81,19 +79,19 @@ public class BackpackMagnetController {
             if (stack == null || !(stack.getItem() instanceof ItemBackpack)) {
                 continue;
             }
-            setCooldown(stack, 100);
+            BackpackUtil.setCooldown(stack, 100, TAG_COOLDOWN);
         }
         InventoryBaubles baubleInv = PlayerHandler.getPlayerBaubles(event.player);
         for (int i = 0; i < baubleInv.getSizeInventory(); i++) {
             ItemStack stack = baubleInv.getStackInSlot(i);
             if (stack != null && stack.getItem() instanceof ItemBackpack) {
-                setCooldown(stack, 100);
+                BackpackUtil.setCooldown(stack, 100, TAG_COOLDOWN);
                 baubleInv.markDirty();
             }
         }
     }
 
-    private static ActiveMagnet getActiveMagnet(EntityPlayer player) {
+    private static BackpackUtil.ActiveBackPack getActiveMagnet(EntityPlayer player) {
         ItemStack[] inv = player.inventory.mainInventory;
         int maxSlot = magnetConfig.magnetAllowInMainInventory ? 4 * 9 : 9;
         InventoryBaubles baubleInv = PlayerHandler.getPlayerBaubles(player);
@@ -106,16 +104,16 @@ public class BackpackMagnetController {
             }
 
             NBTTagCompound tag = stack.getTagCompound();
-            if (tag == null || !tag.hasKey("BackpackUpgrade")) {
+            if (tag == null || !tag.hasKey(BackpackGui.BACKPACKUPGRADE)) {
                 continue;
             }
 
-            upgradeHandler.deserializeNBT(tag.getCompoundTag("BackpackUpgrade"));
+            upgradeHandler.deserializeNBT(tag.getCompoundTag(BackpackGui.BACKPACKUPGRADE));
 
             for (int slot = 0; slot < upgradeHandler.getSlots(); slot++) {
                 ItemStack upgrade = upgradeHandler.getStackInSlot(slot);
                 if (upgrade != null && upgrade.getItem() instanceof ItemMagnetUpgrade) {
-                    return new ActiveMagnet(stack, slot);
+                    return new BackpackUtil.ActiveBackPack(stack, slot);
                 }
             }
         }
@@ -130,16 +128,16 @@ public class BackpackMagnetController {
             }
 
             NBTTagCompound tag = stack.getTagCompound();
-            if (tag == null || !tag.hasKey("BackpackUpgrade")) {
+            if (tag == null || !tag.hasKey(BackpackGui.BACKPACKUPGRADE)) {
                 continue;
             }
 
-            upgradeHandler.deserializeNBT(tag.getCompoundTag("BackpackUpgrade"));
+            upgradeHandler.deserializeNBT(tag.getCompoundTag(BackpackGui.BACKPACKUPGRADE));
 
             for (int slot = 0; slot < upgradeHandler.getSlots(); slot++) {
                 ItemStack upgrade = upgradeHandler.getStackInSlot(slot);
                 if (upgrade != null && upgrade.getItem() instanceof ItemMagnetUpgrade) {
-                    return new ActiveMagnet(stack, slot);
+                    return new BackpackUtil.ActiveBackPack(stack, slot);
                 }
             }
         }
@@ -147,13 +145,13 @@ public class BackpackMagnetController {
         return null;
     }
 
-    public static void doHoover(EntityPlayer player, ActiveMagnet mag) {
-        int cooldown = getCooldown(mag.item);
+    public static void doHoover(EntityPlayer player, BackpackUtil.ActiveBackPack mag) {
+        int cooldown = BackpackUtil.getCooldown(mag.item, TAG_COOLDOWN);
 
-        initBlacklist(mag);
+        initFilter(mag);
 
         if (cooldown > 0) {
-            setCooldown(mag.item, cooldown - 1);
+            BackpackUtil.setCooldown(mag.item, cooldown - 1, TAG_COOLDOWN);
             return;
         }
 
@@ -190,34 +188,22 @@ public class BackpackMagnetController {
                 }
             }
 
-            setCooldown(mag.item, 2);
+            BackpackUtil.setCooldown(mag.item, 2, TAG_COOLDOWN);
         }
     }
 
-    private static void initBlacklist(ActiveMagnet mag) {
+    private static void initFilter(BackpackUtil.ActiveBackPack mag) {
         Set<String> names = new HashSet<>();
         names.addAll(Arrays.asList(magnetConfig.magnetBlacklist));
-        names.addAll(BackpackGui.getBlacklist(mag.item));
+        names.addAll(BackpackUtil.getFilter(mag.item, BackpackGui.MAGNET_FILTER));
 
-        List<Item> newBlacklist = new ArrayList<>();
+        List<Item> itemList = new ArrayList<>();
 
         for (String name : names) {
-            addItemToBlacklist(newBlacklist, name);
+            BackpackUtil.addItemToFilter(itemList, name);
         }
 
-        blacklist = newBlacklist;
-    }
-
-    private static void addItemToBlacklist(List<Item> list, String name) {
-        String[] parts = name.split(":");
-        if (parts.length == 2) {
-            Item item = GameRegistry.findItem(parts[0], parts[1]);
-            if (item != null) {
-                if (!list.contains(item)) {
-                    list.add(item);
-                }
-            }
-        }
+        filter = itemList;
     }
 
     @SuppressWarnings("unchecked")
@@ -247,10 +233,10 @@ public class BackpackMagnetController {
                             boolean gotOne = false;
                             if (entity instanceof EntityItem && entity.boundingBox.intersectsWith(bb)) {
                                 gotOne = !hasSolegnoliaAround(entity);
-                                if (gotOne && !blacklist.isEmpty()) {
+                                if (gotOne && !filter.isEmpty()) {
                                     final Item item = ((EntityItem) entity).getEntityItem()
                                         .getItem();
-                                    for (Item blacklisted : blacklist) {
+                                    for (Item blacklisted : filter) {
                                         if (blacklisted == item) {
                                             gotOne = false;
                                             break;
@@ -279,69 +265,6 @@ public class BackpackMagnetController {
         return arraylist;
     }
 
-    private static class ActiveMagnet {
-
-        ItemStack item;
-        int slot;
-
-        ActiveMagnet(ItemStack item, int slot) {
-            this.item = item;
-            this.slot = slot;
-        }
-    }
-
-    public static void setMagnetActive(EntityPlayerMP player, PacketMagnetState.SlotType type, int slot,
-        boolean isActive) {
-        ItemStack stack = null;
-        IInventory baubles = null;
-        int dropOff = -1;
-        switch (type) {
-            case INVENTORY:
-                stack = player.inventory.getStackInSlot(slot);
-                break;
-            case ARMOR:
-                return;
-            case BAUBLES:
-                baubles = BaublesUtil.instance()
-                    .getBaubles(player);
-                if (baubles != null) {
-                    stack = baubles.getStackInSlot(slot);
-                }
-                break;
-        }
-        if (stack == null || stack.getItem() == null) {
-            return;
-        }
-        if (type == PacketMagnetState.SlotType.BAUBLES && !isActive) {
-            ItemStack[] inv = player.inventory.mainInventory;
-            for (int i = 0; i < inv.length && dropOff < 0; i++) {
-                if (inv[i] == null) {
-                    dropOff = i;
-                }
-            }
-            if (dropOff < 0) {
-                return;
-            }
-        }
-        switch (type) {
-            case INVENTORY:
-                player.inventory.setInventorySlotContents(slot, stack);
-                player.inventory.markDirty();
-                break;
-            case ARMOR:
-                return;
-            case BAUBLES:
-                if (dropOff < 0) {
-                    baubles.setInventorySlotContents(slot, stack);
-                } else {
-                    baubles.setInventorySlotContents(slot, null);
-                    player.inventory.setInventorySlotContents(dropOff, stack);
-                }
-                player.inventory.markDirty();
-                break;
-        }
-    }
-
     public static void onCollideWithPlayer(EntityPlayer player, Entity entity) {
         if (!entity.worldObj.isRemote) {
             if (entity instanceof EntityXPOrb) {
@@ -357,6 +280,8 @@ public class BackpackMagnetController {
 
             ItemStack itemstack = item.getEntityItem();
             int i = itemstack.stackSize;
+
+            String field_145802_g = ReflectionHelper.getPrivateValue(EntityItem.class, item, LibObfuscation.POTION_ID);
 
             boolean canPickup = (item.field_145802_g == null || item.lifespan - item.age <= 200
                 || item.field_145802_g.equals(player.getCommandSenderName()))
@@ -394,28 +319,5 @@ public class BackpackMagnetController {
         entity.motionX = finalVector.x * modifier;
         entity.motionY = finalVector.y * modifier;
         entity.motionZ = finalVector.z * modifier;
-    }
-
-    public static void setCooldown(ItemStack stack, int cooldown) {
-        NBTTagCompound root = stack.getTagCompound();
-        if (root == null) {
-            root = new NBTTagCompound();
-            stack.setTagCompound(root);
-        }
-        root.setInteger(TAG_COOLDOWN, cooldown);
-
-    }
-
-    public static int getCooldown(ItemStack stack) {
-        NBTTagCompound root = stack.getTagCompound();
-        if (root == null) {
-            root = new NBTTagCompound();
-            stack.setTagCompound(root);
-        }
-        if (!root.hasKey(TAG_COOLDOWN)) {
-            root.setInteger(TAG_COOLDOWN, 2);
-        }
-        int cd = root.getInteger(TAG_COOLDOWN);
-        return cd;
     }
 }

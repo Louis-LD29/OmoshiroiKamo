@@ -6,6 +6,7 @@ import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.config.general.DamageIndicatorsConfig;
+import louis.omoshiroikamo.config.general.FeedingConfig;
 import louis.omoshiroikamo.config.general.MagnetConfig;
 import louis.omoshiroikamo.config.item.ItemConfig;
 
@@ -25,6 +26,7 @@ public class GeneralConfig {
         ConfigurationManager.registerConfig(GeneralConfig.class);
         ItemConfig.registerConfig();
         ConfigurationManager.registerConfig(MagnetConfig.class);
+        ConfigurationManager.registerConfig(FeedingConfig.class);
         ConfigurationManager.registerConfig(DamageIndicatorsConfig.class);
     }
 }

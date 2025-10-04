@@ -12,6 +12,7 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 
 import louis.omoshiroikamo.client.gui.BackpackGui;
 import louis.omoshiroikamo.common.item.backpack.ItemCraftingUpgrade;
+import louis.omoshiroikamo.common.item.backpack.ItemFeedingUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemMagnetUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemStackUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemUpgrade;
@@ -71,6 +72,9 @@ public class ModularUpgradeSlot extends ModularSlot {
         }
         if (item instanceof ItemMagnetUpgrade) {
             return gui.canAddMagnetUpgrade();
+        }
+        if (item instanceof ItemFeedingUpgrade) {
+            return gui.canAddFeedingUpgrade();
         }
         return item instanceof ItemUpgrade;
     }

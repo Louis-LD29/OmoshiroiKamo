@@ -6,9 +6,9 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import louis.omoshiroikamo.common.item.backpack.BackpackMagnetController;
+import louis.omoshiroikamo.common.item.backpack.BackpackUtil;
 
-public class PacketMagnetState implements IMessage, IMessageHandler<PacketMagnetState, IMessage> {
+public class PacketBackPackState implements IMessage, IMessageHandler<PacketBackPackState, IMessage> {
 
     public enum SlotType {
         INVENTORY,
@@ -16,13 +16,13 @@ public class PacketMagnetState implements IMessage, IMessageHandler<PacketMagnet
         BAUBLES
     }
 
-    public PacketMagnetState() {}
+    public PacketBackPackState() {}
 
     private boolean isActive;
     private SlotType type;
     private int slot;
 
-    public PacketMagnetState(SlotType slottype, int slot, boolean isActive) {
+    public PacketBackPackState(SlotType slottype, int slot, boolean isActive) {
         this.type = slottype;
         this.slot = slot;
         this.isActive = isActive;
@@ -43,9 +43,9 @@ public class PacketMagnetState implements IMessage, IMessageHandler<PacketMagnet
     }
 
     @Override
-    public IMessage onMessage(PacketMagnetState message, MessageContext ctx) {
+    public IMessage onMessage(PacketBackPackState message, MessageContext ctx) {
         EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-        BackpackMagnetController.setMagnetActive(player, message.type, message.slot, message.isActive);
+        BackpackUtil.setBackpackActive(player, message.type, message.slot, message.isActive);
         return null;
     }
 }

@@ -6,6 +6,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import louis.omoshiroikamo.client.handler.PoweredItemRenderer;
 import louis.omoshiroikamo.common.item.backpack.ItemBackpack;
 import louis.omoshiroikamo.common.item.backpack.ItemCraftingUpgrade;
+import louis.omoshiroikamo.common.item.backpack.ItemFeedingUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemMagnetUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemStackUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemUpgrade;
@@ -19,6 +20,7 @@ public final class ModItems {
     public static Item itemStackUpgrade;
     public static Item itemCraftingUpgrade;
     public static Item itemMagnetUpgrade;
+    public static Item itemFeedingUpgrade;
     public static Item itemWireCoil;
     public static Item itemMaterial;
     public static Item itemOre;
@@ -31,6 +33,7 @@ public final class ModItems {
         itemStackUpgrade = ItemStackUpgrade.create();
         itemCraftingUpgrade = ItemCraftingUpgrade.create();
         itemMagnetUpgrade = ItemMagnetUpgrade.create();
+        itemFeedingUpgrade = ItemFeedingUpgrade.create();
         itemWireCoil = ItemWireCoil.create();
         itemMaterial = ItemMaterial.create();
         itemOre = ItemOre.create();
