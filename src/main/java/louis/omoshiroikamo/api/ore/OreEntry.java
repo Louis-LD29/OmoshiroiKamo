@@ -1,45 +1,32 @@
 package louis.omoshiroikamo.api.ore;
 
-import louis.omoshiroikamo.api.fluid.FluidRegistry;
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.config.OreConfig;
-
 public class OreEntry {
 
     private final String name;
     public final int meta;
-    public final OreConfig defaults;
+    public final int veinSize;
+    public final int minY;
+    public final int maxY;
+    public final float chancePerChunk;
+    public final boolean enabled;
+    public final int color;
+    public final int hardness;
+    public final int resistance;
+    public final int harvestLevel;
 
     public OreEntry(String name, int meta, int veinSize, int minY, int maxY, float chancePerChunk, boolean enabled,
         int color, int hardness, int resistance, int harvestLevel) {
         this.name = name;
         this.meta = meta;
-        this.defaults = new OreConfig(
-            name,
-            meta,
-            veinSize,
-            minY,
-            maxY,
-            chancePerChunk,
-            enabled,
-            color,
-            hardness,
-            resistance,
-            harvestLevel);
-    }
-
-    public OreEntry(String name, int meta, OreConfig config) {
-        this.name = name;
-        this.meta = meta;
-        this.defaults = config;
-    }
-
-    public OreEntry(String name) {
-        this(
-            name,
-            FluidRegistry.all()
-                .size(),
-            OreConfig.defaultFor(name));
+        this.veinSize = veinSize;
+        this.minY = minY;
+        this.maxY = maxY;
+        this.chancePerChunk = chancePerChunk;
+        this.enabled = enabled;
+        this.color = color;
+        this.hardness = hardness;
+        this.resistance = resistance;
+        this.harvestLevel = harvestLevel;
     }
 
     public String getName() {
@@ -54,32 +41,27 @@ public class OreEntry {
         return name.replace(" ", "");
     }
 
-    public OreConfig getConfig() {
-        return Config.oreConfigs.getOrDefault(name, defaults);
-    }
-
     public int getMinY() {
-        return getConfig().minY;
+        return minY;
     }
 
     public int getMaxY() {
-        return getConfig().maxY;
+        return maxY;
     }
 
     public int getVeinSize() {
-        return getConfig().veinSize;
+        return veinSize;
     }
 
     public float getChancePerChunk() {
-        return getConfig().chancePerChunk;
+        return chancePerChunk;
     }
 
     public boolean isEnable() {
-        return getConfig().enabled;
+        return enabled;
     }
 
     public int getColor() {
-        int color = getConfig().color;
         int r = (color >> 16) & 0xFF;
         int g = (color >> 8) & 0xFF;
         int b = color & 0xFF;
@@ -92,15 +74,15 @@ public class OreEntry {
     }
 
     public int getHardness() {
-        return getConfig().hardness;
+        return hardness;
     }
 
     public int getResistance() {
-        return getConfig().resistance;
+        return resistance;
     }
 
     public int getHarvestLevel() {
-        return getConfig().harvestLevel;
+        return harvestLevel;
     }
 
 }

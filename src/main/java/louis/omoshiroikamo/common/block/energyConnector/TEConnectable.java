@@ -14,20 +14,20 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 
-import louis.omoshiroikamo.api.energy.MaterialWireType;
+import louis.omoshiroikamo.api.ApiUtils;
+import louis.omoshiroikamo.api.DimensionBlockPos;
+import louis.omoshiroikamo.api.TargetingInfo;
+import louis.omoshiroikamo.api.energy.wire.IWCProxy;
+import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
+import louis.omoshiroikamo.api.energy.wire.MaterialWireType;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireType;
 import louis.omoshiroikamo.api.enums.VoltageTier;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
-import louis.omoshiroikamo.common.core.helper.Logger;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.ApiUtils;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.DimensionBlockPos;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.TargetingInfo;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IICProxy;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IImmersiveConnectable;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.Utils;
+import louis.omoshiroikamo.common.util.Utils;
+import louis.omoshiroikamo.common.util.helper.Logger;
 
-public abstract class TEConnectable extends AbstractTE implements IImmersiveConnectable {
+public abstract class TEConnectable extends AbstractTE implements IWireConnectable {
 
     protected WireType limitType = null;
     private boolean needsVisualUpdate = true;
@@ -75,15 +75,16 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
     public void invalidate() {
         super.invalidate();
         if (worldObj != null && (!worldObj.isRemote || !Minecraft.getMinecraft()
-            .isSingleplayer()))
-            ImmersiveNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(this), worldObj, !worldObj.isRemote);
+            .isSingleplayer())) {
+            WireNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(this), worldObj, !worldObj.isRemote);
+        }
     }
 
     @Override
     public void onEnergyPassthrough(int amount) {}
 
     @Override
-    public boolean allowEnergyToPass(ImmersiveNetHandler.Connection con) {
+    public boolean allowEnergyToPass(WireNetHandler.Connection con) {
         return true;
     }
 
@@ -107,18 +108,40 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
         if (cableType instanceof MaterialWireType) {
             VoltageTier tier = ((MaterialWireType) cableType).getMaterial()
                 .getVoltageTier();
-            if (tier == VoltageTier.ULV && !canTakeULV()) return false;
-            if (tier == VoltageTier.LV && !canTakeLV()) return false;
-            if (tier == VoltageTier.MV && !canTakeMV()) return false;
-            if (tier == VoltageTier.HV && !canTakeHV()) return false;
-            if (tier == VoltageTier.EV && !canTakeEV()) return false;
-            if (tier == VoltageTier.IV && !canTakeIV()) return false;
+            if (tier == VoltageTier.ULV && !canTakeULV()) {
+                return false;
+            }
+            if (tier == VoltageTier.LV && !canTakeLV()) {
+                return false;
+            }
+            if (tier == VoltageTier.MV && !canTakeMV()) {
+                return false;
+            }
+            if (tier == VoltageTier.HV && !canTakeHV()) {
+                return false;
+            }
+            if (tier == VoltageTier.EV && !canTakeEV()) {
+                return false;
+            }
+            if (tier == VoltageTier.IV && !canTakeIV()) {
+                return false;
+            }
         }
-        if (cableType == WireType.STEEL && !canTakeHV()) return false;
-        if (cableType == WireType.ELECTRUM && !canTakeMV()) return false;
-        if (cableType == WireType.COPPER && !canTakeLV()) return false;
-        if (cableType == WireType.STRUCTURE_ROPE) return false;
-        if (cableType == WireType.STRUCTURE_STEEL) return false;
+        if (cableType == WireType.STEEL && !canTakeHV()) {
+            return false;
+        }
+        if (cableType == WireType.ELECTRUM && !canTakeMV()) {
+            return false;
+        }
+        if (cableType == WireType.COPPER && !canTakeLV()) {
+            return false;
+        }
+        if (cableType == WireType.STRUCTURE_ROPE) {
+            return false;
+        }
+        if (cableType == WireType.STRUCTURE_STEEL) {
+            return false;
+        }
         return limitType == null || limitType == cableType;
     }
 
@@ -133,25 +156,26 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
     }
 
     @Override
-    public void removeCable(ImmersiveNetHandler.Connection connection) {
+    public void removeCable(WireNetHandler.Connection connection) {
         WireType type = connection != null ? connection.cableType : null;
-        Set<ImmersiveNetHandler.Connection> outputs = ImmersiveNetHandler.INSTANCE
-            .getConnections(worldObj, Utils.toCC(this));
+        Set<WireNetHandler.Connection> outputs = WireNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
         if (outputs == null || outputs.size() == 0) {
-            if (type == limitType || type == null) this.limitType = null;
+            if (type == limitType || type == null) {
+                this.limitType = null;
+            }
         }
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     @Override
     public void onChunkUnload() {
-        ImmersiveNetHandler.INSTANCE.setProxy(new DimensionBlockPos(this), new IICProxy(this));
+        WireNetHandler.INSTANCE.setProxy(new DimensionBlockPos(this), new IWCProxy(this));
         super.onChunkUnload();
     }
 
     @Override
     public void validate() {
-        ImmersiveNetHandler.INSTANCE.resetCachedIndirectConnections();
+        WireNetHandler.INSTANCE.resetCachedIndirectConnections();
         super.validate();
     }
 
@@ -170,10 +194,10 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
         this.writeToNBT(nbttagcompound);
         if (worldObj != null && !worldObj.isRemote) {
             NBTTagList connectionList = new NBTTagList();
-            Set<ImmersiveNetHandler.Connection> conL = ImmersiveNetHandler.INSTANCE
-                .getConnections(worldObj, Utils.toCC(this));
-            if (conL != null)
-                for (ImmersiveNetHandler.Connection con : conL) connectionList.appendTag(con.writeToNBT());
+            Set<WireNetHandler.Connection> conL = WireNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
+            if (conL != null) {
+                for (WireNetHandler.Connection con : conL) connectionList.appendTag(con.writeToNBT());
+            }
             nbttagcompound.setTag("connectionList", connectionList);
         }
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, nbttagcompound);
@@ -188,13 +212,15 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
             && !Minecraft.getMinecraft()
                 .isSingleplayer()) {
             NBTTagList connectionList = nbt.getTagList("connectionList", 10);
-            ImmersiveNetHandler.INSTANCE.clearConnectionsOriginatingFrom(Utils.toCC(this), worldObj);
+            WireNetHandler.INSTANCE.clearConnectionsOriginatingFrom(Utils.toCC(this), worldObj);
             for (int i = 0; i < connectionList.tagCount(); i++) {
                 NBTTagCompound conTag = connectionList.getCompoundTagAt(i);
-                ImmersiveNetHandler.Connection con = ImmersiveNetHandler.Connection.readFromNBT(conTag);
+                WireNetHandler.Connection con = WireNetHandler.Connection.readFromNBT(conTag);
                 if (con != null) {
-                    ImmersiveNetHandler.INSTANCE.addConnection(worldObj, Utils.toCC(this), con);
-                } else Logger.error("CLIENT read connection as null");
+                    WireNetHandler.INSTANCE.addConnection(worldObj, Utils.toCC(this), con);
+                } else {
+                    Logger.error("CLIENT read connection as null");
+                }
             }
         }
     }
@@ -214,7 +240,9 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
             needsVisualUpdate = root.getBoolean("needsVisualUpdate");
         }
         try {
-            if (root.hasKey("limitType")) limitType = ApiUtils.getWireTypeFromNBT(root, "limitType");
+            if (root.hasKey("limitType")) {
+                limitType = ApiUtils.getWireTypeFromNBT(root, "limitType");
+            }
         } catch (Exception e) {
             Logger.error("MTEConnector encountered MASSIVE error reading NBT. You shoudl probably report this.");
         }
@@ -224,7 +252,9 @@ public abstract class TEConnectable extends AbstractTE implements IImmersiveConn
     public void writeCommon(NBTTagCompound root) {
         root.setBoolean("needsVisualUpdate", needsVisualUpdate);
         try {
-            if (limitType != null) root.setString("limitType", limitType.getUniqueName());
+            if (limitType != null) {
+                root.setString("limitType", limitType.getUniqueName());
+            }
 
             if (this.worldObj != null) {
                 root.setIntArray("prevPos", new int[] { this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord });

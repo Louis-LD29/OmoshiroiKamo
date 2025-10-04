@@ -17,28 +17,23 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import blusunrize.immersiveengineering.common.util.IEAchievements;
-import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import louis.omoshiroikamo.api.TargetingInfo;
 import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
-import louis.omoshiroikamo.api.energy.MaterialWireType;
+import louis.omoshiroikamo.api.energy.wire.IWireCoil;
+import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
+import louis.omoshiroikamo.api.energy.wire.MaterialWireType;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
+import louis.omoshiroikamo.api.energy.wire.WireType;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.OKCreativeTab;
-import louis.omoshiroikamo.common.core.helper.ItemNBTHelper;
-import louis.omoshiroikamo.common.core.lib.LibMods;
-import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.TargetingInfo;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IImmersiveConnectable;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IWireCoil;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.IESaveData;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.Utils;
+import louis.omoshiroikamo.common.util.Utils;
+import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.lib.LibResources;
+import louis.omoshiroikamo.common.world.WireNetSaveData;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -49,10 +44,7 @@ import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengin
  * It is intended for use in a standalone mod inspired by Immersive Engineering.
  */
 
-@Optional.InterfaceList({ @Optional.Interface(
-    iface = "blusunrize.immersiveengineering.common.util.IEAchievements",
-    modid = "ImmersiveEngineering") })
-public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipProvider {
+public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipProvider {
 
     @SideOnly(Side.CLIENT)
     protected IIcon baseIcon, overlayIcon;
@@ -64,14 +56,9 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     }
 
     protected ItemWireCoil() {
+        super(ModObject.itemWireCoil.unlocalisedName);
         setHasSubtypes(true);
         setMaxDamage(0);
-        setCreativeTab(OKCreativeTab.INSTANCE);
-        setUnlocalizedName(ModObject.itemWireCoil.unlocalisedName);
-    }
-
-    private void init() {
-        GameRegistry.registerItem(this, ModObject.itemWireCoil.unlocalisedName);
     }
 
     @Override
@@ -137,13 +124,15 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
             .hasKey("linkingPos")) {
             int[] link = stack.getTagCompound()
                 .getIntArray("linkingPos");
-            if (link != null && link.length > 3) list.add(
-                StatCollector.translateToLocalFormatted(
-                    LibResources.DESC_INFO + "attachedToDim",
-                    link[1],
-                    link[2],
-                    link[3],
-                    link[0]));
+            if (link != null && link.length > 3) {
+                list.add(
+                    StatCollector.translateToLocalFormatted(
+                        LibResources.DESC_INFO + "attachedToDim",
+                        link[1],
+                        link[2],
+                        link[3],
+                        link[0]));
+            }
         }
     }
 
@@ -155,16 +144,19 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
         float hitX, float hitY, float hitZ) {
-        if (world.isRemote) return false;
+        if (world.isRemote) {
+            return false;
+        }
 
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (!(tileEntity instanceof IImmersiveConnectable) || !((IImmersiveConnectable) tileEntity).canConnect())
+        if (!(tileEntity instanceof IWireConnectable) || !((IWireConnectable) tileEntity).canConnect()) {
             return false;
+        }
 
         TargetingInfo target = new TargetingInfo(side, hitX, hitY, hitZ);
         WireType type = getWireType(stack);
 
-        if (!((IImmersiveConnectable) tileEntity).canConnectCable(type, target)) {
+        if (!((IWireConnectable) tileEntity).canConnectCable(type, target)) {
             player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "wrongCable"));
             return false;
         }
@@ -172,11 +164,15 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
         if (!ItemNBTHelper.verifyExistance(stack, "linkingPos")) {
             // Lưu điểm kết nối đầu tiên
             ItemNBTHelper.setIntArray(stack, "linkingPos", new int[] { world.provider.dimensionId, x, y, z });
-            if (stack.getTagCompound() == null) stack.setTagCompound(new NBTTagCompound());
+            if (stack.getTagCompound() == null) {
+                stack.setTagCompound(new NBTTagCompound());
+            }
             target.writeToNBT(stack.getTagCompound());
         } else {
             int[] pos = ItemNBTHelper.getIntArray(stack, "linkingPos", 0);
-            if (pos.length != 4) return false;
+            if (pos.length != 4) {
+                return false;
+            }
 
             if (pos[0] != world.provider.dimensionId) {
                 player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "wrongDimension"));
@@ -184,7 +180,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                 player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "sameConnection"));
             } else {
                 TileEntity tileEntityLink = world.getTileEntity(pos[1], pos[2], pos[3]);
-                if (!(tileEntityLink instanceof IImmersiveConnectable)) {
+                if (!(tileEntityLink instanceof IWireConnectable)) {
                     player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "invalidPoint"));
                 } else {
                     int distance = (int) Math
@@ -193,16 +189,15 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                     if (distance > type.getMaxLength()) {
                         player.addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "tooFar"));
                     } else {
-                        IImmersiveConnectable nodeHere = (IImmersiveConnectable) tileEntity;
-                        IImmersiveConnectable nodeLink = (IImmersiveConnectable) tileEntityLink;
+                        IWireConnectable nodeHere = (IWireConnectable) tileEntity;
+                        IWireConnectable nodeLink = (IWireConnectable) tileEntityLink;
 
                         if (!nodeLink.canConnectCable(type, target)) {
                             player
                                 .addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "invalidPoint"));
                         } else {
                             boolean exists = false;
-                            Set<Connection> conns = ImmersiveNetHandler.INSTANCE
-                                .getConnections(world, Utils.toCC(nodeHere));
+                            Set<Connection> conns = WireNetHandler.INSTANCE.getConnections(world, Utils.toCC(nodeHere));
                             if (conns != null) {
                                 for (Connection con : conns) {
                                     if (con.end.equals(Utils.toCC(nodeLink))) {
@@ -229,7 +224,7 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                                     vecLink)) {
                                     TargetingInfo targetLink = TargetingInfo.readFromNBT(stack.getTagCompound());
 
-                                    ImmersiveNetHandler.INSTANCE.addConnection(
+                                    WireNetHandler.INSTANCE.addConnection(
                                         world,
                                         Utils.toCC(nodeHere),
                                         Utils.toCC(nodeLink),
@@ -237,13 +232,11 @@ public class ItemWireCoil extends Item implements IWireCoil, IAdvancedTooltipPro
                                         type);
                                     nodeHere.connectCable(type, target);
                                     nodeLink.connectCable(type, targetLink);
-                                    IESaveData.setDirty(world.provider.dimensionId);
+                                    WireNetSaveData.setDirty(world.provider.dimensionId);
 
-                                    if (LibMods.immersiveEngineering) {
-                                        player.triggerAchievement(IEAchievements.connectWire);
+                                    if (!player.capabilities.isCreativeMode) {
+                                        stack.stackSize--;
                                     }
-
-                                    if (!player.capabilities.isCreativeMode) stack.stackSize--;
 
                                     ((TileEntity) nodeHere).markDirty();
                                     world.addBlockEvent(x, y, z, tileEntity.getBlockType(), -1, 0);

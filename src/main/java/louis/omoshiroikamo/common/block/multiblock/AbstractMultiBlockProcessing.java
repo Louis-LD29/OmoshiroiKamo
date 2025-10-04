@@ -10,22 +10,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
+import com.enderio.core.api.common.util.IProgressTile;
 
 import louis.omoshiroikamo.api.fluid.SmartTank;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidInput;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidOutput;
 import louis.omoshiroikamo.common.block.multiblock.part.item.TEItemInput;
 import louis.omoshiroikamo.common.block.multiblock.part.item.TEItemOutput;
-import louis.omoshiroikamo.common.core.helper.Logger;
-import louis.omoshiroikamo.common.core.helper.OreDictUtils;
-import louis.omoshiroikamo.common.recipes.IPoweredTask;
-import louis.omoshiroikamo.common.recipes.IProgressTile;
-import louis.omoshiroikamo.common.recipes.MachineRecipe;
-import louis.omoshiroikamo.common.recipes.MachineRecipeRegistry;
-import louis.omoshiroikamo.common.recipes.PoweredTask;
-import louis.omoshiroikamo.common.recipes.PoweredTaskProgress;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
+import louis.omoshiroikamo.common.recipes.machine.IPoweredTask;
+import louis.omoshiroikamo.common.recipes.machine.MachineRecipe;
+import louis.omoshiroikamo.common.recipes.machine.MachineRecipeRegistry;
+import louis.omoshiroikamo.common.recipes.machine.PoweredTask;
+import louis.omoshiroikamo.common.recipes.machine.PoweredTaskProgress;
+import louis.omoshiroikamo.common.util.helper.OreDictUtils;
 
 public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockProcessing<T>>
     extends AbstractMultiBlockEntity<T> implements IProgressTile {
@@ -43,7 +42,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
 
     @Override
     public boolean isActive() {
-        return currentTask == null ? false : currentTask.getProgress() >= 0 && redstoneCheckPassed;
+        return currentTask != null && currentTask.getProgress() >= 0 && redstoneCheckPassed;
     }
 
     public float getProgress() {
@@ -86,13 +85,10 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
         }
         ticksSinceCheckedRecipe = 0;
 
-        // Get a new chance when we don't have one yet
-        // If a recipe could not be started we will try with the same chance next time
         if (Float.isNaN(nextChance)) {
             nextChance = random.nextFloat();
         }
 
-        // Then see if we need to start a new one
         MachineRecipe nextRecipe = canStartNextTask(nextChance);
         if (nextRecipe != null) {
             if (!confirmedToStart) {
@@ -100,7 +96,6 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
             }
             boolean started = startNextTask(nextRecipe, nextChance);
             if (started) {
-                // this chance value has been used up
                 nextChance = Float.NaN;
             }
             startFailed = !started;
@@ -119,7 +114,6 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
         if (redstoneChecksPassed && !currentTask.isComplete()) {
             usePower();
         }
-        // then check if we are done
         if (currentTask.isComplete()) {
             taskComplete();
             return false;
@@ -150,15 +144,18 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
     }
 
     protected void mergeResults(List<ItemStack> itemStacks, List<FluidStack> fluidStacks) {
-        // Merge ItemStack vào các output inventory
         for (ItemStack output : itemStacks) {
-            if (output == null) continue;
+            if (output == null) {
+                continue;
+            }
 
             ItemStack remaining = output.copy();
 
             outer: for (TEItemOutput io : mItemOutput) {
                 ItemStackHandler handler = io.getInv();
-                if (handler == null) continue;
+                if (handler == null) {
+                    continue;
+                }
 
                 for (int i = 0; i < handler.getSlots(); i++) {
                     ItemStack current = handler.getStackInSlot(i);
@@ -171,16 +168,19 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                             handler.setStackInSlot(i, current);
                             remaining.stackSize -= canInsert;
 
-                            if (remaining.stackSize <= 0) break outer;
+                            if (remaining.stackSize <= 0) {
+                                break outer;
+                            }
                         }
                     }
                 }
             }
 
-            // Vòng 2: tìm slot trống
             outer: for (TEItemOutput io : mItemOutput) {
                 ItemStackHandler handler = io.getInv();
-                if (handler == null) continue;
+                if (handler == null) {
+                    continue;
+                }
 
                 for (int i = 0; i < handler.getSlots(); i++) {
                     if (handler.getStackInSlot(i) == null) {
@@ -195,36 +195,50 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
         }
 
         for (FluidStack output : fluidStacks) {
-            if (output == null) continue;
+            if (output == null) {
+                continue;
+            }
 
             int remaining = output.amount;
 
             outer: for (TEFluidOutput fo : mFluidOutput) {
                 SmartTank[] tanks = fo.getTanks();
-                if (tanks == null) continue;
+                if (tanks == null) {
+                    continue;
+                }
 
                 for (SmartTank tank : tanks) {
-                    if (tank == null || tank.getFluid() == null) continue;
+                    if (tank == null || tank.getFluid() == null) {
+                        continue;
+                    }
 
                     if (tank.getFluid()
                         .isFluidEqual(output)) {
                         int filled = tank.fill(new FluidStack(output.getFluid(), remaining), true);
                         remaining -= filled;
-                        if (remaining <= 0) break outer;
+                        if (remaining <= 0) {
+                            break outer;
+                        }
                     }
                 }
             }
 
             outer: for (TEFluidOutput fo : mFluidOutput) {
                 SmartTank[] tanks = fo.getTanks();
-                if (tanks == null) continue;
+                if (tanks == null) {
+                    continue;
+                }
 
                 for (SmartTank tank : tanks) {
-                    if (tank == null || tank.getFluidAmount() > 0) continue;
+                    if (tank == null || tank.getFluidAmount() > 0) {
+                        continue;
+                    }
 
                     int filled = tank.fill(new FluidStack(output.getFluid(), remaining), true);
                     remaining -= filled;
-                    if (remaining <= 0) break outer;
+                    if (remaining <= 0) {
+                        break outer;
+                    }
                 }
             }
 
@@ -236,7 +250,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
 
     protected MachineRecipe getNextRecipe() {
         if (lockedRecipe != null) {
-            return lockedRecipe; // Prioritize locked recipe
+            return lockedRecipe;
         }
         if (cachedNextRecipe == null) {
             cachedNextRecipe = MachineRecipeRegistry
@@ -254,15 +268,18 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
     }
 
     private boolean canOutput(MachineRecipe recipe) {
-        // Kiểm tra item outputs
         for (ChanceItemStack out : recipe.getItemOutputs()) {
-            if (out == null || out.stack.stackSize <= 0) continue;
+            if (out == null || out.stack.stackSize <= 0) {
+                continue;
+            }
 
             boolean canInsert = false;
 
             for (TEItemOutput output : mItemOutput) {
                 ItemStackHandler inv = output.getInv();
-                if (inv == null) continue;
+                if (inv == null) {
+                    continue;
+                }
 
                 for (int i = 0; i < inv.getSlots(); i++) {
                     ItemStack slot = inv.getStackInSlot(i);
@@ -273,19 +290,27 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                     }
                 }
 
-                if (canInsert) break;
+                if (canInsert) {
+                    break;
+                }
             }
 
-            if (!canInsert) return false;
+            if (!canInsert) {
+                return false;
+            }
         }
 
         for (ChanceFluidStack out : recipe.getFluidOutputs()) {
-            if (out == null || out.stack.amount <= 0) continue;
+            if (out == null || out.stack.amount <= 0) {
+                continue;
+            }
             boolean canInsert = false;
 
             for (TEFluidOutput output : mFluidOutput) {
                 SmartTank[] tanks = output.getTanks();
-                if (tanks == null) continue;
+                if (tanks == null) {
+                    continue;
+                }
 
                 for (SmartTank tank : tanks) {
                     if (tank.fill(out.stack, false) == out.stack.amount) {
@@ -294,25 +319,32 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                     }
                 }
 
-                if (canInsert) break;
+                if (canInsert) {
+                    break;
+                }
             }
 
-            if (!canInsert) return false;
+            if (!canInsert) {
+                return false;
+            }
         }
 
         return true;
     }
 
     private void consumeInputs(MachineRecipe recipe) {
-        // Tiêu thụ item inputs
         for (ChanceItemStack input : recipe.getItemInputs()) {
-            if (input == null || input.stack.stackSize <= 0) continue;
+            if (input == null || input.stack.stackSize <= 0) {
+                continue;
+            }
 
             int remaining = input.stack.stackSize;
 
             for (TEItemInput inputTile : mItemInput) {
                 ItemStackHandler inv = inputTile.getInv();
-                if (inv == null) continue;
+                if (inv == null) {
+                    continue;
+                }
 
                 for (int i = 0; i < inv.getSlots() && remaining > 0; i++) {
                     ItemStack stackInSlot = inv.getStackInSlot(i);
@@ -331,21 +363,26 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                     }
                 }
 
-                if (remaining <= 0) break;
+                if (remaining <= 0) {
+                    break;
+                }
             }
 
             if (remaining > 0) {}
         }
 
-        // Tiêu thụ fluid inputs
         for (ChanceFluidStack input : recipe.getFluidInputs()) {
-            if (input == null || input.stack.amount <= 0) continue;
+            if (input == null || input.stack.amount <= 0) {
+                continue;
+            }
 
             int remaining = input.stack.amount;
 
             for (TEFluidInput inputTile : mFluidInput) {
                 SmartTank[] tanks = inputTile.getTanks();
-                if (tanks == null) continue;
+                if (tanks == null) {
+                    continue;
+                }
 
                 for (SmartTank tank : tanks) {
                     FluidStack fluidInTank = tank.getFluid();
@@ -354,19 +391,15 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                         tank.drain(drained, true);
                         remaining -= drained;
 
-                        if (remaining <= 0) break;
+                        if (remaining <= 0) {
+                            break;
+                        }
                     }
                 }
 
-                if (remaining <= 0) break;
-            }
-
-            if (remaining > 0) {
-                Logger.info(
-                    "[consumeInputs] Không đủ fluid để tiêu thụ: " + input.stack.amount
-                        + "L of "
-                        + input.stack.getFluid()
-                            .getName());
+                if (remaining <= 0) {
+                    break;
+                }
             }
         }
     }
@@ -441,7 +474,9 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
 
     public List<ItemStack> getItemOutput() {
         MachineRecipe recipe = isLocked() ? lockedRecipe : getPredictedRecipe();
-        if (recipe == null) return Collections.emptyList();
+        if (recipe == null) {
+            return Collections.emptyList();
+        }
 
         List<ItemStack> result = new ArrayList<>();
         for (ChanceItemStack is : recipe.getItemOutputs()) {
@@ -452,7 +487,9 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
 
     public List<FluidStack> getFluidOutput() {
         MachineRecipe recipe = isLocked() ? lockedRecipe : getPredictedRecipe();
-        if (recipe == null) return Collections.emptyList();
+        if (recipe == null) {
+            return Collections.emptyList();
+        }
 
         List<FluidStack> result = new ArrayList<>();
         for (ChanceFluidStack fs : recipe.getFluidOutputs()) {
@@ -483,10 +520,10 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
         if (value) {
             MachineRecipe predicted = getPredictedRecipe();
             if (predicted != null) {
-                confirmRecipe(predicted); // lockedRecipe = predicted + confirmedToStart = true
+                confirmRecipe(predicted);
             }
         } else {
-            unlockRecipe(); // lockedRecipe = null, confirmedToStart = false
+            unlockRecipe();
         }
     }
 

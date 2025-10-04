@@ -1,33 +1,24 @@
 package louis.omoshiroikamo.api.fluid;
 
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.config.FluidConfig;
-
 public class FluidEntry {
 
     private final String name;
     public final int meta;
-    public final FluidConfig defaults;
+    public final double densityKgPerM3;
+    public final double viscosityPaS;
+    public final double temperatureK;
+    public final int color;
+    public final boolean isGas;
 
     public FluidEntry(String name, int meta, double densityKgPerM3, double viscosityPaS, double temperatureK, int color,
         boolean isGas) {
         this.name = name;
         this.meta = meta;
-        this.defaults = new FluidConfig(name, meta, densityKgPerM3, viscosityPaS, temperatureK, color, isGas);
-    }
-
-    public FluidEntry(String name, int meta, FluidConfig config) {
-        this.name = name;
-        this.meta = meta;
-        this.defaults = config;
-    }
-
-    public FluidEntry(String name) {
-        this(
-            name,
-            FluidRegistry.all()
-                .size(),
-            FluidConfig.defaultFor(name));
+        this.densityKgPerM3 = densityKgPerM3;
+        this.viscosityPaS = viscosityPaS;
+        this.temperatureK = temperatureK;
+        this.color = color;
+        this.isGas = isGas;
     }
 
     public String getName() {
@@ -42,21 +33,19 @@ public class FluidEntry {
         return name.replace(" ", "");
     }
 
-    public FluidConfig getConfig() {
-        return Config.fluidConigs.getOrDefault(name, defaults);
+    public double getDensityKgPerM3() {
+        return densityKgPerM3;
     }
 
-    public double getDensityKgPerM3() {
-        return getConfig().densityKgPerM3;
+    public double getViscosityPaS() {
+        return viscosityPaS;
     }
 
     public double getTemperature() {
-        return getConfig().temperatureK;
+        return temperatureK;
     }
 
     public int getColor() {
-        int color = getConfig().color;
-
         int r = (color >> 16) & 0xFF;
         int g = (color >> 8) & 0xFF;
         int b = color & 0xFF;
@@ -70,6 +59,6 @@ public class FluidEntry {
     }
 
     public boolean isGas() {
-        return getConfig().isGas;
+        return isGas;
     }
 }

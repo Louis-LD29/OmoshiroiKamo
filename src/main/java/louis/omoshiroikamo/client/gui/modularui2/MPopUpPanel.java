@@ -1,6 +1,6 @@
 package louis.omoshiroikamo.client.gui.modularui2;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.widgets.ButtonWidget;
@@ -10,7 +10,7 @@ public class MPopUpPanel extends ModularPanel {
     private final boolean disablePanelsBelow;
     private final boolean closeOnOutOfBoundsClick;
 
-    public MPopUpPanel(@NotNull String name, boolean disablePanelsBelow, boolean closeOnOutOfBoundsClick) {
+    public MPopUpPanel(@Nonnull String name, boolean disablePanelsBelow, boolean closeOnOutOfBoundsClick) {
         super(name);
         this.disablePanelsBelow = disablePanelsBelow;
         this.closeOnOutOfBoundsClick = closeOnOutOfBoundsClick;

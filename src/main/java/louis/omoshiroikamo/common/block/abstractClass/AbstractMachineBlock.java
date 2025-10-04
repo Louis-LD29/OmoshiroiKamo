@@ -16,13 +16,26 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.client.IResourceTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.network.PacketFluidTanks;
+import louis.omoshiroikamo.common.network.PacketHandler;
+import louis.omoshiroikamo.common.network.PacketIoMode;
+import louis.omoshiroikamo.common.network.PacketPowerStorage;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public abstract class AbstractMachineBlock<T extends AbstractTE> extends AbstractBlock<T>
     implements IResourceTooltipProvider, IAdvancedTooltipProvider {
 
     @SideOnly(Side.CLIENT)
     protected IIcon[][] iconBuffer;
+
+    static {
+        PacketHandler.INSTANCE
+            .registerMessage(PacketIoMode.class, PacketIoMode.class, PacketHandler.nextID(), Side.SERVER);
+        PacketHandler.INSTANCE
+            .registerMessage(PacketFluidTanks.class, PacketFluidTanks.class, PacketHandler.nextID(), Side.SERVER);
+        PacketHandler.INSTANCE
+            .registerMessage(PacketPowerStorage.class, PacketPowerStorage.class, PacketHandler.nextID(), Side.CLIENT);
+    }
 
     protected AbstractMachineBlock(ModObject mo, Class<T> teClass, Material mat) {
         super(mo, teClass, mat);

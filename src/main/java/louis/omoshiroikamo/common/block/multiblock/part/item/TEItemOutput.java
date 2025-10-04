@@ -17,7 +17,7 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class TEItemOutput extends TEItemInOut {
 
@@ -52,7 +52,7 @@ public class TEItemOutput extends TEItemInOut {
         syncManager.registerSlotGroup("item_inv", slotCount);
 
         ParentWidget<?> parent = new ParentWidget<>();
-        parent.align(Alignment.TopLeft); // Giữ canh lề trái trên
+        parent.align(Alignment.TopLeft);
 
         int slotSize = 18;
         int slotsPerRow = 9;

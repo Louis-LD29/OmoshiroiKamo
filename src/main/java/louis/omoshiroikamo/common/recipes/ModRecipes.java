@@ -1,6 +1,6 @@
 package louis.omoshiroikamo.common.recipes;
 
-import static louis.omoshiroikamo.common.recipes.RecipeLoader.hashInputsAndOutputs;
+import static louis.omoshiroikamo.common.recipes.machine.RecipeLoader.hashInputsAndOutputs;
 
 import java.util.Map;
 
@@ -11,23 +11,29 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.MinecraftForge;
 
 import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.common.recipes.machine.MachineRecipeRegistry;
+import louis.omoshiroikamo.common.recipes.machine.RecipeBuilder;
+import louis.omoshiroikamo.common.recipes.machine.RecipeLoader;
 import louis.omoshiroikamo.common.recipes.ore.CopperRecipes;
 
 public class ModRecipes {
 
     public static void init() {
-        MinecraftForge.EVENT_BUS.register(ManaAnvilRecipe.instance);
+        MinecraftForge.EVENT_BUS.register(ManaAnvilRecipe.INSTANCE);
+
         RecipeLoader.loadRecipes(ModObject.blockElectrolyzer.unlocalisedName);
         RecipeLoader.loadRecipes(ModObject.blockAnvil.unlocalisedName);
         loadVanillaFurnaceRecipes();
         CopperRecipes.init();
+
+        ItemRecipes.init();
+
     }
 
     public static void loadAllRecipes() {
         RecipeLoader.loadRecipes(ModObject.blockElectrolyzer.unlocalisedName);
         RecipeLoader.loadRecipes(ModObject.blockAnvil.unlocalisedName);
         loadVanillaFurnaceRecipes();
-        CopperRecipes.init();
     }
 
     public static void reloadRecipes() {

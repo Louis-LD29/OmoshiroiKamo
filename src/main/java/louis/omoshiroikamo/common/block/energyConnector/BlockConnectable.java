@@ -26,7 +26,7 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectableISBRH;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class BlockConnectable extends AbstractBlock<TEConnectable> {
 

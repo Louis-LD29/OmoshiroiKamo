@@ -1,6 +1,6 @@
 package louis.omoshiroikamo.common.block.energyConnector;
 
-import static louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.Utils.toIIC;
+import static louis.omoshiroikamo.common.util.Utils.toIIC;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,15 +19,15 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.api.energy.tile.IEnergySink;
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.core.lib.LibMods;
-import louis.omoshiroikamo.common.plugin.compat.IC2Compat;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IImmersiveConnectable;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler.AbstractConnection;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.Utils;
+import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler.AbstractConnection;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
+import louis.omoshiroikamo.api.energy.wire.WireType;
+import louis.omoshiroikamo.common.util.Utils;
+import louis.omoshiroikamo.common.util.lib.LibMods;
+import louis.omoshiroikamo.config.GeneralConfig;
+import louis.omoshiroikamo.plugin.compat.IC2Compat;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -51,14 +51,14 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
     }
 
     @Override
-    public Vec3 getRaytraceOffset(IImmersiveConnectable link) {
+    public Vec3 getRaytraceOffset(IWireConnectable link) {
         ForgeDirection fd = ForgeDirection.getOrientation(getFacing())
             .getOpposite();
         return Vec3.createVectorHelper(.5 + fd.offsetX * .0625, .5 + fd.offsetY * .0625, .5 + fd.offsetZ * .0625);
     }
 
     @Override
-    public Vec3 getConnectionOffset(ImmersiveNetHandler.Connection con) {
+    public Vec3 getConnectionOffset(WireNetHandler.Connection con) {
         ForgeDirection fd = ForgeDirection.getOrientation(getFacing())
             .getOpposite();
         double conRadius = con.cableType.getRenderDiameter() / 2.0;
@@ -76,7 +76,7 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         if (renderAABB == null) {
-            if (Config.increasedRenderboxes) {
+            if (GeneralConfig.increasedRenderboxes) {
                 int inc = getRenderRadiusIncrease();
                 renderAABB = AxisAlignedBB.getBoundingBox(
                     xCoord - inc,
@@ -85,7 +85,9 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
                     xCoord + inc + 1,
                     yCoord + inc + 1,
                     zCoord + inc + 1);
-            } else renderAABB = super.getRenderBoundingBox();
+            } else {
+                renderAABB = super.getRenderBoundingBox();
+            }
         }
         return renderAABB;
     }
@@ -103,7 +105,7 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
     public void doUpdate() {
         super.doUpdate();
         if (!worldObj.isRemote) {
-            if (LibMods.ic2 && !this.inICNet) {
+            if (LibMods.IC2.isLoaded() && !this.inICNet) {
                 IC2Compat.loadIC2Tile(this);
                 this.inICNet = true;
             }
@@ -133,7 +135,7 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
     }
 
     void unload() {
-        if (LibMods.ic2 && this.inICNet) {
+        if (LibMods.IC2.isLoaded() && this.inICNet) {
             IC2Compat.unloadIC2Tile(this);
             this.inICNet = false;
         }
@@ -164,22 +166,25 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
         ForgeDirection fd = ForgeDirection.getOrientation(getFacing())
             .getOpposite();
         TileEntity tile = worldObj.getTileEntity(xCoord + fd.offsetX, yCoord + fd.offsetY, zCoord + fd.offsetZ);
-        return tile != null && (tile instanceof IEnergyReceiver || (LibMods.ic2 && IC2Compat.isEnergySink(tile)));
+        return tile != null
+            && (tile instanceof IEnergyReceiver || (LibMods.IC2.isLoaded() && IC2Compat.isEnergySink(tile)));
     }
 
     @Override
     public int outputEnergy(int amount, boolean simulate, int energyType) {
         int acceptanceLeft = getMaxOutput() - currentTickAccepted;
-        if (acceptanceLeft <= 0) return 0;
+        if (acceptanceLeft <= 0) {
+            return 0;
+        }
         int toAccept = Math.min(acceptanceLeft, amount);
 
         ForgeDirection fd = ForgeDirection.getOrientation(getFacing())
             .getOpposite();
         TileEntity capacitor = worldObj.getTileEntity(xCoord + fd.offsetX, yCoord + fd.offsetY, zCoord + fd.offsetZ);
         int ret = 0;
-        if (capacitor instanceof IEnergyReceiver && ((IEnergyReceiver) capacitor).canConnectEnergy(fd.getOpposite()))
+        if (capacitor instanceof IEnergyReceiver && ((IEnergyReceiver) capacitor).canConnectEnergy(fd.getOpposite())) {
             ret = ((IEnergyReceiver) capacitor).receiveEnergy(fd.getOpposite(), toAccept, simulate);
-        else if (LibMods.ic2 && IC2Compat.isAcceptingEnergySink(capacitor, this, fd.getOpposite())) {
+        } else if (LibMods.IC2.isLoaded() && IC2Compat.isAcceptingEnergySink(capacitor, this, fd.getOpposite())) {
             double left = IC2Compat.injectEnergy(
                 capacitor,
                 fd.getOpposite(),
@@ -188,18 +193,26 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
                 simulate);
             ret = toAccept - IC2Compat.euToRf(left);
         }
-        if (!simulate) currentTickAccepted += ret;
+        if (!simulate) {
+            currentTickAccepted += ret;
+        }
         return ret;
     }
 
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-        if (worldObj.isRemote) return 0;
-        if (worldObj.getTotalWorldTime() == lastTransfer) return 0;
+        if (worldObj.isRemote) {
+            return 0;
+        }
+        if (worldObj.getTotalWorldTime() == lastTransfer) {
+            return 0;
+        }
 
         int accepted = Math.min(Math.min(getMaxOutput(), getMaxInput()), maxReceive);
         accepted = Math.min(getMaxOutput() - energyStored, accepted);
-        if (accepted <= 0) return 0;
+        if (accepted <= 0) {
+            return 0;
+        }
 
         if (!simulate) {
             energyStored += accepted;
@@ -228,17 +241,19 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
     public int transferEnergy(int energy, boolean simulate, final int energyType) {
         int received = 0;
         if (!worldObj.isRemote) {
-            Set<AbstractConnection> outputs = ImmersiveNetHandler.INSTANCE
+            Set<AbstractConnection> outputs = WireNetHandler.INSTANCE
                 .getIndirectEnergyConnections(Utils.toCC(this), worldObj);
             int powerLeft = Math.min(Math.min(getMaxOutput(), getMaxInput()), energy);
             final int powerForSort = powerLeft;
 
-            if (outputs.size() < 1) return 0;
+            if (outputs.size() < 1) {
+                return 0;
+            }
 
             int sum = 0;
             HashMap<AbstractConnection, Integer> powerSorting = new HashMap<AbstractConnection, Integer>();
             for (AbstractConnection con : outputs) {
-                IImmersiveConnectable end = toIIC(con.end, worldObj);
+                IWireConnectable end = toIIC(con.end, worldObj);
                 if (con.cableType != null && end != null) {
                     int atmOut = Math.min(powerForSort, con.cableType.getTransferRate() / 10);
                     int tempR = end.outputEnergy(atmOut, true, energyType);
@@ -249,44 +264,50 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
                 }
             }
 
-            if (sum > 0) for (AbstractConnection con : powerSorting.keySet()) {
-                IImmersiveConnectable end = toIIC(con.end, worldObj);
-                if (con.cableType != null && end != null) {
-                    int output = powerSorting.get(con);
+            if (sum > 0) {
+                for (AbstractConnection con : powerSorting.keySet()) {
+                    IWireConnectable end = toIIC(con.end, worldObj);
+                    if (con.cableType != null && end != null) {
+                        int output = powerSorting.get(con);
 
-                    int tempR = end
-                        .outputEnergy(Math.min(output, con.cableType.getTransferRate() / 10), true, energyType);
-                    int r = tempR;
-                    int maxInput = getMaxInput();
-                    tempR -= (int) Math.max(0, Math.floor(tempR * con.getPreciseLossRate(tempR, maxInput)));
-                    end.outputEnergy(tempR, simulate, energyType);
-                    HashSet<IImmersiveConnectable> passedConnectors = new HashSet<IImmersiveConnectable>();
-                    float intermediaryLoss = 0;
-                    for (Connection sub : con.subConnections) {
-                        float length = sub.length / (float) sub.cableType.getMaxLength();
-                        float baseLoss = (float) sub.cableType.getLossRatio();
-                        float mod = (((maxInput - tempR) / (float) maxInput) / .25f) * .1f;
-                        intermediaryLoss = MathHelper
-                            .clamp_float(intermediaryLoss + length * (baseLoss + baseLoss * mod), 0, 1);
+                        int tempR = end
+                            .outputEnergy(Math.min(output, con.cableType.getTransferRate() / 10), true, energyType);
+                        int r = tempR;
+                        int maxInput = getMaxInput();
+                        tempR -= (int) Math.max(0, Math.floor(tempR * con.getPreciseLossRate(tempR, maxInput)));
+                        end.outputEnergy(tempR, simulate, energyType);
+                        HashSet<IWireConnectable> passedConnectors = new HashSet<IWireConnectable>();
+                        float intermediaryLoss = 0;
+                        for (Connection sub : con.subConnections) {
+                            float length = sub.length / (float) sub.cableType.getMaxLength();
+                            float baseLoss = (float) sub.cableType.getLossRatio();
+                            float mod = (((maxInput - tempR) / (float) maxInput) / .25f) * .1f;
+                            intermediaryLoss = MathHelper
+                                .clamp_float(intermediaryLoss + length * (baseLoss + baseLoss * mod), 0, 1);
 
-                        int transferredPerCon = ImmersiveNetHandler.INSTANCE
-                            .getTransferedRates(worldObj.provider.dimensionId)
-                            .getOrDefault(sub, 0);
-                        transferredPerCon += r;
-                        if (!simulate) {
-                            ImmersiveNetHandler.INSTANCE.getTransferedRates(worldObj.provider.dimensionId)
-                                .put(sub, transferredPerCon);
-                            IImmersiveConnectable subStart = toIIC(sub.start, worldObj);
-                            IImmersiveConnectable subEnd = toIIC(sub.end, worldObj);
-                            if (subStart != null && passedConnectors.add(subStart))
-                                subStart.onEnergyPassthrough((int) (r - r * intermediaryLoss));
-                            if (subEnd != null && passedConnectors.add(subEnd))
-                                subEnd.onEnergyPassthrough((int) (r - r * intermediaryLoss));
+                            int transferredPerCon = WireNetHandler.INSTANCE
+                                .getTransferedRates(worldObj.provider.dimensionId)
+                                .getOrDefault(sub, 0);
+                            transferredPerCon += r;
+                            if (!simulate) {
+                                WireNetHandler.INSTANCE.getTransferedRates(worldObj.provider.dimensionId)
+                                    .put(sub, transferredPerCon);
+                                IWireConnectable subStart = toIIC(sub.start, worldObj);
+                                IWireConnectable subEnd = toIIC(sub.end, worldObj);
+                                if (subStart != null && passedConnectors.add(subStart)) {
+                                    subStart.onEnergyPassthrough((int) (r - r * intermediaryLoss));
+                                }
+                                if (subEnd != null && passedConnectors.add(subEnd)) {
+                                    subEnd.onEnergyPassthrough((int) (r - r * intermediaryLoss));
+                                }
+                            }
+                        }
+                        received += r;
+                        powerLeft -= r;
+                        if (powerLeft <= 0) {
+                            break;
                         }
                     }
-                    received += r;
-                    powerLeft -= r;
-                    if (powerLeft <= 0) break;
                 }
             }
         }
@@ -302,7 +323,7 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
     @Optional.Method(modid = "IC2")
     @Override
     public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction) {
-        return LibMods.ic2 && canConnectEnergy(direction);
+        return LibMods.IC2.isLoaded() && canConnectEnergy(direction);
     }
 
     @Optional.Method(modid = "IC2")
@@ -320,14 +341,16 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
     }
 
     private int getDynamicInputLimit() {
-        Set<AbstractConnection> outputs = ImmersiveNetHandler.INSTANCE
+        Set<AbstractConnection> outputs = WireNetHandler.INSTANCE
             .getIndirectEnergyConnections(Utils.toCC(this), worldObj);
 
         int max = 0;
         for (AbstractConnection con : outputs) {
             if (con.cableType != null) {
                 int rate = con.cableType.getTransferRate() / 10;
-                if (rate > max) max = rate;
+                if (rate > max) {
+                    max = rate;
+                }
             }
         }
 
@@ -341,11 +364,21 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
     }
 
     int getIC2Tier() {
-        if (this.canTakeIV()) return 4;
-        if (this.canTakeEV()) return 4;
-        if (this.canTakeHV()) return 3;
-        if (this.canTakeMV()) return 2;
-        if (this.canTakeLV()) return 1;
+        if (this.canTakeIV()) {
+            return 4;
+        }
+        if (this.canTakeEV()) {
+            return 4;
+        }
+        if (this.canTakeHV()) {
+            return 3;
+        }
+        if (this.canTakeMV()) {
+            return 2;
+        }
+        if (this.canTakeLV()) {
+            return 1;
+        }
         return 0;
     }
 

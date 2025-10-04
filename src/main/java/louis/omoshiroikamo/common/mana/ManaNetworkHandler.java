@@ -20,7 +20,6 @@ public class ManaNetworkHandler {
         return data;
     }
 
-    // Cập nhật currentMana cho player
     public static void setCurrentMana(UUID playerUUID, float mana) {
         MinecraftServer mcServer = FMLCommonHandler.instance()
             .getMinecraftServerInstance();
@@ -34,7 +33,6 @@ public class ManaNetworkHandler {
         data.markDirty();
     }
 
-    // Lấy currentMana của player
     public static float getCurrentMana(UUID playerUUID) {
         MinecraftServer mcServer = FMLCommonHandler.instance()
             .getMinecraftServerInstance();
@@ -48,8 +46,7 @@ public class ManaNetworkHandler {
         return data.getCurrentMana(playerUUID);
     }
 
-    // Lấy maxMana của thế giới
     public static int getMaxMana() {
-        return MAX_MANA; // Trả về maxMana của thế giới
+        return MAX_MANA;
     }
 }

@@ -7,10 +7,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IImmersiveConnectable;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
+import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireType;
+import louis.omoshiroikamo.config.GeneralConfig;
 
 public class TEInsulator extends TEConnectable {
 
@@ -39,14 +39,14 @@ public class TEInsulator extends TEConnectable {
     }
 
     @Override
-    public Vec3 getRaytraceOffset(IImmersiveConnectable link) {
+    public Vec3 getRaytraceOffset(IWireConnectable link) {
         ForgeDirection fd = ForgeDirection.getOrientation(getFacing())
             .getOpposite();
         return Vec3.createVectorHelper(.5 + fd.offsetX * .0625, .5 + fd.offsetY * .0625, .5 + fd.offsetZ * .0625);
     }
 
     @Override
-    public Vec3 getConnectionOffset(ImmersiveNetHandler.Connection con) {
+    public Vec3 getConnectionOffset(WireNetHandler.Connection con) {
         ForgeDirection fd = ForgeDirection.getOrientation(getFacing())
             .getOpposite();
         double conRadius = con.cableType.getRenderDiameter() / 2;
@@ -61,7 +61,7 @@ public class TEInsulator extends TEConnectable {
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         if (renderAABB == null) {
-            if (Config.increasedRenderboxes) {
+            if (GeneralConfig.increasedRenderboxes) {
                 int inc = getRenderRadiusIncrease();
                 renderAABB = AxisAlignedBB.getBoundingBox(
                     xCoord - inc,
@@ -70,7 +70,9 @@ public class TEInsulator extends TEConnectable {
                     xCoord + inc + 1,
                     yCoord + inc + 1,
                     zCoord + inc + 1);
-            } else renderAABB = super.getRenderBoundingBox();
+            } else {
+                renderAABB = super.getRenderBoundingBox();
+            }
         }
         return renderAABB;
     }

@@ -15,7 +15,6 @@ integration — with a focus on real-world physics and chemistry.
 
 ## 🔧 Features
 
-- Compatibility with **Immersive Engineering** wire systems
 - Compatibility with **Tinkers' Construct** cast systems
 - Support for adding custom materials via config, with auto-generated localization entries.
 

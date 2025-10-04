@@ -3,7 +3,7 @@ package louis.omoshiroikamo.common.block.energyConnector;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
 
 public class TEConnectorLV extends TEConnectorULV {
 
@@ -16,7 +16,7 @@ public class TEConnectorLV extends TEConnectorULV {
     }
 
     @Override
-    public Vec3 getConnectionOffset(ImmersiveNetHandler.Connection con) {
+    public Vec3 getConnectionOffset(WireNetHandler.Connection con) {
         ForgeDirection fd = ForgeDirection.getOrientation(getFacing())
             .getOpposite();
         double conRadius = con.cableType.getRenderDiameter() / 2.0;

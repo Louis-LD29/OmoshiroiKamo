@@ -1,22 +1,22 @@
 package louis.omoshiroikamo;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import louis.omoshiroikamo.client.fluid.FluidMaterialTexture;
-import louis.omoshiroikamo.client.fluid.FluidTexture;
+import louis.omoshiroikamo.client.ResourePackGen;
 import louis.omoshiroikamo.client.gui.ManaHUD;
-import louis.omoshiroikamo.client.handler.ClientTickHandler;
 import louis.omoshiroikamo.client.handler.DameEvents;
-import louis.omoshiroikamo.client.ore.OreTexture;
 import louis.omoshiroikamo.client.render.block.anvil.AnvilISBRH;
 import louis.omoshiroikamo.client.render.block.anvil.AnvilTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectableISBRH;
@@ -28,6 +28,7 @@ import louis.omoshiroikamo.client.render.block.connectable.ConnectorMVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectorULVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.InsulatorTESR;
 import louis.omoshiroikamo.client.render.block.connectable.TransformerTESR;
+import louis.omoshiroikamo.client.render.item.backpack.BackpackRenderer;
 import louis.omoshiroikamo.client.render.item.hammer.HammerRenderer;
 import louis.omoshiroikamo.client.render.item.pufferfish.PufferFishRenderer;
 import louis.omoshiroikamo.common.block.ModBlocks;
@@ -40,10 +41,10 @@ import louis.omoshiroikamo.common.block.energyConnector.TEConnectorMV;
 import louis.omoshiroikamo.common.block.energyConnector.TEConnectorULV;
 import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
 import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.item.ModItems;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.client.ClientEventHandler;
+import louis.omoshiroikamo.config.item.ItemConfig;
 
+@SuppressWarnings("unused")
 public class ClientProxy extends CommonProxy {
 
     public ClientProxy() {}
@@ -55,14 +56,11 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void init(FMLInitializationEvent event) {
-        ClientEventHandler clientEventHandler = new ClientEventHandler();
-        MinecraftForge.EVENT_BUS.register(clientEventHandler);
         super.init(event);
+
         ModItems.registerItemRenderer();
+
         MinecraftForge.EVENT_BUS.register(ManaHUD.instance);
-        FMLCommonHandler.instance()
-            .bus()
-            .register(ClientTickHandler.instance);
 
         ConnectableISBRH connectableISBRH = new ConnectableISBRH();
         RenderingRegistry.registerBlockHandler(connectableISBRH);
@@ -81,11 +79,12 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockAnvil), anvilISBRH);
         ClientRegistry.bindTileEntitySpecialRenderer(TEAnvil.class, new AnvilTESR());
 
-        if (Config.renderPufferFish) {
+        if (ItemConfig.itemConfig.renderPufferFish) {
             MinecraftForgeClient.registerItemRenderer(Items.fish, new PufferFishRenderer());
         }
 
         MinecraftForgeClient.registerItemRenderer(ModItems.itemHammer, new HammerRenderer());
+        MinecraftForgeClient.registerItemRenderer(ModItems.itemBackPack, new BackpackRenderer());
     }
 
     @Override
@@ -96,11 +95,32 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void callAssembleResourcePack() {
-        OreTexture.applyAll();
-        FluidMaterialTexture.applyAll();
-        FluidTexture.applyAll();
-        super.callAssembleResourcePack();
+    public void callAssembleResourcePack(FMLPreInitializationEvent event) {
+        ResourePackGen.applyAllTexture(event);
+        super.callAssembleResourcePack(event);
     }
 
+    @Override
+    public EntityPlayer getClientPlayer() {
+        return Minecraft.getMinecraft().thePlayer;
+    }
+
+    @Override
+    public World getClientWorld() {
+        return FMLClientHandler.instance()
+            .getClient().theWorld;
+    }
+
+    @Override
+    public long getTickCount() {
+        return clientTickCount;
+    }
+
+    @Override
+    protected void onClientTick() {
+        if (!Minecraft.getMinecraft()
+            .isGamePaused() && Minecraft.getMinecraft().theWorld != null) {
+            ++clientTickCount;
+        }
+    }
 }

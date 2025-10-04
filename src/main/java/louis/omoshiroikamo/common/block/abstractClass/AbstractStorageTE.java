@@ -8,16 +8,19 @@ import net.minecraft.nbt.NBTTagCompound;
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
 
 import louis.omoshiroikamo.api.fluid.SmartTank;
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
+import louis.omoshiroikamo.common.network.PacketFluidTanks;
+import louis.omoshiroikamo.common.network.PacketHandler;
 
 public abstract class AbstractStorageTE extends AbstractTE implements ISidedInventory {
 
     protected final SlotDefinition slotDefinition;
     public ItemStackHandler inv;
     private final int[] allSlots;
-    protected SmartTank[] fluidTanks;
+    public SmartTank[] fluidTanks;
+    protected boolean tanksDirty = false;
 
     public AbstractStorageTE(SlotDefinition slotDefinition, MaterialEntry material) {
         this.slotDefinition = slotDefinition;
@@ -43,6 +46,16 @@ public abstract class AbstractStorageTE extends AbstractTE implements ISidedInve
 
     public SlotDefinition getSlotDefinition() {
         return slotDefinition;
+    }
+
+    @Override
+    protected boolean processTasks(boolean redstoneChecksPassed) {
+        if (tanksDirty && shouldDoWorkThisTick(10)) {
+            PacketHandler.sendToAllAround(new PacketFluidTanks(this), this);
+            tanksDirty = false;
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -182,4 +195,5 @@ public abstract class AbstractStorageTE extends AbstractTE implements ISidedInve
     }
 
     protected abstract boolean isMachineItemValidForSlot(int slot, ItemStack itemstack);
+
 }

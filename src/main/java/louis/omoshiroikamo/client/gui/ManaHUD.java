@@ -18,9 +18,9 @@ import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import louis.omoshiroikamo.api.mana.IManaItem;
 import louis.omoshiroikamo.client.handler.ClientTickHandler;
-import louis.omoshiroikamo.common.core.helper.Helper;
-import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.mana.ManaNetworkHandler;
+import louis.omoshiroikamo.common.util.helper.Helper;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class ManaHUD {
 
@@ -29,7 +29,9 @@ public class ManaHUD {
 
     @SubscribeEvent
     public void onDrawScreenPost(RenderGameOverlayEvent.Post event) {
-        if (event.type != RenderGameOverlayEvent.ElementType.ALL) return;
+        if (event.type != RenderGameOverlayEvent.ElementType.ALL) {
+            return;
+        }
         Minecraft mc = Minecraft.getMinecraft();
         ManaBar(mc);
         ConvertedManaBar(mc);
@@ -39,7 +41,9 @@ public class ManaHUD {
     private void ManaBar(Minecraft mc) {
         float currentMana = ClientTickHandler.displayedMana;
         float maxMana = ManaNetworkHandler.getMaxMana();
-        if (maxMana <= 0) return;
+        if (maxMana <= 0) {
+            return;
+        }
 
         ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         int barWidth = 5;
@@ -80,19 +84,27 @@ public class ManaHUD {
 
     private void ConvertedManaBar(Minecraft mc) {
         EntityPlayer player = mc.thePlayer;
-        if (player == null) return;
+        if (player == null) {
+            return;
+        }
 
         IInventory mainInv = player.inventory;
         IInventory baublesInv = PlayerHandler.getPlayerBaubles(player);
 
         ItemStack selectedItem = Helper.getItemWithHighestMana(mainInv, baublesInv);
-        if (selectedItem == null) return;
+        if (selectedItem == null) {
+            return;
+        }
 
-        if (!(selectedItem.getItem() instanceof IManaItem manaItem)) return;
+        if (!(selectedItem.getItem() instanceof IManaItem manaItem)) {
+            return;
+        }
 
         float totalCurrentMana = ClientTickHandler.displayedCMana;
         float totalMaxMana = manaItem.getMaxMana(selectedItem);
-        if (totalMaxMana <= 0) return;
+        if (totalMaxMana <= 0) {
+            return;
+        }
 
         ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         int barWidth = 5;
@@ -126,26 +138,34 @@ public class ManaHUD {
             float b = (color & 0xFF) / 255.0F;
             GL11.glColor4f(r, g, b, 1.0F);
             gui.drawTexturedModalRect(0, -barWidth, 10, 15, filledHeight, barWidth);
-            GL11.glColor4f(1F, 1F, 1F, 1F); // reset lại về màu trắng
+            GL11.glColor4f(1F, 1F, 1F, 1F);
         }
         GL11.glPopMatrix();
     }
 
     private void EnergyBar(Minecraft mc) {
         EntityPlayer player = mc.thePlayer;
-        if (player == null) return;
+        if (player == null) {
+            return;
+        }
 
         IInventory mainInv = player.inventory;
         IInventory baublesInv = PlayerHandler.getPlayerBaubles(player);
 
         ItemStack selectedItem = Helper.getItemWithHighestMana(mainInv, baublesInv);
-        if (selectedItem == null) return;
+        if (selectedItem == null) {
+            return;
+        }
 
-        if (!(selectedItem.getItem() instanceof IEnergyContainerItem manaEnergyItem)) return;
+        if (!(selectedItem.getItem() instanceof IEnergyContainerItem manaEnergyItem)) {
+            return;
+        }
 
         float totalCurrentEnergy = manaEnergyItem.getEnergyStored(selectedItem);
         float totalMaxEnergy = manaEnergyItem.getMaxEnergyStored(selectedItem);
-        if (totalMaxEnergy <= 0) return;
+        if (totalMaxEnergy <= 0) {
+            return;
+        }
 
         ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         int barWidth = 5;

@@ -15,8 +15,8 @@ import com.enderio.core.client.render.RenderUtil;
 import com.enderio.core.common.vecmath.Vector4f;
 
 import cofh.api.energy.IEnergyContainerItem;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
+import louis.omoshiroikamo.config.item.ItemConfig;
 
 public class PoweredItemRenderer implements IItemRenderer {
 
@@ -45,29 +45,33 @@ public class PoweredItemRenderer implements IItemRenderer {
         ri.renderItemIntoGUI(mc.fontRenderer, mc.getTextureManager(), item, 0, 0, true);
         GL11.glDisable(GL11.GL_LIGHTING);
 
-        if (isJustCrafted(item) || (!Config.renderChargeBar && !Config.renderDurabilityBar)) {
+        if (isJustCrafted(item)
+            || (!ItemConfig.itemConfig.renderChargeBar && !ItemConfig.itemConfig.renderDurabilityBar)) {
             return;
         }
 
         boolean hasEnergyUpgrade = EnergyUpgrade.loadFromItem(item) != null;
-        int y = (Config.renderDurabilityBar ^ Config.renderChargeBar) || !hasEnergyUpgrade ? 13 : 12;
-        int bgH = (Config.renderDurabilityBar ^ Config.renderChargeBar) || !hasEnergyUpgrade ? 2 : 4;
+        int y = (ItemConfig.itemConfig.renderDurabilityBar ^ ItemConfig.itemConfig.renderChargeBar) || !hasEnergyUpgrade
+            ? 13
+            : 12;
+        int bgH = (ItemConfig.itemConfig.renderDurabilityBar ^ ItemConfig.itemConfig.renderChargeBar)
+            || !hasEnergyUpgrade ? 2 : 4;
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderUtil.renderQuad2D(2, y, 0, 13, bgH, ColorUtil.getRGB(Color.black));
 
         double maxDam, dispDamage;
-        if (Config.renderDurabilityBar) {
+        if (ItemConfig.itemConfig.renderDurabilityBar) {
             maxDam = item.getMaxDamage();
             dispDamage = item.getItemDamageForDisplay();
-            y = Config.renderChargeBar && hasEnergyUpgrade ? 14 : 13;
+            y = ItemConfig.itemConfig.renderChargeBar && hasEnergyUpgrade ? 14 : 13;
             renderBar(y, maxDam, dispDamage, Color.green, Color.red);
         }
 
-        if (Config.renderChargeBar && hasEnergyUpgrade) {
+        if (ItemConfig.itemConfig.renderChargeBar && hasEnergyUpgrade) {
             IEnergyContainerItem armor = (IEnergyContainerItem) item.getItem();
             maxDam = armor.getMaxEnergyStored(item);
             dispDamage = armor.getEnergyStored(item);
-            y = Config.renderDurabilityBar ? 12 : 13;
+            y = ItemConfig.itemConfig.renderDurabilityBar ? 12 : 13;
             Color color = new Color(
                 Color.HSBtoRGB(
                     0.9F,

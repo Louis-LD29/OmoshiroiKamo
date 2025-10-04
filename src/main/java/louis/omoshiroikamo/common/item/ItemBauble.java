@@ -14,30 +14,33 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import baubles.common.container.InventoryBaubles;
 import baubles.common.lib.PlayerHandler;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.client.render.RenderHelper;
-import louis.omoshiroikamo.common.core.helper.ItemNBTHelper;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.entity.EntityDoppleganger;
+import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.lib.LibResources;
+import tconstruct.library.accessory.IAccessory;
 
-public abstract class ItemBauble extends ItemMod implements IBauble {
+@Optional.InterfaceList({ @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles"),
+    @Optional.Interface(iface = "tconstruct.library.accessory.IAccessory", modid = "TConstruct") })
+public abstract class ItemBauble extends ItemOK implements IBauble, IAccessory {
 
     private static final String TAG_HASHCODE = "playerHashcode";
     private static final String TAG_BAUBLE_UUID_MOST = "baubleUUIDMost";
     private static final String TAG_BAUBLE_UUID_LEAST = "baubleUUIDLeast";
 
-    protected boolean disableRightClickEquip = false;
+    protected boolean disableRightClickEquip;
 
     public ItemBauble(String name, boolean disableRightClickEquip) {
-        super();
+        super(name);
         this.disableRightClickEquip = disableRightClickEquip;
         setMaxStackSize(1);
-        setUnlocalizedName(name);
     }
 
     public ItemBauble(String name) {
-        this(name, false); // mặc định bật chức năng auto-equip
+        this(name, true);
     }
 
     public static UUID getBaubleUUID(ItemStack stack) {
@@ -61,34 +64,39 @@ public abstract class ItemBauble extends ItemMod implements IBauble {
         return ItemNBTHelper.getInt(stack, TAG_HASHCODE, 0);
     }
 
-    public ItemBauble disableRightClickEquip() {
+    public void disableRightClickEquip() {
+        this.disableRightClickEquip = false;
+    }
+
+    public void enableRightClickEquip() {
         this.disableRightClickEquip = true;
-        return this;
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
-        if (disableRightClickEquip) {
-            return par1ItemStack;
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+        if (!disableRightClickEquip) {
+            return itemStack;
         }
 
-        if (!EntityDoppleganger.isTruePlayer(par3EntityPlayer)) return par1ItemStack;
+        if (!EntityDoppleganger.isTruePlayer(player)) {
+            return itemStack;
+        }
 
-        if (canEquip(par1ItemStack, par3EntityPlayer)) {
-            InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(par3EntityPlayer);
+        if (canEquip(itemStack, player)) {
+            InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
             for (int i = 0; i < baubles.getSizeInventory(); i++) {
-                if (baubles.isItemValidForSlot(i, par1ItemStack)) {
+                if (baubles.isItemValidForSlot(i, itemStack)) {
                     ItemStack stackInSlot = baubles.getStackInSlot(i);
-                    if (stackInSlot == null
-                        || ((IBauble) stackInSlot.getItem()).canUnequip(stackInSlot, par3EntityPlayer)) {
-                        if (!par2World.isRemote) {
-                            baubles.setInventorySlotContents(i, par1ItemStack.copy());
-                            if (!par3EntityPlayer.capabilities.isCreativeMode) par3EntityPlayer.inventory
-                                .setInventorySlotContents(par3EntityPlayer.inventory.currentItem, null);
+                    if (stackInSlot == null || ((IBauble) stackInSlot.getItem()).canUnequip(stackInSlot, player)) {
+                        if (!world.isRemote) {
+                            baubles.setInventorySlotContents(i, itemStack.copy());
+                            if (!player.capabilities.isCreativeMode) {
+                                player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                            }
                         }
 
                         if (stackInSlot != null) {
-                            ((IBauble) stackInSlot.getItem()).onUnequipped(stackInSlot, par3EntityPlayer);
+                            ((IBauble) stackInSlot.getItem()).onUnequipped(stackInSlot, player);
                             return stackInSlot.copy();
                         }
                         break;
@@ -97,31 +105,35 @@ public abstract class ItemBauble extends ItemMod implements IBauble {
             }
         }
 
-        return par1ItemStack;
+        return itemStack;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-        if (GuiScreen.isShiftKeyDown()) addHiddenTooltip(par1ItemStack, par2EntityPlayer, par3List, par4);
-        else addStringToTooltip(StatCollector.translateToLocal(LibMisc.MOD_ID + "misc.shiftinfo"), par3List);
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
+        if (GuiScreen.isShiftKeyDown()) {
+            addHiddenTooltip(itemStack, player, list, par4);
+        } else {
+            addStringToTooltip(StatCollector.translateToLocal("misc.shiftinfo"), list);
+        }
     }
 
-    public void addHiddenTooltip(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-        BaubleType type = getBaubleType(par1ItemStack);
+    public void addHiddenTooltip(ItemStack itemStack, EntityPlayer player, List par3List, boolean par4) {
+        BaubleType type = getBaubleType(itemStack);
         addStringToTooltip(
             StatCollector.translateToLocal(
-                LibMisc.MOD_ID + ".baubletype."
-                    + type.name()
-                        .toLowerCase()),
+                "baubletype." + type.name()
+                    .toLowerCase()),
             par3List);
 
         String key = RenderHelper.getKeyDisplayString("Baubles Inventory");
 
-        if (key != null) addStringToTooltip(
-            StatCollector.translateToLocal(LibMisc.MOD_ID + ".baubletooltip")
-                .replaceAll("%key%", key),
-            par3List);
+        if (key != null) {
+            addStringToTooltip(
+                StatCollector.translateToLocal("baubletooltip")
+                    .replaceAll("%key%", key),
+                par3List);
+        }
 
     }
 
@@ -130,20 +142,41 @@ public abstract class ItemBauble extends ItemMod implements IBauble {
     }
 
     @Override
+    public boolean doesContainerItemLeaveCraftingGrid(ItemStack p_77630_1_) {
+        return false;
+    }
+
+    // Bauble
+
+    @Override
+    @Optional.Method(modid = "Baubles")
+    public BaubleType getBaubleType(ItemStack itemstack) {
+        return BaubleType.UNIVERSAL;
+    }
+
+    @Override
+    @Optional.Method(modid = "Baubles")
     public boolean canEquip(ItemStack stack, EntityLivingBase player) {
         return true;
     }
 
     @Override
+    @Optional.Method(modid = "Baubles")
     public boolean canUnequip(ItemStack stack, EntityLivingBase player) {
         return true;
     }
 
     @Override
-    public void onWornTick(ItemStack stack, EntityLivingBase player) {
-        if (getLastPlayerHashcode(stack) != player.hashCode()) {
+    @Optional.Method(modid = "Baubles")
+    public void onEquipped(ItemStack stack, EntityLivingBase player) {
+        if (player != null) {
+            if (!player.worldObj.isRemote) {
+                player.worldObj.playSoundAtEntity(player, LibResources.PREFIX_MOD + "equipBauble", 0.1F, 1.3F);
+            }
             onEquippedOrLoadedIntoWorld(stack, player);
+
             setLastPlayerHashcode(stack, player.hashCode());
+
         }
     }
 
@@ -152,24 +185,26 @@ public abstract class ItemBauble extends ItemMod implements IBauble {
     }
 
     @Override
-    public void onEquipped(ItemStack stack, EntityLivingBase player) {
-        if (player != null) {
-            // if(!player.worldObj.isRemote)
-            // player.worldObj.playSoundAtEntity(player, "botania:equipBauble", 0.1F, 1.3F);
-            onEquippedOrLoadedIntoWorld(stack, player);
-
-            setLastPlayerHashcode(stack, player.hashCode());
-
-        }
-    }
-
-    @Override
+    @Optional.Method(modid = "Baubles")
     public void onUnequipped(ItemStack stack, EntityLivingBase player) {
         // NO-OP
     }
 
     @Override
-    public boolean doesContainerItemLeaveCraftingGrid(ItemStack p_77630_1_) {
-        return false;
+    @Optional.Method(modid = "Baubles")
+    public void onWornTick(ItemStack stack, EntityLivingBase player) {
+        if (getLastPlayerHashcode(stack) != player.hashCode()) {
+            onEquippedOrLoadedIntoWorld(stack, player);
+            setLastPlayerHashcode(stack, player.hashCode());
+        }
     }
+
+    // TConstruct
+
+    @Override
+    @Optional.Method(modid = "TConstruct")
+    public boolean canEquipAccessory(ItemStack itemStack, int slot) {
+        return slot == 0;
+    }
+
 }

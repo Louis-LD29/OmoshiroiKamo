@@ -55,13 +55,13 @@ public class ManaNetwork extends WorldSavedData {
 
     // Lấy currentMana của player (dùng UUID)
     public float getCurrentMana(UUID playerUUID) {
-        return currentManaMap.getOrDefault(playerUUID, 0f); // Trả về 0 nếu chưa có
+        return currentManaMap.getOrDefault(playerUUID, 0f);
     }
 
     // Cập nhật currentMana cho player (dùng UUID)
     public void setCurrentMana(UUID playerUUID, float mana) {
         currentManaMap.put(playerUUID, mana);
-        markDirty(); // Đánh dấu dữ liệu đã thay đổi
+        markDirty();
     }
 
 }

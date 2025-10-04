@@ -10,6 +10,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.enderio.core.common.util.BlockCoord;
 
+import louis.omoshiroikamo.api.energy.powerInterface.IPowerInterface;
 import louis.omoshiroikamo.api.enums.VoltageTier;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
@@ -72,7 +73,6 @@ public class PowerDistributor {
                 int energyDelivered = Math.max(1, (int) (toSend * efficiency));
                 int used = pp.recieveEnergy(receptor.fromDir.getOpposite(), energyDelivered);
 
-                // Ghi nhận mất đúng lượng nguồn cung cấp (dù block chỉ nhận ít hơn)
                 transmitted += toSend;
                 available -= toSend;
             }
@@ -88,7 +88,9 @@ public class PowerDistributor {
     }
 
     private void checkReceptors(World worldObj) {
-        if (!receptorsDirty) return;
+        if (!receptorsDirty) {
+            return;
+        }
 
         receptors.clear();
 

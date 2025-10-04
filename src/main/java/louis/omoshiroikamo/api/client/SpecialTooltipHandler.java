@@ -20,8 +20,8 @@ import com.google.common.collect.Lists;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import louis.omoshiroikamo.api.mana.IManaItem;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
 import louis.omoshiroikamo.common.item.ItemBauble;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 
 @Handler
 public enum SpecialTooltipHandler {

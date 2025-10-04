@@ -18,18 +18,17 @@ import net.minecraftforge.fluids.Fluid;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.fluid.FluidEntry;
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.core.lib.LibResources;
 import louis.omoshiroikamo.common.fluid.FluidRegister;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 @SideOnly(Side.CLIENT)
 public class FluidTexture {
 
     private static BufferedImage baseStill, baseFlow;
-    public static final File CONFIG_FLUID_DIR = new File(
-        Config.configDirectory.getAbsolutePath() + "/" + LibResources.PREFIX_FLUID_ICONS);
+    public static File CONFIG_FLUID_DIR;
 
-    public static void applyAll() {
+    public static void applyAll(File configDirectory) {
+        CONFIG_FLUID_DIR = new File(configDirectory.getAbsolutePath() + "/" + LibResources.PREFIX_FLUID_ICONS);
         initBaseTextures();
         for (Map.Entry<FluidEntry, Fluid> entry : FluidRegister.FLUIDS.entrySet()) {
             apply(entry.getValue(), entry.getKey());
@@ -82,7 +81,7 @@ public class FluidTexture {
             ImageIO.write(flow, "png", flowFile);
 
             writeMcmetaFile(stillFile, writeFrametime, frametime);
-            writeMcmetaFile(flowFile, false, 0); // Flow không cần animation thường
+            writeMcmetaFile(flowFile, false, 0);
 
             try (FileWriter writer = new FileWriter(colorFile)) {
                 writer.write(currentColor);
@@ -91,7 +90,9 @@ public class FluidTexture {
     }
 
     private static void initBaseTextures() {
-        if (baseStill != null && baseFlow != null) return;
+        if (baseStill != null && baseFlow != null) {
+            return;
+        }
 
         try {
             ResourceLocation stillLoc = new ResourceLocation(
@@ -141,7 +142,9 @@ public class FluidTexture {
 
     private static void writeMcmetaFile(File pngFile, boolean writeFrametime, int frametime) throws IOException {
         File mcmeta = new File(pngFile.getAbsolutePath() + ".mcmeta");
-        if (mcmeta.exists()) return;
+        if (mcmeta.exists()) {
+            return;
+        }
 
         StringBuilder json = new StringBuilder();
         json.append("{\n  \"animation\": ");
@@ -162,7 +165,9 @@ public class FluidTexture {
     }
 
     public static void cleanUnusedTextures() {
-        if (!CONFIG_FLUID_DIR.exists()) return;
+        if (!CONFIG_FLUID_DIR.exists()) {
+            return;
+        }
 
         Set<String> validNames = new HashSet<>();
         for (Map.Entry<FluidEntry, Fluid> entry : FluidRegister.FLUIDS.entrySet()) {
@@ -178,10 +183,14 @@ public class FluidTexture {
         }
 
         File[] files = CONFIG_FLUID_DIR.listFiles();
-        if (files == null) return;
+        if (files == null) {
+            return;
+        }
 
         for (File file : files) {
-            if (!file.isFile()) continue;
+            if (!file.isFile()) {
+                continue;
+            }
             if (!validNames.contains(file.getName())) {
                 file.delete();
             }

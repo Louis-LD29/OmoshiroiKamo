@@ -8,15 +8,18 @@ import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.Optional;
 import ic2.api.energy.tile.IEnergySink;
 import louis.omoshiroikamo.api.energy.EnergyStorageAdv;
+import louis.omoshiroikamo.api.energy.IPowerContainer;
 import louis.omoshiroikamo.api.energy.PowerHandlerUtil;
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
-import louis.omoshiroikamo.common.core.lib.LibMods;
-import louis.omoshiroikamo.common.plugin.compat.IC2Compat;
+import louis.omoshiroikamo.common.network.PacketHandler;
+import louis.omoshiroikamo.common.network.PacketPowerStorage;
+import louis.omoshiroikamo.common.util.lib.LibMods;
+import louis.omoshiroikamo.plugin.compat.IC2Compat;
 
 @Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
     @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "IC2") })
-public abstract class AbstractPoweredTE extends AbstractIOTE implements IEnergyHandler, IEnergySink {
+public abstract class AbstractPoweredTE extends AbstractIOTE implements IEnergyHandler, IEnergySink, IPowerContainer {
 
     private int storedEnergyRF = 0;
     protected float lastSyncPowerStored = -1;
@@ -43,7 +46,7 @@ public abstract class AbstractPoweredTE extends AbstractIOTE implements IEnergyH
             return;
         }
 
-        if (LibMods.ic2 && !this.inICNet) {
+        if (LibMods.IC2.isLoaded() && !this.inICNet) {
             IC2Compat.loadIC2Tile(this);
             this.inICNet = true;
         }
@@ -51,7 +54,7 @@ public abstract class AbstractPoweredTE extends AbstractIOTE implements IEnergyH
         boolean powerChanged = (lastSyncPowerStored != storedEnergyRF && shouldDoWorkThisTick(5));
         if (powerChanged) {
             lastSyncPowerStored = storedEnergyRF;
-            forceClientUpdate = true;
+            PacketHandler.sendToAllAround(new PacketPowerStorage(this), this);
         }
     }
 
@@ -69,7 +72,7 @@ public abstract class AbstractPoweredTE extends AbstractIOTE implements IEnergyH
 
     @Optional.Method(modid = "IC2")
     void unload() {
-        if (LibMods.ic2 && this.inICNet) {
+        if (LibMods.IC2.isLoaded() && this.inICNet) {
             IC2Compat.unloadIC2Tile(this);
             this.inICNet = false;
         }
@@ -105,7 +108,9 @@ public abstract class AbstractPoweredTE extends AbstractIOTE implements IEnergyH
 
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-        if (!canReceivePower) return 0;
+        if (!canReceivePower) {
+            return 0;
+        }
         return PowerHandlerUtil.recieveInternal(this, maxReceive, from, simulate);
     }
 
@@ -155,13 +160,17 @@ public abstract class AbstractPoweredTE extends AbstractIOTE implements IEnergyH
 
     @Optional.Method(modid = "IC2")
     public double getDemandedEnergy() {
-        if (!canReceivePower) return 0;
+        if (!canReceivePower) {
+            return 0;
+        }
         return convertRFtoEU(getMaxEnergyRecieved() - storedEnergyRF, getIC2Tier());
     }
 
     @Optional.Method(modid = "IC2")
     public double injectEnergy(ForgeDirection directionFrom, double amount, double voltage) {
-        if (!canReceivePower) return amount;
+        if (!canReceivePower) {
+            return amount;
+        }
         int rf = convertEUtoRF(amount);
         int r = Math.max(0, Math.min(getMaxEnergyRecieved() - storedEnergyRF, rf));
         storedEnergyRF += r;

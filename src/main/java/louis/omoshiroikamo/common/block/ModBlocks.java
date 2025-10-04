@@ -21,24 +21,14 @@ public class ModBlocks {
     public static Block blockFurnace;
     public static Block blockMultiBlock;
     public static Block blockSolar;
-    public static Block blockBoiler;
+    public static Block blockBackpack;
     public static Block blockFluidInOut;
     public static Block blockEnergyInOut;
     public static Block blockItemInOut;
-    public static Block blockHeatInput;
-    public static Block blockHeatSource;
     public static Block blockElectrolyzer;
 
     public static void init() {
         // blockSolar = BlockSolarPanel.create();
-        // blockBoiler = BlockBoiler.create();
-        // blockFluidInput = BlockFluidInput.create();
-        // blockFluidOutput = BlockFluidOutput.create();
-        // blockItemInput = BlockItemInput.create();
-        // blockItemOutput = BlockItemOutput.create();
-        // blockHeatInput = BlockHeatInput.create();
-        // blockHeatSource = BlockHeatSource.create();
-        // blockFluidFilter = BlockFluidFilter.create();
         blockMultiBlock = BlockMultiBlock.create();
         blockFluidInOut = BlockFluidInOut.create();
         blockEnergyInOut = BlockEnergyInOut.create();

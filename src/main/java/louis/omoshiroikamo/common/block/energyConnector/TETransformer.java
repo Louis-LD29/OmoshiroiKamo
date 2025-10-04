@@ -7,12 +7,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.ApiUtils;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.TargetingInfo;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.IImmersiveConnectable;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.ImmersiveNetHandler;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.api.energy.WireType;
+import louis.omoshiroikamo.api.ApiUtils;
+import louis.omoshiroikamo.api.TargetingInfo;
+import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
+import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
+import louis.omoshiroikamo.api.energy.wire.WireType;
+import louis.omoshiroikamo.config.GeneralConfig;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -51,14 +51,14 @@ public class TETransformer extends TEConnectable {
     }
 
     @Override
-    public Vec3 getRaytraceOffset(IImmersiveConnectable link) {
+    public Vec3 getRaytraceOffset(IWireConnectable link) {
         ForgeDirection fd = ForgeDirection.getOrientation(getFacing())
             .getOpposite();
         return Vec3.createVectorHelper(.5 + fd.offsetX * .0625, .5 + fd.offsetY * .0625, .5 + fd.offsetZ * .0625);
     }
 
     @Override
-    public Vec3 getConnectionOffset(ImmersiveNetHandler.Connection con) {
+    public Vec3 getConnectionOffset(WireNetHandler.Connection con) {
         WireType wire = con.cableType;
         ForgeDirection facing = ForgeDirection.getOrientation(getFacing());
         ForgeDirection right;
@@ -101,7 +101,7 @@ public class TETransformer extends TEConnectable {
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         if (renderAABB == null) {
-            if (Config.increasedRenderboxes) {
+            if (GeneralConfig.increasedRenderboxes) {
                 int inc = getRenderRadiusIncrease();
                 renderAABB = AxisAlignedBB.getBoundingBox(
                     xCoord - inc,
@@ -110,7 +110,9 @@ public class TETransformer extends TEConnectable {
                     xCoord + inc + 1,
                     yCoord + inc + 1,
                     zCoord + inc + 1);
-            } else renderAABB = super.getRenderBoundingBox();
+            } else {
+                renderAABB = super.getRenderBoundingBox();
+            }
         }
         return renderAABB;
     }
@@ -128,14 +130,18 @@ public class TETransformer extends TEConnectable {
     public void writeCommon(NBTTagCompound root) {
         super.writeCommon(root);
 
-        if (secondCable != null) root.setString("secondCable", secondCable.getUniqueName());
+        if (secondCable != null) {
+            root.setString("secondCable", secondCable.getUniqueName());
+        }
     }
 
     @Override
     public void readCommon(NBTTagCompound root) {
         super.readCommon(root);
 
-        if (root.hasKey("secondCable")) secondCable = ApiUtils.getWireTypeFromNBT(root, "secondCable");
+        if (root.hasKey("secondCable")) {
+            secondCable = ApiUtils.getWireTypeFromNBT(root, "secondCable");
+        }
     }
 
     @Override
@@ -164,21 +170,29 @@ public class TETransformer extends TEConnectable {
     }
 
     @Override
-    public void removeCable(ImmersiveNetHandler.Connection connection) {
+    public void removeCable(WireNetHandler.Connection connection) {
         WireType type = connection != null ? connection.cableType : null;
         if (type == null) {
             limitType = null;
             secondCable = null;
         }
-        if (type == limitType) this.limitType = null;
-        if (type == secondCable) this.secondCable = null;
+        if (type == limitType) {
+            this.limitType = null;
+        }
+        if (type == secondCable) {
+            this.secondCable = null;
+        }
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     public int getTargetedConnector(WireType cableType) {
-        if (limitType == null || limitType == cableType) return 0;
+        if (limitType == null || limitType == cableType) {
+            return 0;
+        }
 
-        if (secondCable == null || secondCable == cableType) return 1;
+        if (secondCable == null || secondCable == cableType) {
+            return 1;
+        }
 
         return -1;
     }

@@ -20,7 +20,7 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.BlockOK;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class BlockMaterial extends BlockOK {
 
@@ -34,12 +34,12 @@ public class BlockMaterial extends BlockOK {
     }
 
     private BlockMaterial() {
-        super(ModObject.blockMaterial.unlocalisedName, null, net.minecraft.block.material.Material.iron);
+        super(ModObject.blockMaterial, null, net.minecraft.block.material.Material.iron);
     }
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, ModObject.blockMaterial.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockMaterial.class, ModObject.blockMaterial.unlocalisedName);
 
         for (MaterialEntry entry : MaterialRegistry.all()) {
             String matName = entry.getUnlocalizedName();

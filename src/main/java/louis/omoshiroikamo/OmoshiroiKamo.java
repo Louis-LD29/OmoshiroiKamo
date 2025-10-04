@@ -1,5 +1,7 @@
 package louis.omoshiroikamo;
 
+import com.gtnewhorizon.gtnhlib.config.ConfigException;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -10,7 +12,8 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.config.GeneralConfig;
 
 @Mod(
     modid = LibMisc.MOD_ID,
@@ -19,6 +22,14 @@ import louis.omoshiroikamo.common.core.lib.LibMisc;
     dependencies = LibMisc.DEPENDENCIES,
     guiFactory = LibMisc.GUI_FACTORY)
 public class OmoshiroiKamo {
+
+    static {
+        try {
+            GeneralConfig.registerConfig();
+        } catch (ConfigException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Instance(LibMisc.MOD_ID)
     public static OmoshiroiKamo instance;

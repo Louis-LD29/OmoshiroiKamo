@@ -17,7 +17,6 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.utils.Alignment;
 import com.cleanroommc.modularui.value.sync.BooleanSyncValue;
-import com.cleanroommc.modularui.value.sync.DoubleSyncValue;
 import com.cleanroommc.modularui.value.sync.FluidSlotSyncHandler;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widgets.ProgressWidget;
@@ -32,23 +31,22 @@ import louis.omoshiroikamo.api.IWailaInfoProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.fluid.IFluidHandlerAdv;
 import louis.omoshiroikamo.api.fluid.SmartTank;
+import louis.omoshiroikamo.api.io.SlotDefinition;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.client.gui.modularui2.MGuis;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractPoweredTaskTE;
-import louis.omoshiroikamo.common.block.abstractClass.machine.SlotDefinition;
-import louis.omoshiroikamo.common.config.Config;
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 
 public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandlerAdv, IWailaInfoProvider {
 
     public TEElectrolyzer() {
-        super(new SlotDefinition(0, 2, 3, 5, 0, 2, 3, 5, -1, -1), MaterialRegistry.getByName("Iron"));
+        super(new SlotDefinition(0, 2, 3, 5, 0, 2, 3, 5, -1, -1), MaterialRegistry.get("Iron"));
     }
 
     @Override
     public int getPowerUsePerTick() {
-        return Config.PowerUserPerTickRF;
+        return 20;
     }
 
     @Override
@@ -58,7 +56,9 @@ public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandl
 
     @Override
     protected boolean isMachineItemValidForSlot(int slot, ItemStack stack) {
-        if (stack == null) return false;
+        if (stack == null) {
+            return false;
+        }
         return slot >= slotDefinition.minItemInputSlot && slot <= slotDefinition.maxItemInputSlot;
     }
 
@@ -72,7 +72,6 @@ public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandl
     @Override
     public ModularPanel buildUI(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
         syncManager.registerSlotGroup("item_inv", 1);
-        syncManager.syncValue("progress", new DoubleSyncValue(this::getProgress, value -> setProgress((float) value)));
 
         return MGuis.mteTemplatePanelBuilder(this, data, syncManager, settings)
             .doesAddConfigR(true)
@@ -189,7 +188,9 @@ public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandl
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        if (fluidTanks == null || fluidTanks.length == 0) return new FluidTankInfo[0];
+        if (fluidTanks == null || fluidTanks.length == 0) {
+            return new FluidTankInfo[0];
+        }
 
         FluidTankInfo[] info = new FluidTankInfo[fluidTanks.length];
         for (int i = 0; i < fluidTanks.length; i++) {

@@ -17,7 +17,7 @@ import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidInput;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidOutput;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class BlockItemInOut extends AbstractBlock<TEItemInOut> {
 

@@ -2,9 +2,10 @@ package louis.omoshiroikamo.client.gui.modularui2;
 
 import static louis.omoshiroikamo.client.gui.modularui2.MUITexture.icon;
 
+import com.cleanroommc.modularui.ModularUI;
 import com.cleanroommc.modularui.drawable.UITexture;
 
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public interface MGuiTextures {
 
@@ -33,4 +34,7 @@ public interface MGuiTextures {
         .location(LibResources.PROGRESS_BURN)
         .imageSize(18, 36)
         .build();
+
+    UITexture TAB_LEFT = UITexture.fullImage(ModularUI.ID, "gui/tab/tabs_left", true);
+    UITexture TAB_RIGHT = UITexture.fullImage(ModularUI.ID, "gui/tab/tabs_right", true);
 }

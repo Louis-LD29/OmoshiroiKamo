@@ -20,12 +20,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
-import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.block.ModBlocks;
-import louis.omoshiroikamo.common.core.helper.OreDictUtils;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.common.util.helper.OreDictUtils;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
-public class ItemMaterial extends Item {
+public class ItemMaterial extends ItemOK {
 
     @SideOnly(Side.CLIENT)
     protected IIcon ingotIcon, nuggetIcon, plateIcon, rodIcon, dustIcon, gearIcon;
@@ -37,13 +36,12 @@ public class ItemMaterial extends Item {
     }
 
     protected ItemMaterial() {
+        super(ModObject.itemMaterial.unlocalisedName);
         setHasSubtypes(true);
         setMaxDamage(0);
-        setCreativeTab(OKCreativeTab.INSTANCE);
-        setUnlocalizedName(ModObject.itemMaterial.unlocalisedName);
     }
 
-    private void init() {
+    protected void init() {
         GameRegistry.registerItem(this, ModObject.itemMaterial.unlocalisedName);
 
         for (MaterialEntry entry : MaterialRegistry.all()) {

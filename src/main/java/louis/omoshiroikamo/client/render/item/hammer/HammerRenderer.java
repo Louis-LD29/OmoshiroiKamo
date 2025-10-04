@@ -9,8 +9,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.enderio.core.client.render.RenderUtil;
 
-import louis.omoshiroikamo.client.model.ModelIEObj;
-import louis.omoshiroikamo.common.core.lib.LibResources;
+import louis.omoshiroikamo.client.models.ModelIEObj;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class HammerRenderer implements IItemRenderer {
 

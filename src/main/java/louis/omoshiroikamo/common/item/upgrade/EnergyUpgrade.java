@@ -15,17 +15,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.SpecialTooltipHandler;
 import louis.omoshiroikamo.api.energy.PowerDisplayUtil;
 import louis.omoshiroikamo.api.mana.IManaItem;
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.core.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.config.item.AnvilUpgradeConfig;
 
 public class EnergyUpgrade extends AbstractUpgrade {
 
     public static final AbstractUpgrade EMPOWERED = new EnergyUpgrade(
         LibMisc.MOD_ID + ".mana.upgrade.empowered_one",
-        Config.manaUpgradeDiamondCost,
+        AnvilUpgradeConfig.anvilUpgradeConfig.manaUpgradeDiamondCost,
         new ItemStack(Items.diamond),
-        Config.manaPowerStorageBase,
-        Config.manaPowerStorageBase / 100);
+        AnvilUpgradeConfig.anvilUpgradeConfig.manaPowerStorageBase,
+        AnvilUpgradeConfig.anvilUpgradeConfig.manaPowerStorageBase / 100);
 
     private static final String UPGRADE_NAME = "energyUpgrade";
     private static final String KEY_CAPACITY = "capacity";

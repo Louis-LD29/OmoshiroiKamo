@@ -11,8 +11,8 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import louis.omoshiroikamo.client.ClientUtils;
 import louis.omoshiroikamo.common.block.anvil.TEAnvil;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.client.ClientUtils;
 
 public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
 
@@ -31,7 +31,9 @@ public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         TileEntity te = world.getTileEntity(x, y, z);
-        if (!(te instanceof TEAnvil teAnvil)) return false;
+        if (!(te instanceof TEAnvil teAnvil)) {
+            return false;
+        }
 
         ClientUtils.handleStaticTileRenderer(teAnvil);
 

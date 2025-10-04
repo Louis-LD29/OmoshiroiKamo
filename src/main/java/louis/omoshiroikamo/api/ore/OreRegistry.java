@@ -10,9 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.config.OreConfig;
-
 public class OreRegistry {
 
     private static final Map<String, OreEntry> REGISTRY = new LinkedHashMap<>();
@@ -20,36 +17,32 @@ public class OreRegistry {
     private static final List<OreEntry> META_INDEXED = new ArrayList<>();
 
     public static void register(OreEntry entry) {
-        if (REGISTRY.containsKey(entry.getName())) throw new IllegalStateException("Duplicate ore: " + entry.getName());
+        if (REGISTRY.containsKey(entry.getName())) {
+            throw new IllegalStateException("Duplicate ore: " + entry.getName());
+        }
 
         REGISTRY.put(entry.getName(), entry);
-        META_LOOKUP.put(entry.meta, entry);
+        META_LOOKUP.put(entry.getMeta(), entry);
 
-        while (META_INDEXED.size() <= entry.meta) {
+        while (META_INDEXED.size() <= entry.getMeta()) {
             META_INDEXED.add(null);
         }
-        META_INDEXED.set(entry.meta, entry);
+        META_INDEXED.set(entry.getMeta(), entry);
     }
 
     public static OreEntry get(String name) {
-        OreEntry defaultEntry = REGISTRY.get(name);
-        if (defaultEntry == null) return null;
-
-        OreConfig config = Config.oreConfigs.getOrDefault(name, defaultEntry.defaults);
-        return new OreEntry(name, defaultEntry.meta, config);
-    }
-
-    public static OreEntry getByName(String name) {
         return REGISTRY.get(name);
     }
 
     public static OreEntry fromMeta(int meta) {
-        if (meta < 0 || meta >= META_INDEXED.size()) return META_INDEXED.get(0);
+        if (meta < 0 || meta >= META_INDEXED.size()) {
+            return META_INDEXED.get(0);
+        }
         return META_INDEXED.get(meta);
     }
 
     public static int indexOf(OreEntry entry) {
-        return entry.meta;
+        return entry.getMeta();
     }
 
     public static Collection<OreEntry> all() {

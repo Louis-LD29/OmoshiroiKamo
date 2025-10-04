@@ -10,9 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import louis.omoshiroikamo.common.config.Config;
-import louis.omoshiroikamo.common.config.FluidConfig;
-
 public class FluidRegistry {
 
     private static final Map<String, FluidEntry> REGISTRY = new LinkedHashMap<>();
@@ -20,8 +17,9 @@ public class FluidRegistry {
     private static final List<FluidEntry> META_INDEXED = new ArrayList<>();
 
     public static void register(FluidEntry entry) {
-        if (REGISTRY.containsKey(entry.getName()))
+        if (REGISTRY.containsKey(entry.getName())) {
             throw new IllegalStateException("Duplicate material: " + entry.getName());
+        }
 
         REGISTRY.put(entry.getName(), entry);
         META_LOOKUP.put(entry.meta, entry);
@@ -33,19 +31,13 @@ public class FluidRegistry {
     }
 
     public static FluidEntry get(String name) {
-        FluidEntry defaultEntry = REGISTRY.get(name);
-        if (defaultEntry == null) return null;
-
-        FluidConfig config = Config.fluidConigs.getOrDefault(name, defaultEntry.defaults);
-        return new FluidEntry(name, defaultEntry.meta, config);
-    }
-
-    public static FluidEntry getByName(String name) {
         return REGISTRY.get(name);
     }
 
     public static FluidEntry fromMeta(int meta) {
-        if (meta < 0 || meta >= META_INDEXED.size()) return META_INDEXED.get(0);
+        if (meta < 0 || meta >= META_INDEXED.size()) {
+            return META_INDEXED.get(0);
+        }
         return META_INDEXED.get(meta);
     }
 

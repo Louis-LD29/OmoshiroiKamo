@@ -8,6 +8,11 @@ import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
+import louis.omoshiroikamo.api.energy.powerInterface.EnergyConnectionPI;
+import louis.omoshiroikamo.api.energy.powerInterface.EnergyHandlerPI;
+import louis.omoshiroikamo.api.energy.powerInterface.EnergyProviderPI;
+import louis.omoshiroikamo.api.energy.powerInterface.EnergyReceiverPI;
+import louis.omoshiroikamo.api.energy.powerInterface.IPowerInterface;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractPoweredTE;
 
 public class PowerHandlerUtil {
@@ -48,18 +53,6 @@ public class PowerHandlerUtil {
         }
         tag.setInteger(STORED_ENERGY_NBT_KEY, storedEnergy);
         item.setTagCompound(tag);
-    }
-
-    public static int recieveInternal(IInternalPoweredTile target, int maxReceive, ForgeDirection from,
-        boolean simulate) {
-
-        int result = Math.min(target.getMaxEnergyRecieved(from), maxReceive);
-        result = Math.min(target.getMaxEnergyStored() - target.getEnergyStored(), result);
-        result = Math.max(0, result);
-        if (result > 0 && !simulate) {
-            target.setEnergyStored(target.getEnergyStored() + result);
-        }
-        return result;
     }
 
     public static int recieveInternal(AbstractPoweredTE target, int maxReceive, ForgeDirection from, boolean simulate) {

@@ -6,13 +6,13 @@ import net.minecraft.util.IIcon;
 
 import org.lwjgl.opengl.GL11;
 
-import louis.omoshiroikamo.client.model.ModelIEObj;
+import louis.omoshiroikamo.client.models.ModelIEObj;
 import louis.omoshiroikamo.client.render.AbstractMTESR;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.block.energyConnector.BlockConnectable;
 import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
-import louis.omoshiroikamo.common.core.lib.LibResources;
-import louis.omoshiroikamo.shadow.blusunrize.immersiveengineering.immersiveengineering.common.util.chickenbones.Matrix4;
+import louis.omoshiroikamo.common.util.lib.LibResources;
+import louis.omoshiroikamo.plugin.chickenbones.Matrix4;
 
 public class InsulatorTESR extends AbstractMTESR {
 
@@ -31,7 +31,9 @@ public class InsulatorTESR extends AbstractMTESR {
 
     @Override
     public void renderStatic(TileEntity tile, Tessellator tes, Matrix4 translationMatrix, Matrix4 rotationMatrix) {
-        if (!(tile instanceof TEInsulator te)) return;
+        if (!(tile instanceof TEInsulator te)) {
+            return;
+        }
         translationMatrix.translate(.5, .5, .5);
         switch (te.getFacing()) {
             case 0:
