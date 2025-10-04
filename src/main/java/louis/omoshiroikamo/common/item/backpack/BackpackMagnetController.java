@@ -21,25 +21,19 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 
 import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 
 import baubles.common.container.InventoryBaubles;
 import baubles.common.lib.PlayerHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.client.gui.BackpackGui;
 import louis.omoshiroikamo.client.gui.modularui2.handler.UpgradeItemStackHandler;
 import louis.omoshiroikamo.common.network.PacketBackPackState;
 import louis.omoshiroikamo.common.network.PacketHandler;
-import louis.omoshiroikamo.common.util.lib.LibObfuscation;
 import vazkii.botania.common.core.helper.Vector3;
 
 @EventBusSubscriber()
@@ -174,7 +168,7 @@ public class BackpackMagnetController {
 
                 double distance = x * x + y * y + z * z;
                 if (distance < collisionDistanceSq) {
-                    onCollideWithPlayer(player, entity);
+                    entity.onCollideWithPlayer(player);
                 } else {
                     if (pulled > 200) {
                         break;
@@ -263,48 +257,6 @@ public class BackpackMagnetController {
         }
 
         return arraylist;
-    }
-
-    public static void onCollideWithPlayer(EntityPlayer player, Entity entity) {
-        if (!entity.worldObj.isRemote) {
-            if (entity instanceof EntityXPOrb) {
-                return;
-            }
-            EntityItem item = (EntityItem) entity;
-
-            EntityItemPickupEvent event = new EntityItemPickupEvent(player, item);
-
-            if (MinecraftForge.EVENT_BUS.post(event)) {
-                return;
-            }
-
-            ItemStack itemstack = item.getEntityItem();
-            int i = itemstack.stackSize;
-
-            String field_145802_g = ReflectionHelper.getPrivateValue(EntityItem.class, item, LibObfuscation.POTION_ID);
-
-            boolean canPickup = (item.field_145802_g == null || item.lifespan - item.age <= 200
-                || item.field_145802_g.equals(player.getCommandSenderName()))
-                && (event.getResult() == Event.Result.ALLOW || i <= 0
-                    || player.inventory.addItemStackToInventory(itemstack));
-
-            if (canPickup) {
-
-                FMLCommonHandler.instance()
-                    .firePlayerItemPickupEvent(player, item);
-
-                item.worldObj.playSoundAtEntity(
-                    player,
-                    "random.pop",
-                    0.2F,
-                    ((rand.nextFloat() - rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
-                player.onItemPickup(item, i);
-
-                if (itemstack.stackSize <= 0) {
-                    item.setDead();
-                }
-            }
-        }
     }
 
     public static void setEntityMotionFromVector(Entity entity, Vector3 originalPosVector, float modifier) {

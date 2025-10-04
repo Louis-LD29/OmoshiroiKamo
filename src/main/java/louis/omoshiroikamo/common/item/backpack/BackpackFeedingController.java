@@ -3,6 +3,7 @@ package louis.omoshiroikamo.common.item.backpack;
 import static louis.omoshiroikamo.config.general.FeedingConfig.feedingConfig;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,9 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.FoodStats;
-import net.minecraft.world.World;
 
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
 import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
@@ -23,13 +22,11 @@ import baubles.common.container.InventoryBaubles;
 import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.client.gui.BackpackGui;
 import louis.omoshiroikamo.client.gui.modularui2.handler.UpgradeItemStackHandler;
 import louis.omoshiroikamo.common.network.PacketBackPackState;
 import louis.omoshiroikamo.common.network.PacketHandler;
-import louis.omoshiroikamo.common.util.lib.LibObfuscation;
 
 @EventBusSubscriber()
 public class BackpackFeedingController {
@@ -110,9 +107,7 @@ public class BackpackFeedingController {
     }
 
     public static void doHFeeding(EntityPlayer player, BackpackUtil.ActiveBackPack mag) {
-
         int cooldown = BackpackUtil.getCooldown(mag.item, TAG_COOLDOWN);
-
         initFilter(mag);
 
         if (cooldown > 0) {
@@ -125,39 +120,69 @@ public class BackpackFeedingController {
             return;
         }
 
-        ItemStackHandler itemStackHandler = new ItemStackHandler(BackpackGui.slot);
-        itemStackHandler.deserializeNBT(root.getCompoundTag(BackpackGui.BACKPACKINV));
+        ItemStackHandler handler = new ItemStackHandler(BackpackGui.slot);
+        handler.deserializeNBT(root.getCompoundTag(BackpackGui.BACKPACKINV));
 
         FoodStats foodStats = player.getFoodStats();
-
         boolean consumedAny = false;
+        int missing = 20 - foodStats.getFoodLevel();
 
-        for (int slotIndex = 0; slotIndex < itemStackHandler.getSlots() && foodStats.getFoodLevel() < 20; slotIndex++) {
-            ItemStack stack = itemStackHandler.getStackInSlot(slotIndex);
-            if (stack == null || !(stack.getItem() instanceof ItemFood food)) {
+        if (missing <= 0) {
+            return;
+        }
+
+        List<Integer> foodSlots = new ArrayList<>();
+        for (int i = 0; i < handler.getSlots(); i++) {
+            ItemStack s = handler.getStackInSlot(i);
+            if (s != null && s.getItem() instanceof ItemFood food) {
+                if (!filter.isEmpty() && !filter.contains(food)) {
+                    continue;
+                }
+                foodSlots.add(i);
+            }
+        }
+
+        foodSlots.sort(
+            Comparator.comparingInt(
+                i -> ((ItemFood) handler.getStackInSlot(i)
+                    .getItem()).func_150905_g(handler.getStackInSlot(i))));
+
+        for (int slotIndex : foodSlots) {
+            ItemStack stack = handler.getStackInSlot(slotIndex);
+            if (stack == null) {
                 continue;
             }
 
-            if (!filter.isEmpty() && !filter.contains(food)) {
-                continue;
-            }
+            ItemFood food = (ItemFood) stack.getItem();
 
             while (stack.stackSize > 0 && foodStats.getFoodLevel() < 20) {
-                onEaten(stack, player.worldObj, player);
+                int heal = food.func_150905_g(stack);
+                int before = foodStats.getFoodLevel();
+                int missingNow = 20 - before;
+
+                if (heal > missingNow + 1) {
+                    break;
+                }
+
+                food.onEaten(stack, player.worldObj, player);
                 consumedAny = true;
+
+                if (stack.stackSize <= 0) {
+                    handler.setStackInSlot(slotIndex, null);
+                    break;
+                } else {
+                    handler.setStackInSlot(slotIndex, stack);
+                }
             }
 
-            if (stack.stackSize <= 0) {
-                itemStackHandler.setStackInSlot(slotIndex, null);
-            } else {
-                itemStackHandler.setStackInSlot(slotIndex, stack);
+            if (foodStats.getFoodLevel() >= 20) {
+                break;
             }
         }
 
         if (consumedAny) {
-            root.setTag(BackpackGui.BACKPACKINV, itemStackHandler.serializeNBT());
+            root.setTag(BackpackGui.BACKPACKINV, handler.serializeNBT());
             mag.item.setTagCompound(root);
-
             BackpackUtil.setCooldown(mag.item, 2, TAG_COOLDOWN);
         }
     }
@@ -175,22 +200,4 @@ public class BackpackFeedingController {
         filter = itemList;
     }
 
-    public static void onEaten(ItemStack stack, World world, EntityPlayer player) {
-        --stack.stackSize;
-        player.getFoodStats()
-            .func_151686_a((ItemFood) stack.getItem(), stack);
-        world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-        onFoodEaten((ItemFood) stack.getItem(), world, player);
-    }
-
-    protected static void onFoodEaten(ItemFood food, World world, EntityPlayer player) {
-        int potionId = ReflectionHelper.getPrivateValue(ItemFood.class, food, LibObfuscation.POTION_ID);
-        int potionDuration = ReflectionHelper.getPrivateValue(ItemFood.class, food, LibObfuscation.POTION_DURATION);
-        int potionAmplifier = ReflectionHelper.getPrivateValue(ItemFood.class, food, LibObfuscation.POTION_AMPLIFIER);
-        float potionProb = ReflectionHelper.getPrivateValue(ItemFood.class, food, LibObfuscation.POTION_PROB);
-
-        if (!world.isRemote && potionId > 0 && world.rand.nextFloat() < potionProb) {
-            player.addPotionEffect(new PotionEffect(potionId, potionDuration * 20, potionAmplifier));
-        }
-    }
 }
