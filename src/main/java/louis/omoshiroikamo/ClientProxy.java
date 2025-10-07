@@ -1,5 +1,6 @@
 package louis.omoshiroikamo;
 
+import louis.omoshiroikamo.client.handler.DameEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -51,7 +52,8 @@ import louis.omoshiroikamo.config.item.ItemConfig;
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
 
-    public ClientProxy() {}
+    public ClientProxy() {
+    }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
@@ -87,7 +89,7 @@ public class ClientProxy extends CommonProxy {
 
         ModItems.registerItemRenderer();
 
-        if (ItemConfig.itemConfig.renderPufferFish) {
+        if (ItemConfig.renderPufferFish) {
             MinecraftForgeClient.registerItemRenderer(Items.fish, new PufferFishRenderer());
         }
 
@@ -98,6 +100,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
+        MinecraftForge.EVENT_BUS.register(new DameEvents());
     }
 
     @Override

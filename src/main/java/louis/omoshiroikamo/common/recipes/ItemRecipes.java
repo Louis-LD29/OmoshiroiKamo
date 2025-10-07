@@ -49,7 +49,7 @@ public class ItemRecipes {
                 "ingotCopper",
                 'B',
                 new ItemStack(ModItems.itemBackPack, 1, 0)).allowNBTFrom(new ItemStack(ModItems.itemBackPack, 1, 0))
-                .allowAllTags());
+                    .allowAllTags());
 
         // Iron Backpack
         GameRegistry.addRecipe(
@@ -62,7 +62,7 @@ public class ItemRecipes {
                 "ingotIron",
                 'B',
                 new ItemStack(ModItems.itemBackPack, 1, 1)).allowNBTFrom(new ItemStack(ModItems.itemBackPack, 1, 1))
-                .allowAllTags());
+                    .allowAllTags());
 
         // Gold Backpack
         GameRegistry.addRecipe(
@@ -75,7 +75,7 @@ public class ItemRecipes {
                 "ingotGold",
                 'B',
                 new ItemStack(ModItems.itemBackPack, 1, 2)).allowNBTFrom(new ItemStack(ModItems.itemBackPack, 1, 2))
-                .allowAllTags());
+                    .allowAllTags());
 
         // Diamond Backpack
         GameRegistry.addRecipe(
@@ -88,7 +88,7 @@ public class ItemRecipes {
                 "gemDiamond",
                 'B',
                 new ItemStack(ModItems.itemBackPack, 1, 3)).allowNBTFrom(new ItemStack(ModItems.itemBackPack, 1, 3))
-                .allowAllTags());
+                    .allowAllTags());
 
         if (!LibMods.EtFuturum.isLoaded()) {
             GameRegistry.addRecipe(
@@ -101,7 +101,7 @@ public class ItemRecipes {
                     "blockObsidian",
                     'B',
                     new ItemStack(ModItems.itemBackPack, 1, 4)).allowNBTFrom(new ItemStack(ModItems.itemBackPack, 1, 3))
-                    .allowAllTags());
+                        .allowAllTags());
         }
 
         // Upgrade Base

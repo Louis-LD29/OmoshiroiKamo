@@ -25,7 +25,11 @@ public class ManaAnvilRecipe {
     private static final List<IManaItemUpgrade> UPGRADES = new ArrayList<>();
 
     static {
-        UPGRADES.add(EnergyUpgrade.EMPOWERED);
+        UPGRADES.add(EnergyUpgrade.ENERGY_TIER_ONE);
+        UPGRADES.add(EnergyUpgrade.ENERGY_TIER_TWO);
+        UPGRADES.add(EnergyUpgrade.ENERGY_TIER_THREE);
+        UPGRADES.add(EnergyUpgrade.ENERGY_TIER_FOUR);
+        UPGRADES.add(EnergyUpgrade.ENERGY_TIER_FIVE);
     }
 
     @SubscribeEvent
@@ -55,7 +59,8 @@ public class ManaAnvilRecipe {
         return UPGRADES;
     }
 
-    public static void addCommonTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
+    public static void addCommonTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list,
+        boolean flag) {
         for (IManaItemUpgrade upgrade : UPGRADES) {
             if (upgrade.hasUpgrade(itemstack)) {
                 upgrade.addCommonEntries(itemstack, entityplayer, list, flag);
@@ -71,7 +76,8 @@ public class ManaAnvilRecipe {
         }
     }
 
-    public static void addAdvancedTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
+    public static void addAdvancedTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list,
+        boolean flag) {
 
         List<IManaItemUpgrade> applyableUPGRADES = new ArrayList<IManaItemUpgrade>();
         for (IManaItemUpgrade upgrade : UPGRADES) {

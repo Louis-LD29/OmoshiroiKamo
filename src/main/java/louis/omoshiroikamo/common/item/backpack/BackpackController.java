@@ -3,8 +3,6 @@ package louis.omoshiroikamo.common.item.backpack;
 import static louis.omoshiroikamo.common.item.backpack.BackpackGui.FEEDING_MODE;
 import static louis.omoshiroikamo.common.item.backpack.BackpackGui.FEEDING_TYPE;
 import static louis.omoshiroikamo.common.item.backpack.BackpackGui.MAGNET_MODE;
-import static louis.omoshiroikamo.config.general.FeedingConfig.feedingConfig;
-import static louis.omoshiroikamo.config.general.MagnetConfig.magnetConfig;
 import static louis.omoshiroikamo.plugin.botania.BotaniaUtil.hasSolegnoliaAround;
 
 import java.util.ArrayList;
@@ -45,6 +43,8 @@ import louis.omoshiroikamo.client.gui.modularui2.handler.UpgradeItemStackHandler
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import louis.omoshiroikamo.common.network.PacketBackPackState;
 import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.config.item.FeedingConfig;
+import louis.omoshiroikamo.config.item.MagnetConfig;
 import louis.omoshiroikamo.plugin.baubles.BaublesUtil;
 
 @EventBusSubscriber
@@ -98,8 +98,8 @@ public class BackpackController {
 
         ItemStack[] inv = player.inventory.mainInventory;
         int maxSlot = Math.max(
-            feedingConfig.feedingAllowInMainInventory ? 4 * 9 : 9,
-            magnetConfig.magnetAllowInMainInventory ? 4 * 9 : 9);
+            FeedingConfig.feedingAllowInMainInventory ? 4 * 9 : 9,
+            MagnetConfig.magnetAllowInMainInventory ? 4 * 9 : 9);
 
         for (int i = 0; i < maxSlot; i++) {
             ItemStack stack = inv[i];
@@ -123,7 +123,7 @@ public class BackpackController {
             }
         }
 
-        if (feedingConfig.feedingAllowInBaublesSlot || magnetConfig.magnetAllowInBaublesSlot) {
+        if (FeedingConfig.feedingAllowInBaublesSlot || MagnetConfig.magnetAllowInBaublesSlot) {
             InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
             for (int i = 0; i < baubles.getSizeInventory(); i++) {
                 ItemStack stack = baubles.getStackInSlot(i);
@@ -338,12 +338,12 @@ public class BackpackController {
         }
 
         AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(
-            player.posX - magnetConfig.magnetRange,
-            player.posY - magnetConfig.magnetRange,
-            player.posZ - magnetConfig.magnetRange,
-            player.posX + magnetConfig.magnetRange,
-            player.posY + magnetConfig.magnetRange,
-            player.posZ + magnetConfig.magnetRange);
+            player.posX - MagnetConfig.magnetRange,
+            player.posY - MagnetConfig.magnetRange,
+            player.posZ - MagnetConfig.magnetRange,
+            player.posX + MagnetConfig.magnetRange,
+            player.posY + MagnetConfig.magnetRange,
+            player.posZ + MagnetConfig.magnetRange);
 
         List<Entity> entities = selectEntitiesWithinAABB(player.worldObj, aabb, mag);
         if (entities.isEmpty()) {
@@ -405,7 +405,7 @@ public class BackpackController {
     @SuppressWarnings("unchecked")
     private static List<Entity> selectEntitiesWithinAABB(World world, AxisAlignedBB bb, ActiveBackPack mag) {
         List<Entity> result = new ArrayList<>();
-        int remaining = magnetConfig.magnetMaxItems <= 0 ? Integer.MAX_VALUE : magnetConfig.magnetMaxItems;
+        int remaining = MagnetConfig.magnetMaxItems <= 0 ? Integer.MAX_VALUE : MagnetConfig.magnetMaxItems;
 
         NBTTagCompound root = mag.item.getTagCompound();
         boolean filterMode = root.getBoolean(MAGNET_MODE);
@@ -512,7 +512,7 @@ public class BackpackController {
     }
 
     public static void setBackpackActive(EntityPlayerMP player, PacketBackPackState.SlotType type, int slot,
-        boolean isActive) {
+                                         boolean isActive) {
         ItemStack stack = null;
         IInventory baubles = null;
         int dropOff = -1;
@@ -567,7 +567,7 @@ public class BackpackController {
         List<String> filterList = new ArrayList<>();
         if (magnet != null && magnet.hasTagCompound()
             && magnet.getTagCompound()
-                .hasKey(tag)) {
+            .hasKey(tag)) {
             NBTTagList list = magnet.getTagCompound()
                 .getTagList(tag, 10);
             for (int i = 0; i < list.tagCount(); i++) {

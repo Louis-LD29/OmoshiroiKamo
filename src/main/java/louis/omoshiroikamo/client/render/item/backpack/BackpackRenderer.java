@@ -140,7 +140,7 @@ public class BackpackRenderer implements IItemRenderer {
 
     private void renderBars(ItemStack item) {
         if (EnergyUpgrade.loadFromItem(item) == null
-            || (!ItemConfig.itemConfig.renderChargeBar && !ItemConfig.itemConfig.renderDurabilityBar)) {
+            || (!ItemConfig.renderChargeBar && !ItemConfig.renderDurabilityBar)) {
             return;
         }
 
@@ -154,7 +154,7 @@ public class BackpackRenderer implements IItemRenderer {
 
         double maxDam, dispDamage;
 
-        if (ItemConfig.itemConfig.renderChargeBar && hasEnergyUpgrade) {
+        if (ItemConfig.renderChargeBar && hasEnergyUpgrade) {
             IEnergyContainerItem backpack = (IEnergyContainerItem) item.getItem();
             maxDam = backpack.getMaxEnergyStored(item);
             dispDamage = backpack.getEnergyStored(item);

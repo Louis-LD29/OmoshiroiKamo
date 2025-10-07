@@ -5,29 +5,21 @@ import com.gtnewhorizon.gtnhlib.config.Config;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
-@Config(
-    modid = LibMisc.MOD_ID,
-    category = "damage_indicators",
-    configSubDirectory = LibMisc.MOD_ID,
-    filename = "damage_indicators")
+@Config.Comment("Main magnet settings")
+@Config.LangKey(LibResources.CONFIG + "damageIndicatorsConfig")
+@Config(modid = LibMisc.MOD_ID, category = "general.damage_indicators", configSubDirectory = LibMisc.MOD_ID)
 public class DamageIndicatorsConfig {
 
-    @Config.Comment("Main magnet settings")
-    public static final DamageIndicators indicatorsConfig = new DamageIndicators();
+    @Config.Comment("Color of damage numbers")
+    @Config.DefaultInt(0xFFFFFF)
+    public static int damageColor;
 
-    @Config.LangKey(LibResources.CONFIG + "damageIndicatorsConfig")
-    public static class DamageIndicators {
+    @Config.Comment("Color of healing numbers")
+    @Config.DefaultInt(0x33FF33)
+    public static int healColor;
 
-        @Config.Comment("Color of damage numbers")
-        @Config.DefaultInt(0xFFFFFF)
-        public int damageColor;
-
-        @Config.Comment("Color of healing numbers")
-        @Config.DefaultInt(0x33FF33)
-        public int healColor;
-
-        @Config.Comment("Show particles when dealing damage")
-        @Config.DefaultBoolean(false)
-        public boolean showDamageParticles;
-    }
+    @Config.Comment("Show particles when dealing damage")
+    @Config.DefaultBoolean(false)
+    @Config.RequiresMcRestart
+    public static boolean showDamageParticles;
 }

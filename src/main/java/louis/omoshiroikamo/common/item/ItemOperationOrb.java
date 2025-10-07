@@ -34,10 +34,6 @@ import com.enderio.core.common.util.ItemUtil;
 import baubles.api.BaubleType;
 import baubles.api.expanded.BaubleExpandedSlots;
 import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.client.IFlightEnablerItem;
 import louis.omoshiroikamo.api.enums.ModObject;
@@ -47,7 +43,6 @@ import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import louis.omoshiroikamo.common.recipes.ManaAnvilRecipe;
 import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
-import louis.omoshiroikamo.common.util.lib.LibMods;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 import louis.omoshiroikamo.config.item.ItemConfig;
 import vazkii.botania.api.mana.IManaTooltipDisplay;
@@ -167,7 +162,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
     @Override
     public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        if (!ItemConfig.itemConfig.addDurabilityTootip) {
+        if (!ItemConfig.addDurabilityTootip) {
             list.add(ItemUtil.getDurabilityString(itemstack));
         }
         String str = EnergyUpgrade.getStoredEnergyString(itemstack);
@@ -179,7 +174,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
                 EnumChatFormatting.WHITE + "+"
                     + " "
                     + LibMisc.lang
-                    .localize("item." + ModObject.itemOperationOrb.unlocalisedName + ".tooltip.effPowered"));
+                        .localize("item." + ModObject.itemOperationOrb.unlocalisedName + ".tooltip.effPowered"));
         }
         ManaAnvilRecipe.addAdvancedTooltipEntries(itemstack, entityplayer, list, flag);
     }
@@ -245,7 +240,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
     @Override
     public String[] getBaubleTypes(ItemStack itemstack) {
-        return new String[]{BaubleExpandedSlots.ringType, BaubleExpandedSlots.amuletType};
+        return new String[] { BaubleExpandedSlots.ringType, BaubleExpandedSlots.amuletType };
     }
 
     @Override
@@ -299,21 +294,21 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
         panel.child(
             new Column().child(
-                    new ParentWidget<>().widthRel(1f)
-                        .height(138)
-                        .child(
-                            IKey.str(StatCollector.translateToLocal("item.itemOperationOrb.name"))
-                                .asWidget()
-                                .margin(6, 0, 5, 0)
-                                .align(Alignment.TopLeft))
-                        .child(
-                            buildBagSlotGroup().align(Alignment.Center)
-                                .marginTop(1))
-                        .child(
-                            IKey.str("Inventory")
-                                .asWidget()
-                                .alignX(0.05f)
-                                .alignY(0.99f)))
+                new ParentWidget<>().widthRel(1f)
+                    .height(138)
+                    .child(
+                        IKey.str(StatCollector.translateToLocal("item.itemOperationOrb.name"))
+                            .asWidget()
+                            .margin(6, 0, 5, 0)
+                            .align(Alignment.TopLeft))
+                    .child(
+                        buildBagSlotGroup().align(Alignment.Center)
+                            .marginTop(1))
+                    .child(
+                        IKey.str("Inventory")
+                            .asWidget()
+                            .alignX(0.05f)
+                            .alignY(0.99f)))
                 .child(
                     MGuiBuilder.buildPlayerInventorySlotGroup(playerInventory)
                         .align(Alignment.TopLeft)

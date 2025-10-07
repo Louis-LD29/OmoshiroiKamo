@@ -1,7 +1,5 @@
 package louis.omoshiroikamo.client.handler;
 
-import static louis.omoshiroikamo.config.general.DamageIndicatorsConfig.indicatorsConfig;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,11 +7,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
-import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.client.render.DamageParticleRenderer;
+import louis.omoshiroikamo.config.general.DamageIndicatorsConfig;
 
 /**
  * Inspired by or partially based on ToroHealth Damage Indicators
@@ -24,20 +20,19 @@ import louis.omoshiroikamo.client.render.DamageParticleRenderer;
  * Licensed under GNU GENERAL PUBLIC LICENSE, Version 3 (GPLv3)
  * See: <a href="https://www.gnu.org/licenses/gpl-3.0.html">...</a>
  */
-@EventBusSubscriber(side = Side.CLIENT)
 public class DameEvents {
 
     @SubscribeEvent
-    public static void displayDamage(LivingUpdateEvent event) {
+    public void displayDamage(LivingUpdateEvent event) {
         displayDamageDealt(event.entityLiving);
     }
 
-    public static void displayDamageDealt(EntityLivingBase entity) {
+    public void displayDamageDealt(EntityLivingBase entity) {
         if (!entity.worldObj.isRemote) {
             return;
         }
 
-        if (!indicatorsConfig.showDamageParticles) {
+        if (!DamageIndicatorsConfig.showDamageParticles) {
             return;
         }
         int currentHealth = (int) Math.ceil(entity.getHealth());
@@ -54,7 +49,7 @@ public class DameEvents {
         data.setInteger("health", currentHealth);
     }
 
-    private static void displayParticle(Entity entity, int damage) {
+    private void displayParticle(Entity entity, int damage) {
         if (damage == 0) {
             return;
         }

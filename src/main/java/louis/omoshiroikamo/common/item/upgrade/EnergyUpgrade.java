@@ -17,44 +17,44 @@ import louis.omoshiroikamo.api.energy.PowerDisplayUtil;
 import louis.omoshiroikamo.api.mana.IManaItem;
 import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
-import louis.omoshiroikamo.config.item.AnvilUpgradeConfig;
+import louis.omoshiroikamo.config.general.AnvilUpgradeConfig;
 
 public class EnergyUpgrade extends AbstractUpgrade {
 
     public static final AbstractUpgrade ENERGY_TIER_ONE = new EnergyUpgrade(
         "upgrade.empowered_one",
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier1Cost,
+        AnvilUpgradeConfig.energyTier1Cost,
         new ItemStack(Items.diamond),
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier1Capacity,
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier1Capacity / 100);
+        AnvilUpgradeConfig.energyTier1Capacity,
+        AnvilUpgradeConfig.energyTier1Capacity / 100);
 
     public static final AbstractUpgrade ENERGY_TIER_TWO = new EnergyUpgrade(
         "upgrade.empowered_two",
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier2Cost,
+        AnvilUpgradeConfig.energyTier2Cost,
         new ItemStack(Items.diamond),
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier2Capacity,
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier2Capacity / 100);
+        AnvilUpgradeConfig.energyTier2Capacity,
+        AnvilUpgradeConfig.energyTier2Capacity / 100);
 
     public static final AbstractUpgrade ENERGY_TIER_THREE = new EnergyUpgrade(
         "upgrade.empowered_two",
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier3Cost,
+        AnvilUpgradeConfig.energyTier3Cost,
         new ItemStack(Items.diamond),
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier3Capacity,
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier3Capacity / 100);
+        AnvilUpgradeConfig.energyTier3Capacity,
+        AnvilUpgradeConfig.energyTier3Capacity / 100);
 
     public static final AbstractUpgrade ENERGY_TIER_FOUR = new EnergyUpgrade(
         "upgrade.empowered_two",
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier4Cost,
+        AnvilUpgradeConfig.energyTier4Cost,
         new ItemStack(Items.diamond),
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier4Capacity,
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier4Capacity / 100);
+        AnvilUpgradeConfig.energyTier4Capacity,
+        AnvilUpgradeConfig.energyTier4Capacity / 100);
 
     public static final AbstractUpgrade ENERGY_TIER_FIVE = new EnergyUpgrade(
         "upgrade.empowered_two",
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier5Cost,
+        AnvilUpgradeConfig.energyTier5Cost,
         new ItemStack(Items.diamond),
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier5Capacity,
-        AnvilUpgradeConfig.anvilUpgradeConfig.energyTier5Capacity / 100);
+        AnvilUpgradeConfig.energyTier5Capacity,
+        AnvilUpgradeConfig.energyTier5Capacity / 100);
 
     private static final String UPGRADE_NAME = "energyUpgrade";
     private static final String KEY_CAPACITY = "capacity";

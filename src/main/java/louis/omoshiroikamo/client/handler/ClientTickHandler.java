@@ -2,7 +2,6 @@ package louis.omoshiroikamo.client.handler;
 
 import java.util.UUID;
 
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +13,7 @@ import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.api.mana.IManaItem;
 import louis.omoshiroikamo.common.mana.ManaNetworkHandler;
 import louis.omoshiroikamo.common.util.helper.Helper;

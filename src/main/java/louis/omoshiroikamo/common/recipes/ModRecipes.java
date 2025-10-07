@@ -8,7 +8,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.common.MinecraftForge;
 
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.recipes.machine.MachineRecipeRegistry;
