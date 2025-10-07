@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.client.gui;
+package louis.omoshiroikamo.common.item.backpack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,12 +27,14 @@ import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.utils.Alignment;
 import com.cleanroommc.modularui.utils.item.InvWrapper;
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
+import com.cleanroommc.modularui.value.sync.BooleanSyncValue;
 import com.cleanroommc.modularui.value.sync.InteractionSyncHandler;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widget.ParentWidget;
 import com.cleanroommc.modularui.widget.Widget;
 import com.cleanroommc.modularui.widgets.PagedWidget;
 import com.cleanroommc.modularui.widgets.SlotGroupWidget;
+import com.cleanroommc.modularui.widgets.ToggleButton;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.cleanroommc.modularui.widgets.layout.Row;
@@ -42,21 +44,20 @@ import com.cleanroommc.modularui.widgets.slot.PhantomItemSlot;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.client.gui.modularui2.MGuiBuilder;
-import louis.omoshiroikamo.client.gui.modularui2.container.BackPackContainer;
+import louis.omoshiroikamo.client.gui.modularui2.MGuiTextures;
 import louis.omoshiroikamo.client.gui.modularui2.container.BackpackCraftingModularContainer;
 import louis.omoshiroikamo.client.gui.modularui2.handler.BackpackItemStackHandler;
 import louis.omoshiroikamo.client.gui.modularui2.handler.UpgradeItemStackHandler;
-import louis.omoshiroikamo.client.gui.modularui2.slot.ModularBackpackSlot;
+import louis.omoshiroikamo.client.gui.modularui2.slot.BackpackFilterSlot;
+import louis.omoshiroikamo.client.gui.modularui2.slot.BackpackSlot;
+import louis.omoshiroikamo.client.gui.modularui2.slot.BackpackUpgradeSlot;
 import louis.omoshiroikamo.client.gui.modularui2.slot.ModularCraftingSlotAdv;
-import louis.omoshiroikamo.client.gui.modularui2.slot.ModularUpgradeSlot;
 import louis.omoshiroikamo.client.gui.modularui2.widgets.BackPackPageButton;
 import louis.omoshiroikamo.common.item.ModItems;
-import louis.omoshiroikamo.common.item.backpack.ItemBackpack;
-import louis.omoshiroikamo.common.item.backpack.ItemCraftingUpgrade;
-import louis.omoshiroikamo.common.item.backpack.ItemFeedingUpgrade;
-import louis.omoshiroikamo.common.item.backpack.ItemMagnetUpgrade;
-import louis.omoshiroikamo.common.item.backpack.ItemStackUpgrade;
-import louis.omoshiroikamo.common.item.backpack.ItemUpgrade;
+import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
+import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class BackpackGui extends ModularPanel {
 
@@ -74,7 +75,10 @@ public class BackpackGui extends ModularPanel {
 
     private static final String TAG_PAGE = "UpgradePage";
     public static final String MAGNET_FILTER = "MagnetFilter";
+    public static final String MAGNET_MODE = "MagnetMode";
     public static final String FEEDING_FILTER = "FeedingFilter";
+    public static final String FEEDING_MODE = "FeedingMode";
+    public static final String FEEDING_TYPE = "FeedingType";
     public static final String BACKPACKUPGRADE = "BackpackUpgrade";
     public static final String BACKPACKINV = "BackpackInv";
     public static final String CRAFTINGINV = "CraftingInv";
@@ -139,7 +143,6 @@ public class BackpackGui extends ModularPanel {
                     usedItem.setTagCompound(root);
                 }
             }
-
         };
 
         this.craftingHandler = new ItemStackHandler(10) {
@@ -158,7 +161,7 @@ public class BackpackGui extends ModularPanel {
             }
         };
 
-        this.magnetHandler = new ItemStackHandler(10) {
+        this.magnetHandler = new ItemStackHandler(9) {
 
             @Override
             public void onContentsChanged(int slot) {
@@ -169,30 +172,13 @@ public class BackpackGui extends ModularPanel {
                         root = new NBTTagCompound();
                     }
                     root.setTag(MAGNETINV, this.serializeNBT());
-
-                    NBTTagList blacklistList = new NBTTagList();
-                    for (int i = 0; i < getSlots(); i++) {
-                        ItemStack stackInSlot = getStackInSlot(i);
-                        if (stackInSlot != null && stackInSlot.getItem() != null) {
-                            NBTTagCompound itemTag = new NBTTagCompound();
-
-                            GameRegistry.UniqueIdentifier uid = GameRegistry
-                                .findUniqueIdentifierFor(stackInSlot.getItem());
-                            if (uid != null) {
-                                String id = uid.modId + ":" + uid.name;
-                                itemTag.setString("id", id);
-                                blacklistList.appendTag(itemTag);
-                            }
-                        }
-                    }
-                    root.setTag(MAGNET_FILTER, blacklistList);
-
+                    root.setTag(MAGNET_FILTER, createFilterList(magnetHandler));
                     usedItem.setTagCompound(root);
                 }
             }
         };
 
-        this.feedingHandler = new ItemStackHandler(10) {
+        this.feedingHandler = new ItemStackHandler(9) {
 
             @Override
             public void onContentsChanged(int slot) {
@@ -203,24 +189,7 @@ public class BackpackGui extends ModularPanel {
                         root = new NBTTagCompound();
                     }
                     root.setTag(FEEDINGINV, this.serializeNBT());
-
-                    NBTTagList blacklistList = new NBTTagList();
-                    for (int i = 0; i < getSlots(); i++) {
-                        ItemStack stackInSlot = getStackInSlot(i);
-                        if (stackInSlot != null && stackInSlot.getItem() != null) {
-                            NBTTagCompound itemTag = new NBTTagCompound();
-
-                            GameRegistry.UniqueIdentifier uid = GameRegistry
-                                .findUniqueIdentifierFor(stackInSlot.getItem());
-                            if (uid != null) {
-                                String id = uid.modId + ":" + uid.name;
-                                itemTag.setString("id", id);
-                                blacklistList.appendTag(itemTag);
-                            }
-                        }
-                    }
-                    root.setTag(FEEDING_FILTER, blacklistList);
-
+                    root.setTag(FEEDING_FILTER, createFilterList(feedingHandler));
                     usedItem.setTagCompound(root);
                 }
             }
@@ -260,10 +229,9 @@ public class BackpackGui extends ModularPanel {
         }
 
         syncManager.registerSlotGroup("backpack_items", slot);
-        syncManager.registerSlotGroup("upgrade_items", upgradeSlot, 101);
-        syncManager.registerSlotGroup("player_inventory", 36, 99);
+        syncManager.registerSlotGroup("upgrade_items", upgradeSlot);
+        syncManager.registerSlotGroup("player_inventory", 36);
 
-        settings.customContainer(() -> new BackPackContainer(this));
         settings.customContainer(() -> new BackpackCraftingModularContainer(3, 3, this.craftingHandler));
 
         this.height(panelHeight[meta])
@@ -279,7 +247,7 @@ public class BackpackGui extends ModularPanel {
                             .margin(6, 0, 5, 0)
                             .align(Alignment.TopLeft))
                     .child(
-                        buildBagSlotGroup(meta).align(Alignment.Center)
+                        buildBackpackSlotGroup(meta).align(Alignment.Center)
                             .marginTop(1))
                     .child(
                         IKey.str("Inventory")
@@ -310,14 +278,13 @@ public class BackpackGui extends ModularPanel {
         this.child(buildUpgradePage());
     }
 
-    private SlotGroupWidget buildBagSlotGroup(int tier) {
+    private SlotGroupWidget buildBackpackSlotGroup(int tier) {
         SlotGroupWidget.Builder builder = SlotGroupWidget.builder();
 
         int rows = this.getItem()
             .getBackpackRow(tier);
         int cols = this.getItem()
             .getBackpackCol(tier);
-
         int size = rows * cols;
 
         char[] chars = new char[cols];
@@ -327,8 +294,9 @@ public class BackpackGui extends ModularPanel {
         String[] matrix = new String[rows];
         Arrays.fill(matrix, rowPattern);
         builder.matrix(matrix);
+
         builder.key('I', index -> {
-            ItemSlot slotWidget = new ItemSlot().slot(new ModularBackpackSlot(backpackHandler, index, this) {
+            ItemSlot slotWidget = new ItemSlot().slot(new BackpackSlot(backpackHandler, index, this) {
 
                 @Override
                 public void onSlotChanged() {
@@ -344,19 +312,18 @@ public class BackpackGui extends ModularPanel {
                         usedItem.setTagCompound(root);
                     }
                 }
-
             }.slotGroup("backpack_items")
                 .filter(stack -> !(stack.getItem() instanceof ItemBackpack)));
 
             if (index >= size) {
                 slotWidget.setEnabled(false);
             }
-
             return slotWidget;
         });
 
-        return builder.build();
+        SlotGroupWidget widget = builder.build();
 
+        return widget;
     }
 
     private SlotGroupWidget buildUpgradeSlotGroup(int tier) {
@@ -376,7 +343,7 @@ public class BackpackGui extends ModularPanel {
         Arrays.fill(matrix, rowPattern);
         builder.matrix(matrix);
         builder.key('I', index -> {
-            ItemSlot slotWidget = new ItemSlot().slot(new ModularUpgradeSlot(upgradeHandler, index, this) {
+            ItemSlot slotWidget = new ItemSlot().slot(new BackpackUpgradeSlot(upgradeHandler, index, this) {
 
                 @Override
                 public void onSlotChanged() {
@@ -402,6 +369,8 @@ public class BackpackGui extends ModularPanel {
             enableMap.put(binding.upgradeClass, false);
         }
 
+        boolean hasBatteryUpgrade = false;
+
         for (int slotIndex = 0; slotIndex < upgradeHandler.getSlots(); slotIndex++) {
             ItemStack stack = upgradeHandler.getStackInSlot(slotIndex);
             if (stack == null) {
@@ -410,12 +379,19 @@ public class BackpackGui extends ModularPanel {
             if (!(stack.getItem() instanceof ItemUpgrade itemUpgrade)) {
                 continue;
             }
+
+            if (itemUpgrade instanceof ItemBatteryUpgrade) {
+                hasBatteryUpgrade = true;
+            }
+
             if (!itemUpgrade.hasTab()) {
                 continue;
             }
 
             enableMap.put(itemUpgrade.getClass(), true);
         }
+
+        batteryUpgradeToItem(hasBatteryUpgrade);
 
         for (TabBinding binding : upgradeTabs) {
             boolean enable = enableMap.getOrDefault(binding.upgradeClass, false);
@@ -430,7 +406,7 @@ public class BackpackGui extends ModularPanel {
         }
 
         if (upgradeController.isInitialised()) {
-            int savedIndex = getPageIndex();
+            int savedIndex = ItemNBTHelper.getInt(getUsedItemStack(), TAG_PAGE, 0);
 
             if (enabledIndices.isEmpty()) {
                 upgradeController.setPage(0);
@@ -479,7 +455,9 @@ public class BackpackGui extends ModularPanel {
                 .tab(GuiTextures.TAB_TOP, i == 0 ? -1 : 0)
                 .size(22)
                 .excludeAreaInNEI()
-                .syncHandler(new InteractionSyncHandler().setOnMousePressed(mouseData -> setPageIndex(index)))
+                .syncHandler(
+                    new InteractionSyncHandler()
+                        .setOnMousePressed(mouseData -> ItemNBTHelper.setInt(getUsedItemStack(), TAG_PAGE, index)))
                 .overlay(
                     tab.getDrawable()
                         .asIcon());
@@ -558,7 +536,7 @@ public class BackpackGui extends ModularPanel {
                     .key('|', new Widget<>().overlay(GuiTextures.ARROW_DOWN))
                     .key('O', new ItemSlot().slot(new ModularCraftingSlotAdv(craftingHandler, 9)))
                     .build()
-                    .margin(0, 0, 18, 5));
+                    .margin(0, 7, 18, 5));
         return widget;
     }
 
@@ -579,18 +557,29 @@ public class BackpackGui extends ModularPanel {
                     .pos(23, 10))
             .child(
                 SlotGroupWidget.builder()
-                    .row("III")
-                    .row("III")
-                    .row("III")
-                    .key('I', i -> new PhantomItemSlot().slot(new ModularSlot(magnetHandler, i) {
-
-                        @Override
-                        public int getSlotStackLimit() {
-                            return 1;
-                        }
-                    }))
+                    .row("F  ")
+                    .key(
+                        'F',
+                        new ToggleButton().selectedBackground(GuiTextures.MC_BUTTON)
+                            .tooltipBuilder(
+                                richTooltip -> richTooltip
+                                    .add(LibMisc.lang.localize(LibResources.TOOLTIP + "filter_mode")))
+                            .overlay(true, MGuiTextures.WHITELIST)
+                            .overlay(false, MGuiTextures.BLACKLIST)
+                            .value(
+                                new BooleanSyncValue(
+                                    () -> ItemNBTHelper.getBoolean(getUsedItemStack(), MAGNET_MODE, false),
+                                    value -> ItemNBTHelper.setBoolean(getUsedItemStack(), MAGNET_MODE, value))))
                     .build()
-                    .margin(0, 0, 18, 5));
+                    .margin(0, 7, 18, 5))
+            .child(
+                SlotGroupWidget.builder()
+                    .row("III")
+                    .row("III")
+                    .row("III")
+                    .key('I', i -> new PhantomItemSlot().slot(new BackpackFilterSlot(magnetHandler, i)))
+                    .build()
+                    .margin(0, 7, 40, 5));
         return widget;
     }
 
@@ -611,15 +600,39 @@ public class BackpackGui extends ModularPanel {
                     .pos(23, 10))
             .child(
                 SlotGroupWidget.builder()
+                    .row("FM ")
+                    .key(
+                        'F',
+                        new ToggleButton().selectedBackground(GuiTextures.MC_BUTTON)
+                            .tooltipBuilder(
+                                richTooltip -> richTooltip
+                                    .add(LibMisc.lang.localize(LibResources.TOOLTIP + "filter_mode")))
+                            .overlay(false, MGuiTextures.WHITELIST)
+                            .overlay(true, MGuiTextures.BLACKLIST)
+                            .value(
+                                new BooleanSyncValue(
+                                    () -> ItemNBTHelper.getBoolean(getUsedItemStack(), FEEDING_MODE, false),
+                                    value -> ItemNBTHelper.setBoolean(getUsedItemStack(), FEEDING_MODE, value))))
+                    .key(
+                        'M',
+                        new ToggleButton().selectedBackground(GuiTextures.MC_BUTTON)
+                            .tooltipBuilder(
+                                richTooltip -> richTooltip
+                                    .add(LibMisc.lang.localize(LibResources.TOOLTIP + "feeding_type")))
+                            .overlay(false, MGuiTextures.FULL_HUNGER)
+                            .overlay(true, MGuiTextures.EXACT_HUNGER)
+                            .value(
+                                new BooleanSyncValue(
+                                    () -> ItemNBTHelper.getBoolean(getUsedItemStack(), FEEDING_TYPE, false),
+                                    value -> ItemNBTHelper.setBoolean(getUsedItemStack(), FEEDING_TYPE, value))))
+                    .build()
+                    .margin(0, 7, 18, 5))
+            .child(
+                SlotGroupWidget.builder()
                     .row("III")
                     .row("III")
                     .row("III")
-                    .key('I', i -> new PhantomItemSlot() {}.slot(new ModularSlot(feedingHandler, i) {
-
-                        @Override
-                        public int getSlotStackLimit() {
-                            return 1;
-                        }
+                    .key('I', i -> new PhantomItemSlot() {}.slot(new BackpackFilterSlot(feedingHandler, i) {
 
                         @Override
                         public boolean isItemValid(@Nullable ItemStack stack) {
@@ -630,7 +643,7 @@ public class BackpackGui extends ModularPanel {
                         }
                     }))
                     .build()
-                    .margin(0, 0, 18, 5));
+                    .margin(0, 7, 40, 5));
         return widget;
     }
 
@@ -724,9 +737,23 @@ public class BackpackGui extends ModularPanel {
         return true;
     }
 
+    public boolean canAddBatteryUpgrade() {
+        for (int i = 0; i < upgradeHandler.getSlots(); i++) {
+            ItemStack stack = upgradeHandler.getStackInSlot(i);
+            if (stack != null && stack.getItem() instanceof ItemBatteryUpgrade) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // Getter
     public PlayerInventoryGuiData getData() {
         return data;
+    }
+
+    public ItemStack getUsedItemStack() {
+        return getData().getUsedItemStack();
     }
 
     public ItemBackpack getItem() {
@@ -741,27 +768,71 @@ public class BackpackGui extends ModularPanel {
         return syncManager;
     }
 
-    public void setPageIndex(int pageIndex) {
-        if (getData().getUsedItemStack() == null) {
-            return;
-        }
-        NBTTagCompound tag = getData().getUsedItemStack()
-            .getTagCompound();
-        if (tag == null) {
-            tag = new NBTTagCompound();
-            getData().getUsedItemStack()
-                .setTagCompound(tag);
-        }
-        tag.setInteger(TAG_PAGE, pageIndex);
+    public UISettings getSettings() {
+        return settings;
     }
 
-    public int getPageIndex() {
-        if (getData().getUsedItemStack() == null || !getData().getUsedItemStack()
-            .hasTagCompound()) {
-            return 0;
+    private NBTTagList createFilterList(ItemStackHandler handler) {
+        NBTTagList filterList = new NBTTagList();
+
+        for (int i = 0; i < handler.getSlots(); i++) {
+            ItemStack stackInSlot = handler.getStackInSlot(i);
+            if (stackInSlot != null && stackInSlot.getItem() != null) {
+                NBTTagCompound itemTag = new NBTTagCompound();
+
+                GameRegistry.UniqueIdentifier uid = GameRegistry.findUniqueIdentifierFor(stackInSlot.getItem());
+                if (uid != null) {
+                    String id = uid.modId + ":" + uid.name;
+                    itemTag.setString("id", id);
+                    itemTag.setInteger("meta", stackInSlot.getItemDamage());
+                    filterList.appendTag(itemTag);
+                }
+            }
         }
-        return getData().getUsedItemStack()
-            .getTagCompound()
-            .getInteger(TAG_PAGE);
+
+        return filterList;
     }
+
+    private void batteryUpgradeToItem(boolean active) {
+        ItemStack stack = getUsedItemStack();
+        NBTTagCompound root = stack.getTagCompound();
+        EnergyUpgrade eu = EnergyUpgrade.loadFromItem(stack);
+
+        if (active) {
+            int storedEnergy = 0;
+
+            if (root.hasKey("StoredEnergyBackup")) {
+                storedEnergy = root.getInteger("StoredEnergyBackup");
+                root.removeTag("StoredEnergyBackup");
+            }
+
+            if (eu == null) {
+                EnergyUpgrade.ENERGY_TIER_THREE.writeToItem(stack);
+            } else {
+                eu.writeToItem(stack);
+            }
+
+            if (storedEnergy > 0) {
+                NBTTagCompound upgradeTag = root.getCompoundTag(EnergyUpgrade.ENERGY_TIER_THREE.id);
+                if (upgradeTag != null) {
+                    upgradeTag.setInteger(EnergyUpgrade.KEY_ENERGY, storedEnergy);
+                }
+            }
+
+        } else if (eu != null) {
+            NBTTagCompound upgradeTag = root.getCompoundTag(EnergyUpgrade.ENERGY_TIER_THREE.id);
+            int storedEnergy = 0;
+
+            if (upgradeTag != null && upgradeTag.hasKey(EnergyUpgrade.KEY_ENERGY)) {
+                storedEnergy = upgradeTag.getInteger(EnergyUpgrade.KEY_ENERGY);
+            }
+
+            eu.removeFromItem(stack);
+
+            if (storedEnergy > 0) {
+                root.setInteger("StoredEnergyBackup", storedEnergy);
+            }
+        }
+    }
+
 }

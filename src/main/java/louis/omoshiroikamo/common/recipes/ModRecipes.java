@@ -19,7 +19,6 @@ import louis.omoshiroikamo.common.recipes.ore.CopperRecipes;
 public class ModRecipes {
 
     public static void init() {
-        MinecraftForge.EVENT_BUS.register(ManaAnvilRecipe.INSTANCE);
 
         RecipeLoader.loadRecipes(ModObject.blockElectrolyzer.unlocalisedName);
         RecipeLoader.loadRecipes(ModObject.blockAnvil.unlocalisedName);

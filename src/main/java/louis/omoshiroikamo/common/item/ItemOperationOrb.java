@@ -30,7 +30,6 @@ import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.enderio.core.common.util.ItemUtil;
-import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 
 import baubles.api.BaubleType;
 import baubles.api.expanded.BaubleExpandedSlots;
@@ -53,7 +52,6 @@ import louis.omoshiroikamo.common.util.lib.LibResources;
 import louis.omoshiroikamo.config.item.ItemConfig;
 import vazkii.botania.api.mana.IManaTooltipDisplay;
 
-@EventBusSubscriber()
 public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTooltipDisplay, IAdvancedTooltipProvider,
     IEnergyContainerItem, IFlightEnablerItem, ISimpleBauble, IGuiHolder<PlayerInventoryGuiData> {
 
@@ -159,12 +157,12 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
     // Anvil
     @Override
     public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        ManaAnvilRecipe.INSTANCE.addCommonTooltipEntries(itemstack, entityplayer, list, flag);
+        ManaAnvilRecipe.addCommonTooltipEntries(itemstack, entityplayer, list, flag);
     }
 
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        ManaAnvilRecipe.INSTANCE.addBasicTooltipEntries(itemstack, entityplayer, list, flag);
+        ManaAnvilRecipe.addBasicTooltipEntries(itemstack, entityplayer, list, flag);
     }
 
     @Override
@@ -181,9 +179,9 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
                 EnumChatFormatting.WHITE + "+"
                     + " "
                     + LibMisc.lang
-                        .localize("item." + ModObject.itemOperationOrb.unlocalisedName + ".tooltip.effPowered"));
+                    .localize("item." + ModObject.itemOperationOrb.unlocalisedName + ".tooltip.effPowered"));
         }
-        ManaAnvilRecipe.INSTANCE.addAdvancedTooltipEntries(itemstack, entityplayer, list, flag);
+        ManaAnvilRecipe.addAdvancedTooltipEntries(itemstack, entityplayer, list, flag);
     }
 
     // Energy
@@ -240,11 +238,6 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
         }
     }
 
-    @EventBusSubscriber.Condition
-    public static boolean shouldEventBusSubscribe() {
-        return LibMods.Baubles.isLoaded();
-    }
-
     @Override
     public BaubleType getBaubleType(ItemStack itemstack) {
         return BaubleType.RING;
@@ -252,38 +245,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
     @Override
     public String[] getBaubleTypes(ItemStack itemstack) {
-        return new String[] { BaubleExpandedSlots.ringType, BaubleExpandedSlots.amuletType };
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.side != Side.SERVER || event.phase != TickEvent.Phase.END) {
-            return;
-        }
-        EntityPlayer player = event.player;
-
-        boolean hasRing = false;
-        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-            ItemStack stack = player.inventory.getStackInSlot(i);
-            if (stack != null && stack.getItem() != null && stack.getItem() instanceof ItemOperationOrb) {
-                hasRing = true;
-                break;
-            }
-        }
-
-        if (player.capabilities.allowFlying == hasRing) {
-            return;
-        }
-
-        if (hasRing) {
-            player.capabilities.allowFlying = true;
-        } else {
-            if (!player.capabilities.isCreativeMode) {
-                player.capabilities.allowFlying = false;
-                player.capabilities.isFlying = false;
-            }
-        }
-        player.sendPlayerAbilities();
+        return new String[]{BaubleExpandedSlots.ringType, BaubleExpandedSlots.amuletType};
     }
 
     @Override
@@ -337,21 +299,21 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
         panel.child(
             new Column().child(
-                new ParentWidget<>().widthRel(1f)
-                    .height(138)
-                    .child(
-                        IKey.str(StatCollector.translateToLocal("item.itemOperationOrb.name"))
-                            .asWidget()
-                            .margin(6, 0, 5, 0)
-                            .align(Alignment.TopLeft))
-                    .child(
-                        buildBagSlotGroup().align(Alignment.Center)
-                            .marginTop(1))
-                    .child(
-                        IKey.str("Inventory")
-                            .asWidget()
-                            .alignX(0.05f)
-                            .alignY(0.99f)))
+                    new ParentWidget<>().widthRel(1f)
+                        .height(138)
+                        .child(
+                            IKey.str(StatCollector.translateToLocal("item.itemOperationOrb.name"))
+                                .asWidget()
+                                .margin(6, 0, 5, 0)
+                                .align(Alignment.TopLeft))
+                        .child(
+                            buildBagSlotGroup().align(Alignment.Center)
+                                .marginTop(1))
+                        .child(
+                            IKey.str("Inventory")
+                                .asWidget()
+                                .alignX(0.05f)
+                                .alignY(0.99f)))
                 .child(
                     MGuiBuilder.buildPlayerInventorySlotGroup(playerInventory)
                         .align(Alignment.TopLeft)

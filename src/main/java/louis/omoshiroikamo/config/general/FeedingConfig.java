@@ -11,7 +11,7 @@ public class FeedingConfig {
     @Config.Comment("Main feeding settings")
     public static final Feeding feedingConfig = new Feeding();
 
-    @Config.LangKey(LibResources.CONFIG_LANG_KEY + "feedingConfig")
+    @Config.LangKey(LibResources.CONFIG + "feedingConfig")
     public static class Feeding {
 
         @Config.DefaultBoolean(false)

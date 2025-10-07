@@ -10,6 +10,7 @@ public class Lang {
 
     private static final String REGEX = "\\" + '|';
     public static final char CHAR = '|';
+    public static String lang;
 
     private final String prefix;
 

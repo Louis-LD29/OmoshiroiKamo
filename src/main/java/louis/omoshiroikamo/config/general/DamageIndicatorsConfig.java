@@ -15,7 +15,7 @@ public class DamageIndicatorsConfig {
     @Config.Comment("Main magnet settings")
     public static final DamageIndicators indicatorsConfig = new DamageIndicators();
 
-    @Config.LangKey(LibResources.CONFIG_LANG_KEY + "damageIndicatorsConfig")
+    @Config.LangKey(LibResources.CONFIG + "damageIndicatorsConfig")
     public static class DamageIndicators {
 
         @Config.Comment("Color of damage numbers")

@@ -11,12 +11,14 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.client.ResourePackGen;
 import louis.omoshiroikamo.client.gui.ManaHUD;
-import louis.omoshiroikamo.client.handler.DameEvents;
 import louis.omoshiroikamo.client.render.block.anvil.AnvilISBRH;
 import louis.omoshiroikamo.client.render.block.anvil.AnvilTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectableISBRH;
@@ -42,9 +44,11 @@ import louis.omoshiroikamo.common.block.energyConnector.TEConnectorULV;
 import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
 import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
 import louis.omoshiroikamo.common.item.ModItems;
+import louis.omoshiroikamo.common.util.handlers.KeyHandler;
 import louis.omoshiroikamo.config.item.ItemConfig;
 
 @SuppressWarnings("unused")
+@SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
 
     public ClientProxy() {}
@@ -58,9 +62,11 @@ public class ClientProxy extends CommonProxy {
     public void init(FMLInitializationEvent event) {
         super.init(event);
 
-        ModItems.registerItemRenderer();
-
         MinecraftForge.EVENT_BUS.register(ManaHUD.instance);
+
+        FMLCommonHandler.instance()
+            .bus()
+            .register(KeyHandler.instance);
 
         ConnectableISBRH connectableISBRH = new ConnectableISBRH();
         RenderingRegistry.registerBlockHandler(connectableISBRH);
@@ -79,6 +85,8 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockAnvil), anvilISBRH);
         ClientRegistry.bindTileEntitySpecialRenderer(TEAnvil.class, new AnvilTESR());
 
+        ModItems.registerItemRenderer();
+
         if (ItemConfig.itemConfig.renderPufferFish) {
             MinecraftForgeClient.registerItemRenderer(Items.fish, new PufferFishRenderer());
         }
@@ -90,8 +98,6 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
-        MinecraftForge.EVENT_BUS.register(new DameEvents());
-
     }
 
     @Override

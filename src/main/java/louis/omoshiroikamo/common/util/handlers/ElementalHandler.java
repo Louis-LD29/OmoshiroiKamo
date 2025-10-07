@@ -20,7 +20,9 @@ public class ElementalHandler {
     @SubscribeEvent
     public void onLivingUpdate(LivingUpdateEvent event) {
         EntityLivingBase entity = event.entityLiving;
-        if (entity.worldObj.isRemote) return;
+        if (entity.worldObj.isRemote) {
+            return;
+        }
 
         long worldTime = entity.worldObj.getTotalWorldTime();
         ElementUtil.tickElements(entity, worldTime);
@@ -35,7 +37,6 @@ public class ElementalHandler {
 
         long worldTime = target.worldObj.getTotalWorldTime();
 
-        // Flame on Bow
         if (direct instanceof EntityArrow && indirect instanceof EntityPlayer shooter) {
             ItemStack bow = shooter.getHeldItem();
             if (bow != null && EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, bow) > 0) {
@@ -43,7 +44,6 @@ public class ElementalHandler {
             }
         }
 
-        // Fire Aspect Sword
         if (indirect instanceof EntityPlayer) {
             ItemStack weapon = ((EntityPlayer) indirect).getHeldItem();
             if (weapon != null && EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, weapon) > 0) {

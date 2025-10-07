@@ -5,13 +5,13 @@ import net.minecraft.item.ItemStack;
 import com.cleanroommc.modularui.utils.item.IItemHandler;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 
-import louis.omoshiroikamo.client.gui.BackpackGui;
+import louis.omoshiroikamo.common.item.backpack.BackpackGui;
 
-public class ModularBackpackSlot extends ModularSlot {
+public class BackpackSlot extends ModularSlot {
 
     protected final BackpackGui gui;
 
-    public ModularBackpackSlot(IItemHandler itemHandler, int index, BackpackGui gui) {
+    public BackpackSlot(IItemHandler itemHandler, int index, BackpackGui gui) {
         super(itemHandler, index);
         this.gui = gui;
     }

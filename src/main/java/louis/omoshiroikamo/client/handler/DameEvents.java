@@ -9,7 +9,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
+import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.client.render.DamageParticleRenderer;
 
 /**
@@ -21,14 +24,15 @@ import louis.omoshiroikamo.client.render.DamageParticleRenderer;
  * Licensed under GNU GENERAL PUBLIC LICENSE, Version 3 (GPLv3)
  * See: <a href="https://www.gnu.org/licenses/gpl-3.0.html">...</a>
  */
+@EventBusSubscriber(side = Side.CLIENT)
 public class DameEvents {
 
     @SubscribeEvent
-    public void displayDamage(LivingUpdateEvent event) {
+    public static void displayDamage(LivingUpdateEvent event) {
         displayDamageDealt(event.entityLiving);
     }
 
-    public void displayDamageDealt(EntityLivingBase entity) {
+    public static void displayDamageDealt(EntityLivingBase entity) {
         if (!entity.worldObj.isRemote) {
             return;
         }
@@ -50,7 +54,7 @@ public class DameEvents {
         data.setInteger("health", currentHealth);
     }
 
-    private void displayParticle(Entity entity, int damage) {
+    private static void displayParticle(Entity entity, int damage) {
         if (damage == 0) {
             return;
         }

@@ -11,31 +11,32 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.AnvilUpdateEvent;
 
 import com.google.common.collect.ImmutableList;
+import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import louis.omoshiroikamo.api.mana.IManaItemUpgrade;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 
+@EventBusSubscriber
+@SuppressWarnings("unused")
 public class ManaAnvilRecipe {
 
-    public static ManaAnvilRecipe INSTANCE = new ManaAnvilRecipe();
+    private static final List<IManaItemUpgrade> UPGRADES = new ArrayList<>();
 
-    private List<IManaItemUpgrade> UPGRADES = new ArrayList<IManaItemUpgrade>();
-
-    public ManaAnvilRecipe() {
+    static {
         UPGRADES.add(EnergyUpgrade.EMPOWERED);
     }
 
     @SubscribeEvent
-    public void handleAnvilEvent(AnvilUpdateEvent event) {
+    public static void handleAnvilEvent(AnvilUpdateEvent event) {
         if (event.left == null || event.right == null) {
             return;
         }
         handleUpgrade(event);
     }
 
-    private void handleUpgrade(AnvilUpdateEvent event) {
+    private static void handleUpgrade(AnvilUpdateEvent event) {
         for (IManaItemUpgrade upgrade : UPGRADES) {
             if (upgrade.isUpgradeItem(event.right) && upgrade.canAddToItem(event.left)) {
                 ItemStack res = new ItemStack(event.left.getItem(), 1, event.left.getItemDamage());
@@ -50,11 +51,11 @@ public class ManaAnvilRecipe {
         }
     }
 
-    public List<IManaItemUpgrade> getUPGRADES() {
+    public static List<IManaItemUpgrade> getUPGRADES() {
         return UPGRADES;
     }
 
-    public void addCommonTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
+    public static void addCommonTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
         for (IManaItemUpgrade upgrade : UPGRADES) {
             if (upgrade.hasUpgrade(itemstack)) {
                 upgrade.addCommonEntries(itemstack, entityplayer, list, flag);
@@ -62,7 +63,7 @@ public class ManaAnvilRecipe {
         }
     }
 
-    public void addBasicTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
+    public static void addBasicTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
         for (IManaItemUpgrade upgrade : UPGRADES) {
             if (upgrade.hasUpgrade(itemstack)) {
                 upgrade.addBasicEntries(itemstack, entityplayer, list, flag);
@@ -70,7 +71,7 @@ public class ManaAnvilRecipe {
         }
     }
 
-    public void addAdvancedTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
+    public static void addAdvancedTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
 
         List<IManaItemUpgrade> applyableUPGRADES = new ArrayList<IManaItemUpgrade>();
         for (IManaItemUpgrade upgrade : UPGRADES) {
@@ -96,12 +97,12 @@ public class ManaAnvilRecipe {
                         + " + "
                         + up.getLevelCost()
                         + " "
-                        + LibMisc.lang.localize("item.mana.tooltip.lvs"));
+                        + LibMisc.lang.localize("tooltip.lvs"));
             }
         }
     }
 
-    public Iterator<IManaItemUpgrade> recipeIterator() {
+    public static Iterator<IManaItemUpgrade> recipeIterator() {
         return ImmutableList.copyOf(UPGRADES)
             .iterator();
     }

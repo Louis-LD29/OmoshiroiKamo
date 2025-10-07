@@ -28,7 +28,6 @@ import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
 import louis.omoshiroikamo.common.util.handlers.ConvertManaRegenHandler;
 import louis.omoshiroikamo.common.util.handlers.ElementalHandler;
-import louis.omoshiroikamo.common.util.handlers.FlightHandler;
 import louis.omoshiroikamo.common.util.handlers.ManaRegenHandler;
 import louis.omoshiroikamo.common.util.helper.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
@@ -71,13 +70,13 @@ public class CommonProxy {
     public void init(FMLInitializationEvent event) {
         FMLCommonHandler.instance()
             .bus()
+            .register(tickTimer);
+        FMLCommonHandler.instance()
+            .bus()
             .register(ManaRegenHandler.instance);
         FMLCommonHandler.instance()
             .bus()
             .register(ConvertManaRegenHandler.instance);
-        FMLCommonHandler.instance()
-            .bus()
-            .register(FlightHandler.instance);
 
         ModRecipes.init();
 

@@ -18,6 +18,7 @@ import org.lwjgl.opengl.GL11;
 import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.api.energy.wire.WireType;
 import louis.omoshiroikamo.client.ClientUtils;
 import louis.omoshiroikamo.client.models.ModelIEObj;
@@ -33,7 +34,7 @@ import louis.omoshiroikamo.common.util.lib.LibResources;
  * It is intended for use in a standalone mod inspired by Immersive Engineering.
  */
 
-@EventBusSubscriber()
+@EventBusSubscriber(side = Side.CLIENT)
 @SuppressWarnings("unused")
 public class ClientEventHandler {
 

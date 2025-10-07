@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.util;
+package louis.omoshiroikamo.common.util.handlers;
 
 import net.minecraft.client.settings.KeyBinding;
 
@@ -8,7 +8,6 @@ import org.lwjgl.input.Mouse;
 import com.cleanroommc.modularui.factory.GuiFactories;
 import com.cleanroommc.modularui.factory.inventory.InventoryTypes;
 import com.cleanroommc.modularui.utils.Platform;
-import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -18,40 +17,38 @@ import louis.omoshiroikamo.common.item.backpack.ItemBackpack;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibMods;
 
-@EventBusSubscriber()
-public class KeyTracker {
+public class KeyHandler {
 
-    public static final KeyTracker instance = new KeyTracker();
+    public static final KeyHandler instance = new KeyHandler();
 
-    private static KeyBinding backpackOpenKey;
+    private final KeyBinding keyOpenBackpack;
 
-    public KeyTracker() {
-        backpackOpenKey = new KeyBinding(
+    private KeyHandler() {
+        keyOpenBackpack = new KeyBinding(
             LibMisc.lang.localize("keybind.backpackOpenToggle"),
-            Keyboard.KEY_NONE,
+            Keyboard.KEY_B,
             LibMisc.lang.localize("category.omoshiroikamo"));
-        ClientRegistry.registerKeyBinding(backpackOpenKey);
-
+        ClientRegistry.registerKeyBinding(keyOpenBackpack);
     }
 
     @SubscribeEvent
-    public static void onKeyInput(KeyInputEvent event) {
+    public void onKeyInput(KeyInputEvent event) {
         handleInput();
     }
 
     @SubscribeEvent
-    public static void onMouseInput(MouseInputEvent event) {
+    public void onMouseInput(MouseInputEvent event) {
         if (Mouse.getEventButton() >= 0) {
             handleInput();
         }
     }
 
-    private static void handleInput() {
+    private void handleInput() {
         handleOpenBackpack();
     }
 
-    private static void handleOpenBackpack() {
-        if (backpackOpenKey.isPressed() && LibMods.Baubles.isLoaded()) {
+    private void handleOpenBackpack() {
+        if (keyOpenBackpack.isPressed() && LibMods.Baubles.isLoaded()) {
             InventoryTypes.BAUBLES.visitAll(Platform.getClientPlayer(), (type, index, stack) -> {
                 if (stack != null && stack.getItem() instanceof ItemBackpack) {
                     GuiFactories.playerInventory()

@@ -49,12 +49,15 @@ baubletooltip=Press &b%key%&7 to open the Baubles menu
 
 #TOOLTIPS
 
-item.mana.tooltip.lvs=lvs
-item.operationOrb.tooltip.effPowered=Efficiency when powered
+tooltip.lvs=lvs
+tooltip.effPowered=Efficiency when powered
 
 tooltip.oreDictNames=Ore Dictionary Names:
 tooltip.durability=Durability:
 tooltip.anvilupgrades=Anvil Upgrades:
+
+tooltip.filter_mode=Whitelist/Blacklist
+tooltip.feeding_type=Full/EXACT
 
 mana.upgrade.empowered_one.name=Empowered
 
@@ -93,6 +96,7 @@ item.itemStackUpgrade.Netherite.name=Stack Upgrade Tier 4
 item.itemCraftingUpgrade.name=Crafting Upgrade
 item.itemMagnetUpgrade.name=Magnet Upgrade
 item.itemFeedingUpgrade.name=Feeding Upgrade
+item.itemBatteryUpgrade.name=Battery Upgrade
 
 item.itemHammer.name=Hammer
 

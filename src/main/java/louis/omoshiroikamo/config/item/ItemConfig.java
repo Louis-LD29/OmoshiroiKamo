@@ -18,7 +18,7 @@ public class ItemConfig {
     @Config.Comment("Main item settings")
     public static final Item itemConfig = new Item();
 
-    @Config.LangKey(LibResources.CONFIG_LANG_KEY + "itemConfig")
+    @Config.LangKey(LibResources.CONFIG + "itemConfig")
     public static class Item {
 
         @Config.DefaultBoolean(true)

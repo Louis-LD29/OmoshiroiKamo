@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import com.cleanroommc.modularui.utils.item.ItemHandlerHelper;
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
 
-import louis.omoshiroikamo.client.gui.BackpackGui;
+import louis.omoshiroikamo.common.item.backpack.BackpackGui;
 import louis.omoshiroikamo.common.item.backpack.ItemBackpack;
 
 public class BackpackItemStackHandler extends ItemStackHandler {

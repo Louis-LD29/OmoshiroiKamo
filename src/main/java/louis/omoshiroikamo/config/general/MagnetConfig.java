@@ -11,7 +11,7 @@ public class MagnetConfig {
     @Config.Comment("Main magnet settings")
     public static final Magnet magnetConfig = new Magnet();
 
-    @Config.LangKey(LibResources.CONFIG_LANG_KEY + "magnetConfig")
+    @Config.LangKey(LibResources.CONFIG + "magnetConfig")
     public static class Magnet {
 
         @Config.DefaultInt(5)
@@ -26,8 +26,8 @@ public class MagnetConfig {
         @Config.DefaultBoolean(false)
         public boolean magnetAllowInBaublesSlot;
 
-        @Config.DefaultStringList({ "appliedenergistics2:item.ItemCrystalSeed", "Botania:livingrock",
-            "Botania:manaTablet" })
+        @Config.DefaultStringList({"appliedenergistics2:item.ItemCrystalSeed", "Botania:livingrock",
+            "Botania:manaTablet"})
         public String[] magnetBlacklist;
     }
 }

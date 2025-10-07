@@ -10,18 +10,19 @@ import org.jetbrains.annotations.Nullable;
 import com.cleanroommc.modularui.utils.item.IItemHandler;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 
-import louis.omoshiroikamo.client.gui.BackpackGui;
+import louis.omoshiroikamo.common.item.backpack.BackpackGui;
+import louis.omoshiroikamo.common.item.backpack.ItemBatteryUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemCraftingUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemFeedingUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemMagnetUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemStackUpgrade;
 import louis.omoshiroikamo.common.item.backpack.ItemUpgrade;
 
-public class ModularUpgradeSlot extends ModularSlot {
+public class BackpackUpgradeSlot extends ModularSlot {
 
     protected final BackpackGui gui;
 
-    public ModularUpgradeSlot(IItemHandler itemHandler, int index, BackpackGui gui) {
+    public BackpackUpgradeSlot(IItemHandler itemHandler, int index, BackpackGui gui) {
         super(itemHandler, index);
         this.gui = gui;
     }
@@ -75,6 +76,9 @@ public class ModularUpgradeSlot extends ModularSlot {
         }
         if (item instanceof ItemFeedingUpgrade) {
             return gui.canAddFeedingUpgrade();
+        }
+        if (item instanceof ItemBatteryUpgrade) {
+            return gui.canAddBatteryUpgrade();
         }
         return item instanceof ItemUpgrade;
     }

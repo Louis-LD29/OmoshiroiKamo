@@ -2,6 +2,7 @@ package louis.omoshiroikamo.client.handler;
 
 import java.util.UUID;
 
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +18,7 @@ import louis.omoshiroikamo.api.mana.IManaItem;
 import louis.omoshiroikamo.common.mana.ManaNetworkHandler;
 import louis.omoshiroikamo.common.util.helper.Helper;
 
-@EventBusSubscriber
+@EventBusSubscriber(side = Side.CLIENT)
 @SuppressWarnings("unused")
 public class ClientTickHandler {
 

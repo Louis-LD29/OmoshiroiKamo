@@ -10,14 +10,21 @@ public class LibResources {
     public static final String PREFIX_MATERIAL_FLUID_ICONS = "icons/materialFluids";
     public static final String PREFIX_FLUID_ICONS = "icons/fluids";
     public static final String PREFIX_ORE_ICONS = "icons/ores";
-    public static final String CONFIG_LANG_KEY = "config.";
+    public static final String CONFIG = "config.";
+    public static final String TOOLTIP = "tooltip.";
 
     public static final String GUI_MANA_HUD = PREFIX_GUI + "mana.png";
     public static final String GUI_NEI_BLANK = PREFIX_GUI + "nei/neiBlank.png";
     public static final String GUI_SLOT = PREFIX_GUI + "nei/slot.png";
     public static final String GUI_ICONS = PREFIX_GUI + "icons.png";
-    public static final String OVERLAY_BUTTON_REDSTONE_ON = PREFIX_GUI + "redstone_on.png";
-    public static final String OVERLAY_BUTTON_REDSTONE_OFF = PREFIX_GUI + "redstone_off.png";
+    public static final String OVERLAY_BUTTON_REDSTONE_ON = PREFIX_GUI + "icons/redstone_on.png";
+    public static final String OVERLAY_BUTTON_REDSTONE_OFF = PREFIX_GUI + "icons/redstone_off.png";
+    public static final String OVERLAY_WHITELIST = PREFIX_GUI + "icons/whitelist.png";
+    public static final String OVERLAY_BLACKLIST = PREFIX_GUI + "icons/blacklist.png";
+    public static final String OVERLAY_FULL_HUNGER = PREFIX_GUI + "icons/full_hunger.png";
+    public static final String OVERLAY_EXACT_HUNGER = PREFIX_GUI + "icons/exact_hunger.png";
+    public static final String OVERLAY_PRIORITY_LEFT = PREFIX_GUI + "icons/priority_right.png";
+    public static final String OVERLAY_PRIORITY_DOWN = PREFIX_GUI + "icons/priority_down.png";
     public static final String CYCLE_IOMODE = PREFIX_GUI + "cycle_iomode.png";
     public static final String PROGRESS_BURN = PREFIX_GUI + "progress_burn.png";
 

@@ -25,6 +25,36 @@ public interface MGuiTextures {
         .imageSize(32, 32)
         .build();
 
+    UITexture WHITELIST = UITexture.builder()
+        .location(LibResources.OVERLAY_WHITELIST)
+        .imageSize(16, 16)
+        .build();
+
+    UITexture BLACKLIST = UITexture.builder()
+        .location(LibResources.OVERLAY_BLACKLIST)
+        .imageSize(16, 16)
+        .build();
+
+    UITexture FULL_HUNGER = UITexture.builder()
+        .location(LibResources.OVERLAY_FULL_HUNGER)
+        .imageSize(16, 16)
+        .build();
+
+    UITexture EXACT_HUNGER = UITexture.builder()
+        .location(LibResources.OVERLAY_EXACT_HUNGER)
+        .imageSize(16, 16)
+        .build();
+
+    UITexture PRIORITY_LEFT = UITexture.builder()
+        .location(LibResources.OVERLAY_PRIORITY_LEFT)
+        .imageSize(16, 16)
+        .build();
+
+    UITexture PRIORITY_DOWN = UITexture.builder()
+        .location(LibResources.OVERLAY_PRIORITY_DOWN)
+        .imageSize(16, 16)
+        .build();
+
     UITexture CYCLE_IOMODE = UITexture.builder()
         .location(LibResources.CYCLE_IOMODE)
         .imageSize(16, 80)

@@ -47,7 +47,6 @@ public class EventHandler {
         }
     }
 
-    // transferPerTick
     @SubscribeEvent
     public static void onSave(WorldEvent.Save event) {
         WireNetSaveData.setDirty(0);

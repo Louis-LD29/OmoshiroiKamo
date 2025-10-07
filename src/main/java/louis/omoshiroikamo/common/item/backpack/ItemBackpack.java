@@ -6,7 +6,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 import com.cleanroommc.modularui.api.IGuiHolder;
@@ -16,17 +15,24 @@ import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 
-import cpw.mods.fml.common.registry.GameRegistry;
+import cofh.api.energy.IEnergyContainerItem;
+import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.client.gui.BackpackGui;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.item.ItemBauble;
+import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
+import louis.omoshiroikamo.common.network.PacketBackPackState;
+import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.util.lib.LibMods;
 
-public class ItemBackpack extends ItemBauble implements IGuiHolder<PlayerInventoryGuiData> {
+public class ItemBackpack extends ItemBauble implements IEnergyContainerItem, IGuiHolder<PlayerInventoryGuiData> {
 
     public static BackpackGui gui;
-    static BackpackMagnetController controller = new BackpackMagnetController();
+
+    static {
+        PacketHandler.INSTANCE
+            .registerMessage(PacketBackPackState.class, PacketBackPackState.class, PacketHandler.nextID(), Side.SERVER);
+    }
 
     public ItemBackpack() {
         super(ModObject.itemBackPack.unlocalisedName);
@@ -40,11 +46,6 @@ public class ItemBackpack extends ItemBauble implements IGuiHolder<PlayerInvento
         ItemBackpack item = new ItemBackpack();
         item.init();
         return item;
-    }
-
-    @Override
-    protected void init() {
-        GameRegistry.registerItem(this, name);
     }
 
     @Override
@@ -85,16 +86,6 @@ public class ItemBackpack extends ItemBauble implements IGuiHolder<PlayerInvento
                 .openFromMainHand(player);
         }
         return super.onItemRightClick(itemStackIn, worldIn, player);
-    }
-
-    @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean advanced) {
-        if (itemStack.hasTagCompound()) {
-            NBTTagCompound tag = itemStack.getTagCompound();
-            list.add(tag.toString());
-        } else {
-            list.add("No data");
-        }
     }
 
     public int getBackpackRow(int meta) {
@@ -145,6 +136,35 @@ public class ItemBackpack extends ItemBauble implements IGuiHolder<PlayerInvento
     @Override
     public ModularPanel buildUI(PlayerInventoryGuiData data, PanelSyncManager syncManager, UISettings settings) {
         return new BackpackGui(data.getPlayer(), data, syncManager, settings, this);
+    }
+
+    // Energy
+    @Override
+    public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
+        return EnergyUpgrade.receiveEnergy(container, maxReceive, simulate);
+    }
+
+    @Override
+    public int extractEnergy(ItemStack container, int maxExtract, boolean simulate) {
+        return EnergyUpgrade.extractEnergy(container, maxExtract, simulate);
+    }
+
+    @Override
+    public int getEnergyStored(ItemStack container) {
+        return EnergyUpgrade.getEnergyStored(container);
+    }
+
+    @Override
+    public int getMaxEnergyStored(ItemStack container) {
+        return EnergyUpgrade.getMaxEnergyStored(container);
+    }
+
+    @Override
+    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+        String str = EnergyUpgrade.getStoredEnergyString(itemstack);
+        if (str != null) {
+            list.add(str);
+        }
     }
 
 }

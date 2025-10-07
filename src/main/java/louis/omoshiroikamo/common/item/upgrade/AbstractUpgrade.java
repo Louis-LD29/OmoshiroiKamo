@@ -24,7 +24,7 @@ public abstract class AbstractUpgrade implements IManaItemUpgrade {
     private static final String KEY_UPGRADE_ITEM = LibResources.KEY_UPGRADE_ITEM;
 
     protected final int levelCost;
-    protected final String id;
+    public final String id;
     protected final String unlocName;
 
     protected ItemStack upgradeItem;
@@ -126,19 +126,9 @@ public abstract class AbstractUpgrade implements IManaItemUpgrade {
 
         writeUpgradeToNBT(upgradeRoot);
 
-        NBTTagCompound stackRoot = ItemNBTHelper.getOrCreateNBT(stack);
-        stackRoot.setTag(id, upgradeRoot);
-        stack.setTagCompound(stackRoot);
+        ItemNBTHelper.getOrCreateNBT(stack)
+            .setTag(id, upgradeRoot);
     }
-
-    public NBTTagCompound getUpgradeRoot(ItemStack stack) {
-        if (!hasUpgrade(stack)) {
-            return null;
-        }
-        return (NBTTagCompound) stack.stackTagCompound.getTag(id);
-    }
-
-    public abstract void writeUpgradeToNBT(NBTTagCompound upgradeRoot);
 
     @Override
     public void removeFromItem(ItemStack stack) {
@@ -150,4 +140,14 @@ public abstract class AbstractUpgrade implements IManaItemUpgrade {
         }
         stack.stackTagCompound.removeTag(id);
     }
+
+    public NBTTagCompound getUpgradeRoot(ItemStack stack) {
+        if (!hasUpgrade(stack)) {
+            return null;
+        }
+        return (NBTTagCompound) stack.stackTagCompound.getTag(id);
+    }
+
+    public abstract void writeUpgradeToNBT(NBTTagCompound upgradeRoot);
+
 }
