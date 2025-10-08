@@ -158,7 +158,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
                 EnumChatFormatting.WHITE + "+"
                     + " "
                     + LibMisc.lang
-                    .localize("item." + ModObject.itemOperationOrb.unlocalisedName + ".tooltip.effPowered"));
+                        .localize("item." + ModObject.itemOperationOrb.unlocalisedName + ".tooltip.effPowered"));
         }
         ManaAnvilRecipe.addAdvancedTooltipEntries(itemstack, entityplayer, list, flag);
     }
@@ -275,21 +275,21 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
         panel.child(
             new Column().child(
-                    new ParentWidget<>().widthRel(1f)
-                        .height(138)
-                        .child(
-                            IKey.str(StatCollector.translateToLocal("item.itemOperationOrb.name"))
-                                .asWidget()
-                                .margin(6, 0, 5, 0)
-                                .align(Alignment.TopLeft))
-                        .child(
-                            buildBagSlotGroup().align(Alignment.Center)
-                                .marginTop(1))
-                        .child(
-                            IKey.str("Inventory")
-                                .asWidget()
-                                .alignX(0.05f)
-                                .alignY(0.99f)))
+                new ParentWidget<>().widthRel(1f)
+                    .height(138)
+                    .child(
+                        IKey.str(StatCollector.translateToLocal("item.itemOperationOrb.name"))
+                            .asWidget()
+                            .margin(6, 0, 5, 0)
+                            .align(Alignment.TopLeft))
+                    .child(
+                        buildBagSlotGroup().align(Alignment.Center)
+                            .marginTop(1))
+                    .child(
+                        IKey.str("Inventory")
+                            .asWidget()
+                            .alignX(0.05f)
+                            .alignY(0.99f)))
                 .child(
                     MGuiBuilder.buildPlayerInventorySlotGroup(playerInventory)
                         .align(Alignment.TopLeft)
