@@ -44,8 +44,8 @@ public class BaublesUtil {
                     return MPSERVER;
                 } else if (Minecraft.getMinecraft()
                     .isIntegratedServerRunning()) {
-                    return SPSERVER;
-                }
+                        return SPSERVER;
+                    }
             }
             return OTHER;
         }
@@ -53,8 +53,7 @@ public class BaublesUtil {
 
     private static final BaublesUtil instance = new BaublesUtil();
 
-    private BaublesUtil() {
-    }
+    private BaublesUtil() {}
 
     public static BaublesUtil instance() {
         return instance;

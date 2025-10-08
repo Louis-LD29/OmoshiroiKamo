@@ -85,7 +85,7 @@ public class ItemMaterial extends ItemOK {
         String nuggetOre = "nugget" + capitalize(oreBaseName);
         String plateOre = "plate" + capitalize(oreBaseName);
         String rodOre = "rod" + capitalize(oreBaseName);
-        String[] altRodOres = {uncapitalize(oreBaseName) + "Rod", "stick" + capitalize(oreBaseName)};
+        String[] altRodOres = { uncapitalize(oreBaseName) + "Rod", "stick" + capitalize(oreBaseName) };
         String dustOre = "dust" + capitalize(oreBaseName);
         String gearOre = "gear" + capitalize(oreBaseName);
         String blockOre = "block" + capitalize(oreBaseName);

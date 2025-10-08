@@ -19,6 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.client.ResourePackGen;
 import louis.omoshiroikamo.client.handler.DameEvents;
+import louis.omoshiroikamo.client.handler.KeyHandler;
 import louis.omoshiroikamo.client.render.block.anvil.AnvilISBRH;
 import louis.omoshiroikamo.client.render.block.anvil.AnvilTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectableISBRH;
@@ -44,15 +45,13 @@ import louis.omoshiroikamo.common.block.energyConnector.TEConnectorULV;
 import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
 import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
 import louis.omoshiroikamo.common.item.ModItems;
-import louis.omoshiroikamo.client.handler.KeyHandler;
 import louis.omoshiroikamo.config.item.ItemConfig;
 
 @SuppressWarnings("unused")
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
 
-    public ClientProxy() {
-    }
+    public ClientProxy() {}
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {

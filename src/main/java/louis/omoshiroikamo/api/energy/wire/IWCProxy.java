@@ -9,8 +9,8 @@ import net.minecraft.world.World;
 
 import louis.omoshiroikamo.api.TargetingInfo;
 import louis.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
-import louis.omoshiroikamo.common.util.Utils;
 import louis.omoshiroikamo.common.util.Logger;
+import louis.omoshiroikamo.common.util.Utils;
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
  * Original project: https://github.com/BluSunrize/ImmersiveEngineering
@@ -92,8 +92,7 @@ public class IWCProxy implements IWireConnectable {
     }
 
     @Override
-    public void connectCable(WireType cableType, TargetingInfo target) {
-    }
+    public void connectCable(WireType cableType, TargetingInfo target) {}
 
     @Override
     public WireType getCableLimiter(TargetingInfo target) {
@@ -101,8 +100,7 @@ public class IWCProxy implements IWireConnectable {
     }
 
     @Override
-    public void onEnergyPassthrough(int amount) {
-    }
+    public void onEnergyPassthrough(int amount) {}
 
     @Override
     public Vec3 getRaytraceOffset(IWireConnectable link) {

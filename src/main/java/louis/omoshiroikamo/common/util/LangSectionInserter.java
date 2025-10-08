@@ -173,7 +173,7 @@ public class LangSectionInserter {
     // }
 
     private static void generateLang(File file, Collection<MaterialEntry> materials, Collection<FluidEntry> fluids,
-                                     Collection<OreEntry> ores, String beginTag, String endTag) throws IOException {
+        Collection<OreEntry> ores, String beginTag, String endTag) throws IOException {
 
         List<String> existingLines = file.exists() ? Files.readAllLines(file.toPath()) : new ArrayList<>();
         List<String> cleaned = new ArrayList<>();

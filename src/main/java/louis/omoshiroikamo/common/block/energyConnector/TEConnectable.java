@@ -24,8 +24,8 @@ import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
 import louis.omoshiroikamo.api.energy.wire.WireType;
 import louis.omoshiroikamo.api.enums.VoltageTier;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
-import louis.omoshiroikamo.common.util.Utils;
 import louis.omoshiroikamo.common.util.Logger;
+import louis.omoshiroikamo.common.util.Utils;
 
 public abstract class TEConnectable extends AbstractTE implements IWireConnectable {
 
@@ -81,8 +81,7 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
     }
 
     @Override
-    public void onEnergyPassthrough(int amount) {
-    }
+    public void onEnergyPassthrough(int amount) {}
 
     @Override
     public boolean allowEnergyToPass(WireNetHandler.Connection con) {
@@ -211,7 +210,7 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
         needsVisualUpdate = true;
         if (worldObj != null && worldObj.isRemote
             && !Minecraft.getMinecraft()
-            .isSingleplayer()) {
+                .isSingleplayer()) {
             NBTTagList connectionList = nbt.getTagList("connectionList", 10);
             WireNetHandler.INSTANCE.clearConnectionsOriginatingFrom(Utils.toCC(this), worldObj);
             for (int i = 0; i < connectionList.tagCount(); i++) {
@@ -258,7 +257,7 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
             }
 
             if (this.worldObj != null) {
-                root.setIntArray("prevPos", new int[]{this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord});
+                root.setIntArray("prevPos", new int[] { this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord });
             }
         } catch (Exception e) {
             Logger.error("MTEConnector encountered MASSIVE error writing NBT. You shoudl probably report this.");

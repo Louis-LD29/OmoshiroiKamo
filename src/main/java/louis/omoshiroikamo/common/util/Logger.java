@@ -9,8 +9,7 @@ public class Logger {
 
     public static boolean debug = false;
 
-    public Logger() {
-    }
+    public Logger() {}
 
     public static void log(Level logLevel, Object object) {
         FMLLog.log(LibMisc.MOD_NAME, logLevel, String.valueOf(object), new Object[0]);

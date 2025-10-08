@@ -151,8 +151,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
 
             ItemStack remaining = output.copy();
 
-            outer:
-            for (TEItemOutput io : mItemOutput) {
+            outer: for (TEItemOutput io : mItemOutput) {
                 ItemStackHandler handler = io.getInv();
                 if (handler == null) {
                     continue;
@@ -177,8 +176,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                 }
             }
 
-            outer:
-            for (TEItemOutput io : mItemOutput) {
+            outer: for (TEItemOutput io : mItemOutput) {
                 ItemStackHandler handler = io.getInv();
                 if (handler == null) {
                     continue;
@@ -193,8 +191,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                 }
             }
 
-            if (remaining != null && remaining.stackSize > 0) {
-            }
+            if (remaining != null && remaining.stackSize > 0) {}
         }
 
         for (FluidStack output : fluidStacks) {
@@ -204,8 +201,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
 
             int remaining = output.amount;
 
-            outer:
-            for (TEFluidOutput fo : mFluidOutput) {
+            outer: for (TEFluidOutput fo : mFluidOutput) {
                 SmartTank[] tanks = fo.getTanks();
                 if (tanks == null) {
                     continue;
@@ -227,8 +223,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                 }
             }
 
-            outer:
-            for (TEFluidOutput fo : mFluidOutput) {
+            outer: for (TEFluidOutput fo : mFluidOutput) {
                 SmartTank[] tanks = fo.getTanks();
                 if (tanks == null) {
                     continue;
@@ -247,8 +242,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                 }
             }
 
-            if (remaining > 0) {
-            }
+            if (remaining > 0) {}
         }
 
         cachedNextRecipe = null;
@@ -374,8 +368,7 @@ public abstract class AbstractMultiBlockProcessing<T extends AbstractMultiBlockP
                 }
             }
 
-            if (remaining > 0) {
-            }
+            if (remaining > 0) {}
         }
 
         for (ChanceFluidStack input : recipe.getFluidInputs()) {
