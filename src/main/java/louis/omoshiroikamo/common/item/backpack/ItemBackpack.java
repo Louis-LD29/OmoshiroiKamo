@@ -16,23 +16,17 @@ import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 
 import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.relauncher.Side;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.item.ItemBauble;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
-import louis.omoshiroikamo.common.network.PacketBackPackState;
-import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.util.lib.LibMods;
 
 public class ItemBackpack extends ItemBauble implements IEnergyContainerItem, IGuiHolder<PlayerInventoryGuiData> {
 
     public static BackpackGui gui;
 
-    static {
-        PacketHandler.INSTANCE
-            .registerMessage(PacketBackPackState.class, PacketBackPackState.class, PacketHandler.nextID(), Side.SERVER);
-    }
+    static {}
 
     public ItemBackpack() {
         super(ModObject.itemBackPack.unlocalisedName);

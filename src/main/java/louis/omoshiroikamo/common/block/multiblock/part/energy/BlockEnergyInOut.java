@@ -15,16 +15,9 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
-import louis.omoshiroikamo.common.network.PacketHandler;
-import louis.omoshiroikamo.common.network.PacketPowerStorage;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class BlockEnergyInOut extends AbstractBlock<TEEnergyInOut> {
-
-    static {
-        PacketHandler.INSTANCE
-            .registerMessage(PacketPowerStorage.class, PacketPowerStorage.class, PacketHandler.nextID(), Side.CLIENT);
-    }
 
     protected BlockEnergyInOut() {
         super(ModObject.blockEnergyInOut, TEEnergyInOut.class);

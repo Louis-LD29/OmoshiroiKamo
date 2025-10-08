@@ -25,6 +25,7 @@ import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.command.ModCommands;
 import louis.omoshiroikamo.common.fluid.ModFluids;
 import louis.omoshiroikamo.common.item.ModItems;
+import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
 import louis.omoshiroikamo.common.util.handlers.ConvertManaRegenHandler;
 import louis.omoshiroikamo.common.util.handlers.ElementalHandler;
@@ -77,6 +78,8 @@ public class CommonProxy {
         FMLCommonHandler.instance()
             .bus()
             .register(ConvertManaRegenHandler.instance);
+
+        PacketHandler.init();
 
         ModRecipes.init();
 

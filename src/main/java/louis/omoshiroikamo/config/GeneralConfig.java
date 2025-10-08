@@ -22,6 +22,9 @@ public class GeneralConfig {
     @Config.DefaultBoolean(true)
     public static boolean validateConnections;
 
+    @Config.DefaultBoolean(false)
+    public static boolean allowExternalTickSpeedup;
+
     public static void registerConfig() throws ConfigException {
         ConfigurationManager.registerConfig(GeneralConfig.class);
         ItemConfig.registerConfig();
