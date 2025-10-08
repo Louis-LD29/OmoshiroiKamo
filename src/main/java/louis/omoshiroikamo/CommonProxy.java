@@ -27,10 +27,8 @@ import louis.omoshiroikamo.common.fluid.ModFluids;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
-import louis.omoshiroikamo.common.util.handlers.ConvertManaRegenHandler;
-import louis.omoshiroikamo.common.util.handlers.ElementalHandler;
-import louis.omoshiroikamo.common.util.handlers.ManaRegenHandler;
-import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.handler.ElementalHandler;
+import louis.omoshiroikamo.common.util.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.world.OKWorldGenerator;
 import louis.omoshiroikamo.common.world.WireNetSaveData;
@@ -47,7 +45,8 @@ public class CommonProxy {
     protected long clientTickCount = 0;
     protected final TickTimer tickTimer = new TickTimer();
 
-    public CommonProxy() {}
+    public CommonProxy() {
+    }
 
     public void preInit(FMLPreInitializationEvent event) {
         MaterialRegistry.init();
@@ -72,12 +71,6 @@ public class CommonProxy {
         FMLCommonHandler.instance()
             .bus()
             .register(tickTimer);
-        FMLCommonHandler.instance()
-            .bus()
-            .register(ManaRegenHandler.instance);
-        FMLCommonHandler.instance()
-            .bus()
-            .register(ConvertManaRegenHandler.instance);
 
         PacketHandler.init();
 
@@ -154,7 +147,8 @@ public class CommonProxy {
         ++serverTickCount;
     }
 
-    protected void onClientTick() {}
+    protected void onClientTick() {
+    }
 
     public long getTickCount() {
         return serverTickCount;

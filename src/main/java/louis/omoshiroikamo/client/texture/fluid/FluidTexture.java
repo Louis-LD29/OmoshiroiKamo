@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.client.fluid;
+package louis.omoshiroikamo.client.texture.fluid;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -49,7 +49,7 @@ public class FluidTexture {
     }
 
     private static void applyTexture(String baseName, BufferedImage stillBase, BufferedImage flowBase, int color,
-        boolean writeFrametime, int frametime) throws IOException {
+                                     boolean writeFrametime, int frametime) throws IOException {
         File stillFile = new File(CONFIG_FLUID_DIR, baseName + ".png");
         File flowFile = new File(CONFIG_FLUID_DIR, baseName + "_flow.png");
         File mcmetaStill = new File(stillFile.getAbsolutePath() + ".mcmeta");

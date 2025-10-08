@@ -2,7 +2,7 @@ package louis.omoshiroikamo.plugin.nei;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
-import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.plugin.nei.recipe.AnvilRecipeHandler;
 import louis.omoshiroikamo.plugin.nei.recipe.ElectrolyzerRecipeHandler;

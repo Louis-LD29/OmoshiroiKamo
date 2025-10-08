@@ -6,9 +6,9 @@ import java.util.Locale;
 import com.enderio.core.common.util.ResourcePackAssembler;
 
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import louis.omoshiroikamo.client.fluid.FluidMaterialTexture;
-import louis.omoshiroikamo.client.fluid.FluidTexture;
-import louis.omoshiroikamo.client.ore.OreTexture;
+import louis.omoshiroikamo.client.texture.fluid.FluidMaterialTexture;
+import louis.omoshiroikamo.client.texture.fluid.FluidTexture;
+import louis.omoshiroikamo.client.texture.ore.OreTexture;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 

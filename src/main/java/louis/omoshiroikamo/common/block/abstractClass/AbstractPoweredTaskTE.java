@@ -23,8 +23,8 @@ import louis.omoshiroikamo.common.recipes.machine.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.machine.MachineRecipeRegistry;
 import louis.omoshiroikamo.common.recipes.machine.PoweredTask;
 import louis.omoshiroikamo.common.recipes.machine.PoweredTaskProgress;
-import louis.omoshiroikamo.common.util.helper.Logger;
-import louis.omoshiroikamo.common.util.helper.OreDictUtils;
+import louis.omoshiroikamo.common.util.Logger;
+import louis.omoshiroikamo.common.util.OreDictUtils;
 
 public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements IProgressTile, IWailaInfoProvider {
 
@@ -236,7 +236,8 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
                 }
             }
 
-            if (remaining > 0) {}
+            if (remaining > 0) {
+            }
         }
 
         cachedNextRecipe = null;
@@ -362,7 +363,7 @@ public abstract class AbstractPoweredTaskTE extends AbstractPoweredTE implements
                     "[consumeInputs] Không đủ fluid để tiêu thụ: " + input.stack.amount
                         + "L of "
                         + input.stack.getFluid()
-                            .getName());
+                        .getName());
             }
         }
     }

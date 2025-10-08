@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.util.helper;
+package louis.omoshiroikamo.common.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,7 +19,9 @@ public final class ItemNBTHelper {
      * compound
      **/
     public static void initNBT(ItemStack stack) {
-        if (!detectNBT(stack)) injectNBT(stack, new NBTTagCompound());
+        if (!detectNBT(stack)) {
+            injectNBT(stack, new NBTTagCompound());
+        }
     }
 
     /**
@@ -75,7 +77,9 @@ public final class ItemNBTHelper {
 
     public static void setCompound(ItemStack stack, String tag, NBTTagCompound cmp) {
         if (!tag.equalsIgnoreCase("ench")) // not override the enchantments
+        {
             getNBT(stack).setTag(tag, cmp);
+        }
     }
 
     public static void setString(ItemStack stack, String tag, String s) {
@@ -95,7 +99,9 @@ public final class ItemNBTHelper {
     public static void remove(ItemStack stack, String key) {
         if (verifyExistance(stack, key)) {
             getNBT(stack).removeTag(key);
-            if (getNBT(stack).hasNoTags()) stack.setTagCompound(null);
+            if (getNBT(stack).hasNoTags()) {
+                stack.setTagCompound(null);
+            }
         }
     }
 

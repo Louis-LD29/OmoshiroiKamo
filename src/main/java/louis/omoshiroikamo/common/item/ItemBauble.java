@@ -19,12 +19,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.client.render.RenderHelper;
 import louis.omoshiroikamo.common.entity.EntityDoppleganger;
-import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 import tconstruct.library.accessory.IAccessory;
 
-@Optional.InterfaceList({ @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles"),
-    @Optional.Interface(iface = "tconstruct.library.accessory.IAccessory", modid = "TConstruct") })
+@Optional.InterfaceList({@Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles"),
+    @Optional.Interface(iface = "tconstruct.library.accessory.IAccessory", modid = "TConstruct")})
 public abstract class ItemBauble extends ItemOK implements IBauble, IAccessory {
 
     private static final String TAG_HASHCODE = "playerHashcode";

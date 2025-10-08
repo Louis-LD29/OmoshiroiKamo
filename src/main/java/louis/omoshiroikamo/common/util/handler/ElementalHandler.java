@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.util.handlers;
+package louis.omoshiroikamo.common.util.handler;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;

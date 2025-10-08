@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.client.ore;
+package louis.omoshiroikamo.client.texture.ore;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 
 import louis.omoshiroikamo.api.ore.OreEntry;
 import louis.omoshiroikamo.common.ore.OreRegister;
-import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 

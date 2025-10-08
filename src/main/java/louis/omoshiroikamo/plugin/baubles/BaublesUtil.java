@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import baubles.api.BaublesApi;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
-import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMods;
 
 public class BaublesUtil {
@@ -44,8 +44,8 @@ public class BaublesUtil {
                     return MPSERVER;
                 } else if (Minecraft.getMinecraft()
                     .isIntegratedServerRunning()) {
-                        return SPSERVER;
-                    }
+                    return SPSERVER;
+                }
             }
             return OTHER;
         }
@@ -53,7 +53,8 @@ public class BaublesUtil {
 
     private static final BaublesUtil instance = new BaublesUtil();
 
-    private BaublesUtil() {}
+    private BaublesUtil() {
+    }
 
     public static BaublesUtil instance() {
         return instance;

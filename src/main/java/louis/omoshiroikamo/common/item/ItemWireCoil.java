@@ -31,7 +31,7 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.util.Utils;
-import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 import louis.omoshiroikamo.common.world.WireNetSaveData;
 
@@ -143,7 +143,7 @@ public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipP
 
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
-        float hitX, float hitY, float hitZ) {
+                                  float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
             return false;
         }
@@ -163,7 +163,7 @@ public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipP
 
         if (!ItemNBTHelper.verifyExistance(stack, "linkingPos")) {
             // Lưu điểm kết nối đầu tiên
-            ItemNBTHelper.setIntArray(stack, "linkingPos", new int[] { world.provider.dimensionId, x, y, z });
+            ItemNBTHelper.setIntArray(stack, "linkingPos", new int[]{world.provider.dimensionId, x, y, z});
             if (stack.getTagCompound() == null) {
                 stack.setTagCompound(new NBTTagCompound());
             }

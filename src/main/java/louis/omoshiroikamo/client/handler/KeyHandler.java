@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.util.handlers;
+package louis.omoshiroikamo.client.handler;
 
 import net.minecraft.client.settings.KeyBinding;
 

@@ -4,7 +4,7 @@ import net.minecraft.entity.EntityLivingBase;
 
 import cpw.mods.fml.common.event.FMLInterModComms;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
-import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibMods;
 import louis.omoshiroikamo.config.GeneralConfig;

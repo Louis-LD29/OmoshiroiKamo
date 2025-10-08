@@ -55,7 +55,7 @@ import louis.omoshiroikamo.client.gui.modularui2.slot.ModularCraftingSlotAdv;
 import louis.omoshiroikamo.client.gui.modularui2.widgets.BackPackPageButton;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
-import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
@@ -84,12 +84,12 @@ public class BackpackGui extends ModularPanel {
     public static final String CRAFTINGINV = "CraftingInv";
     public static final String MAGNETINV = "MagnetInv";
     public static final String FEEDINGINV = "FeedingInv";
-    private static final int[] panelWidth = { 176, 176, 176, 176, 230, 230 };
-    private static final int[] panelHeight = { 166, 184, 220, 274, 274, 292 };
+    private static final int[] panelWidth = {176, 176, 176, 176, 230, 230};
+    private static final int[] panelHeight = {166, 184, 220, 274, 274, 292};
     public static int slot = 120;
     public static int upgradeSlot = 7;
-    private static final int[] invMargin = { 8, 8, 8, 8, 35, 35 };
-    private static final int[] backpackHeight = { 84, 102, 138, 192, 192, 210 };
+    private static final int[] invMargin = {8, 8, 8, 8, 35, 35};
+    private static final int[] backpackHeight = {84, 102, 138, 192, 192, 210};
 
     private static PagedWidget<?> upgradePage;
     private static PagedWidget.Controller upgradeController;
@@ -97,7 +97,7 @@ public class BackpackGui extends ModularPanel {
     private final List<TabBinding> upgradeTabs = new ArrayList<>();
 
     public BackpackGui(EntityPlayer player, PlayerInventoryGuiData data, PanelSyncManager syncManager,
-        UISettings settings, ItemBackpack item) {
+                       UISettings settings, ItemBackpack item) {
         super("backpack_gui");
         this.player = player;
         this.data = data;
@@ -239,21 +239,21 @@ public class BackpackGui extends ModularPanel {
 
         this.child(
             new Column().child(
-                new ParentWidget<>().widthRel(1f)
-                    .height(backpackHeight[meta])
-                    .child(
-                        IKey.str(StatCollector.translateToLocal(item.getUnlocalizedName(usedItem) + ".name"))
-                            .asWidget()
-                            .margin(6, 0, 5, 0)
-                            .align(Alignment.TopLeft))
-                    .child(
-                        buildBackpackSlotGroup(meta).align(Alignment.Center)
-                            .marginTop(1))
-                    .child(
-                        IKey.str("Inventory")
-                            .asWidget()
-                            .marginLeft(invMargin[meta])
-                            .alignY(0.99f)))
+                    new ParentWidget<>().widthRel(1f)
+                        .height(backpackHeight[meta])
+                        .child(
+                            IKey.str(StatCollector.translateToLocal(item.getUnlocalizedName(usedItem) + ".name"))
+                                .asWidget()
+                                .margin(6, 0, 5, 0)
+                                .align(Alignment.TopLeft))
+                        .child(
+                            buildBackpackSlotGroup(meta).align(Alignment.Center)
+                                .marginTop(1))
+                        .child(
+                            IKey.str("Inventory")
+                                .asWidget()
+                                .marginLeft(invMargin[meta])
+                                .alignY(0.99f)))
                 .child(
                     MGuiBuilder.buildPlayerInventorySlotGroup(playerInventory)
                         .align(Alignment.TopLeft)
@@ -632,7 +632,8 @@ public class BackpackGui extends ModularPanel {
                     .row("III")
                     .row("III")
                     .row("III")
-                    .key('I', i -> new PhantomItemSlot() {}.slot(new BackpackFilterSlot(feedingHandler, i) {
+                    .key('I', i -> new PhantomItemSlot() {
+                    }.slot(new BackpackFilterSlot(feedingHandler, i) {
 
                         @Override
                         public boolean isItemValid(@Nullable ItemStack stack) {

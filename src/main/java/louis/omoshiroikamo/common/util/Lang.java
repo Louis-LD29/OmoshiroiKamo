@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.util.lang;
+package louis.omoshiroikamo.common.util;
 
 import java.util.List;
 

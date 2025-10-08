@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.util.handlers;
+package louis.omoshiroikamo.common.util.handler;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -22,7 +22,7 @@ import louis.omoshiroikamo.api.energy.wire.IWCProxy;
 import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
 import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
 import louis.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
-import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.Logger;
 import louis.omoshiroikamo.common.world.WireNetSaveData;
 import louis.omoshiroikamo.config.GeneralConfig;
 
@@ -61,7 +61,7 @@ public class EventHandler {
     public static void onWorldTick(WorldTickEvent event) {
         if (event.phase == TickEvent.Phase.START && validateConnsNextTick
             && FMLCommonHandler.instance()
-                .getEffectiveSide() == Side.SERVER) {
+            .getEffectiveSide() == Side.SERVER) {
             boolean validateConnections = GeneralConfig.validateConnections;
             int invalidConnectionsDropped = 0;
             for (int dim : WireNetHandler.INSTANCE.getRelevantDimensions()) {
@@ -76,7 +76,7 @@ public class EventHandler {
                         if (!(world
                             .getTileEntity(con.start.posX, con.start.posY, con.start.posZ) instanceof IWireConnectable
                             && world
-                                .getTileEntity(con.end.posX, con.end.posY, con.end.posZ) instanceof IWireConnectable)) {
+                            .getTileEntity(con.end.posX, con.end.posY, con.end.posZ) instanceof IWireConnectable)) {
                             WireNetHandler.INSTANCE.removeConnection(world, con);
                             invalidConnectionsDropped++;
                         }
@@ -111,7 +111,8 @@ public class EventHandler {
             .getEffectiveSide() == Side.SERVER) {
             for (Map.Entry<Connection, Integer> e : WireNetHandler.INSTANCE
                 .getTransferedRates(event.world.provider.dimensionId)
-                .entrySet()) if (e.getValue() > e.getKey().cableType.getTransferRate()) {
+                .entrySet())
+                if (e.getValue() > e.getKey().cableType.getTransferRate()) {
                     if (event.world instanceof WorldServer) {
                         for (Vec3 vec : e.getKey()
                             .getSubVertices(event.world))

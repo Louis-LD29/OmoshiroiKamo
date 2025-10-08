@@ -42,7 +42,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.client.gui.modularui2.handler.UpgradeItemStackHandler;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import louis.omoshiroikamo.common.network.PacketBackPackState;
-import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.config.item.FeedingConfig;
 import louis.omoshiroikamo.config.item.MagnetConfig;
 import louis.omoshiroikamo.plugin.baubles.BaublesUtil;
@@ -107,8 +107,8 @@ public class BackpackController {
                 continue;
             }
 
-            NBTTagCompound tag = stack.getTagCompound();
-            if (tag == null || !tag.hasKey(BackpackGui.BACKPACKUPGRADE)) {
+            NBTTagCompound tag = ItemNBTHelper.getNBT(stack);
+            if (!tag.hasKey(BackpackGui.BACKPACKUPGRADE)) {
                 continue;
             }
             upgradeHandler.deserializeNBT(tag.getCompoundTag(BackpackGui.BACKPACKUPGRADE));
@@ -131,8 +131,8 @@ public class BackpackController {
                     continue;
                 }
 
-                NBTTagCompound tag = stack.getTagCompound();
-                if (tag == null || !tag.hasKey(BackpackGui.BACKPACKUPGRADE)) {
+                NBTTagCompound tag = ItemNBTHelper.getNBT(stack);
+                if (!tag.hasKey(BackpackGui.BACKPACKUPGRADE)) {
                     continue;
                 }
                 upgradeHandler.deserializeNBT(tag.getCompoundTag(BackpackGui.BACKPACKUPGRADE));
@@ -151,8 +151,8 @@ public class BackpackController {
         return result;
     }
 
-    private static boolean hasUpgrade(ItemStack backpack, Class<?> clazz) {
-        NBTTagCompound tag = backpack.getTagCompound();
+    private static boolean hasUpgrade(ItemStack stack, Class<?> clazz) {
+        NBTTagCompound tag = ItemNBTHelper.getNBT(stack);
         if (tag == null || !tag.hasKey(BackpackGui.BACKPACKUPGRADE)) {
             return false;
         }
@@ -175,13 +175,13 @@ public class BackpackController {
             return;
         }
 
-        NBTTagCompound root = mag.item.getTagCompound();
-        if (root == null || !root.hasKey(BackpackGui.BACKPACKINV)) {
+        NBTTagCompound tag = ItemNBTHelper.getNBT(mag.item);
+        if (tag == null || !tag.hasKey(BackpackGui.BACKPACKINV)) {
             return;
         }
 
         ItemStackHandler handler = new ItemStackHandler(BackpackGui.slot);
-        handler.deserializeNBT(root.getCompoundTag(BackpackGui.BACKPACKINV));
+        handler.deserializeNBT(tag.getCompoundTag(BackpackGui.BACKPACKINV));
 
         FoodStats foodStats = player.getFoodStats();
         boolean consumedAny = false;
@@ -190,8 +190,8 @@ public class BackpackController {
             return;
         }
 
-        boolean filterMode = root.getBoolean(FEEDING_MODE);
-        boolean feedingType = root.getBoolean(FEEDING_TYPE);
+        boolean filterMode = tag.getBoolean(FEEDING_MODE);
+        boolean feedingType = tag.getBoolean(FEEDING_TYPE);
 
         List<Integer> foodSlots = new ArrayList<>();
 
@@ -263,8 +263,8 @@ public class BackpackController {
         }
 
         if (consumedAny) {
-            root.setTag(BackpackGui.BACKPACKINV, handler.serializeNBT());
-            mag.item.setTagCompound(root);
+            tag.setTag(BackpackGui.BACKPACKINV, handler.serializeNBT());
+            mag.item.setTagCompound(tag);
             ItemNBTHelper.setInt(mag.item, TAG_COOLDOWN_FEED, 100);
         }
     }
@@ -512,7 +512,7 @@ public class BackpackController {
     }
 
     public static void setBackpackActive(EntityPlayerMP player, PacketBackPackState.SlotType type, int slot,
-        boolean isActive) {
+                                         boolean isActive) {
         ItemStack stack = null;
         IInventory baubles = null;
         int dropOff = -1;
@@ -567,7 +567,7 @@ public class BackpackController {
         List<String> filterList = new ArrayList<>();
         if (magnet != null && magnet.hasTagCompound()
             && magnet.getTagCompound()
-                .hasKey(tag)) {
+            .hasKey(tag)) {
             NBTTagList list = magnet.getTagCompound()
                 .getTagList(tag, 10);
             for (int i = 0; i < list.tagCount(); i++) {

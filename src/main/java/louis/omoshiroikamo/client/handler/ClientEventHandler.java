@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.util.handlers;
+package louis.omoshiroikamo.client.handler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,7 +23,7 @@ import louis.omoshiroikamo.api.energy.wire.WireType;
 import louis.omoshiroikamo.client.ClientUtils;
 import louis.omoshiroikamo.client.models.ModelIEObj;
 import louis.omoshiroikamo.common.item.ModItems;
-import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.

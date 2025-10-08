@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.client.fluid;
+package louis.omoshiroikamo.client.texture.fluid;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -51,7 +51,7 @@ public class FluidMaterialTexture {
     }
 
     private static void applyTexture(String baseName, BufferedImage baseImage, int color, boolean reverse,
-        int frametime) throws IOException {
+                                     int frametime) throws IOException {
 
         File imageFile = new File(CONFIG_FLUID_DIR, baseName + ".png");
         File colorFile = new File(CONFIG_FLUID_DIR, baseName + ".color.txt");

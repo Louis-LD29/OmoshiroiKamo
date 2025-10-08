@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.util.helper;
+package louis.omoshiroikamo.common.util;
 
 import java.util.HashSet;
 import java.util.List;
@@ -13,14 +13,18 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class OreDictUtils {
 
     public static boolean isOreDictMatch(ItemStack a, ItemStack b) {
-        if (a == null || b == null) return false;
+        if (a == null || b == null) {
+            return false;
+        }
 
         int[] idsA = OreDictionary.getOreIDs(a);
         int[] idsB = OreDictionary.getOreIDs(b);
 
         for (int idA : idsA) {
             for (int idB : idsB) {
-                if (idA == idB) return true;
+                if (idA == idB) {
+                    return true;
+                }
             }
         }
 
@@ -28,10 +32,14 @@ public class OreDictUtils {
     }
 
     public static ItemStack getOreDictRepresentative(ItemStack stack) {
-        if (stack == null) return null;
+        if (stack == null) {
+            return null;
+        }
 
         int[] oreIDs = OreDictionary.getOreIDs(stack);
-        if (oreIDs.length == 0) return stack;
+        if (oreIDs.length == 0) {
+            return stack;
+        }
 
         String oreName = OreDictionary.getOreName(oreIDs[0]);
         List<ItemStack> ores = OreDictionary.getOres(oreName);

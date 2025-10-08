@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.FluidStack;
 import louis.omoshiroikamo.api.fluid.IFluidCoolant;
 import louis.omoshiroikamo.api.fluid.IFluidFuel;
 import louis.omoshiroikamo.api.fluid.IFluidRegister;
-import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMods;
 
 public class FluidFuelRegister implements IFluidRegister {

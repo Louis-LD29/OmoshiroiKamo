@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
-import louis.omoshiroikamo.common.util.helper.OreDictUtils;
+import louis.omoshiroikamo.common.util.OreDictUtils;
 
 public class MachineRecipe {
 
@@ -23,8 +23,8 @@ public class MachineRecipe {
     public final String uid;
 
     public MachineRecipe(List<ChanceItemStack> itemInputs, List<ChanceFluidStack> fluidInputs,
-        List<ChanceItemStack> itemOutputs, List<ChanceFluidStack> fluidOutputs, int requiredTemperature,
-        int requiredPressure, int energyCost, String uid) {
+                         List<ChanceItemStack> itemOutputs, List<ChanceFluidStack> fluidOutputs, int requiredTemperature,
+                         int requiredPressure, int energyCost, String uid) {
         this.itemInputs = itemInputs;
         this.fluidInputs = fluidInputs;
         this.itemOutputs = itemOutputs;
@@ -72,7 +72,7 @@ public class MachineRecipe {
      * Không cần đúng vị trí, chỉ cần đủ số lượng và loại.
      */
     public boolean matches(List<ItemStack> items, List<FluidStack> fluids, int temperature, int pressure,
-        int availableEnergy) {
+                           int availableEnergy) {
         return this.requiredTemperature >= temperature && this.requiredPressure >= pressure
             && this.energyCost >= availableEnergy
             && containsAllItems(items, itemInputs)
