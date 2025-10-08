@@ -21,16 +21,13 @@ import louis.omoshiroikamo.client.render.RenderHelper;
 import louis.omoshiroikamo.common.entity.EntityDoppleganger;
 import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibResources;
-import tconstruct.library.accessory.IAccessory;
 
-@Optional.InterfaceList({ @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles"),
-    @Optional.Interface(iface = "tconstruct.library.accessory.IAccessory", modid = "TConstruct") })
-public abstract class ItemBauble extends ItemOK implements IBauble, IAccessory {
+@Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles")
+public class ItemBauble extends ItemOK implements IBauble {
 
     private static final String TAG_HASHCODE = "playerHashcode";
     private static final String TAG_BAUBLE_UUID_MOST = "baubleUUIDMost";
     private static final String TAG_BAUBLE_UUID_LEAST = "baubleUUIDLeast";
-
     protected boolean disableRightClickEquip;
 
     public ItemBauble(String name, boolean disableRightClickEquip) {
@@ -197,14 +194,6 @@ public abstract class ItemBauble extends ItemOK implements IBauble, IAccessory {
             onEquippedOrLoadedIntoWorld(stack, player);
             setLastPlayerHashcode(stack, player.hashCode());
         }
-    }
-
-    // TConstruct
-
-    @Override
-    @Optional.Method(modid = "TConstruct")
-    public boolean canEquipAccessory(ItemStack itemStack, int slot) {
-        return slot == 0;
     }
 
 }

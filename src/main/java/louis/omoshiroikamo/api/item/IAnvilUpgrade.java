@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.api.mana;
+package louis.omoshiroikamo.api.item;
 
 import javax.annotation.Nullable;
 
@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.client.IRenderUpgrade;
 
-public interface IManaItemUpgrade extends IAdvancedTooltipProvider {
+public interface IAnvilUpgrade extends IAdvancedTooltipProvider {
 
     String getUnlocalizedName();
 

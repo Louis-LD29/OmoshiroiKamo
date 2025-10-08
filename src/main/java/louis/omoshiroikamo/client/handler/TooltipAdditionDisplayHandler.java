@@ -13,12 +13,15 @@ import net.minecraft.item.ItemStack;
 
 import org.lwjgl.input.Mouse;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import louis.omoshiroikamo.common.util.lib.LibObfuscation;
 import vazkii.botania.api.mana.IManaTooltipDisplay;
 
+@Optional.Interface(iface = "vazkii.botania.api.mana.IManaTooltipDisplay", modid = "Botania")
 public class TooltipAdditionDisplayHandler {
 
+    @Optional.Method(modid = "Botania")
     public static void render() {
         Minecraft mc = Minecraft.getMinecraft();
         GuiScreen gui = mc.currentScreen;

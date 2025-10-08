@@ -26,8 +26,6 @@ public class ItemBackpack extends ItemBauble implements IEnergyContainerItem, IG
 
     public static BackpackGui gui;
 
-    static {}
-
     public ItemBackpack() {
         super(ModObject.itemBackPack.unlocalisedName);
         setHasSubtypes(true);

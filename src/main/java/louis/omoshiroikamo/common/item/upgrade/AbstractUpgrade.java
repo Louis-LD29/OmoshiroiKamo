@@ -7,16 +7,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
+import com.enderio.core.client.handlers.SpecialTooltipHandler;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.IRenderUpgrade;
-import louis.omoshiroikamo.api.client.SpecialTooltipHandler;
-import louis.omoshiroikamo.api.mana.IManaItemUpgrade;
+import louis.omoshiroikamo.api.item.IAnvilUpgrade;
 import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
-public abstract class AbstractUpgrade implements IManaItemUpgrade {
+public abstract class AbstractUpgrade implements IAnvilUpgrade {
 
     public static final String KEY_LEVEL_COST = LibResources.KEY_LEVEL_COST;
     public static final String KEY_UPGRADE_PREFIX = LibResources.KEY_UPGRADE_PREFIX;

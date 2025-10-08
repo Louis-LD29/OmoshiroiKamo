@@ -8,6 +8,7 @@ import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
+import louis.omoshiroikamo.common.util.lib.LibMods;
 
 @EventBusSubscriber(side = Side.CLIENT)
 @SuppressWarnings("unused")
@@ -32,7 +33,9 @@ public class ClientTickHandler {
         if (event.phase == TickEvent.Phase.START) {
             partialTicks = event.renderTickTime;
         } else {
-            TooltipAdditionDisplayHandler.render();
+            if (LibMods.Botania.isLoaded()) {
+                TooltipAdditionDisplayHandler.render();
+            }
             calcDelta();
         }
 

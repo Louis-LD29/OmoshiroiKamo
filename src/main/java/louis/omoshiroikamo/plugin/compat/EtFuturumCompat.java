@@ -18,6 +18,7 @@ public class EtFuturumCompat {
 
         addRecipes();
 
+        Logger.info("Loaded EtFuturumCompat");
     }
 
     public static void addRecipes() {

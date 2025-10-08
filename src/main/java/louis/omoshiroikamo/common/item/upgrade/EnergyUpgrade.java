@@ -10,11 +10,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
+import com.enderio.core.client.handlers.SpecialTooltipHandler;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import louis.omoshiroikamo.api.client.SpecialTooltipHandler;
 import louis.omoshiroikamo.api.energy.PowerDisplayUtil;
-import louis.omoshiroikamo.api.mana.IManaItem;
+import louis.omoshiroikamo.api.item.IAnvilUpgradeItem;
 import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.config.general.AnvilUpgradeConfig;
@@ -191,7 +192,7 @@ public class EnergyUpgrade extends AbstractUpgrade {
 
     @Override
     public boolean canAddToItem(ItemStack stack) {
-        if (stack == null || stack.getItem() == null || !(stack.getItem() instanceof IManaItem)) {
+        if (stack == null || stack.getItem() == null || !(stack.getItem() instanceof IAnvilUpgradeItem)) {
             return false;
         }
         AbstractUpgrade up = next(loadFromItem(stack));
