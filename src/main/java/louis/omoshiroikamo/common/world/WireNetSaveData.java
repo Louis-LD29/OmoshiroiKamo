@@ -14,7 +14,7 @@ import louis.omoshiroikamo.api.DimensionBlockPos;
 import louis.omoshiroikamo.api.energy.wire.IWCProxy;
 import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
 import louis.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
-import louis.omoshiroikamo.common.util.handlers.EventHandler;
+import louis.omoshiroikamo.common.util.handler.EventHandler;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.

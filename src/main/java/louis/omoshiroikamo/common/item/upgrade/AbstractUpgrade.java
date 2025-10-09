@@ -7,16 +7,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
+import com.enderio.core.client.handlers.SpecialTooltipHandler;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.client.IRenderUpgrade;
-import louis.omoshiroikamo.api.client.SpecialTooltipHandler;
-import louis.omoshiroikamo.api.mana.IManaItemUpgrade;
-import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.api.item.IAnvilUpgrade;
+import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
-public abstract class AbstractUpgrade implements IManaItemUpgrade {
+public abstract class AbstractUpgrade implements IAnvilUpgrade {
 
     public static final String KEY_LEVEL_COST = LibResources.KEY_LEVEL_COST;
     public static final String KEY_UPGRADE_PREFIX = LibResources.KEY_UPGRADE_PREFIX;
@@ -24,7 +25,7 @@ public abstract class AbstractUpgrade implements IManaItemUpgrade {
     private static final String KEY_UPGRADE_ITEM = LibResources.KEY_UPGRADE_ITEM;
 
     protected final int levelCost;
-    protected final String id;
+    public final String id;
     protected final String unlocName;
 
     protected ItemStack upgradeItem;
@@ -126,19 +127,9 @@ public abstract class AbstractUpgrade implements IManaItemUpgrade {
 
         writeUpgradeToNBT(upgradeRoot);
 
-        NBTTagCompound stackRoot = ItemNBTHelper.getOrCreateNBT(stack);
-        stackRoot.setTag(id, upgradeRoot);
-        stack.setTagCompound(stackRoot);
+        ItemNBTHelper.getOrCreateNBT(stack)
+            .setTag(id, upgradeRoot);
     }
-
-    public NBTTagCompound getUpgradeRoot(ItemStack stack) {
-        if (!hasUpgrade(stack)) {
-            return null;
-        }
-        return (NBTTagCompound) stack.stackTagCompound.getTag(id);
-    }
-
-    public abstract void writeUpgradeToNBT(NBTTagCompound upgradeRoot);
 
     @Override
     public void removeFromItem(ItemStack stack) {
@@ -150,4 +141,14 @@ public abstract class AbstractUpgrade implements IManaItemUpgrade {
         }
         stack.stackTagCompound.removeTag(id);
     }
+
+    public NBTTagCompound getUpgradeRoot(ItemStack stack) {
+        if (!hasUpgrade(stack)) {
+            return null;
+        }
+        return (NBTTagCompound) stack.stackTagCompound.getTag(id);
+    }
+
+    public abstract void writeUpgradeToNBT(NBTTagCompound upgradeRoot);
+
 }

@@ -3,7 +3,7 @@ package louis.omoshiroikamo.common.util.lib;
 import net.minecraft.launchwrapper.Launch;
 
 import louis.omoshiroikamo.Tags;
-import louis.omoshiroikamo.common.util.lang.Lang;
+import louis.omoshiroikamo.common.util.Lang;
 
 public final class LibMisc {
 

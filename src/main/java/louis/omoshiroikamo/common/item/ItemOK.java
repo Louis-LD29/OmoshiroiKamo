@@ -1,15 +1,19 @@
 package louis.omoshiroikamo.common.item;
 
+import java.util.List;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+
+import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
-public class ItemOK extends Item {
+public class ItemOK extends Item implements IAdvancedTooltipProvider {
 
     protected final String name;
 
@@ -28,11 +32,18 @@ public class ItemOK extends Item {
         itemIcon = register.registerIcon(LibResources.PREFIX_MOD + name);
     }
 
-    public NBTTagCompound getOrCreateTag(ItemStack stack) {
-        if (!stack.hasTagCompound()) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        return stack.getTagCompound();
+    @Override
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+
     }
 
+    @Override
+    public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+
+    }
+
+    @Override
+    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+
+    }
 }

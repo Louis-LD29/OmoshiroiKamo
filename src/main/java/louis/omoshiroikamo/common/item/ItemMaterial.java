@@ -21,7 +21,7 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.ModBlocks;
-import louis.omoshiroikamo.common.util.helper.OreDictUtils;
+import louis.omoshiroikamo.common.util.OreDictUtils;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class ItemMaterial extends ItemOK {
@@ -155,11 +155,21 @@ public class ItemMaterial extends ItemOK {
     @SideOnly(Side.CLIENT)
     @Override
     public IIcon getIconFromDamage(int damage) {
-        if (damage >= LibResources.META5) return gearIcon;
-        if (damage >= LibResources.META4) return dustIcon;
-        if (damage >= LibResources.META3) return rodIcon;
-        if (damage >= LibResources.META2) return plateIcon;
-        if (damage >= LibResources.META1) return nuggetIcon;
+        if (damage >= LibResources.META5) {
+            return gearIcon;
+        }
+        if (damage >= LibResources.META4) {
+            return dustIcon;
+        }
+        if (damage >= LibResources.META3) {
+            return rodIcon;
+        }
+        if (damage >= LibResources.META2) {
+            return plateIcon;
+        }
+        if (damage >= LibResources.META1) {
+            return nuggetIcon;
+        }
         return ingotIcon;
     }
 

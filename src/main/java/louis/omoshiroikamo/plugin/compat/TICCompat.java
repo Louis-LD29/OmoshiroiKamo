@@ -16,7 +16,7 @@ import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.fluid.FluidMaterialRegister;
 import louis.omoshiroikamo.common.item.ModItems;
-import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMods;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 import tconstruct.TConstruct;
@@ -29,7 +29,7 @@ import tconstruct.smeltery.TinkerSmeltery;
 public class TICCompat {
 
     public static void init() {
-        if (!LibMods.NotEnoughItems.isLoaded()) {
+        if (!LibMods.TConstruct.isLoaded()) {
             return;
         }
         registerTinkersConstructIntegration();

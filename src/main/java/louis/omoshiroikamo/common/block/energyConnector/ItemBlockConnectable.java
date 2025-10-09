@@ -9,9 +9,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
+import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.block.ModBlocks;
 

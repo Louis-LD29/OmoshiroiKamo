@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import net.minecraft.entity.Entity;
 
-import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.Logger;
 
 public class BotaniaUtil {
 

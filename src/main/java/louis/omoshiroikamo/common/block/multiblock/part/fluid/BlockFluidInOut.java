@@ -15,16 +15,9 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
-import louis.omoshiroikamo.common.network.PacketFluidTanks;
-import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> {
-
-    static {
-        PacketHandler.INSTANCE
-            .registerMessage(PacketFluidTanks.class, PacketFluidTanks.class, PacketHandler.nextID(), Side.SERVER);
-    }
 
     protected BlockFluidInOut() {
         super(ModObject.blockFluidInOut, TEFluidInOut.class);

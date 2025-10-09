@@ -16,11 +16,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
+import com.enderio.core.api.client.gui.IResourceTooltipProvider;
 import com.enderio.core.common.TileEntityEnder;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
-import louis.omoshiroikamo.api.client.IResourceTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.BlockOK;
 

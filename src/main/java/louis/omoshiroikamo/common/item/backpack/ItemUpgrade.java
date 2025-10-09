@@ -4,11 +4,13 @@ import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.item.ItemOK;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class ItemUpgrade extends ItemOK {
@@ -39,5 +41,10 @@ public class ItemUpgrade extends ItemOK {
 
     public boolean hasTab() {
         return false;
+    }
+
+    @Override
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+        list.add(LibMisc.lang.localize(LibResources.TOOLTIP + "upgrade_base"));
     }
 }

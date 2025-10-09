@@ -12,6 +12,7 @@ import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class ItemStackUpgrade extends ItemUpgrade {
@@ -78,22 +79,20 @@ public class ItemStackUpgrade extends ItemUpgrade {
     }
 
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List<String> list, boolean flags) {
-        int mult = multiplier(stack);
-        list.add("Multiplies stack size by " + mult);
-        super.addInformation(stack, player, list, flags);
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+        list.add(LibMisc.lang.localize(LibResources.TOOLTIP + "stack_multiplier", multiplier(itemstack)));
     }
 
     public int multiplier(ItemStack stack) {
         switch (stack.getItemDamage()) {
             case 1:
-                return 4; // Gold
+                return 4;
             case 2:
-                return 8; // Diamond
+                return 8;
             case 3:
-                return 16; // Netherite
+                return 16;
             default:
-                return 2; // Starter
+                return 2;
         }
     }
 }

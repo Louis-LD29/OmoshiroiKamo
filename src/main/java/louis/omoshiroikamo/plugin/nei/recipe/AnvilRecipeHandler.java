@@ -16,7 +16,7 @@ import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
 import louis.omoshiroikamo.common.recipes.machine.MachineRecipe;
 import louis.omoshiroikamo.common.recipes.machine.MachineRecipeRegistry;
-import louis.omoshiroikamo.common.util.helper.OreDictUtils;
+import louis.omoshiroikamo.common.util.OreDictUtils;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 import louis.omoshiroikamo.plugin.nei.PositionedStackAdv;
 import louis.omoshiroikamo.plugin.nei.RecipeHandlerBase;

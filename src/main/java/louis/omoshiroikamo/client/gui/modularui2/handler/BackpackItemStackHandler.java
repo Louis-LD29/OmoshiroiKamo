@@ -1,48 +1,25 @@
 package louis.omoshiroikamo.client.gui.modularui2.handler;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import net.minecraft.item.ItemStack;
 
 import com.cleanroommc.modularui.utils.item.ItemHandlerHelper;
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
 
-import louis.omoshiroikamo.client.gui.BackpackGui;
+import louis.omoshiroikamo.common.item.backpack.BackpackGui;
 import louis.omoshiroikamo.common.item.backpack.ItemBackpack;
 
 public class BackpackItemStackHandler extends ItemStackHandler {
 
     private final BackpackGui gui;
-    private final List<ItemStack> memorizedSlotStack;
-    private final List<Boolean> memorizedSlotRespectNbtList;
-    private final List<Boolean> sortLockedSlots;
 
     public BackpackItemStackHandler(int size, BackpackGui gui) {
         super(size);
         this.gui = gui;
-        this.memorizedSlotStack = new ArrayList<>(Collections.nCopies(size, (ItemStack) null));
-        this.memorizedSlotRespectNbtList = new ArrayList<>(size);
-        this.sortLockedSlots = new ArrayList<>(size);
-
-        for (int i = 0; i < size; i++) {
-            this.memorizedSlotRespectNbtList.add(false);
-            this.sortLockedSlots.add(false);
-        }
     }
 
     @Override
     public boolean isItemValid(int slot, ItemStack stack) {
-        ItemStack memorized = memorizedSlotStack.get(slot);
-
-        if (memorized == null) {
-            return !(stack.getItem() instanceof ItemBackpack);
-        } else if (memorizedSlotRespectNbtList.get(slot)) {
-            return ItemStack.areItemStacksEqual(stack, memorized);
-        } else {
-            return stack.isItemEqual(memorized);
-        }
+        return !(stack.getItem() instanceof ItemBackpack);
     }
 
     @Override
@@ -53,30 +30,6 @@ public class BackpackItemStackHandler extends ItemStackHandler {
     @Override
     public int getSlotLimit(int slot) {
         return 64 * gui.getTotalStackMultiplier();
-    }
-
-    public ItemStack prioritizedInsertion(int slotIndex, ItemStack stack, boolean simulate) {
-        stack = insertItemToMemorySlots(stack, simulate);
-        return insertItem(slotIndex, stack, simulate);
-    }
-
-    public ItemStack insertItemToMemorySlots(ItemStack stack, boolean simulate) {
-        if (stack == null) {
-            return null;
-        }
-
-        for (int slotIndex = 0; slotIndex < memorizedSlotStack.size(); slotIndex++) {
-            ItemStack memorizedStack = memorizedSlotStack.get(slotIndex);
-            if (memorizedStack == null || !ItemStack.areItemStacksEqual(stack, memorizedStack)) {
-                continue;
-            }
-
-            stack = insertItem(slotIndex, stack, simulate);
-            if (stack == null) {
-                return null;
-            }
-        }
-        return stack;
     }
 
     @Override

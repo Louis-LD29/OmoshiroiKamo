@@ -8,7 +8,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.common.MinecraftForge;
 
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.recipes.machine.MachineRecipeRegistry;
@@ -19,7 +18,6 @@ import louis.omoshiroikamo.common.recipes.ore.CopperRecipes;
 public class ModRecipes {
 
     public static void init() {
-        MinecraftForge.EVENT_BUS.register(ManaAnvilRecipe.INSTANCE);
 
         RecipeLoader.loadRecipes(ModObject.blockElectrolyzer.unlocalisedName);
         RecipeLoader.loadRecipes(ModObject.blockAnvil.unlocalisedName);

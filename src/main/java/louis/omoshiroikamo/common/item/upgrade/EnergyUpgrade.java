@@ -10,27 +10,56 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
+import com.enderio.core.client.handlers.SpecialTooltipHandler;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import louis.omoshiroikamo.api.client.SpecialTooltipHandler;
 import louis.omoshiroikamo.api.energy.PowerDisplayUtil;
-import louis.omoshiroikamo.api.mana.IManaItem;
+import louis.omoshiroikamo.api.item.IAnvilUpgradeItem;
+import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
-import louis.omoshiroikamo.config.item.AnvilUpgradeConfig;
+import louis.omoshiroikamo.config.general.AnvilUpgradeConfig;
 
 public class EnergyUpgrade extends AbstractUpgrade {
 
-    public static final AbstractUpgrade EMPOWERED = new EnergyUpgrade(
-        LibMisc.MOD_ID + ".mana.upgrade.empowered_one",
-        AnvilUpgradeConfig.anvilUpgradeConfig.manaUpgradeDiamondCost,
+    public static final AbstractUpgrade ENERGY_TIER_ONE = new EnergyUpgrade(
+        "upgrade.energy_one",
+        AnvilUpgradeConfig.energyTier1Cost,
         new ItemStack(Items.diamond),
-        AnvilUpgradeConfig.anvilUpgradeConfig.manaPowerStorageBase,
-        AnvilUpgradeConfig.anvilUpgradeConfig.manaPowerStorageBase / 100);
+        AnvilUpgradeConfig.energyTier1Capacity,
+        AnvilUpgradeConfig.energyTier1Capacity / 100);
+
+    public static final AbstractUpgrade ENERGY_TIER_TWO = new EnergyUpgrade(
+        "upgrade.energy_two",
+        AnvilUpgradeConfig.energyTier2Cost,
+        new ItemStack(Items.diamond),
+        AnvilUpgradeConfig.energyTier2Capacity,
+        AnvilUpgradeConfig.energyTier2Capacity / 100);
+
+    public static final AbstractUpgrade ENERGY_TIER_THREE = new EnergyUpgrade(
+        "upgrade.energy_three",
+        AnvilUpgradeConfig.energyTier3Cost,
+        new ItemStack(Items.diamond),
+        AnvilUpgradeConfig.energyTier3Capacity,
+        AnvilUpgradeConfig.energyTier3Capacity / 100);
+
+    public static final AbstractUpgrade ENERGY_TIER_FOUR = new EnergyUpgrade(
+        "upgrade.energy_four",
+        AnvilUpgradeConfig.energyTier4Cost,
+        new ItemStack(Items.diamond),
+        AnvilUpgradeConfig.energyTier4Capacity,
+        AnvilUpgradeConfig.energyTier4Capacity / 100);
+
+    public static final AbstractUpgrade ENERGY_TIER_FIVE = new EnergyUpgrade(
+        "upgrade.energy_five",
+        AnvilUpgradeConfig.energyTier5Cost,
+        new ItemStack(Items.diamond),
+        AnvilUpgradeConfig.energyTier5Capacity,
+        AnvilUpgradeConfig.energyTier5Capacity / 100);
 
     private static final String UPGRADE_NAME = "energyUpgrade";
     private static final String KEY_CAPACITY = "capacity";
-    private static final String KEY_ENERGY = "energy";
-    private static final String KEY_ABS_WITH_POWER = "absDamWithPower";
+    public static final String KEY_ENERGY = "energy";
     private static final String KEY_MAX_IN = "maxInput";
     private static final String KEY_MAX_OUT = "maxOuput";
 
@@ -60,13 +89,14 @@ public class EnergyUpgrade extends AbstractUpgrade {
         if (stack == null) {
             return null;
         }
-        if (stack.stackTagCompound == null) {
+        NBTTagCompound nbt = ItemNBTHelper.getNBT(stack);
+        if (nbt == null) {
             return null;
         }
-        if (!stack.stackTagCompound.hasKey(KEY_UPGRADE_PREFIX + UPGRADE_NAME)) {
+        if (!nbt.hasKey(KEY_UPGRADE_PREFIX + UPGRADE_NAME)) {
             return null;
         }
-        return new EnergyUpgrade((NBTTagCompound) stack.stackTagCompound.getTag(KEY_UPGRADE_PREFIX + UPGRADE_NAME));
+        return new EnergyUpgrade(nbt.getCompoundTag(KEY_UPGRADE_PREFIX + UPGRADE_NAME));
     }
 
     public static boolean itemHasAnyPowerUpgrade(ItemStack itemstack) {
@@ -75,7 +105,15 @@ public class EnergyUpgrade extends AbstractUpgrade {
 
     public static AbstractUpgrade next(AbstractUpgrade upgrade) {
         if (upgrade == null) {
-            return EMPOWERED;
+            return ENERGY_TIER_ONE;
+        } else if (upgrade.unlocName.equals(ENERGY_TIER_ONE.unlocName)) {
+            return ENERGY_TIER_TWO;
+        } else if (upgrade.unlocName.equals(ENERGY_TIER_TWO.unlocName)) {
+            return ENERGY_TIER_THREE;
+        } else if (upgrade.unlocName.equals(ENERGY_TIER_THREE.unlocName)) {
+            return ENERGY_TIER_FOUR;
+        } else if (upgrade.unlocName.equals(ENERGY_TIER_FOUR.unlocName)) {
+            return ENERGY_TIER_FIVE;
         }
         return null;
     }
@@ -161,7 +199,7 @@ public class EnergyUpgrade extends AbstractUpgrade {
 
     @Override
     public boolean canAddToItem(ItemStack stack) {
-        if (stack == null || stack.getItem() == null || !(stack.getItem() instanceof IManaItem)) {
+        if (stack == null || stack.getItem() == null || !(stack.getItem() instanceof IAnvilUpgradeItem)) {
             return false;
         }
         AbstractUpgrade up = next(loadFromItem(stack));
@@ -180,12 +218,10 @@ public class EnergyUpgrade extends AbstractUpgrade {
         upgradeStr.add(EnumChatFormatting.DARK_AQUA + LibMisc.lang.localizeExact(getUnlocalizedName() + ".name"));
         SpecialTooltipHandler.addDetailedTooltipFromResources(upgradeStr, getUnlocalizedName());
 
-        // String percDamage = (int) Math.round(getAbsorptionRatio(itemstack) * 100) + "";
         String capString = PowerDisplayUtil.formatPower(capacity) + " " + PowerDisplayUtil.abrevation();
         for (int i = 0; i < upgradeStr.size(); i++) {
             String str = upgradeStr.get(i);
             str = str.replaceAll("\\$P", capString);
-            // str = str.replaceAll("\\$D", percDamage);
             upgradeStr.set(i, str);
         }
         list.addAll(upgradeStr);
@@ -195,7 +231,6 @@ public class EnergyUpgrade extends AbstractUpgrade {
     public void writeUpgradeToNBT(NBTTagCompound upgradeRoot) {
         upgradeRoot.setInteger(KEY_CAPACITY, capacity);
         upgradeRoot.setInteger(KEY_ENERGY, energy);
-
         upgradeRoot.setInteger(KEY_MAX_IN, maxInRF);
         upgradeRoot.setInteger(KEY_MAX_OUT, maxOutRF);
     }

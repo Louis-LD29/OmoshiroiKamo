@@ -25,12 +25,10 @@ import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.command.ModCommands;
 import louis.omoshiroikamo.common.fluid.ModFluids;
 import louis.omoshiroikamo.common.item.ModItems;
+import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
-import louis.omoshiroikamo.common.util.handlers.ConvertManaRegenHandler;
-import louis.omoshiroikamo.common.util.handlers.ElementalHandler;
-import louis.omoshiroikamo.common.util.handlers.FlightHandler;
-import louis.omoshiroikamo.common.util.handlers.ManaRegenHandler;
-import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.Logger;
+import louis.omoshiroikamo.common.util.handler.ElementalHandler;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.world.OKWorldGenerator;
 import louis.omoshiroikamo.common.world.WireNetSaveData;
@@ -71,13 +69,9 @@ public class CommonProxy {
     public void init(FMLInitializationEvent event) {
         FMLCommonHandler.instance()
             .bus()
-            .register(ManaRegenHandler.instance);
-        FMLCommonHandler.instance()
-            .bus()
-            .register(ConvertManaRegenHandler.instance);
-        FMLCommonHandler.instance()
-            .bus()
-            .register(FlightHandler.instance);
+            .register(tickTimer);
+
+        PacketHandler.init();
 
         ModRecipes.init();
 

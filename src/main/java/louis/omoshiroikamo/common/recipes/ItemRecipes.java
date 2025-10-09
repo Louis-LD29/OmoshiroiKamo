@@ -154,6 +154,20 @@ public class ItemRecipes {
                 'U',
                 new ItemStack(ModItems.itemStackUpgrade, 1, 1)));
 
+        // Stack Upgrade Tier 4
+        if (!LibMods.EtFuturum.isLoaded()) {
+            GameRegistry.addRecipe(
+                new ShapedOreRecipe(
+                    new ItemStack(ModItems.itemStackUpgrade, 1, 3),
+                    "BBB",
+                    "BUB",
+                    "BBB",
+                    'B',
+                    "itemNetherStar",
+                    'U',
+                    new ItemStack(ModItems.itemStackUpgrade, 1, 2)));
+        }
+
         // Crafting Upgrade
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
@@ -205,6 +219,36 @@ public class ItemRecipes {
                 new ItemStack(Items.speckled_melon, 1, 0),
                 'U',
                 new ItemStack(ModItems.itemUpgrade, 1, 0)));
+
+        // Battery Upgrade
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModItems.itemBatteryUpgrade, 1, 0),
+                "GRG",
+                "RUR",
+                "GRG",
+                'G',
+                "ingotGold",
+                'R',
+                "blockRedstone",
+                'U',
+                new ItemStack(ModItems.itemUpgrade, 1, 0)));
+
+        // Everlasting Upgrade
+        if (!LibMods.EtFuturum.isLoaded()) {
+            GameRegistry.addRecipe(
+                new ShapedOreRecipe(
+                    new ItemStack(ModItems.itemEverlastingUpgrade, 1, 0),
+                    "GRG",
+                    "RUR",
+                    "GRG",
+                    'G',
+                    "itemGhastTear",
+                    'R',
+                    "itemNetherStar",
+                    'U',
+                    new ItemStack(ModItems.itemUpgrade, 1, 0)));
+        }
     }
 
 }

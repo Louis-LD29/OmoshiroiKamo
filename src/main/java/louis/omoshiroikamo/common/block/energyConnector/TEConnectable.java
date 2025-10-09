@@ -24,8 +24,8 @@ import louis.omoshiroikamo.api.energy.wire.WireNetHandler;
 import louis.omoshiroikamo.api.energy.wire.WireType;
 import louis.omoshiroikamo.api.enums.VoltageTier;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
+import louis.omoshiroikamo.common.util.Logger;
 import louis.omoshiroikamo.common.util.Utils;
-import louis.omoshiroikamo.common.util.helper.Logger;
 
 public abstract class TEConnectable extends AbstractTE implements IWireConnectable {
 

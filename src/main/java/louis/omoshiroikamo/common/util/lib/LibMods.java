@@ -16,6 +16,7 @@ public enum LibMods {
     BuildCraftEnergy("BuildCraft|Energy"),
     IC2("IC2"),
     BogoSorter("bogosorter"),
+    Botania("Botania"),
     EtFuturum("etfuturum"),;
 
     public final String modid;

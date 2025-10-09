@@ -15,7 +15,9 @@ public class PacketUtil {
             // Invalid, but not harmful
             return true;
         }
-        if (ctx.side == Side.CLIENT) return false;
+        if (ctx.side == Side.CLIENT) {
+            return false;
+        }
         EntityPlayer player = ctx.getServerHandler().playerEntity;
         Container container = player.openContainer;
         if (!(container instanceof IContainerWithTileEntity)) {

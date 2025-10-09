@@ -11,32 +11,37 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.AnvilUpdateEvent;
 
 import com.google.common.collect.ImmutableList;
+import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import louis.omoshiroikamo.api.mana.IManaItemUpgrade;
+import louis.omoshiroikamo.api.item.IAnvilUpgrade;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 
+@EventBusSubscriber
+@SuppressWarnings("unused")
 public class ManaAnvilRecipe {
 
-    public static ManaAnvilRecipe INSTANCE = new ManaAnvilRecipe();
+    private static final List<IAnvilUpgrade> UPGRADES = new ArrayList<>();
 
-    private List<IManaItemUpgrade> UPGRADES = new ArrayList<IManaItemUpgrade>();
-
-    public ManaAnvilRecipe() {
-        UPGRADES.add(EnergyUpgrade.EMPOWERED);
+    static {
+        UPGRADES.add(EnergyUpgrade.ENERGY_TIER_ONE);
+        UPGRADES.add(EnergyUpgrade.ENERGY_TIER_TWO);
+        UPGRADES.add(EnergyUpgrade.ENERGY_TIER_THREE);
+        UPGRADES.add(EnergyUpgrade.ENERGY_TIER_FOUR);
+        UPGRADES.add(EnergyUpgrade.ENERGY_TIER_FIVE);
     }
 
     @SubscribeEvent
-    public void handleAnvilEvent(AnvilUpdateEvent event) {
+    public static void handleAnvilEvent(AnvilUpdateEvent event) {
         if (event.left == null || event.right == null) {
             return;
         }
         handleUpgrade(event);
     }
 
-    private void handleUpgrade(AnvilUpdateEvent event) {
-        for (IManaItemUpgrade upgrade : UPGRADES) {
+    private static void handleUpgrade(AnvilUpdateEvent event) {
+        for (IAnvilUpgrade upgrade : UPGRADES) {
             if (upgrade.isUpgradeItem(event.right) && upgrade.canAddToItem(event.left)) {
                 ItemStack res = new ItemStack(event.left.getItem(), 1, event.left.getItemDamage());
                 if (event.left.stackTagCompound != null) {
@@ -50,30 +55,32 @@ public class ManaAnvilRecipe {
         }
     }
 
-    public List<IManaItemUpgrade> getUPGRADES() {
+    public static List<IAnvilUpgrade> getUPGRADES() {
         return UPGRADES;
     }
 
-    public void addCommonTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        for (IManaItemUpgrade upgrade : UPGRADES) {
+    public static void addCommonTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list,
+        boolean flag) {
+        for (IAnvilUpgrade upgrade : UPGRADES) {
             if (upgrade.hasUpgrade(itemstack)) {
                 upgrade.addCommonEntries(itemstack, entityplayer, list, flag);
             }
         }
     }
 
-    public void addBasicTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        for (IManaItemUpgrade upgrade : UPGRADES) {
+    public static void addBasicTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
+        for (IAnvilUpgrade upgrade : UPGRADES) {
             if (upgrade.hasUpgrade(itemstack)) {
                 upgrade.addBasicEntries(itemstack, entityplayer, list, flag);
             }
         }
     }
 
-    public void addAdvancedTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
+    public static void addAdvancedTooltipEntries(ItemStack itemstack, EntityPlayer entityplayer, List list,
+        boolean flag) {
 
-        List<IManaItemUpgrade> applyableUPGRADES = new ArrayList<IManaItemUpgrade>();
-        for (IManaItemUpgrade upgrade : UPGRADES) {
+        List<IAnvilUpgrade> applyableUPGRADES = new ArrayList<IAnvilUpgrade>();
+        for (IAnvilUpgrade upgrade : UPGRADES) {
             if (upgrade.hasUpgrade(itemstack)) {
                 upgrade.addDetailedEntries(itemstack, entityplayer, list, flag);
             } else if (upgrade.canAddToItem(itemstack)) {
@@ -82,7 +89,7 @@ public class ManaAnvilRecipe {
         }
         if (!applyableUPGRADES.isEmpty()) {
             list.add(EnumChatFormatting.YELLOW + LibMisc.lang.localize("tooltip.anvilUPGRADES") + " ");
-            for (IManaItemUpgrade up : applyableUPGRADES) {
+            for (IAnvilUpgrade up : applyableUPGRADES) {
                 list.add(
                     EnumChatFormatting.DARK_AQUA + ""
                         + ""
@@ -96,12 +103,12 @@ public class ManaAnvilRecipe {
                         + " + "
                         + up.getLevelCost()
                         + " "
-                        + LibMisc.lang.localize("item.mana.tooltip.lvs"));
+                        + LibMisc.lang.localize("tooltip.lvs"));
             }
         }
     }
 
-    public Iterator<IManaItemUpgrade> recipeIterator() {
+    public static Iterator<IAnvilUpgrade> recipeIterator() {
         return ImmutableList.copyOf(UPGRADES)
             .iterator();
     }

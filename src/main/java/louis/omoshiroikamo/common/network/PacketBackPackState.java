@@ -6,7 +6,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import louis.omoshiroikamo.common.item.backpack.BackpackUtil;
+import louis.omoshiroikamo.common.item.backpack.BackpackController;
 
 public class PacketBackPackState implements IMessage, IMessageHandler<PacketBackPackState, IMessage> {
 
@@ -45,7 +45,7 @@ public class PacketBackPackState implements IMessage, IMessageHandler<PacketBack
     @Override
     public IMessage onMessage(PacketBackPackState message, MessageContext ctx) {
         EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-        BackpackUtil.setBackpackActive(player, message.type, message.slot, message.isActive);
+        BackpackController.setBackpackActive(player, message.type, message.slot, message.isActive);
         return null;
     }
 }

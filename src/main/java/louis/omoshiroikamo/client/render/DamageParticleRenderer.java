@@ -1,7 +1,5 @@
 package louis.omoshiroikamo.client.render;
 
-import static louis.omoshiroikamo.config.general.DamageIndicatorsConfig.indicatorsConfig;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.particle.EntityFX;
@@ -10,6 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
+
+import louis.omoshiroikamo.config.general.DamageIndicatorsConfig;
 
 /**
  * Inspired by or partially based on ToroHealth Damage Indicators
@@ -75,7 +75,7 @@ public class DamageParticleRenderer extends EntityFX {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        int color = (damage < 0) ? indicatorsConfig.healColor : indicatorsConfig.damageColor;
+        int color = (damage < 0) ? DamageIndicatorsConfig.healColor : DamageIndicatorsConfig.damageColor;
 
         float red = ((color >> 16) & 0xFF) / 255.0F;
         float green = ((color >> 8) & 0xFF) / 255.0F;

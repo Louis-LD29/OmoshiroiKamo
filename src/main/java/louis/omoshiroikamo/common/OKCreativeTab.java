@@ -56,6 +56,8 @@ public class OKCreativeTab extends CreativeTabs {
         addItem(ModItems.itemCraftingUpgrade);
         addItem(ModItems.itemMagnetUpgrade);
         addItem(ModItems.itemFeedingUpgrade);
+        addItem(ModItems.itemBatteryUpgrade);
+        addItem(ModItems.itemEverlastingUpgrade);
         addItem(FluidMaterialRegister.itemBucketMaterial);
         addItem(FluidRegister.itemBucketFluid);
         addBlock(ModBlocks.blockMaterial);

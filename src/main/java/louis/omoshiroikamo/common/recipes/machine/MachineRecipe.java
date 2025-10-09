@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import louis.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
 import louis.omoshiroikamo.common.recipes.chance.ChanceItemStack;
-import louis.omoshiroikamo.common.util.helper.OreDictUtils;
+import louis.omoshiroikamo.common.util.OreDictUtils;
 
 public class MachineRecipe {
 

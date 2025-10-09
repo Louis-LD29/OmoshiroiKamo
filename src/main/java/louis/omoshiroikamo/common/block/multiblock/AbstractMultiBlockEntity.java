@@ -19,7 +19,7 @@ import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidInput;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidOutput;
 import louis.omoshiroikamo.common.block.multiblock.part.item.TEItemInput;
 import louis.omoshiroikamo.common.block.multiblock.part.item.TEItemOutput;
-import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.Logger;
 
 public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntity<T>> extends AbstractTE {
 
@@ -52,7 +52,9 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
     }
 
     public boolean checkStructure(boolean aForceReset, AbstractTE te) {
-        if (!te.isServerSide()) return mMachine;
+        if (!te.isServerSide()) {
+            return mMachine;
+        }
         // Only trigger an update if forced (from onPostTick, generally), or if the structure has changed
         if ((mStructureChanged || aForceReset)) {
             clearStructureParts();
@@ -93,7 +95,9 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
     }
 
     public boolean addToMachine(AbstractTE tile) {
-        if (tile == null || mTile.contains(tile)) return false;
+        if (tile == null || mTile.contains(tile)) {
+            return false;
+        }
 
         boolean added = false;
         if (tile instanceof TEFluidInput) {
@@ -118,7 +122,9 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
         List<FluidStack> list = new ArrayList<>();
         for (TEFluidInput input : mFluidInput) {
             SmartTank[] tanks = input.getTanks();
-            if (tanks == null) continue;
+            if (tanks == null) {
+                continue;
+            }
 
             for (SmartTank tank : tanks) {
                 if (tank != null && tank.getFluid() != null && tank.getFluidAmount() > 0) {
@@ -135,7 +141,9 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
         List<ItemStack> list = new ArrayList<>();
         for (TEItemInput input : mItemInput) {
             ItemStackHandler inv = input.getInv();
-            if (inv == null) continue;
+            if (inv == null) {
+                continue;
+            }
 
             for (int i = 0; i < inv.getSlots(); i++) {
                 ItemStack stack = inv.getStackInSlot(i);
@@ -151,7 +159,9 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
         List<FluidStack> list = new ArrayList<>();
         for (TEFluidOutput output : mFluidOutput) {
             SmartTank[] tanks = output.getTanks();
-            if (tanks == null) continue;
+            if (tanks == null) {
+                continue;
+            }
 
             for (SmartTank tank : tanks) {
                 if (tank != null && tank.getFluid() != null && tank.getFluidAmount() > 0) {
@@ -168,7 +178,9 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
         List<ItemStack> list = new ArrayList<>();
         for (TEItemOutput input : mItemOutput) {
             ItemStackHandler inv = input.getInv();
-            if (inv == null) continue;
+            if (inv == null) {
+                continue;
+            }
 
             for (int i = 0; i < inv.getSlots(); i++) {
                 ItemStack stack = inv.getStackInSlot(i);

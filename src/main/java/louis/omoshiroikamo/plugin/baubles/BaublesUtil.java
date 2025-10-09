@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import baubles.api.BaublesApi;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
-import louis.omoshiroikamo.common.util.helper.Logger;
+import louis.omoshiroikamo.common.util.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMods;
 
 public class BaublesUtil {

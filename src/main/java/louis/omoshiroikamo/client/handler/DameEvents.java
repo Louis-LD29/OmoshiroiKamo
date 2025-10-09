@@ -1,7 +1,5 @@
 package louis.omoshiroikamo.client.handler;
 
-import static louis.omoshiroikamo.config.general.DamageIndicatorsConfig.indicatorsConfig;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,6 +9,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import louis.omoshiroikamo.client.render.DamageParticleRenderer;
+import louis.omoshiroikamo.config.general.DamageIndicatorsConfig;
 
 /**
  * Inspired by or partially based on ToroHealth Damage Indicators
@@ -33,7 +32,7 @@ public class DameEvents {
             return;
         }
 
-        if (!indicatorsConfig.showDamageParticles) {
+        if (!DamageIndicatorsConfig.showDamageParticles) {
             return;
         }
         int currentHealth = (int) Math.ceil(entity.getHealth());

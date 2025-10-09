@@ -16,10 +16,11 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
+import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.ore.OreEntry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
@@ -97,8 +98,12 @@ public class ItemOre extends Item implements IAdvancedTooltipProvider {
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack stack, int pass) {
         int meta = stack.getItemDamage();
-        if (meta >= LibResources.META2) return enriched;
-        if (meta >= LibResources.META1) return washed;
+        if (meta >= LibResources.META2) {
+            return enriched;
+        }
+        if (meta >= LibResources.META1) {
+            return washed;
+        }
 
         return (pass == 0) ? crushed : crushedOverlay;
     }
@@ -135,7 +140,9 @@ public class ItemOre extends Item implements IAdvancedTooltipProvider {
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
         int meta = stack.getItemDamage();
-        if (meta >= LibResources.META1) return stack;
+        if (meta >= LibResources.META1) {
+            return stack;
+        }
 
         MovingObjectPosition mop = getMovingObjectPositionFromPlayer(world, player, true);
         if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
@@ -152,10 +159,14 @@ public class ItemOre extends Item implements IAdvancedTooltipProvider {
     }
 
     private boolean tryWash(ItemStack stack, World world, double x, double y, double z, int meta) {
-        if (meta >= LibResources.META1) return false;
+        if (meta >= LibResources.META1) {
+            return false;
+        }
 
         Block block = world.getBlock((int) Math.floor(x), (int) Math.floor(y), (int) Math.floor(z));
-        if (block.getMaterial() != Material.water) return false;
+        if (block.getMaterial() != Material.water) {
+            return false;
+        }
 
         if (!world.isRemote) {
             stack.setItemDamage(LibResources.META1 + (meta % LibResources.META1));

@@ -17,10 +17,11 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.TargetingInfo;
-import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.energy.wire.IWireCoil;
 import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
 import louis.omoshiroikamo.api.energy.wire.MaterialWireType;
@@ -30,8 +31,8 @@ import louis.omoshiroikamo.api.energy.wire.WireType;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
+import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.Utils;
-import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 import louis.omoshiroikamo.common.world.WireNetSaveData;
 

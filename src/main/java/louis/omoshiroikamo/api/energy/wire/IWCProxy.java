@@ -9,8 +9,8 @@ import net.minecraft.world.World;
 
 import louis.omoshiroikamo.api.TargetingInfo;
 import louis.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
+import louis.omoshiroikamo.common.util.Logger;
 import louis.omoshiroikamo.common.util.Utils;
-import louis.omoshiroikamo.common.util.helper.Logger;
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
  * Original project: https://github.com/BluSunrize/ImmersiveEngineering

@@ -20,7 +20,6 @@ import com.cleanroommc.modularui.factory.PlayerInventoryGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.utils.Alignment;
-import com.cleanroommc.modularui.utils.ISimpleBauble;
 import com.cleanroommc.modularui.utils.item.InvWrapper;
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
@@ -30,35 +29,25 @@ import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.enderio.core.common.util.ItemUtil;
-import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 
 import baubles.api.BaubleType;
-import baubles.api.expanded.BaubleExpandedSlots;
 import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.Side;
-import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
-import louis.omoshiroikamo.api.client.IFlightEnablerItem;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.api.mana.IManaItem;
+import louis.omoshiroikamo.api.item.IAnvilUpgradeItem;
 import louis.omoshiroikamo.client.gui.modularui2.MGuiBuilder;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import louis.omoshiroikamo.common.recipes.ManaAnvilRecipe;
-import louis.omoshiroikamo.common.util.helper.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
-import louis.omoshiroikamo.common.util.lib.LibMods;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 import louis.omoshiroikamo.config.item.ItemConfig;
+import vazkii.botania.api.mana.IManaItem;
 import vazkii.botania.api.mana.IManaTooltipDisplay;
 
-@EventBusSubscriber()
-public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTooltipDisplay, IAdvancedTooltipProvider,
-    IEnergyContainerItem, IFlightEnablerItem, ISimpleBauble, IGuiHolder<PlayerInventoryGuiData> {
+public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTooltipDisplay, IEnergyContainerItem,
+    IGuiHolder<PlayerInventoryGuiData>, IAnvilUpgradeItem {
 
     protected static final int MAX_MANA = 500000;
-    protected static final float CONVERSION_RATE = 625f;
 
     public static ItemOperationOrb create() {
         ItemOperationOrb item = new ItemOperationOrb();
@@ -79,19 +68,12 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-        ItemStack empty = new ItemStack(item);
-        setMana(empty, 0);
-        list.add(empty);
-
-        ItemStack full = new ItemStack(item);
-        setMana(full, MAX_MANA);
-        list.add(full);
+        list.add(new ItemStack(item, 1, 0));
     }
 
     @Override
     public int getDamage(ItemStack stack) {
-        float mana = getMana(stack);
-        return 1000 - (int) (mana / getMaxMana(stack) * 1000);
+        return 1000 - (getMana(stack) / getMaxMana(stack) * 1000);
     }
 
     @Override
@@ -148,28 +130,23 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
 
     @Override
     public float getManaFractionForDisplay(ItemStack stack) {
-        return (float) getMana(stack) / (float) getMaxMana(stack);
-    }
-
-    @Override
-    public float getConversionRate(ItemStack stack) {
-        return CONVERSION_RATE;
+        return (float) getMana(stack) / getMaxMana(stack);
     }
 
     // Anvil
     @Override
     public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        ManaAnvilRecipe.INSTANCE.addCommonTooltipEntries(itemstack, entityplayer, list, flag);
+        ManaAnvilRecipe.addCommonTooltipEntries(itemstack, entityplayer, list, flag);
     }
 
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        ManaAnvilRecipe.INSTANCE.addBasicTooltipEntries(itemstack, entityplayer, list, flag);
+        ManaAnvilRecipe.addBasicTooltipEntries(itemstack, entityplayer, list, flag);
     }
 
     @Override
     public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List list, boolean flag) {
-        if (!ItemConfig.itemConfig.addDurabilityTootip) {
+        if (!ItemConfig.addDurabilityTootip) {
             list.add(ItemUtil.getDurabilityString(itemstack));
         }
         String str = EnergyUpgrade.getStoredEnergyString(itemstack);
@@ -183,7 +160,7 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
                     + LibMisc.lang
                         .localize("item." + ModObject.itemOperationOrb.unlocalisedName + ".tooltip.effPowered"));
         }
-        ManaAnvilRecipe.INSTANCE.addAdvancedTooltipEntries(itemstack, entityplayer, list, flag);
+        ManaAnvilRecipe.addAdvancedTooltipEntries(itemstack, entityplayer, list, flag);
     }
 
     // Energy
@@ -206,6 +183,8 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
     public int getMaxEnergyStored(ItemStack container) {
         return EnergyUpgrade.getMaxEnergyStored(container);
     }
+
+    // Bauble
 
     @Override
     public void onEquipped(ItemStack stack, EntityLivingBase entity) {
@@ -240,50 +219,9 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
         }
     }
 
-    @EventBusSubscriber.Condition
-    public static boolean shouldEventBusSubscribe() {
-        return LibMods.Baubles.isLoaded();
-    }
-
     @Override
     public BaubleType getBaubleType(ItemStack itemstack) {
-        return BaubleType.RING;
-    }
-
-    @Override
-    public String[] getBaubleTypes(ItemStack itemstack) {
-        return new String[] { BaubleExpandedSlots.ringType, BaubleExpandedSlots.amuletType };
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.side != Side.SERVER || event.phase != TickEvent.Phase.END) {
-            return;
-        }
-        EntityPlayer player = event.player;
-
-        boolean hasRing = false;
-        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-            ItemStack stack = player.inventory.getStackInSlot(i);
-            if (stack != null && stack.getItem() != null && stack.getItem() instanceof ItemOperationOrb) {
-                hasRing = true;
-                break;
-            }
-        }
-
-        if (player.capabilities.allowFlying == hasRing) {
-            return;
-        }
-
-        if (hasRing) {
-            player.capabilities.allowFlying = true;
-        } else {
-            if (!player.capabilities.isCreativeMode) {
-                player.capabilities.allowFlying = false;
-                player.capabilities.isFlying = false;
-            }
-        }
-        player.sendPlayerAbilities();
+        return BaubleType.UNIVERSAL;
     }
 
     @Override
@@ -378,7 +316,6 @@ public class ItemOperationOrb extends ItemBauble implements IManaItem, IManaTool
                 'I',
                 index -> new ItemSlot().slot(
                     new ModularSlot(inventoryHandler, index).slotGroup("orb_items")
-                        // Don't allow placing the bag inside itself
                         .filter(stack -> !(stack.getItem() instanceof ItemOperationOrb))))
             .build();
     }
