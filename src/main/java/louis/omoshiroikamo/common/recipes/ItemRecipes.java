@@ -154,6 +154,20 @@ public class ItemRecipes {
                 'U',
                 new ItemStack(ModItems.itemStackUpgrade, 1, 1)));
 
+        // Stack Upgrade Tier 4
+        if (!LibMods.EtFuturum.isLoaded()) {
+            GameRegistry.addRecipe(
+                new ShapedOreRecipe(
+                    new ItemStack(ModItems.itemStackUpgrade, 1, 3),
+                    "BBB",
+                    "BUB",
+                    "BBB",
+                    'B',
+                    "itemNetherStar",
+                    'U',
+                    new ItemStack(ModItems.itemStackUpgrade, 1, 2)));
+        }
+
         // Crafting Upgrade
         GameRegistry.addRecipe(
             new ShapedOreRecipe(

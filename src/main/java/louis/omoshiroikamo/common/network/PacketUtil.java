@@ -1,12 +1,12 @@
 package louis.omoshiroikamo.common.network;
 
-import louis.omoshiroikamo.api.client.IContainerWithTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
+import louis.omoshiroikamo.api.client.IContainerWithTileEntity;
 
 public class PacketUtil {
 

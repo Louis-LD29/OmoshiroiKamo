@@ -2,7 +2,6 @@ package louis.omoshiroikamo.common.item.upgrade;
 
 import java.util.List;
 
-import louis.omoshiroikamo.api.client.IRenderUpgrade;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,6 +11,7 @@ import com.enderio.core.client.handlers.SpecialTooltipHandler;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import louis.omoshiroikamo.api.client.IRenderUpgrade;
 import louis.omoshiroikamo.api.item.IAnvilUpgrade;
 import louis.omoshiroikamo.common.util.ItemNBTHelper;
 import louis.omoshiroikamo.common.util.lib.LibMisc;

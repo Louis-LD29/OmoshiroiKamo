@@ -4,7 +4,6 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 
 import java.util.List;
 
-import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -16,6 +15,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
+
+import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -185,8 +186,7 @@ public class ItemOre extends Item implements IAdvancedTooltipProvider {
     }
 
     @Override
-    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-    }
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
 
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean advanced) {

@@ -3,9 +3,7 @@ package louis.omoshiroikamo.common.item.backpack;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import cpw.mods.fml.relauncher.Side;

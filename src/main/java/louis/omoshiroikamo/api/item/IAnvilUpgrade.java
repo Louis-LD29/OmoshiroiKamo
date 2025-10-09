@@ -2,8 +2,9 @@ package louis.omoshiroikamo.api.item;
 
 import javax.annotation.Nullable;
 
-import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
 import net.minecraft.item.ItemStack;
+
+import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
