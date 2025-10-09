@@ -97,6 +97,7 @@ item.itemCraftingUpgrade.name=Crafting Upgrade
 item.itemMagnetUpgrade.name=Magnet Upgrade
 item.itemFeedingUpgrade.name=Feeding Upgrade
 item.itemBatteryUpgrade.name=Battery Upgrade
+item.itemEverlastingUpgrade.name=Everlasting Upgrade
 
 item.itemHammer.name=Hammer
 

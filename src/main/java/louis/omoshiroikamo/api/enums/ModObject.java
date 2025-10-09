@@ -28,6 +28,7 @@ public enum ModObject {
     itemMagnetUpgrade,
     itemFeedingUpgrade,
     itemBatteryUpgrade,
+    itemEverlastingUpgrade,
     itemMaterial,
     itemBucketMaterial,
     itemBucketFluid,

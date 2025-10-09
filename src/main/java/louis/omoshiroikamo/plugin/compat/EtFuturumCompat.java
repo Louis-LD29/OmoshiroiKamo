@@ -38,6 +38,20 @@ public class EtFuturumCompat {
                 'U',
                 new ItemStack(ModItems.itemStackUpgrade, 1, 2)));
 
+        // Everlasting Upgrade
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModItems.itemEverlastingUpgrade, 1, 0),
+                "GRG",
+                "RUR",
+                "GRG",
+                'G',
+                ganymedes01.etfuturum.ModItems.END_CRYSTAL.get(),
+                'R',
+                "itemNetherStar",
+                'U',
+                new ItemStack(ModItems.itemUpgrade, 1, 0)));
+
         // SmithingTable
 
         // Netherite Backpack

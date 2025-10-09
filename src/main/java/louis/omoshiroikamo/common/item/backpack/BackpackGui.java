@@ -56,6 +56,7 @@ import louis.omoshiroikamo.client.gui.modularui2.widgets.BackPackPageButton;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import louis.omoshiroikamo.common.util.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.Logger;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
@@ -79,6 +80,7 @@ public class BackpackGui extends ModularPanel {
     public static final String FEEDING_FILTER = "FeedingFilter";
     public static final String FEEDING_MODE = "FeedingMode";
     public static final String FEEDING_TYPE = "FeedingType";
+    public static final String EVERLASTING_MODE = "EverlastingMode";
     public static final String BACKPACKUPGRADE = "BackpackUpgrade";
     public static final String BACKPACKINV = "BackpackInv";
     public static final String CRAFTINGINV = "CraftingInv";
@@ -370,6 +372,7 @@ public class BackpackGui extends ModularPanel {
         }
 
         boolean hasBatteryUpgrade = false;
+        boolean hasEverlastingUpgrade = false;
 
         for (int slotIndex = 0; slotIndex < upgradeHandler.getSlots(); slotIndex++) {
             ItemStack stack = upgradeHandler.getStackInSlot(slotIndex);
@@ -383,6 +386,9 @@ public class BackpackGui extends ModularPanel {
             if (itemUpgrade instanceof ItemBatteryUpgrade) {
                 hasBatteryUpgrade = true;
             }
+            if (itemUpgrade instanceof ItemEverlastingUpgrade) {
+                hasEverlastingUpgrade = true;
+            }
 
             if (!itemUpgrade.hasTab()) {
                 continue;
@@ -392,6 +398,7 @@ public class BackpackGui extends ModularPanel {
         }
 
         batteryUpgradeToItem(hasBatteryUpgrade);
+        everlastingToItem(hasEverlastingUpgrade);
 
         for (TabBinding binding : upgradeTabs) {
             boolean enable = enableMap.getOrDefault(binding.upgradeClass, false);
@@ -835,4 +842,10 @@ public class BackpackGui extends ModularPanel {
         }
     }
 
+    private void everlastingToItem(boolean active) {
+        ItemStack stack = getUsedItemStack();
+        NBTTagCompound root = stack.getTagCompound();
+        root.setBoolean(EVERLASTING_MODE, active);
+        Logger.info(active);
+    }
 }

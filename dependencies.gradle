@@ -52,6 +52,7 @@ dependencies {
 
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:EnderIO:2.9.22:dev")
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:Railcraft:9.16.33:dev")
+    runtimeOnlyNonPublishable("com.github.GTNewHorizons:Avaritia:1.75:dev")
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:Hodgepodge:2.7.2:dev")
 
     compileOnly("com.github.GTNewHorizons:ModularUI:1.2.20:dev")

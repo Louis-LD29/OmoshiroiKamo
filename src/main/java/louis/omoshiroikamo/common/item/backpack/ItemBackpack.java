@@ -3,6 +3,7 @@ package louis.omoshiroikamo.common.item.backpack;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,7 @@ import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 
 import cofh.api.energy.IEnergyContainerItem;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.common.OKCreativeTab;
+import louis.omoshiroikamo.common.entity.EntityImmortalItem;
 import louis.omoshiroikamo.common.item.ItemBauble;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import louis.omoshiroikamo.common.util.lib.LibMods;
@@ -30,7 +31,7 @@ public class ItemBackpack extends ItemBauble implements IEnergyContainerItem, IG
         super(ModObject.itemBackPack.unlocalisedName);
         setHasSubtypes(true);
         setMaxStackSize(1);
-        setCreativeTab(OKCreativeTab.INSTANCE);
+        setNoRepair();
         disableRightClickEquip();
     }
 
@@ -159,4 +160,13 @@ public class ItemBackpack extends ItemBauble implements IEnergyContainerItem, IG
         }
     }
 
+    @Override
+    public boolean hasCustomEntity(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public Entity createEntity(World world, Entity location, ItemStack stack) {
+        return new EntityImmortalItem(world, location, stack);
+    }
 }

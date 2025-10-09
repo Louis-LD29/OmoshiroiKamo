@@ -1,5 +1,6 @@
 package louis.omoshiroikamo.common.item.backpack;
 
+import static louis.omoshiroikamo.common.item.backpack.BackpackGui.EVERLASTING_MODE;
 import static louis.omoshiroikamo.common.item.backpack.BackpackGui.FEEDING_MODE;
 import static louis.omoshiroikamo.common.item.backpack.BackpackGui.FEEDING_TYPE;
 import static louis.omoshiroikamo.common.item.backpack.BackpackGui.MAGNET_MODE;
@@ -27,6 +28,7 @@ import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
@@ -40,6 +42,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.client.gui.modularui2.handler.UpgradeItemStackHandler;
+import louis.omoshiroikamo.common.entity.EntityImmortalItem;
 import louis.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import louis.omoshiroikamo.common.network.PacketBackPackState;
 import louis.omoshiroikamo.common.util.ItemNBTHelper;
@@ -90,6 +93,11 @@ public class BackpackController {
     @SubscribeEvent
     public static void onTossItemWrapper(ItemTossEvent event) {
         onTossItem(event);
+    }
+
+    @SubscribeEvent
+    public static void onEnitySpawnWrapper(EntityJoinWorldEvent event) {
+        onBackpackSpawn(event);
     }
 
     private static List<ActiveBackPack> getAllActiveBackpacks(EntityPlayer player) {
@@ -497,6 +505,30 @@ public class BackpackController {
                 ItemNBTHelper.setInt(stack, TAG_COOLDOWN_MAGNET, 100);
                 baubleInv.markDirty();
             }
+        }
+    }
+
+    private static void onBackpackSpawn(EntityJoinWorldEvent event) {
+        if (event.entity.worldObj.isRemote) {
+            return;
+        }
+        if (!(event.entity instanceof EntityItem entityItem)) {
+            return;
+        }
+
+        ItemStack stack = entityItem.getEntityItem();
+        if (stack == null) {
+            return;
+        }
+
+        if (!(stack.getItem() instanceof ItemBackpack)) {
+            return;
+        }
+
+        boolean mode = ItemNBTHelper.getBoolean(stack, EVERLASTING_MODE, false);
+
+        if (entityItem instanceof EntityImmortalItem immortalItem) {
+            immortalItem.setImmortal(mode);
         }
     }
 
