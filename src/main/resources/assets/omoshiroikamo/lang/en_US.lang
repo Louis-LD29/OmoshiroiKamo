@@ -38,13 +38,13 @@ gui.powerMonitor.of=of
 power.rf=RF
 fluid.millibucket.abr=L
 fluid.empty=Empty
-misc.shiftinfo=§7Hold §6Shift §7for details
 
 #BAUBLE TOOLTIPS
 
 baubletype.amulet=Equippable in the &aAmulet&7 slot
 baubletype.ring=Equippable in the &aRing&7 slot
 baubletype.belt=Equippable in the &aBelt&7 slot
+baubletype.universal=Equippable in the &Every&7 slot
 baubletooltip=Press &b%key%&7 to open the Baubles menu
 
 #TOOLTIPS
@@ -59,7 +59,21 @@ tooltip.anvilupgrades=Anvil Upgrades:
 tooltip.filter_mode=Whitelist/Blacklist
 tooltip.feeding_type=Full/EXACT
 
-mana.upgrade.empowered_one.name=Empowered
+tooltip.upgrade_base=It does nothing! Feel free to put it in your upgrade slots!
+tooltip.stack_multiplier=Multiplies stack size by %d
+tooltip.crafting_upgrade=Adds additional crafting grid to side of backpack
+tooltip.magnet_upgrade=Automatically picks up nearby items
+tooltip.feeding_upgrade=Allows backpacks to automatically feed player
+tooltip.everlasting_upgrade=Makes the backpack invincible, preventing despawning or falling into the void. Ensures retrieval even when thrown into the void.
+tooltip.battery_upgrade=Stores energy and automatically recharges energy-using items.
+
+
+#ANVIL UPGRADE
+upgrade.energy_one.name=Energy Tier One
+upgrade.energy_two.name=Energy Tier Two
+upgrade.energy_three.name=Energy Tier Three
+upgrade.energy_four.name=Energy Tier Four
+upgrade.energy_five.name=Energy Tier Five
 
 #KeyBinding
 

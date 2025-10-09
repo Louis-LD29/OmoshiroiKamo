@@ -17,6 +17,7 @@ import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 
 import cofh.api.energy.IEnergyContainerItem;
+import louis.omoshiroikamo.api.energy.PowerDisplayUtil;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.entity.EntityImmortalItem;
 import louis.omoshiroikamo.common.item.ItemBauble;
@@ -154,9 +155,9 @@ public class ItemBackpack extends ItemBauble implements IEnergyContainerItem, IG
 
     @Override
     public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-        String str = EnergyUpgrade.getStoredEnergyString(itemstack);
-        if (str != null) {
-            list.add(str);
+        EnergyUpgrade up = EnergyUpgrade.loadFromItem(itemstack);
+        if (up != null) {
+            list.add(PowerDisplayUtil.formatStoredPower(up.getEnergy(), up.getCapacity()));
         }
     }
 

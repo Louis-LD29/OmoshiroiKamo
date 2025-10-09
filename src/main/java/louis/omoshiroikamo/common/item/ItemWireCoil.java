@@ -3,6 +3,7 @@ package louis.omoshiroikamo.common.item;
 import java.util.List;
 import java.util.Set;
 
+import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +21,6 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.TargetingInfo;
-import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.energy.wire.IWireCoil;
 import louis.omoshiroikamo.api.energy.wire.IWireConnectable;
 import louis.omoshiroikamo.api.energy.wire.MaterialWireType;
@@ -143,7 +143,7 @@ public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipP
 
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
-        float hitX, float hitY, float hitZ) {
+                                  float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
             return false;
         }
@@ -163,7 +163,7 @@ public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipP
 
         if (!ItemNBTHelper.verifyExistance(stack, "linkingPos")) {
             // Lưu điểm kết nối đầu tiên
-            ItemNBTHelper.setIntArray(stack, "linkingPos", new int[] { world.provider.dimensionId, x, y, z });
+            ItemNBTHelper.setIntArray(stack, "linkingPos", new int[]{world.provider.dimensionId, x, y, z});
             if (stack.getTagCompound() == null) {
                 stack.setTagCompound(new NBTTagCompound());
             }

@@ -2,6 +2,7 @@ package louis.omoshiroikamo.common.block.multiblock.part.fluid;
 
 import java.util.List;
 
+import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,7 +14,6 @@ import net.minecraftforge.fluids.FluidStack;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.common.OKCreativeTab;
@@ -53,13 +53,15 @@ public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvan
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
         for (MaterialEntry materialEntry : MaterialRegistry.all()) {
             int meta = materialEntry.meta;
-            list.add(new ItemStack(this, 1, meta));;
+            list.add(new ItemStack(this, 1, meta));
+            ;
             list.add(new ItemStack(this, 1, LibResources.META1 + meta));
         }
     }
 
     @Override
-    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+    }
 
     @Override
     public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean advanced) {
@@ -87,5 +89,6 @@ public class ItemBlockFluidInOut extends ItemBlockWithMetadata implements IAdvan
     }
 
     @Override
-    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+    }
 }

@@ -3,6 +3,8 @@ package louis.omoshiroikamo.common.block.abstractClass;
 import java.util.List;
 import java.util.Random;
 
+import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
+import com.enderio.core.api.client.gui.IResourceTooltipProvider;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -13,8 +15,6 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
-import louis.omoshiroikamo.api.client.IResourceTooltipProvider;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
@@ -55,13 +55,16 @@ public abstract class AbstractMachineBlock<T extends AbstractTE> extends Abstrac
     }
 
     @Override
-    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+    }
 
     @Override
-    public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+    public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+    }
 
     @Override
-    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+    }
 
     @Override
     @SideOnly(Side.CLIENT)

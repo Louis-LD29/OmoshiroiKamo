@@ -23,35 +23,35 @@ import louis.omoshiroikamo.config.general.AnvilUpgradeConfig;
 public class EnergyUpgrade extends AbstractUpgrade {
 
     public static final AbstractUpgrade ENERGY_TIER_ONE = new EnergyUpgrade(
-        "upgrade.empowered_one",
+        "upgrade.energy_one",
         AnvilUpgradeConfig.energyTier1Cost,
         new ItemStack(Items.diamond),
         AnvilUpgradeConfig.energyTier1Capacity,
         AnvilUpgradeConfig.energyTier1Capacity / 100);
 
     public static final AbstractUpgrade ENERGY_TIER_TWO = new EnergyUpgrade(
-        "upgrade.empowered_two",
+        "upgrade.energy_two",
         AnvilUpgradeConfig.energyTier2Cost,
         new ItemStack(Items.diamond),
         AnvilUpgradeConfig.energyTier2Capacity,
         AnvilUpgradeConfig.energyTier2Capacity / 100);
 
     public static final AbstractUpgrade ENERGY_TIER_THREE = new EnergyUpgrade(
-        "upgrade.empowered_two",
+        "upgrade.energy_three",
         AnvilUpgradeConfig.energyTier3Cost,
         new ItemStack(Items.diamond),
         AnvilUpgradeConfig.energyTier3Capacity,
         AnvilUpgradeConfig.energyTier3Capacity / 100);
 
     public static final AbstractUpgrade ENERGY_TIER_FOUR = new EnergyUpgrade(
-        "upgrade.empowered_two",
+        "upgrade.energy_four",
         AnvilUpgradeConfig.energyTier4Cost,
         new ItemStack(Items.diamond),
         AnvilUpgradeConfig.energyTier4Capacity,
         AnvilUpgradeConfig.energyTier4Capacity / 100);
 
     public static final AbstractUpgrade ENERGY_TIER_FIVE = new EnergyUpgrade(
-        "upgrade.empowered_two",
+        "upgrade.energy_five",
         AnvilUpgradeConfig.energyTier5Cost,
         new ItemStack(Items.diamond),
         AnvilUpgradeConfig.energyTier5Capacity,
@@ -60,7 +60,6 @@ public class EnergyUpgrade extends AbstractUpgrade {
     private static final String UPGRADE_NAME = "energyUpgrade";
     private static final String KEY_CAPACITY = "capacity";
     public static final String KEY_ENERGY = "energy";
-    private static final String KEY_ABS_WITH_POWER = "absDamWithPower";
     private static final String KEY_MAX_IN = "maxInput";
     private static final String KEY_MAX_OUT = "maxOuput";
 
@@ -107,6 +106,14 @@ public class EnergyUpgrade extends AbstractUpgrade {
     public static AbstractUpgrade next(AbstractUpgrade upgrade) {
         if (upgrade == null) {
             return ENERGY_TIER_ONE;
+        } else if (upgrade.unlocName.equals(ENERGY_TIER_ONE.unlocName)) {
+            return ENERGY_TIER_TWO;
+        } else if (upgrade.unlocName.equals(ENERGY_TIER_TWO.unlocName)) {
+            return ENERGY_TIER_THREE;
+        } else if (upgrade.unlocName.equals(ENERGY_TIER_THREE.unlocName)) {
+            return ENERGY_TIER_FOUR;
+        } else if (upgrade.unlocName.equals(ENERGY_TIER_FOUR.unlocName)) {
+            return ENERGY_TIER_FIVE;
         }
         return null;
     }

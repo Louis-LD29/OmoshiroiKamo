@@ -2,11 +2,11 @@ package louis.omoshiroikamo.api.item;
 
 import javax.annotation.Nullable;
 
+import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
 import net.minecraft.item.ItemStack;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import louis.omoshiroikamo.api.client.IAdvancedTooltipProvider;
 import louis.omoshiroikamo.api.client.IRenderUpgrade;
 
 public interface IAnvilUpgrade extends IAdvancedTooltipProvider {

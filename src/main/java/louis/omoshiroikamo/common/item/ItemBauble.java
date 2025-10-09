@@ -20,6 +20,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.client.render.RenderHelper;
 import louis.omoshiroikamo.common.entity.EntityDoppleganger;
 import louis.omoshiroikamo.common.util.ItemNBTHelper;
+import louis.omoshiroikamo.common.util.lib.LibMods;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles")
@@ -110,12 +111,13 @@ public class ItemBauble extends ItemOK implements IBauble {
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
         if (GuiScreen.isShiftKeyDown()) {
             addHiddenTooltip(itemStack, player, list, par4);
-        } else {
-            addStringToTooltip(StatCollector.translateToLocal("misc.shiftinfo"), list);
         }
     }
 
     public void addHiddenTooltip(ItemStack itemStack, EntityPlayer player, List par3List, boolean par4) {
+        if (!LibMods.Baubles.isLoaded()) {
+            return;
+        }
         BaubleType type = getBaubleType(itemStack);
         addStringToTooltip(
             StatCollector.translateToLocal(
