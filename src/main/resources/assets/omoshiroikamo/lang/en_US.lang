@@ -44,7 +44,7 @@ fluid.empty=Empty
 baubletype.amulet=Equippable in the &aAmulet&7 slot
 baubletype.ring=Equippable in the &aRing&7 slot
 baubletype.belt=Equippable in the &aBelt&7 slot
-baubletype.universal=Equippable in the &Every&7 slot
+baubletype.universal=Equippable in the &aEvery&7 slot
 baubletooltip=Press &b%key%&7 to open the Baubles menu
 
 #TOOLTIPS
@@ -128,6 +128,11 @@ tile.blockConnectable.connectorIV.name=IV Wire Connector
 tile.blockConnectable.transformer.name=Transformer
 tile.blockAnvil.name=Anvil
 tile.blockFurnace.name=Furnace
+
+tile.blockSolarArray.tier_1.name=Solar Array Tier 1
+tile.blockSolarArray.tier_2.name=Solar Array Tier 2
+tile.blockSolarArray.tier_3.name=Solar Array Tier 3
+tile.blockSolarArray.tier_4.name=Solar Array Tier 4
 
 #Immersive Engineering
 

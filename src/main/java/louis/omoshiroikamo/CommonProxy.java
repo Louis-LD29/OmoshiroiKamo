@@ -35,6 +35,7 @@ import louis.omoshiroikamo.common.world.WireNetSaveData;
 import louis.omoshiroikamo.plugin.compat.EtFuturumCompat;
 import louis.omoshiroikamo.plugin.compat.TICCompat;
 import louis.omoshiroikamo.plugin.nei.NEICompat;
+import louis.omoshiroikamo.plugin.structureLib.StructureCompat;
 import louis.omoshiroikamo.plugin.waila.WailaCompat;
 import makamys.mclib.core.MCLib;
 import makamys.mclib.core.MCLibModules;
@@ -83,8 +84,8 @@ public class CommonProxy {
     public void postInit(FMLPostInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new ElementalHandler());
 
+        StructureCompat.init();
         TICCompat.init();
-
     }
 
     public EntityPlayer getClientPlayer() {

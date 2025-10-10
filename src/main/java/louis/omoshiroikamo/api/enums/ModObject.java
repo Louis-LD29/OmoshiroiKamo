@@ -14,7 +14,7 @@ public enum ModObject {
     blockHeatInput,
     blockHeatSource,
     blockElectrolyzer,
-    blockSolar,
+    blockSolarArray,
     blockMaterial,
     blockConnectable,
     blockAnvil,

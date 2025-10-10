@@ -110,7 +110,9 @@ public class BlockAnvil extends AbstractBlock<TEAnvil> {
     }
 
     public static void dropStack(World world, int x, int y, int z, ItemStack stack) {
-        if (stack == null || stack.stackSize <= 0) return;
+        if (stack == null || stack.stackSize <= 0) {
+            return;
+        }
 
         float dx = world.rand.nextFloat() * 0.8F + 0.1F;
         float dy = world.rand.nextFloat() * 0.8F + 0.1F;
@@ -126,4 +128,18 @@ public class BlockAnvil extends AbstractBlock<TEAnvil> {
         world.spawnEntityInWorld(entityItem);
     }
 
+    @Override
+    protected String getMachineFrontIconKey(boolean active) {
+        return "";
+    }
+
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
+        return false;
+    }
 }

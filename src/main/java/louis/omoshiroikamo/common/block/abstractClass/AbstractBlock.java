@@ -6,11 +6,13 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -21,6 +23,8 @@ import com.enderio.core.api.client.gui.IResourceTooltipProvider;
 import com.enderio.core.common.TileEntityEnder;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.BlockOK;
 
@@ -28,8 +32,13 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK
     implements IResourceTooltipProvider, IAdvancedTooltipProvider {
 
     public static int renderId;
+
+    @SideOnly(Side.CLIENT)
+    protected IIcon[][] iconBuffer;
+
     protected final Random random;
     protected final ModObject modObject;
+
     protected final Class<T> teClass;
 
     protected AbstractBlock(ModObject mo, Class<T> teClass, Material mat) {
@@ -73,8 +82,62 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK
     }
 
     @Override
+    public void registerBlockIcons(IIconRegister iIconRegister) {
+        iconBuffer = new IIcon[2][12];
+        String side = getSideIconKey(false);
+
+        // first the 6 sides in OFF state
+        iconBuffer[0][0] = iIconRegister.registerIcon(getBottomIconKey(false));
+        iconBuffer[0][1] = iIconRegister.registerIcon(getTopIconKey(false));
+        iconBuffer[0][2] = iIconRegister.registerIcon(getBackIconKey(false));
+        iconBuffer[0][3] = iIconRegister.registerIcon(getMachineFrontIconKey(false));
+        iconBuffer[0][4] = iIconRegister.registerIcon(side);
+        iconBuffer[0][5] = iIconRegister.registerIcon(side);
+
+        side = getSideIconKey(true);
+        iconBuffer[0][6] = iIconRegister.registerIcon(getBottomIconKey(true));
+        iconBuffer[0][7] = iIconRegister.registerIcon(getTopIconKey(true));
+        iconBuffer[0][8] = iIconRegister.registerIcon(getBackIconKey(true));
+        iconBuffer[0][9] = iIconRegister.registerIcon(getMachineFrontIconKey(true));
+        iconBuffer[0][10] = iIconRegister.registerIcon(side);
+        iconBuffer[0][11] = iIconRegister.registerIcon(side);
+
+        iconBuffer[1][0] = iIconRegister.registerIcon(getModelIconKey(false));
+        iconBuffer[1][1] = iIconRegister.registerIcon(getModelIconKey(true));
+
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int blockSide, int blockMeta) {
+        if (iconBuffer == null || iconBuffer[0] == null || iconBuffer[0][blockSide] == null) {
+            return blockIcon;
+        }
+        return iconBuffer[0][blockSide];
+    }
+
+    public IIcon getModelIcon(IBlockAccess world, int x, int y, int z) {
+        return getModelIcon(((AbstractTE) world.getTileEntity(x, y, z)).isActive());
+    }
+
+    public IIcon getModelIcon() {
+        return getModelIcon(false);
+    }
+
+    private IIcon getModelIcon(boolean active) {
+        return active ? iconBuffer[1][1] : iconBuffer[1][0];
+    }
+
+    @Override
     public boolean doNormalDrops(World world, int x, int y, int z) {
         return false;
+    }
+
+    @Override
+    protected void processDrop(World world, int x, int y, int z, TileEntityEnder te, ItemStack stack) {
+        if (te != null) {
+            ((AbstractTE) te).processDrop(world, x, y, z, te, stack);
+        }
     }
 
     @Override
@@ -129,11 +192,28 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK
         }
     }
 
-    @Override
-    protected void processDrop(World world, int x, int y, int z, TileEntityEnder te, ItemStack stack) {
-        if (te != null) {
-            ((AbstractTE) te).processDrop(world, x, y, z, te, stack);
-        }
+    protected String getMachineFrontIconKey(boolean active) {
+        return "";
+    }
+
+    protected String getSideIconKey(boolean active) {
+        return "omoshiroikamo:machineSide";
+    }
+
+    protected String getBackIconKey(boolean active) {
+        return "omoshiroikamo:machineBack";
+    }
+
+    protected String getTopIconKey(boolean active) {
+        return "omoshiroikamo:machineTop";
+    }
+
+    protected String getBottomIconKey(boolean active) {
+        return "omoshiroikamo:machineBottom";
+    }
+
+    protected String getModelIconKey(boolean active) {
+        return getSideIconKey(active);
     }
 
     @Override
@@ -151,17 +231,6 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK
 
     @Override
     public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
-    // Renderer
-
-    @Override
-    public boolean isOpaqueCube() {
-        return false;
-    }
-
-    @Override
-    public boolean renderAsNormalBlock() {
-        return false;
-    }
 
     public boolean isActive(IBlockAccess blockAccess, int x, int y, int z) {
         TileEntity te = blockAccess.getTileEntity(x, y, z);
@@ -170,5 +239,4 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK
         }
         return false;
     }
-
 }
