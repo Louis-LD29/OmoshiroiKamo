@@ -68,14 +68,20 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        if (side == 0 || side == 1) return iconTop;
-        if (side == 3) return iconFrontOff;
+        if (side == 0 || side == 1) {
+            return iconTop;
+        }
+        if (side == 3) {
+            return iconFrontOff;
+        }
         return icon;
     }
 
     @Override
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        if (side == 1 || side == 0) return iconTop;
+        if (side == 1 || side == 0) {
+            return iconTop;
+        }
         TileEntity tileEntity = world.getTileEntity(x, y, z);
         AbstractTE te = (AbstractTE) tileEntity;
         if (side == te.facing) {
@@ -88,7 +94,8 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
     }
 
     @Override
-    protected void processDrop(World world, int x, int y, int z, TileEntityEnder te, ItemStack stack) {}
+    protected void processDrop(World world, int x, int y, int z, TileEntityEnder te, ItemStack stack) {
+    }
 
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
@@ -117,7 +124,9 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (!(tileEntity instanceof AbstractTE te) || !te.isActive()) return;
+        if (!(tileEntity instanceof AbstractTE te) || !te.isActive()) {
+            return;
+        }
 
         int facing = te.facing;
 
@@ -151,7 +160,9 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
     }
 
     public static void dropStack(World world, int x, int y, int z, ItemStack stack) {
-        if (stack == null || stack.stackSize <= 0) return;
+        if (stack == null || stack.stackSize <= 0) {
+            return;
+        }
 
         float dx = world.rand.nextFloat() * 0.8F + 0.1F;
         float dy = world.rand.nextFloat() * 0.8F + 0.1F;
@@ -171,4 +182,5 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
     public void onNeighborBlockChange(World world, int x, int y, int z, Block blockId) {
         super.onNeighborBlockChange(world, x, y, z, blockId);
     }
+
 }

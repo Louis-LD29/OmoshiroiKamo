@@ -31,6 +31,7 @@ import louis.omoshiroikamo.client.render.block.connectable.ConnectorMVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectorULVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.InsulatorTESR;
 import louis.omoshiroikamo.client.render.block.connectable.TransformerTESR;
+import louis.omoshiroikamo.client.render.block.solarArray.SolarTESR;
 import louis.omoshiroikamo.client.render.item.backpack.BackpackRenderer;
 import louis.omoshiroikamo.client.render.item.hammer.HammerRenderer;
 import louis.omoshiroikamo.client.render.item.pufferfish.PufferFishRenderer;
@@ -44,6 +45,7 @@ import louis.omoshiroikamo.common.block.energyConnector.TEConnectorMV;
 import louis.omoshiroikamo.common.block.energyConnector.TEConnectorULV;
 import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
 import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
+import louis.omoshiroikamo.common.block.multiblock.solarArray.TESolarArray;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.config.item.ItemConfig;
 
@@ -51,7 +53,8 @@ import louis.omoshiroikamo.config.item.ItemConfig;
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
 
-    public ClientProxy() {}
+    public ClientProxy() {
+    }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
@@ -82,6 +85,10 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerBlockHandler(anvilISBRH);
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockAnvil), anvilISBRH);
         ClientRegistry.bindTileEntitySpecialRenderer(TEAnvil.class, new AnvilTESR());
+
+        SolarTESR solarTESR = new SolarTESR();
+        ClientRegistry.bindTileEntitySpecialRenderer(TESolarArray.class, solarTESR);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockSolarArray), solarTESR);
 
         ModItems.registerItemRenderer();
 

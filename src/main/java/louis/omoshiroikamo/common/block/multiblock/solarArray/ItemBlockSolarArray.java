@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.block.solarArray;
+package louis.omoshiroikamo.common.block.multiblock.solarArray;
 
 import java.util.List;
 
@@ -29,7 +29,8 @@ public class ItemBlockSolarArray extends ItemBlockWithMetadata {
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        return super.getUnlocalizedName();
+        int tier = stack.getItemDamage() + 1;
+        return super.getUnlocalizedName() + ".tier_" + tier;
     }
 
     @Override
@@ -39,8 +40,6 @@ public class ItemBlockSolarArray extends ItemBlockWithMetadata {
         list.add(new ItemStack(this, 1, 1));
         list.add(new ItemStack(this, 1, 2));
         list.add(new ItemStack(this, 1, 3));
-        list.add(new ItemStack(this, 1, 4));
-        list.add(new ItemStack(this, 1, 5));
     }
 
 }

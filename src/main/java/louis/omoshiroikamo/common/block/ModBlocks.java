@@ -11,7 +11,7 @@ import louis.omoshiroikamo.common.block.multiblock.BlockMultiBlock;
 import louis.omoshiroikamo.common.block.multiblock.part.energy.BlockEnergyInOut;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.BlockFluidInOut;
 import louis.omoshiroikamo.common.block.multiblock.part.item.BlockItemInOut;
-import louis.omoshiroikamo.common.block.solarArray.BlockSolarArray;
+import louis.omoshiroikamo.common.block.multiblock.solarArray.BlockSolarArray;
 import louis.omoshiroikamo.common.ore.OreRegister;
 
 public class ModBlocks {

@@ -1,6 +1,6 @@
 package louis.omoshiroikamo.plugin.structureLib;
 
-import louis.omoshiroikamo.common.block.solarArray.SolarPanelStructure;
+import louis.omoshiroikamo.common.block.multiblock.solarArray.SolarPanelStructure;
 
 public class StructureCompat {
 
