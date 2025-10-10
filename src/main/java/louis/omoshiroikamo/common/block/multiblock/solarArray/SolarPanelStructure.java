@@ -107,7 +107,7 @@ public class SolarPanelStructure {
         }};
     // spotless:on
 
-    public static final int[][] TIER_OFFSET = {{2, 1, 2}, {3, 1, 3}, {4, 1, 4}, {5, 1, 5}};
+    public static final int[][] TIER_OFFSET = { { 2, 1, 2 }, { 3, 1, 3 }, { 4, 1, 4 }, { 5, 1, 5 } };
     public static IStructureDefinition<TESolarArray> STRUCTURE_DEFINITION;
 
     @SuppressWarnings("unchecked")
@@ -170,7 +170,7 @@ public class SolarPanelStructure {
          */
         @Override
         public int survivalConstruct(ItemStack triggerStack, int elementBudget, ISurvivalBuildEnvironment env,
-                                     TESolarArray ctx, ExtendedFacing aSide) {
+            TESolarArray ctx, ExtendedFacing aSide) {
 
             int tier = Math.min(ctx.getMeta() + 1, 4);
             int built = 0;

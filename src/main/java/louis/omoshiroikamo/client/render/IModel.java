@@ -1,8 +1,8 @@
 package louis.omoshiroikamo.client.render;
 
-import cpw.mods.fml.relauncher.SideOnly;
-
 import static cpw.mods.fml.relauncher.Side.CLIENT;
+
+import cpw.mods.fml.relauncher.SideOnly;
 
 public interface IModel {
 

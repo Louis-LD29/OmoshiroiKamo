@@ -94,8 +94,7 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
     }
 
     @Override
-    protected void processDrop(World world, int x, int y, int z, TileEntityEnder te, ItemStack stack) {
-    }
+    protected void processDrop(World world, int x, int y, int z, TileEntityEnder te, ItemStack stack) {}
 
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
