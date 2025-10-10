@@ -1,5 +1,6 @@
 package louis.omoshiroikamo;
 
+import louis.omoshiroikamo.plugin.structureLib.StructureCompat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -45,7 +46,8 @@ public class CommonProxy {
     protected long clientTickCount = 0;
     protected final TickTimer tickTimer = new TickTimer();
 
-    public CommonProxy() {}
+    public CommonProxy() {
+    }
 
     public void preInit(FMLPreInitializationEvent event) {
         MaterialRegistry.init();
@@ -83,8 +85,8 @@ public class CommonProxy {
     public void postInit(FMLPostInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new ElementalHandler());
 
+        StructureCompat.init();
         TICCompat.init();
-
     }
 
     public EntityPlayer getClientPlayer() {
@@ -146,7 +148,8 @@ public class CommonProxy {
         ++serverTickCount;
     }
 
-    protected void onClientTick() {}
+    protected void onClientTick() {
+    }
 
     public long getTickCount() {
         return serverTickCount;

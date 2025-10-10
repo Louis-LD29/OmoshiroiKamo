@@ -11,6 +11,7 @@ import louis.omoshiroikamo.common.block.multiblock.BlockMultiBlock;
 import louis.omoshiroikamo.common.block.multiblock.part.energy.BlockEnergyInOut;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.BlockFluidInOut;
 import louis.omoshiroikamo.common.block.multiblock.part.item.BlockItemInOut;
+import louis.omoshiroikamo.common.block.solarArray.BlockSolarArray;
 import louis.omoshiroikamo.common.ore.OreRegister;
 
 public class ModBlocks {
@@ -20,15 +21,14 @@ public class ModBlocks {
     public static Block blockAnvil;
     public static Block blockFurnace;
     public static Block blockMultiBlock;
-    public static Block blockSolar;
-    public static Block blockBackpack;
+    public static Block blockSolarArray;
     public static Block blockFluidInOut;
     public static Block blockEnergyInOut;
     public static Block blockItemInOut;
     public static Block blockElectrolyzer;
 
     public static void init() {
-        // blockSolar = BlockSolarPanel.create();
+        blockSolarArray = BlockSolarArray.create();
         blockMultiBlock = BlockMultiBlock.create();
         blockFluidInOut = BlockFluidInOut.create();
         blockEnergyInOut = BlockEnergyInOut.create();

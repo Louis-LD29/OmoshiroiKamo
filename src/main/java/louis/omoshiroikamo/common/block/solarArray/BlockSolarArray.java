@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.block.solar;
+package louis.omoshiroikamo.common.block.solarArray;
 
 import java.util.List;
 
@@ -8,22 +8,29 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractMachineBlock;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
-public class BlockSolarPanel extends AbstractMachineBlock<TileSolarPanel> {
+public class BlockSolarArray extends AbstractMachineBlock<TESolarArray> {
 
-    protected BlockSolarPanel() {
-        super(ModObject.blockSolar, TileSolarPanel.class);
+    protected BlockSolarArray() {
+        super(ModObject.blockSolarArray, TESolarArray.class);
     }
 
-    public static BlockSolarPanel create() {
-        BlockSolarPanel res = new BlockSolarPanel();
+    public static BlockSolarArray create() {
+        BlockSolarArray res = new BlockSolarArray();
         res.init();
         return res;
+    }
+
+    @Override
+    protected void init() {
+        GameRegistry.registerBlock(this, ItemBlockSolarArray.class, modObject.unlocalisedName);
+        GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
     }
 
     @Override
@@ -34,7 +41,7 @@ public class BlockSolarPanel extends AbstractMachineBlock<TileSolarPanel> {
 
     @Override
     public TileEntity createTileEntity(World world, int i) {
-        return new TileSolarPanel();
+        return new TESolarArray();
     }
 
     @Override
