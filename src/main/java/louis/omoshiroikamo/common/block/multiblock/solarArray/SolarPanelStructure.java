@@ -135,16 +135,28 @@ public class SolarPanelStructure {
                     ofBlock(ModBlocks.blockMultiblockUpgrade, 0)))
             .addElement(
                 '1',
-                ofChain(ofBlock(ModBlocks.blockStructureFrame, 0), ofBlock(ModBlocks.blockStructureFrame, 4)))
+                ofChain(
+                    ofBlock(ModBlocks.blockStructureFrame, 0),
+                    ofBlock(ModBlocks.blockStructureFrame, 4),
+                    ofBlock(ModBlocks.blockStructureFrame, 8)))
             .addElement(
                 '2',
-                ofChain(ofBlock(ModBlocks.blockStructureFrame, 1), ofBlock(ModBlocks.blockStructureFrame, 5)))
+                ofChain(
+                    ofBlock(ModBlocks.blockStructureFrame, 1),
+                    ofBlock(ModBlocks.blockStructureFrame, 5),
+                    ofBlock(ModBlocks.blockStructureFrame, 9)))
             .addElement(
                 '3',
-                ofChain(ofBlock(ModBlocks.blockStructureFrame, 2), ofBlock(ModBlocks.blockStructureFrame, 6)))
+                ofChain(
+                    ofBlock(ModBlocks.blockStructureFrame, 2),
+                    ofBlock(ModBlocks.blockStructureFrame, 6),
+                    ofBlock(ModBlocks.blockStructureFrame, 10)))
             .addElement(
                 '4',
-                ofChain(ofBlock(ModBlocks.blockStructureFrame, 3), ofBlock(ModBlocks.blockStructureFrame, 7)));
+                ofChain(
+                    ofBlock(ModBlocks.blockStructureFrame, 3),
+                    ofBlock(ModBlocks.blockStructureFrame, 7),
+                    ofBlock(ModBlocks.blockStructureFrame, 11)));
 
         IStructureDefinition<TESolarArray> definition = builder.build();
         STRUCTURE_DEFINITION = definition;

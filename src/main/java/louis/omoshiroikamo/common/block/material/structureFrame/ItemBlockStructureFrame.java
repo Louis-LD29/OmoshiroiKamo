@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.block.multiblock.structureFrame;
+package louis.omoshiroikamo.common.block.material.structureFrame;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlockWithMetadata;

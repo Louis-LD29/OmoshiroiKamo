@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.block.material.basalt;
+package louis.omoshiroikamo.common.block.material.hardenedStone;
 
 import java.util.List;
 
@@ -16,26 +16,26 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.BlockOK;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
-public class BlockBasalt extends BlockOK {
+public class BlockHardenedStone extends BlockOK {
 
-    public static String[] blocks = new String[] { "basalt_normal" };
+    public static String[] blocks = new String[] { "hardened_stone_normal" };
 
     @SideOnly(Side.CLIENT)
     private IIcon[] icons;
 
-    public static BlockBasalt create() {
-        BlockBasalt result = new BlockBasalt();
+    public static BlockHardenedStone create() {
+        BlockHardenedStone result = new BlockHardenedStone();
         result.init();
         return result;
     }
 
-    private BlockBasalt() {
-        super(ModObject.blockBasalt, null, Material.rock);
+    private BlockHardenedStone() {
+        super(ModObject.blockHardenedStone, null, Material.rock);
     }
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, ItemBlockBasalt.class, ModObject.blockBasalt.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockHardenedStone.class, ModObject.blockHardenedStone.unlocalisedName);
     }
 
     @Override

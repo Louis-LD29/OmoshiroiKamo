@@ -65,6 +65,7 @@ public class OKCreativeTab extends CreativeTabs {
         addBlock(ModBlocks.blockAnvil);
         addBlock(ModBlocks.blockFurnace);
         addBlock(ModBlocks.blockBasalt);
+        addBlock(ModBlocks.blockAlabaster);
         addBlock(ModBlocks.blockStructureFrame);
         addBlock(ModBlocks.blockMultiblockUpgrade);
         addBlock(ModBlocks.blockSolarArray);

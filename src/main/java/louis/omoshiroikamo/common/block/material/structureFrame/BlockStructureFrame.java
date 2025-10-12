@@ -1,7 +1,8 @@
-package louis.omoshiroikamo.common.block.multiblock.structureFrame;
+package louis.omoshiroikamo.common.block.material.structureFrame;
 
 import java.util.List;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -19,7 +20,8 @@ public class BlockStructureFrame extends BlockOK {
 
     public static String[] blocks = new String[] { "basalt_structure_1", "basalt_structure_2", "basalt_structure_3",
         "basalt_structure_4", "hardened_stone_structure_1", "hardened_stone_structure_2", "hardened_stone_structure_3",
-        "hardened_stone_structure_4" };
+        "hardened_stone_structure_4", "alabaster_structure_1", "alabaster_structure_2", "alabaster_structure_3",
+        "alabaster_structure_4" };
 
     @SideOnly(Side.CLIENT)
     private IIcon[] icons;
@@ -31,7 +33,7 @@ public class BlockStructureFrame extends BlockOK {
     }
 
     private BlockStructureFrame() {
-        super(ModObject.blockStructureFrame, null, net.minecraft.block.material.Material.iron);
+        super(ModObject.blockStructureFrame, null, Material.rock);
     }
 
     @Override

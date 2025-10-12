@@ -19,6 +19,8 @@ public enum ModObject {
     blockStructureFrame,
     blockMultiblockUpgrade,
     blockBasalt,
+    blockAlabaster,
+    blockHardenedStone,
     blockMaterial,
     blockConnectable,
     blockAnvil,

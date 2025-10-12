@@ -117,6 +117,10 @@ tile.blockFurnace.name=Furnace
 
 tile.blockBasalt.basalt_normal.name=Basalt
 
+tile.blockAlabaster.alabaster_normal.name=Alabaster
+
+tile.blockHardenedStone.hardened_stone_normal.name=Hardened Stone
+
 tile.blockStructureFrame.basalt_structure_1.name=Structure Frame Tier 1
 tile.blockStructureFrame.basalt_structure_2.name=Structure Frame Tier 2
 tile.blockStructureFrame.basalt_structure_3.name=Structure Frame Tier 3
@@ -125,6 +129,10 @@ tile.blockStructureFrame.hardened_stone_structure_1.name=Structure Frame Tier 1
 tile.blockStructureFrame.hardened_stone_structure_2.name=Structure Frame Tier 2
 tile.blockStructureFrame.hardened_stone_structure_3.name=Structure Frame Tier 3
 tile.blockStructureFrame.hardened_stone_structure_4.name=Structure Frame Tier 4
+tile.blockStructureFrame.alabaster_structure_1.name=Structure Frame Tier 1
+tile.blockStructureFrame.alabaster_structure_2.name=Structure Frame Tier 2
+tile.blockStructureFrame.alabaster_structure_3.name=Structure Frame Tier 3
+tile.blockStructureFrame.alabaster_structure_4.name=Structure Frame Tier 4
 
 tile.blockMultiblockUpgrade.modifier_null.name=Null Modifier
 tile.blockMultiblockUpgrade.modifier_piezo.name=Piezo Modifier
