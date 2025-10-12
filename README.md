@@ -16,7 +16,12 @@ integration — with a focus on real-world physics and chemistry.
 ## 🔧 Features
 
 - Compatibility with **Tinkers' Construct** cast systems
-- Support for adding custom materials via config, with auto-generated localization entries.
+
+## 🧩 Integrations / Backports
+
+- Sophisticated Backpacks (Backport)
+
+- Environmental Tech (Backport)
 
 ## 📦 Credits
 
@@ -29,6 +34,7 @@ This mod includes **textures and code inspired by Immersive Engineering** by **B
 
 ## 📝 License
 
-This mod is released under the **MIT License**, except for any assets (e.g. textures, models) used from other mods such
-as Immersive Engineering, which retain their **original licenses** and ownership.
+This mod is released under the MIT License, except for any assets (e.g. textures, models) used from other mods such as
+Immersive Engineering, Sophisticated Backpacks, or Environmental Tech, which retain their original licenses and
+ownership.
 
