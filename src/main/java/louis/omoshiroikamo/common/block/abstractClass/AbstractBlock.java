@@ -6,7 +6,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -82,53 +81,6 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK
     }
 
     @Override
-    public void registerBlockIcons(IIconRegister iIconRegister) {
-        iconBuffer = new IIcon[2][12];
-        String side = getSideIconKey(false);
-
-        // first the 6 sides in OFF state
-        iconBuffer[0][0] = iIconRegister.registerIcon(getBottomIconKey(false));
-        iconBuffer[0][1] = iIconRegister.registerIcon(getTopIconKey(false));
-        iconBuffer[0][2] = iIconRegister.registerIcon(getBackIconKey(false));
-        iconBuffer[0][3] = iIconRegister.registerIcon(getMachineFrontIconKey(false));
-        iconBuffer[0][4] = iIconRegister.registerIcon(side);
-        iconBuffer[0][5] = iIconRegister.registerIcon(side);
-
-        side = getSideIconKey(true);
-        iconBuffer[0][6] = iIconRegister.registerIcon(getBottomIconKey(true));
-        iconBuffer[0][7] = iIconRegister.registerIcon(getTopIconKey(true));
-        iconBuffer[0][8] = iIconRegister.registerIcon(getBackIconKey(true));
-        iconBuffer[0][9] = iIconRegister.registerIcon(getMachineFrontIconKey(true));
-        iconBuffer[0][10] = iIconRegister.registerIcon(side);
-        iconBuffer[0][11] = iIconRegister.registerIcon(side);
-
-        iconBuffer[1][0] = iIconRegister.registerIcon(getModelIconKey(false));
-        iconBuffer[1][1] = iIconRegister.registerIcon(getModelIconKey(true));
-
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int blockSide, int blockMeta) {
-        if (iconBuffer == null || iconBuffer[0] == null || iconBuffer[0][blockSide] == null) {
-            return blockIcon;
-        }
-        return iconBuffer[0][blockSide];
-    }
-
-    public IIcon getModelIcon(IBlockAccess world, int x, int y, int z) {
-        return getModelIcon(((AbstractTE) world.getTileEntity(x, y, z)).isActive());
-    }
-
-    public IIcon getModelIcon() {
-        return getModelIcon(false);
-    }
-
-    private IIcon getModelIcon(boolean active) {
-        return active ? iconBuffer[1][1] : iconBuffer[1][0];
-    }
-
-    @Override
     public boolean doNormalDrops(World world, int x, int y, int z) {
         return false;
     }
@@ -190,30 +142,6 @@ public abstract class AbstractBlock<T extends AbstractTE> extends BlockOK
         if (ent instanceof AbstractTE te) {
             te.onNeighborBlockChange(world, x, y, z, blockId);
         }
-    }
-
-    protected String getMachineFrontIconKey(boolean active) {
-        return "";
-    }
-
-    protected String getSideIconKey(boolean active) {
-        return "omoshiroikamo:machineSide";
-    }
-
-    protected String getBackIconKey(boolean active) {
-        return "omoshiroikamo:machineBack";
-    }
-
-    protected String getTopIconKey(boolean active) {
-        return "omoshiroikamo:machineTop";
-    }
-
-    protected String getBottomIconKey(boolean active) {
-        return "omoshiroikamo:machineBottom";
-    }
-
-    protected String getModelIconKey(boolean active) {
-        return getSideIconKey(active);
     }
 
     @Override

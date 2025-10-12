@@ -109,9 +109,6 @@ public class BackpackGui extends ModularPanel {
         final ItemStack usedItem = data.getUsedItemStack();
         final int meta = usedItem.getItemDamage();
 
-        settings.getNEISettings()
-            .enableNEI();
-
         this.upgradeHandler = new UpgradeItemStackHandler(upgradeSlot) {
 
             @Override
@@ -270,7 +267,7 @@ public class BackpackGui extends ModularPanel {
             Flow.column()
                 .rightRelOffset(1f, 1)
                 .background(GuiTextures.MC_BACKGROUND)
-                .excludeAreaInNEI()
+                .excludeAreaInRecipeViewer()
                 .coverChildren()
                 .padding(4)
                 .childPadding(4)
@@ -460,7 +457,7 @@ public class BackpackGui extends ModularPanel {
             BackPackPageButton button = new BackPackPageButton(index, upgradeController)
                 .tab(GuiTextures.TAB_TOP, i == 0 ? -1 : 0)
                 .size(22)
-                .excludeAreaInNEI()
+                .excludeAreaInRecipeViewer()
                 .syncHandler(
                     new InteractionSyncHandler()
                         .setOnMousePressed(mouseData -> ItemNBTHelper.setInt(getUsedItemStack(), TAG_PAGE, index)))
@@ -521,7 +518,7 @@ public class BackpackGui extends ModularPanel {
         widget.padding(7)
             .background(GuiTextures.MC_BACKGROUND)
             .coverChildren()
-            .excludeAreaInNEI()
+            .excludeAreaInRecipeViewer()
             .child(
                 new ItemDrawable(ModItems.itemCraftingUpgrade).asIcon()
                     .asWidget()
@@ -551,7 +548,7 @@ public class BackpackGui extends ModularPanel {
         widget.padding(7)
             .background(GuiTextures.MC_BACKGROUND)
             .coverChildren()
-            .excludeAreaInNEI()
+            .excludeAreaInRecipeViewer()
             .child(
                 new ItemDrawable(ModItems.itemMagnetUpgrade).asIcon()
                     .asWidget()
@@ -594,7 +591,7 @@ public class BackpackGui extends ModularPanel {
         widget.padding(7)
             .background(GuiTextures.MC_BACKGROUND)
             .coverChildren()
-            .excludeAreaInNEI()
+            .excludeAreaInRecipeViewer()
             .child(
                 new ItemDrawable(ModItems.itemFeedingUpgrade).asIcon()
                     .asWidget()

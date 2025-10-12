@@ -1,9 +1,10 @@
 package louis.omoshiroikamo.common.block.multiblock.solarArray;
 
 import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofBlock;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofChain;
 import static com.gtnewhorizon.structurelib.structure.StructureUtility.transpose;
+import static louis.omoshiroikamo.plugin.structureLib.StructureLibUtils.ofBlockAdderWithPos;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 import com.gtnewhorizon.structurelib.alignment.constructable.IMultiblockInfoContainer;
@@ -21,86 +22,86 @@ public class SolarPanelStructure {
     public static final String STRUCTURE_TIER_1 = "tier1";
     public static final String[][] SHAPE_TIER_1 = new String[][]{
         {
-            "IIIII",
-            "IGGGI",
-            "IGGGI",
-            "IGGGI",
-            "IIIII"},
+            "11111",
+            "1GGG1",
+            "1GGG1",
+            "1GGG1",
+            "11111"},
         {
             "     ",
-            " U U ",
-            "  1  ",
-            " U U ",
+            " A A ",
+            "  Q  ",
+            " A A ",
             "     ",
         }};
     public static final String STRUCTURE_TIER_2 = "tier2";
     public static final String[][] SHAPE_TIER_2 = new String[][]{
         {
-            "IIIIIII",
-            "IGGGGGI",
-            "IGGGGGI",
-            "IGGGGGI",
-            "IGGGGGI",
-            "IGGGGGI",
-            "IIIIIII"
+            "2222222",
+            "2GGGGG2",
+            "2GGGGG2",
+            "2GGGGG2",
+            "2GGGGG2",
+            "2GGGGG2",
+            "2222222"
         },
         {
             "       ",
             "       ",
-            "  U U  ",
-            "   2   ",
-            "  U U  ",
+            "  A A  ",
+            "   W   ",
+            "  A A  ",
             "       ",
             "       "
         }};
     public static final String STRUCTURE_TIER_3 = "tier3";
     public static final String[][] SHAPE_TIER_3 = new String[][]{
         {
-            "IIIIIIIII",
-            "IGGGGGGGI",
-            "IGGGGGGGI",
-            "IGGGGGGGI",
-            "IGGGGGGGI",
-            "IGGGGGGGI",
-            "IGGGGGGGI",
-            "IGGGGGGGI",
-            "IIIIIIIII"
+            "333333333",
+            "3GGGGGGG3",
+            "3GGGGGGG3",
+            "3GGGGGGG3",
+            "3GGGGGGG3",
+            "3GGGGGGG3",
+            "3GGGGGGG3",
+            "3GGGGGGG3",
+            "333333333"
         },
         {
             "         ",
             "         ",
-            "   U U   ",
-            "  U   U  ",
-            "    3    ",
-            "  U   U  ",
-            "   U U   ",
+            "   A A   ",
+            "  A   A  ",
+            "    E    ",
+            "  A   A  ",
+            "   A A   ",
             "         ",
             "         "
         }};
     public static final String STRUCTURE_TIER_4 = "tier4";
     public static final String[][] SHAPE_TIER_4 = new String[][]{
         {
-            "IIIIIIIIIII",
-            "IGGGGGGGGGI",
-            "IGGGGGGGGGI",
-            "IGGGGGGGGGI",
-            "IGGGGGGGGGI",
-            "IGGGGGGGGGI",
-            "IGGGGGGGGGI",
-            "IGGGGGGGGGI",
-            "IGGGGGGGGGI",
-            "IGGGGGGGGGI",
-            "IIIIIIIIIII"
+            "44444444444",
+            "4GGGGGGGGG4",
+            "4GGGGGGGGG4",
+            "4GGGGGGGGG4",
+            "4GGGGGGGGG4",
+            "4GGGGGGGGG4",
+            "4GGGGGGGGG4",
+            "4GGGGGGGGG4",
+            "4GGGGGGGGG4",
+            "4GGGGGGGGG4",
+            "44444444444"
         },
         {
             "           ",
             "           ",
             "           ",
-            "    U U    ",
-            "   U   U   ",
-            "     4     ",
-            "   U   U   ",
-            "    U U    ",
+            "    A A    ",
+            "   A   A   ",
+            "     R     ",
+            "   A   A   ",
+            "    A A    ",
             "           ",
             "           ",
             "           "
@@ -118,13 +119,32 @@ public class SolarPanelStructure {
             .addShape(STRUCTURE_TIER_2, transpose(SHAPE_TIER_2))
             .addShape(STRUCTURE_TIER_3, transpose(SHAPE_TIER_3))
             .addShape(STRUCTURE_TIER_4, transpose(SHAPE_TIER_4))
-            .addElement('1', ofBlock(ModBlocks.blockSolarArray, 0))
-            .addElement('2', ofBlock(ModBlocks.blockSolarArray, 1))
-            .addElement('3', ofBlock(ModBlocks.blockSolarArray, 2))
-            .addElement('4', ofBlock(ModBlocks.blockSolarArray, 3))
-            .addElement('U', ofBlock(Blocks.gold_block, 0))
-            .addElement('I', ofBlock(Blocks.iron_block, 0))
-            .addElement('G', ofBlock(Blocks.glass, 0));
+            .addElement('Q', ofBlock(ModBlocks.blockSolarArray, 0))
+            .addElement('W', ofBlock(ModBlocks.blockSolarArray, 1))
+            .addElement('E', ofBlock(ModBlocks.blockSolarArray, 2))
+            .addElement('R', ofBlock(ModBlocks.blockSolarArray, 3))
+            .addElement('G', ofBlock(ModBlocks.blockSolarCell, 0))
+            .addElement(
+                'A',
+                ofChain(
+                    ofBlockAdderWithPos(
+                        (teSolarArray, block, meta, x, y, z) -> teSolarArray.addToMachine(block, meta, x, y, z),
+                        ModBlocks.blockMultiblockUpgrade,
+                        0),
+                    ofBlock(ModBlocks.blockMultiblockUpgrade, 1),
+                    ofBlock(ModBlocks.blockMultiblockUpgrade, 0)))
+            .addElement(
+                '1',
+                ofChain(ofBlock(ModBlocks.blockStructureFrame, 0), ofBlock(ModBlocks.blockStructureFrame, 4)))
+            .addElement(
+                '2',
+                ofChain(ofBlock(ModBlocks.blockStructureFrame, 1), ofBlock(ModBlocks.blockStructureFrame, 5)))
+            .addElement(
+                '3',
+                ofChain(ofBlock(ModBlocks.blockStructureFrame, 2), ofBlock(ModBlocks.blockStructureFrame, 6)))
+            .addElement(
+                '4',
+                ofChain(ofBlock(ModBlocks.blockStructureFrame, 3), ofBlock(ModBlocks.blockStructureFrame, 7)));
 
         IStructureDefinition<TESolarArray> definition = builder.build();
         STRUCTURE_DEFINITION = definition;
@@ -175,7 +195,7 @@ public class SolarPanelStructure {
             int tier = Math.min(ctx.getMeta() + 1, 4);
             int built = 0;
 
-            if (ctx.getTier() >= tier) {
+            if (ctx.getMeta() + 1 >= tier) {
                 return -1;
             }
 

@@ -90,7 +90,9 @@ public abstract class AbstractMachineBlock<T extends AbstractTE> extends Abstrac
         iconBuffer[1][1] = iIconRegister.registerIcon(getModelIconKey(true));
     }
 
-    protected abstract String getMachineFrontIconKey(boolean active);
+    protected String getMachineFrontIconKey(boolean active) {
+        return "";
+    }
 
     protected String getSideIconKey(boolean active) {
         return LibResources.PREFIX_MOD + "machineSide";

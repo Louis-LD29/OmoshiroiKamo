@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.common.block.multiblock;
+package louis.omoshiroikamo.common.block.material.basalt;
 
 import java.util.List;
 
@@ -13,15 +13,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.common.OKCreativeTab;
 import louis.omoshiroikamo.common.block.ModBlocks;
 
-public class ItemBlockMultiBlock extends ItemBlockWithMetadata {
+public class ItemBlockBasalt extends ItemBlockWithMetadata {
 
-    public ItemBlockMultiBlock() {
-        super(ModBlocks.blockMultiBlock, ModBlocks.blockMultiBlock);
+    public ItemBlockBasalt() {
+        super(ModBlocks.blockBasalt, ModBlocks.blockBasalt);
         setHasSubtypes(true);
         setCreativeTab(OKCreativeTab.INSTANCE);
     }
 
-    public ItemBlockMultiBlock(Block block) {
+    public ItemBlockBasalt(Block block) {
         super(block, block);
         setHasSubtypes(true);
         setCreativeTab(OKCreativeTab.tabBlock);
@@ -29,12 +29,22 @@ public class ItemBlockMultiBlock extends ItemBlockWithMetadata {
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        return super.getUnlocalizedName(stack);
+        int meta = stack.getItemDamage();
+        String base = super.getUnlocalizedName(stack);
+
+        if (meta >= 0 && meta < BlockBasalt.blocks.length) {
+            return base + "." + BlockBasalt.blocks[meta];
+        } else {
+            return base;
+        }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List<ItemStack> list) {
-        list.add(new ItemStack(this, 1, 0));
+    public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+        for (int i = 0; i < BlockBasalt.blocks.length; i++) {
+            list.add(new ItemStack(this, 1, i));
+        }
     }
+
 }

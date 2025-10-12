@@ -11,9 +11,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import com.enderio.core.common.util.BlockCoord;
 
 import louis.omoshiroikamo.api.energy.powerInterface.IPowerInterface;
-import louis.omoshiroikamo.api.enums.VoltageTier;
-import louis.omoshiroikamo.api.material.MaterialEntry;
-import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 
 public class PowerDistributor {
 
@@ -32,58 +29,32 @@ public class PowerDistributor {
     }
 
     public int transmitEnergy(World worldObj, int available) {
+
         int transmitted = 0;
         checkReceptors(worldObj);
-
-        if (receptors.isEmpty()) {
-            return 0;
-        }
-
-        if (!receptorIterator.hasNext()) {
+        if (!receptors.isEmpty() && !receptorIterator.hasNext()) {
             receptorIterator = receptors.listIterator();
         }
 
-        TileEntity senderTile = worldObj.getTileEntity(bc.x, bc.y, bc.z);
-        MaterialEntry senderMaterial = (senderTile instanceof AbstractTE) ? ((AbstractTE) senderTile).getMaterial()
-            : null;
-        VoltageTier senderTier = (senderMaterial != null) ? senderMaterial.getVoltageTier() : null;
-
         int appliedCount = 0;
         int numReceptors = receptors.size();
-
         while (receptorIterator.hasNext() && available > 0 && appliedCount < numReceptors) {
             Receptor receptor = receptorIterator.next();
             IPowerInterface pp = receptor.receptor;
-
-            MaterialEntry receiverMaterial = receptor.material;
-            VoltageTier receiverTier = (receiverMaterial != null) ? receiverMaterial.getVoltageTier() : null;
-
             if (pp != null && pp.getMinEnergyReceived(receptor.fromDir.getOpposite()) <= available) {
-                int toSend = Math.min(available, pp.getPowerRequest(receptor.fromDir.getOpposite()));
-                double efficiency = 1.0;
-
-                if (senderTier == null || receiverTier == null) {
-                    efficiency = 0.7;
-                } else if (senderTier.ordinal() < receiverTier.ordinal()) {
-                    efficiency = 0.25;
-                } else if (senderTier.isTooFarFrom(receiverTier)) {
-                    efficiency = 0.7;
-                }
-
-                int energyDelivered = Math.max(1, (int) (toSend * efficiency));
-                int used = pp.recieveEnergy(receptor.fromDir.getOpposite(), energyDelivered);
-
-                transmitted += toSend;
-                available -= toSend;
+                int used = pp.recieveEnergy(receptor.fromDir.getOpposite(), available);
+                transmitted += used;
+                available -= used;
             }
-
-            appliedCount++;
+            if (available <= 0) {
+                break;
+            }
 
             if (!receptors.isEmpty() && !receptorIterator.hasNext()) {
                 receptorIterator = receptors.listIterator();
             }
+            appliedCount++;
         }
-
         return transmitted;
     }
 
@@ -101,14 +72,9 @@ public class PowerDistributor {
             if (tile == null) {
                 continue;
             }
-            MaterialEntry mat = null;
-            if (tile instanceof AbstractTE) {
-                mat = ((AbstractTE) tile).getMaterial();
-            }
-
             IPowerInterface pi = PowerHandlerUtil.create(tile);
             if (pi != null && pi.canConduitConnect(dir)) {
-                receptors.add(new Receptor(pi, mat, dir));
+                receptors.add(new Receptor(pi, dir));
             }
         }
 
@@ -119,12 +85,10 @@ public class PowerDistributor {
     static class Receptor {
 
         IPowerInterface receptor;
-        MaterialEntry material;
         ForgeDirection fromDir;
 
-        private Receptor(IPowerInterface rec, MaterialEntry material, ForgeDirection fromDir) {
+        private Receptor(IPowerInterface rec, ForgeDirection fromDir) {
             this.receptor = rec;
-            this.material = material;
             this.fromDir = fromDir;
         }
     }

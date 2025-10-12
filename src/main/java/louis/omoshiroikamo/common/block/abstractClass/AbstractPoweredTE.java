@@ -128,12 +128,13 @@ public abstract class AbstractPoweredTE extends AbstractIOTE implements IEnergyH
         return getMaxEnergyStored();
     }
 
+    @Override
     public int getMaxEnergyStored() {
         return energyStorage.getMaxEnergyStored();
     }
 
     public void setEnergyStored(int energy) {
-        storedEnergyRF = Math.min(energy, energyStorage.getMaxEnergyStored());
+        storedEnergyRF = Math.min(energy, getMaxEnergyStored());
     }
 
     @Override

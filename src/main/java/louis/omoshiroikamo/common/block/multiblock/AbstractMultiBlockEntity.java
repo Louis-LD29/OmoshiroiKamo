@@ -3,6 +3,7 @@ package louis.omoshiroikamo.common.block.multiblock;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -116,6 +117,10 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
             mTile.add(tile);
         }
         return added;
+    }
+
+    public boolean addToMachine(Block block, int meta, int x, int y, int z) {
+        return false;
     }
 
     public List<FluidStack> getFluidInput() {

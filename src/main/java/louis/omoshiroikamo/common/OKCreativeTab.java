@@ -60,9 +60,14 @@ public class OKCreativeTab extends CreativeTabs {
         addItem(ModItems.itemEverlastingUpgrade);
         addItem(FluidMaterialRegister.itemBucketMaterial);
         addItem(FluidRegister.itemBucketFluid);
+
         addBlock(ModBlocks.blockMaterial);
         addBlock(ModBlocks.blockAnvil);
         addBlock(ModBlocks.blockFurnace);
+        addBlock(ModBlocks.blockBasalt);
+        addBlock(ModBlocks.blockStructureFrame);
+        addBlock(ModBlocks.blockMultiblockUpgrade);
+        addBlock(ModBlocks.blockSolarArray);
 
         for (ItemStack stack : externalStacks) {
             addStack(stack);

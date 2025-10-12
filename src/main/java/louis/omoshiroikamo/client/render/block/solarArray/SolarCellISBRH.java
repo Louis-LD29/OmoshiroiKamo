@@ -1,4 +1,4 @@
-package louis.omoshiroikamo.client.render.block.anvil;
+package louis.omoshiroikamo.client.render.block.solarArray;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -12,16 +12,16 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import louis.omoshiroikamo.client.ClientUtils;
-import louis.omoshiroikamo.common.block.anvil.TEAnvil;
+import louis.omoshiroikamo.common.block.multiblock.solarArray.TESolarCell;
 
-public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
+public class SolarCellISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
 
-    public static int renderAnvilId;
+    public static int renderId;
 
-    private static final TEAnvil anvil = new TEAnvil();
+    private static final TESolarCell cell = new TESolarCell();
 
-    public AnvilISBRH() {
-        renderAnvilId = RenderingRegistry.getNextAvailableRenderId();
+    public SolarCellISBRH() {
+        renderId = RenderingRegistry.getNextAvailableRenderId();
     }
 
     @Override
@@ -31,11 +31,11 @@ public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
         RenderBlocks renderer) {
         TileEntity te = world.getTileEntity(x, y, z);
-        if (!(te instanceof TEAnvil teAnvil)) {
+        if (!(te instanceof TESolarCell teSolarCell)) {
             return false;
         }
 
-        ClientUtils.handleStaticTileRenderer(teAnvil);
+        ClientUtils.handleStaticTileRenderer(teSolarCell);
 
         return true;
     }
@@ -47,7 +47,7 @@ public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
 
     @Override
     public int getRenderId() {
-        return renderAnvilId;
+        return renderId;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
             } else if (type == ItemRenderType.EQUIPPED) {
                 GL11.glTranslatef(0.5f, 0.5f, 0.5f);
             }
-            ClientUtils.handleStaticTileItemRenderer(anvil);
+            ClientUtils.handleStaticTileItemRenderer(cell);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,28 +1,14 @@
 
 #Config
-config.title=Omoshiroi Kamo Configuration
-config.personal=Personal Settings
-config.personal.tooltip=I won't tell anyone, I promise.
-config.mana=Mana
-config.mana.tooltip=Configure Mana
-config.ie=Immersive Engineering
-config.ie.tooltip=Settings related to wire behavior and render.
-config.material=Material
-config.material.tooltip=Configure properties and rendering of materials such as ingots, blocks, and wires.
-config.fluid=Fluid
-config.fluid.tooltip=Configure properties and rendering of fluids abd Gaseous such as Water, Hydrogen,...
-config.ore=Ore
-config.ore.tooltip=Configure properties and rendering of ores such as hamatile, magnetile,...
-config.damage_indicator=Damage Indicator
-config.damage_indicator.tooltip=Configure properties and rendering of Damage Indicator.
-config.magnet=Magnet Settings
-config.magnet.tooltip=How do they work?
 
+config.itemConfig=Item Settings
 config.magnetConfig=Magnet Settings
 config.damageIndicatorsConfig=Damage Indicators Settings
-config.itemConfig=Item Settings
 config.anvilUpgradeConfig=Anvil Upgrade Settings
 config.feedingConfig=Feeding Settings
+
+config.blockConfig=Block Settings
+config.solarArrayConfig=Solar Array Settings
 
 #IO
 
@@ -128,6 +114,22 @@ tile.blockConnectable.connectorIV.name=IV Wire Connector
 tile.blockConnectable.transformer.name=Transformer
 tile.blockAnvil.name=Anvil
 tile.blockFurnace.name=Furnace
+
+tile.blockBasalt.basalt_normal.name=Basalt
+
+tile.blockStructureFrame.basalt_structure_1.name=Structure Frame Tier 1
+tile.blockStructureFrame.basalt_structure_2.name=Structure Frame Tier 2
+tile.blockStructureFrame.basalt_structure_3.name=Structure Frame Tier 3
+tile.blockStructureFrame.basalt_structure_4.name=Structure Frame Tier 4
+tile.blockStructureFrame.hardened_stone_structure_1.name=Structure Frame Tier 1
+tile.blockStructureFrame.hardened_stone_structure_2.name=Structure Frame Tier 2
+tile.blockStructureFrame.hardened_stone_structure_3.name=Structure Frame Tier 3
+tile.blockStructureFrame.hardened_stone_structure_4.name=Structure Frame Tier 4
+
+tile.blockMultiblockUpgrade.modifier_null.name=Null Modifier
+tile.blockMultiblockUpgrade.modifier_piezo.name=Piezo Modifier
+
+tile.blockSolarCell.name=Solar Cell
 
 tile.blockSolarArray.tier_1.name=Solar Array Tier 1
 tile.blockSolarArray.tier_2.name=Solar Array Tier 2

@@ -11,7 +11,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -25,9 +24,6 @@ import louis.omoshiroikamo.common.block.abstractClass.AbstractBlock;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class BlockAnvil extends AbstractBlock<TEAnvil> {
-
-    @SideOnly(Side.CLIENT)
-    private IIcon icon;
 
     protected BlockAnvil() {
         super(ModObject.blockAnvil, TEAnvil.class);
@@ -58,18 +54,12 @@ public class BlockAnvil extends AbstractBlock<TEAnvil> {
 
     @Override
     public void registerBlockIcons(IIconRegister reg) {
-        icon = reg.registerIcon(LibResources.PREFIX_MOD + "anvil");
+        blockIcon = reg.registerIcon(LibResources.PREFIX_MOD + "anvil");
     }
 
     @Override
     public int damageDropped(int meta) {
         return 0;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta) {
-        return icon;
     }
 
     @Override
@@ -126,11 +116,6 @@ public class BlockAnvil extends AbstractBlock<TEAnvil> {
         entityItem.motionZ = world.rand.nextGaussian() * motion;
 
         world.spawnEntityInWorld(entityItem);
-    }
-
-    @Override
-    protected String getMachineFrontIconKey(boolean active) {
-        return "";
     }
 
     @Override

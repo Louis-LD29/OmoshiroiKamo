@@ -15,7 +15,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractMachineBlock;
-import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class BlockElectrolyzer extends AbstractMachineBlock<TEElectrolyzer> {
 
@@ -48,10 +47,5 @@ public class BlockElectrolyzer extends AbstractMachineBlock<TEElectrolyzer> {
     @Override
     public TileEntity createTileEntity(World world, int i) {
         return new TEElectrolyzer();
-    }
-
-    @Override
-    protected String getMachineFrontIconKey(boolean active) {
-        return LibResources.PREFIX_MOD + "electrolyzerFront";
     }
 }

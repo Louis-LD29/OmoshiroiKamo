@@ -118,7 +118,7 @@ public class MGuiBuilder {
         column.coverChildren()
             .leftRelOffset(1f, 1)
             .background(GuiTextures.MC_BACKGROUND)
-            .excludeAreaInNEI()
+            .excludeAreaInRecipeViewer()
             .coverChildren()
             .padding(4)
             .childPadding(2)
@@ -218,7 +218,7 @@ public class MGuiBuilder {
                 new PageButton(pageIndex, tabController).tab(GuiTextures.TAB_TOP, tab.textureOffset)
                     .marginLeft(1)
                     .size(20)
-                    .excludeAreaInNEI()
+                    .excludeAreaInRecipeViewer()
                     .overlay(
                         tab.getDrawable()
                             .asIcon()

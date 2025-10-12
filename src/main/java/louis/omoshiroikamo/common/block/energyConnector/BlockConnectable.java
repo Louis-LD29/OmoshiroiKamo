@@ -311,9 +311,4 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
     public boolean renderAsNormalBlock() {
         return false;
     }
-
-    @Override
-    protected String getMachineFrontIconKey(boolean active) {
-        return "";
-    }
 }
