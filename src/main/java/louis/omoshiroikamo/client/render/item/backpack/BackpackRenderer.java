@@ -70,9 +70,11 @@ public class BackpackRenderer implements IItemRenderer {
     }
 
     private void renderModel(ItemStack item) {
+        GL11.glColor3f(0.353f, 0.243f, 0.106f);
         RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_border.png"));
         modelBackpack.model.renderOnly("trim1", "trim2", "trim3", "trim4", "trim5", "padding1");
 
+        GL11.glColor3f(0.663f, 0.455f, 0.310f);
         RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_cloth.png"));
         modelBackpack.model.renderOnly(
             "inner1",
@@ -115,6 +117,7 @@ public class BackpackRenderer implements IItemRenderer {
                 break;
         }
 
+        GL11.glColor3f(1f, 1f, 1f);
         RenderUtil
             .bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/" + material + "_clips.png"));
         modelBackpack.model.renderOnly(

@@ -117,7 +117,9 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        if (icons == null || meta < 0 || meta >= icons.length) return blockIcon;
+        if (icons == null || meta < 0 || meta >= icons.length) {
+            return blockIcon;
+        }
         return icons[meta];
     }
 
@@ -128,10 +130,16 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
 
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block neighborBlock) {
-        if (world.isRemote) return;
+        if (world.isRemote) {
+            return;
+        }
         TileEntity ent = world.getTileEntity(x, y, z);
-        if (!(ent instanceof AbstractTE te)) return;
-        if (te instanceof TETransformer) return;
+        if (!(ent instanceof AbstractTE te)) {
+            return;
+        }
+        if (te instanceof TETransformer) {
+            return;
+        }
         ForgeDirection fd = ForgeDirection.getOrientation(te.getFacing())
             .getOpposite();
         int nx = x + fd.offsetX;
@@ -170,7 +178,9 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
             }
             transformer.setFacing((short) dir.ordinal());
 
-            if (!world.isRemote) world.markBlockForUpdate(x, y, z);
+            if (!world.isRemote) {
+                world.markBlockForUpdate(x, y, z);
+            }
             return;
         }
 
@@ -244,7 +254,9 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
         TileEntity ent = world.getTileEntity(x, y, z);
-        if (!(ent instanceof AbstractTE te)) return;
+        if (!(ent instanceof AbstractTE te)) {
+            return;
+        }
 
         if (te instanceof TETransformer) {
             setBlockBounds(0.125f, 0F, 0.125f, 0.875, 0.75f, 0.875);
@@ -288,5 +300,15 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
         this.setBlockBoundsBasedOnState(world, x, y, z);
         return super.getCollisionBoundingBoxFromPool(world, x, y, z);
+    }
+
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
+        return false;
     }
 }

@@ -8,5 +8,7 @@ public interface IPowerContainer {
 
     void setEnergyStored(int storedEnergy);
 
+    int getMaxEnergyStored();
+
     BlockCoord getLocation();
 }

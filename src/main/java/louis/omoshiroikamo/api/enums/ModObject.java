@@ -11,11 +11,18 @@ public enum ModObject {
     blockFluidInOut,
     blockItemInOut,
     blockEnergyInOut,
-    blockHeatInput,
-    blockHeatSource,
     blockElectrolyzer,
-    blockSolar,
-    blockMaterial,
+
+    blockSolarArray,
+    blockSolarCell,
+    blockStructureFrame,
+    blockModifier,
+    blockBasalt,
+    blockAlabaster,
+    blockHardenedStone,
+    blockMica,
+
+    blockBlockMaterial,
     blockConnectable,
     blockAnvil,
     blockFurnace,
@@ -29,7 +36,12 @@ public enum ModObject {
     itemFeedingUpgrade,
     itemBatteryUpgrade,
     itemEverlastingUpgrade,
-    itemMaterial,
+
+    itemStabilizedEnderPear,
+    itemPhotovoltaicCell,
+    itemAssembler,
+
+    itemItemMaterial,
     itemBucketMaterial,
     itemBucketFluid,
     itemOre,
@@ -39,8 +51,16 @@ public enum ModObject {
     public final String unlocalisedName;
     private Block blockInstance;
 
-    private ModObject() {
-        this.unlocalisedName = name();
+    ModObject() {
+        String raw = name();
+
+        if (raw.startsWith("block")) {
+            raw = raw.substring(5);
+        } else if (raw.startsWith("item")) {
+            raw = raw.substring(4);
+        }
+
+        this.unlocalisedName = Character.toLowerCase(raw.charAt(0)) + raw.substring(1);
     }
 
     public String getRegistryName() {

@@ -8,8 +8,9 @@ import com.cleanroommc.modularui.api.widget.IGuiAction;
 import com.cleanroommc.modularui.api.widget.Interactable;
 import com.cleanroommc.modularui.drawable.DrawableStack;
 import com.cleanroommc.modularui.drawable.TabTexture;
+import com.cleanroommc.modularui.theme.SelectableTheme;
 import com.cleanroommc.modularui.theme.WidgetTheme;
-import com.cleanroommc.modularui.theme.WidgetThemeSelectable;
+import com.cleanroommc.modularui.theme.WidgetThemeEntry;
 import com.cleanroommc.modularui.value.sync.InteractionSyncHandler;
 import com.cleanroommc.modularui.value.sync.SyncHandler;
 import com.cleanroommc.modularui.widget.Widget;
@@ -40,9 +41,15 @@ public class BackPackPageButton extends Widget<BackPackPageButton> implements In
     }
 
     @Override
-    public WidgetTheme getWidgetThemeInternal(ITheme theme) {
-        WidgetThemeSelectable widgetTheme = theme.getToggleButtonTheme();
-        return isActive() ^ invertSelected() ? widgetTheme : widgetTheme.getSelected();
+    public WidgetThemeEntry<?> getWidgetThemeInternal(ITheme theme) {
+        return theme.getToggleButtonTheme();
+    }
+
+    @Override
+    protected WidgetTheme getActiveWidgetTheme(WidgetThemeEntry<?> widgetTheme, boolean hover) {
+        SelectableTheme selectableTheme = widgetTheme.expectType(SelectableTheme.class)
+            .getTheme(hover);
+        return isActive() ^ invertSelected() ? selectableTheme.getSelected() : selectableTheme;
     }
 
     public void playClickSound() {

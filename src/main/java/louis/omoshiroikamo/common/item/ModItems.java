@@ -3,6 +3,7 @@ package louis.omoshiroikamo.common.item;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
+import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.client.handler.PoweredItemRenderer;
 import louis.omoshiroikamo.common.item.backpack.ItemBackpack;
 import louis.omoshiroikamo.common.item.backpack.ItemBatteryUpgrade;
@@ -25,6 +26,9 @@ public final class ModItems {
     public static Item itemFeedingUpgrade;
     public static Item itemBatteryUpgrade;
     public static Item itemEverlastingUpgrade;
+    public static Item itemStabilizedEnderPear;
+    public static Item itemPhotovoltaicCell;
+    public static Item itemAssembler;
     public static Item itemWireCoil;
     public static Item itemMaterial;
     public static Item itemOre;
@@ -32,6 +36,7 @@ public final class ModItems {
 
     public static void init() {
         itemOperationOrb = ItemOperationOrb.create();
+
         itemBackPack = ItemBackpack.create();
         itemUpgrade = ItemUpgrade.create();
         itemStackUpgrade = ItemStackUpgrade.create();
@@ -40,6 +45,11 @@ public final class ModItems {
         itemFeedingUpgrade = ItemFeedingUpgrade.create();
         itemBatteryUpgrade = ItemBatteryUpgrade.create();
         itemEverlastingUpgrade = ItemEverlastingUpgrade.create();
+
+        itemStabilizedEnderPear = ItemOK.create(ModObject.itemStabilizedEnderPear, "ender_stabilized");
+        itemPhotovoltaicCell = ItemOK.create(ModObject.itemPhotovoltaicCell, "photovoltaic_cell");
+        itemAssembler = ItemAssembler.create();
+
         itemWireCoil = ItemWireCoil.create();
         itemMaterial = ItemMaterial.create();
         itemOre = ItemOre.create();

@@ -5,6 +5,7 @@ import com.gtnewhorizon.gtnhlib.config.ConfigException;
 import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 
 import louis.omoshiroikamo.common.util.lib.LibMisc;
+import louis.omoshiroikamo.config.block.BlockConfigs;
 import louis.omoshiroikamo.config.general.DamageIndicatorsConfig;
 import louis.omoshiroikamo.config.item.FeedingConfig;
 import louis.omoshiroikamo.config.item.ItemConfig;
@@ -28,6 +29,7 @@ public class GeneralConfig {
     public static void registerConfig() throws ConfigException {
         ConfigurationManager.registerConfig(GeneralConfig.class);
         ItemConfig.registerConfig();
+        BlockConfigs.registerConfig();
         ConfigurationManager.registerConfig(MagnetConfig.class);
         ConfigurationManager.registerConfig(FeedingConfig.class);
         ConfigurationManager.registerConfig(DamageIndicatorsConfig.class);

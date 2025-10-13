@@ -24,7 +24,7 @@ public class NEICompat {
         sendCatalyst(ModObject.blockAnvil.getRegistryName());
         sendCatalyst("smelting", ModObject.blockFurnace.getRegistryName());
         sendCatalyst("fuel", ModObject.blockFurnace.getRegistryName());
-        sendHandler("materialProperties", ModObject.itemMaterial.getRegistryName(), 85, 1);
+        sendHandler("materialProperties", ModObject.itemItemMaterial.getRegistryName(), 85, 1);
         Logger.info("Loaded IMCForNEI");
     }
 

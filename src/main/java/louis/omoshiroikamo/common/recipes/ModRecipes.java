@@ -25,6 +25,7 @@ public class ModRecipes {
         CopperRecipes.init();
 
         ItemRecipes.init();
+        BlockRecipes.init();
 
     }
 

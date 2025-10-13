@@ -37,7 +37,7 @@ public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
 
         ClientUtils.handleStaticTileRenderer(teAnvil);
 
-        return false;
+        return true;
     }
 
     @Override

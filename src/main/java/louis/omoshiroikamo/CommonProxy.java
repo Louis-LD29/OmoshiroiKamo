@@ -21,6 +21,7 @@ import louis.omoshiroikamo.api.fluid.FluidRegistry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
 import louis.omoshiroikamo.client.ResourePackGen;
+import louis.omoshiroikamo.common.achievement.ModAchievements;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.command.ModCommands;
 import louis.omoshiroikamo.common.fluid.ModFluids;
@@ -35,6 +36,7 @@ import louis.omoshiroikamo.common.world.WireNetSaveData;
 import louis.omoshiroikamo.plugin.compat.EtFuturumCompat;
 import louis.omoshiroikamo.plugin.compat.TICCompat;
 import louis.omoshiroikamo.plugin.nei.NEICompat;
+import louis.omoshiroikamo.plugin.structureLib.StructureCompat;
 import louis.omoshiroikamo.plugin.waila.WailaCompat;
 import makamys.mclib.core.MCLib;
 import makamys.mclib.core.MCLibModules;
@@ -56,6 +58,7 @@ public class CommonProxy {
         ModBlocks.init();
         ModItems.init();
         ModFluids.init();
+        ModAchievements.init();
         OKWorldGenerator.init();
 
         callAssembleResourcePack(event);
@@ -83,8 +86,8 @@ public class CommonProxy {
     public void postInit(FMLPostInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new ElementalHandler());
 
+        StructureCompat.init();
         TICCompat.init();
-
     }
 
     public EntityPlayer getClientPlayer() {
