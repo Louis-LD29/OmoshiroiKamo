@@ -2,7 +2,7 @@ package louis.omoshiroikamo.common.util.lib;
 
 public class LibResources {
 
-    public static final String PREFIX_MOD = LibMisc.MOD_ID + ":";
+    public static final String PREFIX_MOD = LibMisc.MOD_ID.toLowerCase() + ":";
 
     public static final String PREFIX_GUI = PREFIX_MOD + "textures/gui/";
     public static final String PREFIX_BLOCK = PREFIX_MOD + "textures/blocks/";
@@ -12,6 +12,7 @@ public class LibResources {
     public static final String PREFIX_ORE_ICONS = "icons/ores";
     public static final String CONFIG = "config.";
     public static final String TOOLTIP = "tooltip.";
+    public static final String ACHIEVEMENT = "achievement." + LibMisc.MOD_ID.toLowerCase() + ".";
 
     public static final String GUI_MANA_HUD = PREFIX_GUI + "mana.png";
     public static final String GUI_NEI_BLANK = PREFIX_GUI + "nei/neiBlank.png";

@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.util.lib.LibMods;
 
@@ -94,9 +95,11 @@ public class ItemRecipes {
             GameRegistry.addRecipe(
                 new NBTShapedOreRecipe(
                     new ItemStack(ModItems.itemBackPack, 1, 5),
-                    "CCC",
-                    "CBC",
-                    "CCC",
+                    "CSC",
+                    "SBS",
+                    "CSC",
+                    'S',
+                    "itemNetherStar",
                     'C',
                     "blockObsidian",
                     'B',
@@ -249,6 +252,67 @@ public class ItemRecipes {
                     'U',
                     new ItemStack(ModItems.itemUpgrade, 1, 0)));
         }
+
+        // Photovoltaic Cell
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModItems.itemPhotovoltaicCell, 1, 0),
+                " L ",
+                "LQL",
+                " L ",
+                'L',
+                "gemLapis",
+                'Q',
+                "gemQuartz"));
+
+        // Stabilized Ender Pear
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModItems.itemStabilizedEnderPear, 1, 0),
+                " P ",
+                "PIP",
+                " P ",
+                'P',
+                "pearlEnder",
+                'I',
+                "blockIron"));
+
+        // Assembler
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModItems.itemAssembler, 1, 0),
+                "  B",
+                " O ",
+                "O  ",
+                'O',
+                "blockObsidian",
+                'B',
+                new ItemStack(ModBlocks.blockStructureFrame, 1, 1)));
+
+        // Assembler
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModItems.itemAssembler, 1, 0),
+                "  B",
+                " O ",
+                "O  ",
+                'O',
+                "blockObsidian",
+                'B',
+                new ItemStack(ModBlocks.blockStructureFrame, 1, 5)));
+
+        // Assembler
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModItems.itemAssembler, 1, 0),
+                "  B",
+                " O ",
+                "O  ",
+                'O',
+                "blockObsidian",
+                'B',
+                new ItemStack(ModBlocks.blockStructureFrame, 1, 9)));
+
     }
 
 }

@@ -32,7 +32,6 @@ import louis.omoshiroikamo.client.render.block.connectable.ConnectorULVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.InsulatorTESR;
 import louis.omoshiroikamo.client.render.block.connectable.TransformerTESR;
 import louis.omoshiroikamo.client.render.block.solarArray.SolarArrayTESR;
-import louis.omoshiroikamo.client.render.block.solarArray.SolarCellISBRH;
 import louis.omoshiroikamo.client.render.block.solarArray.SolarCellTESR;
 import louis.omoshiroikamo.client.render.item.backpack.BackpackRenderer;
 import louis.omoshiroikamo.client.render.item.hammer.HammerRenderer;
@@ -92,9 +91,9 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TESolarArray.class, solarArrayTESR);
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockSolarArray), solarArrayTESR);
 
-        SolarCellISBRH solarCellISBRH = new SolarCellISBRH();
-        ClientRegistry.bindTileEntitySpecialRenderer(TESolarCell.class, new SolarCellTESR());
-        RenderingRegistry.registerBlockHandler(solarCellISBRH);
+        SolarCellTESR solarCellTESR = new SolarCellTESR();
+        ClientRegistry.bindTileEntitySpecialRenderer(TESolarCell.class, solarCellTESR);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockSolarCell), solarCellTESR);
 
         ModItems.registerItemRenderer();
 

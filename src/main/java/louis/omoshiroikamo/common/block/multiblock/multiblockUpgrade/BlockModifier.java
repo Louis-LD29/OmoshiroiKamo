@@ -15,27 +15,26 @@ import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.BlockOK;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
-public class BlockMultiblockUpgrade extends BlockOK {
+public class BlockModifier extends BlockOK {
 
     public static String[] blocks = new String[] { "modifier_null", "modifier_piezo" };
 
     @SideOnly(Side.CLIENT)
     private IIcon[] icons;
 
-    public static BlockMultiblockUpgrade create() {
-        BlockMultiblockUpgrade result = new BlockMultiblockUpgrade();
+    public static BlockModifier create() {
+        BlockModifier result = new BlockModifier();
         result.init();
         return result;
     }
 
-    private BlockMultiblockUpgrade() {
-        super(ModObject.blockMultiblockUpgrade, null, net.minecraft.block.material.Material.iron);
+    private BlockModifier() {
+        super(ModObject.blockModifier, null, net.minecraft.block.material.Material.iron);
     }
 
     @Override
     protected void init() {
-        GameRegistry
-            .registerBlock(this, ItemBlockMultiblockUpgrade.class, ModObject.blockMultiblockUpgrade.unlocalisedName);
+        GameRegistry.registerBlock(this, ItemBlockMultiblockUpgrade.class, ModObject.blockModifier.unlocalisedName);
     }
 
     @Override

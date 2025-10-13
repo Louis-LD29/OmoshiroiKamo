@@ -26,8 +26,6 @@ import louis.omoshiroikamo.common.util.lib.LibMods;
 
 public class ItemBackpack extends ItemBauble implements IEnergyContainerItem, IGuiHolder<PlayerInventoryGuiData> {
 
-    public static BackpackGui gui;
-
     public ItemBackpack() {
         super(ModObject.itemBackPack.unlocalisedName);
         setHasSubtypes(true);

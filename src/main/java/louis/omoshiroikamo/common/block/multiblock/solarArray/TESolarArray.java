@@ -78,7 +78,7 @@ public class TESolarArray extends AbstractMultiBlockEntity<TESolarArray> impleme
             return;
         }
 
-        if (!structureCheck("tier" + (meta + 1), TIER_OFFSET[meta][0], TIER_OFFSET[meta][1], TIER_OFFSET[meta][2])) {
+        if (structureCheck("tier" + (meta + 1), TIER_OFFSET[meta][0], TIER_OFFSET[meta][1], TIER_OFFSET[meta][2])) {
             return;
         }
 
@@ -200,7 +200,7 @@ public class TESolarArray extends AbstractMultiBlockEntity<TESolarArray> impleme
 
     @Override
     protected String getStructurePieceName() {
-        return "tier" + (meta + 1);
+        return "tier" + getTier();
     }
 
     @Override
@@ -216,7 +216,7 @@ public class TESolarArray extends AbstractMultiBlockEntity<TESolarArray> impleme
 
         boolean added = false;
 
-        if (block == ModBlocks.blockMultiblockUpgrade && meta == 1) {
+        if (block == ModBlocks.blockModifier && meta == 1) {
             added = true;
             mPiezo.add(entry);
         }
@@ -235,11 +235,15 @@ public class TESolarArray extends AbstractMultiBlockEntity<TESolarArray> impleme
         mPiezo.clear();
     }
 
+    public int getTier() {
+        return getMeta() + 1;
+    }
+
     public int getEnergySolarArrayTier() {
 
         int maxEnergyStored = 0;
 
-        switch (meta) {
+        switch (getMeta()) {
             case 1:
                 maxEnergyStored = SolarArrayConfig.peakEnergyTier2;
                 break;

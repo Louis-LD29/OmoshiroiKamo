@@ -36,13 +36,13 @@ public class ItemMaterial extends ItemOK {
     }
 
     protected ItemMaterial() {
-        super(ModObject.itemMaterial.unlocalisedName);
+        super(ModObject.itemItemMaterial.unlocalisedName);
         setHasSubtypes(true);
         setMaxDamage(0);
     }
 
-    protected void init() {
-        GameRegistry.registerItem(this, ModObject.itemMaterial.unlocalisedName);
+    public void init() {
+        GameRegistry.registerItem(this, ModObject.itemItemMaterial.unlocalisedName);
 
         for (MaterialEntry entry : MaterialRegistry.all()) {
             String matName = entry.getUnlocalizedName();

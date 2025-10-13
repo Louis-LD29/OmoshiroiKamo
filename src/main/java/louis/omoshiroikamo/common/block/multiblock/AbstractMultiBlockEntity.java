@@ -24,6 +24,7 @@ import louis.omoshiroikamo.common.util.Logger;
 
 public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntity<T>> extends AbstractTE {
 
+    private String owner = "";
     public boolean mMachine = false;
     public boolean mStructureChanged = false;
     public static List<TEFluidInput> mFluidInput = new ArrayList<>();
@@ -92,7 +93,7 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
             clearStructureParts();
         }
 
-        return valid;
+        return !valid;
     }
 
     public boolean addToMachine(AbstractTE tile) {
@@ -197,13 +198,27 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
         return list;
     }
 
+    public void setOwner(String name) {
+        this.owner = name;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
     @Override
     public void writeCommon(NBTTagCompound root) {
         root.setBoolean("mMachine", mMachine);
+        if (owner != null && !owner.isEmpty()) {
+            root.setString("Owner", owner);
+        }
     }
 
     @Override
     public void readCommon(NBTTagCompound root) {
         mMachine = root.getBoolean("mMachine");
+        if (root.hasKey("Owner")) {
+            owner = root.getString("Owner");
+        }
     }
 }

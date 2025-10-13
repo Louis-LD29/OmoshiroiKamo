@@ -21,6 +21,7 @@ import louis.omoshiroikamo.api.fluid.FluidRegistry;
 import louis.omoshiroikamo.api.material.MaterialRegistry;
 import louis.omoshiroikamo.api.ore.OreRegistry;
 import louis.omoshiroikamo.client.ResourePackGen;
+import louis.omoshiroikamo.common.achievement.ModAchievements;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.command.ModCommands;
 import louis.omoshiroikamo.common.fluid.ModFluids;
@@ -57,6 +58,7 @@ public class CommonProxy {
         ModBlocks.init();
         ModItems.init();
         ModFluids.init();
+        ModAchievements.init();
         OKWorldGenerator.init();
 
         callAssembleResourcePack(event);

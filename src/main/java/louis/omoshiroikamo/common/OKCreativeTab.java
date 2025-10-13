@@ -58,6 +58,8 @@ public class OKCreativeTab extends CreativeTabs {
         addItem(ModItems.itemFeedingUpgrade);
         addItem(ModItems.itemBatteryUpgrade);
         addItem(ModItems.itemEverlastingUpgrade);
+        addItem(ModItems.itemStabilizedEnderPear);
+        addItem(ModItems.itemPhotovoltaicCell);
         addItem(FluidMaterialRegister.itemBucketMaterial);
         addItem(FluidRegister.itemBucketFluid);
 
@@ -66,8 +68,9 @@ public class OKCreativeTab extends CreativeTabs {
         addBlock(ModBlocks.blockFurnace);
         addBlock(ModBlocks.blockBasalt);
         addBlock(ModBlocks.blockAlabaster);
+        addBlock(ModBlocks.blockMica);
         addBlock(ModBlocks.blockStructureFrame);
-        addBlock(ModBlocks.blockMultiblockUpgrade);
+        addBlock(ModBlocks.blockModifier);
         addBlock(ModBlocks.blockSolarArray);
 
         for (ItemStack stack : externalStacks) {

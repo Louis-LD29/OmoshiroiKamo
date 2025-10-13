@@ -1,45 +1,55 @@
 package louis.omoshiroikamo.client.render.block.solarArray;
 
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
-import louis.omoshiroikamo.client.models.ModelIEObj;
-import louis.omoshiroikamo.client.render.AbstractMTESR;
-import louis.omoshiroikamo.common.block.ModBlocks;
-import louis.omoshiroikamo.common.block.multiblock.solarArray.TESolarCell;
+import com.enderio.core.client.render.RenderUtil;
+
 import louis.omoshiroikamo.common.util.lib.LibResources;
-import louis.omoshiroikamo.plugin.chickenbones.Matrix4;
 
-public class SolarCellTESR extends AbstractMTESR {
+public class SolarCellTESR extends TileEntitySpecialRenderer implements IItemRenderer {
 
-    ModelIEObj modelSolarCell = new ModelIEObj(LibResources.PREFIX_MODEL + "solar_cell.obj") {
+    private IModelCustom model;
+    private static final String MODEL = LibResources.PREFIX_MODEL + "solar_cell.obj";
+    private static final ResourceLocation texture = new ResourceLocation(LibResources.PREFIX_BLOCK + "solar_cell.png");
 
-        @Override
-        public IIcon getBlockIcon(String groupName) {
-            return ModBlocks.blockSolarCell.getIcon(0, 0);
-        }
-    };
-
-    @Override
-    public void renderDynamic(TileEntity tile, double x, double y, double z, float partialTicks) {}
-
-    @Override
-    public void renderStatic(TileEntity tile, Tessellator tes, Matrix4 translationMatrix, Matrix4 rotationMatrix) {
-        if (!(tile instanceof TESolarCell te)) {
-            return;
-        }
-        translationMatrix.translate(.5, 0, .5);
-        modelSolarCell.render(tile, tes, translationMatrix, rotationMatrix, 1, false);
+    public SolarCellTESR() {
+        model = AdvancedModelLoader.loadModel(new ResourceLocation(MODEL));
     }
 
     @Override
-    public void renderItem(TileEntity tile, Tessellator tes, Matrix4 translationMatrix, Matrix4 rotationMatrix) {
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTicks) {
         GL11.glPushMatrix();
-        modelSolarCell.renderItem();
+        GL11.glTranslated(x + 0.5, y, z + 0.5);
+        RenderUtil.bindTexture(texture);
+        model.renderAll();
         GL11.glPopMatrix();
     }
 
+    @Override
+    public boolean handleRenderType(ItemStack item, ItemRenderType type) {
+        return true;
+    }
+
+    @Override
+    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
+        return true;
+    }
+
+    @Override
+    public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+
+        GL11.glPushMatrix();
+        GL11.glTranslatef(0.5f, 0f, 0.5f);
+        RenderUtil.bindTexture(texture);
+        model.renderAll();
+        GL11.glPopMatrix();
+    }
 }

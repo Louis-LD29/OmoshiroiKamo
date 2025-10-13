@@ -12,7 +12,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.client.render.block.solarArray.SolarCellISBRH;
 import louis.omoshiroikamo.common.block.BlockOK;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
@@ -40,12 +39,12 @@ public class BlockSolarCell extends BlockOK {
 
     @Override
     public int getRenderType() {
-        return SolarCellISBRH.renderId;
+        return -1;
     }
 
     @Override
     public void registerBlockIcons(IIconRegister iIconRegister) {
-        blockIcon = iIconRegister.registerIcon(LibResources.PREFIX_MOD + "solar_cell");
+        blockIcon = iIconRegister.registerIcon(LibResources.PREFIX_MOD + "solar_cell_top");
     }
 
     @Override

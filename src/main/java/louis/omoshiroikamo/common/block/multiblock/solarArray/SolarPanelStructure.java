@@ -129,10 +129,10 @@ public class SolarPanelStructure {
                 ofChain(
                     ofBlockAdderWithPos(
                         (teSolarArray, block, meta, x, y, z) -> teSolarArray.addToMachine(block, meta, x, y, z),
-                        ModBlocks.blockMultiblockUpgrade,
+                        ModBlocks.blockModifier,
                         0),
-                    ofBlock(ModBlocks.blockMultiblockUpgrade, 1),
-                    ofBlock(ModBlocks.blockMultiblockUpgrade, 0)))
+                    ofBlock(ModBlocks.blockModifier, 1),
+                    ofBlock(ModBlocks.blockModifier, 0)))
             .addElement(
                 '1',
                 ofChain(
@@ -181,7 +181,6 @@ public class SolarPanelStructure {
         @Override
         public void construct(ItemStack triggerStack, boolean hintsOnly, TESolarArray ctx, ExtendedFacing aSide) {
             int tier = Math.min(ctx.getMeta() + 1, 4);
-
             this.structure.buildOrHints(
                 ctx,
                 triggerStack,
@@ -210,7 +209,6 @@ public class SolarPanelStructure {
             if (ctx.getMeta() + 1 >= tier) {
                 return -1;
             }
-
             built = this.structure.survivalBuild(
                 ctx,
                 triggerStack,
