@@ -10,6 +10,7 @@ import louis.omoshiroikamo.config.general.DamageIndicatorsConfig;
 import louis.omoshiroikamo.config.item.FeedingConfig;
 import louis.omoshiroikamo.config.item.ItemConfig;
 import louis.omoshiroikamo.config.item.MagnetConfig;
+import louis.omoshiroikamo.config.worldGen.WorldGenConfig;
 
 @Config(modid = LibMisc.MOD_ID, configSubDirectory = LibMisc.MOD_ID, category = "general")
 public class GeneralConfig {
@@ -30,6 +31,7 @@ public class GeneralConfig {
         ConfigurationManager.registerConfig(GeneralConfig.class);
         ItemConfig.registerConfig();
         BlockConfigs.registerConfig();
+        WorldGenConfig.registerConfig();
         ConfigurationManager.registerConfig(MagnetConfig.class);
         ConfigurationManager.registerConfig(FeedingConfig.class);
         ConfigurationManager.registerConfig(DamageIndicatorsConfig.class);

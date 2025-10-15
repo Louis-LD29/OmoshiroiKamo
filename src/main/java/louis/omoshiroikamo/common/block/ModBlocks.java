@@ -9,16 +9,21 @@ import louis.omoshiroikamo.common.block.electrolyzer.BlockElectrolyzer;
 import louis.omoshiroikamo.common.block.energyConnector.BlockConnectable;
 import louis.omoshiroikamo.common.block.furnace.BlockFurnace;
 import louis.omoshiroikamo.common.block.material.BlockMaterial;
-import louis.omoshiroikamo.common.block.material.alabaster.BlockAlabaster;
-import louis.omoshiroikamo.common.block.material.basalt.BlockBasalt;
-import louis.omoshiroikamo.common.block.material.hardenedStone.BlockHardenedStone;
+import louis.omoshiroikamo.common.block.material.machineBase.BlockMachineBase;
 import louis.omoshiroikamo.common.block.material.structureFrame.BlockStructureFrame;
-import louis.omoshiroikamo.common.block.multiblock.multiblockUpgrade.BlockModifier;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierAccuracy;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierNull;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierPiezo;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierSpeed;
 import louis.omoshiroikamo.common.block.multiblock.part.energy.BlockEnergyInOut;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.BlockFluidInOut;
 import louis.omoshiroikamo.common.block.multiblock.part.item.BlockItemInOut;
 import louis.omoshiroikamo.common.block.multiblock.solarArray.BlockSolarArray;
-import louis.omoshiroikamo.common.block.multiblock.solarArray.BlockSolarCell;
+import louis.omoshiroikamo.common.block.multiblock.solarArray.cell.BlockSolarCell;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.core.BlockLaserCore;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.lens.BlockLaserLens;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.BlockVoidOreMiner;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.BlockVoidResMiner;
 import louis.omoshiroikamo.common.ore.OreRegister;
 
 public class ModBlocks {
@@ -28,10 +33,18 @@ public class ModBlocks {
     public static Block blockAnvil;
     public static Block blockFurnace;
 
+    public static Block blockVoidOreMiner;
+    public static Block blockVoidResMiner;
+    public static Block blockLaserCore;
+    public static Block blockLaserLens;
     public static Block blockSolarArray;
     public static Block blockSolarCell;
     public static Block blockStructureFrame;
-    public static Block blockModifier;
+    public static Block blockMachineBase;
+    public static Block blockModifierNull;
+    public static Block blockModifierAccuracy;
+    public static Block blockModifierSpeed;
+    public static Block blockModifierPiezo;
     public static Block blockBasalt;
     public static Block blockAlabaster;
     public static Block blockHardenedStone;
@@ -43,13 +56,21 @@ public class ModBlocks {
     public static Block blockElectrolyzer;
 
     public static void init() {
+        blockVoidOreMiner = BlockVoidOreMiner.create();
+        blockVoidResMiner = BlockVoidResMiner.create();
+        blockLaserCore = BlockLaserCore.create();
+        blockLaserLens = BlockLaserLens.create();
         blockSolarArray = BlockSolarArray.create();
         blockSolarCell = BlockSolarCell.create();
         blockStructureFrame = BlockStructureFrame.create();
-        blockModifier = BlockModifier.create();
-        blockBasalt = BlockBasalt.create();
-        blockAlabaster = BlockAlabaster.create();
-        blockHardenedStone = BlockHardenedStone.create();
+        blockMachineBase = BlockMachineBase.create();
+        blockModifierPiezo = BlockModifierPiezo.create();
+        blockModifierSpeed = BlockModifierSpeed.create();
+        blockModifierAccuracy = BlockModifierAccuracy.create();
+        blockModifierNull = BlockModifierNull.create();
+        blockHardenedStone = BlockOK.create(ModObject.blockHardenedStone, "hardened_stone_normal", Material.rock);
+        blockBasalt = BlockOK.create(ModObject.blockBasalt, "basalt_normal", Material.rock);
+        blockAlabaster = BlockOK.create(ModObject.blockAlabaster, "alabaster_normal", Material.rock);
         blockMica = BlockOK.create(ModObject.blockMica, "mica", Material.rock);
 
         blockFluidInOut = BlockFluidInOut.create();

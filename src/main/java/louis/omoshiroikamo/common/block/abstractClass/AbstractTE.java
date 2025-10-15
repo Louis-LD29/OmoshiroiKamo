@@ -17,9 +17,8 @@ import com.enderio.core.common.util.BlockCoord;
 
 import louis.omoshiroikamo.api.material.MaterialEntry;
 import louis.omoshiroikamo.client.gui.modularui2.MGuis;
-import louis.omoshiroikamo.common.block.TileEntityEio;
 
-public abstract class AbstractTE extends TileEntityEio implements IGuiHolder<PosGuiData> {
+public abstract class AbstractTE extends TileEntityEnder implements IGuiHolder<PosGuiData> {
 
     public short facing = -1;
     public boolean redstoneCheckPassed;

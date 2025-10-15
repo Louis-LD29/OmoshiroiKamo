@@ -21,13 +21,13 @@ import louis.omoshiroikamo.common.util.lib.LibResources;
 public class SolarArrayTESR extends TileEntitySpecialRenderer implements IItemRenderer {
 
     private IModelCustom model;
-    private static final String MODEL = LibResources.PREFIX_MODEL + "controller_solar.obj";
+    private static final String MODEL = LibResources.PREFIX_MODEL + "solar_array.obj";
 
     private static final ResourceLocation controllerBase = new ResourceLocation(
         LibResources.PREFIX_BLOCK + "basalt_normal.png");
-    private static final ResourceLocation brain = new ResourceLocation(LibResources.PREFIX_BLOCK + "solar_tex2.png");
+    private static final ResourceLocation brain = new ResourceLocation(LibResources.PREFIX_BLOCK + "solar_tex.png");
 
-    private static final ResourceLocation TEX_IRON = new ResourceLocation("minecraft:textures/blocks/iron_block.png");
+    private static final ResourceLocation TEX_IRON = new ResourceLocation(LibResources.PREFIX_BLOCK + "cont_tier.png");
 
     public SolarArrayTESR() {
         model = AdvancedModelLoader.loadModel(new ResourceLocation(MODEL));
@@ -35,11 +35,8 @@ public class SolarArrayTESR extends TileEntitySpecialRenderer implements IItemRe
 
     @Override
     public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTicks) {
-        if (!(te instanceof TESolarArray solarArray)) {
-            return;
-        }
-
-        int meta = solarArray.getMeta();
+        TESolarArray solarArray = (TESolarArray) te;
+        int tier = solarArray.getTier();
 
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5f, (float) y, (float) z + 0.5f);
@@ -49,17 +46,17 @@ public class SolarArrayTESR extends TileEntitySpecialRenderer implements IItemRe
 
         RenderUtil.bindTexture(brain);
         model.renderOnly("Brain");
-        switch (meta) {
-            case 0:
+        switch (tier) {
+            case 1:
                 GL11.glColor3f(1.0f, 0.85f, 0.3f);
                 break;
-            case 1:
+            case 2:
                 GL11.glColor3f(0.3f, 0.9f, 1.0f);
                 break;
-            case 2:
+            case 3:
                 GL11.glColor3f(0.063f, 0.369f, 0.318f);
                 break;
-            case 3:
+            case 4:
                 GL11.glColor3f(0.8f, 0.9f, 1.0f);
                 break;
             default:

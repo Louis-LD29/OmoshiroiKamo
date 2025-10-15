@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import louis.omoshiroikamo.common.block.ModBlocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -11,6 +12,12 @@ import codechicken.nei.NEIServerUtils;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class OreDictUtils {
+
+    public static void init() {
+        OreDictionary.registerOre("stoneBasalt", ModBlocks.blockBasalt);
+        OreDictionary.registerOre("stoneAlabaster", ModBlocks.blockAlabaster);
+        OreDictionary.registerOre("stoneHardened", ModBlocks.blockHardenedStone);
+    }
 
     public static boolean isOreDictMatch(ItemStack a, ItemStack b) {
         if (a == null || b == null) {

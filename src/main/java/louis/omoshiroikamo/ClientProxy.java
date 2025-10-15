@@ -33,6 +33,9 @@ import louis.omoshiroikamo.client.render.block.connectable.InsulatorTESR;
 import louis.omoshiroikamo.client.render.block.connectable.TransformerTESR;
 import louis.omoshiroikamo.client.render.block.solarArray.SolarArrayTESR;
 import louis.omoshiroikamo.client.render.block.solarArray.SolarCellTESR;
+import louis.omoshiroikamo.client.render.block.voidMiner.LaserCoreTESR;
+import louis.omoshiroikamo.client.render.block.voidMiner.LaserLensTESR;
+import louis.omoshiroikamo.client.render.block.voidMiner.VoidMinerTESR;
 import louis.omoshiroikamo.client.render.item.backpack.BackpackRenderer;
 import louis.omoshiroikamo.client.render.item.hammer.HammerRenderer;
 import louis.omoshiroikamo.client.render.item.pufferfish.PufferFishRenderer;
@@ -46,8 +49,21 @@ import louis.omoshiroikamo.common.block.energyConnector.TEConnectorMV;
 import louis.omoshiroikamo.common.block.energyConnector.TEConnectorULV;
 import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
 import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
-import louis.omoshiroikamo.common.block.multiblock.solarArray.TESolarArray;
-import louis.omoshiroikamo.common.block.multiblock.solarArray.TESolarCell;
+import louis.omoshiroikamo.common.block.multiblock.solarArray.TESolarArrayT1;
+import louis.omoshiroikamo.common.block.multiblock.solarArray.TESolarArrayT2;
+import louis.omoshiroikamo.common.block.multiblock.solarArray.TESolarArrayT3;
+import louis.omoshiroikamo.common.block.multiblock.solarArray.TESolarArrayT4;
+import louis.omoshiroikamo.common.block.multiblock.solarArray.cell.TESolarCell;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.core.TELaserCore;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.lens.TELaserLens;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.TEVoidOreMinerT1;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.TEVoidOreMinerT2;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.TEVoidOreMinerT3;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.TEVoidOreMinerT4;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.TEVoidResMinerT1;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.TEVoidResMinerT2;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.TEVoidResMinerT3;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.TEVoidResMinerT4;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.config.item.ItemConfig;
 
@@ -88,12 +104,34 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TEAnvil.class, new AnvilTESR());
 
         SolarArrayTESR solarArrayTESR = new SolarArrayTESR();
-        ClientRegistry.bindTileEntitySpecialRenderer(TESolarArray.class, solarArrayTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TESolarArrayT1.class, solarArrayTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TESolarArrayT2.class, solarArrayTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TESolarArrayT3.class, solarArrayTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TESolarArrayT4.class, solarArrayTESR);
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockSolarArray), solarArrayTESR);
 
         SolarCellTESR solarCellTESR = new SolarCellTESR();
         ClientRegistry.bindTileEntitySpecialRenderer(TESolarCell.class, solarCellTESR);
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockSolarCell), solarCellTESR);
+
+        VoidMinerTESR voidOreMinerTESR = new VoidMinerTESR();
+        ClientRegistry.bindTileEntitySpecialRenderer(TEVoidOreMinerT1.class, voidOreMinerTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TEVoidOreMinerT2.class, voidOreMinerTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TEVoidOreMinerT3.class, voidOreMinerTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TEVoidOreMinerT4.class, voidOreMinerTESR);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockVoidOreMiner), voidOreMinerTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TEVoidResMinerT1.class, voidOreMinerTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TEVoidResMinerT2.class, voidOreMinerTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TEVoidResMinerT3.class, voidOreMinerTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TEVoidResMinerT4.class, voidOreMinerTESR);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockVoidResMiner), voidOreMinerTESR);
+
+        LaserCoreTESR laserCoreTESR = new LaserCoreTESR();
+        ClientRegistry.bindTileEntitySpecialRenderer(TELaserCore.class, laserCoreTESR);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockLaserCore), laserCoreTESR);
+        LaserLensTESR laserLensTESR = new LaserLensTESR();
+        ClientRegistry.bindTileEntitySpecialRenderer(TELaserLens.class, laserLensTESR);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockLaserLens), laserLensTESR);
 
         ModItems.registerItemRenderer();
 

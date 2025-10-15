@@ -1,11 +1,14 @@
 package louis.omoshiroikamo.plugin.structureLib;
 
-import louis.omoshiroikamo.common.block.multiblock.solarArray.SolarPanelStructure;
+import louis.omoshiroikamo.common.block.multiblock.solarArray.SolarArrayStructure;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.VoidOreMinerStructure;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.VoidResMinerStructure;
 
 public class StructureCompat {
 
     public static void init() {
-        SolarPanelStructure.registerSolarArrayStructureInfo();
-
+        SolarArrayStructure.registerStructureInfo();
+        VoidOreMinerStructure.registerStructureInfo();
+        VoidResMinerStructure.registerStructureInfo();
     }
 }

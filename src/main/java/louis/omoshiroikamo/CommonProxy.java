@@ -23,12 +23,14 @@ import louis.omoshiroikamo.api.ore.OreRegistry;
 import louis.omoshiroikamo.client.ResourePackGen;
 import louis.omoshiroikamo.common.achievement.ModAchievements;
 import louis.omoshiroikamo.common.block.ModBlocks;
+import louis.omoshiroikamo.common.block.multiblock.modifier.ModifierAttributes;
 import louis.omoshiroikamo.common.command.ModCommands;
 import louis.omoshiroikamo.common.fluid.ModFluids;
 import louis.omoshiroikamo.common.item.ModItems;
 import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.recipes.ModRecipes;
 import louis.omoshiroikamo.common.util.Logger;
+import louis.omoshiroikamo.common.util.OreDictUtils;
 import louis.omoshiroikamo.common.util.handler.ElementalHandler;
 import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.world.OKWorldGenerator;
@@ -54,12 +56,14 @@ public class CommonProxy {
         FluidRegistry.init();
         OreRegistry.init();
         MaterialWireType.init();
+        ModifierAttributes.init();
 
         ModBlocks.init();
         ModItems.init();
         ModFluids.init();
         ModAchievements.init();
         OKWorldGenerator.init();
+        OreDictUtils.init();
 
         callAssembleResourcePack(event);
 

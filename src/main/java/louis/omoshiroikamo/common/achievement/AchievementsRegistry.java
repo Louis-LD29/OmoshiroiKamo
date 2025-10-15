@@ -30,6 +30,12 @@ public class AchievementsRegistry {
     public static void addBlocksToCraftingList() {
         craftingList.add(new ItemStack(ModBlocks.blockSolarArray, 1, 0)); // Tier 1
         craftingList.add(new ItemStack(ModBlocks.blockSolarArray, 1, 3)); // Tier 4
+        craftingList.add(new ItemStack(ModBlocks.blockVoidOreMiner, 1, 0)); // Tier 1
+        craftingList.add(new ItemStack(ModBlocks.blockVoidOreMiner, 1, 3)); // Tier 4
+        craftingList.add(new ItemStack(ModBlocks.blockModifierNull, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierSpeed, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierPiezo, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierAccuracy, 1, 0));
     }
 
     public static void addItemsToPickupList() {
@@ -46,12 +52,36 @@ public class AchievementsRegistry {
             return ModAchievements.craft_assembler;
         }
 
+        if (item == Item.getItemFromBlock(ModBlocks.blockLaserLens)) {
+            return ModAchievements.craft_colored_lens;
+        }
+
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierNull)) {
+            return ModAchievements.craft_modifier_core;
+        }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierSpeed)) {
+            return ModAchievements.craft_modifier_speed;
+        }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierPiezo)) {
+            return ModAchievements.craft_modifier_piezo;
+        }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierAccuracy)) {
+            return ModAchievements.craft_modifier_accuracy;
+        }
         if (item == Item.getItemFromBlock(ModBlocks.blockSolarArray)) {
             if (meta == 0) {
                 return ModAchievements.craft_solar_array_t1;
             }
             if (meta == 3) {
                 return ModAchievements.craft_solar_array_t4;
+            }
+        }
+        if (item == Item.getItemFromBlock(ModBlocks.blockVoidOreMiner)) {
+            if (meta == 0) {
+                return ModAchievements.craft_void_ore_t1;
+            }
+            if (meta == 3) {
+                return ModAchievements.craft_void_ore_t4;
             }
         }
 
@@ -66,6 +96,31 @@ public class AchievementsRegistry {
             if (meta == 3) {
                 return ModAchievements.craft_solar_array_t4;
             }
+        }
+        if (block == ModBlocks.blockVoidOreMiner) {
+            if (meta == 0) {
+                return ModAchievements.craft_void_ore_t1;
+            }
+            if (meta == 3) {
+                return ModAchievements.craft_void_ore_t4;
+            }
+        }
+
+        if (block == ModBlocks.blockLaserLens) {
+            return ModAchievements.craft_colored_lens;
+        }
+
+        if (block == ModBlocks.blockModifierNull) {
+            return ModAchievements.craft_modifier_core;
+        }
+        if (block == ModBlocks.blockModifierSpeed) {
+            return ModAchievements.craft_modifier_speed;
+        }
+        if (block == ModBlocks.blockModifierPiezo) {
+            return ModAchievements.craft_modifier_piezo;
+        }
+        if (block == ModBlocks.blockModifierAccuracy) {
+            return ModAchievements.craft_modifier_accuracy;
         }
         return null;
     }

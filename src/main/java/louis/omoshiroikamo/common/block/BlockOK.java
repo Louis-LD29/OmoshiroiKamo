@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 
 import com.enderio.core.common.BlockEnder;
+import com.enderio.core.common.TileEntityEnder;
 
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.OKCreativeTab;
@@ -14,26 +15,26 @@ public class BlockOK extends BlockEnder {
     protected final ModObject modObject;
     protected String textureName;
 
-    protected BlockOK(ModObject modObject, Class<? extends TileEntityEio> teClass) {
+    protected BlockOK(ModObject modObject, Class<? extends TileEntityEnder> teClass) {
         super(modObject.unlocalisedName, teClass);
         this.modObject = modObject;
         setCreativeTab(OKCreativeTab.INSTANCE);
     }
 
-    protected BlockOK(ModObject modObject, Class<? extends TileEntityEio> teClass, Material mat) {
+    protected BlockOK(ModObject modObject, Class<? extends TileEntityEnder> teClass, Material mat) {
         super(modObject.unlocalisedName, teClass, mat);
         this.modObject = modObject;
         setCreativeTab(OKCreativeTab.INSTANCE);
     }
 
-    protected BlockOK(ModObject modObject, Class<? extends TileEntityEio> teClass, Material mat, String textureName) {
+    protected BlockOK(ModObject modObject, Class<? extends TileEntityEnder> teClass, Material mat, String textureName) {
         super(modObject.unlocalisedName, teClass, mat);
         this.modObject = modObject;
         this.textureName = textureName;
         setCreativeTab(OKCreativeTab.INSTANCE);
     }
 
-    protected BlockOK(ModObject modObject, Class<? extends TileEntityEio> teClass, String textureName) {
+    protected BlockOK(ModObject modObject, Class<? extends TileEntityEnder> teClass, String textureName) {
         super(modObject.unlocalisedName, teClass);
         this.modObject = modObject;
         this.textureName = textureName;

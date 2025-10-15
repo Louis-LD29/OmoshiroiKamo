@@ -62,7 +62,11 @@ public class ItemAssembler extends ItemOK {
 
     private boolean isValidSolarBlock(Block block) {
         return block == ModBlocks.blockSolarArray || block == ModBlocks.blockSolarCell
+            || block == ModBlocks.blockVoidOreMiner
             || block == ModBlocks.blockStructureFrame
-            || block == ModBlocks.blockModifier;
+            || block == ModBlocks.blockModifierNull
+            || block == ModBlocks.blockModifierAccuracy
+            || block == ModBlocks.blockModifierSpeed
+            || block == ModBlocks.blockModifierPiezo;
     }
 }

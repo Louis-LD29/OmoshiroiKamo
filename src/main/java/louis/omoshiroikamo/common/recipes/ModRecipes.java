@@ -1,6 +1,6 @@
 package louis.omoshiroikamo.common.recipes;
 
-import static louis.omoshiroikamo.common.recipes.machine.RecipeLoader.hashInputsAndOutputs;
+import static louis.omoshiroikamo.common.recipes.machine.RecipeHandler.hashInputsAndOutputs;
 
 import java.util.Map;
 
@@ -12,26 +12,27 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.recipes.machine.MachineRecipeRegistry;
 import louis.omoshiroikamo.common.recipes.machine.RecipeBuilder;
-import louis.omoshiroikamo.common.recipes.machine.RecipeLoader;
+import louis.omoshiroikamo.common.recipes.machine.RecipeHandler;
 import louis.omoshiroikamo.common.recipes.ore.CopperRecipes;
+import louis.omoshiroikamo.common.recipes.voidMiner.VoidMinerRecipes;
 
 public class ModRecipes {
 
     public static void init() {
 
-        RecipeLoader.loadRecipes(ModObject.blockElectrolyzer.unlocalisedName);
-        RecipeLoader.loadRecipes(ModObject.blockAnvil.unlocalisedName);
+        RecipeHandler.loadRecipes(ModObject.blockElectrolyzer.unlocalisedName);
+        RecipeHandler.loadRecipes(ModObject.blockAnvil.unlocalisedName);
         loadVanillaFurnaceRecipes();
         CopperRecipes.init();
 
         ItemRecipes.init();
         BlockRecipes.init();
-
+        VoidMinerRecipes.init();
     }
 
     public static void loadAllRecipes() {
-        RecipeLoader.loadRecipes(ModObject.blockElectrolyzer.unlocalisedName);
-        RecipeLoader.loadRecipes(ModObject.blockAnvil.unlocalisedName);
+        RecipeHandler.loadRecipes(ModObject.blockElectrolyzer.unlocalisedName);
+        RecipeHandler.loadRecipes(ModObject.blockAnvil.unlocalisedName);
         loadVanillaFurnaceRecipes();
     }
 
