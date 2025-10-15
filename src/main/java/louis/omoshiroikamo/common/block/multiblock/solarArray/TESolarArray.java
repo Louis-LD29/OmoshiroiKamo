@@ -1,10 +1,7 @@
 package louis.omoshiroikamo.common.block.multiblock.solarArray;
 
-import static louis.omoshiroikamo.common.block.multiblock.solarArray.SolarPanelStructure.STRUCTURE_DEFINITION;
-import static louis.omoshiroikamo.common.block.multiblock.solarArray.SolarPanelStructure.TIER_OFFSET;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,7 +10,7 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
+import com.enderio.core.common.util.BlockCoord;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyProvider;
@@ -21,45 +18,35 @@ import louis.omoshiroikamo.api.energy.IPowerContainer;
 import louis.omoshiroikamo.api.energy.PowerDistributor;
 import louis.omoshiroikamo.api.energy.PowerHandlerUtil;
 import louis.omoshiroikamo.api.enums.ModObject;
+import louis.omoshiroikamo.api.multiblock.IModifierBlock;
 import louis.omoshiroikamo.common.block.ModBlocks;
-import louis.omoshiroikamo.common.block.multiblock.AbstractMultiBlockEntity;
+import louis.omoshiroikamo.common.block.multiblock.AbstractMultiBlockModifierTE;
+import louis.omoshiroikamo.common.block.multiblock.modifier.ModifierHandler;
 import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.network.PacketPowerStorage;
-import louis.omoshiroikamo.common.util.Logger;
-import louis.omoshiroikamo.config.block.SolarArrayConfig;
-import louis.omoshiroikamo.plugin.structureLib.StructureLibUtils.UpgradeEntry;
 
-public class TESolarArray extends AbstractMultiBlockEntity<TESolarArray> implements IEnergyProvider, IPowerContainer {
+public abstract class TESolarArray extends AbstractMultiBlockModifierTE implements IEnergyProvider, IPowerContainer {
 
     private PowerDistributor powerDis;
-
     private int lastCollectionValue = -1;
     private static final int CHECK_INTERVAL = 100;
-    private final Set<UpgradeEntry> mUpgrade = new HashSet<>();
-    private final Set<UpgradeEntry> mPiezo = new HashSet<>();
 
     private int storedEnergyRF = 0;
     protected float lastSyncPowerStored = -1;
-    private EnergyStorage energyStorage;
+    private final EnergyStorage energyStorage;
+    private ModifierHandler modifierHandler;
+    private List<BlockCoord> modifiers;
+    private static int cells;
 
-    public TESolarArray(int meta) {
-        this.meta = meta;
-        energyStorage = new EnergyStorage(getEnergySolarArrayTier() * 10);
+    public TESolarArray(int energyGen) {
+        this.energyStorage = new EnergyStorage(energyGen * getBaseDuration());
+        this.modifiers = new ArrayList<>();
+        this.modifierHandler = new ModifierHandler();
     }
 
     @Override
     public String getMachineName() {
         return ModObject.blockSolarArray.unlocalisedName;
-    }
-
-    @Override
-    public boolean isActive() {
-        return false;
-    }
-
-    @Override
-    protected boolean processTasks(boolean redstoneCheckPassed) {
-        return false;
     }
 
     @Override
@@ -73,43 +60,58 @@ public class TESolarArray extends AbstractMultiBlockEntity<TESolarArray> impleme
     @Override
     public void doUpdate() {
         super.doUpdate();
-
-        if (worldObj.isRemote) {
-            return;
-        }
-
-        if (structureCheck("tier" + (meta + 1), TIER_OFFSET[meta][0], TIER_OFFSET[meta][1], TIER_OFFSET[meta][2])) {
-            return;
-        }
-
-        if (!mMachine) {
-            return;
-        }
-
         boolean powerChanged = (lastSyncPowerStored != storedEnergyRF && shouldDoWorkThisTick(5));
         if (powerChanged) {
             lastSyncPowerStored = storedEnergyRF;
             PacketHandler.sendToAllAround(new PacketPowerStorage(this), this);
         }
-
         collectEnergy();
         transmitEnergy();
     }
 
-    private int getEnergyPerTick() {
-        return getEnergySolarArrayTier();
+    public abstract int getEnergyPerTick();
+
+    @Override
+    public int getBaseDuration() {
+        return 10;
     }
 
-    private void collectEnergy() {
-        if (canSeeSun()) {
-            if (lastCollectionValue == -1 || shouldDoWorkThisTick(CHECK_INTERVAL)) {
-                lastCollectionValue = getEnergyRegen();
-            }
-            if (lastCollectionValue > 0) {
-                this.setEnergyStored(Math.min(lastCollectionValue + this.getEnergyStored(), this.getMaxEnergyStored()));
+    @Override
+    public int getMinDuration() {
+        return this.getBaseDuration();
+    }
+
+    @Override
+    public int getMaxDuration() {
+        return this.getBaseDuration();
+    }
+
+    @Override
+    public float getSpeedMultiplier() {
+        return 1.0F;
+    }
+
+    @Override
+    public boolean canProcess() {
+        List<IModifierBlock> mods = new ArrayList<>();
+
+        for (BlockCoord coord : this.modifiers) {
+            Block blk = coord.getBlock(worldObj);
+            if (blk instanceof IModifierBlock) {
+                mods.add((IModifierBlock) blk);
             }
         }
+
+        this.modifierHandler.setModifiers(mods);
+        this.modifierHandler.calculateAttributeMultipliers();
+        return true;
     }
+
+    @Override
+    public void onProcessTick() {}
+
+    @Override
+    public void onProcessComplete() {}
 
     private void transmitEnergy() {
         if (powerDis == null) {
@@ -129,6 +131,17 @@ public class TESolarArray extends AbstractMultiBlockEntity<TESolarArray> impleme
         return calculateLightRatio(worldObj, xCoord, yCoord, zCoord);
     }
 
+    private void collectEnergy() {
+        if (canSeeSun()) {
+            if (lastCollectionValue == -1 || shouldDoWorkThisTick(CHECK_INTERVAL)) {
+                lastCollectionValue = getEnergyRegen();
+            }
+            if (lastCollectionValue > 0) {
+                this.setEnergyStored(Math.min(lastCollectionValue + this.getEnergyStored(), this.getMaxEnergyStored()));
+            }
+        }
+    }
+
     boolean canSeeSun() {
         return worldObj.canBlockSeeTheSky(xCoord, yCoord + 1, zCoord);
     }
@@ -136,10 +149,11 @@ public class TESolarArray extends AbstractMultiBlockEntity<TESolarArray> impleme
     private int getEnergyRegen() {
         float fromSun = calculateLightRatio();
         float isRaining = worldObj.isRaining() ? (2f / 3f) : 1f;
-        int formPiezo = worldObj.isRaining() ? mPiezo.size() * 64 : 0;
+        int formPiezo = worldObj.isRaining()
+            ? (int) (this.modifierHandler.getAttributeMultiplier("piezo") * ((float) getEnergyPerTick() / 64))
+            : 0;
         int gen = Math.round(getEnergyPerTick() * fromSun * isRaining) + formPiezo;
-        Logger.info(formPiezo);
-        return Math.min(getEnergySolarArrayTier(), gen);
+        return Math.min(getEnergyPerTick(), gen);
     }
 
     public static float calculateLightRatio(World world, int x, int y, int z) {
@@ -176,7 +190,7 @@ public class TESolarArray extends AbstractMultiBlockEntity<TESolarArray> impleme
 
     @Override
     public boolean canConnectEnergy(ForgeDirection from) {
-        return false;
+        return true;
     }
 
     @Override
@@ -194,72 +208,36 @@ public class TESolarArray extends AbstractMultiBlockEntity<TESolarArray> impleme
     }
 
     @Override
-    public IStructureDefinition<TESolarArray> getStructureDefinition() {
-        return STRUCTURE_DEFINITION;
-    }
-
-    @Override
-    protected String getStructurePieceName() {
-        return "tier" + getTier();
-    }
-
-    @Override
     public boolean addToMachine(Block block, int meta, int x, int y, int z) {
         if (block == null) {
             return false;
         }
 
-        UpgradeEntry entry = new UpgradeEntry(block, meta, x, y, z);
-        if (mUpgrade.contains(entry)) {
+        BlockCoord coord = new BlockCoord(x, y, z);
+        if (modifiers.contains(coord)) {
             return false;
         }
 
         boolean added = false;
 
-        if (block == ModBlocks.blockModifier && meta == 1) {
+        if (block == ModBlocks.blockModifierPiezo) {
             added = true;
-            mPiezo.add(entry);
         }
 
         if (added) {
-            mUpgrade.add(entry);
+            modifiers.add(coord);
         }
 
         return added;
     }
 
     @Override
-    public void clearStructureParts() {
-        super.clearStructureParts();
-        mUpgrade.clear();
-        mPiezo.clear();
+    protected void clearStructureParts() {
+        this.modifiers = new ArrayList<>();
+        this.modifierHandler = new ModifierHandler();
     }
 
-    public int getTier() {
-        return getMeta() + 1;
-    }
-
-    public int getEnergySolarArrayTier() {
-
-        int maxEnergyStored = 0;
-
-        switch (getMeta()) {
-            case 1:
-                maxEnergyStored = SolarArrayConfig.peakEnergyTier2;
-                break;
-            case 2:
-                maxEnergyStored = SolarArrayConfig.peakEnergyTier3;
-                break;
-            case 3:
-                maxEnergyStored = SolarArrayConfig.peakEnergyTier4;
-                break;
-            default:
-                maxEnergyStored = SolarArrayConfig.peakEnergyTier1;
-                break;
-        }
-
-        return maxEnergyStored;
-    }
+    public abstract int getTier();
 
     @Override
     public void writeCommon(NBTTagCompound root) {

@@ -1,0 +1,5 @@
+<root>
+  <item name='com.valkyrieofnight.environmentaltech.registry.voidminer.VoidOreMinerRegistry'>
+    <annotation name='java.lang.Deprecated'/>
+  </item>
+</root>

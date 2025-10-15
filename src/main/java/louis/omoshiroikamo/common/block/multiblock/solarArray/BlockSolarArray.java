@@ -3,6 +3,7 @@ package louis.omoshiroikamo.common.block.multiblock.solarArray;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -26,8 +27,11 @@ public class BlockSolarArray extends AbstractMachineBlock<TESolarArray> {
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, ItemBlockSolarArray.class, modObject.unlocalisedName);
-        GameRegistry.registerTileEntity(teClass, modObject.unlocalisedName + "TileEntity");
+        GameRegistry.registerBlock(this, ItemBlockSolarArray.class, name);
+        GameRegistry.registerTileEntity(TESolarArrayT1.class, name + "TESolarArrayT1TileEntity");
+        GameRegistry.registerTileEntity(TESolarArrayT2.class, name + "TESolarArrayT2TileEntity");
+        GameRegistry.registerTileEntity(TESolarArrayT3.class, name + "TESolarArrayT3TileEntity");
+        GameRegistry.registerTileEntity(TESolarArrayT4.class, name + "TESolarArrayT4TileEntity");
     }
 
     @Override
@@ -55,6 +59,20 @@ public class BlockSolarArray extends AbstractMachineBlock<TESolarArray> {
 
     @Override
     public TileEntity createTileEntity(World world, int meta) {
-        return new TESolarArray(meta);
+        switch (meta) {
+            case 3:
+                return new TESolarArrayT4();
+            case 2:
+                return new TESolarArrayT3();
+            case 1:
+                return new TESolarArrayT2();
+            default:
+                return new TESolarArrayT1();
+        }
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
+
     }
 }

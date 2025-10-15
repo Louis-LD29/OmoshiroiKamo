@@ -28,6 +28,6 @@ public final class LibMisc {
     public static final boolean DEV_ENVIRONMENT = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
     public static final String VERSION_URL = System.getProperty(
         MOD_ID + ".versionUrl",
-        "https://raw.githubusercontent.com/Louis-LD29/OmoshiroiKamo/master/updatejson/update.json");
+        "https://raw.githubusercontent.com/Shigure-Ruiseki/OmoshiroiKamo/master/updatejson/update.json");
 
 }

@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class AchievementEntry extends Achievement {
@@ -15,7 +16,7 @@ public class AchievementEntry extends Achievement {
     public static List<Achievement> achievements = new ArrayList<>();
 
     public AchievementEntry(String name, int x, int y, ItemStack icon, Achievement parent) {
-        super(LibResources.ACHIEVEMENT + name, LibResources.PREFIX_MOD + name, x, y, icon, parent);
+        super(LibResources.ACHIEVEMENT + name, LibMisc.MOD_ID.toLowerCase() + "." + name, x, y, icon, parent);
         achievements.add(this);
         registerStat();
     }

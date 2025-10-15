@@ -43,7 +43,7 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
     public static final int META_transformer = 7;
 
     protected BlockConnectable() {
-        super(ModObject.blockConnectable, TEConnectable.class);
+        super(ModObject.blockConnectable, null);
     }
 
     public static BlockConnectable create() {
@@ -54,15 +54,15 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
 
     @Override
     protected void init() {
-        GameRegistry.registerBlock(this, ItemBlockConnectable.class, modObject.unlocalisedName);
-        GameRegistry.registerTileEntity(TEInsulator.class, modObject.unlocalisedName + "_insulator");
-        GameRegistry.registerTileEntity(TEConnectorULV.class, modObject.unlocalisedName + "_connectorULV");
-        GameRegistry.registerTileEntity(TEConnectorLV.class, modObject.unlocalisedName + "_connectorLV");
-        GameRegistry.registerTileEntity(TEConnectorMV.class, modObject.unlocalisedName + "_connectorMV");
-        GameRegistry.registerTileEntity(TEConnectorHV.class, modObject.unlocalisedName + "_connectorHV");
-        GameRegistry.registerTileEntity(TEConnectorEV.class, modObject.unlocalisedName + "_connectorEV");
-        GameRegistry.registerTileEntity(TEConnectorIV.class, modObject.unlocalisedName + "_connectorIV");
-        GameRegistry.registerTileEntity(TETransformer.class, modObject.unlocalisedName + "_transformer");
+        GameRegistry.registerBlock(this, ItemBlockConnectable.class, name);
+        GameRegistry.registerTileEntity(TEInsulator.class, name + "_insulator");
+        GameRegistry.registerTileEntity(TEConnectorULV.class, name + "_connectorULV");
+        GameRegistry.registerTileEntity(TEConnectorLV.class, name + "_connectorLV");
+        GameRegistry.registerTileEntity(TEConnectorMV.class, name + "_connectorMV");
+        GameRegistry.registerTileEntity(TEConnectorHV.class, name + "_connectorHV");
+        GameRegistry.registerTileEntity(TEConnectorEV.class, name + "_connectorEV");
+        GameRegistry.registerTileEntity(TEConnectorIV.class, name + "_connectorIV");
+        GameRegistry.registerTileEntity(TETransformer.class, name + "_transformer");
 
     }
 

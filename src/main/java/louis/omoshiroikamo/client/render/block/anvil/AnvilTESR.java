@@ -30,9 +30,7 @@ public class AnvilTESR extends AbstractMTESR {
 
     @Override
     public void renderDynamic(TileEntity tile, double x, double y, double z, float partialTicks) {
-        if (!(tile instanceof TEAnvil te)) {
-            return;
-        }
+        TEAnvil te = (TEAnvil) tile;
 
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5, y + 0.375, z + 0.5); // căn giữa block

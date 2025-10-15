@@ -7,7 +7,7 @@ import louis.omoshiroikamo.common.util.lib.LibResources;
 
 @Config.Comment("Main solar array settings")
 @Config.LangKey(LibResources.CONFIG + "solarArrayConfig")
-@Config(modid = LibMisc.MOD_ID, category = "general.items.solarArray", configSubDirectory = LibMisc.MOD_ID)
+@Config(modid = LibMisc.MOD_ID, category = "general.blocks.solarArray", configSubDirectory = LibMisc.MOD_ID)
 public class SolarArrayConfig {
 
     @Config.DefaultInt(720)

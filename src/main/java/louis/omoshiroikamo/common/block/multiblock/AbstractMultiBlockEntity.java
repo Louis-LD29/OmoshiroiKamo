@@ -10,11 +10,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.cleanroommc.modularui.utils.item.ItemStackHandler;
+import com.enderio.core.common.TileEntityEnder;
 import com.gtnewhorizon.structurelib.alignment.enumerable.ExtendedFacing;
 import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
 
 import louis.omoshiroikamo.api.fluid.SmartTank;
-import louis.omoshiroikamo.common.block.TileEntityEio;
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidInput;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.TEFluidOutput;
@@ -24,7 +24,6 @@ import louis.omoshiroikamo.common.util.Logger;
 
 public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntity<T>> extends AbstractTE {
 
-    private String owner = "";
     public boolean mMachine = false;
     public boolean mStructureChanged = false;
     public static List<TEFluidInput> mFluidInput = new ArrayList<>();
@@ -33,7 +32,7 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
     public static List<TEItemOutput> mItemOutput = new ArrayList<>();
     public static List<AbstractTE> mTile = new ArrayList<>();
 
-    public abstract IStructureDefinition<T> getStructureDefinition();
+    protected abstract IStructureDefinition<T> getStructureDefinition();
 
     protected abstract String getStructurePieceName();
 
@@ -41,11 +40,11 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
         mStructureChanged = true;
     }
 
-    public ExtendedFacing getExtendedFacing() {
+    protected ExtendedFacing getExtendedFacing() {
         return ExtendedFacing.of(ForgeDirection.getOrientation(getFacing()));
     }
 
-    public void clearStructureParts() {
+    protected void clearStructureParts() {
         mFluidInput.clear();
         mFluidOutput.clear();
         mItemInput.clear();
@@ -53,7 +52,7 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
         mTile.clear();
     }
 
-    public boolean checkStructure(boolean aForceReset, AbstractTE te) {
+    protected boolean checkStructure(boolean aForceReset, AbstractTE te) {
         if (!te.isServerSide()) {
             return mMachine;
         }
@@ -65,7 +64,7 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
         return mMachine;
     }
 
-    public boolean checkMachine(TileEntityEio aBaseMetaTileEntity, ItemStack aStack) {
+    protected boolean checkMachine(TileEntityEnder aBaseMetaTileEntity, ItemStack aStack) {
         return false;
     }
 
@@ -96,7 +95,7 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
         return !valid;
     }
 
-    public boolean addToMachine(AbstractTE tile) {
+    protected boolean addToMachine(AbstractTE tile) {
         if (tile == null || mTile.contains(tile)) {
             return false;
         }
@@ -120,8 +119,12 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
         return added;
     }
 
-    public boolean addToMachine(Block block, int meta, int x, int y, int z) {
+    protected boolean addToMachine(Block block, int meta, int x, int y, int z) {
         return false;
+    }
+
+    protected boolean isStructured() {
+        return mMachine;
     }
 
     public List<FluidStack> getFluidInput() {
@@ -198,27 +201,13 @@ public abstract class AbstractMultiBlockEntity<T extends AbstractMultiBlockEntit
         return list;
     }
 
-    public void setOwner(String name) {
-        this.owner = name;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
     @Override
     public void writeCommon(NBTTagCompound root) {
         root.setBoolean("mMachine", mMachine);
-        if (owner != null && !owner.isEmpty()) {
-            root.setString("Owner", owner);
-        }
     }
 
     @Override
     public void readCommon(NBTTagCompound root) {
         mMachine = root.getBoolean("mMachine");
-        if (root.hasKey("Owner")) {
-            owner = root.getString("Owner");
-        }
     }
 }

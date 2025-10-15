@@ -60,15 +60,29 @@ upgrade.energy_three.name=Energy Tier Three
 upgrade.energy_four.name=Energy Tier Four
 upgrade.energy_five.name=Energy Tier Five
 
-#
+#ACHIEVEMENT
 
-achievement.omoshiroikamo:craft_assembler=Ready To Assemble
-achievement.omoshiroikamo:craft_assembler.desc=Craft the Assembler.
-achievement.omoshiroikamo:craft_solar_array_t1=Entry Level Solar Array
-achievement.omoshiroikamo:craft_solar_array_t1.desc=Craft a Tier 1 Solar Array.
-achievement.omoshiroikamo:craft_solar_array_t4=Ultimate Solar Array
-achievement.omoshiroikamo:craft_solar_array_t4.desc=Craft a Tier 4 Solar Array.
+achievement.omoshiroikamo.craft_assembler=Ready To Assemble
+achievement.omoshiroikamo.craft_assembler.desc=Craft the Assembler
+achievement.omoshiroikamo.craft_solar_array_t1=Entry Level Solar Array
+achievement.omoshiroikamo.craft_solar_array_t1.desc=Craft a Tier 1 Solar Array
+achievement.omoshiroikamo.craft_solar_array_t4=Ultimate Solar Array
+achievement.omoshiroikamo.craft_solar_array_t4.desc=Craft a Tier 4 Solar Array
+achievement.omoshiroikamo.craft_void_ore_t1=Entry Level Infinite Ore
+achievement.omoshiroikamo.craft_void_ore_t1.desc=Craft a Tier 1 Void Ore Miner
+achievement.omoshiroikamo.craft_void_ore_t4=Ultimate Infinite Ore Setup
+achievement.omoshiroikamo.craft_void_ore_t4.desc=Craft a Tier 4 Void Ore Miner
 
+achievement.omoshiroikamo.craft_colored_lens=Focus That Laser
+achievement.omoshiroikamo.craft_colored_lens.desc=Dye a Lens
+achievement.omoshiroikamo.craft_modifier_core=Modifications
+achievement.omoshiroikamo.craft_modifier_core.desc=Craft a Modifier Core
+achievement.omoshiroikamo.craft_modifier_speed=Speed it up
+achievement.omoshiroikamo.craft_modifier_speed.desc=Craft a Speed Modifier
+achievement.omoshiroikamo.craft_modifier_piezo=Energy From Vibrations
+achievement.omoshiroikamo.craft_modifier_piezo.desc=Craft a Piezo Modifier
+achievement.omoshiroikamo.craft_modifier_accuracy=Increase That Focus
+achievement.omoshiroikamo.craft_modifier_accuracy.desc=Craft a Accuracy Modifier
 #KeyBinding
 
 category.omoshiroikamo=Omoshiroi Kamo
@@ -127,11 +141,11 @@ tile.connectable.transformer.name=Transformer
 tile.anvil.name=Anvil
 tile.furnace.name=Furnace
 
-tile.basalt.basalt_normal.name=Basalt
+tile.basalt.name=Basalt
 
-tile.alabaster.alabaster_normal.name=Alabaster
+tile.alabaster.name=Alabaster
 
-tile.hardenedStone.hardened_stone_normal.name=Hardened Stone
+tile.hardenedStone.name=Hardened Stone
 
 tile.mica.name=Mica
 
@@ -148,15 +162,50 @@ tile.structureFrame.alabaster_structure_2.name=Structure Frame Tier 2
 tile.structureFrame.alabaster_structure_3.name=Structure Frame Tier 3
 tile.structureFrame.alabaster_structure_4.name=Structure Frame Tier 4
 
-tile.multiblockUpgrade.modifier_null.name=Null Modifier
-tile.multiblockUpgrade.modifier_piezo.name=Piezo Modifier
+tile.machineBase.basalt_machine_base.name=Machine Base
+tile.machineBase.hardened_stone_machine_base.name=Machine Base
+tile.machineBase.alabaster_machine_base.name=Machine Base
 
+tile.modifierNull.name=Null Modifier
+tile.modifierAccuracy.name=Accuracy Modifier
+tile.modifierSpeed.name=Speed Modifier
+tile.modifierPiezo.name=Piezo Modifier
+
+tile.laserLens.clear.name=Clear Lens
+tile.laserLens.black.name=Black Lens
+tile.laserLens.red.name=Red Lens
+tile.laserLens.green.name=Green Lens
+tile.laserLens.brown.name=Brown Lens
+tile.laserLens.blue.name=Blue Lens
+tile.laserLens.purple.name=Purple Lens
+tile.laserLens.cyan.name=Cyan Lens
+tile.laserLens.light_gray.name=Light Gray Lens
+tile.laserLens.gray.name=Gray Lens
+tile.laserLens.pink.name=Pink Lens
+tile.laserLens.lime.name=Lime Lens
+tile.laserLens.yellow.name=Yellow Lens
+tile.laserLens.light_blue.name=Light Blue Lens
+tile.laserLens.magenta.name=Magenta Lens
+tile.laserLens.orange.name=Orange Lens
+tile.laserLens.white.name=White Lens
+
+tile.laserCore.name=Laser Core
 tile.solarCell.name=Solar Cell
 
 tile.solarArray.tier_1.name=Solar Array Tier 1
 tile.solarArray.tier_2.name=Solar Array Tier 2
 tile.solarArray.tier_3.name=Solar Array Tier 3
 tile.solarArray.tier_4.name=Solar Array Tier 4
+
+tile.voidOreMiner.tier_1.name=Void Ore Miner Tier 1
+tile.voidOreMiner.tier_2.name=Void Ore Miner Tier 2
+tile.voidOreMiner.tier_3.name=Void Ore Miner Tier 3
+tile.voidOreMiner.tier_4.name=Void Ore Miner Tier 4
+
+tile.voidResMiner.tier_1.name=Void Resource Miner Tier 1
+tile.voidResMiner.tier_2.name=Void Resource Miner Tier 2
+tile.voidResMiner.tier_3.name=Void Resource Miner Tier 3
+tile.voidResMiner.tier_4.name=Void Resource Miner Tier 4
 
 #Immersive Engineering
 
