@@ -59,8 +59,6 @@ dependencies {
     compileOnly('com.github.GTNewHorizons:BuildCraft:7.1.45:dev')
     compileOnly("com.github.GTNewHorizons:WDMla:2.7.3:dev")
     compileOnly files("libs/neverenoughanimations-v1.0.6-1-7-10.8+91c551807b-dirty-dev.jar")
-    compileOnly("curse.maven:environmental-tech-245453:2387220")
-    compileOnly("curse.maven:valkyrielib-245480:2386793")
 
     shadowImplementation('com.github.makamys:MCLib:0.3.7.7') {
         exclude group: "codechicken"
