@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-public class NBTShapedOreRecipe extends ShapedOreRecipe {
+public class NBTShapelessOreRecipe extends ShapelessOreRecipe {
 
     private final Set<ItemStack> allowedSources = new HashSet<>();
     private final Set<String> allowedTags = new HashSet<>();
@@ -24,19 +24,19 @@ public class NBTShapedOreRecipe extends ShapedOreRecipe {
 
     private final NBTTagCompound extraResultNBT = new NBTTagCompound();
 
-    public NBTShapedOreRecipe(Block result, Object... recipe) {
+    public NBTShapelessOreRecipe(Block result, Object... recipe) {
         this(new ItemStack(result), recipe);
     }
 
-    public NBTShapedOreRecipe(Item result, Object... recipe) {
+    public NBTShapelessOreRecipe(Item result, Object... recipe) {
         this(new ItemStack(result), recipe);
     }
 
-    public NBTShapedOreRecipe(ItemStack result, Object... recipe) {
+    public NBTShapelessOreRecipe(ItemStack result, Object... recipe) {
         super(result, recipe);
     }
 
-    public NBTShapedOreRecipe allowNBTFrom(ItemStack... stacks) {
+    public NBTShapelessOreRecipe allowNBTFrom(ItemStack... stacks) {
         for (ItemStack stack : stacks) {
             if (stack != null) {
                 allowedSources.add(stack.copy());
@@ -45,44 +45,44 @@ public class NBTShapedOreRecipe extends ShapedOreRecipe {
         return this;
     }
 
-    public NBTShapedOreRecipe allowTags(String... tags) {
+    public NBTShapelessOreRecipe allowTags(String... tags) {
         Collections.addAll(this.allowedTags, tags);
         this.allowAllTags = false;
         this.allowAllExcept = false;
         return this;
     }
 
-    public NBTShapedOreRecipe allowAllTags() {
+    public NBTShapelessOreRecipe allowAllTags() {
         this.allowAllTags = true;
         this.allowAllExcept = false;
         return this;
     }
 
-    public NBTShapedOreRecipe allowAllExceptTags(String... tags) {
+    public NBTShapelessOreRecipe allowAllExceptTags(String... tags) {
         Collections.addAll(this.excludedTags, tags);
         this.allowAllTags = false;
         this.allowAllExcept = true;
         return this;
     }
 
-    public NBTShapedOreRecipe withExtraNBT(String key, NBTBase value) {
+    public NBTShapelessOreRecipe withExtraNBT(String key, NBTBase value) {
         if (key != null && value != null) {
             this.extraResultNBT.setTag(key, value);
         }
         return this;
     }
 
-    public NBTShapedOreRecipe withString(String key, String value) {
+    public NBTShapelessOreRecipe withString(String key, String value) {
         this.extraResultNBT.setString(key, value);
         return this;
     }
 
-    public NBTShapedOreRecipe withInt(String key, int value) {
+    public NBTShapelessOreRecipe withInt(String key, int value) {
         this.extraResultNBT.setInteger(key, value);
         return this;
     }
 
-    public NBTShapedOreRecipe withBoolean(String key, boolean value) {
+    public NBTShapelessOreRecipe withBoolean(String key, boolean value) {
         this.extraResultNBT.setBoolean(key, value);
         return this;
     }

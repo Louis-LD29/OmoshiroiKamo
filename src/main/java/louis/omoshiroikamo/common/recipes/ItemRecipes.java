@@ -1,9 +1,13 @@
 package louis.omoshiroikamo.common.recipes;
 
+import static com.enderio.core.common.util.DyeColor.DYE_ORE_NAMES;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+
+import com.enderio.core.common.util.DyeColor;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.common.block.ModBlocks;
@@ -27,7 +31,7 @@ public class ItemRecipes {
 
         // Starter Backpack
         GameRegistry.addRecipe(
-            new ShapedOreRecipe(
+            new NBTShapedOreRecipe(
                 new ItemStack(ModItems.itemBackPack, 1, 0),
                 "SLS",
                 "SCS",
@@ -37,7 +41,7 @@ public class ItemRecipes {
                 'L',
                 "itemLeather",
                 'C',
-                new ItemStack(Blocks.chest, 1, 1)));
+                new ItemStack(Blocks.chest, 1, 1)).withInt("BackpackColor", DyeColor.BROWN.getColor()));
 
         // Copper Backpack
         GameRegistry.addRecipe(
@@ -105,6 +109,58 @@ public class ItemRecipes {
                     'B',
                     new ItemStack(ModItems.itemBackPack, 1, 4)).allowNBTFrom(new ItemStack(ModItems.itemBackPack, 1, 3))
                         .allowAllTags());
+        }
+
+        for (int i = 0; i < DYE_ORE_NAMES.length; i++) {
+            String dyeOreName = DYE_ORE_NAMES[i];
+            GameRegistry.addRecipe(
+                new NBTShapelessOreRecipe(
+                    new ItemStack(ModItems.itemBackPack, 1, 0),
+                    new ItemStack(ModItems.itemBackPack, 1, 0),
+                    dyeOreName).withInt(
+                        "BackpackColor",
+                        DyeColor.fromIndex(i)
+                            .getColor()));
+            GameRegistry.addRecipe(
+                new NBTShapelessOreRecipe(
+                    new ItemStack(ModItems.itemBackPack, 1, 1),
+                    new ItemStack(ModItems.itemBackPack, 1, 1),
+                    dyeOreName).withInt(
+                        "BackpackColor",
+                        DyeColor.fromIndex(i)
+                            .getColor()));
+            GameRegistry.addRecipe(
+                new NBTShapelessOreRecipe(
+                    new ItemStack(ModItems.itemBackPack, 1, 2),
+                    new ItemStack(ModItems.itemBackPack, 1, 2),
+                    dyeOreName).withInt(
+                        "BackpackColor",
+                        DyeColor.fromIndex(i)
+                            .getColor()));
+            GameRegistry.addRecipe(
+                new NBTShapelessOreRecipe(
+                    new ItemStack(ModItems.itemBackPack, 1, 3),
+                    new ItemStack(ModItems.itemBackPack, 1, 3),
+                    dyeOreName).withInt(
+                        "BackpackColor",
+                        DyeColor.fromIndex(i)
+                            .getColor()));
+            GameRegistry.addRecipe(
+                new NBTShapelessOreRecipe(
+                    new ItemStack(ModItems.itemBackPack, 1, 4),
+                    new ItemStack(ModItems.itemBackPack, 1, 4),
+                    dyeOreName).withInt(
+                        "BackpackColor",
+                        DyeColor.fromIndex(i)
+                            .getColor()));
+            GameRegistry.addRecipe(
+                new NBTShapelessOreRecipe(
+                    new ItemStack(ModItems.itemBackPack, 1, 5),
+                    new ItemStack(ModItems.itemBackPack, 1, 5),
+                    dyeOreName).withInt(
+                        "BackpackColor",
+                        DyeColor.fromIndex(i)
+                            .getColor()));
         }
 
         // Upgrade Base
