@@ -26,5 +26,4 @@ public class ItemBlockSolarArray extends ItemBlockWithMetadata {
         int tier = stack.getItemDamage() + 1;
         return super.getUnlocalizedName() + ".tier_" + tier;
     }
-
 }

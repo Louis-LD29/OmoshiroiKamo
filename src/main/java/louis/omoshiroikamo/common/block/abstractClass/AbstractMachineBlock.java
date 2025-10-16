@@ -1,26 +1,19 @@
 package louis.omoshiroikamo.common.block.abstractClass;
 
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-
-import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
-import com.enderio.core.api.client.gui.IResourceTooltipProvider;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
-public abstract class AbstractMachineBlock<T extends AbstractTE> extends AbstractBlock<T>
-    implements IResourceTooltipProvider, IAdvancedTooltipProvider {
+public abstract class AbstractMachineBlock<T extends AbstractTE> extends AbstractBlock<T> {
 
     @SideOnly(Side.CLIENT)
     protected IIcon[][] iconBuffer;
@@ -49,20 +42,6 @@ public abstract class AbstractMachineBlock<T extends AbstractTE> extends Abstrac
             }
         }
     }
-
-    @Override
-    public String getUnlocalizedNameForTooltip(ItemStack stack) {
-        return stack.getUnlocalizedName();
-    }
-
-    @Override
-    public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
-
-    @Override
-    public void addBasicEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
-
-    @Override
-    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
 
     @Override
     @SideOnly(Side.CLIENT)

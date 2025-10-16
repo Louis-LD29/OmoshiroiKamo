@@ -31,6 +31,7 @@ import louis.omoshiroikamo.client.render.block.connectable.ConnectorMVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.ConnectorULVTESR;
 import louis.omoshiroikamo.client.render.block.connectable.InsulatorTESR;
 import louis.omoshiroikamo.client.render.block.connectable.TransformerTESR;
+import louis.omoshiroikamo.client.render.block.nanoBotBeacon.NanoBotBeaconTESR;
 import louis.omoshiroikamo.client.render.block.solarArray.SolarArrayTESR;
 import louis.omoshiroikamo.client.render.block.solarArray.SolarCellTESR;
 import louis.omoshiroikamo.client.render.block.voidMiner.LaserCoreTESR;
@@ -49,6 +50,10 @@ import louis.omoshiroikamo.common.block.energyConnector.TEConnectorMV;
 import louis.omoshiroikamo.common.block.energyConnector.TEConnectorULV;
 import louis.omoshiroikamo.common.block.energyConnector.TEInsulator;
 import louis.omoshiroikamo.common.block.energyConnector.TETransformer;
+import louis.omoshiroikamo.common.block.multiblock.nanoBotBeacon.TENanoBotBeaconT1;
+import louis.omoshiroikamo.common.block.multiblock.nanoBotBeacon.TENanoBotBeaconT2;
+import louis.omoshiroikamo.common.block.multiblock.nanoBotBeacon.TENanoBotBeaconT3;
+import louis.omoshiroikamo.common.block.multiblock.nanoBotBeacon.TENanoBotBeaconT4;
 import louis.omoshiroikamo.common.block.multiblock.solarArray.TESolarArrayT1;
 import louis.omoshiroikamo.common.block.multiblock.solarArray.TESolarArrayT2;
 import louis.omoshiroikamo.common.block.multiblock.solarArray.TESolarArrayT3;
@@ -125,6 +130,14 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TEVoidResMinerT3.class, voidOreMinerTESR);
         ClientRegistry.bindTileEntitySpecialRenderer(TEVoidResMinerT4.class, voidOreMinerTESR);
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockVoidResMiner), voidOreMinerTESR);
+
+        NanoBotBeaconTESR nanoBotBeaconTESR = new NanoBotBeaconTESR();
+        ClientRegistry.bindTileEntitySpecialRenderer(TENanoBotBeaconT1.class, nanoBotBeaconTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TENanoBotBeaconT2.class, nanoBotBeaconTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TENanoBotBeaconT3.class, nanoBotBeaconTESR);
+        ClientRegistry.bindTileEntitySpecialRenderer(TENanoBotBeaconT4.class, nanoBotBeaconTESR);
+        MinecraftForgeClient
+            .registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockNanoBotBeacon), nanoBotBeaconTESR);
 
         LaserCoreTESR laserCoreTESR = new LaserCoreTESR();
         ClientRegistry.bindTileEntitySpecialRenderer(TELaserCore.class, laserCoreTESR);

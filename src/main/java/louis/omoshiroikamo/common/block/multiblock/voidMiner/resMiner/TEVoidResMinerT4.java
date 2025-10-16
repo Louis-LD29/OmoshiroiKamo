@@ -1,6 +1,7 @@
 package louis.omoshiroikamo.common.block.multiblock.voidMiner.resMiner;
 
 import static louis.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.VoidResMinerStructure.STRUCTURE_DEFINITION_TIER_4;
+import static louis.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.VoidResMinerStructure.STRUCTURE_TIER_4;
 import static louis.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.VoidResMinerStructure.TIER_OFFSET;
 
 import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
@@ -31,7 +32,7 @@ public class TEVoidResMinerT4 extends TEVoidMiner {
 
     @Override
     protected String getStructurePieceName() {
-        return "tier4";
+        return STRUCTURE_TIER_4;
     }
 
     @Override
