@@ -63,10 +63,25 @@ public class ItemAssembler extends ItemOK {
     private boolean isValidSolarBlock(Block block) {
         return block == ModBlocks.blockSolarArray || block == ModBlocks.blockSolarCell
             || block == ModBlocks.blockVoidOreMiner
+            || block == ModBlocks.blockVoidResMiner
+            || block == ModBlocks.blockNanoBotBeacon
+            || block == ModBlocks.blockLaserCore
+            || block == ModBlocks.blockLaserLens
             || block == ModBlocks.blockStructureFrame
+            || block == ModBlocks.blockMachineBase
             || block == ModBlocks.blockModifierNull
             || block == ModBlocks.blockModifierAccuracy
             || block == ModBlocks.blockModifierSpeed
+            || block == ModBlocks.blockModifierResistance
+            || block == ModBlocks.blockModifierFlight
+            || block == ModBlocks.blockModifierHaste
+            || block == ModBlocks.blockModifierSaturation
+            || block == ModBlocks.blockModifierStrength
+            || block == ModBlocks.blockModifierFireResistance
+            || block == ModBlocks.blockModifierRegeneration
+            || block == ModBlocks.blockModifierNightVision
+            || block == ModBlocks.blockModifierJumpBoost
+            || block == ModBlocks.blockModifierWaterBreathing
             || block == ModBlocks.blockModifierPiezo;
     }
 }

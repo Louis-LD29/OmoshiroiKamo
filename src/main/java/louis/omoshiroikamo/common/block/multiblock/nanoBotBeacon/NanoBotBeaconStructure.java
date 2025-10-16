@@ -1,0 +1,587 @@
+package louis.omoshiroikamo.common.block.multiblock.nanoBotBeacon;
+
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofBlock;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofBlockAnyMeta;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofChain;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.transpose;
+import static louis.omoshiroikamo.plugin.structureLib.StructureLibUtils.ofBlockAdderWithPos;
+
+import net.minecraft.item.ItemStack;
+
+import com.gtnewhorizon.structurelib.alignment.constructable.IMultiblockInfoContainer;
+import com.gtnewhorizon.structurelib.alignment.enumerable.ExtendedFacing;
+import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
+import com.gtnewhorizon.structurelib.structure.ISurvivalBuildEnvironment;
+import com.gtnewhorizon.structurelib.structure.StructureDefinition;
+
+import louis.omoshiroikamo.common.block.ModBlocks;
+import louis.omoshiroikamo.common.util.Logger;
+
+public class NanoBotBeaconStructure {
+
+    // spotless:off
+    public static final String STRUCTURE_TIER_1 = "tier1";
+    public static final String[][] SHAPE_TIER_1 = new String[][]{
+        {
+            "     ",
+            " F F ",
+            "  Q  ",
+            " F F ",
+            "     "
+        },
+        {
+            "F   F",
+            " AFA ",
+            " F F ",
+            " AFA ",
+            "F   F"
+        },
+        {
+            "PF FP",
+            "FPPPF",
+            " P P ",
+            "FPPPF",
+            "PF FP"
+        }};
+    public static final String STRUCTURE_TIER_2 = "tier2";
+    public static final String[][] SHAPE_TIER_2 = new String[][]{
+        {
+            "       ",
+            "       ",
+            "  F F  ",
+            "   Q   ",
+            "  F F  ",
+            "       ",
+            "       "
+        },
+        {
+            "       ",
+            " F   F ",
+            "  AFA  ",
+            "  F F  ",
+            "  AFA  ",
+            " F   F ",
+            "       "
+        },
+        {
+            "F     F",
+            " AF FA ",
+            " FPPPF ",
+            "  P P  ",
+            " FPPPF ",
+            " AF FA ",
+            "F     F"
+        },
+        {
+            "PF   FP",
+            "FPPFPPF",
+            " P   P ",
+            " F   F ",
+            " P   P ",
+            "FPPFPPF",
+            "PF   FP"
+        }};
+    public static final String STRUCTURE_TIER_3 = "tier3";
+    public static final String[][] SHAPE_TIER_3 = new String[][]{
+        {
+            "         ",
+            "         ",
+            "         ",
+            "   F F   ",
+            "    Q    ",
+            "   F F   ",
+            "         ",
+            "         ",
+            "         "
+        },
+        {
+            "         ",
+            "         ",
+            "  F   F  ",
+            "   AFA   ",
+            "   F F   ",
+            "   AFA   ",
+            "  F   F  ",
+            "         ",
+            "         "
+        },
+        {
+            "         ",
+            " F     F ",
+            "  AF FA  ",
+            "  FPPPF  ",
+            "   P P   ",
+            "  FPPPF  ",
+            "  AF FA  ",
+            " F     F ",
+            "         "
+        },
+        {
+            "F       F",
+            " AF   FA ",
+            " FPPFPPF ",
+            "  P   P  ",
+            "  F   F  ",
+            "  P   P  ",
+            " FPPFPPF ",
+            " AF   FA ",
+            "F       F"
+        },
+        {
+            "PF     FP",
+            "FPPF FPPF",
+            " P  P  P ",
+            " F     F ",
+            "  P   P  ",
+            " F     F ",
+            " P  P  P ",
+            "FPPF FPPF",
+            "PF     FP"
+        }};
+    public static final String STRUCTURE_TIER_4 = "tier4";
+    public static final String[][] SHAPE_TIER_4 = new String[][]{
+        {
+            "           ",
+            "           ",
+            "           ",
+            "           ",
+            "    F F    ",
+            "     Q     ",
+            "    F F    ",
+            "           ",
+            "           ",
+            "           ",
+            "           "
+        },
+        {
+            "           ",
+            "           ",
+            "           ",
+            "   F   F   ",
+            "    AFA    ",
+            "    F F    ",
+            "    AFA    ",
+            "   F   F   ",
+            "           ",
+            "           ",
+            "           "
+        },
+        {
+            "           ",
+            "           ",
+            "  F     F  ",
+            "   AF FA   ",
+            "   FPPPF   ",
+            "    P P    ",
+            "   FPPPF   ",
+            "   AF FA   ",
+            "  F     F  ",
+            "           ",
+            "           "
+        },
+        {
+            "           ",
+            " F       F ",
+            "  AF   FA  ",
+            "  FPPFPPF  ",
+            "   P   P   ",
+            "   F   F   ",
+            "   P   P   ",
+            "  FPPFPPF  ",
+            "  AF   FA  ",
+            " F       F ",
+            "           "
+        },
+        {
+            "F         F",
+            " AF     FA ",
+            " FPPF FPPF ",
+            "  P  P  P  ",
+            "  F     F  ",
+            "   P   P   ",
+            "  F     F  ",
+            "  P  P  P  ",
+            " FPPF FPPF ",
+            " AF     FA ",
+            "F         F"
+        },
+        {
+            "PF       FP",
+            "FPPF   FPPF",
+            " P  PFP  P ",
+            " F       F ",
+            "  P     P  ",
+            "  F     F  ",
+            "  P     P  ",
+            " F       F ",
+            " P  PFP  P ",
+            "FPPF   FPPF",
+            "PF       FP"
+        }};
+    // spotless:on
+
+    public static final int[][] TIER_OFFSET = { { 2, 0, 2 }, { 3, 0, 3 }, { 4, 0, 4 }, { 5, 0, 5 } };
+    public static IStructureDefinition<TENanoBotBeaconT1> STRUCTURE_DEFINITION_TIER_1;
+    public static IStructureDefinition<TENanoBotBeaconT2> STRUCTURE_DEFINITION_TIER_2;
+    public static IStructureDefinition<TENanoBotBeaconT3> STRUCTURE_DEFINITION_TIER_3;
+    public static IStructureDefinition<TENanoBotBeaconT4> STRUCTURE_DEFINITION_TIER_4;
+
+    @SuppressWarnings("unchecked")
+    public static void registerStructureInfo() {
+        StructureDefinition.Builder<TENanoBotBeaconT1> builder1 = StructureDefinition.builder();
+        StructureDefinition.Builder<TENanoBotBeaconT2> builder2 = StructureDefinition.builder();
+        StructureDefinition.Builder<TENanoBotBeaconT3> builder3 = StructureDefinition.builder();
+        StructureDefinition.Builder<TENanoBotBeaconT4> builder4 = StructureDefinition.builder();
+
+        builder1.addShape(STRUCTURE_TIER_1, transpose(SHAPE_TIER_1))
+            .addElement('Q', ofBlock(ModBlocks.blockNanoBotBeacon, 0))
+            .addElement('P', ofBlockAnyMeta(ModBlocks.blockMachineBase, 0))
+            .addElement(
+                'A',
+                ofChain(
+                    ofBlockAdderWithPos(TENanoBotBeacon::addToMachine, ModBlocks.blockModifierNull, 0),
+                    ofBlock(ModBlocks.blockModifierNull, 0),
+                    ofBlock(ModBlocks.blockModifierFireResistance, 0),
+                    ofBlock(ModBlocks.blockModifierFlight, 0),
+                    ofBlock(ModBlocks.blockModifierNightVision, 0),
+                    ofBlock(ModBlocks.blockModifierWaterBreathing, 0),
+                    ofBlock(ModBlocks.blockModifierStrength, 0),
+                    ofBlock(ModBlocks.blockModifierHaste, 0),
+                    ofBlock(ModBlocks.blockModifierRegeneration, 0),
+                    ofBlock(ModBlocks.blockModifierSaturation, 0),
+                    ofBlock(ModBlocks.blockModifierResistance, 0),
+                    ofBlock(ModBlocks.blockModifierJumpBoost, 0),
+                    ofBlock(ModBlocks.blockModifierSpeed, 0)))
+            .addElement(
+                'F',
+                ofChain(
+                    ofBlock(ModBlocks.blockStructureFrame, 0),
+                    ofBlock(ModBlocks.blockStructureFrame, 4),
+                    ofBlock(ModBlocks.blockStructureFrame, 8)));
+
+        builder2.addShape(STRUCTURE_TIER_2, transpose(SHAPE_TIER_2))
+            .addElement('Q', ofBlock(ModBlocks.blockNanoBotBeacon, 1))
+            .addElement('P', ofBlockAnyMeta(ModBlocks.blockMachineBase, 0))
+            .addElement(
+                'A',
+                ofChain(
+                    ofBlockAdderWithPos(TENanoBotBeacon::addToMachine, ModBlocks.blockModifierNull, 0),
+                    ofBlock(ModBlocks.blockModifierNull, 0),
+                    ofBlock(ModBlocks.blockModifierFireResistance, 0),
+                    ofBlock(ModBlocks.blockModifierFlight, 0),
+                    ofBlock(ModBlocks.blockModifierNightVision, 0),
+                    ofBlock(ModBlocks.blockModifierWaterBreathing, 0),
+                    ofBlock(ModBlocks.blockModifierStrength, 0),
+                    ofBlock(ModBlocks.blockModifierHaste, 0),
+                    ofBlock(ModBlocks.blockModifierRegeneration, 0),
+                    ofBlock(ModBlocks.blockModifierSaturation, 0),
+                    ofBlock(ModBlocks.blockModifierResistance, 0),
+                    ofBlock(ModBlocks.blockModifierJumpBoost, 0),
+                    ofBlock(ModBlocks.blockModifierSpeed, 0)))
+            .addElement(
+                'F',
+                ofChain(
+                    ofBlock(ModBlocks.blockStructureFrame, 1),
+                    ofBlock(ModBlocks.blockStructureFrame, 5),
+                    ofBlock(ModBlocks.blockStructureFrame, 9)));
+
+        builder3.addShape(STRUCTURE_TIER_3, transpose(SHAPE_TIER_3))
+            .addElement('Q', ofBlock(ModBlocks.blockNanoBotBeacon, 2))
+            .addElement('P', ofBlockAnyMeta(ModBlocks.blockMachineBase, 0))
+            .addElement(
+                'A',
+                ofChain(
+                    ofBlockAdderWithPos(TENanoBotBeacon::addToMachine, ModBlocks.blockModifierNull, 0),
+                    ofBlock(ModBlocks.blockModifierNull, 0),
+                    ofBlock(ModBlocks.blockModifierFireResistance, 0),
+                    ofBlock(ModBlocks.blockModifierFlight, 0),
+                    ofBlock(ModBlocks.blockModifierNightVision, 0),
+                    ofBlock(ModBlocks.blockModifierWaterBreathing, 0),
+                    ofBlock(ModBlocks.blockModifierStrength, 0),
+                    ofBlock(ModBlocks.blockModifierHaste, 0),
+                    ofBlock(ModBlocks.blockModifierRegeneration, 0),
+                    ofBlock(ModBlocks.blockModifierSaturation, 0),
+                    ofBlock(ModBlocks.blockModifierResistance, 0),
+                    ofBlock(ModBlocks.blockModifierJumpBoost, 0),
+                    ofBlock(ModBlocks.blockModifierSpeed, 0)))
+            .addElement(
+                'F',
+                ofChain(
+                    ofBlock(ModBlocks.blockStructureFrame, 2),
+                    ofBlock(ModBlocks.blockStructureFrame, 6),
+                    ofBlock(ModBlocks.blockStructureFrame, 10)));
+
+        builder4.addShape(STRUCTURE_TIER_4, transpose(SHAPE_TIER_4))
+            .addElement('Q', ofBlock(ModBlocks.blockNanoBotBeacon, 3))
+            .addElement('P', ofBlockAnyMeta(ModBlocks.blockMachineBase, 0))
+            .addElement(
+                'A',
+                ofChain(
+                    ofBlockAdderWithPos(TENanoBotBeacon::addToMachine, ModBlocks.blockModifierNull, 0),
+                    ofBlock(ModBlocks.blockModifierNull, 0),
+                    ofBlock(ModBlocks.blockModifierFireResistance, 0),
+                    ofBlock(ModBlocks.blockModifierFlight, 0),
+                    ofBlock(ModBlocks.blockModifierNightVision, 0),
+                    ofBlock(ModBlocks.blockModifierWaterBreathing, 0),
+                    ofBlock(ModBlocks.blockModifierStrength, 0),
+                    ofBlock(ModBlocks.blockModifierHaste, 0),
+                    ofBlock(ModBlocks.blockModifierRegeneration, 0),
+                    ofBlock(ModBlocks.blockModifierSaturation, 0),
+                    ofBlock(ModBlocks.blockModifierResistance, 0),
+                    ofBlock(ModBlocks.blockModifierJumpBoost, 0),
+                    ofBlock(ModBlocks.blockModifierSpeed, 0)))
+            .addElement(
+                'F',
+                ofChain(
+                    ofBlock(ModBlocks.blockStructureFrame, 3),
+                    ofBlock(ModBlocks.blockStructureFrame, 7),
+                    ofBlock(ModBlocks.blockStructureFrame, 11)));
+
+        IStructureDefinition<TENanoBotBeaconT1> definition1 = builder1.build();
+        STRUCTURE_DEFINITION_TIER_1 = definition1;
+        IStructureDefinition<TENanoBotBeaconT2> definition2 = builder2.build();
+        STRUCTURE_DEFINITION_TIER_2 = definition2;
+        IStructureDefinition<TENanoBotBeaconT3> definition3 = builder3.build();
+        STRUCTURE_DEFINITION_TIER_3 = definition3;
+        IStructureDefinition<TENanoBotBeaconT4> definition4 = builder4.build();
+        STRUCTURE_DEFINITION_TIER_4 = definition4;
+
+        IMultiblockInfoContainer.registerTileClass(TENanoBotBeaconT1.class, new MultiblockInfoContainerT1(definition1));
+        IMultiblockInfoContainer.registerTileClass(TENanoBotBeaconT2.class, new MultiblockInfoContainerT2(definition2));
+        IMultiblockInfoContainer.registerTileClass(TENanoBotBeaconT3.class, new MultiblockInfoContainerT3(definition3));
+        IMultiblockInfoContainer.registerTileClass(TENanoBotBeaconT4.class, new MultiblockInfoContainerT4(definition4));
+
+        Logger.info("Register Solar Array Structure Info");
+    }
+
+    private static class MultiblockInfoContainerT1 implements IMultiblockInfoContainer<TENanoBotBeaconT1> {
+
+        private final IStructureDefinition<TENanoBotBeaconT1> structure;
+
+        public MultiblockInfoContainerT1(IStructureDefinition<TENanoBotBeaconT1> structure) {
+            this.structure = structure;
+        }
+
+        @Override
+        public void construct(ItemStack triggerStack, boolean hintsOnly, TENanoBotBeaconT1 ctx, ExtendedFacing aSide) {
+            int tier = ctx.getTier();
+
+            this.structure.buildOrHints(
+                ctx,
+                triggerStack,
+                ctx.getStructurePieceName(),
+                ctx.getWorldObj(),
+                ExtendedFacing.DEFAULT,
+                ctx.xCoord,
+                ctx.yCoord,
+                ctx.zCoord,
+                TIER_OFFSET[tier - 1][0],
+                TIER_OFFSET[tier - 1][1],
+                TIER_OFFSET[tier - 1][2],
+                hintsOnly);
+        }
+
+        @Override
+        public int survivalConstruct(ItemStack triggerStack, int elementBudget, ISurvivalBuildEnvironment env,
+            TENanoBotBeaconT1 ctx, ExtendedFacing aSide) {
+            int built = 0;
+            int tier = ctx.getTier();
+            built = this.structure.survivalBuild(
+                ctx,
+                triggerStack,
+                ctx.getStructurePieceName(),
+                ctx.getWorldObj(),
+                ExtendedFacing.DEFAULT,
+                ctx.xCoord,
+                ctx.yCoord,
+                ctx.zCoord,
+                TIER_OFFSET[tier - 1][0],
+                TIER_OFFSET[tier - 1][1],
+                TIER_OFFSET[tier - 1][2],
+                elementBudget,
+                env,
+                false);
+
+            return built;
+        }
+
+        @Override
+        public String[] getDescription(ItemStack stackSize) {
+            return new String[0];
+        }
+    }
+
+    private static class MultiblockInfoContainerT2 implements IMultiblockInfoContainer<TENanoBotBeaconT2> {
+
+        private final IStructureDefinition<TENanoBotBeaconT2> structure;
+
+        public MultiblockInfoContainerT2(IStructureDefinition<TENanoBotBeaconT2> structure) {
+            this.structure = structure;
+        }
+
+        @Override
+        public void construct(ItemStack triggerStack, boolean hintsOnly, TENanoBotBeaconT2 ctx, ExtendedFacing aSide) {
+            int tier = ctx.getTier();
+
+            this.structure.buildOrHints(
+                ctx,
+                triggerStack,
+
+                ctx.getStructurePieceName(),
+                ctx.getWorldObj(),
+                ExtendedFacing.DEFAULT,
+                ctx.xCoord,
+                ctx.yCoord,
+                ctx.zCoord,
+                TIER_OFFSET[tier - 1][0],
+                TIER_OFFSET[tier - 1][1],
+                TIER_OFFSET[tier - 1][2],
+                hintsOnly);
+        }
+
+        @Override
+        public int survivalConstruct(ItemStack triggerStack, int elementBudget, ISurvivalBuildEnvironment env,
+            TENanoBotBeaconT2 ctx, ExtendedFacing aSide) {
+            int built = 0;
+            int tier = ctx.getTier();
+            built = this.structure.survivalBuild(
+                ctx,
+                triggerStack,
+                ctx.getStructurePieceName(),
+                ctx.getWorldObj(),
+                ExtendedFacing.DEFAULT,
+                ctx.xCoord,
+                ctx.yCoord,
+                ctx.zCoord,
+                TIER_OFFSET[tier - 1][0],
+                TIER_OFFSET[tier - 1][1],
+                TIER_OFFSET[tier - 1][2],
+                elementBudget,
+                env,
+                false);
+
+            return built;
+        }
+
+        @Override
+        public String[] getDescription(ItemStack stackSize) {
+            return new String[0];
+        }
+    }
+
+    private static class MultiblockInfoContainerT3 implements IMultiblockInfoContainer<TENanoBotBeaconT3> {
+
+        private final IStructureDefinition<TENanoBotBeaconT3> structure;
+
+        public MultiblockInfoContainerT3(IStructureDefinition<TENanoBotBeaconT3> structure) {
+            this.structure = structure;
+        }
+
+        @Override
+        public void construct(ItemStack triggerStack, boolean hintsOnly, TENanoBotBeaconT3 ctx, ExtendedFacing aSide) {
+            int tier = ctx.getTier();
+
+            this.structure.buildOrHints(
+                ctx,
+                triggerStack,
+
+                ctx.getStructurePieceName(),
+                ctx.getWorldObj(),
+                ExtendedFacing.DEFAULT,
+                ctx.xCoord,
+                ctx.yCoord,
+                ctx.zCoord,
+                TIER_OFFSET[tier - 1][0],
+                TIER_OFFSET[tier - 1][1],
+                TIER_OFFSET[tier - 1][2],
+                hintsOnly);
+        }
+
+        @Override
+        public int survivalConstruct(ItemStack triggerStack, int elementBudget, ISurvivalBuildEnvironment env,
+            TENanoBotBeaconT3 ctx, ExtendedFacing aSide) {
+            int built = 0;
+            int tier = ctx.getTier();
+            built = this.structure.survivalBuild(
+                ctx,
+                triggerStack,
+                ctx.getStructurePieceName(),
+                ctx.getWorldObj(),
+                ExtendedFacing.DEFAULT,
+                ctx.xCoord,
+                ctx.yCoord,
+                ctx.zCoord,
+                TIER_OFFSET[tier - 1][0],
+                TIER_OFFSET[tier - 1][1],
+                TIER_OFFSET[tier - 1][2],
+                elementBudget,
+                env,
+                false);
+
+            return built;
+        }
+
+        @Override
+        public String[] getDescription(ItemStack stackSize) {
+            return new String[0];
+        }
+    }
+
+    private static class MultiblockInfoContainerT4 implements IMultiblockInfoContainer<TENanoBotBeaconT4> {
+
+        private final IStructureDefinition<TENanoBotBeaconT4> structure;
+
+        public MultiblockInfoContainerT4(IStructureDefinition<TENanoBotBeaconT4> structure) {
+            this.structure = structure;
+        }
+
+        @Override
+        public void construct(ItemStack triggerStack, boolean hintsOnly, TENanoBotBeaconT4 ctx, ExtendedFacing aSide) {
+            int tier = ctx.getTier();
+
+            this.structure.buildOrHints(
+                ctx,
+                triggerStack,
+
+                ctx.getStructurePieceName(),
+                ctx.getWorldObj(),
+                ExtendedFacing.DEFAULT,
+                ctx.xCoord,
+                ctx.yCoord,
+                ctx.zCoord,
+                TIER_OFFSET[tier - 1][0],
+                TIER_OFFSET[tier - 1][1],
+                TIER_OFFSET[tier - 1][2],
+                hintsOnly);
+        }
+
+        @Override
+        public int survivalConstruct(ItemStack triggerStack, int elementBudget, ISurvivalBuildEnvironment env,
+            TENanoBotBeaconT4 ctx, ExtendedFacing aSide) {
+            int built = 0;
+            int tier = ctx.getTier();
+            built = this.structure.survivalBuild(
+                ctx,
+                triggerStack,
+                ctx.getStructurePieceName(),
+                ctx.getWorldObj(),
+                ExtendedFacing.DEFAULT,
+                ctx.xCoord,
+                ctx.yCoord,
+                ctx.zCoord,
+                TIER_OFFSET[tier - 1][0],
+                TIER_OFFSET[tier - 1][1],
+                TIER_OFFSET[tier - 1][2],
+                elementBudget,
+                env,
+                false);
+
+            return built;
+        }
+
+        @Override
+        public String[] getDescription(ItemStack stackSize) {
+            return new String[0];
+        }
+    }
+}

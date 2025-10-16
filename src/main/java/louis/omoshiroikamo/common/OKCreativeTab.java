@@ -81,6 +81,7 @@ public class OKCreativeTab extends CreativeTabs {
         addBlock(ModBlocks.blockSolarCell);
         addBlock(ModBlocks.blockVoidOreMiner);
         addBlock(ModBlocks.blockVoidResMiner);
+        addBlock(ModBlocks.blockNanoBotBeacon);
         addBlock(ModBlocks.blockLaserCore);
         addBlock(ModBlocks.blockLaserLens);
 

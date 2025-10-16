@@ -1,5 +1,6 @@
 package louis.omoshiroikamo.common.network;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 
@@ -15,16 +16,15 @@ public class PacketHandler {
     public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(LibMisc.MOD_ID);
 
     public static void init() {
-
-        PacketHandler.INSTANCE
+        INSTANCE
             .registerMessage(PacketBackPackState.class, PacketBackPackState.class, PacketHandler.nextID(), Side.SERVER);
-        PacketHandler.INSTANCE
-            .registerMessage(PacketIoMode.class, PacketIoMode.class, PacketHandler.nextID(), Side.SERVER);
+        INSTANCE.registerMessage(PacketIoMode.class, PacketIoMode.class, PacketHandler.nextID(), Side.SERVER);
 
-        PacketHandler.INSTANCE
-            .registerMessage(PacketFluidTanks.class, PacketFluidTanks.class, PacketHandler.nextID(), Side.CLIENT);
-        PacketHandler.INSTANCE
+        INSTANCE.registerMessage(PacketFluidTanks.class, PacketFluidTanks.class, PacketHandler.nextID(), Side.CLIENT);
+        INSTANCE
             .registerMessage(PacketPowerStorage.class, PacketPowerStorage.class, PacketHandler.nextID(), Side.CLIENT);
+        INSTANCE.registerMessage(PacketMBlientUpdate.class, PacketMBlientUpdate.class, nextID(), Side.CLIENT);
+        INSTANCE.registerMessage(PacketNBBClientFlight.class, PacketNBBClientFlight.class, nextID(), Side.CLIENT);
     }
 
     private static int ID = 0;
@@ -41,6 +41,12 @@ public class PacketHandler {
 
     public static void sendToAllAround(IMessage message, TileEntity te) {
         sendToAllAround(message, te, 64);
+    }
+
+    public static void sendToAllAround(IMessage message, EntityPlayer player, double range) {
+        INSTANCE.sendToAllAround(
+            message,
+            new TargetPoint(player.worldObj.provider.dimensionId, player.posX, player.posY, player.posZ, range));
     }
 
     public static void sendTo(IMessage message, EntityPlayerMP player) {

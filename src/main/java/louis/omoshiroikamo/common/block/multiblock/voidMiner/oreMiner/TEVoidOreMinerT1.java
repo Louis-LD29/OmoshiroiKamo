@@ -1,6 +1,7 @@
 package louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner;
 
 import static louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.VoidOreMinerStructure.STRUCTURE_DEFINITION_TIER_1;
+import static louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.VoidOreMinerStructure.STRUCTURE_TIER_1;
 import static louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.VoidOreMinerStructure.TIER_OFFSET;
 
 import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
@@ -31,7 +32,7 @@ public class TEVoidOreMinerT1 extends TEVoidMiner {
 
     @Override
     protected String getStructurePieceName() {
-        return "tier1";
+        return STRUCTURE_TIER_1;
     }
 
     @Override

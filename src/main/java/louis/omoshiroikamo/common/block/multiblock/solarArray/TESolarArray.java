@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -19,11 +21,13 @@ import louis.omoshiroikamo.api.energy.PowerDistributor;
 import louis.omoshiroikamo.api.energy.PowerHandlerUtil;
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.api.multiblock.IModifierBlock;
+import louis.omoshiroikamo.common.achievement.ModAchievements;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.block.multiblock.AbstractMultiBlockModifierTE;
 import louis.omoshiroikamo.common.block.multiblock.modifier.ModifierHandler;
 import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.network.PacketPowerStorage;
+import louis.omoshiroikamo.common.util.PlayerUtils;
 
 public abstract class TESolarArray extends AbstractMultiBlockModifierTE implements IEnergyProvider, IPowerContainer {
 
@@ -36,7 +40,6 @@ public abstract class TESolarArray extends AbstractMultiBlockModifierTE implemen
     private final EnergyStorage energyStorage;
     private ModifierHandler modifierHandler;
     private List<BlockCoord> modifiers;
-    private static int cells;
 
     public TESolarArray(int energyGen) {
         this.energyStorage = new EnergyStorage(energyGen * getBaseDuration());
@@ -112,6 +115,24 @@ public abstract class TESolarArray extends AbstractMultiBlockModifierTE implemen
 
     @Override
     public void onProcessComplete() {}
+
+    @Override
+    public void onFormed() {
+        if (this.player == null) {
+            return;
+        }
+        EntityPlayer player = PlayerUtils.getPlayerFromWorld(this.worldObj, this.player.getId());
+        if (player == null) {
+            return;
+        }
+        TileEntity tileEntity = getLocation().getTileEntity(worldObj);
+        if (tileEntity instanceof TESolarArrayT1) {
+            player.triggerAchievement(ModAchievements.assemble_solar_array_t1);
+        }
+        if (tileEntity instanceof TESolarArrayT4) {
+            player.triggerAchievement(ModAchievements.assemble_solar_array_t4);
+        }
+    }
 
     private void transmitEnergy() {
         if (powerDis == null) {
