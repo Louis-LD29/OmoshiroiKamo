@@ -127,6 +127,8 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
 
     public abstract void onProcessComplete();
 
+    public abstract void onFormed();
+
     public int getCurrentProcessDuration() {
         int duration = (int) ((float) this.getBaseDuration() * this.getSpeedMultiplier());
         if (duration < this.getMinDuration()) {
@@ -214,8 +216,6 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
         }
     }
 
-    public abstract void onFormed();
-
     public void ejectAll(ItemStackHandler output) {
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             BlockCoord loc = getLocation().getLocation(dir);
@@ -223,18 +223,21 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
             if (te == null) {
                 continue;
             }
+
             for (int i = 0; i < output.getSlots(); i++) {
                 ItemStack stack = output.getStackInSlot(i);
-                if (stack != null) {
-                    int num = ItemUtil.doInsertItem(te, stack, dir.getOpposite());
-                    if (num > 0) {
-                        stack.stackSize -= num;
-                        if (stack.stackSize <= 0) {
-                            stack = null;
-                        }
-                        output.setStackInSlot(i, stack);
-                        markDirty();
+                if (stack == null) {
+                    continue;
+                }
+
+                int inserted = ItemUtil.doInsertItem(te, stack, dir.getOpposite());
+                if (inserted > 0) {
+                    stack.stackSize -= inserted;
+                    if (stack.stackSize <= 0) {
+                        stack = null;
                     }
+                    output.setStackInSlot(i, stack);
+                    markDirty();
                 }
             }
         }

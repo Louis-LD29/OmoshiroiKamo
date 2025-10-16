@@ -71,6 +71,7 @@ public class ModBlocks {
     public static Block blockAlabaster;
     public static Block blockHardenedStone;
     public static Block blockMica;
+    public static Block blockLauncher;
 
     public static Block blockFluidInOut;
     public static Block blockEnergyInOut;

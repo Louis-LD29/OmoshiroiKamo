@@ -46,6 +46,8 @@ public class NanoBotBeaconTESR extends TileEntitySpecialRenderer implements IIte
 
         RenderUtil.bindTexture(laser);
         model.renderOnly("Core_1", "Core_2");
+        RenderUtil.bindTexture(TEX_IRON);
+        model.renderOnly("Anim");
         switch (tier) {
             case 1:
                 GL11.glColor3f(1.0f, 0.85f, 0.3f);
@@ -64,8 +66,7 @@ public class NanoBotBeaconTESR extends TileEntitySpecialRenderer implements IIte
                 break;
         }
 
-        RenderUtil.bindTexture(TEX_IRON);
-        model.renderOnly("rod_1", "rod_2", "rod_3", "rod_4", "rod_5", "rod_6", "rod_7", "rod_8", "Anim");
+        model.renderOnly("rod_1", "rod_2", "rod_3", "rod_4", "rod_5", "rod_6", "rod_7", "rod_8");
         GL11.glPopMatrix();
     }
 
@@ -92,17 +93,19 @@ public class NanoBotBeaconTESR extends TileEntitySpecialRenderer implements IIte
         RenderUtil.bindTexture(laser);
         model.renderOnly("Core_1", "Core_2");
 
+        RenderUtil.bindTexture(TEX_IRON);
+        model.renderOnly("Anim");
         switch (meta) {
-            case 0:
+            case 1:
                 GL11.glColor3f(1.0f, 0.85f, 0.3f);
                 break;
-            case 1:
+            case 2:
                 GL11.glColor3f(0.3f, 0.9f, 1.0f);
                 break;
-            case 2:
+            case 3:
                 GL11.glColor3f(0.063f, 0.369f, 0.318f);
                 break;
-            case 3:
+            case 4:
                 GL11.glColor3f(0.8f, 0.9f, 1.0f);
                 break;
             default:
@@ -110,8 +113,7 @@ public class NanoBotBeaconTESR extends TileEntitySpecialRenderer implements IIte
                 break;
         }
 
-        RenderUtil.bindTexture(TEX_IRON);
-        model.renderOnly("rod_1", "rod_2", "rod_3", "rod_4", "rod_5", "rod_6", "rod_7", "rod_8", "Anim");
+        model.renderOnly("rod_1", "rod_2", "rod_3", "rod_4", "rod_5", "rod_6", "rod_7", "rod_8");
         GL11.glPopMatrix();
     }
 }

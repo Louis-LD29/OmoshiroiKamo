@@ -53,6 +53,9 @@ tooltip.feeding_upgrade=Allows backpacks to automatically feed player
 tooltip.everlasting_upgrade=Makes the backpack invincible, preventing despawning or falling into the void. Ensures retrieval even when thrown into the void.
 tooltip.battery_upgrade=Stores energy and automatically recharges energy-using items.
 
+tooltip.assembler.l1=Shift + Right-click on controllers to assemble.
+tooltip.assembler.l2=Left-click to instantly break any multiblock block.
+
 #ANVIL UPGRADE
 upgrade.energy_one.name=Energy Tier One
 upgrade.energy_two.name=Energy Tier Two

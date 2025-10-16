@@ -40,6 +40,7 @@ public enum ModObject {
     blockAlabaster,
     blockHardenedStone,
     blockMica,
+    blockLauncher,
 
     blockBlockMaterial,
     blockConnectable,

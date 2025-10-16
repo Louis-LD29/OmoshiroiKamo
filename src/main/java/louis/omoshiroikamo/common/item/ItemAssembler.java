@@ -1,5 +1,8 @@
 package louis.omoshiroikamo.common.item;
 
+import java.util.List;
+import java.util.Set;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -7,13 +10,40 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import com.google.common.collect.Sets;
 import com.gtnewhorizon.structurelib.alignment.constructable.ConstructableUtility;
 
 import louis.omoshiroikamo.api.enums.ModObject;
 import louis.omoshiroikamo.common.block.ModBlocks;
+import louis.omoshiroikamo.common.util.lib.LibMisc;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
 public class ItemAssembler extends ItemOK {
+
+    private static final Set<Block> VALID_SOLAR_BLOCKS = Sets.newHashSet(
+        ModBlocks.blockSolarArray,
+        ModBlocks.blockSolarCell,
+        ModBlocks.blockVoidOreMiner,
+        ModBlocks.blockVoidResMiner,
+        ModBlocks.blockNanoBotBeacon,
+        ModBlocks.blockLaserCore,
+        ModBlocks.blockLaserLens,
+        ModBlocks.blockStructureFrame,
+        ModBlocks.blockMachineBase,
+        ModBlocks.blockModifierNull,
+        ModBlocks.blockModifierAccuracy,
+        ModBlocks.blockModifierSpeed,
+        ModBlocks.blockModifierResistance,
+        ModBlocks.blockModifierFlight,
+        ModBlocks.blockModifierHaste,
+        ModBlocks.blockModifierSaturation,
+        ModBlocks.blockModifierStrength,
+        ModBlocks.blockModifierFireResistance,
+        ModBlocks.blockModifierRegeneration,
+        ModBlocks.blockModifierNightVision,
+        ModBlocks.blockModifierJumpBoost,
+        ModBlocks.blockModifierWaterBreathing,
+        ModBlocks.blockModifierPiezo);
 
     public ItemAssembler() {
         super(ModObject.itemAssembler.unlocalisedName);
@@ -61,27 +91,13 @@ public class ItemAssembler extends ItemOK {
     }
 
     private boolean isValidSolarBlock(Block block) {
-        return block == ModBlocks.blockSolarArray || block == ModBlocks.blockSolarCell
-            || block == ModBlocks.blockVoidOreMiner
-            || block == ModBlocks.blockVoidResMiner
-            || block == ModBlocks.blockNanoBotBeacon
-            || block == ModBlocks.blockLaserCore
-            || block == ModBlocks.blockLaserLens
-            || block == ModBlocks.blockStructureFrame
-            || block == ModBlocks.blockMachineBase
-            || block == ModBlocks.blockModifierNull
-            || block == ModBlocks.blockModifierAccuracy
-            || block == ModBlocks.blockModifierSpeed
-            || block == ModBlocks.blockModifierResistance
-            || block == ModBlocks.blockModifierFlight
-            || block == ModBlocks.blockModifierHaste
-            || block == ModBlocks.blockModifierSaturation
-            || block == ModBlocks.blockModifierStrength
-            || block == ModBlocks.blockModifierFireResistance
-            || block == ModBlocks.blockModifierRegeneration
-            || block == ModBlocks.blockModifierNightVision
-            || block == ModBlocks.blockModifierJumpBoost
-            || block == ModBlocks.blockModifierWaterBreathing
-            || block == ModBlocks.blockModifierPiezo;
+        return VALID_SOLAR_BLOCKS.contains(block);
+    }
+
+    @Override
+    public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
+        super.addDetailedEntries(itemstack, entityplayer, list, flag);
+        list.add(LibMisc.lang.localize(LibResources.TOOLTIP + "assembler.l1"));
+        list.add(LibMisc.lang.localize(LibResources.TOOLTIP + "assembler.l2"));
     }
 }

@@ -2,7 +2,9 @@ package louis.omoshiroikamo.common.recipes;
 
 import static com.enderio.core.common.util.DyeColor.DYE_ORE_NAMES;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -10,6 +12,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.item.ModItems;
+import louis.omoshiroikamo.common.util.lib.LibMods;
 
 public class BlockRecipes {
 
@@ -249,6 +252,74 @@ public class BlockRecipes {
                 'Q',
                 new ItemStack(ModBlocks.blockVoidResMiner, 1, 2),
                 'M',
+                new ItemStack(ModBlocks.blockMica, 1, 0)));
+
+        // Nano Bot Beacon Tier 1
+        if (!LibMods.EtFuturum.isLoaded()) {
+            GameRegistry.addRecipe(
+                new ShapedOreRecipe(
+                    new ItemStack(ModBlocks.blockNanoBotBeacon, 1, 0),
+                    "GPG",
+                    "GNG",
+                    "BCB",
+                    'P',
+                    Items.potionitem,
+                    'G',
+                    "blockGold",
+                    'N',
+                    new ItemStack(ModBlocks.blockModifierNull, 1, 0),
+                    'C',
+                    new ItemStack(Blocks.beacon, 1, 0),
+                    'B',
+                    new ItemStack(Blocks.brewing_stand, 1, 0)));
+        }
+
+        // Nano Bot Beacon Tier 2
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModBlocks.blockNanoBotBeacon, 1, 1),
+                "GCG",
+                "GNG",
+                "BCB",
+                'G',
+                "blockDiamond",
+                'N',
+                new ItemStack(ModBlocks.blockModifierNull, 1, 0),
+                'C',
+                new ItemStack(ModBlocks.blockNanoBotBeacon, 1, 0),
+                'B',
+                new ItemStack(Blocks.brewing_stand, 1, 0)));
+
+        // Nano Bot Beacon Tier 3
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModBlocks.blockNanoBotBeacon, 1, 2),
+                "GCG",
+                "GNG",
+                "BCB",
+                'G',
+                new ItemStack(ModItems.itemStabilizedEnderPear, 1, 0),
+                'N',
+                new ItemStack(ModBlocks.blockModifierNull, 1, 0),
+                'C',
+                new ItemStack(ModBlocks.blockNanoBotBeacon, 1, 1),
+                'B',
+                new ItemStack(ModBlocks.blockMica, 1, 0)));
+
+        // Nano Bot Beacon Tier 4
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModBlocks.blockNanoBotBeacon, 1, 3),
+                "GCG",
+                "GNG",
+                "BCB",
+                'G',
+                "itemNetherStar",
+                'N',
+                new ItemStack(ModBlocks.blockModifierNull, 1, 0),
+                'C',
+                new ItemStack(ModBlocks.blockNanoBotBeacon, 1, 2),
+                'B',
                 new ItemStack(ModBlocks.blockMica, 1, 0)));
 
         // Basalt Structure Frame Tier 1
@@ -523,6 +594,202 @@ public class BlockRecipes {
                 new ItemStack(ModBlocks.blockModifierNull, 1, 0),
                 'D',
                 "blockDiamond"));
+
+        // Flight Modifier
+        if (!LibMods.EtFuturum.isLoaded()) {
+            GameRegistry.addRecipe(
+                new ShapedOreRecipe(
+                    new ItemStack(ModBlocks.blockModifierFlight, 1, 0),
+                    "PFP",
+                    "MNM",
+                    "LFL",
+                    'P',
+                    new ItemStack(Blocks.sticky_piston, 1, 0),
+                    'M',
+                    new ItemStack(ModBlocks.blockMica, 1, 0),
+                    'F',
+                    new ItemStack(ModBlocks.blockStructureFrame, 1, 3),
+                    'L',
+                    "itemLeather",
+                    'N',
+                    new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+            GameRegistry.addRecipe(
+                new ShapedOreRecipe(
+                    new ItemStack(ModBlocks.blockModifierFlight, 1, 0),
+                    "PFP",
+                    "MNM",
+                    "LFL",
+                    'P',
+                    new ItemStack(Blocks.sticky_piston, 1, 0),
+                    'M',
+                    new ItemStack(ModBlocks.blockMica, 1, 0),
+                    'F',
+                    new ItemStack(ModBlocks.blockStructureFrame, 1, 7),
+                    'L',
+                    "itemLeather",
+                    'N',
+                    new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+            GameRegistry.addRecipe(
+                new ShapedOreRecipe(
+                    new ItemStack(ModBlocks.blockModifierFlight, 1, 0),
+                    "PFP",
+                    "MNM",
+                    "LFL",
+                    'P',
+                    new ItemStack(Blocks.sticky_piston, 1, 0),
+                    'M',
+                    new ItemStack(ModBlocks.blockMica, 1, 0),
+                    'F',
+                    new ItemStack(ModBlocks.blockStructureFrame, 1, 11),
+                    'L',
+                    "itemLeather",
+                    'N',
+                    new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+        }
+
+        // Night Vision Modifier
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModBlocks.blockModifierNightVision, 1, 0),
+                "MPM",
+                "PNP",
+                "MPM",
+                'P',
+                new ItemStack(Items.potionitem, 1, 8198),
+                'M',
+                new ItemStack(ModBlocks.blockMica, 1, 0),
+                'N',
+                new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+
+        // Strength Modifier
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModBlocks.blockModifierStrength, 1, 0),
+                "MPM",
+                "PNP",
+                "MPM",
+                'P',
+                new ItemStack(Items.potionitem, 1, 8201),
+                'M',
+                new ItemStack(ModBlocks.blockMica, 1, 0),
+                'N',
+                new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+
+        // Water Breathing Modifier
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModBlocks.blockModifierWaterBreathing, 1, 0),
+                "MPM",
+                "PNP",
+                "MPM",
+                'P',
+                new ItemStack(Items.potionitem, 1, 8205),
+                'M',
+                new ItemStack(ModBlocks.blockMica, 1, 0),
+                'N',
+                new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+
+        // Regeneration Modifier
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModBlocks.blockModifierRegeneration, 1, 0),
+                "MPM",
+                "PNP",
+                "MPM",
+                'P',
+                new ItemStack(Items.potionitem, 1, 8193),
+                'M',
+                new ItemStack(ModBlocks.blockMica, 1, 0),
+                'N',
+                new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+
+        // Fire Resistance Modifier
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModBlocks.blockModifierFireResistance, 1, 0),
+                "MPM",
+                "PNP",
+                "MPM",
+                'P',
+                new ItemStack(Items.potionitem, 1, 8195),
+                'M',
+                new ItemStack(ModBlocks.blockMica, 1, 0),
+                'N',
+                new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+
+        // Jump Boost Modifier
+        if (!LibMods.EtFuturum.isLoaded()) {
+            GameRegistry.addRecipe(
+                new ShapedOreRecipe(
+                    new ItemStack(ModBlocks.blockModifierJumpBoost, 1, 0),
+                    "MRM",
+                    "PNP",
+                    "MRM",
+                    'P',
+                    "slimeball",
+                    'R',
+                    new ItemStack(Blocks.piston, 1, 0),
+                    'M',
+                    new ItemStack(ModBlocks.blockMica, 1, 0),
+                    'N',
+                    new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+        }
+
+        // Resistance Modifier
+        ItemStack prot4Book = new ItemStack(Items.enchanted_book);
+        prot4Book.addEnchantment(Enchantment.protection, 4);
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModBlocks.blockModifierResistance, 1, 0),
+                "MPM",
+                "ONO",
+                "MPM",
+                'O',
+                "blockObsidian",
+                'P',
+                prot4Book,
+                'M',
+                new ItemStack(ModBlocks.blockMica, 1, 0),
+                'N',
+                new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+
+        // Haste Modifier
+        ItemStack eff5Book = new ItemStack(Items.enchanted_book);
+        eff5Book.addEnchantment(Enchantment.efficiency, 5);
+        GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModBlocks.blockModifierHaste, 1, 0),
+                "MPM",
+                "RNR",
+                "MGM",
+                'R',
+                "blockRedstone",
+                'G',
+                "ingotGold",
+                'P',
+                eff5Book,
+                'M',
+                new ItemStack(ModBlocks.blockMica, 1, 0),
+                'N',
+                new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+
+        // Saturation Modifier
+        if (!LibMods.EtFuturum.isLoaded()) {
+            GameRegistry.addRecipe(
+                new ShapedOreRecipe(
+                    new ItemStack(ModBlocks.blockModifierSaturation, 1, 0),
+                    "MAM",
+                    "CNC",
+                    "MAM",
+                    'A',
+                    new ItemStack(Items.golden_apple, 1, 0),
+                    'C',
+                    new ItemStack(Items.golden_carrot, 1, 0),
+                    'M',
+                    new ItemStack(ModBlocks.blockMica, 1, 0),
+                    'N',
+                    new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+        }
 
         // Machine Base Basalt
         GameRegistry.addRecipe(
