@@ -53,6 +53,9 @@ tooltip.feeding_upgrade=Allows backpacks to automatically feed player
 tooltip.everlasting_upgrade=Makes the backpack invincible, preventing despawning or falling into the void. Ensures retrieval even when thrown into the void.
 tooltip.battery_upgrade=Stores energy and automatically recharges energy-using items.
 
+tooltip.assembler.l1=Shift + Right-click on controllers to assemble.
+tooltip.assembler.l2=Left-click to instantly break any multiblock block.
+
 #ANVIL UPGRADE
 upgrade.energy_one.name=Energy Tier One
 upgrade.energy_two.name=Energy Tier Two
@@ -73,16 +76,55 @@ achievement.omoshiroikamo.craft_void_ore_t1.desc=Craft a Tier 1 Void Ore Miner
 achievement.omoshiroikamo.craft_void_ore_t4=Ultimate Infinite Ore Setup
 achievement.omoshiroikamo.craft_void_ore_t4.desc=Craft a Tier 4 Void Ore Miner
 
+achievement.omoshiroikamo.assemble_void_ore_miner_t1=Entry Level Infinite Ore
+achievement.omoshiroikamo.assemble_void_ore_miner_t1.desc=Assemble a Tier 1 Void Ore Miner with the Assembler
+achievement.omoshiroikamo.assemble_void_ore_miner_t4=Ultimate Infinite Ore Setup
+achievement.omoshiroikamo.assemble_void_ore_miner_t4.desc=Assemble a Tier 4 Void Ore Miner with the Assembler.
+achievement.omoshiroikamo.assemble_void_res_miner_t1=Entry Level Infinite Resources
+achievement.omoshiroikamo.assemble_void_res_miner_t1.desc=Assemble a Tier 1 Void Resource Miner with the Assembler.
+achievement.omoshiroikamo.assemble_void_res_miner_t4=Ultimate Infinite Resources
+achievement.omoshiroikamo.assemble_void_res_miner_t4.desc=Assemble a Tier 4 Void Resource Miner with the Assembler.
+achievement.omoshiroikamo.assemble_nano_bot_beacon_t1=Entry Level Nano Bot Beacon
+achievement.omoshiroikamo.assemble_nano_bot_beacon_t1.desc=Assemble a Tier 1 Nano Bot Beacon with the Assembler.
+achievement.omoshiroikamo.assemble_nano_bot_beacon_t4=Ultimate Nano Bot Beacon
+achievement.omoshiroikamo.assemble_nano_bot_beacon_t4.desc=Assemble a Tier 4 Nano Bot Beacon with the Assembler.
+achievement.omoshiroikamo.assemble_solar_array_t1=Entry Level Solar Array
+achievement.omoshiroikamo.assemble_solar_array_t1.desc=Assemble a Tier 1 Solar Array with the Assembler.
+achievement.omoshiroikamo.assemble_solar_array_t4=Ultimate Solar Array
+achievement.omoshiroikamo.assemble_solar_array_t4.desc=Assemble a Tier 4 Solar Array with the Assembler.
+
 achievement.omoshiroikamo.craft_colored_lens=Focus That Laser
-achievement.omoshiroikamo.craft_colored_lens.desc=Dye a Lens
+achievement.omoshiroikamo.craft_colored_lens.desc=Dye a Lens.
 achievement.omoshiroikamo.craft_modifier_core=Modifications
-achievement.omoshiroikamo.craft_modifier_core.desc=Craft a Modifier Core
+achievement.omoshiroikamo.craft_modifier_core.desc=Craft a Modifier Core.
 achievement.omoshiroikamo.craft_modifier_speed=Speed it up
-achievement.omoshiroikamo.craft_modifier_speed.desc=Craft a Speed Modifier
+achievement.omoshiroikamo.craft_modifier_speed.desc=Craft a Speed Modifier.
 achievement.omoshiroikamo.craft_modifier_piezo=Energy From Vibrations
-achievement.omoshiroikamo.craft_modifier_piezo.desc=Craft a Piezo Modifier
+achievement.omoshiroikamo.craft_modifier_piezo.desc=Craft a Piezo Modifier.
 achievement.omoshiroikamo.craft_modifier_accuracy=Increase That Focus
-achievement.omoshiroikamo.craft_modifier_accuracy.desc=Craft a Accuracy Modifier
+achievement.omoshiroikamo.craft_modifier_accuracy.desc=Craft a Accuracy Modifier.
+achievement.omoshiroikamo.craft_modifier_jump_boost=Springs in my Legs
+achievement.omoshiroikamo.craft_modifier_jump_boost.desc=Craft a Jump Boost Modifier.
+achievement.omoshiroikamo.craft_modifier_flight=Nano Bot Assisted Flight
+achievement.omoshiroikamo.craft_modifier_flight.desc=Craft a Flight Modifier.
+achievement.omoshiroikamo.craft_modifier_resistance=Resist That Damage
+achievement.omoshiroikamo.craft_modifier_resistance.desc=Craft a Resistance Modifier.
+achievement.omoshiroikamo.craft_modifier_fire_res=Resist That Fire Damage
+achievement.omoshiroikamo.craft_modifier_fire_res.desc=Craft a Fire Resistance Modifier.
+achievement.omoshiroikamo.craft_modifier_haste=Mine Faster
+achievement.omoshiroikamo.craft_modifier_haste.desc=Craft a Haste Modifier.
+achievement.omoshiroikamo.craft_modifier_strength=Increase Your Damage
+achievement.omoshiroikamo.craft_modifier_strength.desc=Craft a Strength Modifier.
+achievement.omoshiroikamo.craft_modifier_night_vision=See in the dark
+achievement.omoshiroikamo.craft_modifier_night_vision.desc=Craft a Night Vision Modifier.
+achievement.omoshiroikamo.craft_modifier_water_breathing=Breath Under Water
+achievement.omoshiroikamo.craft_modifier_water_breathing.desc=Craft a Wather Breathing Modifier.
+achievement.omoshiroikamo.craft_modifier_regen=Speedy Healing
+achievement.omoshiroikamo.craft_modifier_regen.desc=Craft a Regen Modifier.
+achievement.omoshiroikamo.craft_modifier_saturation=Auto Feeding
+achievement.omoshiroikamo.craft_modifier_saturation.desc=Craft a Saturation Modifier.
+
+
 #KeyBinding
 
 category.omoshiroikamo=Omoshiroi Kamo
@@ -170,6 +212,16 @@ tile.modifierNull.name=Null Modifier
 tile.modifierAccuracy.name=Accuracy Modifier
 tile.modifierSpeed.name=Speed Modifier
 tile.modifierPiezo.name=Piezo Modifier
+tile.modifierFlight.name=Flight Modifier
+tile.modifierNightVision.name=Night Vision Modifier
+tile.modifierHaste.name=Haste Modifier
+tile.modifierStrength.name=Strength Modifier
+tile.modifierWaterBreathing.name=Water Breathing Modifier
+tile.modifierRegeneration.name=Regeneration Modifier
+tile.modifierSaturation.name=Saturation Modifier
+tile.modifierResistance.name=Resistance Modifier
+tile.modifierJumpBoost.name=Jump Boost Modifier
+tile.modifierFireResistance.name=Fire Resistance Modifier
 
 tile.laserLens.clear.name=Clear Lens
 tile.laserLens.black.name=Black Lens
@@ -206,6 +258,11 @@ tile.voidResMiner.tier_1.name=Void Resource Miner Tier 1
 tile.voidResMiner.tier_2.name=Void Resource Miner Tier 2
 tile.voidResMiner.tier_3.name=Void Resource Miner Tier 3
 tile.voidResMiner.tier_4.name=Void Resource Miner Tier 4
+
+tile.nanoBotBeacon.tier_1.name=Nano Bot Beacon Tier 1
+tile.nanoBotBeacon.tier_2.name=Nano Bot Beacon Tier 2
+tile.nanoBotBeacon.tier_3.name=Nano Bot Beacon Tier 3
+tile.nanoBotBeacon.tier_4.name=Nano Bot Beacon Tier 4
 
 #Immersive Engineering
 

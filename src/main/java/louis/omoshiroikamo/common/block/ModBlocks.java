@@ -12,9 +12,20 @@ import louis.omoshiroikamo.common.block.material.BlockMaterial;
 import louis.omoshiroikamo.common.block.material.machineBase.BlockMachineBase;
 import louis.omoshiroikamo.common.block.material.structureFrame.BlockStructureFrame;
 import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierAccuracy;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierFireResistance;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierFlight;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierHaste;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierJumpBoost;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierNightVision;
 import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierNull;
 import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierPiezo;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierRegeneration;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierResistance;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierSaturation;
 import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierSpeed;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierStrength;
+import louis.omoshiroikamo.common.block.multiblock.modifier.BlockModifierWaterBreathing;
+import louis.omoshiroikamo.common.block.multiblock.nanoBotBeacon.BlockNanoBotBeacon;
 import louis.omoshiroikamo.common.block.multiblock.part.energy.BlockEnergyInOut;
 import louis.omoshiroikamo.common.block.multiblock.part.fluid.BlockFluidInOut;
 import louis.omoshiroikamo.common.block.multiblock.part.item.BlockItemInOut;
@@ -35,6 +46,7 @@ public class ModBlocks {
 
     public static Block blockVoidOreMiner;
     public static Block blockVoidResMiner;
+    public static Block blockNanoBotBeacon;
     public static Block blockLaserCore;
     public static Block blockLaserLens;
     public static Block blockSolarArray;
@@ -43,12 +55,23 @@ public class ModBlocks {
     public static Block blockMachineBase;
     public static Block blockModifierNull;
     public static Block blockModifierAccuracy;
-    public static Block blockModifierSpeed;
     public static Block blockModifierPiezo;
+    public static Block blockModifierSpeed;
+    public static Block blockModifierFlight;
+    public static Block blockModifierNightVision;
+    public static Block blockModifierHaste;
+    public static Block blockModifierStrength;
+    public static Block blockModifierWaterBreathing;
+    public static Block blockModifierRegeneration;
+    public static Block blockModifierSaturation;
+    public static Block blockModifierResistance;
+    public static Block blockModifierJumpBoost;
+    public static Block blockModifierFireResistance;
     public static Block blockBasalt;
     public static Block blockAlabaster;
     public static Block blockHardenedStone;
     public static Block blockMica;
+    public static Block blockLauncher;
 
     public static Block blockFluidInOut;
     public static Block blockEnergyInOut;
@@ -58,6 +81,7 @@ public class ModBlocks {
     public static void init() {
         blockVoidOreMiner = BlockVoidOreMiner.create();
         blockVoidResMiner = BlockVoidResMiner.create();
+        blockNanoBotBeacon = BlockNanoBotBeacon.create();
         blockLaserCore = BlockLaserCore.create();
         blockLaserLens = BlockLaserLens.create();
         blockSolarArray = BlockSolarArray.create();
@@ -67,6 +91,16 @@ public class ModBlocks {
         blockModifierPiezo = BlockModifierPiezo.create();
         blockModifierSpeed = BlockModifierSpeed.create();
         blockModifierAccuracy = BlockModifierAccuracy.create();
+        blockModifierFlight = BlockModifierFlight.create();
+        blockModifierNightVision = BlockModifierNightVision.create();
+        blockModifierHaste = BlockModifierHaste.create();
+        blockModifierStrength = BlockModifierStrength.create();
+        blockModifierWaterBreathing = BlockModifierWaterBreathing.create();
+        blockModifierRegeneration = BlockModifierRegeneration.create();
+        blockModifierSaturation = BlockModifierSaturation.create();
+        blockModifierResistance = BlockModifierResistance.create();
+        blockModifierJumpBoost = BlockModifierJumpBoost.create();
+        blockModifierFireResistance = BlockModifierFireResistance.create();
         blockModifierNull = BlockModifierNull.create();
         blockHardenedStone = BlockOK.create(ModObject.blockHardenedStone, "hardened_stone_normal", Material.rock);
         blockBasalt = BlockOK.create(ModObject.blockBasalt, "basalt_normal", Material.rock);

@@ -1,7 +1,5 @@
 package louis.omoshiroikamo.common.achievement;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 
@@ -42,18 +40,6 @@ public class AchievementTrigger {
                     event.player.addStat(achievement, 1);
                 }
                 break;
-            }
-        }
-
-        // Nếu là block item thì kiểm tra metadata luôn
-        if (result.getItem() instanceof ItemBlock) {
-            ItemBlock itemBlock = (ItemBlock) result.getItem();
-            Block block = itemBlock.field_150939_a;
-            int meta = result.getItemDamage();
-
-            Achievement achievement = AchievementsRegistry.getAchievementForBlock(block, meta);
-            if (achievement != null) {
-                event.player.addStat(achievement, 1);
             }
         }
     }

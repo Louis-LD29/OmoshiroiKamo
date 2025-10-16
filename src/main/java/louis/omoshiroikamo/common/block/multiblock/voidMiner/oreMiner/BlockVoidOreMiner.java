@@ -2,8 +2,8 @@ package louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -11,13 +11,15 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.common.block.abstractClass.AbstractMachineBlock;
+import louis.omoshiroikamo.common.block.multiblock.AbstractMultiBlockBlock;
 import louis.omoshiroikamo.common.block.multiblock.voidMiner.TEVoidMiner;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
-public class BlockVoidOreMiner extends AbstractMachineBlock<TEVoidMiner> {
+public class BlockVoidOreMiner extends AbstractMultiBlockBlock<TEVoidMiner> {
 
     protected BlockVoidOreMiner() {
         super(ModObject.blockVoidOreMiner, TEVoidMiner.class);
+        this.setLightLevel(0.5F);
     }
 
     public static BlockVoidOreMiner create() {
@@ -41,6 +43,11 @@ public class BlockVoidOreMiner extends AbstractMachineBlock<TEVoidMiner> {
         list.add(new ItemStack(this, 1, 1));
         list.add(new ItemStack(this, 1, 2));
         list.add(new ItemStack(this, 1, 3));
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister iIconRegister) {
+        blockIcon = iIconRegister.registerIcon(LibResources.PREFIX_MOD + "cont_tier");
     }
 
     @Override
@@ -70,10 +77,5 @@ public class BlockVoidOreMiner extends AbstractMachineBlock<TEVoidMiner> {
             default:
                 return new TEVoidOreMinerT1();
         }
-    }
-
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
-
     }
 }

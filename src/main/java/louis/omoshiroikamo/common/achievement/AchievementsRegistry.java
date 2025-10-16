@@ -3,7 +3,6 @@ package louis.omoshiroikamo.common.achievement;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
@@ -28,14 +27,20 @@ public class AchievementsRegistry {
     }
 
     public static void addBlocksToCraftingList() {
-        craftingList.add(new ItemStack(ModBlocks.blockSolarArray, 1, 0)); // Tier 1
-        craftingList.add(new ItemStack(ModBlocks.blockSolarArray, 1, 3)); // Tier 4
-        craftingList.add(new ItemStack(ModBlocks.blockVoidOreMiner, 1, 0)); // Tier 1
-        craftingList.add(new ItemStack(ModBlocks.blockVoidOreMiner, 1, 3)); // Tier 4
         craftingList.add(new ItemStack(ModBlocks.blockModifierNull, 1, 0));
         craftingList.add(new ItemStack(ModBlocks.blockModifierSpeed, 1, 0));
         craftingList.add(new ItemStack(ModBlocks.blockModifierPiezo, 1, 0));
         craftingList.add(new ItemStack(ModBlocks.blockModifierAccuracy, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierJumpBoost, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierFlight, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierResistance, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierFireResistance, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierHaste, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierStrength, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierNightVision, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierWaterBreathing, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierRegeneration, 1, 0));
+        craftingList.add(new ItemStack(ModBlocks.blockModifierSaturation, 1, 0));
     }
 
     public static void addItemsToPickupList() {
@@ -68,60 +73,37 @@ public class AchievementsRegistry {
         if (item == Item.getItemFromBlock(ModBlocks.blockModifierAccuracy)) {
             return ModAchievements.craft_modifier_accuracy;
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockSolarArray)) {
-            if (meta == 0) {
-                return ModAchievements.craft_solar_array_t1;
-            }
-            if (meta == 3) {
-                return ModAchievements.craft_solar_array_t4;
-            }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierJumpBoost)) {
+            return ModAchievements.craft_modifier_jump_boost;
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockVoidOreMiner)) {
-            if (meta == 0) {
-                return ModAchievements.craft_void_ore_t1;
-            }
-            if (meta == 3) {
-                return ModAchievements.craft_void_ore_t4;
-            }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierFlight)) {
+            return ModAchievements.craft_modifier_flight;
         }
-
-        return null;
-    }
-
-    public static Achievement getAchievementForBlock(Block block, int meta) {
-        if (block == ModBlocks.blockSolarArray) {
-            if (meta == 0) {
-                return ModAchievements.craft_solar_array_t1;
-            }
-            if (meta == 3) {
-                return ModAchievements.craft_solar_array_t4;
-            }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierResistance)) {
+            return ModAchievements.craft_modifier_resistance;
         }
-        if (block == ModBlocks.blockVoidOreMiner) {
-            if (meta == 0) {
-                return ModAchievements.craft_void_ore_t1;
-            }
-            if (meta == 3) {
-                return ModAchievements.craft_void_ore_t4;
-            }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierFireResistance)) {
+            return ModAchievements.craft_modifier_fire_res;
+        }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierHaste)) {
+            return ModAchievements.craft_modifier_haste;
+        }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierStrength)) {
+            return ModAchievements.craft_modifier_strength;
+        }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierNightVision)) {
+            return ModAchievements.craft_modifier_night_vision;
+        }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierWaterBreathing)) {
+            return ModAchievements.craft_modifier_water_breathing;
+        }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierRegeneration)) {
+            return ModAchievements.craft_modifier_regen;
+        }
+        if (item == Item.getItemFromBlock(ModBlocks.blockModifierSaturation)) {
+            return ModAchievements.craft_modifier_saturation;
         }
 
-        if (block == ModBlocks.blockLaserLens) {
-            return ModAchievements.craft_colored_lens;
-        }
-
-        if (block == ModBlocks.blockModifierNull) {
-            return ModAchievements.craft_modifier_core;
-        }
-        if (block == ModBlocks.blockModifierSpeed) {
-            return ModAchievements.craft_modifier_speed;
-        }
-        if (block == ModBlocks.blockModifierPiezo) {
-            return ModAchievements.craft_modifier_piezo;
-        }
-        if (block == ModBlocks.blockModifierAccuracy) {
-            return ModAchievements.craft_modifier_accuracy;
-        }
         return null;
     }
 }

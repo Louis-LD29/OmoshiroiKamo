@@ -1,6 +1,7 @@
 package louis.omoshiroikamo.common.block.multiblock.solarArray;
 
 import static louis.omoshiroikamo.common.block.multiblock.solarArray.SolarArrayStructure.STRUCTURE_DEFINITION_TIER_3;
+import static louis.omoshiroikamo.common.block.multiblock.solarArray.SolarArrayStructure.STRUCTURE_TIER_3;
 import static louis.omoshiroikamo.common.block.multiblock.solarArray.SolarArrayStructure.TIER_OFFSET;
 
 import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
@@ -15,7 +16,7 @@ public class TESolarArrayT3 extends TESolarArray {
 
     @Override
     protected String getStructurePieceName() {
-        return "tier3";
+        return STRUCTURE_TIER_3;
     }
 
     @Override

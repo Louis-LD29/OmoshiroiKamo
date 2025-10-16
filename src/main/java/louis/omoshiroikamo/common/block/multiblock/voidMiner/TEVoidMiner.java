@@ -10,6 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -27,12 +28,18 @@ import louis.omoshiroikamo.api.energy.PowerHandlerUtil;
 import louis.omoshiroikamo.api.item.IFocusableRegistry;
 import louis.omoshiroikamo.api.item.WeightedStackBase;
 import louis.omoshiroikamo.api.multiblock.IModifierBlock;
+import louis.omoshiroikamo.common.achievement.ModAchievements;
 import louis.omoshiroikamo.common.block.ModBlocks;
 import louis.omoshiroikamo.common.block.multiblock.AbstractMultiBlockModifierTE;
 import louis.omoshiroikamo.common.block.multiblock.modifier.ModifierHandler;
 import louis.omoshiroikamo.common.block.multiblock.voidMiner.lens.BlockLaserLens;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.TEVoidOreMinerT1;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.TEVoidOreMinerT4;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.TEVoidResMinerT1;
+import louis.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.TEVoidResMinerT4;
 import louis.omoshiroikamo.common.network.PacketHandler;
 import louis.omoshiroikamo.common.network.PacketPowerStorage;
+import louis.omoshiroikamo.common.util.PlayerUtils;
 
 public abstract class TEVoidMiner extends AbstractMultiBlockModifierTE
     implements IEnergyReceiver, IPowerContainer, ISidedInventory {
@@ -88,6 +95,30 @@ public abstract class TEVoidMiner extends AbstractMultiBlockModifierTE
     public void onProcessTick() {
         int energyExtracted = Math.min(getEnergyStored(), this.getEnergyCostPerTick());
         setEnergyStored(getEnergyStored() - energyExtracted);
+    }
+
+    @Override
+    public void onFormed() {
+        if (this.player == null) {
+            return;
+        }
+        EntityPlayer player = PlayerUtils.getPlayerFromWorld(this.worldObj, this.player.getId());
+        if (player == null) {
+            return;
+        }
+        TileEntity tileEntity = getLocation().getTileEntity(worldObj);
+        if (tileEntity instanceof TEVoidOreMinerT1) {
+            player.triggerAchievement(ModAchievements.assemble_void_ore_miner_t1);
+        }
+        if (tileEntity instanceof TEVoidOreMinerT4) {
+            player.triggerAchievement(ModAchievements.assemble_void_ore_miner_t4);
+        }
+        if (tileEntity instanceof TEVoidResMinerT1) {
+            player.triggerAchievement(ModAchievements.assemble_void_res_miner_t1);
+        }
+        if (tileEntity instanceof TEVoidResMinerT4) {
+            player.triggerAchievement(ModAchievements.assemble_void_res_miner_t4);
+        }
     }
 
     @Override

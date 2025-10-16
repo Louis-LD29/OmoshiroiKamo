@@ -2,8 +2,8 @@ package louis.omoshiroikamo.common.block.multiblock.solarArray;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -11,9 +11,10 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import louis.omoshiroikamo.api.enums.ModObject;
-import louis.omoshiroikamo.common.block.abstractClass.AbstractMachineBlock;
+import louis.omoshiroikamo.common.block.multiblock.AbstractMultiBlockBlock;
+import louis.omoshiroikamo.common.util.lib.LibResources;
 
-public class BlockSolarArray extends AbstractMachineBlock<TESolarArray> {
+public class BlockSolarArray extends AbstractMultiBlockBlock<TESolarArray> {
 
     protected BlockSolarArray() {
         super(ModObject.blockSolarArray, TESolarArray.class);
@@ -43,6 +44,11 @@ public class BlockSolarArray extends AbstractMachineBlock<TESolarArray> {
     }
 
     @Override
+    public void registerBlockIcons(IIconRegister iIconRegister) {
+        blockIcon = iIconRegister.registerIcon(LibResources.PREFIX_MOD + "cont_tier");
+    }
+
+    @Override
     public int getRenderType() {
         return -1;
     }
@@ -69,10 +75,5 @@ public class BlockSolarArray extends AbstractMachineBlock<TESolarArray> {
             default:
                 return new TESolarArrayT1();
         }
-    }
-
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
-
     }
 }

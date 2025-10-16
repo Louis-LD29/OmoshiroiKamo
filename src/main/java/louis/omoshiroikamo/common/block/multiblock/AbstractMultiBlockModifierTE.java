@@ -1,6 +1,9 @@
 package louis.omoshiroikamo.common.block.multiblock;
 
+import java.util.UUID;
+
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -11,12 +14,17 @@ import com.enderio.core.common.util.BlockCoord;
 import com.enderio.core.common.util.ItemUtil;
 import com.gtnewhorizon.structurelib.alignment.enumerable.ExtendedFacing;
 import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
+import com.mojang.authlib.GameProfile;
 
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
+import louis.omoshiroikamo.common.network.PacketHandler;
+import louis.omoshiroikamo.common.network.PacketMBlientUpdate;
+import louis.omoshiroikamo.common.util.PlayerUtils;
 
 public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
 
-    public boolean isFormed = false;
+    protected GameProfile player;
+    protected boolean isFormed = false;
     private boolean isProcessing = false;
     private int currentDuration = 0;
     private int currentProgress = 0;
@@ -49,10 +57,9 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
 
         if (valid && !isFormed) {
             isFormed = true;
-            // Logger.info("Multiblock formed!");
+            onFormed();
         } else if (!valid && isFormed) {
             isFormed = false;
-            // Logger.info("Multiblock broken!");
             clearStructureParts();
         }
 
@@ -120,6 +127,8 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
 
     public abstract void onProcessComplete();
 
+    public abstract void onFormed();
+
     public int getCurrentProcessDuration() {
         int duration = (int) ((float) this.getBaseDuration() * this.getSpeedMultiplier());
         if (duration < this.getMinDuration()) {
@@ -135,15 +144,22 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
         root.setInteger("curr_dur", this.currentDuration);
         root.setInteger("curr_prog", this.currentProgress);
         root.setBoolean("isFormed", this.isFormed);
+        if (this.player != null) {
+            root.setTag("profile", PlayerUtils.proifleToNBT(this.player));
+        }
     }
 
     @Override
     public void readCommon(NBTTagCompound root) {
-
         this.isProcessing = root.getBoolean("processing");
         this.currentDuration = root.getInteger("curr_dur");
         this.currentProgress = root.getInteger("curr_prog");
         this.isFormed = root.getBoolean("isFormed");
+        if (root.hasKey("profile")) {
+            this.player = PlayerUtils.profileFromNBT(root.getCompoundTag("profile"));
+        } else {
+            this.player = null;
+        }
     }
 
     public boolean isFormed() {
@@ -166,6 +182,40 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
 
     public abstract int getTier();
 
+    public void setPlayer(EntityPlayer plr) {
+        if (plr != null) {
+            this.player = plr.getGameProfile();
+        }
+    }
+
+    public void setPlayer(UUID plr) {
+        EntityPlayer pl = PlayerUtils.getPlayerFromWorld(this.worldObj, plr);
+        if (pl != null) {
+            this.player = pl.getGameProfile();
+        }
+
+    }
+
+    public UUID getPlayerID() {
+        return this.player.getId();
+    }
+
+    public GameProfile getPlayerProfile() {
+        return this.player;
+    }
+
+    public void updateClientWithPlayer() {
+        if (this.player != null) {
+            if (PlayerUtils.doesPlayerExist(this.worldObj, this.player.getId())) {
+                PacketHandler.sendToAllAround(
+                    new PacketMBlientUpdate(this),
+                    PlayerUtils.getPlayerFromWorld(this.worldObj, this.player.getId()),
+                    (double) 8.0F);
+            }
+
+        }
+    }
+
     public void ejectAll(ItemStackHandler output) {
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
             BlockCoord loc = getLocation().getLocation(dir);
@@ -173,18 +223,21 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
             if (te == null) {
                 continue;
             }
+
             for (int i = 0; i < output.getSlots(); i++) {
                 ItemStack stack = output.getStackInSlot(i);
-                if (stack != null) {
-                    int num = ItemUtil.doInsertItem(te, stack, dir.getOpposite());
-                    if (num > 0) {
-                        stack.stackSize -= num;
-                        if (stack.stackSize <= 0) {
-                            stack = null;
-                        }
-                        output.setStackInSlot(i, stack);
-                        markDirty();
+                if (stack == null) {
+                    continue;
+                }
+
+                int inserted = ItemUtil.doInsertItem(te, stack, dir.getOpposite());
+                if (inserted > 0) {
+                    stack.stackSize -= inserted;
+                    if (stack.stackSize <= 0) {
+                        stack = null;
                     }
+                    output.setStackInSlot(i, stack);
+                    markDirty();
                 }
             }
         }
