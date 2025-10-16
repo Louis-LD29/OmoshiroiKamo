@@ -3,6 +3,7 @@ package louis.omoshiroikamo.client.render.item.backpack;
 import java.awt.Color;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -11,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.enderio.core.client.render.ColorUtil;
 import com.enderio.core.client.render.RenderUtil;
+import com.enderio.core.common.util.DyeColor;
 import com.enderio.core.common.vecmath.Vector4f;
 
 import cofh.api.energy.IEnergyContainerItem;
@@ -58,6 +60,12 @@ public class BackpackRenderer implements IItemRenderer {
             case EQUIPPED:
                 GL11.glTranslatef(0.5F, 0.5F, 0.5F);
                 break;
+
+            case ENTITY:
+                GL11.glScalef(0.75f, 0.75f, 0.75f);
+                GL11.glTranslatef(0.0f, 0f, 0.0f);
+                GL11.glRotatef(-90, 0f, 1f, 0f);
+                break;
             default:
                 break;
         }
@@ -74,7 +82,24 @@ public class BackpackRenderer implements IItemRenderer {
         RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_border.png"));
         modelBackpack.model.renderOnly("trim1", "trim2", "trim3", "trim4", "trim5", "padding1");
 
-        GL11.glColor3f(0.663f, 0.455f, 0.310f);
+        int color = DyeColor.BROWN.getColor();
+        if (item.hasTagCompound()) {
+            NBTTagCompound tag = item.getTagCompound();
+            if (tag != null && tag.hasKey("BackpackColor")) {
+                color = tag.getInteger("BackpackColor");
+            }
+        }
+
+        float r = ((color >> 16) & 0xFF) / 255.0f;
+        float g = ((color >> 8) & 0xFF) / 255.0f;
+        float b = (color & 0xFF) / 255.0f;
+
+        float brightnessFactor = 1.18f;
+        r = Math.min(1.0f, r * brightnessFactor);
+        g = Math.min(1.0f, g * brightnessFactor);
+        b = Math.min(1.0f, b * brightnessFactor);
+
+        GL11.glColor3f(r, g, b);
         RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_cloth.png"));
         modelBackpack.model.renderOnly(
             "inner1",
@@ -94,6 +119,8 @@ public class BackpackRenderer implements IItemRenderer {
             "bottom2",
             "bottom3",
             "lip1");
+
+        GL11.glColor3f(1f, 1f, 1f);
 
         String material;
         switch (item.getItemDamage()) {
@@ -116,8 +143,6 @@ public class BackpackRenderer implements IItemRenderer {
                 material = "leather";
                 break;
         }
-
-        GL11.glColor3f(1f, 1f, 1f);
         RenderUtil
             .bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/" + material + "_clips.png"));
         modelBackpack.model.renderOnly(
