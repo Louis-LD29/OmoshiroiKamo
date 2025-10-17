@@ -6,9 +6,11 @@ config.magnetConfig=Magnet Settings
 config.damageIndicatorsConfig=Damage Indicators Settings
 config.anvilUpgradeConfig=Anvil Upgrade Settings
 config.feedingConfig=Feeding Settings
+config.worldGenConfig=World Generation Settings
 
 config.blockConfig=Block Settings
 config.solarArrayConfig=Solar Array Settings
+config.voidMinerConfig=Void Miner Settings
 
 #IO
 
@@ -57,6 +59,7 @@ tooltip.assembler.l1=Shift + Right-click on controllers to assemble.
 tooltip.assembler.l2=Left-click to instantly break any multiblock block.
 
 #ANVIL UPGRADE
+
 upgrade.energy_one.name=Energy Tier One
 upgrade.energy_two.name=Energy Tier Two
 upgrade.energy_three.name=Energy Tier Three
@@ -123,7 +126,6 @@ achievement.omoshiroikamo.craft_modifier_regen=Speedy Healing
 achievement.omoshiroikamo.craft_modifier_regen.desc=Craft a Regen Modifier.
 achievement.omoshiroikamo.craft_modifier_saturation=Auto Feeding
 achievement.omoshiroikamo.craft_modifier_saturation.desc=Craft a Saturation Modifier.
-
 
 #KeyBinding
 
