@@ -125,7 +125,7 @@ public abstract class TENanoBotBeacon extends AbstractMultiBlockModifierTE imple
                             plr,
                             ModifierAttributes.P_SPEED.getAttributeName(),
                             potionDuration,
-                            Potion.digSpeed);
+                            Potion.moveSpeed);
                         this.addPotionEffect(
                             plr,
                             ModifierAttributes.P_NIGHT_VISION.getAttributeName(),
