@@ -4,20 +4,20 @@
     "enabled": true,
     "itemInputs": [
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore_Chalcopyrite",
         "amount": 1
       }
     ],
     "itemOutputs": [
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore",
         "meta": 2,
         "amount": 1
       },
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore",
         "meta": 2,
         "amount": 1,
@@ -31,20 +31,20 @@
     "enabled": true,
     "itemInputs": [
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore_Malachite",
         "amount": 1
       }
     ],
     "itemOutputs": [
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore",
         "meta": 3,
         "amount": 1
       },
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore",
         "meta": 3,
         "amount": 1,
@@ -58,20 +58,20 @@
     "enabled": true,
     "itemInputs": [
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore_Bornite",
         "amount": 1
       }
     ],
     "itemOutputs": [
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore",
         "meta": 4,
         "amount": 1
       },
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore",
         "meta": 4,
         "amount": 1,
@@ -85,20 +85,20 @@
     "enabled": true,
     "itemInputs": [
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore_Tetrahedrite",
         "amount": 1
       }
     ],
     "itemOutputs": [
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore",
         "meta": 5,
         "amount": 1
       },
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore",
         "meta": 5,
         "amount": 1,
@@ -112,20 +112,20 @@
     "enabled": true,
     "itemInputs": [
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore_Cuprite",
         "amount": 1
       }
     ],
     "itemOutputs": [
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore",
         "meta": 6,
         "amount": 1
       },
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore",
         "meta": 6,
         "amount": 1,
@@ -139,20 +139,20 @@
     "enabled": true,
     "itemInputs": [
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore_Copper",
         "amount": 1
       }
     ],
     "itemOutputs": [
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore",
         "meta": 7,
         "amount": 1
       },
       {
-        "modid": "OmoshiroiKamo",
+        "modid": "omoshiroikamo",
         "name": "ore",
         "meta": 7,
         "amount": 1,
