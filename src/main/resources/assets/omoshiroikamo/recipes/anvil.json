@@ -12,13 +12,13 @@
     "itemOutputs": [
       {
         "modid": "OmoshiroiKamo",
-        "name": "itemOre",
+        "name": "ore",
         "meta": 2,
         "amount": 1
       },
       {
         "modid": "OmoshiroiKamo",
-        "name": "itemOre",
+        "name": "ore",
         "meta": 2,
         "amount": 1,
         "chance": 0.2
@@ -39,13 +39,13 @@
     "itemOutputs": [
       {
         "modid": "OmoshiroiKamo",
-        "name": "itemOre",
+        "name": "ore",
         "meta": 3,
         "amount": 1
       },
       {
         "modid": "OmoshiroiKamo",
-        "name": "itemOre",
+        "name": "ore",
         "meta": 3,
         "amount": 1,
         "chance": 0.2
@@ -66,13 +66,13 @@
     "itemOutputs": [
       {
         "modid": "OmoshiroiKamo",
-        "name": "itemOre",
+        "name": "ore",
         "meta": 4,
         "amount": 1
       },
       {
         "modid": "OmoshiroiKamo",
-        "name": "itemOre",
+        "name": "ore",
         "meta": 4,
         "amount": 1,
         "chance": 0.2
@@ -93,13 +93,13 @@
     "itemOutputs": [
       {
         "modid": "OmoshiroiKamo",
-        "name": "itemOre",
+        "name": "ore",
         "meta": 5,
         "amount": 1
       },
       {
         "modid": "OmoshiroiKamo",
-        "name": "itemOre",
+        "name": "ore",
         "meta": 5,
         "amount": 1,
         "chance": 0.2
@@ -120,13 +120,13 @@
     "itemOutputs": [
       {
         "modid": "OmoshiroiKamo",
-        "name": "itemOre",
+        "name": "ore",
         "meta": 6,
         "amount": 1
       },
       {
         "modid": "OmoshiroiKamo",
-        "name": "itemOre",
+        "name": "ore",
         "meta": 6,
         "amount": 1,
         "chance": 0.2
@@ -147,13 +147,13 @@
     "itemOutputs": [
       {
         "modid": "OmoshiroiKamo",
-        "name": "itemOre",
+        "name": "ore",
         "meta": 7,
         "amount": 1
       },
       {
         "modid": "OmoshiroiKamo",
-        "name": "itemOre",
+        "name": "ore",
         "meta": 7,
         "amount": 1,
         "chance": 0.2

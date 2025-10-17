@@ -26,30 +26,28 @@ public class PacketNBBClientFlight implements IMessage, IMessageHandler<PacketNB
     @Override
     public void fromBytes(ByteBuf buf) {
         this.enabled = buf.readBoolean();
-        long l1 = buf.readLong();
-        long l2 = buf.readLong();
-        this.player = new UUID(l2, l1);
-
+        long msb = buf.readLong();
+        long lsb = buf.readLong();
+        this.player = new UUID(msb, lsb);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         buf.writeBoolean(this.enabled);
-        buf.writeLong(this.player.getLeastSignificantBits());
         buf.writeLong(this.player.getMostSignificantBits());
+        buf.writeLong(this.player.getLeastSignificantBits());
     }
 
     @Override
     public IMessage onMessage(PacketNBBClientFlight message, MessageContext ctx) {
-        if (ctx.getClientHandler() != null) {
-            EntityPlayer plr = PlayerUtils
-                .getPlayerFromWorldClient(Minecraft.getMinecraft().thePlayer.worldObj, message.player);
-            if (plr != null && plr.getUniqueID()
-                .compareTo(message.player) == 0) {
-                plr.capabilities.allowFlying = message.enabled;
-                if (plr.capabilities.isFlying && !message.enabled) {
-                    plr.capabilities.isFlying = false;
-                }
+        EntityPlayer plr = PlayerUtils
+            .getPlayerFromWorldClient(Minecraft.getMinecraft().thePlayer.worldObj, message.player);
+
+        if (plr != null && plr.getUniqueID()
+            .equals(message.player)) {
+            plr.capabilities.allowFlying = message.enabled;
+            if (plr.capabilities.isFlying && !message.enabled) {
+                plr.capabilities.isFlying = false;
             }
         }
 

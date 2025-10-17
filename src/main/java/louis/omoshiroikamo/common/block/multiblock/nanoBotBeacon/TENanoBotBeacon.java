@@ -33,10 +33,10 @@ public abstract class TENanoBotBeacon extends AbstractMultiBlockModifierTE imple
     private int storedEnergyRF = 0;
     protected float lastSyncPowerStored = -1;
     private final EnergyStorage energyStorage;
-    private ModifierHandler modifierHandler;
-    private List<BlockCoord> modifiers;
     private boolean dealsWithFlight = false;
     private boolean markNeedsToUpdatePlayer = false;
+    protected ModifierHandler modifierHandler;
+    protected List<BlockCoord> modifiers;
 
     public TENanoBotBeacon(int eBuffSize) {
         this.energyStorage = new EnergyStorage(eBuffSize);
@@ -51,7 +51,7 @@ public abstract class TENanoBotBeacon extends AbstractMultiBlockModifierTE imple
         }
 
         BlockCoord coord = new BlockCoord(x, y, z);
-        if (modifiers.contains(coord)) {
+        if (this.modifiers.contains(coord)) {
             return false;
         }
 
@@ -81,7 +81,7 @@ public abstract class TENanoBotBeacon extends AbstractMultiBlockModifierTE imple
         }
 
         if (added) {
-            modifiers.add(coord);
+            this.modifiers.add(coord);
         }
 
         return added;
@@ -110,15 +110,15 @@ public abstract class TENanoBotBeacon extends AbstractMultiBlockModifierTE imple
 
                         if (this.modifierHandler
                             .hasAttribute(ModifierAttributes.E_FLIGHT_CREATIVE.getAttributeName())) {
-                            this.dealsWithFlight = true;
                             plr.capabilities.allowFlying = true;
+                            this.dealsWithFlight = true;
                             PacketHandler
                                 .sendToAllAround(new PacketNBBClientFlight(this.player.getId(), true), plr, 1.0F);
                         } else if (this.dealsWithFlight) {
-                            PacketHandler
-                                .sendToAllAround(new PacketNBBClientFlight(this.player.getId(), false), plr, 1.0F);
                             plr.capabilities.allowFlying = false;
                             this.dealsWithFlight = false;
+                            PacketHandler
+                                .sendToAllAround(new PacketNBBClientFlight(this.player.getId(), false), plr, 1.0F);
                         }
 
                         this.addPotionEffect(
@@ -192,18 +192,26 @@ public abstract class TENanoBotBeacon extends AbstractMultiBlockModifierTE imple
     }
 
     private void removePlayerEffects() {
-        if (this.player != null && PlayerUtils.doesPlayerExist(this.worldObj, this.player.getId())) {
-            EntityPlayer plr = PlayerUtils.getPlayerFromWorld(this.worldObj, this.player.getId());
-            if (plr != null && this.modifierHandler != null
-                && this.modifierHandler.hasAttribute(ModifierAttributes.E_FLIGHT_CREATIVE.getAttributeName())) {
-                plr.capabilities.allowFlying = false;
-                this.updatePlayer(new PacketNBBClientFlight(this.player.getId(), false), plr);
-            }
+        if (this.player == null) {
+            return;
         }
-    }
-
-    private void updatePlayer(PacketNBBClientFlight packet, EntityPlayer plr) {
-        PacketHandler.sendToAllAround(packet, plr, (double) 1.0F);
+        EntityPlayer plr = PlayerUtils.getPlayerFromWorld(this.worldObj, this.player.getId());
+        if (plr == null || this.modifierHandler == null) {
+            return;
+        }
+        boolean hadFlight = this.dealsWithFlight;
+        boolean hasFlightAttribute = this.modifierHandler
+            .hasAttribute(ModifierAttributes.E_FLIGHT_CREATIVE.getAttributeName());
+        if (hadFlight || hasFlightAttribute) {
+            if (plr.capabilities.allowFlying) {
+                plr.capabilities.allowFlying = false;
+            }
+            if (plr.capabilities.isFlying) {
+                plr.capabilities.isFlying = false;
+            }
+            PacketHandler.sendToAllAround(new PacketNBBClientFlight(this.player.getId(), false), plr, 1.0F);
+            this.dealsWithFlight = false;
+        }
     }
 
     public void onChunkUnload() {

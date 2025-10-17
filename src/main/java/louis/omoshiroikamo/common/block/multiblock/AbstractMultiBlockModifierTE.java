@@ -18,7 +18,7 @@ import com.mojang.authlib.GameProfile;
 
 import louis.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import louis.omoshiroikamo.common.network.PacketHandler;
-import louis.omoshiroikamo.common.network.PacketMBlientUpdate;
+import louis.omoshiroikamo.common.network.PacketMBClientUpdate;
 import louis.omoshiroikamo.common.util.PlayerUtils;
 
 public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
@@ -28,7 +28,6 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
     private boolean isProcessing = false;
     private int currentDuration = 0;
     private int currentProgress = 0;
-    private int ticker = 0;
 
     protected abstract IStructureDefinition getStructureDefinition();
 
@@ -66,7 +65,7 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
         return !valid;
     }
 
-    protected void clearStructureParts() {}
+    protected abstract void clearStructureParts();
 
     protected boolean addToMachine(TileEntity tile) {
         return false;
@@ -92,6 +91,7 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
         } else {
             this.isProcessing = false;
         }
+        // updateClientWithPlayer();
         super.doUpdate();
     }
 
@@ -166,8 +166,32 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
         return this.isFormed;
     }
 
+    public void setFormed(boolean formed) {
+        isFormed = formed;
+    }
+
     public boolean isProcessing() {
         return this.isProcessing;
+    }
+
+    public void setProcessing(boolean processing) {
+        isProcessing = processing;
+    }
+
+    public int getCurrentDuration() {
+        return currentDuration;
+    }
+
+    public void setCurrentDuration(int currentDuration) {
+        this.currentDuration = currentDuration;
+    }
+
+    public int getCurrentProgress() {
+        return currentProgress;
+    }
+
+    public void setCurrentProgress(int currentProgress) {
+        this.currentProgress = currentProgress;
     }
 
     @Override
@@ -205,15 +229,15 @@ public abstract class AbstractMultiBlockModifierTE extends AbstractTE {
     }
 
     public void updateClientWithPlayer() {
-        if (this.player != null) {
-            if (PlayerUtils.doesPlayerExist(this.worldObj, this.player.getId())) {
-                PacketHandler.sendToAllAround(
-                    new PacketMBlientUpdate(this),
-                    PlayerUtils.getPlayerFromWorld(this.worldObj, this.player.getId()),
-                    (double) 8.0F);
-            }
-
+        if (this.player == null) {
+            return;
         }
+
+        EntityPlayer playerObj = PlayerUtils.getPlayerFromWorld(this.worldObj, this.player.getId());
+        if (playerObj == null) {
+            return;
+        }
+        PacketHandler.sendToAllAround(new PacketMBClientUpdate(this), playerObj, 8.0D);
     }
 
     public void ejectAll(ItemStackHandler output) {
