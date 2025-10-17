@@ -13,21 +13,29 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import louis.omoshiroikamo.common.block.multiblock.AbstractMultiBlockModifierTE;
 
-public class PacketMBlientUpdate implements IMessage, IMessageHandler<PacketMBlientUpdate, IMessage> {
+public class PacketMBClientUpdate implements IMessage, IMessageHandler<PacketMBClientUpdate, IMessage> {
 
     protected int x;
     protected int y;
     protected int z;
     protected UUID player;
+    protected boolean isFormed;
+    private boolean isProcessing;
+    private int currentDuration;
+    private int currentProgress;
 
-    public PacketMBlientUpdate() {}
+    public PacketMBClientUpdate() {}
 
-    public PacketMBlientUpdate(AbstractMultiBlockModifierTE tile) {
+    public PacketMBClientUpdate(AbstractMultiBlockModifierTE tile) {
         BlockCoord bc = tile.getLocation();
         this.x = bc.x;
         this.y = bc.y;
         this.z = bc.z;
         this.player = tile.getPlayerID();
+        this.isFormed = tile.isFormed();
+        this.isProcessing = tile.isProcessing();
+        this.currentDuration = tile.getCurrentDuration();
+        this.currentProgress = tile.getCurrentProgress();
     }
 
     @Override
@@ -35,9 +43,13 @@ public class PacketMBlientUpdate implements IMessage, IMessageHandler<PacketMBli
         this.x = buf.readInt();
         this.y = buf.readInt();
         this.z = buf.readInt();
-        long lsb = buf.readLong();
         long msb = buf.readLong();
+        long lsb = buf.readLong();
         this.player = new UUID(lsb, msb);
+        this.isFormed = buf.readBoolean();
+        this.isProcessing = buf.readBoolean();
+        this.currentDuration = buf.readInt();
+        this.currentProgress = buf.readInt();
     }
 
     @Override
@@ -47,14 +59,22 @@ public class PacketMBlientUpdate implements IMessage, IMessageHandler<PacketMBli
         buf.writeInt(this.z);
         buf.writeLong(this.player.getLeastSignificantBits());
         buf.writeLong(this.player.getMostSignificantBits());
+        buf.writeBoolean(this.isFormed);
+        buf.writeBoolean(this.isProcessing);
+        buf.writeInt(this.currentDuration);
+        buf.writeInt(this.currentProgress);
     }
 
     @Override
-    public IMessage onMessage(PacketMBlientUpdate message, MessageContext ctx) {
+    public IMessage onMessage(PacketMBClientUpdate message, MessageContext ctx) {
         if (ctx.getClientHandler() != null) {
             TileEntity te = Minecraft.getMinecraft().thePlayer.worldObj.getTileEntity(message.x, message.y, message.z);
             if (te instanceof AbstractMultiBlockModifierTE nbb) {
                 nbb.setPlayer(message.player);
+                nbb.setFormed(message.isFormed);
+                nbb.setProcessing(message.isProcessing);
+                nbb.setCurrentDuration(message.currentDuration);
+                nbb.setCurrentProgress(message.currentProgress);
             }
         }
 

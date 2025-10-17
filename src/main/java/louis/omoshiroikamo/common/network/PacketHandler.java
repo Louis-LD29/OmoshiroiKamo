@@ -16,15 +16,20 @@ public class PacketHandler {
     public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(LibMisc.MOD_ID);
 
     public static void init() {
-        INSTANCE
+        PacketHandler.INSTANCE
             .registerMessage(PacketBackPackState.class, PacketBackPackState.class, PacketHandler.nextID(), Side.SERVER);
-        INSTANCE.registerMessage(PacketIoMode.class, PacketIoMode.class, PacketHandler.nextID(), Side.SERVER);
+        PacketHandler.INSTANCE
+            .registerMessage(PacketIoMode.class, PacketIoMode.class, PacketHandler.nextID(), Side.SERVER);
 
-        INSTANCE.registerMessage(PacketFluidTanks.class, PacketFluidTanks.class, PacketHandler.nextID(), Side.CLIENT);
-        INSTANCE
+        PacketHandler.INSTANCE
+            .registerMessage(PacketFluidTanks.class, PacketFluidTanks.class, PacketHandler.nextID(), Side.CLIENT);
+        PacketHandler.INSTANCE
             .registerMessage(PacketPowerStorage.class, PacketPowerStorage.class, PacketHandler.nextID(), Side.CLIENT);
-        INSTANCE.registerMessage(PacketMBlientUpdate.class, PacketMBlientUpdate.class, nextID(), Side.CLIENT);
-        INSTANCE.registerMessage(PacketNBBClientFlight.class, PacketNBBClientFlight.class, nextID(), Side.CLIENT);
+        PacketHandler.INSTANCE
+            .registerMessage(PacketMBClientUpdate.class, PacketMBClientUpdate.class, nextID(), Side.CLIENT);
+        PacketHandler.INSTANCE
+            .registerMessage(PacketNBBClientFlight.class, PacketNBBClientFlight.class, nextID(), Side.CLIENT);
+
     }
 
     private static int ID = 0;

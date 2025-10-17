@@ -12,8 +12,11 @@ import org.lwjgl.opengl.GL11;
 
 import com.enderio.core.client.render.RenderUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
+@SideOnly(Side.CLIENT)
 public class SolarCellTESR extends TileEntitySpecialRenderer implements IItemRenderer {
 
     private IModelCustom model;

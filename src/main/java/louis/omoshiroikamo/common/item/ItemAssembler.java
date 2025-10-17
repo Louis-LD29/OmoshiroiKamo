@@ -81,13 +81,19 @@ public class ItemAssembler extends ItemOK {
     }
 
     @Override
-    public boolean func_150897_b(Block block) {
-        return isValidSolarBlock(block);
+    public boolean canHarvestBlock(Block block, ItemStack itemStack) {
+        if (isValidSolarBlock(block)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public float func_150893_a(ItemStack stack, Block block) {
-        return isValidSolarBlock(block) ? 50.0F : 1.0F;
+    public float getDigSpeed(ItemStack itemstack, Block block, int metadata) {
+        if (isValidSolarBlock(block)) {
+            return 50.0F;
+        }
+        return 0f;
     }
 
     private boolean isValidSolarBlock(Block block) {
