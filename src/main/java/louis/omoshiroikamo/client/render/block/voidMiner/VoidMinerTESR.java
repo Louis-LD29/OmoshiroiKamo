@@ -15,6 +15,7 @@ import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
 import com.enderio.core.client.render.RenderUtil;
+import com.enderio.core.common.util.DyeColor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -66,23 +67,30 @@ public class VoidMinerTESR extends TileEntitySpecialRenderer implements IItemRen
             RenderUtil.bindTexture(panelOre);
         }
         model.renderOnly("TopPanelW", "TopPanelN", "TopPanelEW", "PanelNorth", "PanelSouth", "PanelEast", "PanelWest");
+        int color = DyeColor.WHITE.getColor();
         switch (tier) {
             case 1:
-                GL11.glColor3f(1.0f, 0.85f, 0.3f);
+                color = DyeColor.YELLOW.getColor();
                 break;
             case 2:
-                GL11.glColor3f(0.3f, 0.9f, 1.0f);
+                color = DyeColor.BLUE.getColor();
                 break;
             case 3:
-                GL11.glColor3f(0.063f, 0.369f, 0.318f);
+                color = DyeColor.CYAN.getColor();
                 break;
             case 4:
-                GL11.glColor3f(0.8f, 0.9f, 1.0f);
-                break;
-            default:
-                GL11.glColor3f(1.0f, 1.0f, 1.0f);
+                color = DyeColor.WHITE.getColor();
                 break;
         }
+
+        float r = ((color >> 16) & 0xFF) / 255.0f;
+        float g = ((color >> 8) & 0xFF) / 255.0f;
+        float b = (color & 0xFF) / 255.0f;
+
+        float brightnessFactor = 1.18f;
+        r = Math.min(1.0f, r * brightnessFactor);
+        g = Math.min(1.0f, g * brightnessFactor);
+        b = Math.min(1.0f, b * brightnessFactor);
 
         RenderUtil.bindTexture(TEX_IRON);
         model.renderOnly(
@@ -109,7 +117,7 @@ public class VoidMinerTESR extends TileEntitySpecialRenderer implements IItemRen
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-        int meta = item.getItemDamage();
+        int tier = item.getItemDamage() + 1;
 
         GL11.glPushMatrix();
         GL11.glTranslatef(0.5f, 0f, 0.5f);
@@ -125,24 +133,32 @@ public class VoidMinerTESR extends TileEntitySpecialRenderer implements IItemRen
         }
         model.renderOnly("TopPanelW", "TopPanelN", "TopPanelEW", "PanelNorth", "PanelSouth", "PanelEast", "PanelWest");
 
-        switch (meta) {
-            case 0:
-                GL11.glColor3f(1.0f, 0.85f, 0.3f);
-                break;
+        int color = DyeColor.WHITE.getColor();
+        switch (tier) {
             case 1:
-                GL11.glColor3f(0.3f, 0.9f, 1.0f);
+                color = DyeColor.YELLOW.getColor();
                 break;
             case 2:
-                GL11.glColor3f(0.063f, 0.369f, 0.318f);
+                color = DyeColor.BLUE.getColor();
                 break;
             case 3:
-                GL11.glColor3f(0.8f, 0.9f, 1.0f);
+                color = DyeColor.CYAN.getColor();
                 break;
-            default:
-                GL11.glColor3f(1.0f, 1.0f, 1.0f);
+            case 4:
+                color = DyeColor.WHITE.getColor();
                 break;
         }
 
+        float r = ((color >> 16) & 0xFF) / 255.0f;
+        float g = ((color >> 8) & 0xFF) / 255.0f;
+        float b = (color & 0xFF) / 255.0f;
+
+        float brightnessFactor = 1.18f;
+        r = Math.min(1.0f, r * brightnessFactor);
+        g = Math.min(1.0f, g * brightnessFactor);
+        b = Math.min(1.0f, b * brightnessFactor);
+
+        GL11.glColor3f(r, g, b);
         RenderUtil.bindTexture(TEX_IRON);
         model.renderOnly(
             "TopEast",

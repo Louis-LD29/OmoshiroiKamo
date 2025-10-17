@@ -1,5 +1,7 @@
 package louis.omoshiroikamo.client.render.block.solarArray;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -14,6 +16,7 @@ import com.enderio.core.client.render.RenderUtil;
 
 import louis.omoshiroikamo.common.util.lib.LibResources;
 
+@SideOnly(Side.CLIENT)
 public class SolarCellTESR extends TileEntitySpecialRenderer implements IItemRenderer {
 
     private IModelCustom model;
