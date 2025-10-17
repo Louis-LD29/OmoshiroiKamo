@@ -41,41 +41,7 @@ public class SolarArrayTESR extends TileEntitySpecialRenderer implements IItemRe
 
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5f, (float) y, (float) z + 0.5f);
-
-        RenderUtil.bindTexture(controllerBase);
-        model.renderOnly("ControllerBase");
-
-        RenderUtil.bindTexture(brain);
-        model.renderOnly("Brain");
-
-        int color = DyeColor.WHITE.getColor();
-        switch (tier) {
-            case 1:
-                color = DyeColor.YELLOW.getColor();
-                break;
-            case 2:
-                color = DyeColor.BLUE.getColor();
-                break;
-            case 3:
-                color = DyeColor.CYAN.getColor();
-                break;
-            case 4:
-                color = DyeColor.WHITE.getColor();
-                break;
-        }
-
-        float r = ((color >> 16) & 0xFF) / 255.0f;
-        float g = ((color >> 8) & 0xFF) / 255.0f;
-        float b = (color & 0xFF) / 255.0f;
-
-        float brightnessFactor = 1.18f;
-        r = Math.min(1.0f, r * brightnessFactor);
-        g = Math.min(1.0f, g * brightnessFactor);
-        b = Math.min(1.0f, b * brightnessFactor);
-
-        GL11.glColor3f(r, g, b);
-        RenderUtil.bindTexture(TEX_IRON);
-        model.renderOnly("rod_1", "rod_2", "rod_3", "rod_4", "rod_5", "rod_6", "rod_7", "rod_8");
+        render(tier);
         GL11.glPopMatrix();
     }
 
@@ -95,6 +61,11 @@ public class SolarArrayTESR extends TileEntitySpecialRenderer implements IItemRe
 
         GL11.glPushMatrix();
         GL11.glTranslatef(0.5f, 0f, 0.5f);
+        render(tier);
+        GL11.glPopMatrix();
+    }
+
+    public void render(int tier) {
 
         RenderUtil.bindTexture(controllerBase);
         model.renderOnly("ControllerBase");
@@ -108,7 +79,7 @@ public class SolarArrayTESR extends TileEntitySpecialRenderer implements IItemRe
                 color = DyeColor.YELLOW.getColor();
                 break;
             case 2:
-                color = DyeColor.BLUE.getColor();
+                color = DyeColor.LIGHT_BLUE.getColor();
                 break;
             case 3:
                 color = DyeColor.CYAN.getColor();
@@ -130,6 +101,6 @@ public class SolarArrayTESR extends TileEntitySpecialRenderer implements IItemRe
         GL11.glColor3f(r, g, b);
         RenderUtil.bindTexture(TEX_IRON);
         model.renderOnly("rod_1", "rod_2", "rod_3", "rod_4", "rod_5", "rod_6", "rod_7", "rod_8");
-        GL11.glPopMatrix();
     }
+
 }

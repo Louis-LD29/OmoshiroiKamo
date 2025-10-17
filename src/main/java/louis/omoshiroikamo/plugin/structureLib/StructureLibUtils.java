@@ -1,7 +1,5 @@
 package louis.omoshiroikamo.plugin.structureLib;
 
-import java.util.Objects;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -122,34 +120,4 @@ public class StructureLibUtils {
 
         boolean apply(T t, Block block, int meta, int x, int y, int z);
     }
-
-    public static class UpgradeEntry {
-
-        public final Block block;
-        public final int meta;
-        public final int x, y, z;
-
-        public UpgradeEntry(Block block, int meta, int x, int y, int z) {
-            this.block = block;
-            this.meta = meta;
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (!(o instanceof UpgradeEntry)) {
-                return false;
-            }
-            UpgradeEntry other = (UpgradeEntry) o;
-            return x == other.x && y == other.y && z == other.z;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(x, y, z);
-        }
-    }
-
 }
