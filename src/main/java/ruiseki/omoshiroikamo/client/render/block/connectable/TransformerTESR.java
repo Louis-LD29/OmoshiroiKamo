@@ -6,6 +6,8 @@ import net.minecraft.util.IIcon;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ruiseki.omoshiroikamo.client.models.ModelIEObj;
 import ruiseki.omoshiroikamo.client.render.AbstractMTESR;
 import ruiseki.omoshiroikamo.common.block.energyConnector.BlockConnectable;
@@ -14,6 +16,7 @@ import ruiseki.omoshiroikamo.common.init.ModBlocks;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 import ruiseki.omoshiroikamo.plugin.chickenbones.Matrix4;
 
+@SideOnly(Side.CLIENT)
 public class TransformerTESR extends AbstractMTESR {
 
     ModelIEObj modelTransformer = new ModelIEObj(LibResources.PREFIX_MODEL + "transformer.obj") {

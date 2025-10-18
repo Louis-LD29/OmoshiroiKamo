@@ -30,6 +30,10 @@ public class BackpackRenderer implements IItemRenderer {
     public static final IModelCustom model = AdvancedModelLoader
         .loadModel(new ResourceLocation(LibResources.PREFIX_MODEL + "backpack_base.obj"));
 
+    private static final ResourceLocation border = new ResourceLocation(
+        LibResources.PREFIX_ITEM + "backpack_border.png");
+    private static final ResourceLocation cloth = new ResourceLocation(LibResources.PREFIX_ITEM + "backpack_cloth.png");
+
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
         return true;
@@ -77,7 +81,7 @@ public class BackpackRenderer implements IItemRenderer {
 
     public void renderModel(ItemStack item) {
         GL11.glColor3f(0.353f, 0.243f, 0.106f);
-        RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_border.png"));
+        RenderUtil.bindTexture(border);
         model.renderOnly("trim1", "trim2", "trim3", "trim4", "trim5", "padding1");
 
         int color = DyeColor.BROWN.getColor();
@@ -98,7 +102,7 @@ public class BackpackRenderer implements IItemRenderer {
         b = Math.min(1.0f, b * brightnessFactor);
 
         GL11.glColor3f(r, g, b);
-        RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_cloth.png"));
+        RenderUtil.bindTexture(cloth);
         model.renderOnly(
             "inner1",
             "inner2",
@@ -141,8 +145,7 @@ public class BackpackRenderer implements IItemRenderer {
                 material = "leather";
                 break;
         }
-        RenderUtil
-            .bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/" + material + "_clips.png"));
+        RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_ITEM + material + "_clips.png"));
         model.renderOnly(
             "top4",
             "right1",

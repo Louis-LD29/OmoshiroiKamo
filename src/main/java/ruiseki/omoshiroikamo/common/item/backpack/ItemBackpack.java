@@ -11,7 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
@@ -31,6 +30,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import ruiseki.omoshiroikamo.api.energy.PowerDisplayUtil;
 import ruiseki.omoshiroikamo.api.enums.ModObject;
 import ruiseki.omoshiroikamo.api.item.IBaubleRender;
+import ruiseki.omoshiroikamo.client.render.item.backpack.BackpackRenderer;
 import ruiseki.omoshiroikamo.common.entity.EntityImmortalItem;
 import ruiseki.omoshiroikamo.common.item.ItemBauble;
 import ruiseki.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
@@ -192,8 +192,7 @@ public class ItemBackpack extends ItemBauble
         }
 
         if (model == null) {
-            model = AdvancedModelLoader
-                .loadModel(new ResourceLocation(LibResources.PREFIX_MODEL + "backpack_base.obj"));
+            model = BackpackRenderer.model;
         }
         GL11.glPushMatrix();
         GL11.glTranslatef(0F, 0.75F, 0.3F);

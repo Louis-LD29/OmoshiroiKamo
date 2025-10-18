@@ -19,7 +19,7 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 @SideOnly(Side.CLIENT)
 public class LaserCoreTESR extends TileEntitySpecialRenderer implements IItemRenderer {
 
-    private IModelCustom model;
+    private final IModelCustom model;
     private static final String MODEL = LibResources.PREFIX_MODEL + "laser_core.obj";
 
     private static final ResourceLocation laser = new ResourceLocation(LibResources.PREFIX_BLOCK + "laser_core.png");

@@ -3,27 +3,27 @@ package ruiseki.omoshiroikamo.client.render.item.pufferfish;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
 import com.enderio.core.client.render.RenderUtil;
 
-import ruiseki.omoshiroikamo.client.models.ModelIEObj;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
+@SideOnly(Side.CLIENT)
 public class PufferFishRenderer implements IItemRenderer {
 
-    ModelIEObj modelPufferFish = new ModelIEObj(LibResources.PREFIX_MODEL + "pufferfish.obj") {
+    public static final IModelCustom model = AdvancedModelLoader
+        .loadModel(new ResourceLocation(LibResources.PREFIX_MODEL + "pufferfish.obj"));
 
-        @Override
-        public IIcon getBlockIcon(String groupName) {
-            return null;
-        }
-    };
+    private static final ResourceLocation texture = new ResourceLocation(LibResources.PREFIX_ITEM + "pufferfish.png");
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -59,10 +59,9 @@ public class PufferFishRenderer implements IItemRenderer {
             }
 
             GL11.glScalef(1.2f, 1.2f, 1.2f);
-            RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/pufferfish.png"));
-            modelPufferFish.model.renderAllExcept("open", "close");
+            RenderUtil.bindTexture(texture);
+            model.renderAllExcept("open", "close");
 
-            // === Kiểm tra nếu player đang sneaking ===
             EntityPlayer player = null;
 
             if (data != null) {
@@ -78,12 +77,12 @@ public class PufferFishRenderer implements IItemRenderer {
                 float mouthAnim = MathHelper.sin((currentTime % 2000L) / 2000.0f * (float) Math.PI * 2);
 
                 if (mouthAnim > 0.3f) {
-                    modelPufferFish.model.renderPart("open");
+                    model.renderPart("open");
                 } else if (mouthAnim < -0.3f) {
-                    modelPufferFish.model.renderPart("close");
+                    model.renderPart("close");
                 }
             } else {
-                modelPufferFish.model.renderPart("close");
+                model.renderPart("close");
             }
 
             GL11.glPopMatrix();

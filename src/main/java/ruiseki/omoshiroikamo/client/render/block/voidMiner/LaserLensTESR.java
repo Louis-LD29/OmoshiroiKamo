@@ -21,7 +21,7 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 @SideOnly(Side.CLIENT)
 public class LaserLensTESR extends TileEntitySpecialRenderer implements IItemRenderer {
 
-    private IModelCustom model;
+    private final IModelCustom model;
     private static final String MODEL = LibResources.PREFIX_MODEL + "laser_lens.obj";
     private static final ResourceLocation lensTexture = new ResourceLocation(
         LibResources.PREFIX_BLOCK + "laser_lens.png");

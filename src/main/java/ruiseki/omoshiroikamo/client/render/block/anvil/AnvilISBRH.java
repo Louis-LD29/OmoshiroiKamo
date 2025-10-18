@@ -11,9 +11,12 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ruiseki.omoshiroikamo.client.ClientUtils;
 import ruiseki.omoshiroikamo.common.block.anvil.TEAnvil;
 
+@SideOnly(Side.CLIENT)
 public class AnvilISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
 
     public static int renderAnvilId;

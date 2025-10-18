@@ -19,7 +19,7 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 @SideOnly(Side.CLIENT)
 public class SolarCellTESR extends TileEntitySpecialRenderer implements IItemRenderer {
 
-    private IModelCustom model;
+    private final IModelCustom model;
     private static final String MODEL = LibResources.PREFIX_MODEL + "solar_cell.obj";
     private static final ResourceLocation texture = new ResourceLocation(LibResources.PREFIX_BLOCK + "solar_cell.png");
 

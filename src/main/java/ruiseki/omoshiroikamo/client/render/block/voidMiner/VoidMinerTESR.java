@@ -25,7 +25,7 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 @SideOnly(Side.CLIENT)
 public class VoidMinerTESR extends TileEntitySpecialRenderer implements IItemRenderer {
 
-    private IModelCustom model;
+    private final IModelCustom model;
     private static final String MODEL = LibResources.PREFIX_MODEL + "void_miner.obj";
 
     private static final ResourceLocation bottom = new ResourceLocation(
