@@ -154,8 +154,8 @@ public class ClientProxy extends CommonProxy {
             MinecraftForgeClient.registerItemRenderer(Items.fish, new PufferFishRenderer());
         }
 
-        MinecraftForgeClient.registerItemRenderer(ModItems.itemHammer, new HammerRenderer());
-        MinecraftForgeClient.registerItemRenderer(ModItems.itemBackPack, new BackpackRenderer());
+        MinecraftForgeClient.registerItemRenderer(ModItems.HAMMER.get(), new HammerRenderer());
+        MinecraftForgeClient.registerItemRenderer(ModItems.BACKPACK.get(), new BackpackRenderer());
     }
 
     @Override

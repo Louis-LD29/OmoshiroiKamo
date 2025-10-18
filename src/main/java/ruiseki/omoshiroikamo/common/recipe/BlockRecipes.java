@@ -53,7 +53,7 @@ public class BlockRecipes {
                 'R',
                 "dustRedstone",
                 'C',
-                new ItemStack(ModItems.itemPhotovoltaicCell, 1, 0)));
+                ModItems.PHOTOVOLTAIC_CELL.get()));
 
         // Solar Array Tier 1
         GameRegistry.addRecipe(
@@ -93,7 +93,7 @@ public class BlockRecipes {
                 "LCL",
                 "GAG",
                 'G',
-                new ItemStack(ModItems.itemStabilizedEnderPear, 1, 0),
+                ModItems.STABILIZED_ENDER_PEAR.get(),
                 'L',
                 ModBlocks.BLOCK_MICA.get(),
                 'A',
@@ -161,7 +161,7 @@ public class BlockRecipes {
                 "ELE",
                 "MQM",
                 'E',
-                new ItemStack(ModItems.itemStabilizedEnderPear, 1, 0),
+                ModItems.STABILIZED_ENDER_PEAR.get(),
                 'L',
                 ModBlocks.LASER_LENS.get(),
                 'Q',
@@ -231,7 +231,7 @@ public class BlockRecipes {
                 "ELE",
                 "MQM",
                 'E',
-                new ItemStack(ModItems.itemStabilizedEnderPear, 1, 0),
+                ModItems.STABILIZED_ENDER_PEAR.get(),
                 'L',
 
                 ModBlocks.LASER_LENS.get(),
@@ -301,7 +301,7 @@ public class BlockRecipes {
                 "GNG",
                 "BCB",
                 'G',
-                new ItemStack(ModItems.itemStabilizedEnderPear, 1, 0),
+                ModItems.STABILIZED_ENDER_PEAR.get(),
                 'N',
                 ModBlocks.MODIFIER_NULL.get(),
                 'C',

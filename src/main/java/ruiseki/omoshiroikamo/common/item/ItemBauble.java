@@ -145,27 +145,22 @@ public class ItemBauble extends ItemOK implements IBauble {
     }
 
     // Bauble
-
     @Override
-    @Optional.Method(modid = "Baubles")
     public BaubleType getBaubleType(ItemStack itemstack) {
         return BaubleType.UNIVERSAL;
     }
 
     @Override
-    @Optional.Method(modid = "Baubles")
     public boolean canEquip(ItemStack stack, EntityLivingBase player) {
         return true;
     }
 
     @Override
-    @Optional.Method(modid = "Baubles")
     public boolean canUnequip(ItemStack stack, EntityLivingBase player) {
         return true;
     }
 
     @Override
-    @Optional.Method(modid = "Baubles")
     public void onEquipped(ItemStack stack, EntityLivingBase player) {
         if (player != null) {
             if (!player.worldObj.isRemote) {

@@ -6,7 +6,7 @@ import net.minecraft.util.StatCollector;
 
 import com.google.common.collect.Lists;
 
-public class Lang {
+public class LangUtils {
 
     private static final String REGEX = "\\" + '|';
     public static final char CHAR = '|';
@@ -14,11 +14,11 @@ public class Lang {
 
     private final String prefix;
 
-    public Lang() {
+    public LangUtils() {
         this.prefix = "";
     }
 
-    public Lang(String locKey) {
+    public LangUtils(String locKey) {
         this.prefix = locKey.concat(".");
     }
 
@@ -123,10 +123,10 @@ public class Lang {
      * @param unloc The array of unlocalized strings.
      * @return An array of localized versions of the passed strings.
      */
-    public String[] localizeAll(Lang lang, String... unloc) {
+    public String[] localizeAll(LangUtils langUtils, String... unloc) {
         String[] ret = new String[unloc.length];
         for (int i = 0; i < ret.length; i++) {
-            ret[i] = lang.localize(unloc[i]);
+            ret[i] = langUtils.localize(unloc[i]);
         }
         return ret;
     }

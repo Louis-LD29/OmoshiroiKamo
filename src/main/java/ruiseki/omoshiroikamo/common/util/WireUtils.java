@@ -32,7 +32,7 @@ import ruiseki.omoshiroikamo.api.energy.wire.IWireConnectable;
  * It is intended for use in a standalone mod inspired by Immersive Engineering.
  * Origin Class is Utils
  */
-public class Utils {
+public class WireUtils {
 
     public static ChunkCoordinates toCC(Object object) {
         if (object instanceof ChunkCoordinates) {

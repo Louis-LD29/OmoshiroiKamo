@@ -21,9 +21,7 @@ public class ItemStackUpgrade extends ItemUpgrade {
     protected IIcon tier1, tier2, tier3, tier4;
 
     public static ItemStackUpgrade create() {
-        ItemStackUpgrade item = new ItemStackUpgrade();
-        item.init();
-        return item;
+        return new ItemStackUpgrade();
     }
 
     public ItemStackUpgrade() {
@@ -80,7 +78,7 @@ public class ItemStackUpgrade extends ItemUpgrade {
 
     @Override
     public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-        list.add(LibMisc.lang.localize(LibResources.TOOLTIP + "stack_multiplier", multiplier(itemstack)));
+        list.add(LibMisc.LANG_UTILS.localize(LibResources.TOOLTIP + "stack_multiplier", multiplier(itemstack)));
     }
 
     public int multiplier(ItemStack stack) {

@@ -43,9 +43,7 @@ public class ItemBackpack extends ItemBauble
     }
 
     public static ItemBackpack create() {
-        ItemBackpack item = new ItemBackpack();
-        item.init();
-        return item;
+        return new ItemBackpack();
     }
 
     @Override

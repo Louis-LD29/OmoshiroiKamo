@@ -11,9 +11,7 @@ import ruiseki.omoshiroikamo.api.enums.ModObject;
 public class ItemHammer extends ItemOK {
 
     public static ItemHammer create() {
-        ItemHammer item = new ItemHammer();
-        item.init();
-        return item;
+        return new ItemHammer();
     }
 
     protected ItemHammer() {

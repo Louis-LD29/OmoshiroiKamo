@@ -43,9 +43,7 @@ public class ItemOK extends Item implements IAdvancedTooltipProvider {
     }
 
     public static ItemOK create(ModObject modObject, String textureName) {
-        ItemOK mat = new ItemOK(modObject.unlocalisedName, textureName);
-        mat.init();
-        return mat;
+        return new ItemOK(modObject.unlocalisedName, textureName);
     }
 
     @Override

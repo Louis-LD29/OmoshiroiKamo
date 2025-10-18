@@ -1,7 +1,6 @@
 package ruiseki.omoshiroikamo.common.init;
 
-import net.minecraft.item.Item;
-import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraft.item.ItemStack;
 
 import ruiseki.omoshiroikamo.api.enums.ModObject;
 import ruiseki.omoshiroikamo.client.handler.PoweredItemRenderer;
@@ -9,7 +8,6 @@ import ruiseki.omoshiroikamo.common.item.ItemAssembler;
 import ruiseki.omoshiroikamo.common.item.ItemHammer;
 import ruiseki.omoshiroikamo.common.item.ItemMaterial;
 import ruiseki.omoshiroikamo.common.item.ItemOK;
-import ruiseki.omoshiroikamo.common.item.ItemOperationOrb;
 import ruiseki.omoshiroikamo.common.item.ItemWireCoil;
 import ruiseki.omoshiroikamo.common.item.backpack.ItemBackpack;
 import ruiseki.omoshiroikamo.common.item.backpack.ItemBatteryUpgrade;
@@ -20,50 +18,74 @@ import ruiseki.omoshiroikamo.common.item.backpack.ItemMagnetUpgrade;
 import ruiseki.omoshiroikamo.common.item.backpack.ItemStackUpgrade;
 import ruiseki.omoshiroikamo.common.item.backpack.ItemUpgrade;
 import ruiseki.omoshiroikamo.common.ore.ItemOre;
+import ruiseki.omoshiroikamo.common.util.Logger;
 
-public final class ModItems {
+public enum ModItems {
 
-    public static Item itemOperationOrb;
-    public static Item itemBackPack;
-    public static Item itemUpgrade;
-    public static Item itemStackUpgrade;
-    public static Item itemCraftingUpgrade;
-    public static Item itemMagnetUpgrade;
-    public static Item itemFeedingUpgrade;
-    public static Item itemBatteryUpgrade;
-    public static Item itemEverlastingUpgrade;
-    public static Item itemStabilizedEnderPear;
-    public static Item itemPhotovoltaicCell;
-    public static Item itemAssembler;
-    public static Item itemWireCoil;
-    public static Item itemMaterial;
-    public static Item itemOre;
-    public static Item itemHammer;
+    BACKPACK(true, ItemBackpack.create()),
+    BASE_UPGRADE(true, ItemUpgrade.create()),
+    STACK_UPGRADE(true, ItemStackUpgrade.create()),
+    CRAFTING_UPGRADE(true, ItemCraftingUpgrade.create()),
+    MAGNET_UPGRADE(true, ItemMagnetUpgrade.create()),
+    FEEDING_UPGRADE(true, ItemFeedingUpgrade.create()),
+    BATTERY_UPGRADE(true, ItemBatteryUpgrade.create()),
+    EVERLASTING_UPGRADE(true, ItemEverlastingUpgrade.create()),
+    MATERIAL(true, ItemMaterial.create()),
+    ORE(true, ItemOre.create()),
+    HAMMER(true, ItemHammer.create()),
+    ASSEMBLER(true, ItemAssembler.create()),
+    STABILIZED_ENDER_PEAR(true, ItemOK.create(ModObject.itemStabilizedEnderPear, "ender_stabilized")),
+    PHOTOVOLTAIC_CELL(true, ItemOK.create(ModObject.itemPhotovoltaicCell, "photovoltaic_cell")),
+    WIRE_COIL(true, ItemWireCoil.create()),;
+
+    public static final ModItems[] VALUES = values();
 
     public static void init() {
-        itemOperationOrb = ItemOperationOrb.create();
+        for (ModItems item : VALUES) {
+            if (!item.isEnabled()) {
+                continue;
+            }
+            try {
+                item.get()
+                    .init();
+                Logger.info("Successfully initialized " + item.name());
+            } catch (Exception e) {
+                Logger.error("Failed to initialize item: +" + item.name());
+            }
+        }
+        registerItemRenderer();
+    }
 
-        itemBackPack = ItemBackpack.create();
-        itemUpgrade = ItemUpgrade.create();
-        itemStackUpgrade = ItemStackUpgrade.create();
-        itemCraftingUpgrade = ItemCraftingUpgrade.create();
-        itemMagnetUpgrade = ItemMagnetUpgrade.create();
-        itemFeedingUpgrade = ItemFeedingUpgrade.create();
-        itemBatteryUpgrade = ItemBatteryUpgrade.create();
-        itemEverlastingUpgrade = ItemEverlastingUpgrade.create();
+    private final boolean enabled;
+    private final ItemOK item;
 
-        itemStabilizedEnderPear = ItemOK.create(ModObject.itemStabilizedEnderPear, "ender_stabilized");
-        itemPhotovoltaicCell = ItemOK.create(ModObject.itemPhotovoltaicCell, "photovoltaic_cell");
-        itemAssembler = ItemAssembler.create();
+    ModItems(boolean enabled, ItemOK item) {
+        this.enabled = enabled;
+        this.item = item;
+    }
 
-        itemWireCoil = ItemWireCoil.create();
-        itemMaterial = ItemMaterial.create();
-        itemOre = ItemOre.create();
-        itemHammer = ItemHammer.create();
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public ItemOK get() {
+        return item;
+    }
+
+    public ItemStack newItemStack() {
+        return newItemStack(1);
+    }
+
+    public ItemStack newItemStack(int count) {
+        return newItemStack(count, 0);
+    }
+
+    public ItemStack newItemStack(int count, int meta) {
+        return new ItemStack(this.get(), count, meta);
     }
 
     public static void registerItemRenderer() {
         PoweredItemRenderer dsr = new PoweredItemRenderer();
-        MinecraftForgeClient.registerItemRenderer(itemOperationOrb, dsr);
+        // MinecraftForgeClient.registerItemRenderer(itemOperationOrb, dsr);
     }
 }

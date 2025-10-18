@@ -15,9 +15,7 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 public class ItemMagnetUpgrade extends ItemUpgrade {
 
     public static ItemMagnetUpgrade create() {
-        ItemMagnetUpgrade item = new ItemMagnetUpgrade();
-        item.init();
-        return item;
+        return new ItemMagnetUpgrade();
     }
 
     public ItemMagnetUpgrade() {
@@ -39,6 +37,6 @@ public class ItemMagnetUpgrade extends ItemUpgrade {
 
     @Override
     public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-        list.add(LibMisc.lang.localize(LibResources.TOOLTIP + "magnet_upgrade"));
+        list.add(LibMisc.LANG_UTILS.localize(LibResources.TOOLTIP + "magnet_upgrade"));
     }
 }

@@ -88,12 +88,12 @@ public class ManaAnvilRecipe {
             }
         }
         if (!applyableUPGRADES.isEmpty()) {
-            list.add(EnumChatFormatting.YELLOW + LibMisc.lang.localize("tooltip.anvilUPGRADES") + " ");
+            list.add(EnumChatFormatting.YELLOW + LibMisc.LANG_UTILS.localize("tooltip.anvilUPGRADES") + " ");
             for (IAnvilUpgrade up : applyableUPGRADES) {
                 list.add(
                     EnumChatFormatting.DARK_AQUA + ""
                         + ""
-                        + LibMisc.lang.localizeExact(up.getUnlocalizedName() + ".name")
+                        + LibMisc.LANG_UTILS.localizeExact(up.getUnlocalizedName() + ".name")
                         + ": ");
                 list.add(
                     EnumChatFormatting.DARK_AQUA + ""
@@ -103,7 +103,7 @@ public class ManaAnvilRecipe {
                         + " + "
                         + up.getLevelCost()
                         + " "
-                        + LibMisc.lang.localize("tooltip.lvs"));
+                        + LibMisc.LANG_UTILS.localize("tooltip.lvs"));
             }
         }
     }

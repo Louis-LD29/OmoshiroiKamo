@@ -8,7 +8,7 @@
  * <p>
  * File Created @ [Aug 27, 2014, 8:55:00 PM (GMT)]
  */
-package ruiseki.omoshiroikamo.common.util;
+package ruiseki.omoshiroikamo.common.util.handler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

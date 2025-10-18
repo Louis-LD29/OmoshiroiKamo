@@ -1,6 +1,6 @@
 package ruiseki.omoshiroikamo.common.block.energyConnector;
 
-import static ruiseki.omoshiroikamo.common.util.Utils.toIIC;
+import static ruiseki.omoshiroikamo.common.util.WireUtils.toIIC;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,7 +24,7 @@ import ruiseki.omoshiroikamo.api.energy.wire.WireNetHandler;
 import ruiseki.omoshiroikamo.api.energy.wire.WireNetHandler.AbstractConnection;
 import ruiseki.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
 import ruiseki.omoshiroikamo.api.energy.wire.WireType;
-import ruiseki.omoshiroikamo.common.util.Utils;
+import ruiseki.omoshiroikamo.common.util.WireUtils;
 import ruiseki.omoshiroikamo.common.util.lib.LibMods;
 import ruiseki.omoshiroikamo.config.GeneralConfig;
 import ruiseki.omoshiroikamo.plugin.compat.IC2Compat;
@@ -242,7 +242,7 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
         int received = 0;
         if (!worldObj.isRemote) {
             Set<AbstractConnection> outputs = WireNetHandler.INSTANCE
-                .getIndirectEnergyConnections(Utils.toCC(this), worldObj);
+                .getIndirectEnergyConnections(WireUtils.toCC(this), worldObj);
             int powerLeft = Math.min(Math.min(getMaxOutput(), getMaxInput()), energy);
             final int powerForSort = powerLeft;
 
@@ -342,7 +342,7 @@ public class TEConnectorULV extends TEConnectable implements IEnergyHandler, IEn
 
     private int getDynamicInputLimit() {
         Set<AbstractConnection> outputs = WireNetHandler.INSTANCE
-            .getIndirectEnergyConnections(Utils.toCC(this), worldObj);
+            .getIndirectEnergyConnections(WireUtils.toCC(this), worldObj);
 
         int max = 0;
         for (AbstractConnection con : outputs) {

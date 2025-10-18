@@ -443,9 +443,9 @@ public class BackpackGui extends ModularPanel {
             .topRel(0f, 4, 1f);
 
         List<TabEntry> tabs = Arrays.asList(
-            new TabEntry(ModItems.itemCraftingUpgrade, buildCraftingSlotGroup(), ItemCraftingUpgrade.class),
-            new TabEntry(ModItems.itemMagnetUpgrade, buildMagnetSlotGroup(), ItemMagnetUpgrade.class),
-            new TabEntry(ModItems.itemFeedingUpgrade, buildFeedingSlotGroup(), ItemFeedingUpgrade.class));
+            new TabEntry(ModItems.CRAFTING_UPGRADE.get(), buildCraftingSlotGroup(), ItemCraftingUpgrade.class),
+            new TabEntry(ModItems.MAGNET_UPGRADE.get(), buildMagnetSlotGroup(), ItemMagnetUpgrade.class),
+            new TabEntry(ModItems.FEEDING_UPGRADE.get(), buildFeedingSlotGroup(), ItemFeedingUpgrade.class));
 
         ParentWidget<?> emptyPage = new ParentWidget<>().debugName("Empty Page");
         upgradePage.addPage(emptyPage);
@@ -520,7 +520,7 @@ public class BackpackGui extends ModularPanel {
             .coverChildren()
             .excludeAreaInRecipeViewer()
             .child(
-                new ItemDrawable(ModItems.itemCraftingUpgrade).asIcon()
+                new ItemDrawable(ModItems.CRAFTING_UPGRADE.get()).asIcon()
                     .asWidget()
                     .size(18)
                     .pos(5, 5))
@@ -550,7 +550,7 @@ public class BackpackGui extends ModularPanel {
             .coverChildren()
             .excludeAreaInRecipeViewer()
             .child(
-                new ItemDrawable(ModItems.itemMagnetUpgrade).asIcon()
+                new ItemDrawable(ModItems.MAGNET_UPGRADE.get()).asIcon()
                     .asWidget()
                     .size(18)
                     .pos(5, 5))
@@ -566,7 +566,7 @@ public class BackpackGui extends ModularPanel {
                         new ToggleButton().selectedBackground(GuiTextures.MC_BUTTON)
                             .tooltipBuilder(
                                 richTooltip -> richTooltip
-                                    .add(LibMisc.lang.localize(LibResources.TOOLTIP + "filter_mode")))
+                                    .add(LibMisc.LANG_UTILS.localize(LibResources.TOOLTIP + "filter_mode")))
                             .overlay(true, MGuiTextures.WHITELIST)
                             .overlay(false, MGuiTextures.BLACKLIST)
                             .value(
@@ -593,7 +593,7 @@ public class BackpackGui extends ModularPanel {
             .coverChildren()
             .excludeAreaInRecipeViewer()
             .child(
-                new ItemDrawable(ModItems.itemFeedingUpgrade).asIcon()
+                new ItemDrawable(ModItems.FEEDING_UPGRADE.get()).asIcon()
                     .asWidget()
                     .size(18)
                     .pos(5, 5))
@@ -609,7 +609,7 @@ public class BackpackGui extends ModularPanel {
                         new ToggleButton().selectedBackground(GuiTextures.MC_BUTTON)
                             .tooltipBuilder(
                                 richTooltip -> richTooltip
-                                    .add(LibMisc.lang.localize(LibResources.TOOLTIP + "filter_mode")))
+                                    .add(LibMisc.LANG_UTILS.localize(LibResources.TOOLTIP + "filter_mode")))
                             .overlay(false, MGuiTextures.WHITELIST)
                             .overlay(true, MGuiTextures.BLACKLIST)
                             .value(
@@ -621,7 +621,7 @@ public class BackpackGui extends ModularPanel {
                         new ToggleButton().selectedBackground(GuiTextures.MC_BUTTON)
                             .tooltipBuilder(
                                 richTooltip -> richTooltip
-                                    .add(LibMisc.lang.localize(LibResources.TOOLTIP + "feeding_type")))
+                                    .add(LibMisc.LANG_UTILS.localize(LibResources.TOOLTIP + "feeding_type")))
                             .overlay(false, MGuiTextures.FULL_HUNGER)
                             .overlay(true, MGuiTextures.EXACT_HUNGER)
                             .value(

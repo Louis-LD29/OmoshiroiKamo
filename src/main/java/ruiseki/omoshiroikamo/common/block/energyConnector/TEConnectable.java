@@ -25,7 +25,7 @@ import ruiseki.omoshiroikamo.api.energy.wire.WireType;
 import ruiseki.omoshiroikamo.api.enums.VoltageTier;
 import ruiseki.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import ruiseki.omoshiroikamo.common.util.Logger;
-import ruiseki.omoshiroikamo.common.util.Utils;
+import ruiseki.omoshiroikamo.common.util.WireUtils;
 
 public abstract class TEConnectable extends AbstractTE implements IWireConnectable {
 
@@ -76,7 +76,7 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
         super.invalidate();
         if (worldObj != null && (!worldObj.isRemote || !Minecraft.getMinecraft()
             .isSingleplayer())) {
-            WireNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(this), worldObj, !worldObj.isRemote);
+            WireNetHandler.INSTANCE.clearAllConnectionsFor(WireUtils.toCC(this), worldObj, !worldObj.isRemote);
         }
     }
 
@@ -158,7 +158,7 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
     @Override
     public void removeCable(WireNetHandler.Connection connection) {
         WireType type = connection != null ? connection.cableType : null;
-        Set<WireNetHandler.Connection> outputs = WireNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
+        Set<WireNetHandler.Connection> outputs = WireNetHandler.INSTANCE.getConnections(worldObj, WireUtils.toCC(this));
         if (outputs == null || outputs.size() == 0) {
             if (type == limitType || type == null) {
                 this.limitType = null;
@@ -194,7 +194,8 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
         this.writeToNBT(nbttagcompound);
         if (worldObj != null && !worldObj.isRemote) {
             NBTTagList connectionList = new NBTTagList();
-            Set<WireNetHandler.Connection> conL = WireNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
+            Set<WireNetHandler.Connection> conL = WireNetHandler.INSTANCE
+                .getConnections(worldObj, WireUtils.toCC(this));
             if (conL != null) {
                 for (WireNetHandler.Connection con : conL) connectionList.appendTag(con.writeToNBT());
             }
@@ -212,12 +213,12 @@ public abstract class TEConnectable extends AbstractTE implements IWireConnectab
             && !Minecraft.getMinecraft()
                 .isSingleplayer()) {
             NBTTagList connectionList = nbt.getTagList("connectionList", 10);
-            WireNetHandler.INSTANCE.clearConnectionsOriginatingFrom(Utils.toCC(this), worldObj);
+            WireNetHandler.INSTANCE.clearConnectionsOriginatingFrom(WireUtils.toCC(this), worldObj);
             for (int i = 0; i < connectionList.tagCount(); i++) {
                 NBTTagCompound conTag = connectionList.getCompoundTagAt(i);
                 WireNetHandler.Connection con = WireNetHandler.Connection.readFromNBT(conTag);
                 if (con != null) {
-                    WireNetHandler.INSTANCE.addConnection(worldObj, Utils.toCC(this), con);
+                    WireNetHandler.INSTANCE.addConnection(worldObj, WireUtils.toCC(this), con);
                 } else {
                     Logger.error("CLIENT read connection as null");
                 }

@@ -45,7 +45,7 @@ public class TICCompat {
         hasClay = GameRegistry.findItem("TConstruct", "clayPattern") != null;
 
         Block block = ModBlocks.MATERIAL.get();
-        Item item = ModItems.itemMaterial;
+        Item item = ModItems.MATERIAL.get();
         Item moltenBucket = FluidMaterialRegister.itemBucketMaterial;
 
         for (MaterialEntry entry : MaterialRegistry.all()) {
@@ -170,15 +170,13 @@ public class TICCompat {
     }
 
     public static void addItemStackToDirectoryTic(String name, int meta) {
-        TConstructRegistry.addItemStackToDirectory("ingot" + name, new ItemStack(ModItems.itemMaterial, 1, meta));
-        TConstructRegistry.addItemStackToDirectory(
-            "nugget" + name,
-            new ItemStack(ModItems.itemMaterial, 1, LibResources.META1 + meta));
-        TConstructRegistry.addItemStackToDirectory(
-            "plate" + name,
-            new ItemStack(ModItems.itemMaterial, 1, LibResources.META2 + meta));
+        TConstructRegistry.addItemStackToDirectory("ingot" + name, ModItems.MATERIAL.newItemStack(1, meta));
         TConstructRegistry
-            .addItemStackToDirectory("rod" + name, new ItemStack(ModItems.itemMaterial, 1, LibResources.META3 + meta));
+            .addItemStackToDirectory("nugget" + name, ModItems.MATERIAL.newItemStack(1, LibResources.META1 + meta));
+        TConstructRegistry
+            .addItemStackToDirectory("plate" + name, ModItems.MATERIAL.newItemStack(1, LibResources.META2 + meta));
+        TConstructRegistry
+            .addItemStackToDirectory("rod" + name, ModItems.MATERIAL.newItemStack(1, LibResources.META3 + meta));
     }
 
 }

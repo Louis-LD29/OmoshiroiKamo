@@ -28,7 +28,7 @@ public class OKCreativeTab extends CreativeTabs {
 
     @Override
     public ItemStack getIconItemStack() {
-        return new ItemStack(ModItems.itemMaterial);
+        return new ItemStack(ModItems.MATERIAL.get());
     }
 
     @Override
@@ -45,22 +45,21 @@ public class OKCreativeTab extends CreativeTabs {
     public void displayAllReleventItems(List<ItemStack> list) {
         this.list = list;
 
-        addItem(ModItems.itemMaterial);
-        addItem(ModItems.itemWireCoil);
-        addItem(ModItems.itemOre);
-        addItem(ModItems.itemHammer);
-        addItem(ModItems.itemOperationOrb);
-        addItem(ModItems.itemBackPack);
-        addItem(ModItems.itemUpgrade);
-        addItem(ModItems.itemStackUpgrade);
-        addItem(ModItems.itemCraftingUpgrade);
-        addItem(ModItems.itemMagnetUpgrade);
-        addItem(ModItems.itemFeedingUpgrade);
-        addItem(ModItems.itemBatteryUpgrade);
-        addItem(ModItems.itemEverlastingUpgrade);
-        addItem(ModItems.itemStabilizedEnderPear);
-        addItem(ModItems.itemPhotovoltaicCell);
-        addItem(ModItems.itemAssembler);
+        addItem(ModItems.MATERIAL.get());
+        addItem(ModItems.WIRE_COIL.get());
+        addItem(ModItems.ORE.get());
+        addItem(ModItems.HAMMER.get());
+        addItem(ModItems.BACKPACK.get());
+        addItem(ModItems.BASE_UPGRADE.get());
+        addItem(ModItems.STACK_UPGRADE.get());
+        addItem(ModItems.CRAFTING_UPGRADE.get());
+        addItem(ModItems.MAGNET_UPGRADE.get());
+        addItem(ModItems.FEEDING_UPGRADE.get());
+        addItem(ModItems.BATTERY_UPGRADE.get());
+        addItem(ModItems.EVERLASTING_UPGRADE.get());
+        addItem(ModItems.STABILIZED_ENDER_PEAR.get());
+        addItem(ModItems.PHOTOVOLTAIC_CELL.get());
+        addItem(ModItems.ASSEMBLER.get());
         addItem(FluidMaterialRegister.itemBucketMaterial);
         addItem(FluidRegister.itemBucketFluid);
 

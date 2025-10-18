@@ -1,6 +1,5 @@
 package ruiseki.omoshiroikamo.common.init;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 
@@ -43,12 +42,7 @@ public class ModAchievements {
 
     public static void init() {
 
-        craft_assembler = new AchievementEntry(
-            "craft_assembler",
-            0,
-            0,
-            new ItemStack(ModItems.itemAssembler, 1, 0),
-            null);
+        craft_assembler = new AchievementEntry("craft_assembler", 0, 0, ModItems.ASSEMBLER.get(), null);
         assemble_solar_array_t1 = new AchievementEntry(
             "assemble_solar_array_t1",
             1,

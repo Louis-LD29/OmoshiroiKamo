@@ -30,9 +30,7 @@ public class ItemMaterial extends ItemOK {
     protected IIcon ingotIcon, nuggetIcon, plateIcon, rodIcon, dustIcon, gearIcon;
 
     public static ItemMaterial create() {
-        ItemMaterial mat = new ItemMaterial();
-        mat.init();
-        return mat;
+        return new ItemMaterial();
     }
 
     protected ItemMaterial() {
@@ -42,7 +40,7 @@ public class ItemMaterial extends ItemOK {
     }
 
     public void init() {
-        GameRegistry.registerItem(this, ModObject.itemItemMaterial.unlocalisedName);
+        GameRegistry.registerItem(this, name);
 
         for (MaterialEntry entry : MaterialRegistry.all()) {
             String matName = entry.getUnlocalizedName();

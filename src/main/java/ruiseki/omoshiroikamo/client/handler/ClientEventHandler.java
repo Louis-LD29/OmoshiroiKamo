@@ -117,10 +117,8 @@ public class ClientEventHandler {
             EntityPlayer player = ClientUtils.mc().thePlayer;
             if (player.getCurrentEquippedItem() != null) {
                 ItemStack equipped = player.getCurrentEquippedItem();
-                if (OreDictionary.itemMatches(
-                    new ItemStack(ModItems.itemWireCoil, 1, OreDictionary.WILDCARD_VALUE),
-                    equipped,
-                    false)) {
+                if (OreDictionary
+                    .itemMatches(ModItems.WIRE_COIL.newItemStack(1, OreDictionary.WILDCARD_VALUE), equipped, false)) {
                     if (ItemNBTHelper.verifyExistance(equipped, "linkingPos")) {
                         int[] link = ItemNBTHelper.getIntArray(equipped, "linkingPos", 0);
                         if (link != null && link.length > 3) {

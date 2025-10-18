@@ -83,7 +83,7 @@ public class MaterialWireType extends WireType {
     @Override
     public ItemStack getWireCoil() {
         int meta = MaterialRegistry.indexOf(material);
-        return new ItemStack(ModItems.itemWireCoil, 1, meta);
+        return ModItems.WIRE_COIL.newItemStack(1, meta);
     }
 
     @Override

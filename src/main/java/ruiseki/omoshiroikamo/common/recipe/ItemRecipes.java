@@ -19,20 +19,12 @@ public class ItemRecipes {
     public static void init() {
         // Hammer
         GameRegistry.addRecipe(
-            new ShapedOreRecipe(
-                new ItemStack(ModItems.itemHammer, 1, 0),
-                "  C",
-                "  S",
-                "   ",
-                'C',
-                "cobblestone",
-                'S',
-                "stickWood"));
+            new ShapedOreRecipe(ModItems.HAMMER.get(), "  C", "  S", "   ", 'C', "cobblestone", 'S', "stickWood"));
 
         // Starter Backpack
         GameRegistry.addRecipe(
             new NBTShapedOreRecipe(
-                new ItemStack(ModItems.itemBackPack, 1, 0),
+                ModItems.BACKPACK.newItemStack(1, 0),
                 "SLS",
                 "SCS",
                 "LLL",
@@ -46,59 +38,59 @@ public class ItemRecipes {
         // Copper Backpack
         GameRegistry.addRecipe(
             new NBTShapedOreRecipe(
-                new ItemStack(ModItems.itemBackPack, 1, 1),
+                ModItems.BACKPACK.newItemStack(1, 1),
                 "CCC",
                 "CBC",
                 "CCC",
                 'C',
                 "ingotCopper",
                 'B',
-                new ItemStack(ModItems.itemBackPack, 1, 0)).allowNBTFrom(new ItemStack(ModItems.itemBackPack, 1, 0))
+                ModItems.BACKPACK.newItemStack(1, 0)).allowNBTFrom(ModItems.BACKPACK.newItemStack(1, 0))
                     .allowAllTags());
 
         // Iron Backpack
         GameRegistry.addRecipe(
             new NBTShapedOreRecipe(
-                new ItemStack(ModItems.itemBackPack, 1, 2),
+                ModItems.BACKPACK.newItemStack(1, 2),
                 "CCC",
                 "CBC",
                 "CCC",
                 'C',
                 "ingotIron",
                 'B',
-                new ItemStack(ModItems.itemBackPack, 1, 1)).allowNBTFrom(new ItemStack(ModItems.itemBackPack, 1, 1))
+                ModItems.BACKPACK.newItemStack(1, 1)).allowNBTFrom(ModItems.BACKPACK.newItemStack(1, 1))
                     .allowAllTags());
 
         // Gold Backpack
         GameRegistry.addRecipe(
             new NBTShapedOreRecipe(
-                new ItemStack(ModItems.itemBackPack, 1, 3),
+                ModItems.BACKPACK.newItemStack(1, 3),
                 "CCC",
                 "CBC",
                 "CCC",
                 'C',
                 "ingotGold",
                 'B',
-                new ItemStack(ModItems.itemBackPack, 1, 2)).allowNBTFrom(new ItemStack(ModItems.itemBackPack, 1, 2))
+                ModItems.BACKPACK.newItemStack(1, 2)).allowNBTFrom(ModItems.BACKPACK.newItemStack(1, 2))
                     .allowAllTags());
 
         // Diamond Backpack
         GameRegistry.addRecipe(
             new NBTShapedOreRecipe(
-                new ItemStack(ModItems.itemBackPack, 1, 4),
+                ModItems.BACKPACK.newItemStack(1, 4),
                 "CCC",
                 "CBC",
                 "CCC",
                 'C',
                 "gemDiamond",
                 'B',
-                new ItemStack(ModItems.itemBackPack, 1, 3)).allowNBTFrom(new ItemStack(ModItems.itemBackPack, 1, 3))
+                ModItems.BACKPACK.newItemStack(1, 3)).allowNBTFrom(ModItems.BACKPACK.newItemStack(1, 3))
                     .allowAllTags());
 
         if (!LibMods.EtFuturum.isLoaded()) {
             GameRegistry.addRecipe(
                 new NBTShapedOreRecipe(
-                    new ItemStack(ModItems.itemBackPack, 1, 5),
+                    ModItems.BACKPACK.newItemStack(1, 5),
                     "CSC",
                     "SBS",
                     "CSC",
@@ -107,7 +99,7 @@ public class ItemRecipes {
                     'C',
                     "blockObsidian",
                     'B',
-                    new ItemStack(ModItems.itemBackPack, 1, 4)).allowNBTFrom(new ItemStack(ModItems.itemBackPack, 1, 3))
+                    ModItems.BACKPACK.newItemStack(1, 4)).allowNBTFrom(ModItems.BACKPACK.newItemStack(1, 4))
                         .allowAllTags());
         }
 
@@ -115,48 +107,48 @@ public class ItemRecipes {
             String dyeOreName = DYE_ORE_NAMES[i];
             GameRegistry.addRecipe(
                 new NBTShapelessOreRecipe(
-                    new ItemStack(ModItems.itemBackPack, 1, 0),
-                    new ItemStack(ModItems.itemBackPack, 1, 0),
+                    ModItems.BACKPACK.newItemStack(1, 0),
+                    ModItems.BACKPACK.newItemStack(1, 0),
                     dyeOreName).withInt(
                         "BackpackColor",
                         DyeColor.fromIndex(i)
                             .getColor()));
             GameRegistry.addRecipe(
                 new NBTShapelessOreRecipe(
-                    new ItemStack(ModItems.itemBackPack, 1, 1),
-                    new ItemStack(ModItems.itemBackPack, 1, 1),
+                    ModItems.BACKPACK.newItemStack(1, 1),
+                    ModItems.BACKPACK.newItemStack(1, 1),
                     dyeOreName).withInt(
                         "BackpackColor",
                         DyeColor.fromIndex(i)
                             .getColor()));
             GameRegistry.addRecipe(
                 new NBTShapelessOreRecipe(
-                    new ItemStack(ModItems.itemBackPack, 1, 2),
-                    new ItemStack(ModItems.itemBackPack, 1, 2),
+                    ModItems.BACKPACK.newItemStack(1, 2),
+                    ModItems.BACKPACK.newItemStack(1, 2),
                     dyeOreName).withInt(
                         "BackpackColor",
                         DyeColor.fromIndex(i)
                             .getColor()));
             GameRegistry.addRecipe(
                 new NBTShapelessOreRecipe(
-                    new ItemStack(ModItems.itemBackPack, 1, 3),
-                    new ItemStack(ModItems.itemBackPack, 1, 3),
+                    ModItems.BACKPACK.newItemStack(1, 3),
+                    ModItems.BACKPACK.newItemStack(1, 3),
                     dyeOreName).withInt(
                         "BackpackColor",
                         DyeColor.fromIndex(i)
                             .getColor()));
             GameRegistry.addRecipe(
                 new NBTShapelessOreRecipe(
-                    new ItemStack(ModItems.itemBackPack, 1, 4),
-                    new ItemStack(ModItems.itemBackPack, 1, 4),
+                    ModItems.BACKPACK.newItemStack(1, 4),
+                    ModItems.BACKPACK.newItemStack(1, 4),
                     dyeOreName).withInt(
                         "BackpackColor",
                         DyeColor.fromIndex(i)
                             .getColor()));
             GameRegistry.addRecipe(
                 new NBTShapelessOreRecipe(
-                    new ItemStack(ModItems.itemBackPack, 1, 5),
-                    new ItemStack(ModItems.itemBackPack, 1, 5),
+                    ModItems.BACKPACK.newItemStack(1, 5),
+                    ModItems.BACKPACK.newItemStack(1, 5),
                     dyeOreName).withInt(
                         "BackpackColor",
                         DyeColor.fromIndex(i)
@@ -166,7 +158,7 @@ public class ItemRecipes {
         // Upgrade Base
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemUpgrade, 1, 0),
+                ModItems.BASE_UPGRADE.get(),
                 "SIS",
                 "ILI",
                 "SIS",
@@ -180,57 +172,57 @@ public class ItemRecipes {
         // Stack Upgrade Tier 1
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemStackUpgrade, 1, 0),
+                ModItems.STACK_UPGRADE.newItemStack(1, 0),
                 "BBB",
                 "BUB",
                 "BBB",
                 'B',
                 "blockIron",
                 'U',
-                new ItemStack(ModItems.itemUpgrade, 1, 0)));
+                ModItems.BASE_UPGRADE.get()));
 
         // Stack Upgrade Tier 2
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemStackUpgrade, 1, 1),
+                ModItems.STACK_UPGRADE.newItemStack(1, 1),
                 "BBB",
                 "BUB",
                 "BBB",
                 'B',
                 "blockGold",
                 'U',
-                new ItemStack(ModItems.itemStackUpgrade, 1, 0)));
+                ModItems.STACK_UPGRADE.newItemStack(1, 0)));
 
         // Stack Upgrade Tier 3
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemStackUpgrade, 1, 2),
+                ModItems.STACK_UPGRADE.newItemStack(1, 2),
                 "BBB",
                 "BUB",
                 "BBB",
                 'B',
                 "blockDiamond",
                 'U',
-                new ItemStack(ModItems.itemStackUpgrade, 1, 1)));
+                ModItems.STACK_UPGRADE.newItemStack(1, 1)));
 
         // Stack Upgrade Tier 4
         if (!LibMods.EtFuturum.isLoaded()) {
             GameRegistry.addRecipe(
                 new ShapedOreRecipe(
-                    new ItemStack(ModItems.itemStackUpgrade, 1, 3),
+                    ModItems.STACK_UPGRADE.newItemStack(1, 3),
                     "BBB",
                     "BUB",
                     "BBB",
                     'B',
                     "itemNetherStar",
                     'U',
-                    new ItemStack(ModItems.itemStackUpgrade, 1, 2)));
+                    ModItems.STACK_UPGRADE.newItemStack(1, 2)));
         }
 
         // Crafting Upgrade
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemCraftingUpgrade, 1, 0),
+                ModItems.CRAFTING_UPGRADE.get(),
                 " c ",
                 "IUI",
                 " C ",
@@ -241,12 +233,13 @@ public class ItemRecipes {
                 'I',
                 "ingotIron",
                 'U',
-                new ItemStack(ModItems.itemUpgrade, 1, 0)));
+
+                ModItems.BASE_UPGRADE.get()));
 
         // Magnet Upgrade
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemMagnetUpgrade, 1, 0),
+                ModItems.MAGNET_UPGRADE.get(),
                 "EIE",
                 "IUI",
                 "R L",
@@ -259,12 +252,13 @@ public class ItemRecipes {
                 'I',
                 "ingotIron",
                 'U',
-                new ItemStack(ModItems.itemUpgrade, 1, 0)));
+
+                ModItems.BASE_UPGRADE.get()));
 
         // Feeding Upgrade
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemFeedingUpgrade, 1, 0),
+                ModItems.FEEDING_UPGRADE.get(),
                 " C ",
                 "AUM",
                 " E ",
@@ -277,12 +271,13 @@ public class ItemRecipes {
                 'M',
                 new ItemStack(Items.speckled_melon, 1, 0),
                 'U',
-                new ItemStack(ModItems.itemUpgrade, 1, 0)));
+
+                ModItems.BASE_UPGRADE.get()));
 
         // Battery Upgrade
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemBatteryUpgrade, 1, 0),
+                ModItems.BATTERY_UPGRADE.get(),
                 "GRG",
                 "RUR",
                 "GRG",
@@ -291,13 +286,14 @@ public class ItemRecipes {
                 'R',
                 "blockRedstone",
                 'U',
-                new ItemStack(ModItems.itemUpgrade, 1, 0)));
+
+                ModItems.BASE_UPGRADE.get()));
 
         // Everlasting Upgrade
         if (!LibMods.EtFuturum.isLoaded()) {
             GameRegistry.addRecipe(
                 new ShapedOreRecipe(
-                    new ItemStack(ModItems.itemEverlastingUpgrade, 1, 0),
+                    ModItems.EVERLASTING_UPGRADE.get(),
                     "GRG",
                     "RUR",
                     "GRG",
@@ -306,13 +302,14 @@ public class ItemRecipes {
                     'R',
                     "itemNetherStar",
                     'U',
-                    new ItemStack(ModItems.itemUpgrade, 1, 0)));
+
+                    ModItems.BASE_UPGRADE.get()));
         }
 
         // Photovoltaic Cell
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemPhotovoltaicCell, 1, 0),
+                ModItems.PHOTOVOLTAIC_CELL.get(),
                 " L ",
                 "LQL",
                 " L ",
@@ -324,7 +321,7 @@ public class ItemRecipes {
         // Stabilized Ender Pear
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemStabilizedEnderPear, 1, 0),
+                ModItems.STABILIZED_ENDER_PEAR.get(),
                 " P ",
                 "PIP",
                 " P ",
@@ -336,7 +333,7 @@ public class ItemRecipes {
         // Assembler
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemAssembler, 1, 0),
+                ModItems.ASSEMBLER.get(),
                 "  B",
                 " O ",
                 "O  ",
@@ -348,7 +345,7 @@ public class ItemRecipes {
         // Assembler
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemAssembler, 1, 0),
+                ModItems.ASSEMBLER.get(),
                 "  B",
                 " O ",
                 "O  ",
@@ -360,7 +357,7 @@ public class ItemRecipes {
         // Assembler
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemAssembler, 1, 0),
+                ModItems.ASSEMBLER.get(),
                 "  B",
                 " O ",
                 "O  ",

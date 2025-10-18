@@ -32,19 +32,19 @@ public class EtFuturumCompat {
         // Stack Upgrade Tier 4
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemStackUpgrade, 1, 3),
+                ModItems.STACK_UPGRADE.newItemStack(1, 3),
                 "BBB",
                 "BUB",
                 "BBB",
                 'B',
                 "blockNetherite",
                 'U',
-                new ItemStack(ModItems.itemStackUpgrade, 1, 2)));
+                ModItems.STACK_UPGRADE.newItemStack(1, 2)));
 
         // Everlasting Upgrade
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemEverlastingUpgrade, 1, 0),
+                ModItems.EVERLASTING_UPGRADE.get(),
                 "GRG",
                 "RUR",
                 "GRG",
@@ -53,7 +53,8 @@ public class EtFuturumCompat {
                 'R',
                 "itemNetherStar",
                 'U',
-                new ItemStack(ModItems.itemUpgrade, 1, 0)));
+
+                ModItems.BASE_UPGRADE.get()));
 
         // Flight Modifier
         GameRegistry.addRecipe(
@@ -161,10 +162,7 @@ public class EtFuturumCompat {
 
         // Netherite Backpack
         SmithingTableRecipes.getInstance()
-            .addRecipe(
-                new ItemStack(ModItems.itemBackPack, 1, 5),
-                "ingotNetherite",
-                new ItemStack(ModItems.itemBackPack, 1, 4));
+            .addRecipe(ModItems.BACKPACK.newItemStack(1, 5), "ingotNetherite", ModItems.BACKPACK.newItemStack(1, 4));
 
     }
 

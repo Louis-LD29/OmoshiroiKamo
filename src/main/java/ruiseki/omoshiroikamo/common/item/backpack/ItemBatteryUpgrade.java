@@ -15,9 +15,7 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 public class ItemBatteryUpgrade extends ItemUpgrade {
 
     public static ItemBatteryUpgrade create() {
-        ItemBatteryUpgrade item = new ItemBatteryUpgrade();
-        item.init();
-        return item;
+        return new ItemBatteryUpgrade();
     }
 
     public ItemBatteryUpgrade() {
@@ -39,6 +37,6 @@ public class ItemBatteryUpgrade extends ItemUpgrade {
 
     @Override
     public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-        list.add(LibMisc.lang.localize(LibResources.TOOLTIP + "crafting_upgrade"));
+        list.add(LibMisc.LANG_UTILS.localize(LibResources.TOOLTIP + "crafting_upgrade"));
     }
 }

@@ -12,7 +12,7 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 public class CopperRecipes {
 
     public static void init() {
-        ItemStack copperIngot = new ItemStack(ModItems.itemMaterial, 1, 1);
+        ItemStack copperIngot = ModItems.MATERIAL.newItemStack(1, 1);
 
         Block copperOre = OreRegister.getBlock(OreRegistry.get("Copper"));
         Block cupriteOre = OreRegister.getBlock(OreRegistry.get("Cuprite"));
@@ -21,12 +21,12 @@ public class CopperRecipes {
         Block chalcopyriteOre = OreRegister.getBlock(OreRegistry.get("Chalcopyrite"));
         Block tetrahedriteOre = OreRegister.getBlock(OreRegistry.get("Tetrahedrite"));
 
-        ItemStack washedCopper = new ItemStack(ModItems.itemOre, 1, LibResources.META1 + 7);
-        ItemStack washedCuprite = new ItemStack(ModItems.itemOre, 1, LibResources.META1 + 6);
-        ItemStack washedBornite = new ItemStack(ModItems.itemOre, 1, LibResources.META1 + 4);
-        ItemStack washedMalachite = new ItemStack(ModItems.itemOre, 1, LibResources.META1 + 3);
-        ItemStack washedChalcopyrite = new ItemStack(ModItems.itemOre, 1, LibResources.META1 + 2);
-        ItemStack washedTetrahedrite = new ItemStack(ModItems.itemOre, 1, LibResources.META1 + 5);
+        ItemStack washedCopper = ModItems.ORE.newItemStack(1, LibResources.META1 + 7);
+        ItemStack washedCuprite = ModItems.ORE.newItemStack(1, LibResources.META1 + 6);
+        ItemStack washedBornite = ModItems.ORE.newItemStack(1, LibResources.META1 + 4);
+        ItemStack washedMalachite = ModItems.ORE.newItemStack(1, LibResources.META1 + 3);
+        ItemStack washedChalcopyrite = ModItems.ORE.newItemStack(1, LibResources.META1 + 2);
+        ItemStack washedTetrahedrite = ModItems.ORE.newItemStack(1, LibResources.META1 + 5);
 
         GameRegistry.addSmelting(new ItemStack(copperOre, 1, 0), copperIngot.copy(), 0.7f);
         GameRegistry.addSmelting(washedCopper, getCopperNugget(12), 0.7f);
@@ -44,7 +44,7 @@ public class CopperRecipes {
     }
 
     public static ItemStack getCopperNugget(int amount) {
-        return new ItemStack(ModItems.itemMaterial, amount, LibResources.META1 + 1);
+        return new ItemStack(ModItems.MATERIAL.get(), amount, LibResources.META1 + 1);
     }
 
 }

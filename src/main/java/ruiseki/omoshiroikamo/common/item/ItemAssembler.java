@@ -53,9 +53,7 @@ public class ItemAssembler extends ItemOK {
     }
 
     public static ItemAssembler create() {
-        ItemAssembler item = new ItemAssembler();
-        item.init();
-        return item;
+        return new ItemAssembler();
     }
 
     @Override
@@ -103,7 +101,7 @@ public class ItemAssembler extends ItemOK {
     @Override
     public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
         super.addDetailedEntries(itemstack, entityplayer, list, flag);
-        list.add(LibMisc.lang.localize(LibResources.TOOLTIP + "assembler.l1"));
-        list.add(LibMisc.lang.localize(LibResources.TOOLTIP + "assembler.l2"));
+        list.add(LibMisc.LANG_UTILS.localize(LibResources.TOOLTIP + "assembler.l1"));
+        list.add(LibMisc.LANG_UTILS.localize(LibResources.TOOLTIP + "assembler.l2"));
     }
 }

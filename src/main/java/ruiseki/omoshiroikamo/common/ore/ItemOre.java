@@ -25,28 +25,28 @@ import ruiseki.omoshiroikamo.api.enums.ModObject;
 import ruiseki.omoshiroikamo.api.ore.OreEntry;
 import ruiseki.omoshiroikamo.api.ore.OreRegistry;
 import ruiseki.omoshiroikamo.common.OKCreativeTab;
+import ruiseki.omoshiroikamo.common.item.ItemOK;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
-public class ItemOre extends Item implements IAdvancedTooltipProvider {
+public class ItemOre extends ItemOK implements IAdvancedTooltipProvider {
 
     @SideOnly(Side.CLIENT)
     protected IIcon crushedOverlay, crushed, washed, enriched;
 
     public static ItemOre create() {
-        ItemOre ore = new ItemOre();
-        ore.init();
-        return ore;
+        return new ItemOre();
     }
 
     protected ItemOre() {
+        super(ModObject.itemOre.unlocalisedName);
         setHasSubtypes(true);
         setMaxDamage(0);
         setCreativeTab(OKCreativeTab.INSTANCE);
         setUnlocalizedName(ModObject.itemOre.unlocalisedName);
     }
 
-    private void init() {
-        GameRegistry.registerItem(this, ModObject.itemOre.unlocalisedName);
+    public void init() {
+        GameRegistry.registerItem(this, name);
 
         for (OreEntry entry : OreRegistry.all()) {
             String oreName = entry.getUnlocalizedName();

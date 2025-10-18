@@ -122,7 +122,7 @@ public class BlockFluidInOut extends AbstractBlock<TEFluidInOut> {
                                 .getName()));
                 }
             } else {
-                list.add("§7Stored:§f " + LibMisc.lang.localize("fluid.empty"));
+                list.add("§7Stored:§f " + LibMisc.LANG_UTILS.localize("fluid.empty"));
             }
         }
 
