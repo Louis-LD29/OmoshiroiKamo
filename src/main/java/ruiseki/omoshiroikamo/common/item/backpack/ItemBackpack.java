@@ -8,6 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderPlayerEvent;
+
+import org.lwjgl.opengl.GL11;
 
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.factory.GuiFactories;
@@ -19,12 +22,17 @@ import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import cofh.api.energy.IEnergyContainerItem;
 import ruiseki.omoshiroikamo.api.energy.PowerDisplayUtil;
 import ruiseki.omoshiroikamo.api.enums.ModObject;
+import ruiseki.omoshiroikamo.api.item.IBaubleRender;
+import ruiseki.omoshiroikamo.client.render.item.backpack.BackpackRenderer;
 import ruiseki.omoshiroikamo.common.entity.EntityImmortalItem;
 import ruiseki.omoshiroikamo.common.item.ItemBauble;
 import ruiseki.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import ruiseki.omoshiroikamo.common.util.lib.LibMods;
 
-public class ItemBackpack extends ItemBauble implements IEnergyContainerItem, IGuiHolder<PlayerInventoryGuiData> {
+public class ItemBackpack extends ItemBauble
+    implements IEnergyContainerItem, IGuiHolder<PlayerInventoryGuiData>, IBaubleRender {
+
+    private static final BackpackRenderer renderer = new BackpackRenderer();
 
     public ItemBackpack() {
         super(ModObject.itemBackPack.unlocalisedName);
@@ -168,4 +176,21 @@ public class ItemBackpack extends ItemBauble implements IEnergyContainerItem, IG
     public Entity createEntity(World world, Entity location, ItemStack stack) {
         return new EntityImmortalItem(world, location, stack);
     }
+
+    @Override
+    public void onPlayerBaubleRender(ItemStack stack, RenderPlayerEvent event, IBaubleRender.RenderType type) {
+        if (stack == null || type != IBaubleRender.RenderType.BODY) {
+            return;
+        }
+
+        GL11.glPushMatrix();
+        GL11.glTranslatef(0F, 0.75F, 0.3F);
+        GL11.glScalef(0.85F, 0.85F, 0.85F);
+        GL11.glRotatef(180f, 1f, 0f, 0f);
+
+        renderer.renderModel(stack);
+
+        GL11.glPopMatrix();
+    }
+
 }

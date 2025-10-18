@@ -24,7 +24,7 @@ import ruiseki.omoshiroikamo.config.item.ItemConfig;
 
 public class BackpackRenderer implements IItemRenderer {
 
-    ModelIEObj modelBackpack = new ModelIEObj(LibResources.PREFIX_MODEL + "backpack_base.obj") {
+    public ModelIEObj modelBackpack = new ModelIEObj(LibResources.PREFIX_MODEL + "backpack_base.obj") {
 
         @Override
         public IIcon getBlockIcon(String groupName) {
@@ -77,7 +77,7 @@ public class BackpackRenderer implements IItemRenderer {
         GL11.glPopMatrix();
     }
 
-    private void renderModel(ItemStack item) {
+    public void renderModel(ItemStack item) {
         GL11.glColor3f(0.353f, 0.243f, 0.106f);
         RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_border.png"));
         modelBackpack.model.renderOnly("trim1", "trim2", "trim3", "trim4", "trim5", "padding1");

@@ -23,7 +23,6 @@ import ruiseki.omoshiroikamo.common.util.ItemNBTHelper;
 import ruiseki.omoshiroikamo.common.util.lib.LibMods;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
-@Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles")
 public class ItemBauble extends ItemOK implements IBauble {
 
     private static final String TAG_HASHCODE = "playerHashcode";
