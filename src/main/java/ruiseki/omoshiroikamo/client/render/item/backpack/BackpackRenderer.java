@@ -2,11 +2,15 @@ package ruiseki.omoshiroikamo.client.render.item.backpack;
 
 import java.awt.Color;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
 import com.enderio.core.client.render.ColorUtil;
@@ -22,6 +26,10 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 import ruiseki.omoshiroikamo.config.item.ItemConfig;
 
 public class BackpackRenderer implements IItemRenderer {
+
+    @SideOnly(Side.CLIENT)
+    public static final IModelCustom model = AdvancedModelLoader
+        .loadModel(new ResourceLocation(LibResources.PREFIX_MODEL + "backpack_base.obj"));
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -71,7 +79,7 @@ public class BackpackRenderer implements IItemRenderer {
     public void renderModel(ItemStack item) {
         GL11.glColor3f(0.353f, 0.243f, 0.106f);
         RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_border.png"));
-        ItemBackpack.model.renderOnly("trim1", "trim2", "trim3", "trim4", "trim5", "padding1");
+        model.renderOnly("trim1", "trim2", "trim3", "trim4", "trim5", "padding1");
 
         int color = DyeColor.BROWN.getColor();
         if (item.hasTagCompound()) {
@@ -92,7 +100,7 @@ public class BackpackRenderer implements IItemRenderer {
 
         GL11.glColor3f(r, g, b);
         RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_cloth.png"));
-        ItemBackpack.model.renderOnly(
+        model.renderOnly(
             "inner1",
             "inner2",
             "outer1",
@@ -136,7 +144,7 @@ public class BackpackRenderer implements IItemRenderer {
         }
         RenderUtil
             .bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/" + material + "_clips.png"));
-        ItemBackpack.model.renderOnly(
+        model.renderOnly(
             "top4",
             "right1",
             "right2",
