@@ -4,7 +4,6 @@ import java.awt.Color;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -17,20 +16,12 @@ import com.enderio.core.common.vecmath.Vector4f;
 
 import cofh.api.energy.IEnergyContainerItem;
 import ruiseki.omoshiroikamo.client.handler.ClientTickHandler;
-import ruiseki.omoshiroikamo.client.models.ModelIEObj;
+import ruiseki.omoshiroikamo.common.item.backpack.ItemBackpack;
 import ruiseki.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 import ruiseki.omoshiroikamo.config.item.ItemConfig;
 
 public class BackpackRenderer implements IItemRenderer {
-
-    public ModelIEObj modelBackpack = new ModelIEObj(LibResources.PREFIX_MODEL + "backpack_base.obj") {
-
-        @Override
-        public IIcon getBlockIcon(String groupName) {
-            return null;
-        }
-    };
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -80,7 +71,7 @@ public class BackpackRenderer implements IItemRenderer {
     public void renderModel(ItemStack item) {
         GL11.glColor3f(0.353f, 0.243f, 0.106f);
         RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_border.png"));
-        modelBackpack.model.renderOnly("trim1", "trim2", "trim3", "trim4", "trim5", "padding1");
+        ItemBackpack.model.renderOnly("trim1", "trim2", "trim3", "trim4", "trim5", "padding1");
 
         int color = DyeColor.BROWN.getColor();
         if (item.hasTagCompound()) {
@@ -101,7 +92,7 @@ public class BackpackRenderer implements IItemRenderer {
 
         GL11.glColor3f(r, g, b);
         RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_cloth.png"));
-        modelBackpack.model.renderOnly(
+        ItemBackpack.model.renderOnly(
             "inner1",
             "inner2",
             "outer1",
@@ -145,7 +136,7 @@ public class BackpackRenderer implements IItemRenderer {
         }
         RenderUtil
             .bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/" + material + "_clips.png"));
-        modelBackpack.model.renderOnly(
+        ItemBackpack.model.renderOnly(
             "top4",
             "right1",
             "right2",

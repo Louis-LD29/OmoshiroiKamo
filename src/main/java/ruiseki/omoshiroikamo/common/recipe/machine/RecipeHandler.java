@@ -67,8 +67,7 @@ public class RecipeHandler {
         int loaded = 0;
 
         try (FileReader reader = new FileReader(file)) {
-            List<JsonRecipe> recipes = gson.fromJson(reader, new TypeToken<List<JsonRecipe>>() {
-            }.getType());
+            List<JsonRecipe> recipes = gson.fromJson(reader, new TypeToken<List<JsonRecipe>>() {}.getType());
 
             if (recipes == null) {
                 return 0;
@@ -207,8 +206,8 @@ public class RecipeHandler {
             if (builder.getItemInputs() != null) {
                 for (ChanceItemStack chanceStack : builder.getItemInputs()) {
                     data.append(
-                            chanceStack.stack.getItem()
-                                .getUnlocalizedName())
+                        chanceStack.stack.getItem()
+                            .getUnlocalizedName())
                         .append(":")
                         .append(chanceStack.stack.stackSize)
                         .append(";");
@@ -218,8 +217,8 @@ public class RecipeHandler {
             if (builder.getFluidInputs() != null) {
                 for (ChanceFluidStack chancStack : builder.getFluidInputs()) {
                     data.append(
-                            chancStack.stack.getFluid()
-                                .getName())
+                        chancStack.stack.getFluid()
+                            .getName())
                         .append(":")
                         .append(chancStack.stack.amount)
                         .append(";");
@@ -229,8 +228,8 @@ public class RecipeHandler {
             if (builder.getItemOutputs() != null) {
                 for (ChanceItemStack chanceStack : builder.getItemOutputs()) {
                     data.append(
-                            chanceStack.stack.getItem()
-                                .getUnlocalizedName())
+                        chanceStack.stack.getItem()
+                            .getUnlocalizedName())
                         .append(":")
                         .append(chanceStack.stack.stackSize)
                         .append(";");
@@ -240,8 +239,8 @@ public class RecipeHandler {
             if (builder.getFluidOutputs() != null) {
                 for (ChanceFluidStack chancStack : builder.getFluidOutputs()) {
                     data.append(
-                            chancStack.stack.getFluid()
-                                .getName())
+                        chancStack.stack.getFluid()
+                            .getName())
                         .append(":")
                         .append(chancStack.stack.amount)
                         .append(";");
