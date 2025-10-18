@@ -6,8 +6,10 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -17,6 +19,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.enderio.core.api.client.gui.IAdvancedTooltipProvider;
 import com.enderio.core.common.TileEntityEnder;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -24,6 +27,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ruiseki.omoshiroikamo.api.enums.ModObject;
 import ruiseki.omoshiroikamo.client.render.block.connectable.ConnectableISBRH;
+import ruiseki.omoshiroikamo.common.OKCreativeTab;
 import ruiseki.omoshiroikamo.common.block.abstractClass.AbstractBlock;
 import ruiseki.omoshiroikamo.common.block.abstractClass.AbstractTE;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
@@ -47,13 +51,11 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
     }
 
     public static BlockConnectable create() {
-        BlockConnectable res = new BlockConnectable();
-        res.init();
-        return res;
+        return new BlockConnectable();
     }
 
     @Override
-    protected void init() {
+    public void init() {
         GameRegistry.registerBlock(this, ItemBlockConnectable.class, name);
         GameRegistry.registerTileEntity(TEInsulator.class, name + "_insulator");
         GameRegistry.registerTileEntity(TEConnectorULV.class, name + "_connectorULV");
@@ -311,4 +313,44 @@ public class BlockConnectable extends AbstractBlock<TEConnectable> {
     public boolean renderAsNormalBlock() {
         return false;
     }
+
+    public static class ItemBlockConnectable extends ItemBlockWithMetadata implements IAdvancedTooltipProvider {
+
+        public ItemBlockConnectable(Block block) {
+            super(block, block);
+            setHasSubtypes(true);
+            setCreativeTab(OKCreativeTab.tabBlock);
+        }
+
+        @Override
+        public String getUnlocalizedName(ItemStack stack) {
+            int meta = stack.getItemDamage();
+            String base = super.getUnlocalizedName(stack);
+
+            if (meta >= 0 && meta < BlockConnectable.blocks.length) {
+                return base + "." + BlockConnectable.blocks[meta];
+            } else {
+                return base;
+            }
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+            for (int i = 0; i < BlockConnectable.blocks.length; i++) {
+                list.add(new ItemStack(this, 1, i));
+            }
+        }
+
+        @Override
+        public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {}
+
+        @Override
+        public void addBasicEntries(ItemStack itemstack, EntityPlayer player, List<String> list, boolean flag) {}
+
+        @Override
+        public void addDetailedEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list,
+            boolean flag) {}
+    }
+
 }

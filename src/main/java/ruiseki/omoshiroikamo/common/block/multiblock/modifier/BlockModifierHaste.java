@@ -16,9 +16,7 @@ public class BlockModifierHaste extends BlockModifier {
     }
 
     public static BlockModifierHaste create() {
-        BlockModifierHaste block = new BlockModifierHaste();
-        block.init();
-        return block;
+        return new BlockModifierHaste();
     }
 
     @Override

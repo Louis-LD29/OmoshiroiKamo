@@ -16,9 +16,7 @@ public class BlockModifierResistance extends BlockModifier {
     }
 
     public static BlockModifierResistance create() {
-        BlockModifierResistance block = new BlockModifierResistance();
-        block.init();
-        return block;
+        return new BlockModifierResistance();
     }
 
     @Override

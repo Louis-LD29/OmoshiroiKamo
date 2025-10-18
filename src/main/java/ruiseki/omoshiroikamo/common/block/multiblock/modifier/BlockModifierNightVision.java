@@ -16,9 +16,7 @@ public class BlockModifierNightVision extends BlockModifier {
     }
 
     public static BlockModifierNightVision create() {
-        BlockModifierNightVision block = new BlockModifierNightVision();
-        block.init();
-        return block;
+        return new BlockModifierNightVision();
     }
 
     @Override

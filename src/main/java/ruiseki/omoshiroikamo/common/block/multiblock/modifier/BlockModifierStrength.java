@@ -16,9 +16,7 @@ public class BlockModifierStrength extends BlockModifier {
     }
 
     public static BlockModifierStrength create() {
-        BlockModifierStrength block = new BlockModifierStrength();
-        block.init();
-        return block;
+        return new BlockModifierStrength();
     }
 
     @Override

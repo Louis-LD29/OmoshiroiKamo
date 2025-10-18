@@ -22,7 +22,7 @@ import cpw.mods.fml.relauncher.Side;
 import ruiseki.omoshiroikamo.api.energy.wire.WireType;
 import ruiseki.omoshiroikamo.client.ClientUtils;
 import ruiseki.omoshiroikamo.client.models.ModelIEObj;
-import ruiseki.omoshiroikamo.common.item.ModItems;
+import ruiseki.omoshiroikamo.common.init.ModItems;
 import ruiseki.omoshiroikamo.common.util.ItemNBTHelper;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 /*

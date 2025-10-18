@@ -18,11 +18,11 @@ import cofh.api.energy.IEnergyReceiver;
 import ruiseki.omoshiroikamo.api.energy.IPowerContainer;
 import ruiseki.omoshiroikamo.api.energy.PowerHandlerUtil;
 import ruiseki.omoshiroikamo.api.multiblock.IModifierBlock;
-import ruiseki.omoshiroikamo.common.achievement.ModAchievements;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
-import ruiseki.omoshiroikamo.common.block.multiblock.AbstractMultiBlockModifierTE;
+import ruiseki.omoshiroikamo.common.block.abstractClass.AbstractMultiBlockModifierTE;
 import ruiseki.omoshiroikamo.common.block.multiblock.modifier.ModifierAttributes;
 import ruiseki.omoshiroikamo.common.block.multiblock.modifier.ModifierHandler;
+import ruiseki.omoshiroikamo.common.init.ModAchievements;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
 import ruiseki.omoshiroikamo.common.network.PacketHandler;
 import ruiseki.omoshiroikamo.common.network.PacketNBBClientFlight;
 import ruiseki.omoshiroikamo.common.network.PacketPowerStorage;
@@ -56,27 +56,27 @@ public abstract class TENanoBotBeacon extends AbstractMultiBlockModifierTE imple
         }
 
         boolean added = false;
-        if (block == ModBlocks.blockModifierSpeed) {
+        if (block == ModBlocks.MODIFIER_SPEED.get()) {
             added = true;
-        } else if (block == ModBlocks.blockModifierFlight) {
+        } else if (block == ModBlocks.MODIFIER_FLIGHT.get()) {
             added = true;
-        } else if (block == ModBlocks.blockModifierNightVision) {
+        } else if (block == ModBlocks.MODIFIER_NIGHT_VISION.get()) {
             added = true;
-        } else if (block == ModBlocks.blockModifierHaste) {
+        } else if (block == ModBlocks.MODIFIER_HASTE.get()) {
             added = true;
-        } else if (block == ModBlocks.blockModifierStrength) {
+        } else if (block == ModBlocks.MODIFIER_STRENGTH.get()) {
             added = true;
-        } else if (block == ModBlocks.blockModifierWaterBreathing) {
+        } else if (block == ModBlocks.MODIFIER_WATER_BREATHING.get()) {
             added = true;
-        } else if (block == ModBlocks.blockModifierRegeneration) {
+        } else if (block == ModBlocks.MODIFIER_REGENERATION.get()) {
             added = true;
-        } else if (block == ModBlocks.blockModifierSaturation) {
+        } else if (block == ModBlocks.MODIFIER_SATURATION.get()) {
             added = true;
-        } else if (block == ModBlocks.blockModifierResistance) {
+        } else if (block == ModBlocks.MODIFIER_RESISTANCE.get()) {
             added = true;
-        } else if (block == ModBlocks.blockModifierJumpBoost) {
+        } else if (block == ModBlocks.MODIFIER_JUMP_BOOST.get()) {
             added = true;
-        } else if (block == ModBlocks.blockModifierFireResistance) {
+        } else if (block == ModBlocks.MODIFIER_FIRE_RESISTANCE.get()) {
             added = true;
         }
 

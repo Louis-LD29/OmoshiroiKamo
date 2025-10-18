@@ -14,36 +14,36 @@ import com.google.common.collect.Sets;
 import com.gtnewhorizon.structurelib.alignment.constructable.ConstructableUtility;
 
 import ruiseki.omoshiroikamo.api.enums.ModObject;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
 import ruiseki.omoshiroikamo.common.util.lib.LibMisc;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
 public class ItemAssembler extends ItemOK {
 
     private static final Set<Block> VALID_SOLAR_BLOCKS = Sets.newHashSet(
-        ModBlocks.blockSolarArray,
-        ModBlocks.blockSolarCell,
-        ModBlocks.blockVoidOreMiner,
-        ModBlocks.blockVoidResMiner,
-        ModBlocks.blockNanoBotBeacon,
-        ModBlocks.blockLaserCore,
-        ModBlocks.blockLaserLens,
-        ModBlocks.blockStructureFrame,
-        ModBlocks.blockMachineBase,
-        ModBlocks.blockModifierNull,
-        ModBlocks.blockModifierAccuracy,
-        ModBlocks.blockModifierSpeed,
-        ModBlocks.blockModifierResistance,
-        ModBlocks.blockModifierFlight,
-        ModBlocks.blockModifierHaste,
-        ModBlocks.blockModifierSaturation,
-        ModBlocks.blockModifierStrength,
-        ModBlocks.blockModifierFireResistance,
-        ModBlocks.blockModifierRegeneration,
-        ModBlocks.blockModifierNightVision,
-        ModBlocks.blockModifierJumpBoost,
-        ModBlocks.blockModifierWaterBreathing,
-        ModBlocks.blockModifierPiezo);
+        ModBlocks.SOLAR_ARRAY.get(),
+        ModBlocks.SOLAR_CELL.get(),
+        ModBlocks.VOID_RES_MINER.get(),
+        ModBlocks.VOID_ORE_MINER.get(),
+        ModBlocks.NANO_BOT_BEACON.get(),
+        ModBlocks.LASER_LENS.get(),
+        ModBlocks.LASER_CORE.get(),
+        ModBlocks.STRUCTURE_FRAME.get(),
+        ModBlocks.MACHINE_BASE.get(),
+        ModBlocks.MODIFIER_NULL.get(),
+        ModBlocks.MODIFIER_ACCURACY.get(),
+        ModBlocks.MODIFIER_SPEED.get(),
+        ModBlocks.MODIFIER_RESISTANCE.get(),
+        ModBlocks.MODIFIER_FLIGHT.get(),
+        ModBlocks.MODIFIER_HASTE.get(),
+        ModBlocks.MODIFIER_SATURATION.get(),
+        ModBlocks.MODIFIER_STRENGTH.get(),
+        ModBlocks.MODIFIER_FIRE_RESISTANCE.get(),
+        ModBlocks.MODIFIER_REGENERATION.get(),
+        ModBlocks.MODIFIER_NIGHT_VISION.get(),
+        ModBlocks.MODIFIER_JUMP_BOOST.get(),
+        ModBlocks.MODIFIER_WATER_BREATHING.get(),
+        ModBlocks.MODIFIER_PIEZO.get());
 
     public ItemAssembler() {
         super(ModObject.itemAssembler.unlocalisedName);

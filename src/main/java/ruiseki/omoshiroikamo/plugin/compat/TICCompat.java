@@ -13,9 +13,9 @@ import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ruiseki.omoshiroikamo.api.material.MaterialEntry;
 import ruiseki.omoshiroikamo.api.material.MaterialRegistry;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
 import ruiseki.omoshiroikamo.common.fluid.FluidMaterialRegister;
-import ruiseki.omoshiroikamo.common.item.ModItems;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
+import ruiseki.omoshiroikamo.common.init.ModItems;
 import ruiseki.omoshiroikamo.common.util.Logger;
 import ruiseki.omoshiroikamo.common.util.lib.LibMods;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
@@ -44,7 +44,7 @@ public class TICCompat {
         }
         hasClay = GameRegistry.findItem("TConstruct", "clayPattern") != null;
 
-        Block block = ModBlocks.blockMaterial;
+        Block block = ModBlocks.MATERIAL.get();
         Item item = ModItems.itemMaterial;
         Item moltenBucket = FluidMaterialRegister.itemBucketMaterial;
 

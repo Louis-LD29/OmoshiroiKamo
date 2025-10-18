@@ -16,9 +16,7 @@ public class BlockModifierFlight extends BlockModifier {
     }
 
     public static BlockModifierFlight create() {
-        BlockModifierFlight block = new BlockModifierFlight();
-        block.init();
-        return block;
+        return new BlockModifierFlight();
     }
 
     @Override

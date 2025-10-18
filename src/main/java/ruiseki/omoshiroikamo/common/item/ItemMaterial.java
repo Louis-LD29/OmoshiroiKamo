@@ -20,7 +20,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import ruiseki.omoshiroikamo.api.enums.ModObject;
 import ruiseki.omoshiroikamo.api.material.MaterialEntry;
 import ruiseki.omoshiroikamo.api.material.MaterialRegistry;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
 import ruiseki.omoshiroikamo.common.util.OreDictUtils;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
@@ -79,7 +79,7 @@ public class ItemMaterial extends ItemOK {
         ItemStack rod = new ItemStack(this, 1, LibResources.META3 + meta);
         ItemStack dust = new ItemStack(this, 1, LibResources.META4 + meta);
         ItemStack gear = new ItemStack(this, 1, LibResources.META5 + meta);
-        ItemStack block = new ItemStack(ModBlocks.blockMaterial, 1, meta);
+        ItemStack block = new ItemStack(ModBlocks.MATERIAL.get(), 1, meta);
 
         String ingotOre = "ingot" + capitalize(oreBaseName);
         String nuggetOre = "nugget" + capitalize(oreBaseName);

@@ -22,9 +22,7 @@ public class BlockSolarCell extends BlockOK {
     }
 
     public static BlockSolarCell create() {
-        BlockSolarCell res = new BlockSolarCell();
-        res.init();
-        return res;
+        return new BlockSolarCell();
     }
 
     @Override

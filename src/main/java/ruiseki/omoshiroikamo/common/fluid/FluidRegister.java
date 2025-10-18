@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ruiseki.omoshiroikamo.api.fluid.FluidEntry;
 import ruiseki.omoshiroikamo.api.fluid.FluidRegistry;
+import ruiseki.omoshiroikamo.common.init.ModFluids;
 
 public class FluidRegister {
 

@@ -34,7 +34,7 @@ import ruiseki.omoshiroikamo.api.enums.ModObject;
 import ruiseki.omoshiroikamo.api.io.SlotDefinition;
 import ruiseki.omoshiroikamo.client.gui.modularui2.MGuiTextures;
 import ruiseki.omoshiroikamo.common.block.abstractClass.AbstractTaskTE;
-import ruiseki.omoshiroikamo.common.recipes.chance.ChanceItemStack;
+import ruiseki.omoshiroikamo.common.recipe.chance.ChanceItemStack;
 
 public class TEFurnace extends AbstractTaskTE {
 

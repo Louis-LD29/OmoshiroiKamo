@@ -10,7 +10,7 @@ import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import ruiseki.omoshiroikamo.api.material.MaterialEntry;
 import ruiseki.omoshiroikamo.api.material.MaterialRegistry;
-import ruiseki.omoshiroikamo.common.item.ModItems;
+import ruiseki.omoshiroikamo.common.init.ModItems;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 import ruiseki.omoshiroikamo.plugin.nei.PositionedStackAdv;
 import ruiseki.omoshiroikamo.plugin.nei.RecipeHandlerBase;

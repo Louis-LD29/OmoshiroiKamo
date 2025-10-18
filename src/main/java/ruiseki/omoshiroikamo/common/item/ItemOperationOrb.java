@@ -36,7 +36,7 @@ import ruiseki.omoshiroikamo.api.enums.ModObject;
 import ruiseki.omoshiroikamo.api.item.IAnvilUpgradeItem;
 import ruiseki.omoshiroikamo.client.gui.modularui2.MGuiBuilder;
 import ruiseki.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
-import ruiseki.omoshiroikamo.common.recipes.ManaAnvilRecipe;
+import ruiseki.omoshiroikamo.common.recipe.ManaAnvilRecipe;
 import ruiseki.omoshiroikamo.common.util.ItemNBTHelper;
 import ruiseki.omoshiroikamo.common.util.lib.LibMisc;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;

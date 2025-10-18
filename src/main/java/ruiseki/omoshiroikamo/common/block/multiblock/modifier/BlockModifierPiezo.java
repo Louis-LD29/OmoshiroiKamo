@@ -15,9 +15,7 @@ public class BlockModifierPiezo extends BlockModifier {
     }
 
     public static BlockModifierPiezo create() {
-        BlockModifierPiezo block = new BlockModifierPiezo();
-        block.init();
-        return block;
+        return new BlockModifierPiezo();
     }
 
     @Override

@@ -8,7 +8,7 @@ import net.minecraft.util.IIcon;
 
 import ruiseki.omoshiroikamo.api.material.MaterialEntry;
 import ruiseki.omoshiroikamo.api.material.MaterialRegistry;
-import ruiseki.omoshiroikamo.common.item.ModItems;
+import ruiseki.omoshiroikamo.common.init.ModItems;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.

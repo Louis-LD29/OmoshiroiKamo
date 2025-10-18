@@ -10,10 +10,10 @@ import net.minecraft.item.ItemStack;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
 import ruiseki.omoshiroikamo.common.fluid.FluidMaterialRegister;
 import ruiseki.omoshiroikamo.common.fluid.FluidRegister;
-import ruiseki.omoshiroikamo.common.item.ModItems;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
+import ruiseki.omoshiroikamo.common.init.ModItems;
 import ruiseki.omoshiroikamo.common.util.lib.LibMisc;
 
 public class OKCreativeTab extends CreativeTabs {
@@ -64,26 +64,26 @@ public class OKCreativeTab extends CreativeTabs {
         addItem(FluidMaterialRegister.itemBucketMaterial);
         addItem(FluidRegister.itemBucketFluid);
 
-        addBlock(ModBlocks.blockMaterial);
-        addBlock(ModBlocks.blockAnvil);
-        addBlock(ModBlocks.blockFurnace);
-        addBlock(ModBlocks.blockBasalt);
-        addBlock(ModBlocks.blockAlabaster);
-        addBlock(ModBlocks.blockHardenedStone);
-        addBlock(ModBlocks.blockMica);
-        addBlock(ModBlocks.blockStructureFrame);
-        addBlock(ModBlocks.blockMachineBase);
-        addBlock(ModBlocks.blockModifierNull);
-        addBlock(ModBlocks.blockModifierAccuracy);
-        addBlock(ModBlocks.blockModifierSpeed);
-        addBlock(ModBlocks.blockModifierPiezo);
-        addBlock(ModBlocks.blockSolarArray);
-        addBlock(ModBlocks.blockSolarCell);
-        addBlock(ModBlocks.blockVoidOreMiner);
-        addBlock(ModBlocks.blockVoidResMiner);
-        addBlock(ModBlocks.blockNanoBotBeacon);
-        addBlock(ModBlocks.blockLaserCore);
-        addBlock(ModBlocks.blockLaserLens);
+        addBlock(ModBlocks.MATERIAL.get());
+        addBlock(ModBlocks.ANVIL.get());
+        addBlock(ModBlocks.FURNACE.get());
+        addBlock(ModBlocks.BLOCK_ALABASTER.get());
+        addBlock(ModBlocks.BLOCK_BASALT.get());
+        addBlock(ModBlocks.BLOCK_HARDENED_STONE.get());
+        addBlock(ModBlocks.BLOCK_MICA.get());
+        addBlock(ModBlocks.STRUCTURE_FRAME.get());
+        addBlock(ModBlocks.MACHINE_BASE.get());
+        addBlock(ModBlocks.MODIFIER_NULL.get());
+        addBlock(ModBlocks.MODIFIER_ACCURACY.get());
+        addBlock(ModBlocks.MODIFIER_SPEED.get());
+        addBlock(ModBlocks.MODIFIER_PIEZO.get());
+        addBlock(ModBlocks.SOLAR_ARRAY.get());
+        addBlock(ModBlocks.SOLAR_CELL.get());
+        addBlock(ModBlocks.VOID_ORE_MINER.get());
+        addBlock(ModBlocks.VOID_RES_MINER.get());
+        addBlock(ModBlocks.NANO_BOT_BEACON.get());
+        addBlock(ModBlocks.LASER_LENS.get());
+        addBlock(ModBlocks.LASER_CORE.get());
 
         for (ItemStack stack : externalStacks) {
             addStack(stack);

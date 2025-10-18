@@ -16,9 +16,7 @@ public class BlockModifierJumpBoost extends BlockModifier {
     }
 
     public static BlockModifierJumpBoost create() {
-        BlockModifierJumpBoost block = new BlockModifierJumpBoost();
-        block.init();
-        return block;
+        return new BlockModifierJumpBoost();
     }
 
     @Override

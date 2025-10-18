@@ -16,9 +16,7 @@ public class BlockModifierAccuracy extends BlockModifier {
     }
 
     public static BlockModifierAccuracy create() {
-        BlockModifierAccuracy block = new BlockModifierAccuracy();
-        block.init();
-        return block;
+        return new BlockModifierAccuracy();
     }
 
     @Override

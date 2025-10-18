@@ -23,9 +23,7 @@ public class BlockElectrolyzer extends AbstractMachineBlock<TEElectrolyzer> {
     }
 
     public static BlockElectrolyzer create() {
-        BlockElectrolyzer res = new BlockElectrolyzer();
-        res.init();
-        return res;
+        return new BlockElectrolyzer();
     }
 
     @Override

@@ -17,9 +17,7 @@ public class BlockModifierSpeed extends BlockModifier {
     }
 
     public static BlockModifierSpeed create() {
-        BlockModifierSpeed block = new BlockModifierSpeed();
-        block.init();
-        return block;
+        return new BlockModifierSpeed();
     }
 
     @Override

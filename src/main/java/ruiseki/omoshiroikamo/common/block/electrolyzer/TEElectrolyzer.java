@@ -35,8 +35,8 @@ import ruiseki.omoshiroikamo.api.io.SlotDefinition;
 import ruiseki.omoshiroikamo.api.material.MaterialRegistry;
 import ruiseki.omoshiroikamo.client.gui.modularui2.MGuis;
 import ruiseki.omoshiroikamo.common.block.abstractClass.AbstractPoweredTaskTE;
-import ruiseki.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
-import ruiseki.omoshiroikamo.common.recipes.chance.ChanceItemStack;
+import ruiseki.omoshiroikamo.common.recipe.chance.ChanceFluidStack;
+import ruiseki.omoshiroikamo.common.recipe.chance.ChanceItemStack;
 
 public class TEElectrolyzer extends AbstractPoweredTaskTE implements IFluidHandlerAdv, IWailaInfoProvider {
 

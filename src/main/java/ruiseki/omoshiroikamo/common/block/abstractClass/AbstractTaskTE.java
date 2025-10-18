@@ -17,13 +17,13 @@ import com.gtnewhorizons.wdmla.api.ui.ITooltip;
 
 import ruiseki.omoshiroikamo.api.IWailaInfoProvider;
 import ruiseki.omoshiroikamo.api.io.SlotDefinition;
-import ruiseki.omoshiroikamo.common.recipes.chance.ChanceFluidStack;
-import ruiseki.omoshiroikamo.common.recipes.chance.ChanceItemStack;
-import ruiseki.omoshiroikamo.common.recipes.machine.IPoweredTask;
-import ruiseki.omoshiroikamo.common.recipes.machine.MachineRecipe;
-import ruiseki.omoshiroikamo.common.recipes.machine.MachineRecipeRegistry;
-import ruiseki.omoshiroikamo.common.recipes.machine.PoweredTask;
-import ruiseki.omoshiroikamo.common.recipes.machine.PoweredTaskProgress;
+import ruiseki.omoshiroikamo.common.recipe.chance.ChanceFluidStack;
+import ruiseki.omoshiroikamo.common.recipe.chance.ChanceItemStack;
+import ruiseki.omoshiroikamo.common.recipe.machine.IPoweredTask;
+import ruiseki.omoshiroikamo.common.recipe.machine.MachineRecipe;
+import ruiseki.omoshiroikamo.common.recipe.machine.MachineRecipeRegistry;
+import ruiseki.omoshiroikamo.common.recipe.machine.PoweredTask;
+import ruiseki.omoshiroikamo.common.recipe.machine.PoweredTaskProgress;
 import ruiseki.omoshiroikamo.common.util.Logger;
 import ruiseki.omoshiroikamo.common.util.OreDictUtils;
 

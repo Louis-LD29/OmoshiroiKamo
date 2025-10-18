@@ -20,9 +20,7 @@ public class BlockLaserCore extends BlockOK {
     }
 
     public static BlockLaserCore create() {
-        BlockLaserCore res = new BlockLaserCore();
-        res.init();
-        return res;
+        return new BlockLaserCore();
     }
 
     @Override

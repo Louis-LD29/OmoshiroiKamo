@@ -15,9 +15,7 @@ public class BlockModifierNull extends BlockModifier {
     }
 
     public static BlockModifierNull create() {
-        BlockModifierNull block = new BlockModifierNull();
-        block.init();
-        return block;
+        return new BlockModifierNull();
     }
 
     @Override

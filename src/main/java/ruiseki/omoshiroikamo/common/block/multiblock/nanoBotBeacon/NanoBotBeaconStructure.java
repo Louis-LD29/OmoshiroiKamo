@@ -14,7 +14,7 @@ import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
 import com.gtnewhorizon.structurelib.structure.ISurvivalBuildEnvironment;
 import com.gtnewhorizon.structurelib.structure.StructureDefinition;
 
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
 import ruiseki.omoshiroikamo.common.util.Logger;
 
 public class NanoBotBeaconStructure {
@@ -234,108 +234,108 @@ public class NanoBotBeaconStructure {
         StructureDefinition.Builder<TENanoBotBeaconT4> builder4 = StructureDefinition.builder();
 
         builder1.addShape(STRUCTURE_TIER_1, transpose(SHAPE_TIER_1))
-            .addElement('Q', ofBlock(ModBlocks.blockNanoBotBeacon, 0))
-            .addElement('P', ofBlockAnyMeta(ModBlocks.blockMachineBase, 0))
+            .addElement('Q', ofBlock(ModBlocks.NANO_BOT_BEACON.get(), 0))
+            .addElement('P', ofBlockAnyMeta(ModBlocks.MACHINE_BASE.get(), 0))
             .addElement(
                 'A',
                 ofChain(
-                    ofBlockAdderWithPos(TENanoBotBeacon::addToMachine, ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierFireResistance, 0),
-                    ofBlock(ModBlocks.blockModifierFlight, 0),
-                    ofBlock(ModBlocks.blockModifierNightVision, 0),
-                    ofBlock(ModBlocks.blockModifierWaterBreathing, 0),
-                    ofBlock(ModBlocks.blockModifierStrength, 0),
-                    ofBlock(ModBlocks.blockModifierHaste, 0),
-                    ofBlock(ModBlocks.blockModifierRegeneration, 0),
-                    ofBlock(ModBlocks.blockModifierSaturation, 0),
-                    ofBlock(ModBlocks.blockModifierResistance, 0),
-                    ofBlock(ModBlocks.blockModifierJumpBoost, 0),
-                    ofBlock(ModBlocks.blockModifierSpeed, 0)))
+                    ofBlockAdderWithPos(TENanoBotBeacon::addToMachine, ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_FIRE_RESISTANCE.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_FLIGHT.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_NIGHT_VISION.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_WATER_BREATHING.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_STRENGTH.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_HASTE.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_REGENERATION.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_SATURATION.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_RESISTANCE.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_JUMP_BOOST.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_SPEED.get(), 0)))
             .addElement(
                 'F',
                 ofChain(
-                    ofBlock(ModBlocks.blockStructureFrame, 0),
-                    ofBlock(ModBlocks.blockStructureFrame, 4),
-                    ofBlock(ModBlocks.blockStructureFrame, 8)));
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 0),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 4),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 8)));
 
         builder2.addShape(STRUCTURE_TIER_2, transpose(SHAPE_TIER_2))
-            .addElement('Q', ofBlock(ModBlocks.blockNanoBotBeacon, 1))
-            .addElement('P', ofBlockAnyMeta(ModBlocks.blockMachineBase, 0))
+            .addElement('Q', ofBlock(ModBlocks.NANO_BOT_BEACON.get(), 1))
+            .addElement('P', ofBlockAnyMeta(ModBlocks.MACHINE_BASE.get(), 0))
             .addElement(
                 'A',
                 ofChain(
-                    ofBlockAdderWithPos(TENanoBotBeacon::addToMachine, ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierFireResistance, 0),
-                    ofBlock(ModBlocks.blockModifierFlight, 0),
-                    ofBlock(ModBlocks.blockModifierNightVision, 0),
-                    ofBlock(ModBlocks.blockModifierWaterBreathing, 0),
-                    ofBlock(ModBlocks.blockModifierStrength, 0),
-                    ofBlock(ModBlocks.blockModifierHaste, 0),
-                    ofBlock(ModBlocks.blockModifierRegeneration, 0),
-                    ofBlock(ModBlocks.blockModifierSaturation, 0),
-                    ofBlock(ModBlocks.blockModifierResistance, 0),
-                    ofBlock(ModBlocks.blockModifierJumpBoost, 0),
-                    ofBlock(ModBlocks.blockModifierSpeed, 0)))
+                    ofBlockAdderWithPos(TENanoBotBeacon::addToMachine, ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_FIRE_RESISTANCE.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_FLIGHT.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_NIGHT_VISION.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_WATER_BREATHING.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_STRENGTH.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_HASTE.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_REGENERATION.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_SATURATION.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_RESISTANCE.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_JUMP_BOOST.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_SPEED.get(), 0)))
             .addElement(
                 'F',
                 ofChain(
-                    ofBlock(ModBlocks.blockStructureFrame, 1),
-                    ofBlock(ModBlocks.blockStructureFrame, 5),
-                    ofBlock(ModBlocks.blockStructureFrame, 9)));
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 1),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 5),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 9)));
 
         builder3.addShape(STRUCTURE_TIER_3, transpose(SHAPE_TIER_3))
-            .addElement('Q', ofBlock(ModBlocks.blockNanoBotBeacon, 2))
-            .addElement('P', ofBlockAnyMeta(ModBlocks.blockMachineBase, 0))
+            .addElement('Q', ofBlock(ModBlocks.NANO_BOT_BEACON.get(), 2))
+            .addElement('P', ofBlockAnyMeta(ModBlocks.MACHINE_BASE.get(), 0))
             .addElement(
                 'A',
                 ofChain(
-                    ofBlockAdderWithPos(TENanoBotBeacon::addToMachine, ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierFireResistance, 0),
-                    ofBlock(ModBlocks.blockModifierFlight, 0),
-                    ofBlock(ModBlocks.blockModifierNightVision, 0),
-                    ofBlock(ModBlocks.blockModifierWaterBreathing, 0),
-                    ofBlock(ModBlocks.blockModifierStrength, 0),
-                    ofBlock(ModBlocks.blockModifierHaste, 0),
-                    ofBlock(ModBlocks.blockModifierRegeneration, 0),
-                    ofBlock(ModBlocks.blockModifierSaturation, 0),
-                    ofBlock(ModBlocks.blockModifierResistance, 0),
-                    ofBlock(ModBlocks.blockModifierJumpBoost, 0),
-                    ofBlock(ModBlocks.blockModifierSpeed, 0)))
+                    ofBlockAdderWithPos(TENanoBotBeacon::addToMachine, ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_FIRE_RESISTANCE.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_FLIGHT.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_NIGHT_VISION.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_WATER_BREATHING.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_STRENGTH.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_HASTE.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_REGENERATION.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_SATURATION.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_RESISTANCE.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_JUMP_BOOST.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_SPEED.get(), 0)))
             .addElement(
                 'F',
                 ofChain(
-                    ofBlock(ModBlocks.blockStructureFrame, 2),
-                    ofBlock(ModBlocks.blockStructureFrame, 6),
-                    ofBlock(ModBlocks.blockStructureFrame, 10)));
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 2),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 6),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 10)));
 
         builder4.addShape(STRUCTURE_TIER_4, transpose(SHAPE_TIER_4))
-            .addElement('Q', ofBlock(ModBlocks.blockNanoBotBeacon, 3))
-            .addElement('P', ofBlockAnyMeta(ModBlocks.blockMachineBase, 0))
+            .addElement('Q', ofBlock(ModBlocks.NANO_BOT_BEACON.get(), 3))
+            .addElement('P', ofBlockAnyMeta(ModBlocks.MACHINE_BASE.get(), 0))
             .addElement(
                 'A',
                 ofChain(
-                    ofBlockAdderWithPos(TENanoBotBeacon::addToMachine, ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierFireResistance, 0),
-                    ofBlock(ModBlocks.blockModifierFlight, 0),
-                    ofBlock(ModBlocks.blockModifierNightVision, 0),
-                    ofBlock(ModBlocks.blockModifierWaterBreathing, 0),
-                    ofBlock(ModBlocks.blockModifierStrength, 0),
-                    ofBlock(ModBlocks.blockModifierHaste, 0),
-                    ofBlock(ModBlocks.blockModifierRegeneration, 0),
-                    ofBlock(ModBlocks.blockModifierSaturation, 0),
-                    ofBlock(ModBlocks.blockModifierResistance, 0),
-                    ofBlock(ModBlocks.blockModifierJumpBoost, 0),
-                    ofBlock(ModBlocks.blockModifierSpeed, 0)))
+                    ofBlockAdderWithPos(TENanoBotBeacon::addToMachine, ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_FIRE_RESISTANCE.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_FLIGHT.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_NIGHT_VISION.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_WATER_BREATHING.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_STRENGTH.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_HASTE.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_REGENERATION.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_SATURATION.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_RESISTANCE.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_JUMP_BOOST.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_SPEED.get(), 0)))
             .addElement(
                 'F',
                 ofChain(
-                    ofBlock(ModBlocks.blockStructureFrame, 3),
-                    ofBlock(ModBlocks.blockStructureFrame, 7),
-                    ofBlock(ModBlocks.blockStructureFrame, 11)));
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 3),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 7),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 11)));
 
         IStructureDefinition<TENanoBotBeaconT1> definition1 = builder1.build();
         STRUCTURE_DEFINITION_TIER_1 = definition1;

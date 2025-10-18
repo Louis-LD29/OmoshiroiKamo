@@ -2,16 +2,19 @@ package ruiseki.omoshiroikamo.common.block.multiblock.nanoBotBeacon;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import ruiseki.omoshiroikamo.api.enums.ModObject;
-import ruiseki.omoshiroikamo.common.block.multiblock.AbstractMultiBlockBlock;
+import ruiseki.omoshiroikamo.common.OKCreativeTab;
+import ruiseki.omoshiroikamo.common.block.abstractClass.AbstractMultiBlockBlock;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
 public class BlockNanoBotBeacon extends AbstractMultiBlockBlock<TENanoBotBeacon> {
@@ -22,13 +25,11 @@ public class BlockNanoBotBeacon extends AbstractMultiBlockBlock<TENanoBotBeacon>
     }
 
     public static BlockNanoBotBeacon create() {
-        BlockNanoBotBeacon res = new BlockNanoBotBeacon();
-        res.init();
-        return res;
+        return new BlockNanoBotBeacon();
     }
 
     @Override
-    protected void init() {
+    public void init() {
         GameRegistry.registerBlock(this, ItemBlockNanoBotBeacon.class, name);
         GameRegistry.registerTileEntity(TENanoBotBeaconT1.class, "TENanoBotBeaconT1TileEntity");
         GameRegistry.registerTileEntity(TENanoBotBeaconT2.class, "TENanoBotBeaconT2TileEntity");
@@ -76,6 +77,22 @@ public class BlockNanoBotBeacon extends AbstractMultiBlockBlock<TENanoBotBeacon>
             default:
                 return new TENanoBotBeaconT1();
         }
+    }
+
+    public static class ItemBlockNanoBotBeacon extends ItemBlockWithMetadata {
+
+        public ItemBlockNanoBotBeacon(Block block) {
+            super(block, block);
+            setHasSubtypes(true);
+            setCreativeTab(OKCreativeTab.tabBlock);
+        }
+
+        @Override
+        public String getUnlocalizedName(ItemStack stack) {
+            int tier = stack.getItemDamage() + 1;
+            return super.getUnlocalizedName() + ".tier_" + tier;
+        }
+
     }
 
 }

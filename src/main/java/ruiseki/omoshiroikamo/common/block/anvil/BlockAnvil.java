@@ -31,9 +31,7 @@ public class BlockAnvil extends AbstractBlock<TEAnvil> {
     }
 
     public static BlockAnvil create() {
-        BlockAnvil res = new BlockAnvil();
-        res.init();
-        return res;
+        return new BlockAnvil();
     }
 
     @Override

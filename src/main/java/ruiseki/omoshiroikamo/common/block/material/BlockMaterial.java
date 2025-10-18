@@ -4,10 +4,12 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -19,6 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import ruiseki.omoshiroikamo.api.enums.ModObject;
 import ruiseki.omoshiroikamo.api.material.MaterialEntry;
 import ruiseki.omoshiroikamo.api.material.MaterialRegistry;
+import ruiseki.omoshiroikamo.common.OKCreativeTab;
 import ruiseki.omoshiroikamo.common.block.BlockOK;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
@@ -28,9 +31,7 @@ public class BlockMaterial extends BlockOK {
     protected IIcon icon;
 
     public static BlockMaterial create() {
-        BlockMaterial result = new BlockMaterial();
-        result.init();
-        return result;
+        return new BlockMaterial();
     }
 
     private BlockMaterial() {
@@ -38,7 +39,7 @@ public class BlockMaterial extends BlockOK {
     }
 
     @Override
-    protected void init() {
+    public void init() {
         GameRegistry.registerBlock(this, ItemBlockMaterial.class, ModObject.blockBlockMaterial.unlocalisedName);
 
         for (MaterialEntry entry : MaterialRegistry.all()) {
@@ -112,4 +113,32 @@ public class BlockMaterial extends BlockOK {
         MaterialEntry mat = MaterialRegistry.fromMeta(meta);
         return mat.getColor();
     }
+
+    public static class ItemBlockMaterial extends ItemBlockWithMetadata {
+
+        public ItemBlockMaterial(Block block) {
+            super(block, block);
+            setHasSubtypes(true);
+            setCreativeTab(OKCreativeTab.tabBlock);
+        }
+
+        @Override
+        public String getUnlocalizedName(ItemStack stack) {
+            int meta = stack.getItemDamage();
+            MaterialEntry mat = MaterialRegistry.fromMeta(meta);
+            String matName = mat.getUnlocalizedName();
+            return super.getUnlocalizedName() + "." + matName;
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+            for (MaterialEntry materialEntry : MaterialRegistry.all()) {
+                int meta = materialEntry.meta;
+                list.add(new ItemStack(this, 1, meta));
+            }
+        }
+
+    }
+
 }
