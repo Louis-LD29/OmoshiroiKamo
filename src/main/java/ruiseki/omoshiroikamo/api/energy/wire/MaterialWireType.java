@@ -8,7 +8,7 @@ import net.minecraft.util.IIcon;
 
 import ruiseki.omoshiroikamo.api.material.MaterialEntry;
 import ruiseki.omoshiroikamo.api.material.MaterialRegistry;
-import ruiseki.omoshiroikamo.common.item.ModItems;
+import ruiseki.omoshiroikamo.common.init.ModItems;
 
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
@@ -83,7 +83,7 @@ public class MaterialWireType extends WireType {
     @Override
     public ItemStack getWireCoil() {
         int meta = MaterialRegistry.indexOf(material);
-        return new ItemStack(ModItems.itemWireCoil, 1, meta);
+        return ModItems.WIRE_COIL.newItemStack(1, meta);
     }
 
     @Override

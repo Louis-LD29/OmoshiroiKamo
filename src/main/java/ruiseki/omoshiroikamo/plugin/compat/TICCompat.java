@@ -13,9 +13,9 @@ import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ruiseki.omoshiroikamo.api.material.MaterialEntry;
 import ruiseki.omoshiroikamo.api.material.MaterialRegistry;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
 import ruiseki.omoshiroikamo.common.fluid.FluidMaterialRegister;
-import ruiseki.omoshiroikamo.common.item.ModItems;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
+import ruiseki.omoshiroikamo.common.init.ModItems;
 import ruiseki.omoshiroikamo.common.util.Logger;
 import ruiseki.omoshiroikamo.common.util.lib.LibMods;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
@@ -44,8 +44,8 @@ public class TICCompat {
         }
         hasClay = GameRegistry.findItem("TConstruct", "clayPattern") != null;
 
-        Block block = ModBlocks.blockMaterial;
-        Item item = ModItems.itemMaterial;
+        Block block = ModBlocks.MATERIAL.get();
+        Item item = ModItems.MATERIAL.get();
         Item moltenBucket = FluidMaterialRegister.itemBucketMaterial;
 
         for (MaterialEntry entry : MaterialRegistry.all()) {
@@ -170,15 +170,13 @@ public class TICCompat {
     }
 
     public static void addItemStackToDirectoryTic(String name, int meta) {
-        TConstructRegistry.addItemStackToDirectory("ingot" + name, new ItemStack(ModItems.itemMaterial, 1, meta));
-        TConstructRegistry.addItemStackToDirectory(
-            "nugget" + name,
-            new ItemStack(ModItems.itemMaterial, 1, LibResources.META1 + meta));
-        TConstructRegistry.addItemStackToDirectory(
-            "plate" + name,
-            new ItemStack(ModItems.itemMaterial, 1, LibResources.META2 + meta));
+        TConstructRegistry.addItemStackToDirectory("ingot" + name, ModItems.MATERIAL.newItemStack(1, meta));
         TConstructRegistry
-            .addItemStackToDirectory("rod" + name, new ItemStack(ModItems.itemMaterial, 1, LibResources.META3 + meta));
+            .addItemStackToDirectory("nugget" + name, ModItems.MATERIAL.newItemStack(1, LibResources.META1 + meta));
+        TConstructRegistry
+            .addItemStackToDirectory("plate" + name, ModItems.MATERIAL.newItemStack(1, LibResources.META2 + meta));
+        TConstructRegistry
+            .addItemStackToDirectory("rod" + name, ModItems.MATERIAL.newItemStack(1, LibResources.META3 + meta));
     }
 
 }

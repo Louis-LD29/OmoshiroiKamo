@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import ruiseki.omoshiroikamo.api.TargetingInfo;
 import ruiseki.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
 import ruiseki.omoshiroikamo.common.util.Logger;
-import ruiseki.omoshiroikamo.common.util.Utils;
+import ruiseki.omoshiroikamo.common.util.WireUtils;
 /*
  * This file contains code adapted from Immersive Engineering by BluSunrize.
  * Original project: https://github.com/BluSunrize/ImmersiveEngineering
@@ -39,7 +39,7 @@ public class IWCProxy implements IWireConnectable {
         }
         dim = te.getWorldObj().provider.dimensionId;
         canEnergyPass = ((IWireConnectable) te).allowEnergyToPass(null);
-        cc = Utils.toCC(te);
+        cc = WireUtils.toCC(te);
     }
 
     @Override

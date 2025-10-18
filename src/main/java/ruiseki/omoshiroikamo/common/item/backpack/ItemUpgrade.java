@@ -16,9 +16,7 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 public class ItemUpgrade extends ItemOK {
 
     public static ItemUpgrade create() {
-        ItemUpgrade item = new ItemUpgrade();
-        item.init();
-        return item;
+        return new ItemUpgrade();
     }
 
     public ItemUpgrade(String name) {
@@ -45,6 +43,6 @@ public class ItemUpgrade extends ItemOK {
 
     @Override
     public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-        list.add(LibMisc.lang.localize(LibResources.TOOLTIP + "upgrade_base"));
+        list.add(LibMisc.LANG_UTILS.localize(LibResources.TOOLTIP + "upgrade_base"));
     }
 }

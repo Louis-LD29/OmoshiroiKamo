@@ -93,6 +93,6 @@ public enum FluidProvider implements IBlockComponentProvider {
 
     @Override
     public ResourceLocation getUid() {
-        return new ResourceLocation(LibMisc.MOD_ID.toLowerCase(), "te_fluid");
+        return new ResourceLocation(LibMisc.MOD_ID, "te_fluid");
     }
 }

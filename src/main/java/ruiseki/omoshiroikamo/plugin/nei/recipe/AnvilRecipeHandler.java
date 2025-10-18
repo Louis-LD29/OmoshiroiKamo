@@ -11,11 +11,11 @@ import net.minecraft.item.ItemStack;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import ruiseki.omoshiroikamo.api.enums.ModObject;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
-import ruiseki.omoshiroikamo.common.item.ModItems;
-import ruiseki.omoshiroikamo.common.recipes.chance.ChanceItemStack;
-import ruiseki.omoshiroikamo.common.recipes.machine.MachineRecipe;
-import ruiseki.omoshiroikamo.common.recipes.machine.MachineRecipeRegistry;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
+import ruiseki.omoshiroikamo.common.init.ModItems;
+import ruiseki.omoshiroikamo.common.recipe.chance.ChanceItemStack;
+import ruiseki.omoshiroikamo.common.recipe.machine.MachineRecipe;
+import ruiseki.omoshiroikamo.common.recipe.machine.MachineRecipeRegistry;
 import ruiseki.omoshiroikamo.common.util.OreDictUtils;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 import ruiseki.omoshiroikamo.plugin.nei.PositionedStackAdv;
@@ -68,8 +68,8 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
     public void loadUsageRecipes(ItemStack ingredient) {
         super.loadUsageRecipes(ingredient);
         Set<MachineRecipe> added = new HashSet<>();
-        boolean isHammer = ingredient.getItem() == ModItems.itemHammer;
-        boolean isAnvil = ingredient.getItem() == Item.getItemFromBlock(ModBlocks.blockAnvil);
+        boolean isHammer = ingredient.getItem() == ModItems.HAMMER.get();
+        boolean isAnvil = ingredient.getItem() == Item.getItemFromBlock(ModBlocks.ANVIL.get());
         for (MachineRecipe recipe : MachineRecipeRegistry.getRecipes(ModObject.blockAnvil.unlocalisedName)) {
             if (isHammer || isAnvil) {
                 if (added.add(recipe)) {
@@ -142,8 +142,8 @@ public class AnvilRecipeHandler extends RecipeHandlerBase {
                 result.add(new PositionedStackAdv(is.stack, x + 1, y + 1).setChance(is.chance));
             }
 
-            result.add(new PositionedStackAdv(new ItemStack(ModItems.itemHammer), 73, 16 + 1));
-            result.add(new PositionedStackAdv(new ItemStack(ModBlocks.blockAnvil), 73, 34 + 1));
+            result.add(new PositionedStackAdv(ModItems.HAMMER.newItemStack(), 73, 16 + 1));
+            result.add(new PositionedStackAdv(ModBlocks.ANVIL.newItemStack(), 73, 34 + 1));
             return result;
         }
 

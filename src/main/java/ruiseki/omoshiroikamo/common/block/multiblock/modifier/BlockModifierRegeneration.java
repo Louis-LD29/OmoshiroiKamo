@@ -16,9 +16,7 @@ public class BlockModifierRegeneration extends BlockModifier {
     }
 
     public static BlockModifierRegeneration create() {
-        BlockModifierRegeneration block = new BlockModifierRegeneration();
-        block.init();
-        return block;
+        return new BlockModifierRegeneration();
     }
 
     @Override

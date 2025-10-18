@@ -54,7 +54,7 @@ import ruiseki.omoshiroikamo.api.energy.wire.IWireConnectable;
 import ruiseki.omoshiroikamo.api.energy.wire.WireNetHandler;
 import ruiseki.omoshiroikamo.api.energy.wire.WireNetHandler.Connection;
 import ruiseki.omoshiroikamo.client.render.AbstractMTESR;
-import ruiseki.omoshiroikamo.common.util.Utils;
+import ruiseki.omoshiroikamo.common.util.WireUtils;
 import ruiseki.omoshiroikamo.plugin.chickenbones.Matrix4;
 
 /*
@@ -93,7 +93,7 @@ public class ClientUtils {
     // MOD SPECIFIC METHODS
     public static void renderAttachedConnections(TileEntity tile) {
         if (tile.getWorldObj() != null && tile instanceof IWireConnectable) {
-            Set<Connection> outputs = WireNetHandler.INSTANCE.getConnections(tile.getWorldObj(), Utils.toCC(tile));
+            Set<Connection> outputs = WireNetHandler.INSTANCE.getConnections(tile.getWorldObj(), WireUtils.toCC(tile));
             if (outputs != null) {
                 Iterator<Connection> itCon = outputs.iterator();
                 while (itCon.hasNext()) {
@@ -299,10 +299,10 @@ public class ClientUtils {
                 Vec3 wireDir = v0.subtract(v1);
                 Vec3 renderOff1 = wireDir.crossProduct(up);
                 double l = renderOff1.lengthVector();
-                renderOff1 = Utils.scalarProd(renderOff1, radius / l);
+                renderOff1 = WireUtils.scalarProd(renderOff1, radius / l);
                 Vec3 renderOff2 = wireDir.crossProduct(renderOff1);
                 l = renderOff2.lengthVector();
-                renderOff2 = Utils.scalarProd(renderOff2, radius / l);
+                renderOff2 = WireUtils.scalarProd(renderOff2, radius / l);
 
                 u0 = u1;
                 u1 = u0 + (v0.distanceTo(v1) / d) * uD;

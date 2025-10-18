@@ -29,9 +29,7 @@ public class BlockFurnace extends AbstractBlock<TEFurnace> {
     private IIcon icon, iconFrontOff, iconFrontOn, iconTop;
 
     public static BlockFurnace create() {
-        BlockFurnace res = new BlockFurnace();
-        res.init();
-        return res;
+        return new BlockFurnace();
     }
 
     protected BlockFurnace() {

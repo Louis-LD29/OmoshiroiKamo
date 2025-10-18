@@ -22,7 +22,7 @@ import cpw.mods.fml.relauncher.Side;
 import ruiseki.omoshiroikamo.api.energy.wire.WireType;
 import ruiseki.omoshiroikamo.client.ClientUtils;
 import ruiseki.omoshiroikamo.client.models.ModelIEObj;
-import ruiseki.omoshiroikamo.common.item.ModItems;
+import ruiseki.omoshiroikamo.common.init.ModItems;
 import ruiseki.omoshiroikamo.common.util.ItemNBTHelper;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 /*
@@ -117,10 +117,8 @@ public class ClientEventHandler {
             EntityPlayer player = ClientUtils.mc().thePlayer;
             if (player.getCurrentEquippedItem() != null) {
                 ItemStack equipped = player.getCurrentEquippedItem();
-                if (OreDictionary.itemMatches(
-                    new ItemStack(ModItems.itemWireCoil, 1, OreDictionary.WILDCARD_VALUE),
-                    equipped,
-                    false)) {
+                if (OreDictionary
+                    .itemMatches(ModItems.WIRE_COIL.newItemStack(1, OreDictionary.WILDCARD_VALUE), equipped, false)) {
                     if (ItemNBTHelper.verifyExistance(equipped, "linkingPos")) {
                         int[] link = ItemNBTHelper.getIntArray(equipped, "linkingPos", 0);
                         if (link != null && link.length > 3) {

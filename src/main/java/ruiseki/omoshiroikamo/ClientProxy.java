@@ -40,7 +40,6 @@ import ruiseki.omoshiroikamo.client.render.block.voidMiner.VoidMinerTESR;
 import ruiseki.omoshiroikamo.client.render.item.backpack.BackpackRenderer;
 import ruiseki.omoshiroikamo.client.render.item.hammer.HammerRenderer;
 import ruiseki.omoshiroikamo.client.render.item.pufferfish.PufferFishRenderer;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
 import ruiseki.omoshiroikamo.common.block.anvil.TEAnvil;
 import ruiseki.omoshiroikamo.common.block.energyConnector.TEConnectorEV;
 import ruiseki.omoshiroikamo.common.block.energyConnector.TEConnectorHV;
@@ -69,7 +68,8 @@ import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.TEVoidRe
 import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.TEVoidResMinerT2;
 import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.TEVoidResMinerT3;
 import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.TEVoidResMinerT4;
-import ruiseki.omoshiroikamo.common.item.ModItems;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
+import ruiseki.omoshiroikamo.common.init.ModItems;
 import ruiseki.omoshiroikamo.config.item.ItemConfig;
 
 @SuppressWarnings("unused")
@@ -93,7 +93,7 @@ public class ClientProxy extends CommonProxy {
 
         ConnectableISBRH connectableISBRH = new ConnectableISBRH();
         RenderingRegistry.registerBlockHandler(connectableISBRH);
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockConnectable), connectableISBRH);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.CONNECTABLE.get()), connectableISBRH);
         ClientRegistry.bindTileEntitySpecialRenderer(TEInsulator.class, new InsulatorTESR());
         ClientRegistry.bindTileEntitySpecialRenderer(TEConnectorULV.class, new ConnectorULVTESR());
         ClientRegistry.bindTileEntitySpecialRenderer(TEConnectorLV.class, new ConnectorLVTESR());
@@ -105,7 +105,7 @@ public class ClientProxy extends CommonProxy {
 
         AnvilISBRH anvilISBRH = new AnvilISBRH();
         RenderingRegistry.registerBlockHandler(anvilISBRH);
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockAnvil), anvilISBRH);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.ANVIL.get()), anvilISBRH);
         ClientRegistry.bindTileEntitySpecialRenderer(TEAnvil.class, new AnvilTESR());
 
         SolarArrayTESR solarArrayTESR = new SolarArrayTESR();
@@ -113,23 +113,25 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TESolarArrayT2.class, solarArrayTESR);
         ClientRegistry.bindTileEntitySpecialRenderer(TESolarArrayT3.class, solarArrayTESR);
         ClientRegistry.bindTileEntitySpecialRenderer(TESolarArrayT4.class, solarArrayTESR);
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockSolarArray), solarArrayTESR);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.SOLAR_ARRAY.get()), solarArrayTESR);
 
         SolarCellTESR solarCellTESR = new SolarCellTESR();
         ClientRegistry.bindTileEntitySpecialRenderer(TESolarCell.class, solarCellTESR);
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockSolarCell), solarCellTESR);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.SOLAR_CELL.get()), solarCellTESR);
 
         VoidMinerTESR voidOreMinerTESR = new VoidMinerTESR();
         ClientRegistry.bindTileEntitySpecialRenderer(TEVoidOreMinerT1.class, voidOreMinerTESR);
         ClientRegistry.bindTileEntitySpecialRenderer(TEVoidOreMinerT2.class, voidOreMinerTESR);
         ClientRegistry.bindTileEntitySpecialRenderer(TEVoidOreMinerT3.class, voidOreMinerTESR);
         ClientRegistry.bindTileEntitySpecialRenderer(TEVoidOreMinerT4.class, voidOreMinerTESR);
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockVoidOreMiner), voidOreMinerTESR);
+        MinecraftForgeClient
+            .registerItemRenderer(Item.getItemFromBlock(ModBlocks.VOID_ORE_MINER.get()), voidOreMinerTESR);
         ClientRegistry.bindTileEntitySpecialRenderer(TEVoidResMinerT1.class, voidOreMinerTESR);
         ClientRegistry.bindTileEntitySpecialRenderer(TEVoidResMinerT2.class, voidOreMinerTESR);
         ClientRegistry.bindTileEntitySpecialRenderer(TEVoidResMinerT3.class, voidOreMinerTESR);
         ClientRegistry.bindTileEntitySpecialRenderer(TEVoidResMinerT4.class, voidOreMinerTESR);
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockVoidResMiner), voidOreMinerTESR);
+        MinecraftForgeClient
+            .registerItemRenderer(Item.getItemFromBlock(ModBlocks.VOID_RES_MINER.get()), voidOreMinerTESR);
 
         NanoBotBeaconTESR nanoBotBeaconTESR = new NanoBotBeaconTESR();
         ClientRegistry.bindTileEntitySpecialRenderer(TENanoBotBeaconT1.class, nanoBotBeaconTESR);
@@ -137,14 +139,14 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TENanoBotBeaconT3.class, nanoBotBeaconTESR);
         ClientRegistry.bindTileEntitySpecialRenderer(TENanoBotBeaconT4.class, nanoBotBeaconTESR);
         MinecraftForgeClient
-            .registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockNanoBotBeacon), nanoBotBeaconTESR);
+            .registerItemRenderer(Item.getItemFromBlock(ModBlocks.NANO_BOT_BEACON.get()), nanoBotBeaconTESR);
 
         LaserCoreTESR laserCoreTESR = new LaserCoreTESR();
         ClientRegistry.bindTileEntitySpecialRenderer(TELaserCore.class, laserCoreTESR);
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockLaserCore), laserCoreTESR);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.LASER_CORE.get()), laserCoreTESR);
         LaserLensTESR laserLensTESR = new LaserLensTESR();
         ClientRegistry.bindTileEntitySpecialRenderer(TELaserLens.class, laserLensTESR);
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.blockLaserLens), laserLensTESR);
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.LASER_LENS.get()), laserLensTESR);
 
         ModItems.registerItemRenderer();
 
@@ -152,8 +154,8 @@ public class ClientProxy extends CommonProxy {
             MinecraftForgeClient.registerItemRenderer(Items.fish, new PufferFishRenderer());
         }
 
-        MinecraftForgeClient.registerItemRenderer(ModItems.itemHammer, new HammerRenderer());
-        MinecraftForgeClient.registerItemRenderer(ModItems.itemBackPack, new BackpackRenderer());
+        MinecraftForgeClient.registerItemRenderer(ModItems.HAMMER.get(), new HammerRenderer());
+        MinecraftForgeClient.registerItemRenderer(ModItems.BACKPACK.get(), new BackpackRenderer());
     }
 
     @Override

@@ -2,16 +2,19 @@ package ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.resMiner;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import ruiseki.omoshiroikamo.api.enums.ModObject;
-import ruiseki.omoshiroikamo.common.block.multiblock.AbstractMultiBlockBlock;
+import ruiseki.omoshiroikamo.common.OKCreativeTab;
+import ruiseki.omoshiroikamo.common.block.abstractClass.AbstractMultiBlockBlock;
 import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.TEVoidMiner;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
@@ -23,13 +26,11 @@ public class BlockVoidResMiner extends AbstractMultiBlockBlock<TEVoidMiner> {
     }
 
     public static BlockVoidResMiner create() {
-        BlockVoidResMiner res = new BlockVoidResMiner();
-        res.init();
-        return res;
+        return new BlockVoidResMiner();
     }
 
     @Override
-    protected void init() {
+    public void init() {
         GameRegistry.registerBlock(this, ItemBlockVoidResMiner.class, name);
         GameRegistry.registerTileEntity(TEVoidResMinerT1.class, "TEVoidResMinerT1TileEntity");
         GameRegistry.registerTileEntity(TEVoidResMinerT2.class, "TEVoidResMinerT2TileEntity");
@@ -78,4 +79,21 @@ public class BlockVoidResMiner extends AbstractMultiBlockBlock<TEVoidMiner> {
                 return new TEVoidResMinerT1();
         }
     }
+
+    public static class ItemBlockVoidResMiner extends ItemBlockWithMetadata {
+
+        public ItemBlockVoidResMiner(Block block) {
+            super(block, block);
+            setHasSubtypes(true);
+            setCreativeTab(OKCreativeTab.tabBlock);
+        }
+
+        @Override
+        public String getUnlocalizedName(ItemStack stack) {
+            int tier = stack.getItemDamage() + 1;
+            return super.getUnlocalizedName() + ".tier_" + tier;
+        }
+
+    }
+
 }

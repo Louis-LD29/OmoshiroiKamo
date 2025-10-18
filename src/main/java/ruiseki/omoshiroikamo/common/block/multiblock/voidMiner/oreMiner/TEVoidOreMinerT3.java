@@ -8,7 +8,7 @@ import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
 
 import ruiseki.omoshiroikamo.api.item.IFocusableRegistry;
 import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.TEVoidMiner;
-import ruiseki.omoshiroikamo.common.recipes.voidMiner.VoidMinerRecipes;
+import ruiseki.omoshiroikamo.common.recipe.voidMiner.VoidMinerRecipes;
 import ruiseki.omoshiroikamo.config.block.VoidMinerConfig;
 
 public class TEVoidOreMinerT3 extends TEVoidMiner {

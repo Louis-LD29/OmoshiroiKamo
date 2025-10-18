@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import ruiseki.omoshiroikamo.api.material.MaterialEntry;
 import ruiseki.omoshiroikamo.api.material.MaterialRegistry;
+import ruiseki.omoshiroikamo.common.init.ModFluids;
 
 public class FluidMaterialRegister {
 

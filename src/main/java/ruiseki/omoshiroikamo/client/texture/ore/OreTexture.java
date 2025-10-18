@@ -106,7 +106,7 @@ public class OreTexture {
         return ImageIO.read(
             Minecraft.getMinecraft()
                 .getResourceManager()
-                .getResource(new ResourceLocation(LibMisc.MOD_ID.toLowerCase(), path))
+                .getResource(new ResourceLocation(LibMisc.MOD_ID, path))
                 .getInputStream());
     }
 

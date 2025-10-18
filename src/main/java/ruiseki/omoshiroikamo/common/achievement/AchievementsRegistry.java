@@ -7,8 +7,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
-import ruiseki.omoshiroikamo.common.item.ModItems;
+import ruiseki.omoshiroikamo.common.init.ModAchievements;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
+import ruiseki.omoshiroikamo.common.init.ModItems;
 
 public class AchievementsRegistry {
 
@@ -23,24 +24,24 @@ public class AchievementsRegistry {
     }
 
     public static void addItemsToCraftingList() {
-        craftingList.add(new ItemStack(ModItems.itemAssembler, 1, 0));
+        craftingList.add(ModItems.ASSEMBLER.newItemStack());
     }
 
     public static void addBlocksToCraftingList() {
-        craftingList.add(new ItemStack(ModBlocks.blockModifierNull, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierSpeed, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierPiezo, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierAccuracy, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierJumpBoost, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierFlight, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierResistance, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierFireResistance, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierHaste, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierStrength, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierNightVision, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierWaterBreathing, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierRegeneration, 1, 0));
-        craftingList.add(new ItemStack(ModBlocks.blockModifierSaturation, 1, 0));
+        craftingList.add(ModBlocks.MODIFIER_NULL.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_SPEED.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_PIEZO.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_ACCURACY.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_JUMP_BOOST.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_FLIGHT.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_RESISTANCE.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_FIRE_RESISTANCE.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_HASTE.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_STRENGTH.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_NIGHT_VISION.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_WATER_BREATHING.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_REGENERATION.newItemStack());
+        craftingList.add(ModBlocks.MODIFIER_SATURATION.newItemStack());
     }
 
     public static void addItemsToPickupList() {
@@ -53,55 +54,51 @@ public class AchievementsRegistry {
         Item item = stack.getItem();
         int meta = stack.getItemDamage();
 
-        if (item == ModItems.itemAssembler) {
-            return ModAchievements.craft_assembler;
+        if (item == ModItems.ASSEMBLER.get()) {
+            return ModAchievements.CRAFT_ASSEMBLER.get();
         }
 
-        if (item == Item.getItemFromBlock(ModBlocks.blockLaserLens)) {
-            return ModAchievements.craft_colored_lens;
+        if (item == ModBlocks.MODIFIER_NULL.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_CORE.get();
         }
-
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierNull)) {
-            return ModAchievements.craft_modifier_core;
+        if (item == ModBlocks.MODIFIER_SPEED.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_SPEED.get();
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierSpeed)) {
-            return ModAchievements.craft_modifier_speed;
+        if (item == ModBlocks.MODIFIER_PIEZO.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_PIEZO.get();
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierPiezo)) {
-            return ModAchievements.craft_modifier_piezo;
+        if (item == ModBlocks.MODIFIER_ACCURACY.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_ACCURACY.get();
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierAccuracy)) {
-            return ModAchievements.craft_modifier_accuracy;
+        if (item == ModBlocks.MODIFIER_JUMP_BOOST.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_JUMP_BOOST.get();
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierJumpBoost)) {
-            return ModAchievements.craft_modifier_jump_boost;
+        if (item == ModBlocks.MODIFIER_FLIGHT.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_FLIGHT.get();
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierFlight)) {
-            return ModAchievements.craft_modifier_flight;
+        if (item == ModBlocks.MODIFIER_RESISTANCE.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_RESISTANCE.get();
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierResistance)) {
-            return ModAchievements.craft_modifier_resistance;
+        if (item == ModBlocks.MODIFIER_FIRE_RESISTANCE.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_FIRE_RES.get();
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierFireResistance)) {
-            return ModAchievements.craft_modifier_fire_res;
+        if (item == ModBlocks.MODIFIER_HASTE.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_HASTE.get();
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierHaste)) {
-            return ModAchievements.craft_modifier_haste;
+        if (item == ModBlocks.MODIFIER_STRENGTH.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_STRENGTH.get();
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierStrength)) {
-            return ModAchievements.craft_modifier_strength;
+        if (item == ModBlocks.MODIFIER_NIGHT_VISION.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_NIGHT_VISION.get();
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierNightVision)) {
-            return ModAchievements.craft_modifier_night_vision;
+        if (item == ModBlocks.MODIFIER_WATER_BREATHING.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_WATER_BREATHING.get();
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierWaterBreathing)) {
-            return ModAchievements.craft_modifier_water_breathing;
+        if (item == ModBlocks.MODIFIER_REGENERATION.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_REGEN.get();
         }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierRegeneration)) {
-            return ModAchievements.craft_modifier_regen;
-        }
-        if (item == Item.getItemFromBlock(ModBlocks.blockModifierSaturation)) {
-            return ModAchievements.craft_modifier_saturation;
+        if (item == ModBlocks.MODIFIER_SATURATION.getItem()) {
+            return ModAchievements.CRAFT_MODIFIER_SATURATION.get();
         }
 
         return null;

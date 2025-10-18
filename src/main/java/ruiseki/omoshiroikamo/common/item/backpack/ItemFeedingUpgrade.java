@@ -15,9 +15,7 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 public class ItemFeedingUpgrade extends ItemUpgrade {
 
     public static ItemFeedingUpgrade create() {
-        ItemFeedingUpgrade item = new ItemFeedingUpgrade();
-        item.init();
-        return item;
+        return new ItemFeedingUpgrade();
     }
 
     public ItemFeedingUpgrade() {
@@ -39,6 +37,6 @@ public class ItemFeedingUpgrade extends ItemUpgrade {
 
     @Override
     public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-        list.add(LibMisc.lang.localize(LibResources.TOOLTIP + "feeding_upgrade"));
+        list.add(LibMisc.LANG_UTILS.localize(LibResources.TOOLTIP + "feeding_upgrade"));
     }
 }

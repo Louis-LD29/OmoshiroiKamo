@@ -39,11 +39,11 @@ public class PowerDisplayUtil {
     }
 
     public static String perTickStr() {
-        return LibMisc.lang.localize("power.tick");
+        return LibMisc.LANG_UTILS.localize("power.tick");
     }
 
     public static String ofStr() {
-        return LibMisc.lang.localize("gui.powerMonitor.of");
+        return LibMisc.LANG_UTILS.localize("gui.powerMonitor.of");
     }
 
     public static String getStoredEnergyString(ItemStack item) {
@@ -55,7 +55,7 @@ public class PowerDisplayUtil {
         }
 
         IEnergyContainerItem ci = (IEnergyContainerItem) item.getItem();
-        return LibMisc.lang.localize("item.tooltip.power") + " "
+        return LibMisc.LANG_UTILS.localize("item.tooltip.power") + " "
             + PowerDisplayUtil.formatPower(ci.getEnergyStored(item))
             + "/"
             + PowerDisplayUtil.formatPower(ci.getMaxEnergyStored(item))
@@ -110,7 +110,7 @@ public class PowerDisplayUtil {
     }
 
     public static String abrevation() {
-        return LibMisc.lang.localize("power.rf");
+        return LibMisc.LANG_UTILS.localize("power.rf");
     }
 
     @SideOnly(Side.CLIENT)

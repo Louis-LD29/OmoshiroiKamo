@@ -25,9 +25,9 @@ public class KeyHandler {
 
     private KeyHandler() {
         keyOpenBackpack = new KeyBinding(
-            LibMisc.lang.localize("keybind.backpackOpenToggle"),
+            LibMisc.LANG_UTILS.localize("keybind.backpackOpenToggle"),
             Keyboard.KEY_B,
-            LibMisc.lang.localize("category.omoshiroikamo"));
+            LibMisc.LANG_UTILS.localize("category.omoshiroikamo"));
         ClientRegistry.registerKeyBinding(keyOpenBackpack);
     }
 

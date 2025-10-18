@@ -7,7 +7,6 @@ import com.enderio.core.common.BlockEnder;
 import com.enderio.core.common.TileEntityEnder;
 
 import ruiseki.omoshiroikamo.api.enums.ModObject;
-import ruiseki.omoshiroikamo.common.OKCreativeTab;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
 public class BlockOK extends BlockEnder {
@@ -18,45 +17,35 @@ public class BlockOK extends BlockEnder {
     protected BlockOK(ModObject modObject, Class<? extends TileEntityEnder> teClass) {
         super(modObject.unlocalisedName, teClass);
         this.modObject = modObject;
-        setCreativeTab(OKCreativeTab.INSTANCE);
     }
 
     protected BlockOK(ModObject modObject, Class<? extends TileEntityEnder> teClass, Material mat) {
         super(modObject.unlocalisedName, teClass, mat);
         this.modObject = modObject;
-        setCreativeTab(OKCreativeTab.INSTANCE);
     }
 
     protected BlockOK(ModObject modObject, Class<? extends TileEntityEnder> teClass, Material mat, String textureName) {
         super(modObject.unlocalisedName, teClass, mat);
         this.modObject = modObject;
         this.textureName = textureName;
-        setCreativeTab(OKCreativeTab.INSTANCE);
     }
 
     protected BlockOK(ModObject modObject, Class<? extends TileEntityEnder> teClass, String textureName) {
         super(modObject.unlocalisedName, teClass);
         this.modObject = modObject;
         this.textureName = textureName;
-        setCreativeTab(OKCreativeTab.INSTANCE);
     }
 
     public static BlockOK create(ModObject modObject, String textureName, Material mat) {
-        BlockOK blockOK = new BlockOK(modObject, null, mat, textureName);
-        blockOK.init();
-        return blockOK;
+        return new BlockOK(modObject, null, mat, textureName);
     }
 
     public static BlockOK create(ModObject modObject, String textureName) {
-        BlockOK blockOK = new BlockOK(modObject, null, textureName);
-        blockOK.init();
-        return blockOK;
+        return new BlockOK(modObject, null, textureName);
     }
 
     public static BlockOK create(ModObject modObject) {
-        BlockOK blockOK = new BlockOK(modObject, null);
-        blockOK.init();
-        return blockOK;
+        return new BlockOK(modObject, null);
     }
 
     @Override
@@ -66,5 +55,10 @@ public class BlockOK extends BlockEnder {
         } else {
             blockIcon = iIconRegister.registerIcon(LibResources.PREFIX_MOD + name);
         }
+    }
+
+    @Override
+    public void init() {
+        super.init();
     }
 }

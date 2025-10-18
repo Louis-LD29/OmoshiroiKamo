@@ -11,20 +11,24 @@ import net.minecraft.util.IIcon;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ruiseki.omoshiroikamo.client.models.ModelIEObj;
 import ruiseki.omoshiroikamo.client.render.AbstractMTESR;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
 import ruiseki.omoshiroikamo.common.block.anvil.TEAnvil;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 import ruiseki.omoshiroikamo.plugin.chickenbones.Matrix4;
 
+@SideOnly(Side.CLIENT)
 public class AnvilTESR extends AbstractMTESR {
 
     ModelIEObj modelAnvil = new ModelIEObj(LibResources.PREFIX_MODEL + "anvil.obj") {
 
         @Override
         public IIcon getBlockIcon(String groupName) {
-            return ModBlocks.blockAnvil.getIcon(0, 0);
+            return ModBlocks.ANVIL.get()
+                .getIcon(0, 0);
         }
     };
 

@@ -10,7 +10,7 @@ import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import ruiseki.omoshiroikamo.api.material.MaterialEntry;
 import ruiseki.omoshiroikamo.api.material.MaterialRegistry;
-import ruiseki.omoshiroikamo.common.item.ModItems;
+import ruiseki.omoshiroikamo.common.init.ModItems;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 import ruiseki.omoshiroikamo.plugin.nei.PositionedStackAdv;
 import ruiseki.omoshiroikamo.plugin.nei.RecipeHandlerBase;
@@ -47,7 +47,7 @@ public class MaterialPropertiesHandler extends RecipeHandlerBase {
                 LibResources.META3 + entry.meta, LibResources.META4 + entry.meta, LibResources.META5 + entry.meta };
 
             for (int meta : metas) {
-                if (NEIServerUtils.areStacksSameTypeCrafting(item, new ItemStack(ModItems.itemMaterial, 1, meta))) {
+                if (NEIServerUtils.areStacksSameTypeCrafting(item, ModItems.MATERIAL.newItemStack(1, meta))) {
                     arecipes.add(new CachedMaterialPropertise(entry));
                     break;
                 }
@@ -170,9 +170,9 @@ public class MaterialPropertiesHandler extends RecipeHandlerBase {
             int[] metas = { entry.meta, LibResources.META1 + entry.meta, LibResources.META2 + entry.meta,
                 LibResources.META3 + entry.meta, LibResources.META4 + entry.meta, LibResources.META5 + entry.meta };
             for (int meta : metas) {
-                materialItems.add(new ItemStack(ModItems.itemMaterial, 1, meta));
+                materialItems.add(ModItems.MATERIAL.newItemStack(1, meta));
             }
-            materialItems.add(new ItemStack(ModItems.itemWireCoil, 1, entry.meta));
+            materialItems.add(ModItems.WIRE_COIL.newItemStack(1, entry.meta));
         }
 
         @Override

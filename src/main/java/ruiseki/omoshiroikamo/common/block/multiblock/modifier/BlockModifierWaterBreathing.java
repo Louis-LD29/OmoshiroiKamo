@@ -16,9 +16,7 @@ public class BlockModifierWaterBreathing extends BlockModifier {
     }
 
     public static BlockModifierWaterBreathing create() {
-        BlockModifierWaterBreathing block = new BlockModifierWaterBreathing();
-        block.init();
-        return block;
+        return new BlockModifierWaterBreathing();
     }
 
     @Override

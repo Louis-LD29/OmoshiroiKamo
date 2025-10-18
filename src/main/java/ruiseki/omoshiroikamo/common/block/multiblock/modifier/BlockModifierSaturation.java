@@ -16,9 +16,7 @@ public class BlockModifierSaturation extends BlockModifier {
     }
 
     public static BlockModifierSaturation create() {
-        BlockModifierSaturation block = new BlockModifierSaturation();
-        block.init();
-        return block;
+        return new BlockModifierSaturation();
     }
 
     @Override

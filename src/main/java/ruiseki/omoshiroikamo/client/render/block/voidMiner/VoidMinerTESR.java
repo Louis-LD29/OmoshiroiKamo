@@ -3,7 +3,6 @@ package ruiseki.omoshiroikamo.client.render.block.voidMiner;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
@@ -19,14 +18,14 @@ import com.enderio.core.common.util.DyeColor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
 import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.TEVoidMiner;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
 @SideOnly(Side.CLIENT)
 public class VoidMinerTESR extends TileEntitySpecialRenderer implements IItemRenderer {
 
-    private IModelCustom model;
+    private final IModelCustom model;
     private static final String MODEL = LibResources.PREFIX_MODEL + "void_miner.obj";
 
     private static final ResourceLocation bottom = new ResourceLocation(
@@ -56,7 +55,7 @@ public class VoidMinerTESR extends TileEntitySpecialRenderer implements IItemRen
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x + 0.5f, (float) y, (float) z + 0.5f);
 
-        if (te.getBlockType() == ModBlocks.blockVoidResMiner) {
+        if (te.getBlockType() == ModBlocks.VOID_RES_MINER.get()) {
             RenderUtil.bindTexture(panelRes);
         } else {
             RenderUtil.bindTexture(panelOre);
@@ -82,7 +81,7 @@ public class VoidMinerTESR extends TileEntitySpecialRenderer implements IItemRen
         GL11.glPushMatrix();
         GL11.glTranslatef(0.5f, 0f, 0.5f);
 
-        if (item.getItem() == Item.getItemFromBlock(ModBlocks.blockVoidResMiner)) {
+        if (item.getItem() == ModBlocks.VOID_RES_MINER.getItem()) {
             RenderUtil.bindTexture(panelRes);
         } else {
             RenderUtil.bindTexture(panelOre);

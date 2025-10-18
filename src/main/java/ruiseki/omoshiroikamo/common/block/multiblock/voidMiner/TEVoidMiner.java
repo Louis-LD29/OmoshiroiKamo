@@ -28,15 +28,15 @@ import ruiseki.omoshiroikamo.api.energy.PowerHandlerUtil;
 import ruiseki.omoshiroikamo.api.item.IFocusableRegistry;
 import ruiseki.omoshiroikamo.api.item.WeightedStackBase;
 import ruiseki.omoshiroikamo.api.multiblock.IModifierBlock;
-import ruiseki.omoshiroikamo.common.achievement.ModAchievements;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
-import ruiseki.omoshiroikamo.common.block.multiblock.AbstractMultiBlockModifierTE;
+import ruiseki.omoshiroikamo.common.block.abstractClass.AbstractMultiBlockModifierTE;
 import ruiseki.omoshiroikamo.common.block.multiblock.modifier.ModifierHandler;
 import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.lens.BlockLaserLens;
 import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.TEVoidOreMinerT1;
 import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.oreMiner.TEVoidOreMinerT4;
 import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.TEVoidResMinerT1;
 import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.resMiner.TEVoidResMinerT4;
+import ruiseki.omoshiroikamo.common.init.ModAchievements;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
 import ruiseki.omoshiroikamo.common.network.PacketHandler;
 import ruiseki.omoshiroikamo.common.network.PacketPowerStorage;
 import ruiseki.omoshiroikamo.common.util.PlayerUtils;
@@ -108,16 +108,16 @@ public abstract class TEVoidMiner extends AbstractMultiBlockModifierTE
         }
         TileEntity tileEntity = getLocation().getTileEntity(worldObj);
         if (tileEntity instanceof TEVoidOreMinerT1) {
-            player.triggerAchievement(ModAchievements.assemble_void_ore_miner_t1);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_VOID_ORE_MINER_T1.get());
         }
         if (tileEntity instanceof TEVoidOreMinerT4) {
-            player.triggerAchievement(ModAchievements.assemble_void_ore_miner_t4);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_VOID_ORE_MINER_T4.get());
         }
         if (tileEntity instanceof TEVoidResMinerT1) {
-            player.triggerAchievement(ModAchievements.assemble_void_res_miner_t1);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_VOID_RES_MINER_T1.get());
         }
         if (tileEntity instanceof TEVoidResMinerT4) {
-            player.triggerAchievement(ModAchievements.assemble_void_res_miner_t4);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_VOID_RES_MINER_T4.get());
         }
     }
 
@@ -133,13 +133,13 @@ public abstract class TEVoidMiner extends AbstractMultiBlockModifierTE
         }
 
         boolean added = false;
-        if (block == ModBlocks.blockLaserLens) {
+        if (block == ModBlocks.LASER_LENS.get()) {
             lens = new BlockCoord(x, y, z);
             return true;
         }
-        if (block == ModBlocks.blockModifierSpeed) {
+        if (block == ModBlocks.MODIFIER_SPEED.get()) {
             added = true;
-        } else if (block == ModBlocks.blockModifierAccuracy) {
+        } else if (block == ModBlocks.MODIFIER_ACCURACY.get()) {
             added = true;
         }
 
@@ -192,10 +192,10 @@ public abstract class TEVoidMiner extends AbstractMultiBlockModifierTE
             if (block == Blocks.glass) {
                 continue;
             }
-            if (block == ModBlocks.blockLaserCore) {
+            if (block == ModBlocks.LASER_CORE.get()) {
                 continue;
             }
-            if (block == ModBlocks.blockLaserLens) {
+            if (block == ModBlocks.LASER_LENS.get()) {
                 continue;
             }
 

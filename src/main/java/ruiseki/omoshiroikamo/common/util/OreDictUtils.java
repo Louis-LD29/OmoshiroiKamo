@@ -9,14 +9,14 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import codechicken.nei.NEIServerUtils;
 import cpw.mods.fml.common.registry.GameRegistry;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
 
 public class OreDictUtils {
 
     public static void init() {
-        OreDictionary.registerOre("stoneBasalt", ModBlocks.blockBasalt);
-        OreDictionary.registerOre("stoneAlabaster", ModBlocks.blockAlabaster);
-        OreDictionary.registerOre("stoneHardened", ModBlocks.blockHardenedStone);
+        OreDictionary.registerOre("stoneBasalt", ModBlocks.BLOCK_BASALT.get());
+        OreDictionary.registerOre("stoneAlabaster", ModBlocks.BLOCK_ALABASTER.get());
+        OreDictionary.registerOre("stoneHardened", ModBlocks.BLOCK_HARDENED_STONE.get());
     }
 
     public static boolean isOreDictMatch(ItemStack a, ItemStack b) {

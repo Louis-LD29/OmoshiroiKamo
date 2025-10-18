@@ -15,9 +15,7 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 public class ItemCraftingUpgrade extends ItemUpgrade {
 
     public static ItemCraftingUpgrade create() {
-        ItemCraftingUpgrade item = new ItemCraftingUpgrade();
-        item.init();
-        return item;
+        return new ItemCraftingUpgrade();
     }
 
     public ItemCraftingUpgrade() {
@@ -39,6 +37,6 @@ public class ItemCraftingUpgrade extends ItemUpgrade {
 
     @Override
     public void addCommonEntries(ItemStack itemstack, EntityPlayer entityplayer, List<String> list, boolean flag) {
-        list.add(LibMisc.lang.localize(LibResources.TOOLTIP + "crafting_upgrade"));
+        list.add(LibMisc.LANG_UTILS.localize(LibResources.TOOLTIP + "crafting_upgrade"));
     }
 }

@@ -16,9 +16,7 @@ public class BlockModifierFireResistance extends BlockModifier {
     }
 
     public static BlockModifierFireResistance create() {
-        BlockModifierFireResistance block = new BlockModifierFireResistance();
-        block.init();
-        return block;
+        return new BlockModifierFireResistance();
     }
 
     @Override

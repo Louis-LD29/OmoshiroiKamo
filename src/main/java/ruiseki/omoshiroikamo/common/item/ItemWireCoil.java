@@ -32,7 +32,7 @@ import ruiseki.omoshiroikamo.api.enums.ModObject;
 import ruiseki.omoshiroikamo.api.material.MaterialEntry;
 import ruiseki.omoshiroikamo.api.material.MaterialRegistry;
 import ruiseki.omoshiroikamo.common.util.ItemNBTHelper;
-import ruiseki.omoshiroikamo.common.util.Utils;
+import ruiseki.omoshiroikamo.common.util.WireUtils;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 import ruiseki.omoshiroikamo.common.world.WireNetSaveData;
 
@@ -51,9 +51,7 @@ public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipP
     protected IIcon baseIcon, overlayIcon;
 
     public static ItemWireCoil create() {
-        ItemWireCoil wireCoil = new ItemWireCoil();
-        wireCoil.init();
-        return wireCoil;
+        return new ItemWireCoil();
     }
 
     protected ItemWireCoil() {
@@ -198,10 +196,11 @@ public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipP
                                 .addChatMessage(new ChatComponentTranslation(LibResources.CHAT_WARN + "invalidPoint"));
                         } else {
                             boolean exists = false;
-                            Set<Connection> conns = WireNetHandler.INSTANCE.getConnections(world, Utils.toCC(nodeHere));
+                            Set<Connection> conns = WireNetHandler.INSTANCE
+                                .getConnections(world, WireUtils.toCC(nodeHere));
                             if (conns != null) {
                                 for (Connection con : conns) {
-                                    if (con.end.equals(Utils.toCC(nodeLink))) {
+                                    if (con.end.equals(WireUtils.toCC(nodeLink))) {
                                         exists = true;
                                         break;
                                     }
@@ -217,7 +216,7 @@ public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipP
                                 Vec3 vecLink = nodeLink.getRaytraceOffset(nodeHere)
                                     .addVector(pos[1], pos[2], pos[3]);
 
-                                if (Utils.canBlocksSeeOther(
+                                if (WireUtils.canBlocksSeeOther(
                                     world,
                                     new ChunkCoordinates(x, y, z),
                                     new ChunkCoordinates(pos[1], pos[2], pos[3]),
@@ -227,8 +226,8 @@ public class ItemWireCoil extends ItemOK implements IWireCoil, IAdvancedTooltipP
 
                                     WireNetHandler.INSTANCE.addConnection(
                                         world,
-                                        Utils.toCC(nodeHere),
-                                        Utils.toCC(nodeLink),
+                                        WireUtils.toCC(nodeHere),
+                                        WireUtils.toCC(nodeLink),
                                         distance,
                                         type);
                                     nodeHere.connectCable(type, target);

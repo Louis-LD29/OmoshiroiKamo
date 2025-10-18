@@ -14,8 +14,8 @@ import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
 import com.gtnewhorizon.structurelib.structure.ISurvivalBuildEnvironment;
 import com.gtnewhorizon.structurelib.structure.StructureDefinition;
 
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
 import ruiseki.omoshiroikamo.common.block.multiblock.voidMiner.TEVoidMiner;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
 import ruiseki.omoshiroikamo.common.util.Logger;
 
 public class VoidResMinerStructure {
@@ -297,96 +297,96 @@ public class VoidResMinerStructure {
         builder1.addShape(STRUCTURE_TIER_1, transpose(SHAPE_TIER_1))
             .addShape(STRUCTURE_TIER_3, transpose(SHAPE_TIER_3))
             .addShape(STRUCTURE_TIER_4, transpose(SHAPE_TIER_4))
-            .addElement('Q', ofBlock(ModBlocks.blockVoidResMiner, 0))
-            .addElement('P', ofBlockAnyMeta(ModBlocks.blockMachineBase, 0))
-            .addElement('C', ofBlock(ModBlocks.blockLaserCore, 0))
+            .addElement('Q', ofBlock(ModBlocks.VOID_RES_MINER.get(), 0))
+            .addElement('P', ofBlockAnyMeta(ModBlocks.MACHINE_BASE.get(), 0))
+            .addElement('C', ofBlock(ModBlocks.LASER_CORE.get(), 0))
             .addElement(
                 'L',
                 ofChain(
-                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.blockLaserLens, 0),
-                    ofBlockAnyMeta(ModBlocks.blockLaserLens, 0)))
+                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.LASER_LENS.get(), 0),
+                    ofBlockAnyMeta(ModBlocks.LASER_LENS.get(), 0)))
             .addElement(
                 'A',
                 ofChain(
-                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierAccuracy, 0),
-                    ofBlock(ModBlocks.blockModifierSpeed, 0)))
+                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_ACCURACY.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_SPEED.get(), 0)))
             .addElement(
                 'F',
                 ofChain(
-                    ofBlock(ModBlocks.blockStructureFrame, 0),
-                    ofBlock(ModBlocks.blockStructureFrame, 4),
-                    ofBlock(ModBlocks.blockStructureFrame, 8)));
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 0),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 4),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 8)));
 
         builder2.addShape(STRUCTURE_TIER_2, transpose(SHAPE_TIER_2))
-            .addElement('Q', ofBlock(ModBlocks.blockVoidResMiner, 1))
-            .addElement('P', ofBlockAnyMeta(ModBlocks.blockMachineBase, 0))
-            .addElement('C', ofBlock(ModBlocks.blockLaserCore, 0))
+            .addElement('Q', ofBlock(ModBlocks.VOID_RES_MINER.get(), 1))
+            .addElement('P', ofBlockAnyMeta(ModBlocks.MACHINE_BASE.get(), 0))
+            .addElement('C', ofBlock(ModBlocks.LASER_CORE.get(), 0))
             .addElement(
                 'L',
                 ofChain(
-                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.blockLaserLens, 0),
-                    ofBlockAnyMeta(ModBlocks.blockLaserLens, 0)))
+                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.LASER_LENS.get(), 0),
+                    ofBlockAnyMeta(ModBlocks.LASER_LENS.get(), 0)))
             .addElement(
                 'A',
                 ofChain(
-                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierAccuracy, 0),
-                    ofBlock(ModBlocks.blockModifierSpeed, 0)))
+                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_ACCURACY.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_SPEED.get(), 0)))
             .addElement(
                 'F',
                 ofChain(
-                    ofBlock(ModBlocks.blockStructureFrame, 1),
-                    ofBlock(ModBlocks.blockStructureFrame, 5),
-                    ofBlock(ModBlocks.blockStructureFrame, 9)));
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 1),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 5),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 9)));
 
         builder3.addShape(STRUCTURE_TIER_3, transpose(SHAPE_TIER_3))
-            .addElement('Q', ofBlock(ModBlocks.blockVoidResMiner, 2))
-            .addElement('P', ofBlockAnyMeta(ModBlocks.blockMachineBase, 0))
-            .addElement('C', ofBlock(ModBlocks.blockLaserCore, 0))
+            .addElement('Q', ofBlock(ModBlocks.VOID_RES_MINER.get(), 2))
+            .addElement('P', ofBlockAnyMeta(ModBlocks.MACHINE_BASE.get(), 0))
+            .addElement('C', ofBlock(ModBlocks.LASER_CORE.get(), 0))
             .addElement(
                 'L',
                 ofChain(
-                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.blockLaserLens, 0),
-                    ofBlockAnyMeta(ModBlocks.blockLaserLens, 0)))
+                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.LASER_LENS.get(), 0),
+                    ofBlockAnyMeta(ModBlocks.LASER_LENS.get(), 0)))
             .addElement(
                 'A',
                 ofChain(
-                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierAccuracy, 0),
-                    ofBlock(ModBlocks.blockModifierSpeed, 0)))
+                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_ACCURACY.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_SPEED.get(), 0)))
             .addElement(
                 'F',
                 ofChain(
-                    ofBlock(ModBlocks.blockStructureFrame, 2),
-                    ofBlock(ModBlocks.blockStructureFrame, 6),
-                    ofBlock(ModBlocks.blockStructureFrame, 10)));
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 2),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 6),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 10)));
 
         builder4.addShape(STRUCTURE_TIER_4, transpose(SHAPE_TIER_4))
-            .addElement('Q', ofBlock(ModBlocks.blockVoidResMiner, 3))
-            .addElement('P', ofBlockAnyMeta(ModBlocks.blockMachineBase, 0))
-            .addElement('C', ofBlock(ModBlocks.blockLaserCore, 0))
+            .addElement('Q', ofBlock(ModBlocks.VOID_RES_MINER.get(), 3))
+            .addElement('P', ofBlockAnyMeta(ModBlocks.MACHINE_BASE.get(), 0))
+            .addElement('C', ofBlock(ModBlocks.LASER_CORE.get(), 0))
             .addElement(
                 'L',
                 ofChain(
-                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.blockLaserLens, 0),
-                    ofBlockAnyMeta(ModBlocks.blockLaserLens, 0)))
+                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.LASER_LENS.get(), 0),
+                    ofBlockAnyMeta(ModBlocks.LASER_LENS.get(), 0)))
             .addElement(
                 'A',
                 ofChain(
-                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierNull, 0),
-                    ofBlock(ModBlocks.blockModifierAccuracy, 0),
-                    ofBlock(ModBlocks.blockModifierSpeed, 0)))
+                    ofBlockAdderWithPos(TEVoidMiner::addToMachine, ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_NULL.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_ACCURACY.get(), 0),
+                    ofBlock(ModBlocks.MODIFIER_SPEED.get(), 0)))
             .addElement(
                 'F',
                 ofChain(
-                    ofBlock(ModBlocks.blockStructureFrame, 3),
-                    ofBlock(ModBlocks.blockStructureFrame, 7),
-                    ofBlock(ModBlocks.blockStructureFrame, 11)));
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 3),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 7),
+                    ofBlock(ModBlocks.STRUCTURE_FRAME.get(), 11)));
 
         IStructureDefinition<TEVoidResMinerT1> definition1 = builder1.build();
         STRUCTURE_DEFINITION_TIER_1 = definition1;

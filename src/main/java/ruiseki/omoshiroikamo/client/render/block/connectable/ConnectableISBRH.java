@@ -11,6 +11,8 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ruiseki.omoshiroikamo.client.ClientUtils;
 import ruiseki.omoshiroikamo.common.block.energyConnector.BlockConnectable;
 import ruiseki.omoshiroikamo.common.block.energyConnector.TEConnectorEV;
@@ -22,6 +24,7 @@ import ruiseki.omoshiroikamo.common.block.energyConnector.TEConnectorULV;
 import ruiseki.omoshiroikamo.common.block.energyConnector.TEInsulator;
 import ruiseki.omoshiroikamo.common.block.energyConnector.TETransformer;
 
+@SideOnly(Side.CLIENT)
 public class ConnectableISBRH implements ISimpleBlockRenderingHandler, IItemRenderer {
 
     public static int renderConnectableId;

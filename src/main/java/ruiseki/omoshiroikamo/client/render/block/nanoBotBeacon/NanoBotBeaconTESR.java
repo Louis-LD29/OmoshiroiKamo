@@ -21,7 +21,7 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 @SideOnly(Side.CLIENT)
 public class NanoBotBeaconTESR extends TileEntitySpecialRenderer implements IItemRenderer {
 
-    private IModelCustom model;
+    private final IModelCustom model;
     private static final String MODEL = LibResources.PREFIX_MODEL + "nano_bot_beacon.obj";
 
     private static final ResourceLocation controllerBase = new ResourceLocation(

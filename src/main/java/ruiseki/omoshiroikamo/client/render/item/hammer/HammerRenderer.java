@@ -1,26 +1,27 @@
 package ruiseki.omoshiroikamo.client.render.item.hammer;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
 import com.enderio.core.client.render.RenderUtil;
 
-import ruiseki.omoshiroikamo.client.models.ModelIEObj;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
+@SideOnly(Side.CLIENT)
 public class HammerRenderer implements IItemRenderer {
 
-    ModelIEObj modelHammer = new ModelIEObj(LibResources.PREFIX_MODEL + "hammer.obj") {
+    public static final IModelCustom model = AdvancedModelLoader
+        .loadModel(new ResourceLocation(LibResources.PREFIX_MODEL + "hammer.obj"));
 
-        @Override
-        public IIcon getBlockIcon(String groupName) {
-            return null;
-        }
-    };
+    private static final ResourceLocation Rod = new ResourceLocation(LibResources.PREFIX_ITEM + "hammerRod.png");
+    private static final ResourceLocation Head = new ResourceLocation(LibResources.PREFIX_ITEM + "hammerHead.png");
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -49,11 +50,11 @@ public class HammerRenderer implements IItemRenderer {
             GL11.glTranslatef(0.5F, 0.5F, 1F);
         }
 
-        RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/hammerRod.png"));
-        modelHammer.model.renderOnly("rod");
+        RenderUtil.bindTexture(Rod);
+        model.renderOnly("rod");
 
-        RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/hammerHead.png"));
-        modelHammer.model.renderOnly("head");
+        RenderUtil.bindTexture(Head);
+        model.renderOnly("head");
 
         GL11.glPopMatrix();
     }

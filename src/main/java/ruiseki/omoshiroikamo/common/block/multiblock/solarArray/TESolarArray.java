@@ -21,10 +21,10 @@ import ruiseki.omoshiroikamo.api.energy.PowerDistributor;
 import ruiseki.omoshiroikamo.api.energy.PowerHandlerUtil;
 import ruiseki.omoshiroikamo.api.enums.ModObject;
 import ruiseki.omoshiroikamo.api.multiblock.IModifierBlock;
-import ruiseki.omoshiroikamo.common.achievement.ModAchievements;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
-import ruiseki.omoshiroikamo.common.block.multiblock.AbstractMultiBlockModifierTE;
+import ruiseki.omoshiroikamo.common.block.abstractClass.AbstractMultiBlockModifierTE;
 import ruiseki.omoshiroikamo.common.block.multiblock.modifier.ModifierHandler;
+import ruiseki.omoshiroikamo.common.init.ModAchievements;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
 import ruiseki.omoshiroikamo.common.network.PacketHandler;
 import ruiseki.omoshiroikamo.common.network.PacketPowerStorage;
 import ruiseki.omoshiroikamo.common.util.PlayerUtils;
@@ -127,10 +127,10 @@ public abstract class TESolarArray extends AbstractMultiBlockModifierTE implemen
         }
         TileEntity tileEntity = getLocation().getTileEntity(worldObj);
         if (tileEntity instanceof TESolarArrayT1) {
-            player.triggerAchievement(ModAchievements.assemble_solar_array_t1);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_SOLAR_ARRAY_T1.get());
         }
         if (tileEntity instanceof TESolarArrayT4) {
-            player.triggerAchievement(ModAchievements.assemble_solar_array_t4);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_SOLAR_ARRAY_T4.get());
         }
     }
 
@@ -241,7 +241,7 @@ public abstract class TESolarArray extends AbstractMultiBlockModifierTE implemen
 
         boolean added = false;
 
-        if (block == ModBlocks.blockModifierPiezo) {
+        if (block == ModBlocks.MODIFIER_PIEZO.get()) {
             added = true;
         }
 

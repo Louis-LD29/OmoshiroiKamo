@@ -16,7 +16,7 @@ public class AchievementEntry extends Achievement {
     public static List<Achievement> achievements = new ArrayList<>();
 
     public AchievementEntry(String name, int x, int y, ItemStack icon, Achievement parent) {
-        super(LibResources.ACHIEVEMENT + name, LibMisc.MOD_ID.toLowerCase() + "." + name, x, y, icon, parent);
+        super(LibResources.ACHIEVEMENT + name, LibMisc.MOD_ID + "." + name, x, y, icon, parent);
         achievements.add(this);
         registerStat();
     }

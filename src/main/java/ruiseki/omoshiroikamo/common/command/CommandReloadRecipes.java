@@ -4,7 +4,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 
-import ruiseki.omoshiroikamo.common.recipes.ModRecipes;
+import ruiseki.omoshiroikamo.common.init.ModRecipes;
 
 public class CommandReloadRecipes extends CommandBase {
 

@@ -7,8 +7,8 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import ganymedes01.etfuturum.recipes.SmithingTableRecipes;
-import ruiseki.omoshiroikamo.common.block.ModBlocks;
-import ruiseki.omoshiroikamo.common.item.ModItems;
+import ruiseki.omoshiroikamo.common.init.ModBlocks;
+import ruiseki.omoshiroikamo.common.init.ModItems;
 import ruiseki.omoshiroikamo.common.util.Logger;
 import ruiseki.omoshiroikamo.common.util.lib.LibMods;
 
@@ -32,19 +32,19 @@ public class EtFuturumCompat {
         // Stack Upgrade Tier 4
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemStackUpgrade, 1, 3),
+                ModItems.STACK_UPGRADE.newItemStack(1, 3),
                 "BBB",
                 "BUB",
                 "BBB",
                 'B',
                 "blockNetherite",
                 'U',
-                new ItemStack(ModItems.itemStackUpgrade, 1, 2)));
+                ModItems.STACK_UPGRADE.newItemStack(1, 2)));
 
         // Everlasting Upgrade
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModItems.itemEverlastingUpgrade, 1, 0),
+                ModItems.EVERLASTING_UPGRADE.get(),
                 "GRG",
                 "RUR",
                 "GRG",
@@ -53,62 +53,63 @@ public class EtFuturumCompat {
                 'R',
                 "itemNetherStar",
                 'U',
-                new ItemStack(ModItems.itemUpgrade, 1, 0)));
+
+                ModItems.BASE_UPGRADE.get()));
 
         // Flight Modifier
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModBlocks.blockModifierFlight, 1, 0),
+                ModBlocks.MODIFIER_FLIGHT.get(),
                 "EFE",
                 "MNM",
                 "LFL",
                 'E',
                 ganymedes01.etfuturum.ModItems.ELYTRA.get(),
                 'F',
-                new ItemStack(ModBlocks.blockStructureFrame, 1, 3),
+                ModBlocks.STRUCTURE_FRAME.newItemStack(1, 3),
                 'M',
-                new ItemStack(ModBlocks.blockMica, 1, 0),
+                ruiseki.omoshiroikamo.common.init.ModBlocks.BLOCK_MICA.get(),
                 'L',
                 "itemLeather",
                 'N',
-                new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+                ModBlocks.MODIFIER_NULL.get()));
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModBlocks.blockModifierFlight, 1, 0),
+                ModBlocks.MODIFIER_FLIGHT.get(),
                 "EFE",
                 "MNM",
                 "LFL",
                 'E',
                 ganymedes01.etfuturum.ModItems.ELYTRA.get(),
                 'F',
-                new ItemStack(ModBlocks.blockStructureFrame, 1, 7),
+                ModBlocks.STRUCTURE_FRAME.newItemStack(1, 7),
                 'M',
-                new ItemStack(ModBlocks.blockMica, 1, 0),
+                ruiseki.omoshiroikamo.common.init.ModBlocks.BLOCK_MICA.get(),
                 'L',
                 "itemLeather",
                 'N',
-                new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+                ModBlocks.MODIFIER_NULL.get()));
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModBlocks.blockModifierFlight, 1, 0),
+                ModBlocks.MODIFIER_FLIGHT.get(),
                 "EFE",
                 "MNM",
                 "LFL",
                 'E',
                 ganymedes01.etfuturum.ModItems.ELYTRA.get(),
                 'F',
-                new ItemStack(ModBlocks.blockStructureFrame, 1, 11),
+                ModBlocks.STRUCTURE_FRAME.newItemStack(1, 11),
                 'M',
-                new ItemStack(ModBlocks.blockMica, 1, 0),
+                ruiseki.omoshiroikamo.common.init.ModBlocks.BLOCK_MICA.get(),
                 'L',
                 "itemLeather",
                 'N',
-                new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+                ModBlocks.MODIFIER_NULL.get()));
 
         // Saturation Modifier
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModBlocks.blockModifierSaturation, 1, 0),
+                ModBlocks.MODIFIER_SATURATION.get(),
                 "MAM",
                 "CNC",
                 "MAM",
@@ -117,14 +118,14 @@ public class EtFuturumCompat {
                 'C',
                 ganymedes01.etfuturum.ModItems.CHORUS_FRUIT.get(),
                 'M',
-                new ItemStack(ModBlocks.blockMica, 1, 0),
+                ruiseki.omoshiroikamo.common.init.ModBlocks.BLOCK_MICA.get(),
                 'N',
-                new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+                ModBlocks.MODIFIER_NULL.get()));
 
         // Jump Boost Modifier
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModBlocks.blockModifierJumpBoost, 1, 0),
+                ModBlocks.MODIFIER_JUMP_BOOST.get(),
                 "MRM",
                 "SNS",
                 "MPM",
@@ -135,14 +136,14 @@ public class EtFuturumCompat {
                 'P',
                 new ItemStack(Blocks.piston, 1, 0),
                 'M',
-                new ItemStack(ModBlocks.blockMica, 1, 0),
+                ruiseki.omoshiroikamo.common.init.ModBlocks.BLOCK_MICA.get(),
                 'N',
-                new ItemStack(ModBlocks.blockModifierNull, 1, 0)));
+                ModBlocks.MODIFIER_NULL.get()));
 
         // Nano Bot Beacon Tier 1
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(ModBlocks.blockNanoBotBeacon, 1, 0),
+                ModBlocks.NANO_BOT_BEACON.newItemStack(1, 0),
                 "GPG",
                 "GNG",
                 "BCB",
@@ -151,7 +152,7 @@ public class EtFuturumCompat {
                 'G',
                 "blockGold",
                 'N',
-                new ItemStack(ModBlocks.blockModifierNull, 1, 0),
+                ModBlocks.MODIFIER_NULL.get(),
                 'C',
                 new ItemStack(Blocks.beacon, 1, 0),
                 'B',
@@ -161,10 +162,7 @@ public class EtFuturumCompat {
 
         // Netherite Backpack
         SmithingTableRecipes.getInstance()
-            .addRecipe(
-                new ItemStack(ModItems.itemBackPack, 1, 5),
-                "ingotNetherite",
-                new ItemStack(ModItems.itemBackPack, 1, 4));
+            .addRecipe(ModItems.BACKPACK.newItemStack(1, 5), "ingotNetherite", ModItems.BACKPACK.newItemStack(1, 4));
 
     }
 

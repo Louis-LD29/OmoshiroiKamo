@@ -2,16 +2,19 @@ package ruiseki.omoshiroikamo.common.block.multiblock.solarArray;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import ruiseki.omoshiroikamo.api.enums.ModObject;
-import ruiseki.omoshiroikamo.common.block.multiblock.AbstractMultiBlockBlock;
+import ruiseki.omoshiroikamo.common.OKCreativeTab;
+import ruiseki.omoshiroikamo.common.block.abstractClass.AbstractMultiBlockBlock;
 import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
 public class BlockSolarArray extends AbstractMultiBlockBlock<TESolarArray> {
@@ -21,13 +24,11 @@ public class BlockSolarArray extends AbstractMultiBlockBlock<TESolarArray> {
     }
 
     public static BlockSolarArray create() {
-        BlockSolarArray res = new BlockSolarArray();
-        res.init();
-        return res;
+        return new BlockSolarArray();
     }
 
     @Override
-    protected void init() {
+    public void init() {
         GameRegistry.registerBlock(this, ItemBlockSolarArray.class, name);
         GameRegistry.registerTileEntity(TESolarArrayT1.class, name + "TESolarArrayT1TileEntity");
         GameRegistry.registerTileEntity(TESolarArrayT2.class, name + "TESolarArrayT2TileEntity");
@@ -76,4 +77,20 @@ public class BlockSolarArray extends AbstractMultiBlockBlock<TESolarArray> {
                 return new TESolarArrayT1();
         }
     }
+
+    public static class ItemBlockSolarArray extends ItemBlockWithMetadata {
+
+        public ItemBlockSolarArray(Block block) {
+            super(block, block);
+            setHasSubtypes(true);
+            setCreativeTab(OKCreativeTab.tabBlock);
+        }
+
+        @Override
+        public String getUnlocalizedName(ItemStack stack) {
+            int tier = stack.getItemDamage() + 1;
+            return super.getUnlocalizedName() + ".tier_" + tier;
+        }
+    }
+
 }
