@@ -55,50 +55,50 @@ public class AchievementsRegistry {
         int meta = stack.getItemDamage();
 
         if (item == ModItems.ASSEMBLER.get()) {
-            return ModAchievements.craft_assembler;
+            return ModAchievements.CRAFT_ASSEMBLER.get();
         }
 
         if (item == ModBlocks.MODIFIER_NULL.getItem()) {
-            return ModAchievements.craft_modifier_core;
+            return ModAchievements.CRAFT_MODIFIER_CORE.get();
         }
         if (item == ModBlocks.MODIFIER_SPEED.getItem()) {
-            return ModAchievements.craft_modifier_speed;
+            return ModAchievements.CRAFT_MODIFIER_SPEED.get();
         }
         if (item == ModBlocks.MODIFIER_PIEZO.getItem()) {
-            return ModAchievements.craft_modifier_piezo;
+            return ModAchievements.CRAFT_MODIFIER_PIEZO.get();
         }
         if (item == ModBlocks.MODIFIER_ACCURACY.getItem()) {
-            return ModAchievements.craft_modifier_accuracy;
+            return ModAchievements.CRAFT_MODIFIER_ACCURACY.get();
         }
         if (item == ModBlocks.MODIFIER_JUMP_BOOST.getItem()) {
-            return ModAchievements.craft_modifier_jump_boost;
+            return ModAchievements.CRAFT_MODIFIER_JUMP_BOOST.get();
         }
         if (item == ModBlocks.MODIFIER_FLIGHT.getItem()) {
-            return ModAchievements.craft_modifier_flight;
+            return ModAchievements.CRAFT_MODIFIER_FLIGHT.get();
         }
         if (item == ModBlocks.MODIFIER_RESISTANCE.getItem()) {
-            return ModAchievements.craft_modifier_resistance;
+            return ModAchievements.CRAFT_MODIFIER_RESISTANCE.get();
         }
         if (item == ModBlocks.MODIFIER_FIRE_RESISTANCE.getItem()) {
-            return ModAchievements.craft_modifier_fire_res;
+            return ModAchievements.CRAFT_MODIFIER_FIRE_RES.get();
         }
         if (item == ModBlocks.MODIFIER_HASTE.getItem()) {
-            return ModAchievements.craft_modifier_haste;
+            return ModAchievements.CRAFT_MODIFIER_HASTE.get();
         }
         if (item == ModBlocks.MODIFIER_STRENGTH.getItem()) {
-            return ModAchievements.craft_modifier_strength;
+            return ModAchievements.CRAFT_MODIFIER_STRENGTH.get();
         }
         if (item == ModBlocks.MODIFIER_NIGHT_VISION.getItem()) {
-            return ModAchievements.craft_modifier_night_vision;
+            return ModAchievements.CRAFT_MODIFIER_NIGHT_VISION.get();
         }
         if (item == ModBlocks.MODIFIER_WATER_BREATHING.getItem()) {
-            return ModAchievements.craft_modifier_water_breathing;
+            return ModAchievements.CRAFT_MODIFIER_WATER_BREATHING.get();
         }
         if (item == ModBlocks.MODIFIER_REGENERATION.getItem()) {
-            return ModAchievements.craft_modifier_regen;
+            return ModAchievements.CRAFT_MODIFIER_REGEN.get();
         }
         if (item == ModBlocks.MODIFIER_SATURATION.getItem()) {
-            return ModAchievements.craft_modifier_saturation;
+            return ModAchievements.CRAFT_MODIFIER_SATURATION.get();
         }
 
         return null;

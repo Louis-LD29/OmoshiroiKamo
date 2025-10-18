@@ -279,10 +279,10 @@ public abstract class TENanoBotBeacon extends AbstractMultiBlockModifierTE imple
         }
         TileEntity tileEntity = getLocation().getTileEntity(worldObj);
         if (tileEntity instanceof TENanoBotBeaconT1) {
-            player.triggerAchievement(ModAchievements.assemble_nano_bot_beacon_t1);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_NANO_BOT_BEACON_T1.get());
         }
         if (tileEntity instanceof TENanoBotBeaconT4) {
-            player.triggerAchievement(ModAchievements.assemble_nano_bot_beacon_t4);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_NANO_BOT_BEACON_T4.get());
         }
     }
 

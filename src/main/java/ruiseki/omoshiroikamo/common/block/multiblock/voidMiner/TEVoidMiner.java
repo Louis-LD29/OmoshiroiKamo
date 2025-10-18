@@ -108,16 +108,16 @@ public abstract class TEVoidMiner extends AbstractMultiBlockModifierTE
         }
         TileEntity tileEntity = getLocation().getTileEntity(worldObj);
         if (tileEntity instanceof TEVoidOreMinerT1) {
-            player.triggerAchievement(ModAchievements.assemble_void_ore_miner_t1);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_VOID_ORE_MINER_T1.get());
         }
         if (tileEntity instanceof TEVoidOreMinerT4) {
-            player.triggerAchievement(ModAchievements.assemble_void_ore_miner_t4);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_VOID_ORE_MINER_T4.get());
         }
         if (tileEntity instanceof TEVoidResMinerT1) {
-            player.triggerAchievement(ModAchievements.assemble_void_res_miner_t1);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_VOID_RES_MINER_T1.get());
         }
         if (tileEntity instanceof TEVoidResMinerT4) {
-            player.triggerAchievement(ModAchievements.assemble_void_res_miner_t4);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_VOID_RES_MINER_T4.get());
         }
     }
 

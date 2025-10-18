@@ -127,10 +127,10 @@ public abstract class TESolarArray extends AbstractMultiBlockModifierTE implemen
         }
         TileEntity tileEntity = getLocation().getTileEntity(worldObj);
         if (tileEntity instanceof TESolarArrayT1) {
-            player.triggerAchievement(ModAchievements.assemble_solar_array_t1);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_SOLAR_ARRAY_T1.get());
         }
         if (tileEntity instanceof TESolarArrayT4) {
-            player.triggerAchievement(ModAchievements.assemble_solar_array_t4);
+            player.triggerAchievement(ModAchievements.ASSEMBLE_SOLAR_ARRAY_T4.get());
         }
     }
 
