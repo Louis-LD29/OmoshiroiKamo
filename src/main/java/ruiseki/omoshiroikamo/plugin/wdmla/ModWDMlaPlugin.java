@@ -41,6 +41,6 @@ public class ModWDMlaPlugin implements IWDMlaPlugin {
     }
 
     public static ResourceLocation Uid(String uid) {
-        return new ResourceLocation(LibMisc.MOD_ID.toLowerCase(), uid);
+        return new ResourceLocation(LibMisc.MOD_ID, uid);
     }
 }
