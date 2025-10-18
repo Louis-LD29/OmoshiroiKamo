@@ -11,6 +11,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
@@ -24,10 +26,11 @@ import com.enderio.core.client.render.RenderUtil;
 import com.enderio.core.common.util.DyeColor;
 
 import cofh.api.energy.IEnergyContainerItem;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ruiseki.omoshiroikamo.api.energy.PowerDisplayUtil;
 import ruiseki.omoshiroikamo.api.enums.ModObject;
 import ruiseki.omoshiroikamo.api.item.IBaubleRender;
-import ruiseki.omoshiroikamo.client.render.item.backpack.BackpackRenderer;
 import ruiseki.omoshiroikamo.common.entity.EntityImmortalItem;
 import ruiseki.omoshiroikamo.common.item.ItemBauble;
 import ruiseki.omoshiroikamo.common.item.upgrade.EnergyUpgrade;
@@ -36,6 +39,9 @@ import ruiseki.omoshiroikamo.common.util.lib.LibResources;
 
 public class ItemBackpack extends ItemBauble
     implements IEnergyContainerItem, IGuiHolder<PlayerInventoryGuiData>, IBaubleRender {
+
+    @SideOnly(Side.CLIENT)
+    private static IModelCustom model;
 
     public ItemBackpack() {
         super(ModObject.itemBackPack.unlocalisedName);
@@ -179,11 +185,16 @@ public class ItemBackpack extends ItemBauble
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void onPlayerBaubleRender(ItemStack stack, RenderPlayerEvent event, IBaubleRender.RenderType type) {
         if (stack == null || type != IBaubleRender.RenderType.BODY) {
             return;
         }
 
+        if (model == null) {
+            model = AdvancedModelLoader
+                .loadModel(new ResourceLocation(LibResources.PREFIX_MODEL + "backpack_base.obj"));
+        }
         GL11.glPushMatrix();
         GL11.glTranslatef(0F, 0.75F, 0.3F);
         GL11.glScalef(0.85F, 0.85F, 0.85F);
@@ -191,7 +202,7 @@ public class ItemBackpack extends ItemBauble
 
         GL11.glColor3f(0.353f, 0.243f, 0.106f);
         RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_border.png"));
-        BackpackRenderer.model.renderOnly("trim1", "trim2", "trim3", "trim4", "trim5", "padding1");
+        model.renderOnly("trim1", "trim2", "trim3", "trim4", "trim5", "padding1");
 
         int color = DyeColor.BROWN.getColor();
         if (stack.hasTagCompound()) {
@@ -212,7 +223,7 @@ public class ItemBackpack extends ItemBauble
 
         GL11.glColor3f(r, g, b);
         RenderUtil.bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/backpack_cloth.png"));
-        BackpackRenderer.model.renderOnly(
+        model.renderOnly(
             "inner1",
             "inner2",
             "outer1",
@@ -256,7 +267,7 @@ public class ItemBackpack extends ItemBauble
         }
         RenderUtil
             .bindTexture(new ResourceLocation(LibResources.PREFIX_MOD + "textures/items/" + material + "_clips.png"));
-        BackpackRenderer.model.renderOnly(
+        model.renderOnly(
             "top4",
             "right1",
             "right2",
