@@ -53,7 +53,6 @@ public enum ModItems {
                 Logger.error("Failed to initialize item: +" + item.name());
             }
         }
-        registerItemRenderer();
     }
 
     private final boolean enabled;
